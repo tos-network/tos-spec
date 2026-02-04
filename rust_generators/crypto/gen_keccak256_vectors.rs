@@ -67,12 +67,12 @@ fn main() {
         expected_hex: keccak256(b"Hello, world!"),
     });
 
-    // Test 4: Ethereum address derivation style
+    // Test 4: Address derivation style
     // keccak256 of public key (64 bytes) -> last 20 bytes = address
     let input = vec![0x04u8; 64];
     vectors.push(TestVector {
-        name: "ethereum_pubkey".to_string(),
-        description: Some("64-byte public key for Ethereum address derivation".to_string()),
+        name: "secp256k1_pubkey".to_string(),
+        description: Some("64-byte public key for address derivation".to_string()),
         input_hex: hex::encode(&input),
         input_ascii: None,
         input_length: 64,

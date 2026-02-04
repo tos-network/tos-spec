@@ -147,7 +147,7 @@ fn main() {
         });
     }
 
-    // Test 5: Ethereum-style transaction hash
+    // Test 5: Transaction hash
     {
         let signing_key = SigningKey::random(&mut rand::thread_rng());
         let verifying_key = VerifyingKey::from(&signing_key);
@@ -168,7 +168,7 @@ fn main() {
 
         vectors.push(TestVector {
             name: "eth_style".to_string(),
-            description: Some("Ethereum-style transaction hash".to_string()),
+            description: Some("Transaction hash".to_string()),
             msg_hash_hex: hex::encode(msg_hash),
             signature_hex: hex::encode(signature.to_bytes()),
             recovery_id: recovery_id.to_byte(),

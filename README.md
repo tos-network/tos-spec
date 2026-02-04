@@ -10,6 +10,46 @@ machine-readable, testable, and capable of producing deterministic fixtures.
 - **Cross-client consistency**: the same inputs must yield the same outputs.
 - **Layered coverage**: wire format, transaction validation, and state transitions are all verified.
 
+## Fixtures vs Vectors (Responsibilities)
+
+**Fixtures** and **vectors** serve different purposes and are owned by different layers of the stack:
+
+**Fixtures (spec-owned)**  
+Location: `fixtures/`  
+Purpose: authoring/semantic truth of the spec. Fixtures describe the expected behavior and
+are generated/validated by the executable Python spec. They are not necessarily in a
+directly executable format for clients.
+
+**Vectors (harness-owned, client-consumable)**  
+Location: `vectors/`  
+Purpose: executable, client-consumable test inputs used by the multi-client conformance
+harness (Lab). Vectors are derived from fixtures and should be stable artifacts used for
+cross-client comparison.
+
+**Conversion responsibility**  
+The spec layer is responsible for converting fixtures → vectors. The conformance harness
+only consumes vectors (it does not transform fixtures). Spec/test generators produce
+fixtures/vectors; the harness only runs them.
+
+**Conversion script**  
+Use the provided tool to mirror fixtures into vectors (schema-preserving copy):
+
+```bash
+python tools/fixtures_to_vectors.py
+```
+
+This creates/updates `vectors/` from `fixtures/` according to the mapping in
+`tools/fixtures_to_vectors.py`.
+
+**Conformance usage (Lab)**  
+The Lab orchestrator (`~/lab`) consumes `vectors/`. Example:
+
+```bash
+python tools/fixtures_to_vectors.py
+cd ~/lab
+./lab --sim tos/execution --client tos-rust,avatar-c --vectors ~/tos-spec/vectors
+```
+
 ## Architecture Overview
 
 ```

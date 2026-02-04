@@ -456,8 +456,8 @@ def keccak256_vectors() -> Dict[str, Any]:
     input_data = bytes([0x04] * 64)
     vectors.append(
         HashVector(
-            name="ethereum_pubkey",
-            description="64-byte public key for Ethereum address derivation",
+            name="secp256k1_pubkey",
+            description="64-byte public key for address derivation",
             input_hex=input_data.hex(),
             input_ascii=None,
             input_length=64,

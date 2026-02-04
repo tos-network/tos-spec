@@ -17,8 +17,8 @@ test_vectors:
   input_ascii: Hello, world!
   input_length: 13
   expected_hex: b6e16d27ac5ab427a7f68900ac5559ce272dc6c37c82b3e052246c82244c50e4
-- name: ethereum_pubkey
-  description: 64-byte public key for Ethereum address derivation
+- name: secp256k1_pubkey
+  description: 64-byte public key for address derivation
   input_hex: '04040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404'
   input_length: 64
   expected_hex: d73222fc071b1494828915725ec7529be23fdfd2c28075be3e06dcab3c7d62c5

@@ -30,10 +30,9 @@ test_vectors:
   public_key_hex: 84bf7562262bbd6940085748f3be6afa52ae317155181ece31b66351ccffa4b08cc43d63b2859d469fee15f31c9edb5324266e6fd0407e87382d60fc4511acd8
   should_recover: true
 - name: eth_style
-  description: Ethereum-style transaction hash
+  description: Transaction hash
   msg_hash_hex: deadbeefcafebabe123456789abcdef0fedcba98765432101122334455667788
   signature_hex: b1f87b3cdf4983a060be1856d3713237678cae20bc365b21e2c81f3e5b55e7e73f51725a95933601377e4c8af3e04576733429bb4db948a22d85ca4d88caa685
   recovery_id: 1
   public_key_hex: 6259af6714a8ad9532036cbba2a70c2e749f76c336952702afc31ebdc9bb9671f059d5f7a6f8fafc101b8ca9f67b7b4bb21c66ba287896effa9860ce1e3885d6
   should_recover: true
-

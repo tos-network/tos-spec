@@ -268,7 +268,7 @@ action:
 expected:
   status: success
   compute_units: 6690  # per signature
-  note: "Ethereum/Bitcoin compatible secp256k1"
+  note: "secp256k1 compatible"
 
 ---
 spec:

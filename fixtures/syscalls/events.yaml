@@ -1,7 +1,7 @@
 # TOS TAKO Event Syscalls Conformance Specifications
 # Based on: daemon/src/tako_integration/executor.rs (lines 767-769)
 #
-# Events emitted via log0-log4 syscalls (Ethereum-compatible)
+# Events emitted via log0-log4 syscalls
 # Captured via invoke_context.enable_event_collection()
 # Events stored in ExecutionResult.events vector
 

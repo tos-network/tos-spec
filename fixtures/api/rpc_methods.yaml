@@ -1,7 +1,7 @@
 # TOS RPC Methods Conformance Specifications
 # Based on: daemon/src/rpc/rpc.rs, common/src/api/daemon/mod.rs
 #
-# TOS uses its own RPC methods (NOT Ethereum eth_* methods)
+# TOS uses its own RPC methods (NOT eth_* methods)
 # Address format: Bech32 (tos1.../tst1...), NOT 0x hex
 
 ---
