@@ -110,7 +110,7 @@ cd rust_py/tos_yaml
 maturin develop
 ```
 
-When the `tos_yaml` module is installed, `tools/gen_hash_vectors.py` will prefer it over PyYAML.
+When the `tos_yaml` module is installed, Python YAML generators will prefer it over PyYAML.
 
 ## Design Principles
 - **Spec is authoritative**: the executable spec defines correct behavior.

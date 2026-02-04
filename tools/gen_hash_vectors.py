@@ -3,33 +3,13 @@
 from __future__ import annotations
 
 from pathlib import Path
-import json
 import sys
 
 ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / "src"))
 
-import yaml  # noqa: E402
-
-
-class PlainDumper(yaml.SafeDumper):
-    pass
-
-
-def _str_representer(dumper: yaml.SafeDumper, data: str) -> yaml.ScalarNode:
-    return dumper.represent_scalar("tag:yaml.org,2002:str", data, style=None)
-
-
-PlainDumper.add_representer(str, _str_representer)
-
-
-def _dump_yaml(data: dict) -> str:
-    try:
-        import tos_yaml  # type: ignore  # noqa: WPS433
-
-        return tos_yaml.dump_yaml(json.dumps(data, separators=(",", ":"), ensure_ascii=True))
-    except Exception:
-        return yaml.dump(data, Dumper=PlainDumper, sort_keys=False, width=4096)
+from tools.yaml_dump import dump_yaml  # noqa: E402
 
 from tos_spec.crypto.hash_vectors import (  # noqa: E402
     blake3_vectors,
@@ -50,7 +30,7 @@ def _prune(obj):  # remove None keys to match Rust serde skip_serializing_if
 
 
 def _write(path: Path, data: dict) -> None:
-    text = _dump_yaml(_prune(data))
+    text = dump_yaml(_prune(data))
     path.write_text(text)
 
 
