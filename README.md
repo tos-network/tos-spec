@@ -102,6 +102,16 @@ Consume fixtures locally:
 PYTHONPATH=src .venv/bin/python tools/consume.py
 ```
 
+## Optional Rust YAML Backend
+
+For YAML generation that matches Rust serialization, build the optional Rust extension:
+```
+cd rust_py/tos_yaml
+maturin develop
+```
+
+When the `tos_yaml` module is installed, `tools/gen_hash_vectors.py` will prefer it over PyYAML.
+
 ## Design Principles
 - **Spec is authoritative**: the executable spec defines correct behavior.
 - **Fixtures are contracts**: all clients must match fixture expectations.

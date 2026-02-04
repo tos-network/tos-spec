@@ -1,0 +1,14 @@
+[package]
+name = "tos_yaml"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "tos_yaml"
+crate-type = ["cdylib"]
+
+[dependencies]
+pyo3 = { version = "0.22", features = ["extension-module"] }
+serde = { version = "1", features = ["derive"] }
+serde_yaml = "0.9"
+serde_json = { version = "1", features = ["preserve_order"] }
