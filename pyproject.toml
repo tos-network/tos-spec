@@ -9,6 +9,11 @@ description = "TOS Python executable specs (Ethereum-aligned)."
 readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "Apache-2.0" }
+dependencies = [
+  "pyyaml>=6.0",
+  "blake3>=0.4",
+  "pycryptodomex>=3.20.0",
+]
 
 [tool.setuptools]
 package-dir = {"" = "src"}
