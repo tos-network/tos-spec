@@ -84,7 +84,7 @@ def _verify_common(state: ChainState, tx: Transaction) -> None:
     if tx.fee_type == FeeType.UNO and tx.fee != 0:
         raise SpecError(ErrorCode.INVALID_PAYLOAD, "uno fee must be zero")
 
-    # Nonce rules (verification phase)
+    # Nonce range rules (verification phase)
     if tx.nonce < sender.nonce:
         raise SpecError(ErrorCode.NONCE_TOO_LOW, "nonce too low")
 
@@ -106,6 +106,13 @@ def verify_tx(state: ChainState, tx: Transaction) -> TransitionResult:
         return TransitionResult.failure(exc)
 
 
+def _require_strict_nonce(sender_nonce: int, tx_nonce: int) -> None:
+    if tx_nonce < sender_nonce:
+        raise SpecError(ErrorCode.NONCE_TOO_LOW, "nonce too low")
+    if tx_nonce > sender_nonce:
+        raise SpecError(ErrorCode.NONCE_TOO_HIGH, "nonce too high")
+
+
 def apply_tx(state: ChainState, tx: Transaction) -> tuple[ChainState, TransitionResult]:
     """Apply tx to state after verification.
 
@@ -116,6 +123,9 @@ def apply_tx(state: ChainState, tx: Transaction) -> tuple[ChainState, Transition
     # Pre-validation
     try:
         _verify_common(state, tx)
+        # Strict nonce validation happens before execution.
+        sender = state.accounts[tx.source]
+        _require_strict_nonce(sender.nonce, tx.nonce)
         _dispatch_verify(state, tx)
     except SpecError as exc:
         return state, TransitionResult.failure(exc)

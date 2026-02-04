@@ -106,8 +106,19 @@ class Transaction:
     range_proof: Optional[bytes] = None
     reference_hash: Optional[bytes] = None
     reference_topoheight: Optional[int] = None
-    multisig: Optional[bytes] = None
+    multisig: Optional["MultiSig"] = None
     signature: Optional[bytes] = None
+
+
+@dataclass
+class SignatureId:
+    signer_id: int
+    signature: bytes
+
+
+@dataclass
+class MultiSig:
+    signatures: List[SignatureId]
 
 
 @dataclass

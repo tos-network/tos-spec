@@ -1,0 +1,352 @@
+# TOS WithdrawUnfrozen Transaction Conformance Specifications
+# Based on: common/src/transaction/payload/energy.rs
+#
+# Phase 2 of two-phase unfreeze: retrieve TOS after cooldown
+
+---
+spec:
+  name: tx_withdraw_unfrozen_basic
+  version: "1.0"
+  category: transactions
+  subcategory: energy
+  description: "Basic withdrawal of matured pending unfreeze"
+  priority: P0
+
+preconditions:
+  - account:
+      address: "tos1staker..."
+      balance: 0
+      pending_unfreezes:
+        - amount: 100000000  # 1 TOS
+          expire_topoheight: 1000000
+      nonce: 0
+  - current_topoheight: 1000001  # After expiry
+
+action:
+  type: transaction
+  tx_type: Energy
+  params:
+    payload: WithdrawUnfrozen
+    fee: 0
+    nonce: 0
+
+expected:
+  status: success
+
+postconditions:
+  - account:
+      balance: 100000000  # TOS returned
+      pending_unfreezes_count: 0
+      nonce: 1
+
+---
+spec:
+  name: tx_withdraw_unfrozen_multiple
+  version: "1.0"
+  category: transactions
+  subcategory: energy
+  description: "Withdraw multiple matured pending unfreezes"
+  priority: P0
+
+preconditions:
+  - account:
+      balance: 0
+      pending_unfreezes:
+        - amount: 100000000
+          expire_topoheight: 900000
+        - amount: 200000000
+          expire_topoheight: 950000
+        - amount: 300000000
+          expire_topoheight: 1100000  # Not yet expired
+      nonce: 0
+  - current_topoheight: 1000000
+
+action:
+  type: transaction
+  tx_type: Energy
+  params:
+    payload: WithdrawUnfrozen
+
+expected:
+  status: success
+
+postconditions:
+  - account:
+      balance: 300000000  # 1 + 2 TOS (only matured ones)
+      pending_unfreezes_count: 1  # One remaining
+      pending_unfreezes:
+        - amount: 300000000  # Still pending
+
+---
+spec:
+  name: tx_withdraw_unfrozen_none_matured
+  version: "1.0"
+  category: transactions
+  subcategory: energy
+  description: "Withdraw with no matured unfreezes"
+  priority: P0
+
+preconditions:
+  - account:
+      balance: 0
+      pending_unfreezes:
+        - amount: 100000000
+          expire_topoheight: 2000000  # Not yet expired
+      nonce: 0
+  - current_topoheight: 1000000
+
+action:
+  type: transaction
+  tx_type: Energy
+  params:
+    payload: WithdrawUnfrozen
+
+expected:
+  status: error
+  error: "NoPendingUnfreezeMatured"
+  note: "Or could be no-op (implementation dependent)"
+
+---
+spec:
+  name: tx_withdraw_unfrozen_no_pending
+  version: "1.0"
+  category: transactions
+  subcategory: energy
+  description: "Withdraw with empty pending list"
+  priority: P0
+
+preconditions:
+  - account:
+      balance: 100000000
+      pending_unfreezes_count: 0
+      nonce: 0
+
+action:
+  type: transaction
+  tx_type: Energy
+  params:
+    payload: WithdrawUnfrozen
+
+expected:
+  status: error
+  error: "NoPendingUnfreeze"
+
+---
+spec:
+  name: tx_withdraw_unfrozen_partial_list
+  version: "1.0"
+  category: transactions
+  subcategory: energy
+  description: "Only expired entries are withdrawn"
+  priority: P0
+
+preconditions:
+  - account:
+      balance: 50000000  # 0.5 TOS existing
+      pending_unfreezes:
+        - amount: 100000000
+          expire_topoheight: 800000  # Expired
+        - amount: 200000000
+          expire_topoheight: 1200000  # Not expired
+        - amount: 150000000
+          expire_topoheight: 900000  # Expired
+      nonce: 0
+  - current_topoheight: 1000000
+
+action:
+  type: transaction
+  tx_type: Energy
+  params:
+    payload: WithdrawUnfrozen
+
+expected:
+  status: success
+
+postconditions:
+  - account:
+      balance: 300000000  # 0.5 + 1 + 1.5 TOS
+      pending_unfreezes_count: 1
+      pending_unfreezes:
+        - amount: 200000000
+          expire_topoheight: 1200000
+
+---
+spec:
+  name: tx_withdraw_unfrozen_at_exact_expiry
+  version: "1.0"
+  category: transactions
+  subcategory: energy
+  description: "Withdrawal at exactly expire_topoheight"
+  priority: P1
+
+preconditions:
+  - account:
+      pending_unfreezes:
+        - amount: 100000000
+          expire_topoheight: 1000000
+      nonce: 0
+  - current_topoheight: 1000000  # Exactly at expiry
+
+action:
+  type: transaction
+  tx_type: Energy
+  params:
+    payload: WithdrawUnfrozen
+
+expected:
+  status: success
+  note: "current_topoheight >= expire_topoheight means expired"
+
+---
+spec:
+  name: tx_withdraw_unfrozen_balance_accumulation
+  version: "1.0"
+  category: transactions
+  subcategory: energy
+  description: "Withdrawn TOS adds to existing balance"
+  priority: P0
+
+preconditions:
+  - account:
+      balance: 500000000  # 5 TOS
+      pending_unfreezes:
+        - amount: 200000000  # 2 TOS
+          expire_topoheight: 900000
+      nonce: 0
+  - current_topoheight: 1000000
+
+action:
+  type: transaction
+  tx_type: Energy
+  params:
+    payload: WithdrawUnfrozen
+
+expected:
+  status: success
+
+postconditions:
+  - account:
+      balance: 700000000  # 5 + 2 TOS
+
+---
+spec:
+  name: tx_withdraw_unfrozen_overflow_protection
+  version: "1.0"
+  category: transactions
+  subcategory: energy
+  description: "Withdrawal uses checked arithmetic"
+  priority: P1
+
+preconditions:
+  - account:
+      balance: 18446744073709551615  # u64::MAX
+      pending_unfreezes:
+        - amount: 1
+          expire_topoheight: 900000
+      nonce: 0
+  - current_topoheight: 1000000
+
+action:
+  type: transaction
+  tx_type: Energy
+  params:
+    payload: WithdrawUnfrozen
+
+expected:
+  status: error
+  error: "BalanceOverflow"
+
+---
+spec:
+  name: tx_withdraw_unfrozen_free_operation
+  version: "1.0"
+  category: transactions
+  subcategory: energy
+  description: "WithdrawUnfrozen is a free operation"
+  priority: P0
+
+preconditions:
+  - account:
+      balance: 0  # No TOS for fees
+      pending_unfreezes:
+        - amount: 100000000
+          expire_topoheight: 900000
+      nonce: 0
+  - current_topoheight: 1000000
+
+action:
+  type: transaction
+  tx_type: Energy
+  params:
+    payload: WithdrawUnfrozen
+    fee: 0
+
+expected:
+  status: success
+  fee_charged: 0
+
+---
+spec:
+  name: tx_withdraw_unfrozen_payload_structure
+  version: "1.0"
+  category: transactions
+  subcategory: energy
+  description: "WithdrawUnfrozen payload wire format"
+  priority: P0
+
+definition:
+  withdraw_unfrozen_payload:
+    variant_tag: 3  # u8
+
+serialization_order:
+  - variant (1 byte: 0x03)
+
+total_size: 1 byte
+note: "Simplest payload - no parameters needed"
+
+---
+spec:
+  name: tx_withdraw_unfrozen_idempotent
+  version: "1.0"
+  category: transactions
+  subcategory: energy
+  description: "Multiple withdrawals process remaining items"
+  priority: P1
+
+preconditions:
+  - account:
+      pending_unfreezes:
+        - amount: 100000000
+          expire_topoheight: 800000
+        - amount: 200000000
+          expire_topoheight: 1500000
+      nonce: 0
+  - current_topoheight: 1000000
+
+actions:
+  - type: transaction
+    tx_type: Energy
+    params:
+      payload: WithdrawUnfrozen
+      nonce: 0
+
+  # Time passes
+  - type: advance_topoheight
+    to: 1600000
+
+  - type: transaction
+    tx_type: Energy
+    params:
+      payload: WithdrawUnfrozen
+      nonce: 1
+
+expected:
+  - status: success
+    withdrawn: 100000000
+  - status: success
+    withdrawn: 200000000
+
+postconditions:
+  - account:
+      balance: 300000000
+      pending_unfreezes_count: 0

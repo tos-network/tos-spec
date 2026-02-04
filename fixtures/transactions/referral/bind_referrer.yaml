@@ -1,0 +1,364 @@
+# TOS Referral Transaction Conformance Specifications
+# Based on: common/src/transaction/payload/referral.rs
+#
+# Bind referrer and distribute referral rewards
+
+---
+spec:
+  name: tx_bind_referrer_basic
+  version: "1.0"
+  category: transactions
+  subcategory: referral
+  description: "Basic referrer binding"
+  priority: P0
+
+preconditions:
+  - sender:
+      address: "tos1sender..."
+      balance: 100000000
+      referrer: null  # No referrer yet
+      nonce: 0
+  - referrer:
+      address: "tos1referrer..."
+      exists: true
+
+action:
+  type: transaction
+  tx_type: BindReferrer
+  params:
+    referrer: "tos1referrer..."
+    extra_data: null
+    fee: 10000
+    nonce: 0
+
+expected:
+  status: success
+
+postconditions:
+  - sender:
+      referrer: "tos1referrer..."
+      nonce: 1
+
+---
+spec:
+  name: tx_bind_referrer_with_campaign
+  version: "1.0"
+  category: transactions
+  subcategory: referral
+  description: "Bind referrer with campaign tracking"
+  priority: P1
+
+action:
+  type: transaction
+  tx_type: BindReferrer
+  params:
+    referrer: "tos1referrer..."
+    extra_data: "<campaign_id_bytes>"
+
+expected:
+  status: success
+
+note: |
+  extra_data can be used for:
+  - Campaign ID tracking
+  - Source attribution
+  - Analytics metadata
+
+---
+spec:
+  name: tx_bind_referrer_already_bound
+  version: "1.0"
+  category: transactions
+  subcategory: referral
+  description: "Cannot change referrer once bound"
+  priority: P0
+
+preconditions:
+  - sender:
+      referrer: "tos1existing_referrer..."
+
+action:
+  type: transaction
+  tx_type: BindReferrer
+  params:
+    referrer: "tos1new_referrer..."
+
+expected:
+  status: error
+  error: "ReferrerAlreadyBound"
+
+note: |
+  Referrer binding is permanent.
+  Once set, cannot be changed or removed.
+
+---
+spec:
+  name: tx_bind_referrer_self_referral
+  version: "1.0"
+  category: transactions
+  subcategory: referral
+  description: "Cannot refer self"
+  priority: P0
+
+preconditions:
+  - sender:
+      address: "tos1sender..."
+
+action:
+  type: transaction
+  tx_type: BindReferrer
+  params:
+    referrer: "tos1sender..."  # Same as sender
+
+expected:
+  status: error
+  error: "SelfReferralNotAllowed"
+
+---
+spec:
+  name: tx_bind_referrer_nonexistent
+  version: "1.0"
+  category: transactions
+  subcategory: referral
+  description: "Referrer account must exist"
+  priority: P0
+
+action:
+  type: transaction
+  tx_type: BindReferrer
+  params:
+    referrer: "tos1nonexistent..."
+
+expected:
+  status: error
+  error: "ReferrerNotFound"
+
+---
+spec:
+  name: tx_bind_referrer_circular
+  version: "1.0"
+  category: transactions
+  subcategory: referral
+  description: "Circular referrals not allowed"
+  priority: P0
+
+preconditions:
+  - sender:
+      address: "tos1a..."
+      referrer: null
+  - referrer:
+      address: "tos1b..."
+      referrer: "tos1a..."  # B is referred by A
+
+action:
+  type: transaction
+  tx_type: BindReferrer
+  params:
+    referrer: "tos1b..."  # A tries to be referred by B
+
+expected:
+  status: error
+  error: "CircularReferral"
+
+---
+spec:
+  name: tx_bind_referrer_payload_structure
+  version: "1.0"
+  category: transactions
+  subcategory: referral
+  description: "BindReferrerPayload wire format"
+  priority: P0
+
+definition:
+  bind_referrer_payload:
+    referrer:
+      type: CompressedPublicKey
+      size: 32
+    extra_data:
+      type: "Option<UnknownExtraDataFormat>"
+
+serialization_order:
+  - referrer (32 bytes)
+  - extra_data_flag (1 byte)
+  - [extra_data] (variable if present)
+
+---
+spec:
+  name: tx_batch_referral_reward_basic
+  version: "1.0"
+  category: transactions
+  subcategory: referral
+  description: "Batch distribute rewards to uplines"
+  priority: P1
+
+preconditions:
+  - from_user:
+      address: "tos1user..."
+      referrer: "tos1level1..."
+  - level1:
+      address: "tos1level1..."
+      referrer: "tos1level2..."
+  - level2:
+      address: "tos1level2..."
+      referrer: "tos1level3..."
+  - sender:
+      balance: 1000000000  # 10 TOS
+
+action:
+  type: transaction
+  tx_type: BatchReferralReward
+  params:
+    asset: "0x0000...0000"  # TOS
+    from_user: "tos1user..."
+    total_amount: 100000000  # 1 TOS total
+    levels: 3
+    ratios: [1000, 500, 300]  # 10%, 5%, 3%
+    fee: 20000
+
+expected:
+  status: success
+
+postconditions:
+  - level1:
+      balance_increase: 10000000  # 10% of 1 TOS
+  - level2:
+      balance_increase: 5000000   # 5% of 1 TOS
+  - level3:
+      balance_increase: 3000000   # 3% of 1 TOS
+
+---
+spec:
+  name: tx_batch_referral_reward_ratios_validation
+  version: "1.0"
+  category: transactions
+  subcategory: referral
+  description: "Ratio validation rules"
+  priority: P0
+
+tests:
+  - name: valid_ratios
+    ratios: [1000, 500, 300]  # 18% total
+    expected: valid
+
+  - name: exceeds_100_percent
+    ratios: [5000, 3000, 3000]  # 110%
+    expected: error
+    error: "RatiosTotalExceeds100"
+
+  - name: mismatched_levels
+    levels: 5
+    ratios: [1000, 500, 300]  # Only 3 ratios
+    expected: error
+    error: "RatiosLevelsMismatch"
+
+---
+spec:
+  name: tx_batch_referral_reward_level_limits
+  version: "1.0"
+  category: transactions
+  subcategory: referral
+  description: "Level count constraints"
+  priority: P0
+
+definition:
+  MAX_REFERRAL_LEVELS: 20
+
+tests:
+  - name: valid_levels
+    levels: 5
+    expected: valid
+
+  - name: max_levels
+    levels: 20
+    expected: valid
+
+  - name: exceeds_max_levels
+    levels: 21
+    expected: error
+    error: "TooManyLevels"
+
+---
+spec:
+  name: tx_batch_referral_reward_insufficient_chain
+  version: "1.0"
+  category: transactions
+  subcategory: referral
+  description: "Handle incomplete referral chains"
+  priority: P1
+
+preconditions:
+  - from_user:
+      referrer: "tos1level1..."
+  - level1:
+      referrer: null  # Chain ends here
+
+action:
+  type: transaction
+  tx_type: BatchReferralReward
+  params:
+    from_user: "tos1user..."
+    levels: 3
+    ratios: [1000, 500, 300]
+
+expected:
+  status: success
+  note: "Only level1 receives reward; levels 2-3 amounts returned"
+
+postconditions:
+  - level1:
+      balance_increase: 10000000  # Gets 10%
+  - sender:
+      balance_refund: 8000000  # Gets back 5% + 3%
+
+---
+spec:
+  name: tx_batch_referral_reward_payload_structure
+  version: "1.0"
+  category: transactions
+  subcategory: referral
+  description: "BatchReferralRewardPayload wire format"
+  priority: P0
+
+definition:
+  batch_referral_reward_payload:
+    asset:
+      type: Hash
+      size: 32
+    from_user:
+      type: CompressedPublicKey
+      size: 32
+      description: "User whose uplines receive rewards"
+    total_amount:
+      type: u64
+      size: 8
+    levels:
+      type: u8
+      size: 1
+      max_value: 20
+    ratios:
+      type: "Vec<u16>"
+      description: "Basis points per level (100 = 1%)"
+
+serialization_order:
+  - asset (32 bytes)
+  - from_user (32 bytes)
+  - total_amount (8 bytes)
+  - levels (1 byte)
+  - ratios_count (1 byte)
+  - [ratios] (N * 2 bytes)
+
+---
+spec:
+  name: tx_referral_gas_costs
+  version: "1.0"
+  category: transactions
+  subcategory: referral
+  description: "Referral transaction gas costs"
+  priority: P1
+
+definition:
+  bind_referrer_gas: 10000
+  batch_reward_base_gas: 5000
+  batch_reward_per_level: 2000
+
+formula: "batch_gas = 5000 + (levels * 2000)"

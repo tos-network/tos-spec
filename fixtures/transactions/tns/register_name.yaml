@@ -1,0 +1,406 @@
+# TOS TNS (TOS Name Service) Transaction Conformance Specifications
+# Based on: common/src/transaction/payload/tns.rs
+#
+# Register human-readable names and send ephemeral messages
+
+---
+spec:
+  name: tx_register_name_basic
+  version: "1.0"
+  category: transactions
+  subcategory: tns
+  description: "Basic TNS name registration"
+  priority: P0
+
+preconditions:
+  - sender:
+      address: "tos1sender..."
+      balance: 100000000  # 1 TOS
+      nonce: 0
+  - name:
+      value: "alice"
+      available: true
+
+action:
+  type: transaction
+  tx_type: RegisterName
+  params:
+    name: "alice"
+    fee: 10000
+    nonce: 0
+
+expected:
+  status: success
+
+postconditions:
+  - sender:
+      nonce: 1
+  - name_record:
+      name: "alice"
+      owner: "tos1sender..."
+      full_address: "alice@tos.network"
+
+---
+spec:
+  name: tx_register_name_length_validation
+  version: "1.0"
+  category: transactions
+  subcategory: tns
+  description: "Name length constraints"
+  priority: P0
+
+definition:
+  MIN_NAME_LENGTH: 3
+  MAX_NAME_LENGTH: 64
+
+tests:
+  - name: too_short
+    name: "ab"  # 2 chars
+    expected: error
+    error: "NameTooShort"
+
+  - name: minimum_length
+    name: "abc"  # 3 chars
+    expected: valid
+
+  - name: maximum_length
+    name: "<64 character string>"
+    expected: valid
+
+  - name: too_long
+    name: "<65 character string>"
+    expected: error
+    error: "NameTooLong"
+
+---
+spec:
+  name: tx_register_name_character_validation
+  version: "1.0"
+  category: transactions
+  subcategory: tns
+  description: "Valid name characters"
+  priority: P0
+
+tests:
+  - name: lowercase_letters
+    name: "alice"
+    expected: valid
+
+  - name: numbers
+    name: "alice123"
+    expected: valid
+
+  - name: underscore
+    name: "alice_smith"
+    expected: valid
+
+  - name: hyphen
+    name: "alice-smith"
+    expected: valid
+
+  - name: uppercase_normalized
+    name: "ALICE"
+    expected: valid
+    note: "Normalized to 'alice' during verification"
+
+  - name: invalid_special_chars
+    name: "alice@bob"
+    expected: error
+    error: "InvalidNameCharacter"
+
+  - name: spaces_not_allowed
+    name: "alice smith"
+    expected: error
+    error: "InvalidNameCharacter"
+
+---
+spec:
+  name: tx_register_name_already_taken
+  version: "1.0"
+  category: transactions
+  subcategory: tns
+  description: "Cannot register existing name"
+  priority: P0
+
+preconditions:
+  - name:
+      value: "alice"
+      available: false
+      owner: "tos1existing..."
+
+action:
+  type: transaction
+  tx_type: RegisterName
+  params:
+    name: "alice"
+
+expected:
+  status: error
+  error: "NameAlreadyRegistered"
+
+---
+spec:
+  name: tx_register_name_already_has_name
+  version: "1.0"
+  category: transactions
+  subcategory: tns
+  description: "Account can only have one name"
+  priority: P0
+
+preconditions:
+  - sender:
+      tns_name: "bob"  # Already has a name
+
+action:
+  type: transaction
+  tx_type: RegisterName
+  params:
+    name: "alice"
+
+expected:
+  status: error
+  error: "AccountAlreadyHasName"
+
+---
+spec:
+  name: tx_register_name_case_insensitive
+  version: "1.0"
+  category: transactions
+  subcategory: tns
+  description: "Names are case-insensitive"
+  priority: P0
+
+preconditions:
+  - name:
+      value: "alice"
+      available: false
+
+action:
+  type: transaction
+  tx_type: RegisterName
+  params:
+    name: "ALICE"  # Different case
+
+expected:
+  status: error
+  error: "NameAlreadyRegistered"
+  note: "Names are normalized to lowercase for uniqueness"
+
+---
+spec:
+  name: tx_register_name_payload_structure
+  version: "1.0"
+  category: transactions
+  subcategory: tns
+  description: "RegisterNamePayload wire format"
+  priority: P0
+
+definition:
+  register_name_payload:
+    name:
+      type: String
+      encoding: UTF-8
+      min_length: 3
+      max_length: 64
+
+serialization_order:
+  - name_length (1 byte)
+  - name_bytes (variable, max 64 bytes)
+
+---
+spec:
+  name: tx_ephemeral_message_basic
+  version: "1.0"
+  category: transactions
+  subcategory: tns
+  description: "Send ephemeral message between TNS names"
+  priority: P1
+
+preconditions:
+  - sender:
+      address: "tos1sender..."
+      tns_name: "alice"
+      balance: 100000000
+      nonce: 5
+  - recipient:
+      address: "tos1recipient..."
+      tns_name: "bob"
+
+action:
+  type: transaction
+  tx_type: EphemeralMessage
+  params:
+    sender_name_hash: "<blake3(alice)>"
+    recipient_name_hash: "<blake3(bob)>"
+    message_nonce: 5  # From tx nonce
+    ttl_blocks: 1000  # ~4 hours
+    encrypted_content: "<encrypted message bytes>"
+    receiver_handle: "<32 byte handle>"
+    fee: 15000
+    nonce: 5
+
+expected:
+  status: success
+
+postconditions:
+  - message_stored:
+      expires_at_block: current_height + 1000
+
+---
+spec:
+  name: tx_ephemeral_message_ttl_validation
+  version: "1.0"
+  category: transactions
+  subcategory: tns
+  description: "Message TTL constraints"
+  priority: P1
+
+definition:
+  MIN_TTL: 100     # ~6 minutes
+  MAX_TTL: 86400   # ~24 hours
+
+tests:
+  - name: below_minimum
+    ttl_blocks: 50
+    expected: error
+    error: "TtlTooShort"
+
+  - name: minimum_valid
+    ttl_blocks: 100
+    expected: valid
+
+  - name: maximum_valid
+    ttl_blocks: 86400
+    expected: valid
+
+  - name: exceeds_maximum
+    ttl_blocks: 90000
+    expected: error
+    error: "TtlTooLong"
+
+---
+spec:
+  name: tx_ephemeral_message_content_size
+  version: "1.0"
+  category: transactions
+  subcategory: tns
+  description: "Message content size limit"
+  priority: P1
+
+definition:
+  MAX_ENCRYPTED_SIZE: 188  # 140 + 48 overhead
+
+tests:
+  - name: empty_content
+    encrypted_content: []
+    expected: error
+    error: "EmptyContent"
+
+  - name: valid_content
+    encrypted_content: "<100 bytes>"
+    expected: valid
+
+  - name: exceeds_limit
+    encrypted_content: "<200 bytes>"
+    expected: error
+    error: "ContentTooLarge"
+
+---
+spec:
+  name: tx_ephemeral_message_sender_not_registered
+  version: "1.0"
+  category: transactions
+  subcategory: tns
+  description: "Sender must have registered TNS name"
+  priority: P1
+
+preconditions:
+  - sender:
+      tns_name: null  # No name registered
+
+action:
+  type: transaction
+  tx_type: EphemeralMessage
+  params:
+    sender_name_hash: "<some hash>"
+
+expected:
+  status: error
+  error: "SenderNotRegistered"
+
+---
+spec:
+  name: tx_ephemeral_message_recipient_not_found
+  version: "1.0"
+  category: transactions
+  subcategory: tns
+  description: "Recipient name must exist"
+  priority: P1
+
+action:
+  type: transaction
+  tx_type: EphemeralMessage
+  params:
+    recipient_name_hash: "<hash of unknown name>"
+
+expected:
+  status: error
+  error: "RecipientNotFound"
+
+---
+spec:
+  name: tx_ephemeral_message_payload_structure
+  version: "1.0"
+  category: transactions
+  subcategory: tns
+  description: "EphemeralMessagePayload wire format"
+  priority: P0
+
+definition:
+  ephemeral_message_payload:
+    sender_name_hash:
+      type: Hash
+      size: 32
+      description: "blake3(sender's registered name)"
+    recipient_name_hash:
+      type: Hash
+      size: 32
+      description: "blake3(recipient's registered name)"
+    message_nonce:
+      type: u64
+      size: 8
+      description: "Replay protection (tx nonce)"
+    ttl_blocks:
+      type: u32
+      size: 4
+      description: "Message lifetime in blocks"
+    encrypted_content:
+      type: "Vec<u8>"
+      max_size: 188
+      description: "Encrypted message"
+    receiver_handle:
+      type: "[u8; 32]"
+      size: 32
+      description: "Decryption handle"
+
+serialization_order:
+  - sender_name_hash (32 bytes)
+  - recipient_name_hash (32 bytes)
+  - message_nonce (8 bytes)
+  - ttl_blocks (4 bytes)
+  - content_length (2 bytes)
+  - encrypted_content (variable)
+  - receiver_handle (32 bytes)
+
+---
+spec:
+  name: tx_tns_gas_costs
+  version: "1.0"
+  category: transactions
+  subcategory: tns
+  description: "TNS transaction gas costs"
+  priority: P1
+
+definition:
+  register_name_gas: 10000
+  ephemeral_message_gas: 15000

@@ -1,0 +1,342 @@
+# TOS MultiSig Transaction Conformance Specifications
+# Based on: common/src/transaction/payload/multisig.rs
+#
+# Setup multi-signature accounts
+
+---
+spec:
+  name: tx_multisig_basic
+  version: "1.0"
+  category: transactions
+  subcategory: account
+  description: "Basic multisig setup"
+  priority: P0
+
+preconditions:
+  - sender:
+      address: "tos1sender..."
+      balance: 100000000
+      is_multisig: false
+      nonce: 0
+
+action:
+  type: transaction
+  tx_type: MultiSig
+  params:
+    threshold: 2  # Require 2 of 3 signatures
+    participants:
+      - "tos1participant1..."
+      - "tos1participant2..."
+      - "tos1participant3..."
+    fee: 20000
+    nonce: 0
+
+expected:
+  status: success
+
+postconditions:
+  - sender:
+      is_multisig: true
+      multisig_threshold: 2
+      multisig_participants: 3
+      nonce: 1
+
+---
+spec:
+  name: tx_multisig_2_of_2
+  version: "1.0"
+  category: transactions
+  subcategory: account
+  description: "2-of-2 multisig (both signatures required)"
+  priority: P0
+
+action:
+  type: transaction
+  tx_type: MultiSig
+  params:
+    threshold: 2
+    participants:
+      - "tos1alice..."
+      - "tos1bob..."
+
+expected:
+  status: success
+
+note: |
+  2-of-2 is useful for:
+  - Joint accounts
+  - Escrow without arbiter
+  - High security wallets
+
+---
+spec:
+  name: tx_multisig_threshold_validation
+  version: "1.0"
+  category: transactions
+  subcategory: account
+  description: "Threshold must not exceed participant count"
+  priority: P0
+
+tests:
+  - name: valid_2_of_3
+    threshold: 2
+    participants: 3
+    expected: valid
+
+  - name: threshold_exceeds_participants
+    threshold: 4
+    participants: 3
+    expected: error
+    error: "ThresholdExceedsParticipants"
+
+  - name: threshold_zero_with_participants
+    threshold: 0
+    participants: 3
+    expected: error
+    error: "InvalidThreshold"
+
+---
+spec:
+  name: tx_multisig_participant_limits
+  version: "1.0"
+  category: transactions
+  subcategory: account
+  description: "Participant count constraints"
+  priority: P0
+
+definition:
+  MAX_MULTISIG_PARTICIPANTS: 8
+
+tests:
+  - name: empty_participants_with_threshold
+    threshold: 2
+    participants: []
+    expected: error
+    error: "NoParticipants"
+
+  - name: single_participant
+    threshold: 1
+    participants: 1
+    expected: valid
+
+  - name: maximum_participants
+    threshold: 5
+    participants: 8
+    expected: valid
+
+  - name: exceed_maximum
+    threshold: 5
+    participants: 9
+    expected: error
+    error: "TooManyParticipants"
+
+---
+spec:
+  name: tx_multisig_duplicate_participants
+  version: "1.0"
+  category: transactions
+  subcategory: account
+  description: "Duplicate participants rejected"
+  priority: P0
+
+action:
+  type: transaction
+  tx_type: MultiSig
+  params:
+    threshold: 2
+    participants:
+      - "tos1alice..."
+      - "tos1alice..."  # Duplicate
+
+expected:
+  status: error
+  error: "DuplicateParticipant"
+
+---
+spec:
+  name: tx_multisig_delete
+  version: "1.0"
+  category: transactions
+  subcategory: account
+  description: "Delete multisig configuration"
+  priority: P0
+
+preconditions:
+  - sender:
+      is_multisig: true
+      multisig_threshold: 2
+      multisig_participants: 3
+
+action:
+  type: transaction
+  tx_type: MultiSig
+  params:
+    threshold: 0  # Zero threshold = delete
+    participants: []
+
+expected:
+  status: success
+
+postconditions:
+  - sender:
+      is_multisig: false
+
+note: |
+  Setting threshold=0 with empty participants
+  removes the multisig configuration.
+  Account becomes a regular single-signature account.
+
+---
+spec:
+  name: tx_multisig_update
+  version: "1.0"
+  category: transactions
+  subcategory: account
+  description: "Update existing multisig"
+  priority: P1
+
+preconditions:
+  - sender:
+      is_multisig: true
+      multisig_threshold: 2
+      multisig_participants: ["tos1a...", "tos1b...", "tos1c..."]
+
+action:
+  type: transaction
+  tx_type: MultiSig
+  params:
+    threshold: 3
+    participants:
+      - "tos1a..."
+      - "tos1b..."
+      - "tos1c..."
+      - "tos1d..."  # Added participant
+
+expected:
+  status: success
+
+postconditions:
+  - sender:
+      multisig_threshold: 3
+      multisig_participants: 4
+
+---
+spec:
+  name: tx_multisig_self_included
+  version: "1.0"
+  category: transactions
+  subcategory: account
+  description: "Sender can be a participant"
+  priority: P1
+
+preconditions:
+  - sender:
+      address: "tos1sender..."
+
+action:
+  type: transaction
+  tx_type: MultiSig
+  params:
+    threshold: 2
+    participants:
+      - "tos1sender..."  # Self
+      - "tos1other1..."
+      - "tos1other2..."
+
+expected:
+  status: success
+
+---
+spec:
+  name: tx_multisig_spending_requires_signatures
+  version: "1.0"
+  category: transactions
+  subcategory: account
+  description: "Multisig spending requires threshold signatures"
+  priority: P0
+
+preconditions:
+  - sender:
+      is_multisig: true
+      multisig_threshold: 2
+      multisig_participants: ["tos1a...", "tos1b...", "tos1c..."]
+
+action:
+  type: transaction
+  tx_type: Transfer  # Any spending transaction
+  params:
+    amount: 100000000
+    signatures:
+      - signer: "tos1a..."
+      - signer: "tos1b..."
+      # 2 signatures meet threshold
+
+expected:
+  status: success
+
+---
+spec:
+  name: tx_multisig_insufficient_signatures
+  version: "1.0"
+  category: transactions
+  subcategory: account
+  description: "Spending fails without threshold signatures"
+  priority: P0
+
+preconditions:
+  - sender:
+      is_multisig: true
+      multisig_threshold: 2
+
+action:
+  type: transaction
+  tx_type: Transfer
+  params:
+    amount: 100000000
+    signatures:
+      - signer: "tos1a..."
+      # Only 1 signature
+
+expected:
+  status: error
+  error: "InsufficientSignatures"
+
+---
+spec:
+  name: tx_multisig_payload_structure
+  version: "1.0"
+  category: transactions
+  subcategory: account
+  description: "MultiSigPayload wire format"
+  priority: P0
+
+definition:
+  multisig_payload:
+    threshold:
+      type: u8
+      size: 1
+      description: "Required signature count (0 = delete)"
+    participants:
+      type: "IndexSet<CompressedPublicKey>"
+      max_size: 8
+      description: "Unique participant public keys"
+
+serialization_order:
+  - threshold (1 byte)
+  - participant_count (1 byte, if threshold > 0)
+  - [participants] (N * 32 bytes)
+
+---
+spec:
+  name: tx_multisig_gas_cost
+  version: "1.0"
+  category: transactions
+  subcategory: account
+  description: "MultiSig transaction gas cost"
+  priority: P1
+
+definition:
+  base_gas: 20000
+  per_participant: 1000
+
+formula: "total_gas = 20000 + (participant_count * 1000)"

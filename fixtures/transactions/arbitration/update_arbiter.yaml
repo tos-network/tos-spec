@@ -1,0 +1,297 @@
+# TOS UpdateArbiter Transaction Conformance Specifications
+# Based on: common/src/transaction/payload/arbitration/update_arbiter.rs
+#
+# Update arbiter account settings
+
+---
+spec:
+  name: tx_update_arbiter_basic
+  version: "1.0"
+  category: transactions
+  subcategory: arbitration
+  description: "Basic arbiter update"
+  priority: P0
+
+preconditions:
+  - arbiter:
+      address: "tos1arbiter..."
+      registered: true
+      status: "Active"
+      name: "Alice Arbiter"
+      fee_basis_points: 200
+      nonce: 5
+
+action:
+  type: transaction
+  tx_type: UpdateArbiter
+  params:
+    name: "Alice Arbiter Pro"  # Update name
+    expertise: null  # Keep existing
+    fee_basis_points: 250  # 2.5%
+    min_escrow_value: null
+    max_escrow_value: null
+    add_stake: null
+    status: null
+    deactivate: false
+    fee: 10000
+    nonce: 5
+
+expected:
+  status: success
+
+postconditions:
+  - arbiter:
+      name: "Alice Arbiter Pro"
+      fee_basis_points: 250
+      nonce: 6
+
+---
+spec:
+  name: tx_update_arbiter_add_stake
+  version: "1.0"
+  category: transactions
+  subcategory: arbitration
+  description: "Add additional stake"
+  priority: P0
+
+preconditions:
+  - arbiter:
+      stake: 100000000000  # 1000 TOS
+  - sender:
+      balance: 500000000000  # 5000 TOS
+
+action:
+  type: transaction
+  tx_type: UpdateArbiter
+  params:
+    add_stake: 50000000000  # Add 500 TOS
+
+expected:
+  status: success
+
+postconditions:
+  - arbiter:
+      stake: 150000000000  # 1500 TOS
+  - sender:
+      balance_decrease: 50000000000
+
+---
+spec:
+  name: tx_update_arbiter_update_expertise
+  version: "1.0"
+  category: transactions
+  subcategory: arbitration
+  description: "Update expertise domains"
+  priority: P0
+
+preconditions:
+  - arbiter:
+      expertise: ["General", "Payment"]
+
+action:
+  type: transaction
+  tx_type: UpdateArbiter
+  params:
+    expertise: ["General", "Payment", "DeFi", "AI"]
+
+expected:
+  status: success
+
+postconditions:
+  - arbiter:
+      expertise: ["General", "Payment", "DeFi", "AI"]
+
+---
+spec:
+  name: tx_update_arbiter_escrow_range
+  version: "1.0"
+  category: transactions
+  subcategory: arbitration
+  description: "Update escrow value range"
+  priority: P0
+
+action:
+  type: transaction
+  tx_type: UpdateArbiter
+  params:
+    min_escrow_value: 500000000  # 5 TOS minimum
+    max_escrow_value: 500000000000  # 5000 TOS maximum
+
+expected:
+  status: success
+
+---
+spec:
+  name: tx_update_arbiter_invalid_range
+  version: "1.0"
+  category: transactions
+  subcategory: arbitration
+  description: "Invalid escrow range rejected"
+  priority: P0
+
+action:
+  type: transaction
+  tx_type: UpdateArbiter
+  params:
+    min_escrow_value: 1000000000
+    max_escrow_value: 500000000  # min > max
+
+expected:
+  status: error
+  error: "InvalidEscrowValueRange"
+
+---
+spec:
+  name: tx_update_arbiter_not_registered
+  version: "1.0"
+  category: transactions
+  subcategory: arbitration
+  description: "Cannot update non-registered arbiter"
+  priority: P0
+
+preconditions:
+  - sender:
+      is_arbiter: false
+
+action:
+  type: transaction
+  tx_type: UpdateArbiter
+  params:
+    fee_basis_points: 300
+
+expected:
+  status: error
+  error: "NotRegisteredArbiter"
+
+---
+spec:
+  name: tx_update_arbiter_self_suspend
+  version: "1.0"
+  category: transactions
+  subcategory: arbitration
+  description: "Arbiter can self-suspend"
+  priority: P1
+
+preconditions:
+  - arbiter:
+      status: "Active"
+
+action:
+  type: transaction
+  tx_type: UpdateArbiter
+  params:
+    status: "Suspended"
+
+expected:
+  status: success
+
+postconditions:
+  - arbiter:
+      status: "Suspended"
+
+note: |
+  Self-suspension is voluntary.
+  Arbiter can reactivate by updating status back to Active.
+
+---
+spec:
+  name: tx_update_arbiter_fee_too_high
+  version: "1.0"
+  category: transactions
+  subcategory: arbitration
+  description: "Fee cannot exceed 100%"
+  priority: P0
+
+action:
+  type: transaction
+  tx_type: UpdateArbiter
+  params:
+    fee_basis_points: 10001  # > 100%
+
+expected:
+  status: error
+  error: "FeeTooHigh"
+
+---
+spec:
+  name: tx_update_arbiter_empty_expertise
+  version: "1.0"
+  category: transactions
+  subcategory: arbitration
+  description: "Cannot set empty expertise list"
+  priority: P0
+
+action:
+  type: transaction
+  tx_type: UpdateArbiter
+  params:
+    expertise: []
+
+expected:
+  status: error
+  error: "NoExpertiseDomains"
+
+---
+spec:
+  name: tx_update_arbiter_deactivate
+  version: "1.0"
+  category: transactions
+  subcategory: arbitration
+  description: "Deactivate flag triggers exit request"
+  priority: P1
+
+preconditions:
+  - arbiter:
+      status: "Active"
+
+action:
+  type: transaction
+  tx_type: UpdateArbiter
+  params:
+    deactivate: true
+
+expected:
+  status: success
+
+postconditions:
+  - arbiter:
+      status: "ExitRequested"
+      exit_requested_at: current_block
+
+note: |
+  deactivate=true is equivalent to RequestArbiterExit.
+  Starts cooldown period before stake can be withdrawn.
+
+---
+spec:
+  name: tx_update_arbiter_payload_structure
+  version: "1.0"
+  category: transactions
+  subcategory: arbitration
+  description: "UpdateArbiterPayload wire format"
+  priority: P0
+
+definition:
+  update_arbiter_payload:
+    name:
+      type: "Option<String>"
+    expertise:
+      type: "Option<Vec<ExpertiseDomain>>"
+    fee_basis_points:
+      type: "Option<u16>"
+    min_escrow_value:
+      type: "Option<u64>"
+    max_escrow_value:
+      type: "Option<u64>"
+    add_stake:
+      type: "Option<u64>"
+    status:
+      type: "Option<ArbiterStatus>"
+    deactivate:
+      type: bool
+      size: 1
+
+note: |
+  All fields are optional.
+  Only provided fields are updated.
+  Omitted fields retain their current values.

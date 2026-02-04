@@ -22,6 +22,10 @@ def _hash(byte: int) -> bytes:
     return bytes([byte]) * 32
 
 
+def _sig(byte: int) -> bytes:
+    return bytes([byte]) * 64
+
+
 def test_transfer_wire_vector(wire_vector) -> None:
     sender = _addr(1)
     receiver = _addr(2)
@@ -36,7 +40,7 @@ def test_transfer_wire_vector(wire_vector) -> None:
         nonce=5,
         reference_hash=_hash(9),
         reference_topoheight=100,
-        signature=_hash(7),
+        signature=_sig(7),
     )
 
     encoded = encode_transaction(tx)
@@ -85,7 +89,7 @@ def test_energy_freeze_wire_vector(wire_vector) -> None:
         nonce=1,
         reference_hash=_hash(9),
         reference_topoheight=100,
-        signature=_hash(7),
+        signature=_sig(7),
     )
 
     encoded = encode_transaction(tx)

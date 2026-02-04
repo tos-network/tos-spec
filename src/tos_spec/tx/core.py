@@ -6,12 +6,15 @@ from copy import deepcopy
 
 from ..config import EXTRA_DATA_LIMIT_SIZE, EXTRA_DATA_LIMIT_SUM_SIZE, MAX_TRANSFER_COUNT
 from ..errors import ErrorCode, SpecError
-from ..types import ChainState, Transaction, TransactionType, TransferPayload
+from ..types import AccountState, ChainState, Transaction, TransactionType, TransferPayload
 
 
 def verify(state: ChainState, tx: Transaction) -> None:
     if tx.tx_type == TransactionType.BURN:
-        if not isinstance(tx.payload, int) or tx.payload <= 0:
+        if not isinstance(tx.payload, dict):
+            raise SpecError(ErrorCode.INVALID_PAYLOAD, "burn payload must be dict")
+        amount = int(tx.payload.get("amount", 0))
+        if amount <= 0:
             raise SpecError(ErrorCode.INVALID_AMOUNT, "burn amount invalid")
         return
 
@@ -45,10 +48,11 @@ def apply(state: ChainState, tx: Transaction) -> ChainState:
         sender = next_state.accounts.get(tx.source)
         if sender is None:
             raise SpecError(ErrorCode.ACCOUNT_NOT_FOUND, "sender not found")
-        if sender.balance < tx.payload:
+        amount = int(tx.payload.get("amount", 0))
+        if sender.balance < amount:
             raise SpecError(ErrorCode.INSUFFICIENT_BALANCE, "insufficient balance")
-        sender.balance -= tx.payload
-        next_state.global_state.total_burned += tx.payload
+        sender.balance -= amount
+        next_state.global_state.total_burned += amount
         return next_state
 
     if tx.tx_type != TransactionType.TRANSFERS:
@@ -64,10 +68,7 @@ def apply(state: ChainState, tx: Transaction) -> ChainState:
         sender.balance -= t.amount
         receiver = next_state.accounts.get(t.destination)
         if receiver is None:
-            receiver = deepcopy(sender)
-            receiver.address = t.destination
-            receiver.balance = 0
-            receiver.nonce = 0
+            receiver = AccountState(address=t.destination, balance=0, nonce=0)
             next_state.accounts[t.destination] = receiver
         receiver.balance += t.amount
 

@@ -1,0 +1,212 @@
+# TOS DepositEscrow Transaction Conformance Specifications
+# Based on: common/src/transaction/payload/escrow/mod.rs
+#
+# Deposit additional funds to existing escrow
+
+---
+spec:
+  name: tx_deposit_escrow_basic
+  version: "1.0"
+  category: transactions
+  subcategory: escrow
+  description: "Basic escrow deposit"
+  priority: P0
+
+preconditions:
+  - escrow:
+      id: "0xescrow..."
+      payer: "tos1payer..."
+      amount: 500000000  # 5 TOS
+      state: "Created"
+  - payer:
+      address: "tos1payer..."
+      balance: 1000000000  # 10 TOS
+      nonce: 5
+
+action:
+  type: transaction
+  tx_type: DepositEscrow
+  params:
+    escrow_id: "0xescrow..."
+    amount: 200000000  # 2 TOS additional
+    fee: 5000
+    nonce: 5
+
+expected:
+  status: success
+
+postconditions:
+  - escrow:
+      amount: 700000000  # 5 + 2 TOS
+  - payer:
+      balance: 799995000  # 10 - 2 - fee
+      nonce: 6
+
+---
+spec:
+  name: tx_deposit_escrow_not_payer
+  version: "1.0"
+  category: transactions
+  subcategory: escrow
+  description: "Only payer can deposit to escrow"
+  priority: P0
+
+preconditions:
+  - escrow:
+      payer: "tos1payer..."
+  - sender:
+      address: "tos1other..."  # Not the payer
+
+action:
+  type: transaction
+  tx_type: DepositEscrow
+  params:
+    escrow_id: "0xescrow..."
+    amount: 100000000
+
+expected:
+  status: error
+  error: "UnauthorizedDeposit"
+
+---
+spec:
+  name: tx_deposit_escrow_not_found
+  version: "1.0"
+  category: transactions
+  subcategory: escrow
+  description: "Cannot deposit to non-existent escrow"
+  priority: P0
+
+action:
+  type: transaction
+  tx_type: DepositEscrow
+  params:
+    escrow_id: "0xnonexistent..."
+    amount: 100000000
+
+expected:
+  status: error
+  error: "EscrowNotFound"
+
+---
+spec:
+  name: tx_deposit_escrow_zero_amount
+  version: "1.0"
+  category: transactions
+  subcategory: escrow
+  description: "Zero deposit rejected"
+  priority: P0
+
+action:
+  type: transaction
+  tx_type: DepositEscrow
+  params:
+    escrow_id: "0xescrow..."
+    amount: 0
+
+expected:
+  status: error
+  error: "InvalidAmount"
+
+---
+spec:
+  name: tx_deposit_escrow_insufficient_balance
+  version: "1.0"
+  category: transactions
+  subcategory: escrow
+  description: "Cannot deposit more than balance"
+  priority: P0
+
+preconditions:
+  - payer:
+      balance: 100000000  # 1 TOS
+
+action:
+  type: transaction
+  tx_type: DepositEscrow
+  params:
+    escrow_id: "0xescrow..."
+    amount: 500000000  # 5 TOS (more than balance)
+
+expected:
+  status: error
+  error: "InsufficientBalance"
+
+---
+spec:
+  name: tx_deposit_escrow_invalid_state
+  version: "1.0"
+  category: transactions
+  subcategory: escrow
+  description: "Cannot deposit to certain escrow states"
+  priority: P0
+
+tests:
+  - name: released_escrow
+    escrow_state: "Released"
+    expected: error
+    error: "EscrowAlreadyReleased"
+
+  - name: refunded_escrow
+    escrow_state: "Refunded"
+    expected: error
+    error: "EscrowAlreadyRefunded"
+
+  - name: disputed_escrow
+    escrow_state: "Disputed"
+    expected: error
+    error: "EscrowDisputed"
+
+  - name: resolved_escrow
+    escrow_state: "Resolved"
+    expected: error
+    error: "EscrowAlreadyResolved"
+
+---
+spec:
+  name: tx_deposit_escrow_during_challenge
+  version: "1.0"
+  category: transactions
+  subcategory: escrow
+  description: "Deposit during challenge window"
+  priority: P1
+
+preconditions:
+  - escrow:
+      state: "Challenged"
+
+action:
+  type: transaction
+  tx_type: DepositEscrow
+  params:
+    escrow_id: "0xescrow..."
+    amount: 100000000
+
+expected:
+  status: error
+  error: "EscrowChallenged"
+  note: "Cannot add funds while challenge is active"
+
+---
+spec:
+  name: tx_deposit_escrow_payload_structure
+  version: "1.0"
+  category: transactions
+  subcategory: escrow
+  description: "DepositEscrowPayload wire format"
+  priority: P0
+
+definition:
+  deposit_escrow_payload:
+    escrow_id:
+      type: Hash
+      size: 32
+    amount:
+      type: u64
+      size: 8
+
+serialization_order:
+  - escrow_id (32 bytes)
+  - amount (8 bytes)
+
+total_size: 40 bytes
