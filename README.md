@@ -9,6 +9,18 @@ machine-readable, testable, and capable of producing deterministic fixtures.
 - **Deterministic fixtures**: generated from the spec and consumed by all clients.
 - **Cross-client consistency**: the same inputs must yield the same outputs.
 - **Layered coverage**: wire format, transaction validation, and state transitions are all verified.
+- **Scenario/expected comparison**: fixtures define scenarios and expected results; vectors are the runnable form consumed by Lab.
+
+## Scenario/Expected Comparison Model
+
+This repo defines the authoritative **scenario + expected** contracts. The runtime behavior is:
+
+1. **Fixtures are the spec truth** (human-readable, canonical intent).
+2. **Vectors are the runnable scenarios** (machine-executable JSON derived from fixtures).
+3. **Simulators execute vectors** and assert expected results.
+4. **Lab only orchestrates and aggregates results**; it does not interpret fixtures.
+
+This mirrors the Ethereum Hive approach: simulator-owned assertions, harness-owned orchestration.
 
 ## Fixtures vs Vectors (Responsibilities)
 
