@@ -66,6 +66,11 @@ machine-readable, testable, and capable of producing deterministic fixtures.
 - Pytest tests produce deterministic fixtures.
 - Fixtures are stored as JSON and are versionable artifacts.
 
+**Fixture formats by layer**
+- Execution-layer fixtures: JSON (transactions, state transitions, wire-format, error matrices).
+- Consensus-layer fixtures: YAML (block structure, PoW, blockdag ordering, fork-choice/validation).
+- Crypto fixtures: YAML (hash/HMAC and related crypto vectors).
+
 ### 2) Fixtures → Clients
 - Clients consume fixtures, execute them, and compare outputs to expected results.
 - Divergence indicates a bug in the client or in the spec.
