@@ -1,0 +1,74 @@
+"""Core transaction specs (Transfers/Burn)."""
+
+from __future__ import annotations
+
+from copy import deepcopy
+
+from ..config import EXTRA_DATA_LIMIT_SIZE, EXTRA_DATA_LIMIT_SUM_SIZE, MAX_TRANSFER_COUNT
+from ..errors import ErrorCode, SpecError
+from ..types import ChainState, Transaction, TransactionType, TransferPayload
+
+
+def verify(state: ChainState, tx: Transaction) -> None:
+    if tx.tx_type == TransactionType.BURN:
+        if not isinstance(tx.payload, int) or tx.payload <= 0:
+            raise SpecError(ErrorCode.INVALID_AMOUNT, "burn amount invalid")
+        return
+
+    if tx.tx_type != TransactionType.TRANSFERS:
+        raise SpecError(ErrorCode.INVALID_TYPE, "unsupported core tx type")
+
+    if not isinstance(tx.payload, list) or not tx.payload:
+        raise SpecError(ErrorCode.INVALID_PAYLOAD, "transfers list empty")
+
+    if len(tx.payload) > MAX_TRANSFER_COUNT:
+        raise SpecError(ErrorCode.INVALID_PAYLOAD, "too many transfers")
+
+    total_extra = 0
+    for t in tx.payload:
+        if not isinstance(t, TransferPayload):
+            raise SpecError(ErrorCode.INVALID_PAYLOAD, "invalid transfer payload")
+        if t.amount <= 0:
+            raise SpecError(ErrorCode.INVALID_AMOUNT, "transfer amount invalid")
+        if t.extra_data is not None:
+            if len(t.extra_data) > EXTRA_DATA_LIMIT_SIZE:
+                raise SpecError(ErrorCode.INVALID_PAYLOAD, "extra_data too large")
+            total_extra += len(t.extra_data)
+
+    if total_extra > EXTRA_DATA_LIMIT_SUM_SIZE:
+        raise SpecError(ErrorCode.INVALID_PAYLOAD, "total extra_data too large")
+
+
+def apply(state: ChainState, tx: Transaction) -> ChainState:
+    next_state = deepcopy(state)
+    if tx.tx_type == TransactionType.BURN:
+        sender = next_state.accounts.get(tx.source)
+        if sender is None:
+            raise SpecError(ErrorCode.ACCOUNT_NOT_FOUND, "sender not found")
+        if sender.balance < tx.payload:
+            raise SpecError(ErrorCode.INSUFFICIENT_BALANCE, "insufficient balance")
+        sender.balance -= tx.payload
+        next_state.global_state.total_burned += tx.payload
+        return next_state
+
+    if tx.tx_type != TransactionType.TRANSFERS:
+        raise SpecError(ErrorCode.INVALID_TYPE, "unsupported core tx type")
+
+    sender = next_state.accounts.get(tx.source)
+    if sender is None:
+        raise SpecError(ErrorCode.ACCOUNT_NOT_FOUND, "sender not found")
+
+    for t in tx.payload:
+        if sender.balance < t.amount:
+            raise SpecError(ErrorCode.INSUFFICIENT_BALANCE, "insufficient balance")
+        sender.balance -= t.amount
+        receiver = next_state.accounts.get(t.destination)
+        if receiver is None:
+            receiver = deepcopy(sender)
+            receiver.address = t.destination
+            receiver.balance = 0
+            receiver.nonce = 0
+            next_state.accounts[t.destination] = receiver
+        receiver.balance += t.amount
+
+    return next_state

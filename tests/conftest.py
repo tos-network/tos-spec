@@ -1,0 +1,76 @@
+"""Pytest hooks to generate fixtures (EEST-style)."""
+
+from __future__ import annotations
+
+import json
+from pathlib import Path
+from typing import Any, Callable
+
+import pytest
+
+from tos_spec.state_transition import apply_tx
+from tos_spec.types import ChainState, Transaction
+from tools.fixtures_io import state_to_json, tx_to_json
+
+_STATE_CASES: list[dict[str, Any]] = []
+_WIRE_VECTORS: list[dict[str, Any]] = []
+
+
+def pytest_addoption(parser: pytest.Parser) -> None:
+    parser.addoption(
+        "--output",
+        action="store",
+        default=None,
+        help="Output directory for generated fixtures",
+    )
+
+
+@pytest.fixture
+def state_test() -> Callable[[str, ChainState, Transaction], None]:
+    """Collect a state transition case and append expected outputs."""
+
+    def _state_test(name: str, pre_state: ChainState, tx: Transaction) -> None:
+        post_state, result = apply_tx(pre_state, tx)
+        _STATE_CASES.append(
+            {
+                "name": name,
+                "pre_state": state_to_json(pre_state),
+                "tx": tx_to_json(tx),
+                "expected": {
+                    "ok": result.ok,
+                    "error": result.error.code.name if result.error else None,
+                    "post_state": state_to_json(post_state),
+                },
+            }
+        )
+
+    return _state_test
+
+
+@pytest.fixture
+def wire_vector() -> Callable[[str, dict[str, Any]], None]:
+    """Collect a wire-format vector case."""
+
+    def _wire_vector(name: str, vector: dict[str, Any]) -> None:
+        payload = {"name": name}
+        payload.update(vector)
+        _WIRE_VECTORS.append(payload)
+
+    return _wire_vector
+
+
+def pytest_sessionfinish(session: pytest.Session, exitstatus: int) -> None:
+    output_dir = session.config.getoption("--output")
+    if not output_dir:
+        return
+
+    out = Path(output_dir)
+    out.mkdir(parents=True, exist_ok=True)
+
+    if _STATE_CASES:
+        (out / "tx_core.json").write_text(json.dumps({"cases": _STATE_CASES}, indent=2))
+
+    if _WIRE_VECTORS:
+        (out / "wire_format.json").write_text(
+            json.dumps({"vectors": _WIRE_VECTORS}, indent=2)
+        )

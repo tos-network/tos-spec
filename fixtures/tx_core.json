@@ -1,0 +1,265 @@
+{
+  "cases": [
+    {
+      "name": "transfer_success",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "0101010101010101010101010101010101010101010101010101010101010101",
+            "balance": 1000000,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          },
+          {
+            "address": "0202020202020202020202020202020202020202020202020202020202020202",
+            "balance": 0,
+            "nonce": 0,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
+      },
+      "tx": {
+        "version": 1,
+        "chain_id": 0,
+        "source": "0101010101010101010101010101010101010101010101010101010101010101",
+        "tx_type": "transfers",
+        "payload": [
+          {
+            "asset": "0000000000000000000000000000000000000000000000000000000000000000",
+            "destination": "0202020202020202020202020202020202020202020202020202020202020202",
+            "amount": 100000,
+            "extra_data": null
+          }
+        ],
+        "fee": 1000,
+        "fee_type": 0,
+        "nonce": 5,
+        "reference_hash": "0909090909090909090909090909090909090909090909090909090909090909",
+        "reference_topoheight": 100,
+        "signature": "0707070707070707070707070707070707070707070707070707070707070707"
+      },
+      "expected": {
+        "ok": true,
+        "error": null,
+        "post_state": {
+          "network_chain_id": 0,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "0101010101010101010101010101010101010101010101010101010101010101",
+              "balance": 899000,
+              "nonce": 6,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            },
+            {
+              "address": "0202020202020202020202020202020202020202020202020202020202020202",
+              "balance": 100000,
+              "nonce": 0,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "nonce_too_high",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "0101010101010101010101010101010101010101010101010101010101010101",
+            "balance": 1000000,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          },
+          {
+            "address": "0202020202020202020202020202020202020202020202020202020202020202",
+            "balance": 0,
+            "nonce": 0,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
+      },
+      "tx": {
+        "version": 1,
+        "chain_id": 0,
+        "source": "0101010101010101010101010101010101010101010101010101010101010101",
+        "tx_type": "transfers",
+        "payload": [
+          {
+            "asset": "0000000000000000000000000000000000000000000000000000000000000000",
+            "destination": "0202020202020202020202020202020202020202020202020202020202020202",
+            "amount": 100000,
+            "extra_data": null
+          }
+        ],
+        "fee": 1000,
+        "fee_type": 0,
+        "nonce": 100,
+        "reference_hash": "0909090909090909090909090909090909090909090909090909090909090909",
+        "reference_topoheight": 100,
+        "signature": "0707070707070707070707070707070707070707070707070707070707070707"
+      },
+      "expected": {
+        "ok": false,
+        "error": "NONCE_TOO_HIGH",
+        "post_state": {
+          "network_chain_id": 0,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "0101010101010101010101010101010101010101010101010101010101010101",
+              "balance": 1000000,
+              "nonce": 5,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            },
+            {
+              "address": "0202020202020202020202020202020202020202020202020202020202020202",
+              "balance": 0,
+              "nonce": 0,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "insufficient_balance_execution_failure",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "0101010101010101010101010101010101010101010101010101010101010101",
+            "balance": 1000000,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          },
+          {
+            "address": "0202020202020202020202020202020202020202020202020202020202020202",
+            "balance": 0,
+            "nonce": 0,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
+      },
+      "tx": {
+        "version": 1,
+        "chain_id": 0,
+        "source": "0101010101010101010101010101010101010101010101010101010101010101",
+        "tx_type": "transfers",
+        "payload": [
+          {
+            "asset": "0000000000000000000000000000000000000000000000000000000000000000",
+            "destination": "0202020202020202020202020202020202020202020202020202020202020202",
+            "amount": 2000000,
+            "extra_data": null
+          }
+        ],
+        "fee": 1000,
+        "fee_type": 0,
+        "nonce": 5,
+        "reference_hash": "0909090909090909090909090909090909090909090909090909090909090909",
+        "reference_topoheight": 100,
+        "signature": "0707070707070707070707070707070707070707070707070707070707070707"
+      },
+      "expected": {
+        "ok": false,
+        "error": "INSUFFICIENT_BALANCE",
+        "post_state": {
+          "network_chain_id": 0,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "0101010101010101010101010101010101010101010101010101010101010101",
+              "balance": 999000,
+              "nonce": 6,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            },
+            {
+              "address": "0202020202020202020202020202020202020202020202020202020202020202",
+              "balance": 0,
+              "nonce": 0,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
