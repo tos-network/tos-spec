@@ -144,52 +144,51 @@ def main() -> None:
     for path in fixtures.rglob("*"):
         if path.is_dir():
             continue
-        if path.suffix.lower() not in {".yaml", ".yml", ".json"}:
+        if path.suffix.lower() not in {".json"}:
             continue
         rel = path.relative_to(fixtures)
         dest = vectors / map_dest(rel)
         dest.parent.mkdir(parents=True, exist_ok=True)
 
-        if path.suffix.lower() == ".json":
-            try:
-                data = json.loads(path.read_text())
-            except Exception:
-                shutil.copy2(path, dest)
-                count += 1
-                continue
+        try:
+            data = json.loads(path.read_text())
+        except Exception:
+            shutil.copy2(path, dest)
+            count += 1
+            continue
 
-            if isinstance(data, dict) and "cases" in data and isinstance(data["cases"], list):
-                vectors_out = []
-                for case in data["cases"]:
-                    expected = case.get("expected", {})
-                    post_state = expected.get("post_state")
-                    state_digest = compute_state_digest(post_state) if post_state else None
-                    error_code = _map_error_code(expected.get("error"))
-                    wire_hex = None
-                    if "tx" in case:
-                        wire_hex = _encode_tx_if_possible(case["tx"])
-                    vectors_out.append(
-                        {
-                            "name": case.get("name", ""),
-                            "description": case.get("description", ""),
-                            "pre_state": case.get("pre_state"),
-                            "input": {
-                                "kind": "tx" if "tx" in case else "block",
-                                "wire_hex": wire_hex or "",
-                                "tx": case.get("tx"),
-                            },
-                            "expected": {
-                                "success": bool(expected.get("ok", False)),
-                                "error_code": int(error_code),
-                                "state_digest": state_digest or "",
-                                "post_state": post_state,
-                            },
-                        }
-                    )
-                dest = dest.with_suffix(".json")
-                dest.write_text(json.dumps({"test_vectors": vectors_out}, indent=2))
-                count += 1
-                continue
+        if isinstance(data, dict) and "cases" in data and isinstance(data["cases"], list):
+            vectors_out = []
+            for case in data["cases"]:
+                expected = case.get("expected", {})
+                post_state = expected.get("post_state")
+                state_digest = compute_state_digest(post_state) if post_state else None
+                error_code = _map_error_code(expected.get("error"))
+                wire_hex = None
+                if "tx" in case:
+                    wire_hex = _encode_tx_if_possible(case["tx"])
+                vectors_out.append(
+                    {
+                        "name": case.get("name", ""),
+                        "description": case.get("description", ""),
+                        "pre_state": case.get("pre_state"),
+                        "input": {
+                            "kind": "tx" if "tx" in case else "block",
+                            "wire_hex": wire_hex or "",
+                            "tx": case.get("tx"),
+                        },
+                        "expected": {
+                            "success": bool(expected.get("ok", False)),
+                            "error_code": int(error_code),
+                            "state_digest": state_digest or "",
+                            "post_state": post_state,
+                        },
+                    }
+                )
+            dest = dest.with_suffix(".json")
+            dest.write_text(json.dumps({"test_vectors": vectors_out}, indent=2))
+            count += 1
+            continue
 
         shutil.copy2(path, dest)
         count += 1

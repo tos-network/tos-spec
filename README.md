@@ -44,13 +44,13 @@ only consumes vectors (it does not transform fixtures). Spec/test generators pro
 fixtures/vectors; the harness only runs them.
 
 **Conversion script**  
-Use the provided tool to mirror fixtures into vectors (schema-preserving copy):
+Use the provided tool to convert pytest-generated JSON fixtures into vectors:
 
 ```bash
 python tools/fixtures_to_vectors.py
 ```
 
-This creates/updates `vectors/` from `fixtures/` according to the mapping in
+This creates/updates `vectors/` from JSON fixtures under `fixtures/` according to the mapping in
 `tools/fixtures_to_vectors.py`.
 
 **Conformance usage (Labu)**  
@@ -150,10 +150,8 @@ we use a fixed set of deterministic test accounts stored in `vectors/accounts.js
 - Fixtures are stored as JSON and are versionable artifacts.
 
 **Fixture formats by layer**
-- Execution-layer fixtures: JSON (transactions, state transitions, wire-format, error matrices).
-- Consensus-layer fixtures: YAML (block structure, PoW, blockdag ordering, fork-choice/validation).
-- Crypto fixtures: YAML (hash/HMAC and related crypto vectors).
- - Legacy transaction fixtures: YAML (ported from `tck/specs/transactions/`; source directory removed after migration).
+- Execution-layer fixtures: JSON (pytest-generated transactions, state transitions, wire-format).
+- Consensus/crypto YAML files currently act as *spec references* and are not consumed by the vector conversion pipeline.
 
 ### 2) Fixtures → Clients
 - Clients consume fixtures, execute them, and compare outputs to expected results.
