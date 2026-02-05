@@ -1,0 +1,54 @@
+{
+  "test_vectors": [
+    {
+      "name": "syscall_get_balance_existing",
+      "description": "Query balance of existing account",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "balance_get.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "syscall_get_balance_nonexistent",
+      "description": "Query balance of non-existent account returns 0",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "balance_get.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "syscall_get_balance_with_asset",
+      "description": "Query balance for specific asset",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "balance_get.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "syscall_get_balance_virtual_calculation",
+      "description": "Balance includes pending deltas (virtual balance)",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "balance_get.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "syscall_get_balance_readonly",
+      "description": "Balance query does not modify state",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "balance_get.yaml"
+      },
+      "expected": {}
+    }
+  ]
+}

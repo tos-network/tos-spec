@@ -1,0 +1,84 @@
+{
+  "test_vectors": [
+    {
+      "name": "syscall_get_external_code_size",
+      "description": "Get bytecode size of external contract",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "code.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "syscall_get_external_code_size_nonexistent",
+      "description": "Code size of non-existent contract returns 0",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "code.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "syscall_get_external_code_hash",
+      "description": "Get BLAKE3 hash of external contract bytecode",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "code.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "syscall_get_external_code_copy",
+      "description": "Copy portion of external contract bytecode",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "code.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "syscall_get_external_code_copy_partial",
+      "description": "Copy beyond bytecode returns shorter result",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "code.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "syscall_code_elf_validation",
+      "description": "Contract bytecode must be valid ELF format",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "code.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "syscall_code_reject_non_elf",
+      "description": "Non-ELF bytecode is rejected",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "code.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "syscall_code_reject_legacy_format",
+      "description": "Legacy contract format is rejected",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "code.yaml"
+      },
+      "expected": {}
+    }
+  ]
+}
