@@ -181,14 +181,19 @@ we use a fixed set of deterministic test accounts stored in `vectors/accounts.js
 
 ## Running the Fixture Flow
 
-Generate fixtures:
+Generate fixtures (pytest → fixtures):
 ```
-PYTHONPATH=src .venv/bin/python tools/fill.py
+PYTHONPATH=~/tos-spec/src:~/tos-spec .venv/bin/python -m pytest -q --output ~/tos-spec/fixtures
 ```
 
-Consume fixtures locally:
+Convert fixtures → vectors:
 ```
-PYTHONPATH=src .venv/bin/python tools/consume.py
+PYTHONPATH=~/tos-spec/src:~/tos-spec .venv/bin/python tools/fixtures_to_vectors.py
+```
+
+Consume fixtures locally (spec runner):
+```
+PYTHONPATH=~/tos-spec/src:~/tos-spec .venv/bin/python tools/consume.py
 ```
 
 ## Optional Rust YAML Backend
