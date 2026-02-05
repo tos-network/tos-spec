@@ -189,7 +189,7 @@
     {
       "description": "",
       "expected": {
-        "error_code": 1024,
+        "error_code": 768,
         "post_state": {
           "accounts": [
             {
