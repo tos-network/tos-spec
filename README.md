@@ -194,6 +194,15 @@ pip install -e .
 pip install pytest
 ```
 
+Make targets (optional):
+```
+make venv
+make install
+make fixtures
+make vectors
+make consume
+```
+
 Generate fixtures (pytest → fixtures):
 ```
 PYTHONPATH=~/tos-spec/src:~/tos-spec .venv/bin/python -m pytest -q --output ~/tos-spec/fixtures
