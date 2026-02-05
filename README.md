@@ -62,6 +62,12 @@ cd ~/lab
 ./lab --sim tos/execution --client tos-rust,avatar-c --vectors ~/tos-spec/vectors
 ```
 
+You can also use the helper script:
+
+```bash
+python tools/run_conformance.py --sim tos/execution --client tos-rust,avatar-c
+```
+
 ## Architecture Overview
 
 ```
@@ -109,6 +115,7 @@ cd ~/lab
 ├── tools/                 # Fixture generation/consumption
 ├── fixtures/              # Generated vectors
 │   └── transactions/      # Legacy transaction fixtures (mirrored from tck/specs/transactions)
+├── vectors/               # Client-consumable vectors for Lab
 └── pyproject.toml
 ```
 

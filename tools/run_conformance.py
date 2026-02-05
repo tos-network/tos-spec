@@ -1,23 +1,12 @@
 #!/usr/bin/env python3
-"""
-Run the conformance stack from ~/tos-spec with sane defaults.
-"""
+"""Run the Lab conformance harness with sane defaults."""
 
 from __future__ import annotations
 
 import argparse
 import os
-import shutil
 import subprocess
 from pathlib import Path
-
-
-def _compose_cmd() -> list[str]:
-    if shutil.which("docker"):
-        return ["docker", "compose"]
-    if shutil.which("docker-compose"):
-        return ["docker-compose"]
-    raise SystemExit("docker or docker-compose not found in PATH")
 
 
 def _abs_path(path: str) -> str:
@@ -25,58 +14,48 @@ def _abs_path(path: str) -> str:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Run TOS conformance tests")
+    parser = argparse.ArgumentParser(description="Run TOS conformance tests via Lab")
     parser.add_argument(
         "--vectors",
         default=str(Path(__file__).resolve().parent.parent / "vectors"),
         help="Host path to vectors directory (default: ~/tos-spec/vectors)",
     )
     parser.add_argument(
-        "--results",
-        default=str(Path(__file__).resolve().parent.parent / "conformance" / "results"),
-        help="Host path to results directory (default: ~/tos-spec/conformance/results)",
+        "--sim",
+        default="tos/execution",
+        help="Simulator name (default: tos/execution)",
     )
     parser.add_argument(
-        "--build",
-        action="store_true",
-        help="Run docker compose build before up",
+        "--client",
+        default="tos-rust,avatar-c",
+        help="Comma-separated client names (default: tos-rust,avatar-c)",
     )
     parser.add_argument(
-        "--down",
-        action="store_true",
-        help="Run docker compose down after completion",
+        "--workspace",
+        default=str(Path(__file__).resolve().parent.parent / "vectors" / "_lab_workspace"),
+        help="Output directory for Lab logs/results",
     )
     args = parser.parse_args()
 
-    repo_root = Path(__file__).resolve().parent.parent
-    compose_dir = repo_root / "conformance"
-    if not compose_dir.exists():
-        raise SystemExit(f"Missing conformance directory: {compose_dir}")
+    lab_root = Path(os.environ.get("LAB_ROOT", "~/lab")).expanduser().resolve()
+    lab_bin = Path(os.environ.get("LAB_BIN", lab_root / "lab")).expanduser().resolve()
+    if not lab_bin.exists():
+        raise SystemExit(
+            f"Lab binary not found: {lab_bin}. Build it with: cd {lab_root} && go build -o lab ./cmd/lab"
+        )
 
-    env = os.environ.copy()
-    env["VECTOR_DIR"] = _abs_path(args.vectors)
-    env["RESULT_DIR"] = _abs_path(args.results)
-
-    cmd = _compose_cmd()
-
-    if args.build:
-        subprocess.run(cmd + ["build"], cwd=compose_dir, env=env, check=True)
-
-    subprocess.run(
-        cmd
-        + [
-            "up",
-            "--abort-on-container-exit",
-            "--exit-code-from",
-            "orchestrator",
-        ],
-        cwd=compose_dir,
-        env=env,
-        check=True,
-    )
-
-    if args.down:
-        subprocess.run(cmd + ["down"], cwd=compose_dir, env=env, check=True)
+    cmd = [
+        str(lab_bin),
+        "--sim",
+        args.sim,
+        "--client",
+        args.client,
+        "--vectors",
+        _abs_path(args.vectors),
+        "--workspace",
+        _abs_path(args.workspace),
+    ]
+    subprocess.run(cmd, cwd=lab_root, check=True)
 
 
 if __name__ == "__main__":
