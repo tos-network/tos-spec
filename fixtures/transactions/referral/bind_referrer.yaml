@@ -178,9 +178,9 @@ definition:
       type: "Option<UnknownExtraDataFormat>"
 
 serialization_order:
-  - referrer (32 bytes)
-  - extra_data_flag (1 byte)
-  - [extra_data] (variable if present)
+  - "referrer (32 bytes)"
+  - "extra_data_flag (1 byte)"
+  - "[extra_data] (variable if present)"
 
 ---
 spec:
@@ -340,12 +340,12 @@ definition:
       description: "Basis points per level (100 = 1%)"
 
 serialization_order:
-  - asset (32 bytes)
-  - from_user (32 bytes)
-  - total_amount (8 bytes)
-  - levels (1 byte)
-  - ratios_count (1 byte)
-  - [ratios] (N * 2 bytes)
+  - "asset (32 bytes)"
+  - "from_user (32 bytes)"
+  - "total_amount (8 bytes)"
+  - "levels (1 byte)"
+  - "ratios_count (1 byte)"
+  - "[ratios] (N * 2 bytes)"
 
 ---
 spec:

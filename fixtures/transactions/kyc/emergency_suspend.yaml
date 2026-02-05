@@ -237,12 +237,12 @@ definition:
       description: "Auto-expire timestamp (24h max)"
 
 serialization_order:
-  - account (32 bytes)
-  - reason_hash (32 bytes)
-  - committee_id (32 bytes)
-  - approval_count (1 byte)
-  - [approvals] (N * 104 bytes)
-  - expires_at (8 bytes)
+  - "account (32 bytes)"
+  - "reason_hash (32 bytes)"
+  - "committee_id (32 bytes)"
+  - "approval_count (1 byte)"
+  - "[approvals] (N * 104 bytes)"
+  - "expires_at (8 bytes)"
 
 ---
 spec:

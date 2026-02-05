@@ -266,8 +266,8 @@ definition:
       description: "Challenge deposit amount"
 
 serialization_order:
-  - escrow_id (32 bytes)
-  - reason (variable)
-  - evidence_hash_flag (1 byte)
-  - [evidence_hash] (32 bytes if present)
-  - deposit (8 bytes)
+  - "escrow_id (32 bytes)"
+  - "reason (variable)"
+  - "evidence_hash_flag (1 byte)"
+  - "[evidence_hash] (32 bytes if present)"
+  - "deposit (8 bytes)"

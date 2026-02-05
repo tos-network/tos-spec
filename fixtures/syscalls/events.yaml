@@ -220,9 +220,10 @@ action:
       params: { topic0: "0xevent3...", data: "0x03" }
 
 expected:
-  - status: success
-  - status: success
-  - status: success
+  statuses:
+    - status: success
+    - status: success
+    - status: success
   total_events: 3
 
 ---

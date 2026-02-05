@@ -322,9 +322,9 @@ definition:
       description: "Unique participant public keys"
 
 serialization_order:
-  - threshold (1 byte)
-  - participant_count (1 byte, if threshold > 0)
-  - [participants] (N * 32 bytes)
+  - "threshold (1 byte)"
+  - "participant_count (1 byte, if threshold > 0)"
+  - "[participants] (N * 32 bytes)"
 
 ---
 spec:

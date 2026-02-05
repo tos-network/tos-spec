@@ -323,10 +323,10 @@ definition:
       size: "1 or 33"
 
 serialization_order:
-  - escrow_id (32 bytes)
-  - amount (8 bytes)
-  - completion_proof_flag (1 byte)
-  - [completion_proof] (32 bytes if present)
+  - "escrow_id (32 bytes)"
+  - "amount (8 bytes)"
+  - "completion_proof_flag (1 byte)"
+  - "[completion_proof] (32 bytes if present)"
 
 ---
 spec:

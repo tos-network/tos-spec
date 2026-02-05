@@ -388,9 +388,9 @@ definition:
       description: "Asset deposits for constructor"
 
 serialization_order:
-  - module (variable)
-  - invoke_flag (1 byte)
-  - [invoke_data] (if present)
+  - "module (variable)"
+  - "invoke_flag (1 byte)"
+  - "[invoke_data] (if present)"
 
 ---
 spec:

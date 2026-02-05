@@ -285,13 +285,13 @@ definition:
       size: 1
 
 serialization_order:
-  - escrow_id (32 bytes)
-  - reason_length (4 bytes)
-  - reason (variable)
-  - evidence_flag (1 byte)
-  - [new_evidence_hash] (32 bytes if present)
-  - appeal_deposit (8 bytes)
-  - appeal_mode (1 byte)
+  - "escrow_id (32 bytes)"
+  - "reason_length (4 bytes)"
+  - "reason (variable)"
+  - "evidence_flag (1 byte)"
+  - "[new_evidence_hash] (32 bytes if present)"
+  - "appeal_deposit (8 bytes)"
+  - "appeal_mode (1 byte)"
 
 ---
 spec:

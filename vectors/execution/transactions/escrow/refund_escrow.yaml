@@ -242,7 +242,7 @@ definition:
       type: "Option<String>"
 
 serialization_order:
-  - escrow_id (32 bytes)
-  - amount (8 bytes)
-  - reason_flag (1 byte)
-  - [reason] (variable if present)
+  - "escrow_id (32 bytes)"
+  - "amount (8 bytes)"
+  - "reason_flag (1 byte)"
+  - "[reason] (variable if present)"

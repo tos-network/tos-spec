@@ -283,10 +283,10 @@ definition:
       description: "Hash of off-chain evidence"
 
 serialization_order:
-  - escrow_id (32 bytes)
-  - reason (variable)
-  - evidence_hash_flag (1 byte)
-  - [evidence_hash] (32 bytes if present)
+  - "escrow_id (32 bytes)"
+  - "reason (variable)"
+  - "evidence_hash_flag (1 byte)"
+  - "[evidence_hash] (32 bytes if present)"
 
 ---
 spec:
