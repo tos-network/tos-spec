@@ -1,0 +1,124 @@
+{
+  "test_vectors": [
+    {
+      "name": "syscall_storage_write_basic",
+      "description": "Write value to persistent storage",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "storage.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "syscall_storage_read_existing",
+      "description": "Read existing value from persistent storage",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "storage.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "syscall_storage_read_nonexistent",
+      "description": "Read non-existent key returns None",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "storage.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "syscall_tstore_basic",
+      "description": "Write value to transient storage (EIP-1153)",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "storage.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "syscall_tload_basic",
+      "description": "Read value from transient storage",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "storage.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "syscall_transient_storage_cleared_after_tx",
+      "description": "Transient storage cleared after transaction ends",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "storage.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "syscall_storage_contract_isolation",
+      "description": "Contract cannot access another contract's storage",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "storage.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "syscall_storage_overwrite",
+      "description": "Overwrite existing storage value",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "storage.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "syscall_storage_delete",
+      "description": "Delete storage value by writing empty",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "storage.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "syscall_storage_versioned_by_topoheight",
+      "description": "Storage versioned by topoheight for historical queries",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "storage.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "syscall_storage_cache_behavior",
+      "description": "Storage uses write-through cache (cache-first reads)",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "storage.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "syscall_storage_key_value_bytes",
+      "description": "Keys and values are arbitrary byte arrays",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "storage.yaml"
+      },
+      "expected": {}
+    }
+  ]
+}

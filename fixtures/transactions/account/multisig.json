@@ -1,0 +1,124 @@
+{
+  "test_vectors": [
+    {
+      "name": "tx_multisig_basic",
+      "description": "Basic multisig setup",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "multisig.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "tx_multisig_2_of_2",
+      "description": "2-of-2 multisig (both signatures required)",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "multisig.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "tx_multisig_threshold_validation",
+      "description": "Threshold must not exceed participant count",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "multisig.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "tx_multisig_participant_limits",
+      "description": "Participant count constraints",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "multisig.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "tx_multisig_duplicate_participants",
+      "description": "Duplicate participants rejected",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "multisig.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "tx_multisig_delete",
+      "description": "Delete multisig configuration",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "multisig.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "tx_multisig_update",
+      "description": "Update existing multisig",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "multisig.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "tx_multisig_self_included",
+      "description": "Sender can be a participant",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "multisig.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "tx_multisig_spending_requires_signatures",
+      "description": "Multisig spending requires threshold signatures",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "multisig.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "tx_multisig_insufficient_signatures",
+      "description": "Spending fails without threshold signatures",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "multisig.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "tx_multisig_payload_structure",
+      "description": "MultiSigPayload wire format",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "multisig.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "tx_multisig_gas_cost",
+      "description": "MultiSig transaction gas cost",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "multisig.yaml"
+      },
+      "expected": {}
+    }
+  ]
+}

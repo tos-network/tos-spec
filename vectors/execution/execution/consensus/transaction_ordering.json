@@ -1,0 +1,124 @@
+{
+  "test_vectors": [
+    {
+      "name": "consensus_tx_ordering_by_nonce",
+      "description": "Transactions from same sender ordered by nonce",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "transaction_ordering.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "consensus_tx_ordering_by_fee",
+      "description": "Transactions from different senders ordered by fee (highest first)",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "transaction_ordering.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "consensus_tx_ordering_nonce_gap_deferred",
+      "description": "Transaction with nonce gap is deferred in mempool",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "transaction_ordering.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "consensus_tx_ordering_insufficient_balance",
+      "description": "Transaction with insufficient balance for fee+amount is skipped",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "transaction_ordering.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "consensus_tx_ordering_block_size_limit",
+      "description": "Block size limit respected in transaction ordering",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "transaction_ordering.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "consensus_tx_ordering_fee_replacement",
+      "description": "Transaction with same nonce but higher fee replaces in mempool",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "transaction_ordering.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "consensus_tx_ordering_fee_too_low_rejected",
+      "description": "Replacement transaction with lower/equal fee is rejected",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "transaction_ordering.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "consensus_tx_ordering_already_in_mempool",
+      "description": "Duplicate transaction (same hash) is rejected",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "transaction_ordering.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "consensus_tx_ordering_already_in_blockchain",
+      "description": "Transaction already executed in blockchain is rejected",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "transaction_ordering.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "consensus_tx_ordering_max_txs_per_block",
+      "description": "Block cannot exceed MAX_TXS_PER_BLOCK transactions",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "transaction_ordering.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "consensus_tx_ordering_energy_vs_fee",
+      "description": "Transaction can use energy instead of fee",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "transaction_ordering.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "consensus_tx_ordering_multisig_fee",
+      "description": "Multisig transactions include additional signature fees",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "transaction_ordering.yaml"
+      },
+      "expected": {}
+    }
+  ]
+}

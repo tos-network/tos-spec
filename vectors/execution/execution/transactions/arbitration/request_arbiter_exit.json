@@ -1,0 +1,94 @@
+{
+  "test_vectors": [
+    {
+      "name": "tx_request_arbiter_exit_basic",
+      "description": "Basic arbiter exit request",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "request_arbiter_exit.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "tx_request_arbiter_exit_not_registered",
+      "description": "Cannot request exit if not registered",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "request_arbiter_exit.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "tx_request_arbiter_exit_already_requested",
+      "description": "Cannot request exit twice",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "request_arbiter_exit.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "tx_request_arbiter_exit_pending_disputes",
+      "description": "Cannot exit with pending disputes",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "request_arbiter_exit.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "tx_request_arbiter_exit_slashed",
+      "description": "Cannot request exit if slashed",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "request_arbiter_exit.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "tx_request_arbiter_exit_cooldown_period",
+      "description": "Exit starts cooldown period",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "request_arbiter_exit.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "tx_request_arbiter_exit_cancel",
+      "description": "Exit request can be cancelled",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "request_arbiter_exit.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "tx_request_arbiter_exit_payload_structure",
+      "description": "RequestArbiterExitPayload wire format",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "request_arbiter_exit.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "tx_request_arbiter_exit_lifecycle",
+      "description": "Arbiter exit lifecycle",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "request_arbiter_exit.yaml"
+      },
+      "expected": {}
+    }
+  ]
+}

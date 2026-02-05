@@ -1,0 +1,104 @@
+{
+  "test_vectors": [
+    {
+      "name": "tx_uno_transfer_basic",
+      "description": "Basic UNO confidential transfer",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "uno_transfers.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "tx_uno_transfer_twisted_elgamal",
+      "description": "Twisted ElGamal encryption structure",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "uno_transfers.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "tx_uno_transfer_proof_validity",
+      "description": "CiphertextValidityProof requirements",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "uno_transfers.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "tx_uno_transfer_invalid_proof",
+      "description": "Invalid proof rejected",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "uno_transfers.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "tx_uno_transfer_insufficient_balance",
+      "description": "Transfer fails with insufficient encrypted balance",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "uno_transfers.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "tx_uno_transfer_self_transfer",
+      "description": "Self UNO transfer allowed",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "uno_transfers.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "tx_uno_transfer_with_extra_data",
+      "description": "UNO transfer with encrypted memo",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "uno_transfers.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "tx_uno_transfer_payload_structure",
+      "description": "UnoTransferPayload wire format",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "uno_transfers.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "tx_uno_transfer_fee_model",
+      "description": "UNO transfer fee calculation",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "uno_transfers.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "tx_uno_transfer_ciphertext_roles",
+      "description": "Role-based ciphertext construction",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "uno_transfers.yaml"
+      },
+      "expected": {}
+    }
+  ]
+}

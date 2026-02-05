@@ -1,0 +1,114 @@
+{
+  "test_vectors": [
+    {
+      "name": "tx_appeal_escrow_basic",
+      "description": "Basic escrow appeal",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "appeal_escrow.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "tx_appeal_escrow_dao_governance",
+      "description": "Appeal to DAO governance for high-value disputes",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "appeal_escrow.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "tx_appeal_escrow_not_resolved",
+      "description": "Cannot appeal escrow that is not resolved",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "appeal_escrow.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "tx_appeal_escrow_not_party",
+      "description": "Only dispute parties can appeal",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "appeal_escrow.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "tx_appeal_escrow_window_expired",
+      "description": "Appeal must be within appeal window",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "appeal_escrow.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "tx_appeal_escrow_insufficient_deposit",
+      "description": "Appeal deposit must meet minimum",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "appeal_escrow.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "tx_appeal_escrow_max_rounds",
+      "description": "Cannot exceed maximum appeal rounds",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "appeal_escrow.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "tx_appeal_escrow_already_appealed",
+      "description": "Cannot appeal while appeal is pending",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "appeal_escrow.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "tx_appeal_escrow_appeal_modes",
+      "description": "Appeal mode enumeration",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "appeal_escrow.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "tx_appeal_escrow_payload_structure",
+      "description": "AppealEscrowPayload wire format",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "appeal_escrow.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "tx_appeal_escrow_gas_cost",
+      "description": "AppealEscrow gas consumption",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "appeal_escrow.yaml"
+      },
+      "expected": {}
+    }
+  ]
+}

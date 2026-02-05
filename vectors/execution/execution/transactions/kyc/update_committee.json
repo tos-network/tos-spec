@@ -1,0 +1,154 @@
+{
+  "test_vectors": [
+    {
+      "name": "tx_update_committee_add_member",
+      "description": "Add new member to committee",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "update_committee.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "tx_update_committee_remove_member",
+      "description": "Remove member from committee",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "update_committee.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "tx_update_committee_update_role",
+      "description": "Update member role",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "update_committee.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "tx_update_committee_update_status",
+      "description": "Update member status",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "update_committee.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "tx_update_committee_update_threshold",
+      "description": "Update governance threshold",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "update_committee.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "tx_update_committee_threshold_too_low",
+      "description": "New threshold must be >= 2/3 of members",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "update_committee.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "tx_update_committee_update_kyc_threshold",
+      "description": "Update KYC approval threshold",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "update_committee.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "tx_update_committee_update_name",
+      "description": "Update committee name",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "update_committee.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "tx_update_committee_suspend",
+      "description": "Suspend committee",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "update_committee.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "tx_update_committee_activate",
+      "description": "Activate suspended committee",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "update_committee.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "tx_update_committee_insufficient_approvals",
+      "description": "Update requires threshold approvals",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "update_committee.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "tx_update_committee_not_found",
+      "description": "Cannot update non-existent committee",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "update_committee.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "tx_update_committee_update_types",
+      "description": "Committee update type enumeration",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "update_committee.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "tx_update_committee_payload_structure",
+      "description": "UpdateCommitteePayload wire format",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "update_committee.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "tx_update_committee_gas_cost",
+      "description": "UpdateCommittee gas consumption",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "update_committee.yaml"
+      },
+      "expected": {}
+    }
+  ]
+}

@@ -1,0 +1,104 @@
+{
+  "test_vectors": [
+    {
+      "name": "tx_shield_transfer_basic",
+      "description": "Basic shield transfer (TOS to UNO)",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "shield_transfers.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "tx_shield_transfer_to_other",
+      "description": "Shield transfer to another address",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "shield_transfers.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "tx_shield_transfer_proof_requirements",
+      "description": "ShieldCommitmentProof verification",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "shield_transfers.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "tx_shield_transfer_invalid_proof",
+      "description": "Invalid shield proof rejected",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "shield_transfers.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "tx_shield_transfer_insufficient_balance",
+      "description": "Cannot shield more than plaintext balance",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "shield_transfers.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "tx_shield_transfer_zero_amount",
+      "description": "Zero amount shield rejected",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "shield_transfers.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "tx_shield_transfer_accumulates_uno",
+      "description": "Multiple shields accumulate UNO balance",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "shield_transfers.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "tx_shield_transfer_payload_structure",
+      "description": "ShieldTransferPayload wire format",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "shield_transfers.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "tx_shield_transfer_fee_model",
+      "description": "Shield transfer fee calculation",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "shield_transfers.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "tx_shield_transfer_asset_restriction",
+      "description": "Only TOS can be shielded (Phase 7)",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "shield_transfers.yaml"
+      },
+      "expected": {}
+    }
+  ]
+}

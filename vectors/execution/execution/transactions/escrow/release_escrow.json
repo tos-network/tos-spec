@@ -1,0 +1,134 @@
+{
+  "test_vectors": [
+    {
+      "name": "tx_release_escrow_basic",
+      "description": "Basic escrow release to provider",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "release_escrow.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "tx_release_escrow_partial",
+      "description": "Partial escrow release",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "release_escrow.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "tx_release_escrow_with_proof",
+      "description": "Release with completion proof hash",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "release_escrow.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "tx_release_escrow_unauthorized",
+      "description": "Only payer can release escrow",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "release_escrow.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "tx_release_escrow_not_found",
+      "description": "Release non-existent escrow fails",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "release_escrow.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "tx_release_escrow_already_released",
+      "description": "Cannot release already released escrow",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "release_escrow.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "tx_release_escrow_exceed_remaining",
+      "description": "Cannot release more than remaining",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "release_escrow.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "tx_release_escrow_zero_amount",
+      "description": "Zero amount release rejected",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "release_escrow.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "tx_release_escrow_disputed",
+      "description": "Cannot release disputed escrow",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "release_escrow.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "tx_release_escrow_optimistic_auto_release",
+      "description": "Optimistic escrow auto-releases after challenge window",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "release_escrow.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "tx_release_escrow_during_challenge",
+      "description": "Release during active challenge",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "release_escrow.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "tx_release_escrow_payload_structure",
+      "description": "ReleaseEscrowPayload wire format",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "release_escrow.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "tx_release_escrow_multiple_releases",
+      "description": "Multiple partial releases supported",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "release_escrow.yaml"
+      },
+      "expected": {}
+    }
+  ]
+}

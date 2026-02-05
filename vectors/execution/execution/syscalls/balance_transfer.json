@@ -1,0 +1,74 @@
+{
+  "test_vectors": [
+    {
+      "name": "syscall_transfer_basic",
+      "description": "Basic balance transfer between accounts",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "balance_transfer.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "syscall_transfer_insufficient_balance",
+      "description": "Transfer fails with insufficient balance",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "balance_transfer.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "syscall_transfer_zero_amount",
+      "description": "Zero-amount transfer is a no-op (EVM-compatible)",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "balance_transfer.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "syscall_transfer_self",
+      "description": "Self-transfer (from == to) is rejected",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "balance_transfer.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "syscall_transfer_queued",
+      "description": "Transfers queued as ContractOutput, applied post-execution",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "balance_transfer.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "syscall_transfer_overflow_protection",
+      "description": "Transfer uses checked arithmetic to prevent overflow",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "balance_transfer.yaml"
+      },
+      "expected": {}
+    },
+    {
+      "name": "syscall_transfer_with_asset",
+      "description": "Transfer specific asset (not native TOS)",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "source": "balance_transfer.yaml"
+      },
+      "expected": {}
+    }
+  ]
+}

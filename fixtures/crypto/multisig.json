@@ -1,0 +1,109 @@
+{
+  "test_vectors": [
+    {
+      "name": "multisig_delete",
+      "description": "Delete multisig (threshold=0, no participants)",
+      "runnable": false,
+      "input": {
+        "kind": "vector_set",
+        "group": "multisig_vectors",
+        "data": {
+          "name": "multisig_delete",
+          "description": "Delete multisig (threshold=0, no participants)",
+          "threshold": 0,
+          "participants_count": 0,
+          "participants_hex": [],
+          "wire_hex": "00"
+        }
+      },
+      "expected": {}
+    },
+    {
+      "name": "multisig_1_of_1",
+      "description": "1-of-1 multisig (single signer)",
+      "runnable": false,
+      "input": {
+        "kind": "vector_set",
+        "group": "multisig_vectors",
+        "data": {
+          "name": "multisig_1_of_1",
+          "description": "1-of-1 multisig (single signer)",
+          "threshold": 1,
+          "participants_count": 1,
+          "participants_hex": [
+            "1111111111111111111111111111111111111111111111111111111111111111"
+          ],
+          "wire_hex": "01011111111111111111111111111111111111111111111111111111111111111111"
+        }
+      },
+      "expected": {}
+    },
+    {
+      "name": "multisig_2_of_2",
+      "description": "2-of-2 multisig (both signers required)",
+      "runnable": false,
+      "input": {
+        "kind": "vector_set",
+        "group": "multisig_vectors",
+        "data": {
+          "name": "multisig_2_of_2",
+          "description": "2-of-2 multisig (both signers required)",
+          "threshold": 2,
+          "participants_count": 2,
+          "participants_hex": [
+            "2222222222222222222222222222222222222222222222222222222222222222",
+            "3333333333333333333333333333333333333333333333333333333333333333"
+          ],
+          "wire_hex": "020222222222222222222222222222222222222222222222222222222222222222223333333333333333333333333333333333333333333333333333333333333333"
+        }
+      },
+      "expected": {}
+    },
+    {
+      "name": "multisig_2_of_3",
+      "description": "2-of-3 multisig (any 2 of 3 signers)",
+      "runnable": false,
+      "input": {
+        "kind": "vector_set",
+        "group": "multisig_vectors",
+        "data": {
+          "name": "multisig_2_of_3",
+          "description": "2-of-3 multisig (any 2 of 3 signers)",
+          "threshold": 2,
+          "participants_count": 3,
+          "participants_hex": [
+            "4444444444444444444444444444444444444444444444444444444444444444",
+            "5555555555555555555555555555555555555555555555555555555555555555",
+            "6666666666666666666666666666666666666666666666666666666666666666"
+          ],
+          "wire_hex": "0203444444444444444444444444444444444444444444444444444444444444444455555555555555555555555555555555555555555555555555555555555555556666666666666666666666666666666666666666666666666666666666666666"
+        }
+      },
+      "expected": {}
+    },
+    {
+      "name": "multisig_3_of_5",
+      "description": "3-of-5 multisig (any 3 of 5 signers)",
+      "runnable": false,
+      "input": {
+        "kind": "vector_set",
+        "group": "multisig_vectors",
+        "data": {
+          "name": "multisig_3_of_5",
+          "description": "3-of-5 multisig (any 3 of 5 signers)",
+          "threshold": 3,
+          "participants_count": 5,
+          "participants_hex": [
+            "7777777777777777777777777777777777777777777777777777777777777777",
+            "7878787878787878787878787878787878787878787878787878787878787878",
+            "7979797979797979797979797979797979797979797979797979797979797979",
+            "7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a",
+            "7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b"
+          ],
+          "wire_hex": "03057777777777777777777777777777777777777777777777777777777777777777787878787878787878787878787878787878787878787878787878787878787879797979797979797979797979797979797979797979797979797979797979797a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b"
+        }
+      },
+      "expected": {}
+    }
+  ]
+}
