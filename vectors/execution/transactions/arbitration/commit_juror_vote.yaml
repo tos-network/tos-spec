@@ -1,0 +1,307 @@
+# TOS CommitJurorVote Transaction Conformance Specifications
+# Based on: common/src/transaction/payload/arbitration/commit_juror_vote.rs
+#
+# Commit juror vote for dispute resolution
+
+---
+spec:
+  name: tx_commit_juror_vote_basic
+  version: "1.0"
+  category: transactions
+  subcategory: arbitration
+  description: "Basic juror vote commitment"
+  priority: P0
+
+preconditions:
+  - arbitration:
+      state: "VotingPhase"
+      request_id: "0xrequest..."
+      selected_jurors: ["tos1juror1...", "tos1juror2...", "tos1juror3..."]
+  - juror:
+      address: "tos1juror1..."
+      is_selected: true
+  - sender:
+      address: "tos1juror1..."
+      nonce: 0
+
+action:
+  type: transaction
+  tx_type: CommitJurorVote
+  params:
+    request_id: "0xrequest..."
+    juror_pubkey: "tos1juror1..."
+    vote_hash: "0xvote_hash..."
+    juror_signature: "<juror_signature>"
+    vote_payload: "<encrypted_vote_bytes>"
+    fee: 20000
+    nonce: 0
+
+expected:
+  status: success
+
+postconditions:
+  - juror_vote:
+      request_id: "0xrequest..."
+      juror: "tos1juror1..."
+      vote_hash: "0xvote_hash..."
+      status: "Committed"
+
+---
+spec:
+  name: tx_commit_juror_vote_not_selected
+  version: "1.0"
+  category: transactions
+  subcategory: arbitration
+  description: "Only selected jurors can vote"
+  priority: P0
+
+preconditions:
+  - arbitration:
+      selected_jurors: ["tos1juror1...", "tos1juror2..."]
+  - sender:
+      address: "tos1juror3..."  # Not selected
+
+action:
+  type: transaction
+  tx_type: CommitJurorVote
+  params:
+    request_id: "0xrequest..."
+    juror_pubkey: "tos1juror3..."
+
+expected:
+  status: error
+  error: "NotSelectedJuror"
+
+---
+spec:
+  name: tx_commit_juror_vote_wrong_state
+  version: "1.0"
+  category: transactions
+  subcategory: arbitration
+  description: "Arbitration must be in voting phase"
+  priority: P0
+
+preconditions:
+  - arbitration:
+      state: "SelectionPhase"  # Not voting yet
+
+action:
+  type: transaction
+  tx_type: CommitJurorVote
+  params:
+    request_id: "0xrequest..."
+
+expected:
+  status: error
+  error: "InvalidArbitrationState"
+
+---
+spec:
+  name: tx_commit_juror_vote_invalid_signature
+  version: "1.0"
+  category: transactions
+  subcategory: arbitration
+  description: "Juror signature must be valid"
+  priority: P0
+
+action:
+  type: transaction
+  tx_type: CommitJurorVote
+  params:
+    juror_signature: "<invalid_signature>"
+
+expected:
+  status: error
+  error: "InvalidJurorSignature"
+
+---
+spec:
+  name: tx_commit_juror_vote_already_voted
+  version: "1.0"
+  category: transactions
+  subcategory: arbitration
+  description: "Cannot vote twice"
+  priority: P0
+
+preconditions:
+  - existing_vote:
+      request_id: "0xrequest..."
+      juror: "tos1juror1..."
+
+action:
+  type: transaction
+  tx_type: CommitJurorVote
+  params:
+    request_id: "0xrequest..."
+    juror_pubkey: "tos1juror1..."
+
+expected:
+  status: error
+  error: "AlreadyVoted"
+
+---
+spec:
+  name: tx_commit_juror_vote_deadline_passed
+  version: "1.0"
+  category: transactions
+  subcategory: arbitration
+  description: "Must vote before deadline"
+  priority: P0
+
+definition:
+  VOTING_WINDOW_BLOCKS: 1440  # ~24 hours
+
+preconditions:
+  - arbitration:
+      voting_started_at_block: 1000
+  - current_block: 3000  # Past deadline
+
+action:
+  type: transaction
+  tx_type: CommitJurorVote
+  params:
+    request_id: "0xrequest..."
+
+expected:
+  status: error
+  error: "VotingDeadlinePassed"
+
+---
+spec:
+  name: tx_commit_juror_vote_payload_too_large
+  version: "1.0"
+  category: transactions
+  subcategory: arbitration
+  description: "Vote payload size limit"
+  priority: P0
+
+definition:
+  MAX_JUROR_VOTE_BYTES: 8192  # 8 KB
+
+action:
+  type: transaction
+  tx_type: CommitJurorVote
+  params:
+    vote_payload: "<10000 bytes>"  # > 8 KB
+
+expected:
+  status: error
+  error: "PayloadTooLarge"
+
+---
+spec:
+  name: tx_commit_juror_vote_pubkey_mismatch
+  version: "1.0"
+  category: transactions
+  subcategory: arbitration
+  description: "Juror pubkey must match sender"
+  priority: P0
+
+preconditions:
+  - sender:
+      address: "tos1juror1..."
+
+action:
+  type: transaction
+  tx_type: CommitJurorVote
+  params:
+    juror_pubkey: "tos1juror2..."  # Different from sender
+
+expected:
+  status: error
+  error: "JurorPubkeyMismatch"
+
+---
+spec:
+  name: tx_commit_juror_vote_hash_mismatch
+  version: "1.0"
+  category: transactions
+  subcategory: arbitration
+  description: "Vote hash must match payload"
+  priority: P0
+
+action:
+  type: transaction
+  tx_type: CommitJurorVote
+  params:
+    vote_hash: "0xdeclared_hash..."
+    vote_payload: "<payload_with_different_hash>"
+
+expected:
+  status: error
+  error: "VoteHashMismatch"
+
+---
+spec:
+  name: tx_commit_juror_vote_request_not_found
+  version: "1.0"
+  category: transactions
+  subcategory: arbitration
+  description: "Vote request must exist"
+  priority: P0
+
+action:
+  type: transaction
+  tx_type: CommitJurorVote
+  params:
+    request_id: "0xnonexistent..."
+
+expected:
+  status: error
+  error: "VoteRequestNotFound"
+
+---
+spec:
+  name: tx_commit_juror_vote_payload_structure
+  version: "1.0"
+  category: transactions
+  subcategory: arbitration
+  description: "CommitJurorVotePayload wire format"
+  priority: P0
+
+definition:
+  commit_juror_vote_payload:
+    request_id:
+      type: Hash
+      size: 32
+      description: "Vote request this vote is for"
+    juror_pubkey:
+      type: PublicKey
+      size: 32
+      description: "Juror's public key"
+    vote_hash:
+      type: Hash
+      size: 32
+      description: "Hash of vote content"
+    juror_signature:
+      type: Signature
+      size: 64
+      description: "Juror's signature over vote"
+    vote_payload:
+      type: "Vec<u8>"
+      max_size: 8192
+      description: "Encrypted vote content"
+
+serialization_order:
+  - request_id (32 bytes)
+  - juror_pubkey (32 bytes)
+  - vote_hash (32 bytes)
+  - juror_signature (64 bytes)
+  - payload_length (4 bytes)
+  - vote_payload (variable)
+
+---
+spec:
+  name: tx_commit_juror_vote_gas_cost
+  version: "1.0"
+  category: transactions
+  subcategory: arbitration
+  description: "CommitJurorVote gas consumption"
+  priority: P1
+
+definition:
+  base_gas: 20000
+  signature_verify_gas: 3000
+  per_kb_gas: 500
+
+formula: "total_gas = 20000 + 3000 + (payload_size_kb * 500)"

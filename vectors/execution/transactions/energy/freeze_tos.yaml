@@ -1,0 +1,454 @@
+# TOS FreezeTos Transaction Conformance Specifications
+# Based on: common/src/transaction/payload/energy.rs
+#
+# Self-freeze TOS to gain energy for free transfers
+
+---
+spec:
+  name: tx_freeze_tos_basic
+  version: "1.0"
+  category: transactions
+  subcategory: energy
+  description: "Basic self-freeze TOS operation"
+  priority: P0
+
+preconditions:
+  - account:
+      address: "tos1staker..."
+      balance: 500000000  # 5 TOS
+      energy: 0
+      freeze_records_count: 0
+      nonce: 0
+
+action:
+  type: transaction
+  tx_type: Energy
+  params:
+    payload:
+      FreezeTos:
+        amount: 100000000  # 1 TOS
+        duration:
+          days: 7
+    fee: 0  # Free operation
+    nonce: 0
+
+expected:
+  status: success
+  fee_charged: 0
+
+postconditions:
+  - account:
+      address: "tos1staker..."
+      balance: 400000000  # 5 - 1 TOS frozen
+      energy: 14  # 1 TOS * 2 * 7 days
+      freeze_records_count: 1
+      nonce: 1
+
+---
+spec:
+  name: tx_freeze_tos_minimum_amount
+  version: "1.0"
+  category: transactions
+  subcategory: energy
+  description: "Minimum freeze amount is 1 TOS"
+  priority: P0
+
+preconditions:
+  - account:
+      balance: 200000000  # 2 TOS
+      energy: 0
+      nonce: 0
+
+action:
+  type: transaction
+  tx_type: Energy
+  params:
+    payload:
+      FreezeTos:
+        amount: 100000000  # 1 TOS (MIN_FREEZE_TOS_AMOUNT)
+        duration:
+          days: 3
+
+expected:
+  status: success
+
+---
+spec:
+  name: tx_freeze_tos_below_minimum
+  version: "1.0"
+  category: transactions
+  subcategory: energy
+  description: "Freeze below 1 TOS rejected"
+  priority: P0
+
+preconditions:
+  - account:
+      balance: 200000000
+      nonce: 0
+
+action:
+  type: transaction
+  tx_type: Energy
+  params:
+    payload:
+      FreezeTos:
+        amount: 50000000  # 0.5 TOS (below minimum)
+        duration:
+          days: 7
+
+expected:
+  status: error
+  error: "AmountBelowMinimum"
+
+---
+spec:
+  name: tx_freeze_tos_whole_tos_only
+  version: "1.0"
+  category: transactions
+  subcategory: energy
+  description: "Only whole TOS amounts generate energy"
+  priority: P0
+
+preconditions:
+  - account:
+      balance: 300000000  # 3 TOS
+      energy: 0
+      nonce: 0
+
+action:
+  type: transaction
+  tx_type: Energy
+  params:
+    payload:
+      FreezeTos:
+        amount: 150000000  # 1.5 TOS
+        duration:
+          days: 7
+
+expected:
+  status: success
+
+postconditions:
+  - account:
+      energy: 14  # Only 1 whole TOS * 2 * 7 (fractional discarded)
+      note: "Fractional TOS is frozen but doesn't generate energy"
+
+---
+spec:
+  name: tx_freeze_tos_duration_minimum
+  version: "1.0"
+  category: transactions
+  subcategory: energy
+  description: "Minimum freeze duration is 3 days"
+  priority: P0
+
+preconditions:
+  - account:
+      balance: 200000000
+      nonce: 0
+
+action:
+  type: transaction
+  tx_type: Energy
+  params:
+    payload:
+      FreezeTos:
+        amount: 100000000
+        duration:
+          days: 3  # MIN_FREEZE_DURATION_DAYS
+
+expected:
+  status: success
+
+postconditions:
+  - account:
+      energy: 6  # 1 TOS * 2 * 3 days
+
+---
+spec:
+  name: tx_freeze_tos_duration_below_minimum
+  version: "1.0"
+  category: transactions
+  subcategory: energy
+  description: "Freeze duration below 3 days rejected"
+  priority: P0
+
+preconditions:
+  - account:
+      balance: 200000000
+      nonce: 0
+
+action:
+  type: transaction
+  tx_type: Energy
+  params:
+    payload:
+      FreezeTos:
+        amount: 100000000
+        duration:
+          days: 2  # Below minimum
+
+expected:
+  status: error
+  error: "InvalidFreezeDuration"
+
+---
+spec:
+  name: tx_freeze_tos_duration_maximum
+  version: "1.0"
+  category: transactions
+  subcategory: energy
+  description: "Maximum freeze duration is 365 days"
+  priority: P0
+
+preconditions:
+  - account:
+      balance: 200000000
+      energy: 0
+      nonce: 0
+
+action:
+  type: transaction
+  tx_type: Energy
+  params:
+    payload:
+      FreezeTos:
+        amount: 100000000
+        duration:
+          days: 365  # MAX_FREEZE_DURATION_DAYS
+
+expected:
+  status: success
+
+postconditions:
+  - account:
+      energy: 730  # 1 TOS * 2 * 365 days
+
+---
+spec:
+  name: tx_freeze_tos_duration_above_maximum
+  version: "1.0"
+  category: transactions
+  subcategory: energy
+  description: "Freeze duration above 365 days rejected"
+  priority: P0
+
+preconditions:
+  - account:
+      balance: 200000000
+      nonce: 0
+
+action:
+  type: transaction
+  tx_type: Energy
+  params:
+    payload:
+      FreezeTos:
+        amount: 100000000
+        duration:
+          days: 366  # Above maximum
+
+expected:
+  status: error
+  error: "InvalidFreezeDuration"
+
+---
+spec:
+  name: tx_freeze_tos_insufficient_balance
+  version: "1.0"
+  category: transactions
+  subcategory: energy
+  description: "Freeze fails with insufficient balance"
+  priority: P0
+
+preconditions:
+  - account:
+      balance: 50000000  # 0.5 TOS
+      nonce: 0
+
+action:
+  type: transaction
+  tx_type: Energy
+  params:
+    payload:
+      FreezeTos:
+        amount: 100000000  # 1 TOS (more than balance)
+        duration:
+          days: 7
+
+expected:
+  status: error
+  error: "InsufficientBalance"
+
+---
+spec:
+  name: tx_freeze_tos_multiple_records
+  version: "1.0"
+  category: transactions
+  subcategory: energy
+  description: "Multiple freeze records with different durations"
+  priority: P0
+
+preconditions:
+  - account:
+      balance: 1000000000  # 10 TOS
+      energy: 0
+      freeze_records_count: 0
+      nonce: 0
+
+actions:
+  - type: transaction
+    tx_type: Energy
+    params:
+      payload:
+        FreezeTos:
+          amount: 100000000  # 1 TOS
+          duration:
+            days: 7
+      nonce: 0
+
+  - type: transaction
+    tx_type: Energy
+    params:
+      payload:
+        FreezeTos:
+          amount: 200000000  # 2 TOS
+          duration:
+            days: 30
+      nonce: 1
+
+expected:
+  - status: success
+  - status: success
+
+postconditions:
+  - account:
+      balance: 700000000  # 10 - 1 - 2 TOS
+      energy: 134  # (1*2*7) + (2*2*30) = 14 + 120
+      freeze_records_count: 2
+
+---
+spec:
+  name: tx_freeze_tos_max_records
+  version: "1.0"
+  category: transactions
+  subcategory: energy
+  description: "Maximum 32 freeze records per account"
+  priority: P0
+
+preconditions:
+  - account:
+      balance: 10000000000  # 100 TOS
+      freeze_records_count: 32  # MAX_FREEZE_RECORDS
+      nonce: 0
+
+action:
+  type: transaction
+  tx_type: Energy
+  params:
+    payload:
+      FreezeTos:
+        amount: 100000000
+        duration:
+          days: 7
+
+expected:
+  status: error
+  error: "MaxFreezeRecordsReached"
+
+---
+spec:
+  name: tx_freeze_tos_unlock_calculation
+  version: "1.0"
+  category: transactions
+  subcategory: energy
+  description: "Unlock topoheight calculation"
+  priority: P0
+
+preconditions:
+  - account:
+      balance: 200000000
+      nonce: 0
+  - current_topoheight: 1000000
+
+action:
+  type: transaction
+  tx_type: Energy
+  params:
+    payload:
+      FreezeTos:
+        amount: 100000000
+        duration:
+          days: 7
+    network: mainnet
+
+expected:
+  status: success
+
+postconditions:
+  - freeze_record:
+      freeze_topoheight: 1000000
+      unlock_topoheight: 1604800  # 1000000 + (7 * 86400)
+      note: "Mainnet: 1 day = 86400 blocks"
+
+---
+spec:
+  name: tx_freeze_tos_devnet_timing
+  version: "1.0"
+  category: transactions
+  subcategory: energy
+  description: "Devnet uses accelerated timing"
+  priority: P1
+
+preconditions:
+  - account:
+      balance: 200000000
+      nonce: 0
+  - current_topoheight: 1000
+
+action:
+  type: transaction
+  tx_type: Energy
+  params:
+    payload:
+      FreezeTos:
+        amount: 100000000
+        duration:
+          days: 7
+    network: devnet
+
+expected:
+  status: success
+
+postconditions:
+  - freeze_record:
+      freeze_topoheight: 1000
+      unlock_topoheight: 1070  # 1000 + (7 * 10)
+      note: "Devnet: 1 day = 10 blocks"
+
+---
+spec:
+  name: tx_freeze_tos_payload_structure
+  version: "1.0"
+  category: transactions
+  subcategory: energy
+  description: "FreezeTos payload wire format"
+  priority: P0
+
+definition:
+  freeze_tos_payload:
+    variant_tag: 0  # u8
+    amount:
+      type: u64
+      size: 8
+    duration:
+      days:
+        type: u32
+        size: 4
+
+serialization_order:
+  - variant (1 byte: 0x00)
+  - amount (8 bytes)
+  - duration.days (4 bytes)
+
+total_size: 13 bytes

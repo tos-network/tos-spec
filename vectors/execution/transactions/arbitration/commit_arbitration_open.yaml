@@ -1,0 +1,303 @@
+# TOS CommitArbitrationOpen Transaction Conformance Specifications
+# Based on: common/src/transaction/payload/arbitration/commit_arbitration_open.rs
+#
+# Commit arbitration opening message for dispute resolution
+
+---
+spec:
+  name: tx_commit_arbitration_open_basic
+  version: "1.0"
+  category: transactions
+  subcategory: arbitration
+  description: "Basic arbitration open commitment"
+  priority: P0
+
+preconditions:
+  - escrow:
+      id: "0xescrow..."
+      state: "Disputed"
+      dispute_id: "0xdispute..."
+  - arbiter:
+      address: "tos1arbiter..."
+      registered: true
+      status: "Active"
+  - sender:
+      address: "tos1arbiter..."
+      nonce: 0
+
+action:
+  type: transaction
+  tx_type: CommitArbitrationOpen
+  params:
+    escrow_id: "0xescrow..."
+    dispute_id: "0xdispute..."
+    round: 0  # Initial arbitration
+    request_id: "0xrequest..."
+    arbitration_open_hash: "0xopen_hash..."
+    opener_signature: "<arbiter_signature>"
+    arbitration_open_payload: "<encrypted payload bytes>"
+    fee: 20000
+    nonce: 0
+
+expected:
+  status: success
+
+postconditions:
+  - arbitration:
+      escrow_id: "0xescrow..."
+      dispute_id: "0xdispute..."
+      round: 0
+      state: "Open"
+      opener: "tos1arbiter..."
+
+---
+spec:
+  name: tx_commit_arbitration_open_not_arbiter
+  version: "1.0"
+  category: transactions
+  subcategory: arbitration
+  description: "Only registered arbiter can commit"
+  priority: P0
+
+preconditions:
+  - sender:
+      is_arbiter: false
+
+action:
+  type: transaction
+  tx_type: CommitArbitrationOpen
+  params:
+    escrow_id: "0xescrow..."
+
+expected:
+  status: error
+  error: "NotRegisteredArbiter"
+
+---
+spec:
+  name: tx_commit_arbitration_open_not_assigned
+  version: "1.0"
+  category: transactions
+  subcategory: arbitration
+  description: "Arbiter must be assigned to escrow"
+  priority: P0
+
+preconditions:
+  - escrow:
+      arbitration_config:
+        arbiters: ["tos1other_arbiter..."]  # Different arbiter
+  - sender:
+      address: "tos1arbiter..."  # Not in list
+
+action:
+  type: transaction
+  tx_type: CommitArbitrationOpen
+  params:
+    escrow_id: "0xescrow..."
+
+expected:
+  status: error
+  error: "ArbiterNotAssigned"
+
+---
+spec:
+  name: tx_commit_arbitration_open_wrong_dispute
+  version: "1.0"
+  category: transactions
+  subcategory: arbitration
+  description: "Dispute ID must match active dispute"
+  priority: P0
+
+preconditions:
+  - escrow:
+      active_dispute_id: "0xcorrect..."
+
+action:
+  type: transaction
+  tx_type: CommitArbitrationOpen
+  params:
+    escrow_id: "0xescrow..."
+    dispute_id: "0xwrong..."
+
+expected:
+  status: error
+  error: "DisputeIdMismatch"
+
+---
+spec:
+  name: tx_commit_arbitration_open_escrow_not_disputed
+  version: "1.0"
+  category: transactions
+  subcategory: arbitration
+  description: "Escrow must be in disputed state"
+  priority: P0
+
+preconditions:
+  - escrow:
+      state: "Created"  # Not disputed
+
+action:
+  type: transaction
+  tx_type: CommitArbitrationOpen
+  params:
+    escrow_id: "0xescrow..."
+
+expected:
+  status: error
+  error: "EscrowNotDisputed"
+
+---
+spec:
+  name: tx_commit_arbitration_open_invalid_signature
+  version: "1.0"
+  category: transactions
+  subcategory: arbitration
+  description: "Invalid opener signature rejected"
+  priority: P0
+
+action:
+  type: transaction
+  tx_type: CommitArbitrationOpen
+  params:
+    opener_signature: "<invalid_signature>"
+
+expected:
+  status: error
+  error: "InvalidOpenerSignature"
+
+---
+spec:
+  name: tx_commit_arbitration_open_payload_too_large
+  version: "1.0"
+  category: transactions
+  subcategory: arbitration
+  description: "Payload size limit enforcement"
+  priority: P0
+
+definition:
+  MAX_ARBITRATION_OPEN_BYTES: 65536  # 64 KB
+
+action:
+  type: transaction
+  tx_type: CommitArbitrationOpen
+  params:
+    arbitration_open_payload: "<70000 bytes>"  # > 64 KB
+
+expected:
+  status: error
+  error: "PayloadTooLarge"
+
+---
+spec:
+  name: tx_commit_arbitration_open_already_committed
+  version: "1.0"
+  category: transactions
+  subcategory: arbitration
+  description: "Cannot commit twice for same dispute"
+  priority: P0
+
+preconditions:
+  - arbitration:
+      dispute_id: "0xdispute..."
+      state: "Open"  # Already committed
+
+action:
+  type: transaction
+  tx_type: CommitArbitrationOpen
+  params:
+    dispute_id: "0xdispute..."
+
+expected:
+  status: error
+  error: "ArbitrationAlreadyOpen"
+
+---
+spec:
+  name: tx_commit_arbitration_open_appeal_round
+  version: "1.0"
+  category: transactions
+  subcategory: arbitration
+  description: "Commit for appeal round"
+  priority: P1
+
+preconditions:
+  - escrow:
+      state: "Appealed"
+      appeal_round: 1
+
+action:
+  type: transaction
+  tx_type: CommitArbitrationOpen
+  params:
+    escrow_id: "0xescrow..."
+    dispute_id: "0xdispute..."
+    round: 1  # Appeal round
+
+expected:
+  status: success
+
+postconditions:
+  - arbitration:
+      round: 1
+
+---
+spec:
+  name: tx_commit_arbitration_open_payload_structure
+  version: "1.0"
+  category: transactions
+  subcategory: arbitration
+  description: "CommitArbitrationOpenPayload wire format"
+  priority: P0
+
+definition:
+  commit_arbitration_open_payload:
+    escrow_id:
+      type: Hash
+      size: 32
+    dispute_id:
+      type: Hash
+      size: 32
+    round:
+      type: u32
+      size: 4
+      description: "0=initial, 1+=appeal"
+    request_id:
+      type: Hash
+      size: 32
+    arbitration_open_hash:
+      type: Hash
+      size: 32
+      description: "Hash of opening message"
+    opener_signature:
+      type: Signature
+      size: 64
+    arbitration_open_payload:
+      type: "Vec<u8>"
+      max_size: 65536
+      description: "Encrypted arbitration content"
+
+serialization_order:
+  - escrow_id (32 bytes)
+  - dispute_id (32 bytes)
+  - round (4 bytes)
+  - request_id (32 bytes)
+  - arbitration_open_hash (32 bytes)
+  - opener_signature (64 bytes)
+  - payload_length (4 bytes)
+  - arbitration_open_payload (variable)
+
+---
+spec:
+  name: tx_commit_arbitration_open_constants
+  version: "1.0"
+  category: transactions
+  subcategory: arbitration
+  description: "Arbitration commit-related constants"
+  priority: P0
+
+constants:
+  MAX_ARBITRATION_OPEN_BYTES: 65536  # 64 KB
+  MAX_VOTE_REQUEST_BYTES: 65536
+  MAX_SELECTION_COMMITMENT_BYTES: 65536
+  MAX_JUROR_VOTE_BYTES: 8192
+  MAX_VERDICT_BUNDLE_BYTES: 131072

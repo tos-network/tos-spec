@@ -1,0 +1,236 @@
+# TOS RequestArbiterExit Transaction Conformance Specifications
+# Based on: common/src/transaction/payload/arbitration/request_arbiter_exit.rs
+#
+# Initiate arbiter exit and cooldown period
+
+---
+spec:
+  name: tx_request_arbiter_exit_basic
+  version: "1.0"
+  category: transactions
+  subcategory: arbitration
+  description: "Basic arbiter exit request"
+  priority: P0
+
+preconditions:
+  - arbiter:
+      address: "tos1arbiter..."
+      registered: true
+      status: "Active"
+      stake: 100000000000  # 1000 TOS
+      nonce: 5
+
+action:
+  type: transaction
+  tx_type: RequestArbiterExit
+  params:
+    fee: 5000
+    nonce: 5
+
+expected:
+  status: success
+
+postconditions:
+  - arbiter:
+      status: "ExitRequested"
+      exit_requested_at: current_block
+      nonce: 6
+
+---
+spec:
+  name: tx_request_arbiter_exit_not_registered
+  version: "1.0"
+  category: transactions
+  subcategory: arbitration
+  description: "Cannot request exit if not registered"
+  priority: P0
+
+preconditions:
+  - sender:
+      is_arbiter: false
+
+action:
+  type: transaction
+  tx_type: RequestArbiterExit
+  params: {}
+
+expected:
+  status: error
+  error: "NotRegisteredArbiter"
+
+---
+spec:
+  name: tx_request_arbiter_exit_already_requested
+  version: "1.0"
+  category: transactions
+  subcategory: arbitration
+  description: "Cannot request exit twice"
+  priority: P0
+
+preconditions:
+  - arbiter:
+      status: "ExitRequested"
+
+action:
+  type: transaction
+  tx_type: RequestArbiterExit
+  params: {}
+
+expected:
+  status: error
+  error: "ExitAlreadyRequested"
+
+---
+spec:
+  name: tx_request_arbiter_exit_pending_disputes
+  version: "1.0"
+  category: transactions
+  subcategory: arbitration
+  description: "Cannot exit with pending disputes"
+  priority: P0
+
+preconditions:
+  - arbiter:
+      status: "Active"
+      pending_disputes: 3  # Has assigned disputes
+
+action:
+  type: transaction
+  tx_type: RequestArbiterExit
+  params: {}
+
+expected:
+  status: error
+  error: "HasPendingDisputes"
+
+note: |
+  Arbiter must complete all assigned disputes
+  before requesting exit.
+
+---
+spec:
+  name: tx_request_arbiter_exit_slashed
+  version: "1.0"
+  category: transactions
+  subcategory: arbitration
+  description: "Cannot request exit if slashed"
+  priority: P0
+
+preconditions:
+  - arbiter:
+      status: "Slashed"
+
+action:
+  type: transaction
+  tx_type: RequestArbiterExit
+  params: {}
+
+expected:
+  status: error
+  error: "ArbiterSlashed"
+
+---
+spec:
+  name: tx_request_arbiter_exit_cooldown_period
+  version: "1.0"
+  category: transactions
+  subcategory: arbitration
+  description: "Exit starts cooldown period"
+  priority: P0
+
+definition:
+  ARBITER_EXIT_COOLDOWN: 86400  # ~14 days (blocks)
+
+postconditions:
+  - arbiter:
+      can_withdraw_at: current_block + 86400
+
+note: |
+  After requesting exit:
+  1. Status changes to ExitRequested
+  2. 14-day cooldown period begins
+  3. After cooldown, can call WithdrawArbiterStake
+
+---
+spec:
+  name: tx_request_arbiter_exit_cancel
+  version: "1.0"
+  category: transactions
+  subcategory: arbitration
+  description: "Exit request can be cancelled"
+  priority: P1
+
+preconditions:
+  - arbiter:
+      status: "ExitRequested"
+
+action:
+  type: transaction
+  tx_type: CancelArbiterExit
+  params: {}
+
+expected:
+  status: success
+
+postconditions:
+  - arbiter:
+      status: "Active"
+      exit_requested_at: null
+
+note: |
+  Arbiter can cancel exit request before
+  cooldown period completes.
+  This is done via CancelArbiterExit transaction.
+
+---
+spec:
+  name: tx_request_arbiter_exit_payload_structure
+  version: "1.0"
+  category: transactions
+  subcategory: arbitration
+  description: "RequestArbiterExitPayload wire format"
+  priority: P0
+
+definition:
+  request_arbiter_exit_payload:
+    description: "Empty payload - no fields required"
+
+serialization_order: []
+
+total_size: 0 bytes
+
+note: |
+  Sender is inferred from transaction signature.
+  No additional data needed for exit request.
+
+---
+spec:
+  name: tx_request_arbiter_exit_lifecycle
+  version: "1.0"
+  category: transactions
+  subcategory: arbitration
+  description: "Arbiter exit lifecycle"
+  priority: P1
+
+definition:
+  exit_lifecycle:
+    1_request_exit:
+      from_status: "Active"
+      to_status: "ExitRequested"
+      transaction: "RequestArbiterExit"
+
+    2_cooldown:
+      duration: "14 days (86400 blocks)"
+      note: "Cannot be selected for new disputes"
+
+    3_withdraw:
+      from_status: "ExitRequested"
+      to_status: "Exited"
+      transaction: "WithdrawArbiterStake"
+      condition: "cooldown completed"
+
+    cancel:
+      from_status: "ExitRequested"
+      to_status: "Active"
+      transaction: "CancelArbiterExit"
+      condition: "before cooldown completes"

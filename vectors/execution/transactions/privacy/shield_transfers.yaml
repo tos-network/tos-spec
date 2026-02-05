@@ -1,0 +1,281 @@
+# TOS Shield Transfer Transaction Conformance Specifications
+# Based on: common/src/transaction/payload/shield_transfer.rs
+#
+# Convert plaintext TOS to encrypted UNO balance (enter privacy mode)
+
+---
+spec:
+  name: tx_shield_transfer_basic
+  version: "1.0"
+  category: transactions
+  subcategory: privacy
+  description: "Basic shield transfer (TOS to UNO)"
+  priority: P0
+
+preconditions:
+  - sender:
+      address: "tos1sender..."
+      balance: 1000000000  # 10 TOS plaintext
+      uno_balance: 0  # No UNO yet
+      nonce: 0
+
+action:
+  type: transaction
+  tx_type: ShieldTransfer
+  params:
+    asset: "0x0000...0000"  # TOS_ASSET
+    destination: "tos1sender..."  # Can shield to self
+    amount: 500000000  # 5 TOS (plaintext, visible)
+    commitment: "<C = amount * G + r * H>"
+    receiver_handle: "<D_r = r * P_receiver>"
+    proof: "<ShieldCommitmentProof>"
+    extra_data: null
+    fee: 30000
+    nonce: 0
+
+expected:
+  status: success
+
+postconditions:
+  - sender:
+      balance: 499970000  # 10 - 5 - fee
+      uno_balance: "<encrypted: 500000000>"
+      nonce: 1
+
+---
+spec:
+  name: tx_shield_transfer_to_other
+  version: "1.0"
+  category: transactions
+  subcategory: privacy
+  description: "Shield transfer to another address"
+  priority: P0
+
+preconditions:
+  - sender:
+      balance: 500000000
+  - receiver:
+      address: "tos1receiver..."
+      uno_balance: 0
+
+action:
+  type: transaction
+  tx_type: ShieldTransfer
+  params:
+    destination: "tos1receiver..."
+    amount: 200000000  # 2 TOS
+
+expected:
+  status: success
+
+postconditions:
+  - sender:
+      balance_decrease: 200030000  # amount + fee
+  - receiver:
+      uno_balance: "<encrypted: 200000000>"
+
+---
+spec:
+  name: tx_shield_transfer_proof_requirements
+  version: "1.0"
+  category: transactions
+  subcategory: privacy
+  description: "ShieldCommitmentProof verification"
+  priority: P0
+
+definition:
+  shield_commitment_proof:
+    proves:
+      - "Commitment contains the claimed plaintext amount"
+      - "Commitment and receiver_handle use same opening"
+      - "Prevents inflation via forged commitments"
+
+    components:
+      Y_0: "Commitment verification component"
+      Y_1: "Handle verification component"
+      z_r: "Opening response"
+      z_x: "Amount response"
+
+---
+spec:
+  name: tx_shield_transfer_invalid_proof
+  version: "1.0"
+  category: transactions
+  subcategory: privacy
+  description: "Invalid shield proof rejected"
+  priority: P0
+
+action:
+  type: transaction
+  tx_type: ShieldTransfer
+  params:
+    amount: 100000000
+    commitment: "<commitment for different amount>"
+    proof: "<proof for wrong amount>"
+
+expected:
+  status: error
+  error: "InvalidShieldProof"
+
+---
+spec:
+  name: tx_shield_transfer_insufficient_balance
+  version: "1.0"
+  category: transactions
+  subcategory: privacy
+  description: "Cannot shield more than plaintext balance"
+  priority: P0
+
+preconditions:
+  - sender:
+      balance: 100000000  # 1 TOS
+
+action:
+  type: transaction
+  tx_type: ShieldTransfer
+  params:
+    amount: 500000000  # 5 TOS (more than balance)
+
+expected:
+  status: error
+  error: "InsufficientBalance"
+
+---
+spec:
+  name: tx_shield_transfer_zero_amount
+  version: "1.0"
+  category: transactions
+  subcategory: privacy
+  description: "Zero amount shield rejected"
+  priority: P0
+
+action:
+  type: transaction
+  tx_type: ShieldTransfer
+  params:
+    amount: 0
+
+expected:
+  status: error
+  error: "InvalidAmount"
+
+---
+spec:
+  name: tx_shield_transfer_accumulates_uno
+  version: "1.0"
+  category: transactions
+  subcategory: privacy
+  description: "Multiple shields accumulate UNO balance"
+  priority: P1
+
+preconditions:
+  - sender:
+      balance: 1000000000
+      uno_balance: "<encrypted: 200000000>"  # Already has UNO
+
+actions:
+  - type: transaction
+    tx_type: ShieldTransfer
+    params:
+      destination: "tos1sender..."
+      amount: 300000000
+
+expected:
+  status: success
+
+postconditions:
+  - sender:
+      uno_balance: "<encrypted: 500000000>"  # 200 + 300
+
+note: |
+  UNO balance is homomorphically updated:
+  new_balance = old_balance + new_ciphertext
+
+---
+spec:
+  name: tx_shield_transfer_payload_structure
+  version: "1.0"
+  category: transactions
+  subcategory: privacy
+  description: "ShieldTransferPayload wire format"
+  priority: P0
+
+definition:
+  shield_transfer_payload:
+    asset:
+      type: Hash
+      size: 32
+    destination:
+      type: CompressedPublicKey
+      size: 32
+    amount:
+      type: u64
+      size: 8
+      description: "Plaintext amount (visible on-chain)"
+    extra_data:
+      type: "Option<UnknownExtraDataFormat>"
+    commitment:
+      type: CompressedCommitment
+      size: 32
+      description: "C = amount * G + r * H"
+    receiver_handle:
+      type: CompressedHandle
+      size: 32
+      description: "D_r = r * P_receiver"
+    proof:
+      type: ShieldCommitmentProof
+      size: ~160 bytes
+
+serialization_order:
+  - asset (32 bytes)
+  - destination (32 bytes)
+  - amount (8 bytes)
+  - extra_data (option flag + data)
+  - commitment (32 bytes)
+  - receiver_handle (32 bytes)
+  - proof (variable)
+
+---
+spec:
+  name: tx_shield_transfer_fee_model
+  version: "1.0"
+  category: transactions
+  subcategory: privacy
+  description: "Shield transfer fee calculation"
+  priority: P0
+
+definition:
+  fee_model:
+    base_fee: 30000
+    proof_verification_cost: 20000
+    total_minimum: 30000
+
+note: |
+  Shield is cheaper than UNO transfer because:
+  - Amount is plaintext (no range proof needed)
+  - Only one proof to verify
+  - Simpler balance update
+
+---
+spec:
+  name: tx_shield_transfer_asset_restriction
+  version: "1.0"
+  category: transactions
+  subcategory: privacy
+  description: "Only TOS can be shielded (Phase 7)"
+  priority: P1
+
+action:
+  type: transaction
+  tx_type: ShieldTransfer
+  params:
+    asset: "0xtoken..."  # Non-TOS asset
+    amount: 100000000
+
+expected:
+  status: error
+  error: "AssetNotShieldable"
+
+note: |
+  Phase 7 only supports TOS shielding.
+  Token shielding may be added in future phases.

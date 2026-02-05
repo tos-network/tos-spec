@@ -46,7 +46,8 @@ can be tested in a uniform, repeatable way across single-client and multi-client
   "input": {
     "kind": "tx | block | rpc",
     "wire_hex": "...",
-    "rpc": { "method": "...", "params": {} }
+    "rpc": { "method": "...", "params": {} },
+    "tx": { }
   },
   "expected": {
     "success": true,
@@ -90,6 +91,35 @@ can be tested in a uniform, repeatable way across single-client and multi-client
 ## State Digest
 The state digest must be deterministic across implementations. A stable definition is required in
 the spec. The digest should be derived from a canonical, ordered encoding of `post_state`.
+
+### State Digest v1 (Canonical)
+**Hash**: BLAKE3-256  
+**Encoding**: binary, fixed-width numeric fields (u64 big-endian)  
+
+**Inputs**
+- `post_state.global_state` fields:
+  - `total_supply`, `total_burned`, `total_energy`, `block_height`, `timestamp`
+- `post_state.accounts` list
+
+**Canonical ordering**
+1. Global state fields in the exact order listed above.
+2. Accounts sorted by `address` (32-byte value, ascending).
+
+**Account encoding (per account, in order)**
+1. `address` (32 bytes, hex -> bytes)
+2. `balance` (u64 BE)
+3. `nonce` (u64 BE)
+4. `frozen` (u64 BE)
+5. `energy` (u64 BE)
+6. `flags` (u64 BE)
+7. `data_len` (u64 BE)
+8. `data` bytes (hex -> bytes, length = `data_len`)
+
+**Global state encoding**
+Each field is encoded as a u64 BE in the order listed above.
+
+**Digest result**
+- `state_digest` is the hex-encoded 32-byte BLAKE3 output of the full canonical encoding.
 
 ## Notes
 - Vectors are JSON-first to minimize ambiguity and maximize tooling support.
