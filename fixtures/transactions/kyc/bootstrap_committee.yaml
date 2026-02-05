@@ -1,0 +1,349 @@
+# TOS BootstrapCommittee Transaction Conformance Specifications
+# Based on: common/src/transaction/payload/kyc/bootstrap.rs
+#
+# One-time creation of the Global KYC Committee
+
+---
+spec:
+  name: tx_bootstrap_committee_basic
+  version: "1.0"
+  category: transactions
+  subcategory: kyc
+  description: "Create Global Committee"
+  priority: P0
+
+preconditions:
+  - sender:
+      address: "tos1qsl6sj2u0gp37tr6drrq964rd4d8gnaxnezgytmt0cfltnp2wsgqqak28je"
+      # BOOTSTRAP_ADDRESS - only this address can bootstrap
+      balance: 1000000000
+      nonce: 0
+  - global_committee:
+      exists: false
+
+action:
+  type: transaction
+  tx_type: BootstrapCommittee
+  params:
+    name: "TOS Global Committee"
+    members:
+      - public_key: "tos1member1..."
+        name: "Member 1"
+        role: "Admin"
+      - public_key: "tos1member2..."
+        name: "Member 2"
+        role: "Verifier"
+      - public_key: "tos1member3..."
+        name: "Member 3"
+        role: "Verifier"
+    threshold: 2  # >= 2/3 of 3
+    kyc_threshold: 1
+    max_kyc_level: 32767  # Tier 8
+    fee: 100000  # 100,000 gas
+    nonce: 0
+
+expected:
+  status: success
+
+postconditions:
+  - global_committee:
+      exists: true
+      name: "TOS Global Committee"
+      members_count: 3
+      threshold: 2
+      kyc_threshold: 1
+      max_kyc_level: 32767
+
+---
+spec:
+  name: tx_bootstrap_committee_unauthorized_sender
+  version: "1.0"
+  category: transactions
+  subcategory: kyc
+  description: "Only BOOTSTRAP_ADDRESS can create Global Committee"
+  priority: P0
+
+preconditions:
+  - sender:
+      address: "tos1unauthorized..."  # Not BOOTSTRAP_ADDRESS
+      balance: 1000000000
+      nonce: 0
+  - global_committee:
+      exists: false
+
+action:
+  type: transaction
+  tx_type: BootstrapCommittee
+  params:
+    name: "TOS Global Committee"
+    members: []
+    threshold: 1
+    kyc_threshold: 1
+    max_kyc_level: 32767
+
+expected:
+  status: error
+  error: "UnauthorizedBootstrap"
+
+---
+spec:
+  name: tx_bootstrap_committee_already_exists
+  version: "1.0"
+  category: transactions
+  subcategory: kyc
+  description: "Cannot bootstrap if Global Committee exists"
+  priority: P0
+
+preconditions:
+  - sender:
+      address: "tos1qsl6sj2u0gp37tr6drrq964rd4d8gnaxnezgytmt0cfltnp2wsgqqak28je"
+      nonce: 0
+  - global_committee:
+      exists: true  # Already created
+
+action:
+  type: transaction
+  tx_type: BootstrapCommittee
+  params:
+    name: "New Committee"
+    members: []
+    threshold: 1
+    kyc_threshold: 1
+    max_kyc_level: 32767
+
+expected:
+  status: error
+  error: "GlobalCommitteeAlreadyExists"
+
+---
+spec:
+  name: tx_bootstrap_committee_threshold_validation
+  version: "1.0"
+  category: transactions
+  subcategory: kyc
+  description: "Threshold must be >= 2/3 of members"
+  priority: P0
+
+preconditions:
+  - sender:
+      address: "tos1qsl6sj2u0gp37tr6drrq964rd4d8gnaxnezgytmt0cfltnp2wsgqqak28je"
+  - global_committee:
+      exists: false
+
+action:
+  type: transaction
+  tx_type: BootstrapCommittee
+  params:
+    members_count: 9
+    threshold: 5  # Should be at least 6 (2/3 of 9)
+
+expected:
+  status: error
+  error: "ThresholdTooLow"
+
+---
+spec:
+  name: tx_bootstrap_committee_threshold_exceeds_members
+  version: "1.0"
+  category: transactions
+  subcategory: kyc
+  description: "Threshold cannot exceed member count"
+  priority: P0
+
+action:
+  type: transaction
+  tx_type: BootstrapCommittee
+  params:
+    members_count: 5
+    threshold: 6  # More than members
+
+expected:
+  status: error
+  error: "ThresholdExceedsMemberCount"
+
+---
+spec:
+  name: tx_bootstrap_committee_minimum_members
+  version: "1.0"
+  category: transactions
+  subcategory: kyc
+  description: "Global Committee should have 11-15 members"
+  priority: P1
+
+preconditions:
+  - global_committee:
+      exists: false
+
+tests:
+  - name: below_recommended
+    members_count: 5
+    expected: warning  # Allowed but not recommended
+    note: "Global Committee recommended 11-15 members"
+
+  - name: recommended_minimum
+    members_count: 11
+    expected: valid
+
+  - name: recommended_maximum
+    members_count: 15
+    expected: valid
+
+---
+spec:
+  name: tx_bootstrap_committee_duplicate_members
+  version: "1.0"
+  category: transactions
+  subcategory: kyc
+  description: "Duplicate members rejected"
+  priority: P0
+
+action:
+  type: transaction
+  tx_type: BootstrapCommittee
+  params:
+    members:
+      - public_key: "tos1member1..."
+      - public_key: "tos1member1..."  # Duplicate
+
+expected:
+  status: error
+  error: "DuplicateMember"
+
+---
+spec:
+  name: tx_bootstrap_committee_member_roles
+  version: "1.0"
+  category: transactions
+  subcategory: kyc
+  description: "Valid member roles"
+  priority: P0
+
+definition:
+  member_roles:
+    Admin: 0  # Full governance rights
+    Verifier: 1  # Can approve KYC
+    Observer: 2  # Read-only access
+
+---
+spec:
+  name: tx_bootstrap_committee_kyc_threshold_range
+  version: "1.0"
+  category: transactions
+  subcategory: kyc
+  description: "kyc_threshold validation"
+  priority: P0
+
+tests:
+  - name: valid_kyc_threshold
+    kyc_threshold: 1
+    expected: valid
+
+  - name: zero_kyc_threshold
+    kyc_threshold: 0
+    expected: error
+    error: "InvalidKycThreshold"
+
+  - name: exceeds_members
+    members_count: 5
+    kyc_threshold: 6
+    expected: error
+    error: "KycThresholdExceedsMemberCount"
+
+---
+spec:
+  name: tx_bootstrap_committee_empty_members
+  version: "1.0"
+  category: transactions
+  subcategory: kyc
+  description: "Empty members list rejected"
+  priority: P0
+
+action:
+  type: transaction
+  tx_type: BootstrapCommittee
+  params:
+    members: []
+    threshold: 1
+
+expected:
+  status: error
+  error: "EmptyMemberList"
+
+---
+spec:
+  name: tx_bootstrap_committee_max_kyc_level
+  version: "1.0"
+  category: transactions
+  subcategory: kyc
+  description: "Global Committee can set max_kyc_level up to 32767"
+  priority: P0
+
+definition:
+  global_committee_max_level: 32767  # Tier 8
+
+note: |
+  Only Global Committee can have max_kyc_level = 32767.
+  Regional committees must have lower max_kyc_level.
+
+---
+spec:
+  name: tx_bootstrap_committee_payload_structure
+  version: "1.0"
+  category: transactions
+  subcategory: kyc
+  description: "BootstrapCommitteePayload wire format"
+  priority: P0
+
+definition:
+  bootstrap_committee_payload:
+    name:
+      type: String
+      description: "Committee name"
+    members_count:
+      type: u8
+      size: 1
+    members:
+      type: "Vec<CommitteeMemberInit>"
+    threshold:
+      type: u8
+      size: 1
+    kyc_threshold:
+      type: u8
+      size: 1
+    max_kyc_level:
+      type: u16
+      size: 2
+
+  committee_member_init:
+    public_key:
+      type: CompressedPublicKey
+      size: 32
+    name:
+      type: "Option<String>"
+    role:
+      type: u8
+      size: 1
+
+serialization_order:
+  - name (variable)
+  - members_count (1 byte)
+  - members (N * variable)
+  - threshold (1 byte)
+  - kyc_threshold (1 byte)
+  - max_kyc_level (2 bytes)
+
+---
+spec:
+  name: tx_bootstrap_committee_constants
+  version: "1.0"
+  category: transactions
+  subcategory: kyc
+  description: "Bootstrap-related constants"
+  priority: P0
+
+constants:
+  BOOTSTRAP_ADDRESS: "tos1qsl6sj2u0gp37tr6drrq964rd4d8gnaxnezgytmt0cfltnp2wsgqqak28je"
+  GLOBAL_COMMITTEE_MAX_LEVEL: 32767
+  RECOMMENDED_MIN_MEMBERS: 11
+  RECOMMENDED_MAX_MEMBERS: 15
+  MIN_THRESHOLD_RATIO: "2/3"

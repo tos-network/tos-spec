@@ -1,0 +1,311 @@
+# TOS AppealEscrow Transaction Conformance Specifications
+# Based on: common/src/transaction/payload/escrow/mod.rs
+#
+# Appeal a resolved dispute to higher authority
+
+---
+spec:
+  name: tx_appeal_escrow_basic
+  version: "1.0"
+  category: transactions
+  subcategory: escrow
+  description: "Basic escrow appeal"
+  priority: P0
+
+preconditions:
+  - escrow:
+      id: "0xescrow..."
+      state: "Resolved"
+      dispute_id: "0xdispute..."
+      verdict:
+        payer_amount: 30000000
+        payee_amount: 70000000
+  - sender:
+      address: "tos1payer..."  # Dispute loser
+      balance: 100000000
+      nonce: 0
+
+action:
+  type: transaction
+  tx_type: AppealEscrow
+  params:
+    escrow_id: "0xescrow..."
+    reason: "New evidence discovered"
+    new_evidence_hash: "0xnew_evidence..."
+    appeal_deposit: 10000000
+    appeal_mode: "Committee"
+    fee: 30000
+    nonce: 0
+
+expected:
+  status: success
+
+postconditions:
+  - escrow:
+      state: "Appealed"
+      appeal_round: 1
+  - appeal:
+      escrow_id: "0xescrow..."
+      deposit: 10000000
+      mode: "Committee"
+
+---
+spec:
+  name: tx_appeal_escrow_dao_governance
+  version: "1.0"
+  category: transactions
+  subcategory: escrow
+  description: "Appeal to DAO governance for high-value disputes"
+  priority: P1
+
+preconditions:
+  - escrow:
+      amount: 100000000000  # High value (100K TOS)
+      state: "Resolved"
+
+action:
+  type: transaction
+  tx_type: AppealEscrow
+  params:
+    escrow_id: "0xescrow..."
+    reason: "Significant dispute requires community review"
+    appeal_deposit: 50000000
+    appeal_mode: "DaoGovernance"
+
+expected:
+  status: success
+
+postconditions:
+  - escrow:
+      state: "Appealed"
+  - governance_proposal:
+      type: "EscrowAppeal"
+      escrow_id: "0xescrow..."
+
+note: |
+  DAO governance appeals are for high-value cases.
+  They require a larger deposit and longer resolution time.
+
+---
+spec:
+  name: tx_appeal_escrow_not_resolved
+  version: "1.0"
+  category: transactions
+  subcategory: escrow
+  description: "Cannot appeal escrow that is not resolved"
+  priority: P0
+
+preconditions:
+  - escrow:
+      state: "Disputed"  # Still in dispute
+
+action:
+  type: transaction
+  tx_type: AppealEscrow
+  params:
+    escrow_id: "0xescrow..."
+
+expected:
+  status: error
+  error: "EscrowNotResolved"
+
+---
+spec:
+  name: tx_appeal_escrow_not_party
+  version: "1.0"
+  category: transactions
+  subcategory: escrow
+  description: "Only dispute parties can appeal"
+  priority: P0
+
+preconditions:
+  - escrow:
+      payer: "tos1payer..."
+      provider: "tos1provider..."
+  - sender:
+      address: "tos1other..."  # Not a party
+
+action:
+  type: transaction
+  tx_type: AppealEscrow
+  params:
+    escrow_id: "0xescrow..."
+
+expected:
+  status: error
+  error: "NotEscrowParty"
+
+---
+spec:
+  name: tx_appeal_escrow_window_expired
+  version: "1.0"
+  category: transactions
+  subcategory: escrow
+  description: "Appeal must be within appeal window"
+  priority: P0
+
+definition:
+  APPEAL_WINDOW_BLOCKS: 1440  # ~24 hours at 1 block/min
+
+preconditions:
+  - escrow:
+      state: "Resolved"
+      resolved_at_block: 1000
+  - current_block: 3000  # 2000 blocks after resolution
+
+action:
+  type: transaction
+  tx_type: AppealEscrow
+  params:
+    escrow_id: "0xescrow..."
+
+expected:
+  status: error
+  error: "AppealWindowExpired"
+
+---
+spec:
+  name: tx_appeal_escrow_insufficient_deposit
+  version: "1.0"
+  category: transactions
+  subcategory: escrow
+  description: "Appeal deposit must meet minimum"
+  priority: P0
+
+definition:
+  MIN_APPEAL_DEPOSIT_BPS: 1000  # 10% of escrow amount
+
+preconditions:
+  - escrow:
+      amount: 100000000  # 1 TOS
+
+action:
+  type: transaction
+  tx_type: AppealEscrow
+  params:
+    escrow_id: "0xescrow..."
+    appeal_deposit: 5000000  # Only 5%, need 10%
+
+expected:
+  status: error
+  error: "InsufficientAppealDeposit"
+
+---
+spec:
+  name: tx_appeal_escrow_max_rounds
+  version: "1.0"
+  category: transactions
+  subcategory: escrow
+  description: "Cannot exceed maximum appeal rounds"
+  priority: P0
+
+definition:
+  MAX_APPEAL_ROUNDS: 2
+
+preconditions:
+  - escrow:
+      appeal_round: 2  # Already at max
+
+action:
+  type: transaction
+  tx_type: AppealEscrow
+  params:
+    escrow_id: "0xescrow..."
+
+expected:
+  status: error
+  error: "MaxAppealsReached"
+
+---
+spec:
+  name: tx_appeal_escrow_already_appealed
+  version: "1.0"
+  category: transactions
+  subcategory: escrow
+  description: "Cannot appeal while appeal is pending"
+  priority: P0
+
+preconditions:
+  - escrow:
+      state: "Appealed"
+
+action:
+  type: transaction
+  tx_type: AppealEscrow
+  params:
+    escrow_id: "0xescrow..."
+
+expected:
+  status: error
+  error: "AppealAlreadyPending"
+
+---
+spec:
+  name: tx_appeal_escrow_appeal_modes
+  version: "1.0"
+  category: transactions
+  subcategory: escrow
+  description: "Appeal mode enumeration"
+  priority: P0
+
+definition:
+  appeal_modes:
+    Committee: 0      # M-of-N committee arbitration
+    DaoGovernance: 1  # DAO governance vote
+
+note: |
+  Committee appeals are resolved by registered arbiters.
+  DAO governance appeals create a community vote proposal.
+
+---
+spec:
+  name: tx_appeal_escrow_payload_structure
+  version: "1.0"
+  category: transactions
+  subcategory: escrow
+  description: "AppealEscrowPayload wire format"
+  priority: P0
+
+definition:
+  appeal_escrow_payload:
+    escrow_id:
+      type: Hash
+      size: 32
+    reason:
+      type: String
+      max_length: 1024
+    new_evidence_hash:
+      type: "Option<Hash>"
+      description: "Hash of new supporting evidence"
+    appeal_deposit:
+      type: u64
+      size: 8
+    appeal_mode:
+      type: AppealMode
+      size: 1
+
+serialization_order:
+  - "escrow_id (32 bytes)"
+  - "reason_length (4 bytes)"
+  - "reason (variable)"
+  - "evidence_flag (1 byte)"
+  - "[new_evidence_hash] (32 bytes if present)"
+  - "appeal_deposit (8 bytes)"
+  - "appeal_mode (1 byte)"
+
+---
+spec:
+  name: tx_appeal_escrow_gas_cost
+  version: "1.0"
+  category: transactions
+  subcategory: escrow
+  description: "AppealEscrow gas consumption"
+  priority: P1
+
+definition:
+  base_gas: 30000
+  committee_gas: 10000
+  dao_governance_gas: 50000
+
+formula: |
+  gas = base_gas + (appeal_mode == DaoGovernance ? dao_governance_gas : committee_gas)

@@ -1,0 +1,408 @@
+# TOS DeployContract Transaction Conformance Specifications
+# Based on: common/src/transaction/payload/contract/deploy.rs
+#
+# Deploy WASM smart contracts to the TOS network
+
+---
+spec:
+  name: tx_deploy_contract_basic
+  version: "1.0"
+  category: transactions
+  subcategory: contracts
+  description: "Basic contract deployment"
+  priority: P0
+
+preconditions:
+  - deployer:
+      address: "tos1deployer..."
+      balance: 500000000  # 5 TOS
+      nonce: 0
+
+action:
+  type: transaction
+  tx_type: DeployContract
+  params:
+    module:
+      bytecode: "<valid_wasm_bytecode>"
+      bytecode_size: 10240  # 10 KB
+    invoke: null  # No constructor call
+    fee: 100000000  # BURN_PER_CONTRACT (1 TOS)
+    nonce: 0
+
+expected:
+  status: success
+  contract_address: "<tx_hash>"  # Contract address = deployment tx hash
+  burned: 100000000  # 1 TOS
+
+postconditions:
+  - deployer:
+      balance: 400000000  # 5 - 1 TOS burn
+      nonce: 1
+  - contract:
+      exists: true
+      module_hash: "<hash_of_module>"
+
+---
+spec:
+  name: tx_deploy_contract_with_constructor
+  version: "1.0"
+  category: transactions
+  subcategory: contracts
+  description: "Deploy contract with constructor invocation"
+  priority: P0
+
+preconditions:
+  - deployer:
+      balance: 1000000000  # 10 TOS
+      nonce: 0
+
+action:
+  type: transaction
+  tx_type: DeployContract
+  params:
+    module:
+      bytecode: "<valid_wasm_with_constructor>"
+    invoke:
+      max_gas: 100000000  # 1 TOS max gas
+      deposits:
+        - asset: "0x0000...0000"
+          amount: 200000000  # 2 TOS deposit
+    fee: 200000000  # 1 TOS burn + 1 TOS max gas
+    nonce: 0
+
+expected:
+  status: success
+
+postconditions:
+  - deployer:
+      balance: 600000000  # 10 - 1 burn - 1 gas - 2 deposit
+  - contract:
+      balance: 200000000  # Constructor deposit
+
+---
+spec:
+  name: tx_deploy_contract_insufficient_burn
+  version: "1.0"
+  category: transactions
+  subcategory: contracts
+  description: "Deployment fails without 1 TOS burn fee"
+  priority: P0
+
+preconditions:
+  - deployer:
+      balance: 50000000  # 0.5 TOS
+      nonce: 0
+
+action:
+  type: transaction
+  tx_type: DeployContract
+  params:
+    module:
+      bytecode: "<valid_wasm>"
+    invoke: null
+    fee: 50000000  # Less than BURN_PER_CONTRACT
+
+expected:
+  status: error
+  error: "InsufficientFee"
+
+---
+spec:
+  name: tx_deploy_contract_invalid_wasm
+  version: "1.0"
+  category: transactions
+  subcategory: contracts
+  description: "Deployment fails with invalid WASM bytecode"
+  priority: P0
+
+preconditions:
+  - deployer:
+      balance: 500000000
+      nonce: 0
+
+action:
+  type: transaction
+  tx_type: DeployContract
+  params:
+    module:
+      bytecode: "0xdeadbeef"  # Invalid WASM
+    invoke: null
+    fee: 100000000
+
+expected:
+  status: error
+  error: "InvalidModule"
+
+---
+spec:
+  name: tx_deploy_contract_empty_module
+  version: "1.0"
+  category: transactions
+  subcategory: contracts
+  description: "Deployment fails with empty module"
+  priority: P0
+
+preconditions:
+  - deployer:
+      balance: 500000000
+      nonce: 0
+
+action:
+  type: transaction
+  tx_type: DeployContract
+  params:
+    module:
+      bytecode: ""  # Empty
+    invoke: null
+    fee: 100000000
+
+expected:
+  status: error
+  error: "EmptyModule"
+
+---
+spec:
+  name: tx_deploy_contract_module_too_large
+  version: "1.0"
+  category: transactions
+  subcategory: contracts
+  description: "Deployment fails if module exceeds size limit"
+  priority: P1
+
+preconditions:
+  - deployer:
+      balance: 10000000000
+      nonce: 0
+
+action:
+  type: transaction
+  tx_type: DeployContract
+  params:
+    module:
+      bytecode_size: 1048577  # > MAX_TRANSACTION_SIZE
+    fee: 100000000
+
+expected:
+  status: error
+  error: "ModuleTooLarge"
+
+---
+spec:
+  name: tx_deploy_contract_constructor_fails
+  version: "1.0"
+  category: transactions
+  subcategory: contracts
+  description: "Deployment succeeds even if constructor fails"
+  priority: P1
+
+preconditions:
+  - deployer:
+      balance: 500000000
+      nonce: 0
+
+action:
+  type: transaction
+  tx_type: DeployContract
+  params:
+    module:
+      bytecode: "<wasm_with_failing_constructor>"
+    invoke:
+      max_gas: 100000000
+      deposits: []
+    fee: 200000000
+
+expected:
+  status: success
+  note: "Contract deployed but state may be incomplete"
+  gas_used: "<some_amount>"
+  constructor_result: error
+
+postconditions:
+  - deployer:
+      nonce: 1  # TX still counts
+  - contract:
+      exists: true
+      state: "uninitialized"  # Constructor failed
+
+---
+spec:
+  name: tx_deploy_contract_constructor_out_of_gas
+  version: "1.0"
+  category: transactions
+  subcategory: contracts
+  description: "Constructor execution stops at gas limit"
+  priority: P1
+
+preconditions:
+  - deployer:
+      balance: 500000000
+      nonce: 0
+
+action:
+  type: transaction
+  tx_type: DeployContract
+  params:
+    module:
+      bytecode: "<wasm_expensive_constructor>"
+    invoke:
+      max_gas: 1000  # Very low gas limit
+      deposits: []
+    fee: 101000
+
+expected:
+  status: success
+  gas_used: 1000  # Exactly max_gas
+  constructor_result: "OutOfGas"
+
+---
+spec:
+  name: tx_deploy_contract_multiple_deposits
+  version: "1.0"
+  category: transactions
+  subcategory: contracts
+  description: "Constructor with multiple asset deposits"
+  priority: P1
+
+preconditions:
+  - deployer:
+      balances:
+        "0x0000...0000": 500000000  # TOS
+        "0xtoken...": 1000000000  # Custom token
+      nonce: 0
+
+action:
+  type: transaction
+  tx_type: DeployContract
+  params:
+    module:
+      bytecode: "<valid_wasm>"
+    invoke:
+      max_gas: 100000000
+      deposits:
+        - asset: "0x0000...0000"
+          amount: 100000000
+        - asset: "0xtoken..."
+          amount: 500000000
+    fee: 200000000
+
+expected:
+  status: success
+
+postconditions:
+  - contract:
+      balances:
+        "0x0000...0000": 100000000
+        "0xtoken...": 500000000
+
+---
+spec:
+  name: tx_deploy_contract_max_deposits
+  version: "1.0"
+  category: transactions
+  subcategory: contracts
+  description: "Maximum 255 deposits per constructor"
+  priority: P1
+
+preconditions:
+  - deployer:
+      balance: 100000000000
+      nonce: 0
+
+action:
+  type: transaction
+  tx_type: DeployContract
+  params:
+    invoke:
+      deposits_count: 255  # MAX_DEPOSIT_PER_INVOKE_CALL
+
+expected:
+  status: success
+
+---
+spec:
+  name: tx_deploy_contract_exceed_max_deposits
+  version: "1.0"
+  category: transactions
+  subcategory: contracts
+  description: "Exceeding 255 deposits rejected"
+  priority: P1
+
+preconditions:
+  - deployer:
+      balance: 100000000000
+      nonce: 0
+
+action:
+  type: transaction
+  tx_type: DeployContract
+  params:
+    invoke:
+      deposits_count: 256
+
+expected:
+  status: error
+  error: "TooManyDeposits"
+
+---
+spec:
+  name: tx_deploy_contract_gas_burn
+  version: "1.0"
+  category: transactions
+  subcategory: contracts
+  description: "30% of gas fees are burned"
+  priority: P0
+
+definition:
+  gas_distribution:
+    miner: 70%
+    burned: 30%  # TX_GAS_BURN_PERCENT
+
+example:
+  gas_used: 100000000  # 1 TOS
+  miner_reward: 70000000  # 0.7 TOS
+  burned: 30000000  # 0.3 TOS
+
+---
+spec:
+  name: tx_deploy_contract_payload_structure
+  version: "1.0"
+  category: transactions
+  subcategory: contracts
+  description: "DeployContractPayload wire format"
+  priority: P0
+
+definition:
+  deploy_contract_payload:
+    module:
+      type: Module
+      description: "WASM bytecode"
+    invoke:
+      type: "Option<InvokeConstructorPayload>"
+
+  invoke_constructor_payload:
+    max_gas:
+      type: u64
+      size: 8
+    deposits:
+      type: Deposits
+      description: "Asset deposits for constructor"
+
+serialization_order:
+  - "module (variable)"
+  - "invoke_flag (1 byte)"
+  - "[invoke_data] (if present)"
+
+---
+spec:
+  name: tx_deploy_contract_address_derivation
+  version: "1.0"
+  category: transactions
+  subcategory: contracts
+  description: "Contract address is the deployment transaction hash"
+  priority: P0
+
+rule: "contract_address = hash(deployment_transaction)"
+
+note: |
+  This ensures unique contract addresses.
+  Contract can be called using this address/hash.

@@ -1,0 +1,462 @@
+# TOS FreezeTosDelegate Transaction Conformance Specifications
+# Based on: common/src/transaction/payload/energy.rs
+#
+# Batch delegation: freeze TOS and delegate energy to others
+
+---
+spec:
+  name: tx_freeze_delegate_basic
+  version: "1.0"
+  category: transactions
+  subcategory: energy
+  description: "Basic batch delegation to single delegatee"
+  priority: P0
+
+preconditions:
+  - delegator:
+      address: "tos1delegator..."
+      balance: 500000000  # 5 TOS
+      energy: 0
+      delegated_records_count: 0
+      nonce: 0
+  - delegatee:
+      address: "tos1delegatee..."
+      energy: 0
+      active: true  # Has sent at least one tx
+
+action:
+  type: transaction
+  tx_type: Energy
+  params:
+    payload:
+      FreezeTosDelegate:
+        delegatees:
+          - delegatee: "tos1delegatee..."
+            amount: 100000000  # 1 TOS
+        duration:
+          days: 7
+    fee: 0  # Free operation
+    nonce: 0
+
+expected:
+  status: success
+
+postconditions:
+  - delegator:
+      balance: 400000000  # 5 - 1 TOS frozen
+      energy: 0  # No energy for delegator
+      delegated_records_count: 1
+      nonce: 1
+  - delegatee:
+      energy: 14  # Received 1 TOS * 2 * 7 days
+
+---
+spec:
+  name: tx_freeze_delegate_batch_multiple
+  version: "1.0"
+  category: transactions
+  subcategory: energy
+  description: "Batch delegation to multiple delegatees"
+  priority: P0
+
+preconditions:
+  - delegator:
+      balance: 1000000000  # 10 TOS
+      energy: 0
+      nonce: 0
+  - delegatee_a:
+      address: "tos1alice..."
+      energy: 0
+      active: true
+  - delegatee_b:
+      address: "tos1bob..."
+      energy: 0
+      active: true
+  - delegatee_c:
+      address: "tos1charlie..."
+      energy: 0
+      active: true
+
+action:
+  type: transaction
+  tx_type: Energy
+  params:
+    payload:
+      FreezeTosDelegate:
+        delegatees:
+          - delegatee: "tos1alice..."
+            amount: 200000000  # 2 TOS
+          - delegatee: "tos1bob..."
+            amount: 300000000  # 3 TOS
+          - delegatee: "tos1charlie..."
+            amount: 100000000  # 1 TOS
+        duration:
+          days: 14
+    nonce: 0
+
+expected:
+  status: success
+
+postconditions:
+  - delegator:
+      balance: 400000000  # 10 - 6 TOS frozen
+      energy: 0
+  - delegatee_a:
+      energy: 56  # 2 TOS * 2 * 14
+  - delegatee_b:
+      energy: 84  # 3 TOS * 2 * 14
+  - delegatee_c:
+      energy: 28  # 1 TOS * 2 * 14
+
+---
+spec:
+  name: tx_freeze_delegate_self_delegation_rejected
+  version: "1.0"
+  category: transactions
+  subcategory: energy
+  description: "Self-delegation is rejected"
+  priority: P0
+
+preconditions:
+  - delegator:
+      address: "tos1delegator..."
+      balance: 500000000
+      nonce: 0
+
+action:
+  type: transaction
+  tx_type: Energy
+  params:
+    payload:
+      FreezeTosDelegate:
+        delegatees:
+          - delegatee: "tos1delegator..."  # Same as sender
+            amount: 100000000
+        duration:
+          days: 7
+
+expected:
+  status: error
+  error: "SelfDelegationNotAllowed"
+
+---
+spec:
+  name: tx_freeze_delegate_inactive_delegatee
+  version: "1.0"
+  category: transactions
+  subcategory: energy
+  description: "Delegation to inactive account rejected"
+  priority: P1
+
+preconditions:
+  - delegator:
+      balance: 500000000
+      nonce: 0
+  - delegatee:
+      address: "tos1newaccount..."
+      nonce: 0  # Never sent a transaction
+      active: false
+
+action:
+  type: transaction
+  tx_type: Energy
+  params:
+    payload:
+      FreezeTosDelegate:
+        delegatees:
+          - delegatee: "tos1newaccount..."
+            amount: 100000000
+        duration:
+          days: 7
+
+expected:
+  status: error
+  error: "DelegateeNotActive"
+
+---
+spec:
+  name: tx_freeze_delegate_duplicate_delegatee
+  version: "1.0"
+  category: transactions
+  subcategory: energy
+  description: "Duplicate delegatee in batch rejected"
+  priority: P0
+
+preconditions:
+  - delegator:
+      balance: 500000000
+      nonce: 0
+
+action:
+  type: transaction
+  tx_type: Energy
+  params:
+    payload:
+      FreezeTosDelegate:
+        delegatees:
+          - delegatee: "tos1alice..."
+            amount: 100000000
+          - delegatee: "tos1alice..."  # Duplicate
+            amount: 100000000
+        duration:
+          days: 7
+
+expected:
+  status: error
+  error: "DuplicateDelegatee"
+
+---
+spec:
+  name: tx_freeze_delegate_max_delegatees
+  version: "1.0"
+  category: transactions
+  subcategory: energy
+  description: "Maximum 500 delegatees per batch"
+  priority: P0
+
+preconditions:
+  - delegator:
+      balance: 100000000000  # 1000 TOS
+      nonce: 0
+
+action:
+  type: transaction
+  tx_type: Energy
+  params:
+    payload:
+      FreezeTosDelegate:
+        delegatees_count: 500  # MAX_DELEGATEES
+        amount_each: 100000000  # 1 TOS each
+        duration:
+          days: 7
+
+expected:
+  status: success
+
+---
+spec:
+  name: tx_freeze_delegate_exceed_max_delegatees
+  version: "1.0"
+  category: transactions
+  subcategory: energy
+  description: "Exceeding 500 delegatees rejected"
+  priority: P0
+
+preconditions:
+  - delegator:
+      balance: 100000000000
+      nonce: 0
+
+action:
+  type: transaction
+  tx_type: Energy
+  params:
+    payload:
+      FreezeTosDelegate:
+        delegatees_count: 501  # Exceeds MAX_DELEGATEES
+        amount_each: 100000000
+        duration:
+          days: 7
+
+expected:
+  status: error
+  error: "TooManyDelegatees"
+
+---
+spec:
+  name: tx_freeze_delegate_minimum_per_delegatee
+  version: "1.0"
+  category: transactions
+  subcategory: energy
+  description: "Minimum 1 TOS per delegatee"
+  priority: P0
+
+preconditions:
+  - delegator:
+      balance: 500000000
+      nonce: 0
+
+action:
+  type: transaction
+  tx_type: Energy
+  params:
+    payload:
+      FreezeTosDelegate:
+        delegatees:
+          - delegatee: "tos1alice..."
+            amount: 50000000  # 0.5 TOS (below minimum)
+        duration:
+          days: 7
+
+expected:
+  status: error
+  error: "AmountBelowMinimum"
+
+---
+spec:
+  name: tx_freeze_delegate_insufficient_balance
+  version: "1.0"
+  category: transactions
+  subcategory: energy
+  description: "Delegation fails with insufficient balance"
+  priority: P0
+
+preconditions:
+  - delegator:
+      balance: 150000000  # 1.5 TOS
+      nonce: 0
+
+action:
+  type: transaction
+  tx_type: Energy
+  params:
+    payload:
+      FreezeTosDelegate:
+        delegatees:
+          - delegatee: "tos1alice..."
+            amount: 100000000  # 1 TOS
+          - delegatee: "tos1bob..."
+            amount: 100000000  # 1 TOS (total 2 > 1.5)
+        duration:
+          days: 7
+
+expected:
+  status: error
+  error: "InsufficientBalance"
+
+---
+spec:
+  name: tx_freeze_delegate_counts_toward_record_limit
+  version: "1.0"
+  category: transactions
+  subcategory: energy
+  description: "One batch delegation = one record (toward 32 limit)"
+  priority: P0
+
+preconditions:
+  - delegator:
+      balance: 100000000000
+      delegated_records_count: 31
+      nonce: 0
+
+action:
+  type: transaction
+  tx_type: Energy
+  params:
+    payload:
+      FreezeTosDelegate:
+        delegatees:
+          - delegatee: "tos1alice..."
+            amount: 100000000
+        duration:
+          days: 7
+
+expected:
+  status: success
+
+postconditions:
+  - delegator:
+      delegated_records_count: 32  # Now at max
+
+---
+spec:
+  name: tx_freeze_delegate_at_record_limit
+  version: "1.0"
+  category: transactions
+  subcategory: energy
+  description: "New delegation rejected at 32 records"
+  priority: P0
+
+preconditions:
+  - delegator:
+      balance: 100000000000
+      delegated_records_count: 32  # MAX_FREEZE_RECORDS
+      nonce: 0
+
+action:
+  type: transaction
+  tx_type: Energy
+  params:
+    payload:
+      FreezeTosDelegate:
+        delegatees:
+          - delegatee: "tos1alice..."
+            amount: 100000000
+        duration:
+          days: 7
+
+expected:
+  status: error
+  error: "MaxFreezeRecordsReached"
+
+---
+spec:
+  name: tx_freeze_delegate_energy_lease_tracking
+  version: "1.0"
+  category: transactions
+  subcategory: energy
+  description: "Delegatee receives energy as a lease"
+  priority: P1
+
+preconditions:
+  - delegator:
+      address: "tos1delegator..."
+      balance: 500000000
+      nonce: 0
+  - delegatee:
+      address: "tos1delegatee..."
+      energy: 10
+      leases_count: 0
+      active: true
+
+action:
+  type: transaction
+  tx_type: Energy
+  params:
+    payload:
+      FreezeTosDelegate:
+        delegatees:
+          - delegatee: "tos1delegatee..."
+            amount: 100000000
+        duration:
+          days: 7
+
+expected:
+  status: success
+
+postconditions:
+  - delegatee:
+      energy: 24  # 10 + 14
+      leases_count: 1
+      lease:
+        from: "tos1delegator..."
+        energy: 14
+
+---
+spec:
+  name: tx_freeze_delegate_payload_structure
+  version: "1.0"
+  category: transactions
+  subcategory: energy
+  description: "FreezeTosDelegate payload wire format"
+  priority: P0
+
+definition:
+  freeze_delegate_payload:
+    variant_tag: 1  # u8
+    delegatees_count:
+      type: u64
+      size: 8
+    delegatees:
+      type: "Vec<DelegationEntry>"
+      entry_size: 40  # PublicKey(32) + amount(8)
+    duration:
+      days:
+        type: u32
+        size: 4
+
+serialization_order:
+  - variant (1 byte: 0x01)
+  - delegatees_count (8 bytes)
+  - delegatees (N * 40 bytes)
+  - duration.days (4 bytes)

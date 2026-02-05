@@ -1,0 +1,279 @@
+# TOS UNO Transfer Transaction Conformance Specifications
+# Based on: common/src/transaction/payload/uno_transfer.rs
+#
+# Privacy-preserving transfers using Twisted ElGamal encryption
+
+---
+spec:
+  name: tx_uno_transfer_basic
+  version: "1.0"
+  category: transactions
+  subcategory: privacy
+  description: "Basic UNO confidential transfer"
+  priority: P0
+
+preconditions:
+  - sender:
+      address: "tos1sender..."
+      uno_balance: "<encrypted: 500000000>"  # 5 TOS encrypted
+      nonce: 0
+  - receiver:
+      address: "tos1receiver..."
+
+action:
+  type: transaction
+  tx_type: UnoTransfer
+  params:
+    asset: "0x0000...0000"  # TOS_ASSET
+    destination: "tos1receiver..."
+    commitment: "<C = amount * G + r * H>"
+    sender_handle: "<D_s = r * P_sender>"
+    receiver_handle: "<D_r = r * P_receiver>"
+    ct_validity_proof: "<ZK proof>"
+    extra_data: null
+    fee: 50000
+    nonce: 0
+
+expected:
+  status: success
+  note: "Amount hidden; only sender/receiver can decrypt"
+
+postconditions:
+  - sender:
+      uno_balance: "<updated encrypted balance>"
+      nonce: 1
+  - receiver:
+      uno_balance: "<increased encrypted balance>"
+
+---
+spec:
+  name: tx_uno_transfer_twisted_elgamal
+  version: "1.0"
+  category: transactions
+  subcategory: privacy
+  description: "Twisted ElGamal encryption structure"
+  priority: P0
+
+definition:
+  twisted_elgamal:
+    commitment:
+      formula: "C = amount * G + r * H"
+      components:
+        - G: "Pedersen base point"
+        - H: "Pedersen blinding point"
+        - r: "Random scalar (opening)"
+        - amount: "Transfer amount"
+
+    decrypt_handle:
+      sender_formula: "D_s = r * P_sender"
+      receiver_formula: "D_r = r * P_receiver"
+      purpose: "Allows decryption by respective party"
+
+    ciphertext:
+      description: "(commitment, handle) pair"
+      decryption: "amount = DLOG(C - sk * D)"
+
+---
+spec:
+  name: tx_uno_transfer_proof_validity
+  version: "1.0"
+  category: transactions
+  subcategory: privacy
+  description: "CiphertextValidityProof requirements"
+  priority: P0
+
+definition:
+  ct_validity_proof:
+    proves:
+      - "Commitment contains claimed amount"
+      - "Handles use same opening as commitment"
+      - "Sender knows the opening"
+
+    components:
+      Y_1: "Commitment component"
+      Y_2: "Sender handle component (T1 version)"
+      z_r: "Opening proof"
+      z_x: "Amount proof"
+
+  tx_versions:
+    T0: "Without Y_2 (legacy)"
+    T1: "With Y_2 for sender authentication"
+
+---
+spec:
+  name: tx_uno_transfer_invalid_proof
+  version: "1.0"
+  category: transactions
+  subcategory: privacy
+  description: "Invalid proof rejected"
+  priority: P0
+
+action:
+  type: transaction
+  tx_type: UnoTransfer
+  params:
+    commitment: "<valid commitment>"
+    ct_validity_proof: "<invalid proof>"
+
+expected:
+  status: error
+  error: "InvalidCiphertextProof"
+
+---
+spec:
+  name: tx_uno_transfer_insufficient_balance
+  version: "1.0"
+  category: transactions
+  subcategory: privacy
+  description: "Transfer fails with insufficient encrypted balance"
+  priority: P0
+
+preconditions:
+  - sender:
+      uno_balance: "<encrypted: 100000000>"  # 1 TOS
+
+action:
+  type: transaction
+  tx_type: UnoTransfer
+  params:
+    # Transfer 5 TOS (more than balance)
+    commitment: "<C for 500000000>"
+
+expected:
+  status: error
+  error: "InsufficientUnoBalance"
+  note: "Range proof will fail for negative resulting balance"
+
+---
+spec:
+  name: tx_uno_transfer_self_transfer
+  version: "1.0"
+  category: transactions
+  subcategory: privacy
+  description: "Self UNO transfer allowed"
+  priority: P1
+
+preconditions:
+  - sender:
+      uno_balance: "<encrypted: 500000000>"
+
+action:
+  type: transaction
+  tx_type: UnoTransfer
+  params:
+    destination: "tos1sender..."  # Same as sender
+
+expected:
+  status: success
+  note: "Self transfer allowed (e.g., for re-randomizing ciphertext)"
+
+---
+spec:
+  name: tx_uno_transfer_with_extra_data
+  version: "1.0"
+  category: transactions
+  subcategory: privacy
+  description: "UNO transfer with encrypted memo"
+  priority: P1
+
+action:
+  type: transaction
+  tx_type: UnoTransfer
+  params:
+    destination: "tos1receiver..."
+    extra_data: "<encrypted memo bytes>"
+
+expected:
+  status: success
+  note: "Extra data is visible on-chain but semantically opaque"
+
+---
+spec:
+  name: tx_uno_transfer_payload_structure
+  version: "1.0"
+  category: transactions
+  subcategory: privacy
+  description: "UnoTransferPayload wire format"
+  priority: P0
+
+definition:
+  uno_transfer_payload:
+    asset:
+      type: Hash
+      size: 32
+    destination:
+      type: CompressedPublicKey
+      size: 32
+    extra_data:
+      type: "Option<UnknownExtraDataFormat>"
+    commitment:
+      type: CompressedCommitment
+      size: 32
+      description: "Pedersen commitment C"
+    sender_handle:
+      type: CompressedHandle
+      size: 32
+      description: "D_s for sender decryption"
+    receiver_handle:
+      type: CompressedHandle
+      size: 32
+      description: "D_r for receiver decryption"
+    ct_validity_proof:
+      type: CiphertextValidityProof
+      size: variable
+      description: "ZK proof of valid encryption"
+
+serialization_order:
+  - asset (32 bytes)
+  - destination (32 bytes)
+  - extra_data (option flag + data)
+  - commitment (32 bytes)
+  - sender_handle (32 bytes)
+  - receiver_handle (32 bytes)
+  - ct_validity_proof (variable)
+
+---
+spec:
+  name: tx_uno_transfer_fee_model
+  version: "1.0"
+  category: transactions
+  subcategory: privacy
+  description: "UNO transfer fee calculation"
+  priority: P0
+
+definition:
+  fee_model:
+    base_fee: 50000  # Higher than plaintext transfer
+    proof_verification_cost: 30000
+    total_minimum: 50000
+
+note: |
+  UNO transfers cost more than plaintext transfers due to:
+  1. ZK proof verification
+  2. Homomorphic balance updates
+  3. Additional storage for ciphertexts
+
+---
+spec:
+  name: tx_uno_transfer_ciphertext_roles
+  version: "1.0"
+  category: transactions
+  subcategory: privacy
+  description: "Role-based ciphertext construction"
+  priority: P1
+
+definition:
+  roles:
+    Sender:
+      ciphertext: "(commitment, sender_handle)"
+      can_decrypt: true
+      use_case: "Verify sent amount, track history"
+
+    Receiver:
+      ciphertext: "(commitment, receiver_handle)"
+      can_decrypt: true
+      use_case: "Verify received amount, spend funds"
+
+  decryption:
+    formula: "amount = DLOG(C - sk * D)"
+    note: "Discrete log is feasible for amounts up to ~2^40"

@@ -1,0 +1,246 @@
+# TOS Fee Model Conformance Specifications
+# Based on: common/src/config.rs, common/src/utils.rs
+#
+# Defines fee calculation rules for all transaction types
+
+---
+spec:
+  name: fee_types_overview
+  version: "1.0"
+  category: models
+  subcategory: fee
+  description: "Three fee types: TOS, Energy, UNO"
+  priority: P0
+
+definition:
+  fee_types:
+    TOS:
+      value: 0
+      description: "Traditional TOS-based fees (default)"
+    Energy:
+      value: 1
+      description: "Energy-based fees for transfers only"
+    UNO:
+      value: 2
+      description: "UNO-based fees for privacy transfers (burned)"
+
+serialization:
+  size: 1 byte (u8)
+
+---
+spec:
+  name: tos_fee_calculation
+  version: "1.0"
+  category: models
+  subcategory: fee
+  description: "TOS fee calculation formula"
+  priority: P0
+
+formula: |
+  fee = FEE_PER_KB * (tx_size / 1024)
+      + FEE_PER_TRANSFER * transfer_count
+      + FEE_PER_MULTISIG_SIGNATURE * multisig_count
+      + FEE_PER_ACCOUNT_CREATION * new_accounts
+
+constants:
+  FEE_PER_KB: 10000  # 0.0001 TOS per KB
+  FEE_PER_TRANSFER: 5000  # 0.00005 TOS per transfer
+  FEE_PER_MULTISIG_SIGNATURE: 500  # 0.000005 TOS per signature
+  FEE_PER_ACCOUNT_CREATION: 0  # Free account creation
+
+examples:
+  - name: simple_single_transfer
+    tx_size: 256  # bytes
+    transfers: 1
+    fee: 7500  # (10000 * 256/1024) + 5000 = 2500 + 5000
+
+  - name: batch_transfer_10_outputs
+    tx_size: 1024
+    transfers: 10
+    fee: 60000  # (10000 * 1) + (5000 * 10) = 10000 + 50000
+
+---
+spec:
+  name: energy_fee_calculation
+  version: "1.0"
+  category: models
+  subcategory: fee
+  description: "Energy fee calculation for transfers"
+  priority: P0
+
+formula: "energy_cost = ENERGY_PER_TRANSFER * output_count"
+
+constants:
+  ENERGY_PER_TRANSFER: 1
+
+constraints:
+  - "Only Transfer, UnoTransfers, ShieldTransfers, UnshieldTransfers can use energy fees"
+  - "Account must have sufficient energy balance"
+  - "energy_consumed = min(energy_available, energy_cost)"
+
+examples:
+  - name: single_transfer
+    outputs: 1
+    energy_cost: 1
+
+  - name: batch_5_transfers
+    outputs: 5
+    energy_cost: 5
+
+---
+spec:
+  name: uno_fee_calculation
+  version: "1.0"
+  category: models
+  subcategory: fee
+  description: "UNO fee calculation (burned, not rewarded)"
+  priority: P0
+
+formula: |
+  fee = UNO_FEE_PER_KB * (tx_size / 1024)
+      + UNO_FEE_PER_TRANSFER * transfer_count
+
+constants:
+  UNO_FEE_PER_KB: 10000
+  UNO_FEE_PER_TRANSFER: 5000
+  UNO_BURN_FEE_PER_TRANSFER: 5000
+
+behavior:
+  - "UNO fees are burned, not rewarded to miners"
+  - "Only UnoTransfers can use UNO fee type"
+
+---
+spec:
+  name: contract_fee_calculation
+  version: "1.0"
+  category: models
+  subcategory: fee
+  description: "Smart contract execution fee calculation"
+  priority: P0
+
+formula: |
+  deployment_fee = BURN_PER_CONTRACT + execution_gas
+  invoke_fee = execution_gas
+
+constants:
+  BURN_PER_CONTRACT: 100000000  # 1 TOS (burned on deploy)
+  COST_PER_TOKEN: 100000000  # 1 TOS per token created
+  TX_GAS_BURN_PERCENT: 30  # 30% of execution fees burned
+  MAX_GAS_USAGE_PER_TX: 1000000000  # 10 TOS max gas
+  FEE_PER_STORE_CONTRACT: 100  # 0.000001 TOS per store
+  FEE_PER_BYTE_STORED_CONTRACT: 5  # 0.00000005 TOS per byte
+  FEE_PER_BYTE_IN_CONTRACT_MEMORY: 1
+  FEE_PER_BYTE_OF_EVENT_DATA: 2
+
+gas_distribution:
+  - miner: 70%
+  - burned: 30%
+
+---
+spec:
+  name: free_operations
+  version: "1.0"
+  category: models
+  subcategory: fee
+  description: "Operations with zero fees"
+  priority: P0
+
+free_operations:
+  - FreezeTos
+  - FreezeTosDelegate
+  - UnfreezeTos
+  - WithdrawUnfrozen
+
+rationale: "Energy staking operations are free to encourage participation"
+
+---
+spec:
+  name: fee_validation_rules
+  version: "1.0"
+  category: models
+  subcategory: fee
+  description: "Fee validation rules"
+  priority: P0
+
+rules:
+  - name: minimum_fee
+    rule: "tx.fee >= calculated_minimum_fee"
+    error: "InsufficientFee"
+
+  - name: fee_type_compatibility
+    rule: "fee_type must be compatible with transaction type"
+    error: "InvalidFeeType"
+    examples:
+      - tx_type: Transfers
+        allowed_fee_types: [TOS, Energy]
+      - tx_type: UnoTransfers
+        allowed_fee_types: [TOS, Energy, UNO]
+      - tx_type: InvokeContract
+        allowed_fee_types: [TOS]
+
+  - name: sufficient_balance
+    rule: "sender.balance[fee_asset] >= fee"
+    error: "InsufficientBalance"
+
+  - name: sufficient_energy
+    rule: "if fee_type == Energy: sender.energy >= energy_cost"
+    error: "InsufficientEnergy"
+
+---
+spec:
+  name: fee_distribution
+  version: "1.0"
+  category: models
+  subcategory: fee
+  description: "Fee distribution to miners and burn"
+  priority: P0
+
+distribution:
+  transfer_fees:
+    miner: 100%
+    burn: 0%
+
+  contract_execution_fees:
+    miner: 70%
+    burn: 30%  # TX_GAS_BURN_PERCENT
+
+  uno_fees:
+    miner: 0%
+    burn: 100%
+
+---
+spec:
+  name: fee_model_constants
+  version: "1.0"
+  category: models
+  subcategory: fee
+  description: "All fee-related constants"
+  priority: P0
+
+constants:
+  # Atomic units
+  COIN_VALUE: 100000000
+  COIN_DECIMALS: 8
+
+  # TOS fees
+  FEE_PER_KB: 10000
+  FEE_PER_TRANSFER: 5000
+  FEE_PER_MULTISIG_SIGNATURE: 500
+  FEE_PER_ACCOUNT_CREATION: 0
+
+  # UNO fees
+  UNO_FEE_PER_KB: 10000
+  UNO_FEE_PER_TRANSFER: 5000
+
+  # Contract fees
+  BURN_PER_CONTRACT: 100000000
+  COST_PER_TOKEN: 100000000
+  TX_GAS_BURN_PERCENT: 30
+  MAX_GAS_USAGE_PER_TX: 1000000000
+  FEE_PER_STORE_CONTRACT: 100
+  FEE_PER_BYTE_STORED_CONTRACT: 5
+  FEE_PER_BYTE_IN_CONTRACT_MEMORY: 1
+  FEE_PER_BYTE_OF_EVENT_DATA: 2
+
+  # Energy
+  ENERGY_PER_TRANSFER: 1

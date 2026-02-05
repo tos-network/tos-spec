@@ -1,0 +1,425 @@
+# TOS SetKyc Transaction Conformance Specifications
+# Based on: common/src/transaction/payload/kyc/set_kyc.rs
+#
+# Set or update a user's KYC verification level
+
+---
+spec:
+  name: tx_set_kyc_basic
+  version: "1.0"
+  category: transactions
+  subcategory: kyc
+  description: "Basic KYC level assignment"
+  priority: P0
+
+preconditions:
+  - sender:
+      address: "tos1committee_member..."
+      balance: 100000000
+      nonce: 0
+  - target:
+      address: "tos1user..."
+      kyc_level: 0  # No KYC
+  - committee:
+      id: "0xcommittee..."
+      exists: true
+      members:
+        - "tos1committee_member..."
+      kyc_threshold: 1
+
+action:
+  type: transaction
+  tx_type: SetKyc
+  params:
+    account: "tos1user..."
+    level: 7  # Tier 1 (Basic)
+    verified_at: 1706832000  # Unix timestamp
+    data_hash: "0xhash_of_offchain_data..."
+    committee_id: "0xcommittee..."
+    approvals:
+      - member_pubkey: "tos1committee_member..."
+        signature: "<valid_signature>"
+        timestamp: 1706832000
+    fee: 50000  # 50,000 gas
+    nonce: 0
+
+expected:
+  status: success
+
+postconditions:
+  - target:
+      kyc_level: 7
+      kyc_status: "Verified"
+      kyc_verified_at: 1706832000
+      kyc_data_hash: "0xhash_of_offchain_data..."
+
+---
+spec:
+  name: tx_set_kyc_levels
+  version: "1.0"
+  category: transactions
+  subcategory: kyc
+  description: "Valid KYC level bitmask values"
+  priority: P0
+
+definition:
+  kyc_levels:
+    0: "None"
+    7: "Tier 1 - Basic (email, phone)"
+    31: "Tier 2 - Standard (ID verification)"
+    63: "Tier 3 - Enhanced (address verification)"
+    255: "Tier 4 - Professional (business verification)"
+    2047: "Tier 5 - Premium (enhanced due diligence)"
+    8191: "Tier 6 - Institutional (regulatory compliance)"
+    16383: "Tier 7 - VIP"
+    32767: "Tier 8 - Maximum (Global Committee only)"
+
+  level_bits:
+    Tier1: "0b00000000_00000111"
+    Tier2: "0b00000000_00011111"
+    Tier3: "0b00000000_00111111"
+    Tier4: "0b00000000_11111111"
+    Tier5: "0b00000111_11111111"
+    Tier6: "0b00011111_11111111"
+    Tier7: "0b00111111_11111111"
+    Tier8: "0b01111111_11111111"
+
+---
+spec:
+  name: tx_set_kyc_invalid_level
+  version: "1.0"
+  category: transactions
+  subcategory: kyc
+  description: "Invalid KYC level rejected"
+  priority: P0
+
+preconditions:
+  - committee:
+      exists: true
+      kyc_threshold: 1
+
+action:
+  type: transaction
+  tx_type: SetKyc
+  params:
+    level: 100  # Invalid (not a valid tier bitmask)
+
+expected:
+  status: error
+  error: "InvalidKycLevel"
+
+---
+spec:
+  name: tx_set_kyc_insufficient_approvals
+  version: "1.0"
+  category: transactions
+  subcategory: kyc
+  description: "SetKyc requires kyc_threshold approvals"
+  priority: P0
+
+preconditions:
+  - committee:
+      id: "0xcommittee..."
+      kyc_threshold: 2  # Requires 2 approvals
+
+action:
+  type: transaction
+  tx_type: SetKyc
+  params:
+    level: 7
+    committee_id: "0xcommittee..."
+    approvals:
+      - member_pubkey: "tos1member1..."
+        # Only 1 approval
+
+expected:
+  status: error
+  error: "InsufficientApprovals"
+
+---
+spec:
+  name: tx_set_kyc_high_tier_extra_approval
+  version: "1.0"
+  category: transactions
+  subcategory: kyc
+  description: "Tier 5+ requires kyc_threshold + 1 approvals"
+  priority: P0
+
+preconditions:
+  - committee:
+      id: "0xcommittee..."
+      kyc_threshold: 1  # Base threshold
+
+action:
+  type: transaction
+  tx_type: SetKyc
+  params:
+    level: 2047  # Tier 5
+    approvals:
+      - member_pubkey: "tos1member1..."
+        # Only 1 approval, but need 2 for Tier 5+
+
+expected:
+  status: error
+  error: "InsufficientApprovalsForHighTier"
+
+---
+spec:
+  name: tx_set_kyc_expired_approval
+  version: "1.0"
+  category: transactions
+  subcategory: kyc
+  description: "Approval older than 24 hours rejected"
+  priority: P0
+
+preconditions:
+  - current_time: 1706918400  # Unix timestamp
+
+action:
+  type: transaction
+  tx_type: SetKyc
+  params:
+    approvals:
+      - timestamp: 1706745600  # 48 hours ago (> APPROVAL_EXPIRY_SECONDS)
+
+expected:
+  status: error
+  error: "ApprovalExpired"
+
+---
+spec:
+  name: tx_set_kyc_future_approval
+  version: "1.0"
+  category: transactions
+  subcategory: kyc
+  description: "Approval > 1 hour in future rejected"
+  priority: P1
+
+preconditions:
+  - current_time: 1706832000
+
+action:
+  type: transaction
+  tx_type: SetKyc
+  params:
+    approvals:
+      - timestamp: 1706839200  # 2 hours in future (> APPROVAL_FUTURE_TOLERANCE_SECONDS)
+
+expected:
+  status: error
+  error: "ApprovalTimestampInFuture"
+
+---
+spec:
+  name: tx_set_kyc_invalid_signature
+  version: "1.0"
+  category: transactions
+  subcategory: kyc
+  description: "Invalid approval signature rejected"
+  priority: P0
+
+action:
+  type: transaction
+  tx_type: SetKyc
+  params:
+    approvals:
+      - member_pubkey: "tos1member..."
+        signature: "<invalid_signature>"
+
+expected:
+  status: error
+  error: "InvalidSignature"
+
+---
+spec:
+  name: tx_set_kyc_non_member_approval
+  version: "1.0"
+  category: transactions
+  subcategory: kyc
+  description: "Approval from non-committee member rejected"
+  priority: P0
+
+preconditions:
+  - committee:
+      members:
+        - "tos1member1..."
+        - "tos1member2..."
+
+action:
+  type: transaction
+  tx_type: SetKyc
+  params:
+    approvals:
+      - member_pubkey: "tos1outsider..."  # Not a member
+
+expected:
+  status: error
+  error: "ApproverNotCommitteeMember"
+
+---
+spec:
+  name: tx_set_kyc_committee_not_found
+  version: "1.0"
+  category: transactions
+  subcategory: kyc
+  description: "Non-existent committee rejected"
+  priority: P0
+
+action:
+  type: transaction
+  tx_type: SetKyc
+  params:
+    committee_id: "0xnonexistent..."
+
+expected:
+  status: error
+  error: "CommitteeNotFound"
+
+---
+spec:
+  name: tx_set_kyc_exceeds_committee_max
+  version: "1.0"
+  category: transactions
+  subcategory: kyc
+  description: "Level exceeding committee's max_kyc_level rejected"
+  priority: P0
+
+preconditions:
+  - committee:
+      id: "0xcommittee..."
+      max_kyc_level: 255  # Can only assign up to Tier 4
+
+action:
+  type: transaction
+  tx_type: SetKyc
+  params:
+    level: 2047  # Tier 5 (exceeds committee's authority)
+    committee_id: "0xcommittee..."
+
+expected:
+  status: error
+  error: "KycLevelExceedsCommitteeAuthority"
+
+---
+spec:
+  name: tx_set_kyc_upgrade_level
+  version: "1.0"
+  category: transactions
+  subcategory: kyc
+  description: "Upgrade existing KYC level"
+  priority: P0
+
+preconditions:
+  - target:
+      kyc_level: 7  # Tier 1
+
+action:
+  type: transaction
+  tx_type: SetKyc
+  params:
+    account: "tos1target..."
+    level: 31  # Tier 2
+
+expected:
+  status: success
+
+postconditions:
+  - target:
+      kyc_level: 31
+
+---
+spec:
+  name: tx_set_kyc_downgrade_level
+  version: "1.0"
+  category: transactions
+  subcategory: kyc
+  description: "Downgrade KYC level (allowed)"
+  priority: P1
+
+preconditions:
+  - target:
+      kyc_level: 255  # Tier 4
+
+action:
+  type: transaction
+  tx_type: SetKyc
+  params:
+    account: "tos1target..."
+    level: 31  # Tier 2
+
+expected:
+  status: success
+
+postconditions:
+  - target:
+      kyc_level: 31
+
+---
+spec:
+  name: tx_set_kyc_onchain_storage
+  version: "1.0"
+  category: transactions
+  subcategory: kyc
+  description: "On-chain KYC data is minimal (43 bytes)"
+  priority: P0
+
+definition:
+  onchain_kyc_data:
+    level:
+      type: u16
+      size: 2
+    status:
+      type: u8
+      size: 1
+    verified_at:
+      type: u64
+      size: 8
+    data_hash:
+      type: Hash
+      size: 32
+
+  total_size: 43 bytes
+
+note: "Full KYC data stored off-chain by committee"
+
+---
+spec:
+  name: tx_set_kyc_payload_structure
+  version: "1.0"
+  category: transactions
+  subcategory: kyc
+  description: "SetKycPayload wire format"
+  priority: P0
+
+definition:
+  set_kyc_payload:
+    account:
+      type: CompressedPublicKey
+      size: 32
+    level:
+      type: u16
+      size: 2
+    verified_at:
+      type: u64
+      size: 8
+    data_hash:
+      type: Hash
+      size: 32
+    committee_id:
+      type: Hash
+      size: 32
+    approvals_count:
+      type: u8
+      size: 1
+    approvals:
+      type: "Vec<CommitteeApproval>"
+      entry_size: 104  # pubkey(32) + signature(64) + timestamp(8)
+
+serialization_order:
+  - account (32 bytes)
+  - level (2 bytes)
+  - verified_at (8 bytes)
+  - data_hash (32 bytes)
+  - committee_id (32 bytes)
+  - approvals_count (1 byte)
+  - approvals (N * 104 bytes)

@@ -1,0 +1,163 @@
+protocol: discv6
+version: 6
+node_id_algorithm: SHA3-256
+signature_algorithm: TOS Schnorr (Ristretto255 + SHA3-512)
+kademlia_k: 16
+kademlia_alpha: 3
+num_buckets: 256
+identity_vectors:
+- name: ones_secret
+  description: Secret key of all 0xff bytes
+  secret_key_hex: 1c95988d7431ecd670cf7d73f45befc6feffffffffffffffffffffffffffff0f
+  public_key_hex: f6decfbf9efabc8aa59452aa570cb84eed7fcfca7daea58a93b93444400a7a73
+  node_id_hex: f5c314e1bd33e954519328ff79759264d0b09cbb1d09f46ec670c4db6c033e35
+- name: sequential_secret
+  description: Secret key of sequential bytes 0x00..0x1f
+  secret_key_hex: 132d0ca6e9a1f3ae316c12682d132ffa0f1112131415161718191a1b1c1d1e0f
+  public_key_hex: e2bc92a12d845a672d09d7d600f1b2f93c189427752a8649f090d792f805274e
+  node_id_hex: 75e1a443be4cfce8615158c251d602cc6bac26b295aafdf3c81b082f608a004f
+- name: seed_based_secret
+  description: Secret key from ASCII seed
+  secret_key_hex: adf3910915403c5bec9f7e89dd32d72673742073656564203132333435363708
+  public_key_hex: ae9713bdcaaa864000d6dfa4ddea5a9381c05f3e443c515664d03b91c37b2a08
+  node_id_hex: ed06832a08e1dae69f2aea55659d6ffb1faabf6084420f0f958874e5a138a3a0
+- name: random_pattern_secret
+  description: Deterministic random-looking pattern
+  secret_key_hex: 1a2b3c4d5e6f708192a3b4c5d6e7f809102132435465768798a9bacbdcedfe0f
+  public_key_hex: 306539cf638c3b0f6b3115f892074a8e215f73cfbb484728b28cb2a4a5f2af13
+  node_id_hex: aaff920f6ca71d3767b61dfa97be94886db721e6a81492ad7bdaa8372c76f662
+xor_distance_vectors:
+- name: same_ids
+  description: XOR distance between identical IDs is zero
+  node_id_a_hex: '1212121212121212121212121212121212121212121212121212121212121212'
+  node_id_b_hex: '1212121212121212121212121212121212121212121212121212121212121212'
+  xor_distance_hex: '0000000000000000000000000000000000000000000000000000000000000000'
+- name: zeros_vs_ones
+  description: Maximum XOR distance
+  node_id_a_hex: '0000000000000000000000000000000000000000000000000000000000000000'
+  node_id_b_hex: ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+  xor_distance_hex: ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+- name: differ_first_byte_msb
+  description: Differ in MSB of first byte (bucket 255)
+  node_id_a_hex: '8000000000000000000000000000000000000000000000000000000000000000'
+  node_id_b_hex: '0000000000000000000000000000000000000000000000000000000000000000'
+  xor_distance_hex: '8000000000000000000000000000000000000000000000000000000000000000'
+- name: differ_last_bit
+  description: Differ in LSB of last byte (bucket 0)
+  node_id_a_hex: '0000000000000000000000000000000000000000000000000000000000000000'
+  node_id_b_hex: '0000000000000000000000000000000000000000000000000000000000000001'
+  xor_distance_hex: '0000000000000000000000000000000000000000000000000000000000000001'
+- name: arbitrary_pattern
+  description: XOR of two arbitrary patterns
+  node_id_a_hex: 123456789abcdef0112233445566778899aabbccddeeff000102030405060708
+  node_id_b_hex: fedcba9876543210eeddccbbaa99887766554433221100fffefdfcfbfaf9f8f7
+  xor_distance_hex: ece8ece0ece8ece0ffffffffffffffffffffffffffffffffffffffffffffffff
+log2_distance_vectors:
+- name: same_ids
+  description: Identical IDs have no bucket index
+  node_id_a_hex: '1212121212121212121212121212121212121212121212121212121212121212'
+  node_id_b_hex: '1212121212121212121212121212121212121212121212121212121212121212'
+  bucket_index: null
+- name: bucket_255
+  description: Differ in MSB of first byte
+  node_id_a_hex: '8000000000000000000000000000000000000000000000000000000000000000'
+  node_id_b_hex: '0000000000000000000000000000000000000000000000000000000000000000'
+  bucket_index: 255
+- name: bucket_0
+  description: Differ in LSB of last byte
+  node_id_a_hex: '0000000000000000000000000000000000000000000000000000000000000000'
+  node_id_b_hex: '0000000000000000000000000000000000000000000000000000000000000001'
+  bucket_index: 0
+- name: bucket_254
+  description: Differ in second bit of first byte
+  node_id_a_hex: '4000000000000000000000000000000000000000000000000000000000000000'
+  node_id_b_hex: '0000000000000000000000000000000000000000000000000000000000000000'
+  bucket_index: 254
+- name: bucket_247
+  description: Differ in MSB of second byte
+  node_id_a_hex: '0080000000000000000000000000000000000000000000000000000000000000'
+  node_id_b_hex: '0000000000000000000000000000000000000000000000000000000000000000'
+  bucket_index: 247
+- name: bucket_3
+  description: Differ in bit 4 of last byte (0x08)
+  node_id_a_hex: '0000000000000000000000000000000000000000000000000000000000000008'
+  node_id_b_hex: '0000000000000000000000000000000000000000000000000000000000000000'
+  bucket_index: 3
+- name: bucket_127
+  description: Differ in MSB of middle byte (index 16)
+  node_id_a_hex: '0000000000000000000000000000000080000000000000000000000000000000'
+  node_id_b_hex: '0000000000000000000000000000000000000000000000000000000000000000'
+  bucket_index: 127
+url_vectors:
+- name: valid_ipv4
+  description: Standard IPv4 tosnode URL
+  url: tosnode://1a2b3c4d5e6f708192a3b4c5d6e7f80910213243546576879899aabbccddeeff@192.168.1.1:2126
+  valid: true
+  node_id_hex: 1a2b3c4d5e6f708192a3b4c5d6e7f80910213243546576879899aabbccddeeff
+  ip: 192.168.1.1
+  port: 2126
+  is_ipv6: false
+- name: valid_ipv6
+  description: IPv6 tosnode URL with brackets
+  url: tosnode://1a2b3c4d5e6f708192a3b4c5d6e7f80910213243546576879899aabbccddeeff@[::1]:2126
+  valid: true
+  node_id_hex: 1a2b3c4d5e6f708192a3b4c5d6e7f80910213243546576879899aabbccddeeff
+  ip: ::1
+  port: 2126
+  is_ipv6: true
+- name: valid_ipv6_full
+  description: Full IPv6 address
+  url: tosnode://1a2b3c4d5e6f708192a3b4c5d6e7f80910213243546576879899aabbccddeeff@[2001:db8::1]:2126
+  valid: true
+  node_id_hex: 1a2b3c4d5e6f708192a3b4c5d6e7f80910213243546576879899aabbccddeeff
+  ip: 2001:db8::1
+  port: 2126
+  is_ipv6: true
+- name: missing_scheme
+  description: URL without tosnode:// prefix
+  url: 1a2b3c4d5e6f708192a3b4c5d6e7f80910213243546576879899aabbccddeeff@192.168.1.1:2126
+  valid: false
+- name: missing_separator
+  description: URL without @ separator
+  url: tosnode://1a2b3c4d5e6f708192a3b4c5d6e7f80910213243546576879899aabbccddeeff192.168.1.1:2126
+  valid: false
+- name: short_node_id
+  description: Node ID too short (not 64 hex chars)
+  url: tosnode://1a2b3c@192.168.1.1:2126
+  valid: false
+- name: invalid_hex
+  description: Node ID contains non-hex characters
+  url: tosnode://gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg@192.168.1.1:2126
+  valid: false
+- name: invalid_address
+  description: Invalid IP address format
+  url: tosnode://1a2b3c4d5e6f708192a3b4c5d6e7f80910213243546576879899aabbccddeeff@not-an-address:2126
+  valid: false
+- name: missing_port
+  description: URL without port number
+  url: tosnode://1a2b3c4d5e6f708192a3b4c5d6e7f80910213243546576879899aabbccddeeff@192.168.1.1
+  valid: false
+- name: localhost
+  description: Localhost address
+  url: tosnode://1a2b3c4d5e6f708192a3b4c5d6e7f80910213243546576879899aabbccddeeff@127.0.0.1:2126
+  valid: true
+  node_id_hex: 1a2b3c4d5e6f708192a3b4c5d6e7f80910213243546576879899aabbccddeeff
+  ip: 127.0.0.1
+  port: 2126
+  is_ipv6: false
+- name: high_port
+  description: Maximum valid port number
+  url: tosnode://1a2b3c4d5e6f708192a3b4c5d6e7f80910213243546576879899aabbccddeeff@192.168.1.1:65535
+  valid: true
+  node_id_hex: 1a2b3c4d5e6f708192a3b4c5d6e7f80910213243546576879899aabbccddeeff
+  ip: 192.168.1.1
+  port: 65535
+  is_ipv6: false
+- name: zeros_node_id
+  description: Node ID of all zeros
+  url: tosnode://0000000000000000000000000000000000000000000000000000000000000000@10.0.0.1:2126
+  valid: true
+  node_id_hex: '0000000000000000000000000000000000000000000000000000000000000000'
+  ip: 10.0.0.1
+  port: 2126
+  is_ipv6: false

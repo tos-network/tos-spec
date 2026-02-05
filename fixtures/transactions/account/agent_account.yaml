@@ -1,0 +1,618 @@
+# TOS AgentAccount Transaction Conformance Specifications
+# Based on: common/src/transaction/payload/agent_account.rs
+#
+# AI agent account management with session keys and policies
+
+---
+spec:
+  name: tx_agent_account_register
+  version: "1.0"
+  category: transactions
+  subcategory: account
+  description: "Register new AI agent account"
+  priority: P0
+
+preconditions:
+  - sender:
+      address: "tos1sender..."
+      balance: 100000000
+      is_agent: false
+      nonce: 0
+
+action:
+  type: transaction
+  tx_type: AgentAccount
+  params:
+    variant: Register
+    controller: "tos1controller..."
+    policy_hash: "0xpolicy..."
+    energy_pool: "tos1energy_provider..."
+    session_key_root: "0xsession_root..."
+    fee: 30000
+    nonce: 0
+
+expected:
+  status: success
+
+postconditions:
+  - sender:
+      is_agent: true
+      agent_controller: "tos1controller..."
+      agent_policy_hash: "0xpolicy..."
+      agent_energy_pool: "tos1energy_provider..."
+      nonce: 1
+
+---
+spec:
+  name: tx_agent_account_register_minimal
+  version: "1.0"
+  category: transactions
+  subcategory: account
+  description: "Register agent with minimal config"
+  priority: P1
+
+action:
+  type: transaction
+  tx_type: AgentAccount
+  params:
+    variant: Register
+    controller: "tos1controller..."
+    policy_hash: "0xpolicy..."
+    energy_pool: null  # Optional
+    session_key_root: null  # Optional
+
+expected:
+  status: success
+
+---
+spec:
+  name: tx_agent_account_register_already_agent
+  version: "1.0"
+  category: transactions
+  subcategory: account
+  description: "Cannot register if already an agent"
+  priority: P0
+
+preconditions:
+  - sender:
+      is_agent: true
+
+action:
+  type: transaction
+  tx_type: AgentAccount
+  params:
+    variant: Register
+    controller: "tos1controller..."
+    policy_hash: "0xpolicy..."
+
+expected:
+  status: error
+  error: "AlreadyAgentAccount"
+
+---
+spec:
+  name: tx_agent_account_update_policy
+  version: "1.0"
+  category: transactions
+  subcategory: account
+  description: "Update agent policy"
+  priority: P0
+
+preconditions:
+  - sender:
+      is_agent: true
+      agent_controller: "tos1controller..."
+      agent_policy_hash: "0xold_policy..."
+  - tx_signer: "tos1controller..."  # Controller signs
+
+action:
+  type: transaction
+  tx_type: AgentAccount
+  params:
+    variant: UpdatePolicy
+    policy_hash: "0xnew_policy..."
+
+expected:
+  status: success
+
+postconditions:
+  - sender:
+      agent_policy_hash: "0xnew_policy..."
+
+---
+spec:
+  name: tx_agent_account_update_policy_not_controller
+  version: "1.0"
+  category: transactions
+  subcategory: account
+  description: "Only controller can update policy"
+  priority: P0
+
+preconditions:
+  - sender:
+      is_agent: true
+      agent_controller: "tos1controller..."
+  - tx_signer: "tos1other..."  # Not controller
+
+action:
+  type: transaction
+  tx_type: AgentAccount
+  params:
+    variant: UpdatePolicy
+    policy_hash: "0xnew_policy..."
+
+expected:
+  status: error
+  error: "NotController"
+
+---
+spec:
+  name: tx_agent_account_rotate_controller
+  version: "1.0"
+  category: transactions
+  subcategory: account
+  description: "Rotate agent controller"
+  priority: P0
+
+preconditions:
+  - sender:
+      is_agent: true
+      agent_controller: "tos1old_controller..."
+  - tx_signer: "tos1old_controller..."
+
+action:
+  type: transaction
+  tx_type: AgentAccount
+  params:
+    variant: RotateController
+    new_controller: "tos1new_controller..."
+
+expected:
+  status: success
+
+postconditions:
+  - sender:
+      agent_controller: "tos1new_controller..."
+
+---
+spec:
+  name: tx_agent_account_rotate_controller_same
+  version: "1.0"
+  category: transactions
+  subcategory: account
+  description: "Cannot rotate to same controller"
+  priority: P1
+
+preconditions:
+  - sender:
+      agent_controller: "tos1controller..."
+
+action:
+  type: transaction
+  tx_type: AgentAccount
+  params:
+    variant: RotateController
+    new_controller: "tos1controller..."  # Same
+
+expected:
+  status: error
+  error: "SameController"
+
+---
+spec:
+  name: tx_agent_account_set_status
+  version: "1.0"
+  category: transactions
+  subcategory: account
+  description: "Set agent status"
+  priority: P0
+
+definition:
+  agent_statuses:
+    Active: 0
+    Paused: 1
+    Suspended: 2
+
+preconditions:
+  - sender:
+      is_agent: true
+      agent_status: 0  # Active
+  - tx_signer: "tos1controller..."
+
+action:
+  type: transaction
+  tx_type: AgentAccount
+  params:
+    variant: SetStatus
+    status: 1  # Paused
+
+expected:
+  status: success
+
+postconditions:
+  - sender:
+      agent_status: 1
+
+note: |
+  Status values:
+  - Active (0): Agent can execute transactions
+  - Paused (1): Agent temporarily inactive, can be resumed
+  - Suspended (2): Agent suspended, requires controller action
+
+---
+spec:
+  name: tx_agent_account_set_status_invalid
+  version: "1.0"
+  category: transactions
+  subcategory: account
+  description: "Invalid status value rejected"
+  priority: P0
+
+action:
+  type: transaction
+  tx_type: AgentAccount
+  params:
+    variant: SetStatus
+    status: 10  # Invalid
+
+expected:
+  status: error
+  error: "InvalidStatus"
+
+---
+spec:
+  name: tx_agent_account_set_energy_pool
+  version: "1.0"
+  category: transactions
+  subcategory: account
+  description: "Set energy pool for agent"
+  priority: P1
+
+preconditions:
+  - sender:
+      is_agent: true
+      agent_energy_pool: null
+  - energy_provider:
+      address: "tos1energy..."
+      allows_delegation: true
+  - tx_signer: "tos1controller..."
+
+action:
+  type: transaction
+  tx_type: AgentAccount
+  params:
+    variant: SetEnergyPool
+    energy_pool: "tos1energy..."
+
+expected:
+  status: success
+
+postconditions:
+  - sender:
+      agent_energy_pool: "tos1energy..."
+
+---
+spec:
+  name: tx_agent_account_clear_energy_pool
+  version: "1.0"
+  category: transactions
+  subcategory: account
+  description: "Clear energy pool assignment"
+  priority: P1
+
+preconditions:
+  - sender:
+      agent_energy_pool: "tos1energy..."
+
+action:
+  type: transaction
+  tx_type: AgentAccount
+  params:
+    variant: SetEnergyPool
+    energy_pool: null
+
+expected:
+  status: success
+
+postconditions:
+  - sender:
+      agent_energy_pool: null
+
+---
+spec:
+  name: tx_agent_account_set_session_key_root
+  version: "1.0"
+  category: transactions
+  subcategory: account
+  description: "Set session key merkle root"
+  priority: P1
+
+action:
+  type: transaction
+  tx_type: AgentAccount
+  params:
+    variant: SetSessionKeyRoot
+    session_key_root: "0xnew_root..."
+
+expected:
+  status: success
+
+postconditions:
+  - sender:
+      agent_session_key_root: "0xnew_root..."
+
+note: |
+  Session key root is a merkle root of valid session keys.
+  This allows efficient bulk key management.
+
+---
+spec:
+  name: tx_agent_account_add_session_key
+  version: "1.0"
+  category: transactions
+  subcategory: account
+  description: "Add individual session key"
+  priority: P0
+
+definition:
+  MAX_SESSION_KEYS: 16
+
+preconditions:
+  - sender:
+      is_agent: true
+      session_keys_count: 5
+  - tx_signer: "tos1controller..."
+
+action:
+  type: transaction
+  tx_type: AgentAccount
+  params:
+    variant: AddSessionKey
+    key:
+      public_key: "tos1session..."
+      expires_at: 1709424000
+      permissions: ["transfer", "invoke_contract"]
+      spending_limit: 1000000000
+
+expected:
+  status: success
+
+postconditions:
+  - sender:
+      session_keys_count: 6
+
+---
+spec:
+  name: tx_agent_account_add_session_key_max_reached
+  version: "1.0"
+  category: transactions
+  subcategory: account
+  description: "Cannot exceed max session keys"
+  priority: P0
+
+definition:
+  MAX_SESSION_KEYS: 16
+
+preconditions:
+  - sender:
+      session_keys_count: 16
+
+action:
+  type: transaction
+  tx_type: AgentAccount
+  params:
+    variant: AddSessionKey
+    key:
+      public_key: "tos1new_session..."
+
+expected:
+  status: error
+  error: "MaxSessionKeysReached"
+
+---
+spec:
+  name: tx_agent_account_add_session_key_duplicate
+  version: "1.0"
+  category: transactions
+  subcategory: account
+  description: "Cannot add duplicate session key"
+  priority: P0
+
+preconditions:
+  - sender:
+      session_keys: ["tos1existing..."]
+
+action:
+  type: transaction
+  tx_type: AgentAccount
+  params:
+    variant: AddSessionKey
+    key:
+      public_key: "tos1existing..."
+
+expected:
+  status: error
+  error: "DuplicateSessionKey"
+
+---
+spec:
+  name: tx_agent_account_revoke_session_key
+  version: "1.0"
+  category: transactions
+  subcategory: account
+  description: "Revoke session key"
+  priority: P0
+
+preconditions:
+  - sender:
+      session_keys:
+        - id: 1
+          public_key: "tos1session1..."
+        - id: 2
+          public_key: "tos1session2..."
+  - tx_signer: "tos1controller..."
+
+action:
+  type: transaction
+  tx_type: AgentAccount
+  params:
+    variant: RevokeSessionKey
+    key_id: 1
+
+expected:
+  status: success
+
+postconditions:
+  - sender:
+      session_keys_count: 1
+
+---
+spec:
+  name: tx_agent_account_revoke_session_key_not_found
+  version: "1.0"
+  category: transactions
+  subcategory: account
+  description: "Cannot revoke non-existent key"
+  priority: P0
+
+preconditions:
+  - sender:
+      session_keys:
+        - id: 1
+
+action:
+  type: transaction
+  tx_type: AgentAccount
+  params:
+    variant: RevokeSessionKey
+    key_id: 999  # Doesn't exist
+
+expected:
+  status: error
+  error: "SessionKeyNotFound"
+
+---
+spec:
+  name: tx_agent_account_not_agent
+  version: "1.0"
+  category: transactions
+  subcategory: account
+  description: "Non-agent cannot use agent operations"
+  priority: P0
+
+preconditions:
+  - sender:
+      is_agent: false
+
+action:
+  type: transaction
+  tx_type: AgentAccount
+  params:
+    variant: UpdatePolicy
+    policy_hash: "0xpolicy..."
+
+expected:
+  status: error
+  error: "NotAgentAccount"
+
+---
+spec:
+  name: tx_agent_account_variants
+  version: "1.0"
+  category: transactions
+  subcategory: account
+  description: "AgentAccountPayload variant enumeration"
+  priority: P0
+
+definition:
+  variants:
+    Register: 0
+    UpdatePolicy: 1
+    RotateController: 2
+    SetStatus: 3
+    SetEnergyPool: 4
+    SetSessionKeyRoot: 5
+    AddSessionKey: 6
+    RevokeSessionKey: 7
+
+---
+spec:
+  name: tx_agent_account_payload_structure
+  version: "1.0"
+  category: transactions
+  subcategory: account
+  description: "AgentAccountPayload wire format"
+  priority: P0
+
+definition:
+  agent_account_payload:
+    variant_tag:
+      type: u8
+      size: 1
+    variant_data:
+      description: "Depends on variant"
+
+  register_variant:
+    controller:
+      type: PublicKey
+      size: 32
+    policy_hash:
+      type: Hash
+      size: 32
+    energy_pool:
+      type: "Option<PublicKey>"
+    session_key_root:
+      type: "Option<Hash>"
+
+  update_policy_variant:
+    policy_hash:
+      type: Hash
+      size: 32
+
+  rotate_controller_variant:
+    new_controller:
+      type: PublicKey
+      size: 32
+
+  set_status_variant:
+    status:
+      type: u8
+      size: 1
+
+  set_energy_pool_variant:
+    energy_pool:
+      type: "Option<PublicKey>"
+
+  set_session_key_root_variant:
+    session_key_root:
+      type: "Option<Hash>"
+
+  add_session_key_variant:
+    key:
+      type: SessionKey
+      description: "Session key with permissions"
+
+  revoke_session_key_variant:
+    key_id:
+      type: u64
+      size: 8
+
+---
+spec:
+  name: tx_agent_account_gas_costs
+  version: "1.0"
+  category: transactions
+  subcategory: account
+  description: "AgentAccount gas costs by variant"
+  priority: P1
+
+definition:
+  gas_costs:
+    Register: 50000
+    UpdatePolicy: 20000
+    RotateController: 25000
+    SetStatus: 15000
+    SetEnergyPool: 15000
+    SetSessionKeyRoot: 20000
+    AddSessionKey: 25000
+    RevokeSessionKey: 15000

@@ -1,0 +1,323 @@
+# TOS SlashArbiter Transaction Conformance Specifications
+# Based on: common/src/transaction/payload/arbitration/slash_arbiter.rs
+#
+# Slash arbiter stake for misbehavior (committee action)
+
+---
+spec:
+  name: tx_slash_arbiter_basic
+  version: "1.0"
+  category: transactions
+  subcategory: arbitration
+  description: "Basic arbiter slashing"
+  priority: P0
+
+preconditions:
+  - arbiter:
+      address: "tos1arbiter..."
+      registered: true
+      stake: 100000000000  # 1000 TOS
+  - committee:
+      id: "0xcommittee..."
+      status: "Active"
+      threshold: 3
+  - sender:
+      address: "tos1sender..."
+      balance: 100000000
+      nonce: 0
+
+action:
+  type: transaction
+  tx_type: SlashArbiter
+  params:
+    committee_id: "0xcommittee..."
+    arbiter_pubkey: "tos1arbiter..."
+    amount: 50000000000  # 500 TOS
+    reason_hash: "0xreason..."  # Hash of off-chain reason
+    approvals:
+      - member_pubkey: "tos1member1..."
+        signature: "<valid_signature>"
+        timestamp: 1706832000
+      - member_pubkey: "tos1member2..."
+        signature: "<valid_signature>"
+        timestamp: 1706832000
+      - member_pubkey: "tos1member3..."
+        signature: "<valid_signature>"
+        timestamp: 1706832000
+    fee: 30000
+    nonce: 0
+
+expected:
+  status: success
+
+postconditions:
+  - arbiter:
+      stake: 50000000000  # 1000 - 500 TOS
+      status: "Slashed"
+  - slashed_amount:
+      burned: 50000000000  # Slashed funds are burned
+
+---
+spec:
+  name: tx_slash_arbiter_insufficient_approvals
+  version: "1.0"
+  category: transactions
+  subcategory: arbitration
+  description: "Slashing requires committee threshold"
+  priority: P0
+
+preconditions:
+  - committee:
+      threshold: 5
+
+action:
+  type: transaction
+  tx_type: SlashArbiter
+  params:
+    approvals:
+      - member_pubkey: "tos1member1..."
+      - member_pubkey: "tos1member2..."
+      - member_pubkey: "tos1member3..."
+      # Only 3 approvals, need 5
+
+expected:
+  status: error
+  error: "InsufficientApprovals"
+
+---
+spec:
+  name: tx_slash_arbiter_not_registered
+  version: "1.0"
+  category: transactions
+  subcategory: arbitration
+  description: "Cannot slash non-registered arbiter"
+  priority: P0
+
+preconditions:
+  - target:
+      is_arbiter: false
+
+action:
+  type: transaction
+  tx_type: SlashArbiter
+  params:
+    arbiter_pubkey: "tos1target..."
+
+expected:
+  status: error
+  error: "NotRegisteredArbiter"
+
+---
+spec:
+  name: tx_slash_arbiter_exceed_stake
+  version: "1.0"
+  category: transactions
+  subcategory: arbitration
+  description: "Cannot slash more than stake"
+  priority: P0
+
+preconditions:
+  - arbiter:
+      stake: 100000000000  # 1000 TOS
+
+action:
+  type: transaction
+  tx_type: SlashArbiter
+  params:
+    amount: 150000000000  # 1500 TOS (more than stake)
+
+expected:
+  status: error
+  error: "SlashExceedsStake"
+
+---
+spec:
+  name: tx_slash_arbiter_zero_amount
+  version: "1.0"
+  category: transactions
+  subcategory: arbitration
+  description: "Zero slash amount rejected"
+  priority: P0
+
+action:
+  type: transaction
+  tx_type: SlashArbiter
+  params:
+    amount: 0
+
+expected:
+  status: error
+  error: "InvalidAmount"
+
+---
+spec:
+  name: tx_slash_arbiter_partial_slash
+  version: "1.0"
+  category: transactions
+  subcategory: arbitration
+  description: "Partial slash leaves arbiter active"
+  priority: P1
+
+preconditions:
+  - arbiter:
+      stake: 100000000000  # 1000 TOS
+      status: "Active"
+
+action:
+  type: transaction
+  tx_type: SlashArbiter
+  params:
+    amount: 30000000000  # 300 TOS (partial)
+
+expected:
+  status: success
+
+postconditions:
+  - arbiter:
+      stake: 70000000000  # 700 TOS remaining
+      status: "Active"  # Still active if above MIN_ARBITER_STAKE
+
+---
+spec:
+  name: tx_slash_arbiter_full_slash
+  version: "1.0"
+  category: transactions
+  subcategory: arbitration
+  description: "Full slash deactivates arbiter"
+  priority: P1
+
+preconditions:
+  - arbiter:
+      stake: 100000000000
+
+action:
+  type: transaction
+  tx_type: SlashArbiter
+  params:
+    amount: 100000000000  # Full stake
+
+expected:
+  status: success
+
+postconditions:
+  - arbiter:
+      stake: 0
+      status: "Slashed"
+
+---
+spec:
+  name: tx_slash_arbiter_below_minimum
+  version: "1.0"
+  category: transactions
+  subcategory: arbitration
+  description: "Slash below minimum stake deactivates arbiter"
+  priority: P1
+
+definition:
+  MIN_ARBITER_STAKE: 100000000000  # 1000 TOS
+
+preconditions:
+  - arbiter:
+      stake: 100000000000  # Exactly at minimum
+
+action:
+  type: transaction
+  tx_type: SlashArbiter
+  params:
+    amount: 10000000000  # 100 TOS (drops below minimum)
+
+expected:
+  status: success
+
+postconditions:
+  - arbiter:
+      stake: 90000000000  # Below minimum
+      status: "Suspended"  # Auto-suspended
+
+note: |
+  When stake drops below MIN_ARBITER_STAKE,
+  arbiter is automatically suspended.
+  Must add stake to reactivate.
+
+---
+spec:
+  name: tx_slash_arbiter_invalid_signature
+  version: "1.0"
+  category: transactions
+  subcategory: arbitration
+  description: "Invalid committee signature rejected"
+  priority: P0
+
+action:
+  type: transaction
+  tx_type: SlashArbiter
+  params:
+    approvals:
+      - member_pubkey: "tos1member1..."
+        signature: "<invalid_signature>"
+
+expected:
+  status: error
+  error: "InvalidSignature"
+
+---
+spec:
+  name: tx_slash_arbiter_payload_structure
+  version: "1.0"
+  category: transactions
+  subcategory: arbitration
+  description: "SlashArbiterPayload wire format"
+  priority: P0
+
+definition:
+  slash_arbiter_payload:
+    committee_id:
+      type: Hash
+      size: 32
+      description: "Authorizing committee"
+    arbiter_pubkey:
+      type: PublicKey
+      size: 32
+      description: "Target arbiter"
+    amount:
+      type: u64
+      size: 8
+      description: "Amount to slash"
+    reason_hash:
+      type: Hash
+      size: 32
+      description: "Hash of off-chain reason"
+    approvals:
+      type: "Vec<CommitteeApproval>"
+
+serialization_order:
+  - committee_id (32 bytes)
+  - arbiter_pubkey (32 bytes)
+  - amount (8 bytes)
+  - reason_hash (32 bytes)
+  - approvals (variable)
+
+---
+spec:
+  name: tx_slash_arbiter_reasons
+  version: "1.0"
+  category: transactions
+  subcategory: arbitration
+  description: "Slashing reasons"
+  priority: P2
+
+reasons:
+  - name: biased_verdict
+    description: "Arbiter issued biased verdict"
+
+  - name: collusion
+    description: "Arbiter colluded with party"
+
+  - name: unresponsive
+    description: "Arbiter failed to respond in time"
+
+  - name: false_evidence
+    description: "Arbiter submitted false evidence"
+
+  - name: protocol_violation
+    description: "Arbiter violated arbitration protocol"

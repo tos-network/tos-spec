@@ -1,0 +1,248 @@
+# TOS RefundEscrow Transaction Conformance Specifications
+# Based on: common/src/transaction/payload/escrow/mod.rs
+#
+# Refund escrowed funds to payer
+
+---
+spec:
+  name: tx_refund_escrow_basic
+  version: "1.0"
+  category: transactions
+  subcategory: escrow
+  description: "Basic escrow refund"
+  priority: P0
+
+preconditions:
+  - escrow:
+      id: "0xescrow..."
+      payer: "tos1payer..."
+      provider: "tos1provider..."
+      amount: 500000000  # 5 TOS
+      state: "Created"
+  - payer:
+      balance: 100000000
+  - provider:
+      address: "tos1provider..."
+      nonce: 0
+
+action:
+  type: transaction
+  tx_type: RefundEscrow
+  params:
+    escrow_id: "0xescrow..."
+    amount: 500000000  # Full refund
+    reason: "Service not delivered"
+    fee: 5000
+    nonce: 0
+
+expected:
+  status: success
+
+postconditions:
+  - escrow:
+      state: "Refunded"
+      refunded_amount: 500000000
+  - payer:
+      balance: 600000000  # Original + refund
+
+---
+spec:
+  name: tx_refund_escrow_partial
+  version: "1.0"
+  category: transactions
+  subcategory: escrow
+  description: "Partial escrow refund"
+  priority: P0
+
+preconditions:
+  - escrow:
+      amount: 500000000
+      state: "Created"
+
+action:
+  type: transaction
+  tx_type: RefundEscrow
+  params:
+    escrow_id: "0xescrow..."
+    amount: 200000000  # Partial: 2 TOS of 5
+
+expected:
+  status: success
+
+postconditions:
+  - escrow:
+      remaining_amount: 300000000  # 3 TOS left
+      state: "Created"  # Still active for remaining
+  - payer:
+      balance_increase: 200000000
+
+---
+spec:
+  name: tx_refund_escrow_only_provider
+  version: "1.0"
+  category: transactions
+  subcategory: escrow
+  description: "Only provider can initiate refund"
+  priority: P0
+
+preconditions:
+  - escrow:
+      provider: "tos1provider..."
+  - sender:
+      address: "tos1unauthorized..."  # Not the provider
+
+action:
+  type: transaction
+  tx_type: RefundEscrow
+  params:
+    escrow_id: "0xescrow..."
+    amount: 500000000
+
+expected:
+  status: error
+  error: "UnauthorizedRefund"
+
+note: |
+  Refund is initiated by provider, not payer.
+  This prevents payers from unilaterally reclaiming funds.
+
+---
+spec:
+  name: tx_refund_escrow_not_found
+  version: "1.0"
+  category: transactions
+  subcategory: escrow
+  description: "Cannot refund non-existent escrow"
+  priority: P0
+
+action:
+  type: transaction
+  tx_type: RefundEscrow
+  params:
+    escrow_id: "0xnonexistent..."
+
+expected:
+  status: error
+  error: "EscrowNotFound"
+
+---
+spec:
+  name: tx_refund_escrow_zero_amount
+  version: "1.0"
+  category: transactions
+  subcategory: escrow
+  description: "Zero refund rejected"
+  priority: P0
+
+action:
+  type: transaction
+  tx_type: RefundEscrow
+  params:
+    escrow_id: "0xescrow..."
+    amount: 0
+
+expected:
+  status: error
+  error: "InvalidAmount"
+
+---
+spec:
+  name: tx_refund_escrow_exceed_remaining
+  version: "1.0"
+  category: transactions
+  subcategory: escrow
+  description: "Cannot refund more than remaining"
+  priority: P0
+
+preconditions:
+  - escrow:
+      amount: 500000000
+      released_amount: 200000000
+      remaining_amount: 300000000
+
+action:
+  type: transaction
+  tx_type: RefundEscrow
+  params:
+    escrow_id: "0xescrow..."
+    amount: 400000000  # More than remaining
+
+expected:
+  status: error
+  error: "InsufficientEscrowBalance"
+
+---
+spec:
+  name: tx_refund_escrow_invalid_state
+  version: "1.0"
+  category: transactions
+  subcategory: escrow
+  description: "Cannot refund certain escrow states"
+  priority: P0
+
+tests:
+  - name: already_refunded
+    escrow_state: "Refunded"
+    remaining_amount: 0
+    expected: error
+    error: "EscrowAlreadyRefunded"
+
+  - name: disputed
+    escrow_state: "Disputed"
+    expected: error
+    error: "EscrowDisputed"
+
+  - name: resolved
+    escrow_state: "Resolved"
+    expected: error
+    error: "EscrowAlreadyResolved"
+
+---
+spec:
+  name: tx_refund_escrow_with_reason
+  version: "1.0"
+  category: transactions
+  subcategory: escrow
+  description: "Refund with reason string"
+  priority: P1
+
+action:
+  type: transaction
+  tx_type: RefundEscrow
+  params:
+    escrow_id: "0xescrow..."
+    amount: 100000000
+    reason: "Mutual agreement to cancel"
+
+expected:
+  status: success
+
+postconditions:
+  - escrow:
+      refund_reason: "Mutual agreement to cancel"
+
+---
+spec:
+  name: tx_refund_escrow_payload_structure
+  version: "1.0"
+  category: transactions
+  subcategory: escrow
+  description: "RefundEscrowPayload wire format"
+  priority: P0
+
+definition:
+  refund_escrow_payload:
+    escrow_id:
+      type: Hash
+      size: 32
+    amount:
+      type: u64
+      size: 8
+    reason:
+      type: "Option<String>"
+
+serialization_order:
+  - "escrow_id (32 bytes)"
+  - "amount (8 bytes)"
+  - "reason_flag (1 byte)"
+  - "[reason] (variable if present)"

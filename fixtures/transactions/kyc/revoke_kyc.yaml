@@ -1,0 +1,274 @@
+# TOS RevokeKyc Transaction Conformance Specifications
+# Based on: common/src/transaction/payload/kyc/revoke.rs
+#
+# Revoke a user's KYC status (permanent)
+
+---
+spec:
+  name: tx_revoke_kyc_basic
+  version: "1.0"
+  category: transactions
+  subcategory: kyc
+  description: "Basic KYC revocation"
+  priority: P0
+
+preconditions:
+  - target_account:
+      address: "tos1target..."
+      kyc_level: 1024  # Tier 5
+      kyc_committee: "0xcommittee..."
+  - committee:
+      id: "0xcommittee..."
+      status: "Active"
+      kyc_threshold: 2
+  - sender:
+      address: "tos1committee_member..."
+      balance: 100000000
+      nonce: 0
+
+action:
+  type: transaction
+  tx_type: RevokeKyc
+  params:
+    account: "tos1target..."
+    reason_hash: "0xreason..."  # Hash of off-chain reason
+    committee_id: "0xcommittee..."
+    approvals:
+      - member_pubkey: "tos1member1..."
+        signature: "<valid_signature>"
+        timestamp: 1706832000
+      - member_pubkey: "tos1member2..."
+        signature: "<valid_signature>"
+        timestamp: 1706832000
+    fee: 30000
+    nonce: 0
+
+expected:
+  status: success
+
+postconditions:
+  - target_account:
+      kyc_level: 0
+      kyc_status: "Revoked"
+      can_renew: false  # Must go through full re-verification
+
+---
+spec:
+  name: tx_revoke_kyc_insufficient_approvals
+  version: "1.0"
+  category: transactions
+  subcategory: kyc
+  description: "Revocation requires kyc_threshold approvals"
+  priority: P0
+
+preconditions:
+  - committee:
+      kyc_threshold: 3
+
+action:
+  type: transaction
+  tx_type: RevokeKyc
+  params:
+    approvals:
+      - member_pubkey: "tos1member1..."
+      - member_pubkey: "tos1member2..."
+      # Only 2 approvals, need 3
+
+expected:
+  status: error
+  error: "InsufficientApprovals"
+
+---
+spec:
+  name: tx_revoke_kyc_invalid_committee
+  version: "1.0"
+  category: transactions
+  subcategory: kyc
+  description: "Cannot revoke with wrong committee"
+  priority: P0
+
+preconditions:
+  - target_account:
+      kyc_committee: "0xcommitteeA..."
+  - action_committee:
+      id: "0xcommitteeB..."  # Different committee
+
+action:
+  type: transaction
+  tx_type: RevokeKyc
+  params:
+    account: "tos1target..."
+    committee_id: "0xcommitteeB..."
+
+expected:
+  status: error
+  error: "CommitteeMismatch"
+
+---
+spec:
+  name: tx_revoke_kyc_not_verified
+  version: "1.0"
+  category: transactions
+  subcategory: kyc
+  description: "Cannot revoke unverified account"
+  priority: P0
+
+preconditions:
+  - target_account:
+      kyc_level: 0  # Not verified
+
+action:
+  type: transaction
+  tx_type: RevokeKyc
+  params:
+    account: "tos1target..."
+
+expected:
+  status: error
+  error: "AccountNotVerified"
+
+---
+spec:
+  name: tx_revoke_kyc_invalid_signature
+  version: "1.0"
+  category: transactions
+  subcategory: kyc
+  description: "Invalid committee member signature rejected"
+  priority: P0
+
+action:
+  type: transaction
+  tx_type: RevokeKyc
+  params:
+    approvals:
+      - member_pubkey: "tos1member1..."
+        signature: "<invalid_signature>"
+
+expected:
+  status: error
+  error: "InvalidSignature"
+
+---
+spec:
+  name: tx_revoke_kyc_non_member_approval
+  version: "1.0"
+  category: transactions
+  subcategory: kyc
+  description: "Non-committee member cannot approve revocation"
+  priority: P0
+
+preconditions:
+  - committee:
+      members: ["tos1member1...", "tos1member2..."]
+  - non_member:
+      address: "tos1nonmember..."
+
+action:
+  type: transaction
+  tx_type: RevokeKyc
+  params:
+    approvals:
+      - member_pubkey: "tos1nonmember..."  # Not a member
+
+expected:
+  status: error
+  error: "NotCommitteeMember"
+
+---
+spec:
+  name: tx_revoke_kyc_duplicate_approvals
+  version: "1.0"
+  category: transactions
+  subcategory: kyc
+  description: "Duplicate member approvals rejected"
+  priority: P0
+
+action:
+  type: transaction
+  tx_type: RevokeKyc
+  params:
+    approvals:
+      - member_pubkey: "tos1member1..."
+      - member_pubkey: "tos1member1..."  # Duplicate
+
+expected:
+  status: error
+  error: "DuplicateApproval"
+
+---
+spec:
+  name: tx_revoke_kyc_expired_timestamp
+  version: "1.0"
+  category: transactions
+  subcategory: kyc
+  description: "Expired approval timestamp rejected"
+  priority: P1
+
+preconditions:
+  - current_block_timestamp: 1706840000
+
+action:
+  type: transaction
+  tx_type: RevokeKyc
+  params:
+    approvals:
+      - member_pubkey: "tos1member1..."
+        timestamp: 1706750000  # > 24 hours ago
+
+expected:
+  status: error
+  error: "ApprovalExpired"
+
+---
+spec:
+  name: tx_revoke_kyc_payload_structure
+  version: "1.0"
+  category: transactions
+  subcategory: kyc
+  description: "RevokeKycPayload wire format"
+  priority: P0
+
+definition:
+  revoke_kyc_payload:
+    account:
+      type: CompressedPublicKey
+      size: 32
+    reason_hash:
+      type: Hash
+      size: 32
+      description: "Hash of off-chain revocation reason"
+    committee_id:
+      type: Hash
+      size: 32
+    approvals:
+      type: "Vec<CommitteeApproval>"
+
+  committee_approval:
+    member_pubkey:
+      type: CompressedPublicKey
+      size: 32
+    signature:
+      type: Signature
+      size: 64
+    timestamp:
+      type: u64
+      size: 8
+
+serialization_order:
+  - "account (32 bytes)"
+  - "reason_hash (32 bytes)"
+  - "committee_id (32 bytes)"
+  - "approval_count (1 byte)"
+  - "[approvals] (N * 104 bytes)"
+
+---
+spec:
+  name: tx_revoke_kyc_gas_cost
+  version: "1.0"
+  category: transactions
+  subcategory: kyc
+  description: "RevokeKyc gas consumption"
+  priority: P1
+
+definition:
+  gas_cost: 30000

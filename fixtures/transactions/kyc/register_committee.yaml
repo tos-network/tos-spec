@@ -1,0 +1,310 @@
+# TOS RegisterCommittee Transaction Conformance Specifications
+# Based on: common/src/transaction/payload/kyc/register.rs
+#
+# Create regional KYC committees under parent committee supervision
+
+---
+spec:
+  name: tx_register_committee_basic
+  version: "1.0"
+  category: transactions
+  subcategory: kyc
+  description: "Create regional committee"
+  priority: P0
+
+preconditions:
+  - parent_committee:
+      id: "0xglobal_committee..."
+      name: "TOS Global Committee"
+      status: "Active"
+      threshold: 8  # Governance threshold
+      max_kyc_level: 32767
+  - sender:
+      address: "tos1sender..."
+      balance: 100000000
+      nonce: 0
+
+action:
+  type: transaction
+  tx_type: RegisterCommittee
+  params:
+    name: "US Regional Committee"
+    region: "NorthAmerica"  # KycRegion enum
+    members:
+      - public_key: "tos1member1..."
+        name: "Alice"
+        role: "Chair"
+      - public_key: "tos1member2..."
+        name: "Bob"
+        role: "Admin"
+      - public_key: "tos1member3..."
+        name: "Carol"
+        role: "Verifier"
+      - public_key: "tos1member4..."
+        name: "Dave"
+        role: "Verifier"
+      - public_key: "tos1member5..."
+        name: "Eve"
+        role: "Verifier"
+      - public_key: "tos1member6..."
+        name: "Frank"
+        role: "Verifier"
+      - public_key: "tos1member7..."
+        name: "Grace"
+        role: "Verifier"
+    threshold: 5  # >= 2/3 of 7
+    kyc_threshold: 1
+    max_kyc_level: 8191  # Tier 6 (less than parent)
+    parent_id: "0xglobal_committee..."
+    approvals:  # 8 approvals (parent's threshold)
+      - member_pubkey: "tos1parent_member1..."
+        signature: "<valid_signature>"
+        timestamp: 1706832000
+      # ... 7 more approvals
+    fee: 80000
+    nonce: 0
+
+expected:
+  status: success
+  committee_id: "<tx_hash>"
+
+postconditions:
+  - new_committee:
+      name: "US Regional Committee"
+      region: "NorthAmerica"
+      members_count: 7
+      threshold: 5
+      max_kyc_level: 8191
+      parent_id: "0xglobal_committee..."
+      status: "Active"
+
+---
+spec:
+  name: tx_register_committee_threshold_validation
+  version: "1.0"
+  category: transactions
+  subcategory: kyc
+  description: "Committee threshold must be >= 2/3 of members"
+  priority: P0
+
+tests:
+  - name: valid_threshold
+    members_count: 9
+    threshold: 6  # 2/3 of 9
+    expected: valid
+
+  - name: threshold_too_low
+    members_count: 9
+    threshold: 5  # < 2/3
+    expected: error
+    error: "ThresholdTooLow"
+
+  - name: threshold_exceeds_members
+    members_count: 5
+    threshold: 6
+    expected: error
+    error: "ThresholdExceedsMemberCount"
+
+---
+spec:
+  name: tx_register_committee_member_requirements
+  version: "1.0"
+  category: transactions
+  subcategory: kyc
+  description: "Committee member requirements"
+  priority: P0
+
+tests:
+  - name: below_minimum
+    members_count: 2
+    expected: error
+    error: "TooFewMembers"
+    note: "Minimum 3 members"
+
+  - name: above_maximum
+    members_count: 16
+    expected: error
+    error: "TooManyMembers"
+    note: "Maximum 15 members"
+
+  - name: no_chair
+    members:
+      - role: "Verifier"
+      - role: "Verifier"
+      - role: "Verifier"
+    expected: error
+    error: "NoChairMember"
+
+  - name: duplicate_member
+    members:
+      - public_key: "tos1same..."
+      - public_key: "tos1same..."  # Duplicate
+    expected: error
+    error: "DuplicateMember"
+
+---
+spec:
+  name: tx_register_committee_parent_approval
+  version: "1.0"
+  category: transactions
+  subcategory: kyc
+  description: "Parent committee governance threshold required"
+  priority: P0
+
+preconditions:
+  - parent_committee:
+      threshold: 8  # Governance threshold
+
+action:
+  type: transaction
+  tx_type: RegisterCommittee
+  params:
+    approvals:  # Only 5 approvals
+      - member_pubkey: "tos1member1..."
+      - member_pubkey: "tos1member2..."
+      - member_pubkey: "tos1member3..."
+      - member_pubkey: "tos1member4..."
+      - member_pubkey: "tos1member5..."
+
+expected:
+  status: error
+  error: "InsufficientParentApprovals"
+
+---
+spec:
+  name: tx_register_committee_max_level_constraint
+  version: "1.0"
+  category: transactions
+  subcategory: kyc
+  description: "max_kyc_level cannot exceed parent's"
+  priority: P0
+
+preconditions:
+  - parent_committee:
+      max_kyc_level: 8191  # Tier 6
+
+action:
+  type: transaction
+  tx_type: RegisterCommittee
+  params:
+    max_kyc_level: 16383  # Tier 7 (exceeds parent)
+
+expected:
+  status: error
+  error: "MaxLevelExceedsParent"
+
+---
+spec:
+  name: tx_register_committee_name_validation
+  version: "1.0"
+  category: transactions
+  subcategory: kyc
+  description: "Committee name validation"
+  priority: P0
+
+tests:
+  - name: empty_name
+    name: ""
+    expected: error
+    error: "EmptyName"
+
+  - name: long_name
+    name: "<string longer than 64 chars>"
+    expected: error
+    error: "NameTooLong"
+
+  - name: valid_name
+    name: "EU Regional Committee"
+    expected: valid
+
+---
+spec:
+  name: tx_register_committee_regions
+  version: "1.0"
+  category: transactions
+  subcategory: kyc
+  description: "Valid KycRegion values"
+  priority: P0
+
+definition:
+  kyc_regions:
+    Global: 0
+    NorthAmerica: 1
+    Europe: 2
+    AsiaPacific: 3
+    LatinAmerica: 4
+    MiddleEast: 5
+    Africa: 6
+
+---
+spec:
+  name: tx_register_committee_member_roles
+  version: "1.0"
+  category: transactions
+  subcategory: kyc
+  description: "Valid MemberRole values"
+  priority: P0
+
+definition:
+  member_roles:
+    Chair: 0      # Full governance rights, leads committee
+    Admin: 1      # Full governance rights
+    Verifier: 2   # Can approve KYC
+    Observer: 3   # Read-only access
+
+---
+spec:
+  name: tx_register_committee_payload_structure
+  version: "1.0"
+  category: transactions
+  subcategory: kyc
+  description: "RegisterCommitteePayload wire format"
+  priority: P0
+
+definition:
+  register_committee_payload:
+    name:
+      type: String
+      max_length: 64
+    region:
+      type: u8
+      size: 1
+    members:
+      type: "Vec<NewCommitteeMember>"
+    threshold:
+      type: u8
+      size: 1
+    kyc_threshold:
+      type: u8
+      size: 1
+    max_kyc_level:
+      type: u16
+      size: 2
+    parent_id:
+      type: Hash
+      size: 32
+    approvals:
+      type: "Vec<CommitteeApproval>"
+
+  new_committee_member:
+    public_key:
+      type: CompressedPublicKey
+      size: 32
+    name:
+      type: "Option<String>"
+    role:
+      type: u8
+      size: 1
+
+---
+spec:
+  name: tx_register_committee_gas_cost
+  version: "1.0"
+  category: transactions
+  subcategory: kyc
+  description: "RegisterCommittee gas consumption"
+  priority: P1
+
+definition:
+  gas_cost: 80000
+  note: "High cost due to state creation and approval verification"
