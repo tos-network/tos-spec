@@ -29,8 +29,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "syscall_nft_collection_exists",
@@ -51,8 +50,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "syscall_nft_update_collection",
@@ -83,8 +81,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "syscall_nft_transfer_collection_ownership",
@@ -115,8 +112,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "syscall_nft_mint",
@@ -147,8 +143,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "syscall_nft_batch_mint",
@@ -169,8 +164,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "syscall_nft_burn",
@@ -201,8 +195,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "syscall_nft_batch_burn",
@@ -233,8 +226,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "syscall_nft_transfer",
@@ -265,8 +257,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "syscall_nft_batch_transfer",
@@ -297,8 +288,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "syscall_nft_exists",
@@ -319,8 +309,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "syscall_nft_owner_of",
@@ -341,8 +330,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "syscall_nft_balance_of",
@@ -373,8 +361,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "syscall_nft_token_uri",
@@ -395,8 +382,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "syscall_nft_approve",
@@ -427,8 +413,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "syscall_nft_get_approved",
@@ -449,8 +434,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "syscall_nft_set_approval_for_all",
@@ -481,8 +465,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "syscall_nft_is_approved_for_all",
@@ -503,8 +486,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "syscall_nft_set_minting_paused",
@@ -535,8 +517,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "syscall_nft_update_attribute",
@@ -557,8 +538,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "syscall_nft_remove_attribute",
@@ -579,8 +559,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "syscall_nft_transfer_not_owner",
@@ -611,8 +590,7 @@
         "ok": false,
         "error": "NOT_OWNER_OR_APPROVED",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "syscall_nft_transfer_by_approved",
@@ -643,8 +621,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "syscall_nft_mint_when_paused",
@@ -665,8 +642,7 @@
         "ok": false,
         "error": "MINTING_PAUSED",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "syscall_nft_mint_max_supply_reached",
@@ -687,8 +663,7 @@
         "ok": false,
         "error": "MAX_SUPPLY_REACHED",
         "post_state": null
-      },
-      "runnable": false
+      }
     }
   ]
 }

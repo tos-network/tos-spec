@@ -41,8 +41,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_refund_escrow_partial",
@@ -75,8 +74,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_refund_escrow_only_provider",
@@ -119,8 +117,7 @@
         "ok": false,
         "error": "UNAUTHORIZED_REFUND",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_refund_escrow_not_found",
@@ -153,8 +150,7 @@
         "ok": false,
         "error": "ESCROW_NOT_FOUND",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_refund_escrow_zero_amount",
@@ -187,8 +183,7 @@
         "ok": false,
         "error": "INVALID_AMOUNT",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_refund_escrow_exceed_remaining",
@@ -221,8 +216,7 @@
         "ok": false,
         "error": "INSUFFICIENT_ESCROW_BALANCE",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_refund_escrow_invalid_state",
@@ -243,8 +237,7 @@
         "ok": false,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_refund_escrow_with_reason",
@@ -277,8 +270,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_refund_escrow_payload_structure",
@@ -299,8 +291,7 @@
         "ok": false,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     }
   ]
 }

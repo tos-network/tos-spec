@@ -3,7 +3,6 @@
     {
       "name": "tx_invoke_contract_basic",
       "description": "Basic contract invocation",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -61,7 +60,6 @@
     {
       "name": "tx_invoke_contract_with_deposit",
       "description": "Contract call with TOS deposit",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -110,7 +108,6 @@
     {
       "name": "tx_invoke_contract_with_parameters",
       "description": "Contract call with typed parameters",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -159,7 +156,6 @@
     {
       "name": "tx_invoke_contract_nonexistent",
       "description": "Invoke non-existent contract fails",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -208,7 +204,6 @@
     {
       "name": "tx_invoke_contract_invalid_entry_point",
       "description": "Invoke invalid entry point fails",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -257,7 +252,6 @@
     {
       "name": "tx_invoke_contract_insufficient_gas",
       "description": "Execution stops when gas exhausted",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -306,7 +300,6 @@
     {
       "name": "tx_invoke_contract_max_gas_limit",
       "description": "max_gas cannot exceed MAX_GAS_USAGE_PER_TX",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -345,7 +338,6 @@
     {
       "name": "tx_invoke_contract_multiple_deposits",
       "description": "Contract call with multiple asset deposits",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -384,7 +376,6 @@
     {
       "name": "tx_invoke_contract_max_deposits",
       "description": "Maximum 255 deposits per invocation",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -411,7 +402,6 @@
     {
       "name": "tx_invoke_contract_insufficient_deposit",
       "description": "Insufficient balance for deposit",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -450,7 +440,6 @@
     {
       "name": "tx_invoke_contract_revert",
       "description": "Contract execution revert behavior",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -489,7 +478,6 @@
     {
       "name": "tx_invoke_contract_gas_burn",
       "description": "30% of execution gas is burned",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -516,7 +504,6 @@
     {
       "name": "tx_invoke_contract_storage_fees",
       "description": "Storage operations have additional fees",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -543,7 +530,6 @@
     {
       "name": "tx_invoke_contract_payload_structure",
       "description": "InvokeContractPayload wire format",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -570,7 +556,6 @@
     {
       "name": "tx_invoke_contract_value_cell_types",
       "description": "Supported parameter value types",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {

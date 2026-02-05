@@ -3,7 +3,6 @@
     {
       "name": "syscall_get_balance_existing",
       "description": "Query balance of existing account",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -40,7 +39,6 @@
     {
       "name": "syscall_get_balance_nonexistent",
       "description": "Query balance of non-existent account returns 0",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -67,7 +65,6 @@
     {
       "name": "syscall_get_balance_with_asset",
       "description": "Query balance for specific asset",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -104,7 +101,6 @@
     {
       "name": "syscall_get_balance_virtual_calculation",
       "description": "Balance includes pending deltas (virtual balance)",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -141,7 +137,6 @@
     {
       "name": "syscall_get_balance_readonly",
       "description": "Balance query does not modify state",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {

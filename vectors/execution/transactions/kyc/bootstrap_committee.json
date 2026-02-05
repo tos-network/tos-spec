@@ -3,7 +3,6 @@
     {
       "name": "tx_bootstrap_committee_basic",
       "description": "Create Global Committee",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -52,7 +51,6 @@
     {
       "name": "tx_bootstrap_committee_unauthorized_sender",
       "description": "Only BOOTSTRAP_ADDRESS can create Global Committee",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -101,7 +99,6 @@
     {
       "name": "tx_bootstrap_committee_already_exists",
       "description": "Cannot bootstrap if Global Committee exists",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -150,7 +147,6 @@
     {
       "name": "tx_bootstrap_committee_threshold_validation",
       "description": "Threshold must be >= 2/3 of members",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -199,7 +195,6 @@
     {
       "name": "tx_bootstrap_committee_threshold_exceeds_members",
       "description": "Threshold cannot exceed member count",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -238,7 +233,6 @@
     {
       "name": "tx_bootstrap_committee_minimum_members",
       "description": "Global Committee should have 11-15 members",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -265,7 +259,6 @@
     {
       "name": "tx_bootstrap_committee_duplicate_members",
       "description": "Duplicate members rejected",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -304,7 +297,6 @@
     {
       "name": "tx_bootstrap_committee_member_roles",
       "description": "Valid member roles",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -331,7 +323,6 @@
     {
       "name": "tx_bootstrap_committee_kyc_threshold_range",
       "description": "kyc_threshold validation",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -358,7 +349,6 @@
     {
       "name": "tx_bootstrap_committee_empty_members",
       "description": "Empty members list rejected",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -397,7 +387,6 @@
     {
       "name": "tx_bootstrap_committee_max_kyc_level",
       "description": "Global Committee can set max_kyc_level up to 32767",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -424,7 +413,6 @@
     {
       "name": "tx_bootstrap_committee_payload_structure",
       "description": "BootstrapCommitteePayload wire format",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -451,7 +439,6 @@
     {
       "name": "tx_bootstrap_committee_constants",
       "description": "Bootstrap-related constants",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {

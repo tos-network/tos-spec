@@ -41,8 +41,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_unfreeze_tos_before_unlock",
@@ -75,8 +74,7 @@
         "ok": false,
         "error": "FREEZE_NOT_YET_UNLOCKED",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_unfreeze_tos_partial",
@@ -109,8 +107,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_unfreeze_tos_minimum_amount",
@@ -143,8 +140,7 @@
         "ok": false,
         "error": "AMOUNT_BELOW_MINIMUM",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_unfreeze_tos_exceed_frozen_amount",
@@ -177,8 +173,7 @@
         "ok": false,
         "error": "INSUFFICIENT_FROZEN_BALANCE",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_unfreeze_tos_with_record_index",
@@ -211,8 +206,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_unfreeze_tos_fifo_order",
@@ -245,8 +239,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_unfreeze_tos_from_delegation",
@@ -298,8 +291,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_unfreeze_tos_delegation_missing_delegatee",
@@ -332,8 +324,7 @@
         "ok": false,
         "error": "MISSING_DELEGATEE_ADDRESS",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_unfreeze_tos_max_pending",
@@ -366,8 +357,7 @@
         "ok": false,
         "error": "MAX_PENDING_UNFREEZES_REACHED",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_unfreeze_tos_no_records",
@@ -400,8 +390,7 @@
         "ok": false,
         "error": "NO_FREEZE_RECORD_FOUND",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_unfreeze_tos_payload_structure",
@@ -422,8 +411,7 @@
         "ok": false,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_unfreeze_tos_cooldown_period",
@@ -444,8 +432,7 @@
         "ok": false,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     }
   ]
 }

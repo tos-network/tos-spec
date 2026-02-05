@@ -41,8 +41,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_appeal_kyc_rejected_status",
@@ -75,8 +74,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_appeal_kyc_no_existing_record",
@@ -109,8 +107,7 @@
         "ok": false,
         "error": "NO_KYC_RECORD",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_appeal_kyc_active_status",
@@ -143,8 +140,7 @@
         "ok": false,
         "error": "KYC_IS_ACTIVE",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_appeal_kyc_window_expired",
@@ -177,8 +173,7 @@
         "ok": false,
         "error": "APPEAL_WINDOW_EXPIRED",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_appeal_kyc_wrong_parent",
@@ -211,8 +206,7 @@
         "ok": false,
         "error": "NOT_PARENT_COMMITTEE",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_appeal_kyc_suspended_committee",
@@ -245,8 +239,7 @@
         "ok": false,
         "error": "PARENT_COMMITTEE_SUSPENDED",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_appeal_kyc_already_pending",
@@ -279,8 +272,7 @@
         "ok": false,
         "error": "APPEAL_ALREADY_PENDING",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_appeal_kyc_third_party",
@@ -332,8 +324,7 @@
         "ok": false,
         "error": "UNAUTHORIZED_APPEAL",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_appeal_kyc_payload_structure",
@@ -354,8 +345,7 @@
         "ok": false,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_appeal_kyc_gas_cost",
@@ -376,8 +366,7 @@
         "ok": false,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     }
   ]
 }

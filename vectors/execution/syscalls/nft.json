@@ -3,7 +3,6 @@
     {
       "name": "syscall_nft_create_collection",
       "description": "Create a new NFT collection",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -40,7 +39,6 @@
     {
       "name": "syscall_nft_collection_exists",
       "description": "Check if NFT collection exists",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -67,7 +65,6 @@
     {
       "name": "syscall_nft_update_collection",
       "description": "Update collection metadata (owner only)",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -104,7 +101,6 @@
     {
       "name": "syscall_nft_transfer_collection_ownership",
       "description": "Transfer collection ownership to new owner",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -141,7 +137,6 @@
     {
       "name": "syscall_nft_mint",
       "description": "Mint a new NFT token",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -178,7 +173,6 @@
     {
       "name": "syscall_nft_batch_mint",
       "description": "Mint multiple NFTs in one call",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -205,7 +199,6 @@
     {
       "name": "syscall_nft_burn",
       "description": "Burn an NFT token",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -242,7 +235,6 @@
     {
       "name": "syscall_nft_batch_burn",
       "description": "Burn multiple NFTs in one call",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -279,7 +271,6 @@
     {
       "name": "syscall_nft_transfer",
       "description": "Transfer NFT to another address",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -316,7 +307,6 @@
     {
       "name": "syscall_nft_batch_transfer",
       "description": "Transfer multiple NFTs in one call",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -353,7 +343,6 @@
     {
       "name": "syscall_nft_exists",
       "description": "Check if NFT token exists",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -380,7 +369,6 @@
     {
       "name": "syscall_nft_owner_of",
       "description": "Get NFT owner address",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -407,7 +395,6 @@
     {
       "name": "syscall_nft_balance_of",
       "description": "Get NFT balance for address in collection",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -444,7 +431,6 @@
     {
       "name": "syscall_nft_token_uri",
       "description": "Get NFT token URI",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -471,7 +457,6 @@
     {
       "name": "syscall_nft_approve",
       "description": "Approve address for single NFT transfer",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -508,7 +493,6 @@
     {
       "name": "syscall_nft_get_approved",
       "description": "Get approved address for NFT",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -535,7 +519,6 @@
     {
       "name": "syscall_nft_set_approval_for_all",
       "description": "Set operator approval for all tokens",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -572,7 +555,6 @@
     {
       "name": "syscall_nft_is_approved_for_all",
       "description": "Check operator approval status",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -599,7 +581,6 @@
     {
       "name": "syscall_nft_set_minting_paused",
       "description": "Pause or unpause minting (owner only)",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -636,7 +617,6 @@
     {
       "name": "syscall_nft_update_attribute",
       "description": "Update NFT attribute (metadata)",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -663,7 +643,6 @@
     {
       "name": "syscall_nft_remove_attribute",
       "description": "Remove NFT attribute",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -690,7 +669,6 @@
     {
       "name": "syscall_nft_transfer_not_owner",
       "description": "Transfer by non-owner fails",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -727,7 +705,6 @@
     {
       "name": "syscall_nft_transfer_by_approved",
       "description": "Transfer by approved address succeeds",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -764,7 +741,6 @@
     {
       "name": "syscall_nft_mint_when_paused",
       "description": "Minting fails when paused",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -791,7 +767,6 @@
     {
       "name": "syscall_nft_mint_max_supply_reached",
       "description": "Minting fails when max supply reached",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {

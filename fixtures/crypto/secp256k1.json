@@ -13,8 +13,7 @@
         "recovery_id": 1,
         "public_key_hex": "2371bde28a380eca7e64a1c2156e0d2d9e5792e9f6adeb24a4281384c256867501eb35966313b666e5aa0d3efb33472c51721e6a941a3d78cb69cd56a031e258",
         "should_recover": true
-      },
-      "runnable": false
+      }
     },
     {
       "name": "zero_hash",
@@ -26,8 +25,7 @@
         "recovery_id": 1,
         "public_key_hex": "5fc2d8f8f7dfea2d6e44134f6a1c2f315b46cf3625263588af43c613e87fd6dfb6e246767c63cdf768fc9db1b1969a72f92e47dfdee84b84839f276d9966b658",
         "should_recover": true
-      },
-      "runnable": false
+      }
     },
     {
       "name": "max_hash",
@@ -39,8 +37,7 @@
         "recovery_id": 0,
         "public_key_hex": "b8e897f478f65c0516905be43e12cef114a50a001da36c83bd8b8ee8b2ca055ae5165d1b5c23a07c2408be0163b679343f1aa867ab25557477132c84224bc6ab",
         "should_recover": true
-      },
-      "runnable": false
+      }
     },
     {
       "name": "deterministic",
@@ -52,8 +49,7 @@
         "recovery_id": 1,
         "public_key_hex": "84bf7562262bbd6940085748f3be6afa52ae317155181ece31b66351ccffa4b08cc43d63b2859d469fee15f31c9edb5324266e6fd0407e87382d60fc4511acd8",
         "should_recover": true
-      },
-      "runnable": false
+      }
     },
     {
       "name": "eth_style",
@@ -65,8 +61,7 @@
         "recovery_id": 1,
         "public_key_hex": "6259af6714a8ad9532036cbba2a70c2e749f76c336952702afc31ebdc9bb9671f059d5f7a6f8fafc101b8ca9f67b7b4bb21c66ba287896effa9860ce1e3885d6",
         "should_recover": true
-      },
-      "runnable": false
+      }
     }
   ]
 }

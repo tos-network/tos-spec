@@ -3,7 +3,6 @@
     {
       "name": "tx_slash_arbiter_basic",
       "description": "Basic arbiter slashing",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -61,7 +60,6 @@
     {
       "name": "tx_slash_arbiter_insufficient_approvals",
       "description": "Slashing requires committee threshold",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -100,7 +98,6 @@
     {
       "name": "tx_slash_arbiter_not_registered",
       "description": "Cannot slash non-registered arbiter",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -139,7 +136,6 @@
     {
       "name": "tx_slash_arbiter_exceed_stake",
       "description": "Cannot slash more than stake",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -178,7 +174,6 @@
     {
       "name": "tx_slash_arbiter_zero_amount",
       "description": "Zero slash amount rejected",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -217,7 +212,6 @@
     {
       "name": "tx_slash_arbiter_partial_slash",
       "description": "Partial slash leaves arbiter active",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -256,7 +250,6 @@
     {
       "name": "tx_slash_arbiter_full_slash",
       "description": "Full slash deactivates arbiter",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -295,7 +288,6 @@
     {
       "name": "tx_slash_arbiter_below_minimum",
       "description": "Slash below minimum stake deactivates arbiter",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -334,7 +326,6 @@
     {
       "name": "tx_slash_arbiter_invalid_signature",
       "description": "Invalid committee signature rejected",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -373,7 +364,6 @@
     {
       "name": "tx_slash_arbiter_payload_structure",
       "description": "SlashArbiterPayload wire format",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -400,7 +390,6 @@
     {
       "name": "tx_slash_arbiter_reasons",
       "description": "Slashing reasons",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {

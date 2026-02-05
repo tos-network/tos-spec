@@ -19,8 +19,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "rpc_get_height",
@@ -41,8 +40,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "rpc_get_topoheight",
@@ -63,8 +61,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "rpc_get_balance",
@@ -95,8 +92,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "rpc_get_nonce",
@@ -127,8 +123,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "rpc_submit_transaction",
@@ -149,8 +144,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "rpc_get_transaction",
@@ -171,8 +165,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "rpc_get_block_at_topoheight",
@@ -193,8 +186,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "rpc_get_tips",
@@ -215,8 +207,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "rpc_get_mempool",
@@ -237,8 +228,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "rpc_validate_address",
@@ -259,8 +249,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "rpc_get_dag_order",
@@ -281,8 +270,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "rpc_get_block_template",
@@ -303,8 +291,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "rpc_get_energy",
@@ -335,8 +322,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "rpc_get_contract_data",
@@ -367,8 +353,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "rpc_resolve_name",
@@ -389,8 +374,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     }
   ]
 }

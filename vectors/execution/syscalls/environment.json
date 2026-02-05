@@ -3,7 +3,6 @@
     {
       "name": "syscall_get_caller",
       "description": "Get transaction sender (caller) address",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -30,7 +29,6 @@
     {
       "name": "syscall_get_signer",
       "description": "Get transaction signer (same as caller for direct calls)",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -57,7 +55,6 @@
     {
       "name": "syscall_get_program_id",
       "description": "Get current contract address",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -84,7 +81,6 @@
     {
       "name": "syscall_get_block_hash",
       "description": "Get current block hash",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -111,7 +107,6 @@
     {
       "name": "syscall_get_block_height",
       "description": "Get current block height",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -138,7 +133,6 @@
     {
       "name": "syscall_get_block_timestamp",
       "description": "Get block timestamp (Unix milliseconds)",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -165,7 +159,6 @@
     {
       "name": "syscall_get_tx_hash",
       "description": "Get transaction hash",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -192,7 +185,6 @@
     {
       "name": "syscall_get_input_data",
       "description": "Get contract input parameters",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -219,7 +211,6 @@
     {
       "name": "syscall_get_topoheight",
       "description": "Get topological height (TOS-specific)",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -246,7 +237,6 @@
     {
       "name": "syscall_get_instant_random",
       "description": "Get deterministic random from block state",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -273,7 +263,6 @@
     {
       "name": "syscall_vrf_random",
       "description": "Get VRF random (cryptographically verifiable)",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -300,7 +289,6 @@
     {
       "name": "syscall_environment_immutable",
       "description": "Environment values are immutable during execution",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {

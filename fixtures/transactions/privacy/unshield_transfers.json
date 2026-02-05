@@ -41,8 +41,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_unshield_transfer_to_other",
@@ -85,8 +84,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_unshield_transfer_proof_requirements",
@@ -107,8 +105,7 @@
         "ok": false,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_unshield_transfer_insufficient_uno",
@@ -141,8 +138,7 @@
         "ok": false,
         "error": "INSUFFICIENT_UNO_BALANCE",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_unshield_transfer_invalid_proof",
@@ -175,8 +171,7 @@
         "ok": false,
         "error": "INVALID_CIPHERTEXT_PROOF",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_unshield_transfer_zero_amount",
@@ -209,8 +204,7 @@
         "ok": false,
         "error": "INVALID_AMOUNT",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_unshield_transfer_full_balance",
@@ -243,8 +237,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_unshield_transfer_payload_structure",
@@ -265,8 +258,7 @@
         "ok": false,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_unshield_transfer_fee_model",
@@ -287,8 +279,7 @@
         "ok": false,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_unshield_transfer_amount_visibility",
@@ -309,8 +300,7 @@
         "ok": false,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_unshield_transfer_privacy_considerations",
@@ -331,8 +321,7 @@
         "ok": false,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     }
   ]
 }

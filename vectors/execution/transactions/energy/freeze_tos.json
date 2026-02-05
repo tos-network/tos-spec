@@ -3,7 +3,6 @@
     {
       "name": "tx_freeze_tos_basic",
       "description": "Basic self-freeze TOS operation",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -52,7 +51,6 @@
     {
       "name": "tx_freeze_tos_minimum_amount",
       "description": "Minimum freeze amount is 1 TOS",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -91,7 +89,6 @@
     {
       "name": "tx_freeze_tos_below_minimum",
       "description": "Freeze below 1 TOS rejected",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -130,7 +127,6 @@
     {
       "name": "tx_freeze_tos_whole_tos_only",
       "description": "Only whole TOS amounts generate energy",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -169,7 +165,6 @@
     {
       "name": "tx_freeze_tos_duration_minimum",
       "description": "Minimum freeze duration is 3 days",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -208,7 +203,6 @@
     {
       "name": "tx_freeze_tos_duration_below_minimum",
       "description": "Freeze duration below 3 days rejected",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -247,7 +241,6 @@
     {
       "name": "tx_freeze_tos_duration_maximum",
       "description": "Maximum freeze duration is 365 days",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -286,7 +279,6 @@
     {
       "name": "tx_freeze_tos_duration_above_maximum",
       "description": "Freeze duration above 365 days rejected",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -325,7 +317,6 @@
     {
       "name": "tx_freeze_tos_insufficient_balance",
       "description": "Freeze fails with insufficient balance",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -364,7 +355,6 @@
     {
       "name": "tx_freeze_tos_multiple_records",
       "description": "Multiple freeze records with different durations",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -391,7 +381,6 @@
     {
       "name": "tx_freeze_tos_max_records",
       "description": "Maximum 32 freeze records per account",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -430,7 +419,6 @@
     {
       "name": "tx_freeze_tos_unlock_calculation",
       "description": "Unlock topoheight calculation",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -469,7 +457,6 @@
     {
       "name": "tx_freeze_tos_devnet_timing",
       "description": "Devnet uses accelerated timing",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -508,7 +495,6 @@
     {
       "name": "tx_freeze_tos_payload_structure",
       "description": "FreezeTos payload wire format",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {

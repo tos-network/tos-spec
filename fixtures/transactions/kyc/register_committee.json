@@ -41,8 +41,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_register_committee_threshold_validation",
@@ -63,8 +62,7 @@
         "ok": false,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_register_committee_member_requirements",
@@ -85,8 +83,7 @@
         "ok": false,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_register_committee_parent_approval",
@@ -119,8 +116,7 @@
         "ok": false,
         "error": "INSUFFICIENT_PARENT_APPROVALS",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_register_committee_max_level_constraint",
@@ -153,8 +149,7 @@
         "ok": false,
         "error": "MAX_LEVEL_EXCEEDS_PARENT",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_register_committee_name_validation",
@@ -175,8 +170,7 @@
         "ok": false,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_register_committee_regions",
@@ -197,8 +191,7 @@
         "ok": false,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_register_committee_member_roles",
@@ -219,8 +212,7 @@
         "ok": false,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_register_committee_payload_structure",
@@ -241,8 +233,7 @@
         "ok": false,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_register_committee_gas_cost",
@@ -263,8 +254,7 @@
         "ok": false,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     }
   ]
 }

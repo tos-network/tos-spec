@@ -41,8 +41,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_update_arbiter_add_stake",
@@ -75,8 +74,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_update_arbiter_update_expertise",
@@ -109,8 +107,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_update_arbiter_escrow_range",
@@ -143,8 +140,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_update_arbiter_invalid_range",
@@ -177,8 +173,7 @@
         "ok": false,
         "error": "INVALID_ESCROW_VALUE_RANGE",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_update_arbiter_not_registered",
@@ -211,8 +206,7 @@
         "ok": false,
         "error": "NOT_REGISTERED_ARBITER",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_update_arbiter_self_suspend",
@@ -245,8 +239,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_update_arbiter_fee_too_high",
@@ -279,8 +272,7 @@
         "ok": false,
         "error": "FEE_TOO_HIGH",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_update_arbiter_empty_expertise",
@@ -313,8 +305,7 @@
         "ok": false,
         "error": "NO_EXPERTISE_DOMAINS",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_update_arbiter_deactivate",
@@ -347,8 +338,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_update_arbiter_payload_structure",
@@ -369,8 +359,7 @@
         "ok": false,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     }
   ]
 }

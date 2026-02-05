@@ -3,7 +3,6 @@
     {
       "name": "tx_register_name_basic",
       "description": "Basic TNS name registration",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -52,7 +51,6 @@
     {
       "name": "tx_register_name_length_validation",
       "description": "Name length constraints",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -79,7 +77,6 @@
     {
       "name": "tx_register_name_character_validation",
       "description": "Valid name characters",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -106,7 +103,6 @@
     {
       "name": "tx_register_name_already_taken",
       "description": "Cannot register existing name",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -145,7 +141,6 @@
     {
       "name": "tx_register_name_already_has_name",
       "description": "Account can only have one name",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -184,7 +179,6 @@
     {
       "name": "tx_register_name_case_insensitive",
       "description": "Names are case-insensitive",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -223,7 +217,6 @@
     {
       "name": "tx_register_name_payload_structure",
       "description": "RegisterNamePayload wire format",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -250,7 +243,6 @@
     {
       "name": "tx_ephemeral_message_basic",
       "description": "Send ephemeral message between TNS names",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -308,7 +300,6 @@
     {
       "name": "tx_ephemeral_message_ttl_validation",
       "description": "Message TTL constraints",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -335,7 +326,6 @@
     {
       "name": "tx_ephemeral_message_content_size",
       "description": "Message content size limit",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -362,7 +352,6 @@
     {
       "name": "tx_ephemeral_message_sender_not_registered",
       "description": "Sender must have registered TNS name",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -401,7 +390,6 @@
     {
       "name": "tx_ephemeral_message_recipient_not_found",
       "description": "Recipient name must exist",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -440,7 +428,6 @@
     {
       "name": "tx_ephemeral_message_payload_structure",
       "description": "EphemeralMessagePayload wire format",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -467,7 +454,6 @@
     {
       "name": "tx_tns_gas_costs",
       "description": "TNS transaction gas costs",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {

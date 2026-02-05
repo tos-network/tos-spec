@@ -38,8 +38,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "syscall_transfer_insufficient_balance",
@@ -79,8 +78,7 @@
         "ok": false,
         "error": "INSUFFICIENT_BALANCE",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "syscall_transfer_zero_amount",
@@ -111,8 +109,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "syscall_transfer_self",
@@ -143,8 +140,7 @@
         "ok": false,
         "error": "SENDER_IS_RECEIVER",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "syscall_transfer_queued",
@@ -175,8 +171,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "syscall_transfer_overflow_protection",
@@ -216,8 +211,7 @@
         "ok": false,
         "error": "BALANCE_OVERFLOW",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "syscall_transfer_with_asset",
@@ -248,8 +242,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     }
   ]
 }

@@ -29,8 +29,7 @@
         "ok": false,
         "error": "BALANCE_OVERFLOW",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "security_underflow_balance_sub",
@@ -61,8 +60,7 @@
         "ok": false,
         "error": "NO_BALANCE",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "security_overflow_fee_calculation",
@@ -83,8 +81,7 @@
         "ok": false,
         "error": "OVERFLOW",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "security_overflow_energy_calculation",
@@ -105,8 +102,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "security_overflow_contract_arithmetic",
@@ -127,8 +123,7 @@
         "ok": false,
         "error": "ARITHMETIC_OVERFLOW",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "security_overflow_topoheight_safe",
@@ -149,8 +144,7 @@
         "ok": false,
         "error": "OVERFLOW",
         "post_state": null
-      },
-      "runnable": false
+      }
     }
   ]
 }

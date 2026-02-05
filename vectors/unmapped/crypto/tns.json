@@ -12,8 +12,7 @@
         "tns_name": "alice",
         "wire_hex": "05616c696365",
         "expected_size": 6
-      },
-      "runnable": false
+      }
     },
     {
       "name": "register_name_min",
@@ -24,8 +23,7 @@
         "tns_name": "bob",
         "wire_hex": "03626f62",
         "expected_size": 4
-      },
-      "runnable": false
+      }
     },
     {
       "name": "register_name_16chars",
@@ -36,8 +34,7 @@
         "tns_name": "cryptoenthusiast",
         "wire_hex": "1063727970746f656e7468757369617374",
         "expected_size": 17
-      },
-      "runnable": false
+      }
     },
     {
       "name": "register_name_alphanumeric",
@@ -48,8 +45,7 @@
         "tns_name": "user123",
         "wire_hex": "0775736572313233",
         "expected_size": 8
-      },
-      "runnable": false
+      }
     },
     {
       "name": "register_name_underscore",
@@ -60,8 +56,7 @@
         "tns_name": "my_wallet",
         "wire_hex": "096d795f77616c6c6574",
         "expected_size": 10
-      },
-      "runnable": false
+      }
     },
     {
       "name": "ephemeral_message_basic",
@@ -77,8 +72,7 @@
         "receiver_handle_hex": "3333333333333333333333333333333333333333333333333333333333333333",
         "wire_hex": "111111111111111111111111111111111111111111111111111111111111111122222222222222222222222222222222222222222222222222222222222222220000000000000001000003e80040aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa3333333333333333333333333333333333333333333333333333333333333333",
         "expected_size": 174
-      },
-      "runnable": false
+      }
     },
     {
       "name": "ephemeral_message_min_content",
@@ -94,8 +88,7 @@
         "receiver_handle_hex": "6666666666666666666666666666666666666666666666666666666666666666",
         "wire_hex": "44444444444444444444444444444444444444444444444444444444444444445555555555555555555555555555555555555555555555555555555555555555000000000000002a000000640001bb6666666666666666666666666666666666666666666666666666666666666666",
         "expected_size": 111
-      },
-      "runnable": false
+      }
     },
     {
       "name": "ephemeral_message_128bytes",
@@ -111,8 +104,7 @@
         "receiver_handle_hex": "9999999999999999999999999999999999999999999999999999999999999999",
         "wire_hex": "77777777777777777777777777777777777777777777777777777777777777778888888888888888888888888888888888888888888888888888888888888888000000000000270f000021c00080cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc9999999999999999999999999999999999999999999999999999999999999999",
         "expected_size": 238
-      },
-      "runnable": false
+      }
     },
     {
       "name": "ephemeral_message_max_ttl",
@@ -128,8 +120,7 @@
         "receiver_handle_hex": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
         "wire_hex": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb000000000000303900093a800020ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
         "expected_size": 142
-      },
-      "runnable": false
+      }
     }
   ]
 }

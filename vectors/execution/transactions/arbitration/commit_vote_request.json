@@ -3,7 +3,6 @@
     {
       "name": "tx_commit_vote_request_basic",
       "description": "Basic vote request commitment",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -52,7 +51,6 @@
     {
       "name": "tx_commit_vote_request_not_coordinator",
       "description": "Only coordinator can commit vote request",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -101,7 +99,6 @@
     {
       "name": "tx_commit_vote_request_wrong_state",
       "description": "Arbitration must be in Open state",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -140,7 +137,6 @@
     {
       "name": "tx_commit_vote_request_invalid_signature",
       "description": "Coordinator signature must be valid",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -179,7 +175,6 @@
     {
       "name": "tx_commit_vote_request_hash_mismatch",
       "description": "Payload hash must match declared hash",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -218,7 +213,6 @@
     {
       "name": "tx_commit_vote_request_payload_too_large",
       "description": "Payload size limit enforcement",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -257,7 +251,6 @@
     {
       "name": "tx_commit_vote_request_duplicate",
       "description": "Cannot commit duplicate request ID",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -296,7 +289,6 @@
     {
       "name": "tx_commit_vote_request_payload_structure",
       "description": "CommitVoteRequestPayload wire format",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -323,7 +315,6 @@
     {
       "name": "tx_commit_vote_request_gas_cost",
       "description": "CommitVoteRequest gas consumption",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {

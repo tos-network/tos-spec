@@ -41,8 +41,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_submit_verdict_full_to_payer",
@@ -75,8 +74,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_submit_verdict_full_to_provider",
@@ -109,8 +107,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_submit_verdict_amount_mismatch",
@@ -143,8 +140,7 @@
         "ok": false,
         "error": "VERDICT_AMOUNT_MISMATCH",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_submit_verdict_insufficient_signatures",
@@ -177,8 +173,7 @@
         "ok": false,
         "error": "INSUFFICIENT_SIGNATURES",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_submit_verdict_invalid_signature",
@@ -211,8 +206,7 @@
         "ok": false,
         "error": "INVALID_ARBITER_SIGNATURE",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_submit_verdict_unregistered_arbiter",
@@ -255,8 +249,7 @@
         "ok": false,
         "error": "ARBITER_NOT_REGISTERED",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_submit_verdict_escrow_not_disputed",
@@ -289,8 +282,7 @@
         "ok": false,
         "error": "ESCROW_NOT_DISPUTED",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_submit_verdict_wrong_dispute_id",
@@ -323,8 +315,7 @@
         "ok": false,
         "error": "DISPUTE_ID_MISMATCH",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_submit_verdict_appeal_round",
@@ -357,8 +348,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_submit_verdict_by_juror",
@@ -391,8 +381,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_submit_verdict_signature_structure",
@@ -413,8 +402,7 @@
         "ok": false,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_submit_verdict_payload_structure",
@@ -435,8 +423,7 @@
         "ok": false,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_submit_verdict_signature_message",
@@ -457,8 +444,7 @@
         "ok": false,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_submit_verdict_duplicate_signatures",
@@ -491,8 +477,7 @@
         "ok": false,
         "error": "DUPLICATE_SIGNATURE",
         "post_state": null
-      },
-      "runnable": false
+      }
     }
   ]
 }

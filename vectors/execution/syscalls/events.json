@@ -3,7 +3,6 @@
     {
       "name": "syscall_log0_basic",
       "description": "Emit event with 0 indexed topics",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -30,7 +29,6 @@
     {
       "name": "syscall_log1_basic",
       "description": "Emit event with 1 indexed topic",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -57,7 +55,6 @@
     {
       "name": "syscall_log2_basic",
       "description": "Emit event with 2 indexed topics",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -84,7 +81,6 @@
     {
       "name": "syscall_log3_transfer_event",
       "description": "Standard ERC-20 Transfer event format",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -111,7 +107,6 @@
     {
       "name": "syscall_log4_maximum_topics",
       "description": "Maximum 4 indexed topics",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -138,7 +133,6 @@
     {
       "name": "syscall_log_empty_data",
       "description": "Event with empty data payload",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -165,7 +159,6 @@
     {
       "name": "syscall_log_large_data",
       "description": "Event with large data payload",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -192,7 +185,6 @@
     {
       "name": "syscall_log_multiple_events",
       "description": "Multiple events in single execution",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -219,7 +211,6 @@
     {
       "name": "syscall_log_event_collection",
       "description": "Events collected in ExecutionResult.events",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {

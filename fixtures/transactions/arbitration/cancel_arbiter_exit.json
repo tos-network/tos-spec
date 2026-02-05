@@ -41,8 +41,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_cancel_arbiter_exit_not_exiting",
@@ -75,8 +74,7 @@
         "ok": false,
         "error": "NOT_IN_EXITING_STATE",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_cancel_arbiter_exit_not_registered",
@@ -109,8 +107,7 @@
         "ok": false,
         "error": "NOT_REGISTERED_ARBITER",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_cancel_arbiter_exit_after_cooldown",
@@ -143,8 +140,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_cancel_arbiter_exit_with_pending_cases",
@@ -177,8 +173,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_cancel_arbiter_exit_payload_structure",
@@ -199,8 +194,7 @@
         "ok": false,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_cancel_arbiter_exit_gas_cost",
@@ -221,8 +215,7 @@
         "ok": false,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     }
   ]
 }

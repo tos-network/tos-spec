@@ -3,7 +3,6 @@
     {
       "name": "tx_appeal_kyc_basic",
       "description": "Basic KYC appeal",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -52,7 +51,6 @@
     {
       "name": "tx_appeal_kyc_rejected_status",
       "description": "Appeal rejected KYC application",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -91,7 +89,6 @@
     {
       "name": "tx_appeal_kyc_no_existing_record",
       "description": "Cannot appeal without existing KYC record",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -130,7 +127,6 @@
     {
       "name": "tx_appeal_kyc_active_status",
       "description": "Cannot appeal active KYC",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -169,7 +165,6 @@
     {
       "name": "tx_appeal_kyc_window_expired",
       "description": "Appeal must be within appeal window",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -208,7 +203,6 @@
     {
       "name": "tx_appeal_kyc_wrong_parent",
       "description": "Parent committee must be actual parent",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -247,7 +241,6 @@
     {
       "name": "tx_appeal_kyc_suspended_committee",
       "description": "Cannot appeal to suspended committee",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -286,7 +279,6 @@
     {
       "name": "tx_appeal_kyc_already_pending",
       "description": "Cannot have multiple pending appeals",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -325,7 +317,6 @@
     {
       "name": "tx_appeal_kyc_third_party",
       "description": "Third party cannot appeal on behalf of user",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -383,7 +374,6 @@
     {
       "name": "tx_appeal_kyc_payload_structure",
       "description": "AppealKycPayload wire format",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -410,7 +400,6 @@
     {
       "name": "tx_appeal_kyc_gas_cost",
       "description": "AppealKyc gas consumption",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {

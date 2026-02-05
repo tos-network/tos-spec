@@ -3,7 +3,6 @@
     {
       "name": "consensus_fork_choice_cumulative_difficulty",
       "description": "Select tip with highest cumulative difficulty",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -30,7 +29,6 @@
     {
       "name": "consensus_fork_choice_same_height_different_difficulty",
       "description": "At same height, prefer higher cumulative difficulty",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -57,7 +55,6 @@
     {
       "name": "consensus_fork_choice_tie_breaker_hash",
       "description": "Tie-break by block hash when difficulty equal",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -84,7 +81,6 @@
     {
       "name": "consensus_fork_choice_invalid_tip_rejected",
       "description": "Invalid blocks are never selected as tips",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -111,7 +107,6 @@
     {
       "name": "consensus_fork_choice_dag_multiple_tips",
       "description": "DAG can maintain multiple valid tips simultaneously",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -138,7 +133,6 @@
     {
       "name": "consensus_fork_choice_topoheight_ordering",
       "description": "TopoHeight provides total ordering for execution",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -165,7 +159,6 @@
     {
       "name": "consensus_fork_choice_reorg_deeper_than_stable",
       "description": "Cannot reorg past STABLE_LIMIT depth",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -192,7 +185,6 @@
     {
       "name": "consensus_fork_choice_lower_difficulty_rejected",
       "description": "Chain with lower cumulative difficulty is rejected",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -219,7 +211,6 @@
     {
       "name": "consensus_fork_choice_block_deviation",
       "description": "Block that deviates too much from tips is rejected",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -246,7 +237,6 @@
     {
       "name": "consensus_fork_choice_non_reachability",
       "description": "Block tips must not be ancestors of each other",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {

@@ -3,7 +3,6 @@
     {
       "name": "security_dos_compute_budget_limit",
       "description": "Compute budget limits prevent infinite loops",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -30,7 +29,6 @@
     {
       "name": "security_dos_call_depth_limit",
       "description": "MAX_CALL_DEPTH (64) prevents stack overflow",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -57,7 +55,6 @@
     {
       "name": "security_dos_block_size_limit",
       "description": "MAX_BLOCK_SIZE (1.25 MB) limits block size",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -84,7 +81,6 @@
     {
       "name": "security_dos_txs_per_block_limit",
       "description": "MAX_TXS_PER_BLOCK (10,000) limits transaction count",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -111,7 +107,6 @@
     {
       "name": "security_dos_heap_memory_limit",
       "description": "HEAP_SIZE (32 KB) limits contract memory allocation",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -138,7 +133,6 @@
     {
       "name": "security_dos_stack_size_limit",
       "description": "STACK_SIZE (256 KB) limits call stack",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -165,7 +159,6 @@
     {
       "name": "security_dos_bytecode_limit",
       "description": "LOADED_DATA_LIMIT (128 KB) limits bytecode per tx",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -192,7 +185,6 @@
     {
       "name": "security_dos_transaction_size_limit",
       "description": "MAX_TRANSACTION_SIZE (1 MB) limits tx size",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -219,7 +211,6 @@
     {
       "name": "security_dos_peer_timeout",
       "description": "P2P_PING_TIMEOUT prevents hanging connections",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -246,7 +237,6 @@
     {
       "name": "security_dos_mempool_limit",
       "description": "Mempool size limits prevent memory exhaustion",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {

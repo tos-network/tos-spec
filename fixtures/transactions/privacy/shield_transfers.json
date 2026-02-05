@@ -41,8 +41,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_shield_transfer_to_other",
@@ -85,8 +84,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_shield_transfer_proof_requirements",
@@ -107,8 +105,7 @@
         "ok": false,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_shield_transfer_invalid_proof",
@@ -141,8 +138,7 @@
         "ok": false,
         "error": "INVALID_SHIELD_PROOF",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_shield_transfer_insufficient_balance",
@@ -175,8 +171,7 @@
         "ok": false,
         "error": "INSUFFICIENT_BALANCE",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_shield_transfer_zero_amount",
@@ -209,8 +204,7 @@
         "ok": false,
         "error": "INVALID_AMOUNT",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_shield_transfer_accumulates_uno",
@@ -231,8 +225,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_shield_transfer_payload_structure",
@@ -253,8 +246,7 @@
         "ok": false,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_shield_transfer_fee_model",
@@ -275,8 +267,7 @@
         "ok": false,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_shield_transfer_asset_restriction",
@@ -309,8 +300,7 @@
         "ok": false,
         "error": "ASSET_NOT_SHIELDABLE",
         "post_state": null
-      },
-      "runnable": false
+      }
     }
   ]
 }

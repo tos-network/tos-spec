@@ -50,8 +50,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_freeze_delegate_batch_multiple",
@@ -112,8 +111,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_freeze_delegate_self_delegation_rejected",
@@ -156,8 +154,7 @@
         "ok": false,
         "error": "SELF_DELEGATION_NOT_ALLOWED",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_freeze_delegate_inactive_delegatee",
@@ -200,8 +197,7 @@
         "ok": false,
         "error": "DELEGATEE_NOT_ACTIVE",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_freeze_delegate_duplicate_delegatee",
@@ -234,8 +230,7 @@
         "ok": false,
         "error": "DUPLICATE_DELEGATEE",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_freeze_delegate_max_delegatees",
@@ -268,8 +263,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_freeze_delegate_exceed_max_delegatees",
@@ -302,8 +296,7 @@
         "ok": false,
         "error": "TOO_MANY_DELEGATEES",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_freeze_delegate_minimum_per_delegatee",
@@ -336,8 +329,7 @@
         "ok": false,
         "error": "AMOUNT_BELOW_MINIMUM",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_freeze_delegate_insufficient_balance",
@@ -370,8 +362,7 @@
         "ok": false,
         "error": "INSUFFICIENT_BALANCE",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_freeze_delegate_counts_toward_record_limit",
@@ -404,8 +395,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_freeze_delegate_at_record_limit",
@@ -438,8 +428,7 @@
         "ok": false,
         "error": "MAX_FREEZE_RECORDS_REACHED",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_freeze_delegate_energy_lease_tracking",
@@ -491,8 +480,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_freeze_delegate_payload_structure",
@@ -513,8 +501,7 @@
         "ok": false,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     }
   ]
 }

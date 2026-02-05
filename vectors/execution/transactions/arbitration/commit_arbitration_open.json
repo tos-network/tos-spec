@@ -3,7 +3,6 @@
     {
       "name": "tx_commit_arbitration_open_basic",
       "description": "Basic arbitration open commitment",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -52,7 +51,6 @@
     {
       "name": "tx_commit_arbitration_open_not_arbiter",
       "description": "Only registered arbiter can commit",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -91,7 +89,6 @@
     {
       "name": "tx_commit_arbitration_open_not_assigned",
       "description": "Arbiter must be assigned to escrow",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -140,7 +137,6 @@
     {
       "name": "tx_commit_arbitration_open_wrong_dispute",
       "description": "Dispute ID must match active dispute",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -179,7 +175,6 @@
     {
       "name": "tx_commit_arbitration_open_escrow_not_disputed",
       "description": "Escrow must be in disputed state",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -218,7 +213,6 @@
     {
       "name": "tx_commit_arbitration_open_invalid_signature",
       "description": "Invalid opener signature rejected",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -257,7 +251,6 @@
     {
       "name": "tx_commit_arbitration_open_payload_too_large",
       "description": "Payload size limit enforcement",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -296,7 +289,6 @@
     {
       "name": "tx_commit_arbitration_open_already_committed",
       "description": "Cannot commit twice for same dispute",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -335,7 +327,6 @@
     {
       "name": "tx_commit_arbitration_open_appeal_round",
       "description": "Commit for appeal round",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -374,7 +365,6 @@
     {
       "name": "tx_commit_arbitration_open_payload_structure",
       "description": "CommitArbitrationOpenPayload wire format",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -401,7 +391,6 @@
     {
       "name": "tx_commit_arbitration_open_constants",
       "description": "Arbitration commit-related constants",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {

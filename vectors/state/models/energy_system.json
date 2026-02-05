@@ -3,7 +3,6 @@
     {
       "name": "energy_system_overview",
       "description": "Energy system overview and calculation rules",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -30,7 +29,6 @@
     {
       "name": "energy_calculation_formula",
       "description": "Energy gain calculation formula",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -57,7 +55,6 @@
     {
       "name": "freeze_duration_validation",
       "description": "FreezeDuration constraints",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -84,7 +81,6 @@
     {
       "name": "freeze_record_structure",
       "description": "FreezeRecord structure definition",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -111,7 +107,6 @@
     {
       "name": "delegated_freeze_record_structure",
       "description": "DelegatedFreezeRecord for batch delegation",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -138,7 +133,6 @@
     {
       "name": "pending_unfreeze_structure",
       "description": "PendingUnfreeze for two-phase withdrawal",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -165,7 +159,6 @@
     {
       "name": "energy_consumption_rate",
       "description": "Energy consumption per transfer",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -192,7 +185,6 @@
     {
       "name": "energy_limits",
       "description": "Energy system limits",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -219,7 +211,6 @@
     {
       "name": "energy_operations_are_free",
       "description": "All energy operations have zero fee",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -246,7 +237,6 @@
     {
       "name": "unlock_topoheight_calculation",
       "description": "Unlock topoheight calculation per network",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -273,7 +263,6 @@
     {
       "name": "energy_invariants",
       "description": "Energy system invariants",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {

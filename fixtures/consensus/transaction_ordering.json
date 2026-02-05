@@ -19,8 +19,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "consensus_tx_ordering_by_fee",
@@ -41,8 +40,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "consensus_tx_ordering_nonce_gap_deferred",
@@ -63,8 +61,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "consensus_tx_ordering_insufficient_balance",
@@ -85,8 +82,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "consensus_tx_ordering_block_size_limit",
@@ -107,8 +103,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "consensus_tx_ordering_fee_replacement",
@@ -129,8 +124,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "consensus_tx_ordering_fee_too_low_rejected",
@@ -151,8 +145,7 @@
         "ok": false,
         "error": "FEES_TO_LOW_TO_OVERRIDE",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "consensus_tx_ordering_already_in_mempool",
@@ -173,8 +166,7 @@
         "ok": false,
         "error": "TX_ALREADY_IN_MEMPOOL",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "consensus_tx_ordering_already_in_blockchain",
@@ -195,8 +187,7 @@
         "ok": false,
         "error": "TX_ALREADY_IN_BLOCKCHAIN",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "consensus_tx_ordering_max_txs_per_block",
@@ -217,8 +208,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "consensus_tx_ordering_energy_vs_fee",
@@ -239,8 +229,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "consensus_tx_ordering_multisig_fee",
@@ -261,8 +250,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     }
   ]
 }

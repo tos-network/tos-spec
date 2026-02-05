@@ -50,8 +50,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_invoke_contract_with_deposit",
@@ -94,8 +93,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_invoke_contract_with_parameters",
@@ -138,8 +136,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_invoke_contract_nonexistent",
@@ -182,8 +179,7 @@
         "ok": false,
         "error": "CONTRACT_NOT_FOUND",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_invoke_contract_invalid_entry_point",
@@ -226,8 +222,7 @@
         "ok": false,
         "error": "INVALID_ENTRY_POINT",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_invoke_contract_insufficient_gas",
@@ -270,8 +265,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_invoke_contract_max_gas_limit",
@@ -304,8 +298,7 @@
         "ok": false,
         "error": "GAS_LIMIT_EXCEEDED",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_invoke_contract_multiple_deposits",
@@ -338,8 +331,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_invoke_contract_max_deposits",
@@ -360,8 +352,7 @@
         "ok": false,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_invoke_contract_insufficient_deposit",
@@ -394,8 +385,7 @@
         "ok": false,
         "error": "INSUFFICIENT_BALANCE",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_invoke_contract_revert",
@@ -428,8 +418,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_invoke_contract_gas_burn",
@@ -450,8 +439,7 @@
         "ok": false,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_invoke_contract_storage_fees",
@@ -472,8 +460,7 @@
         "ok": false,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_invoke_contract_payload_structure",
@@ -494,8 +481,7 @@
         "ok": false,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_invoke_contract_value_cell_types",
@@ -516,8 +502,7 @@
         "ok": false,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     }
   ]
 }

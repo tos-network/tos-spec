@@ -3,7 +3,6 @@
     {
       "name": "tx_agent_account_register",
       "description": "Register new AI agent account",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -52,7 +51,6 @@
     {
       "name": "tx_agent_account_register_minimal",
       "description": "Register agent with minimal config",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -91,7 +89,6 @@
     {
       "name": "tx_agent_account_register_already_agent",
       "description": "Cannot register if already an agent",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -130,7 +127,6 @@
     {
       "name": "tx_agent_account_update_policy",
       "description": "Update agent policy",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -169,7 +165,6 @@
     {
       "name": "tx_agent_account_update_policy_not_controller",
       "description": "Only controller can update policy",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -208,7 +203,6 @@
     {
       "name": "tx_agent_account_rotate_controller",
       "description": "Rotate agent controller",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -247,7 +241,6 @@
     {
       "name": "tx_agent_account_rotate_controller_same",
       "description": "Cannot rotate to same controller",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -286,7 +279,6 @@
     {
       "name": "tx_agent_account_set_status",
       "description": "Set agent status",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -325,7 +317,6 @@
     {
       "name": "tx_agent_account_set_status_invalid",
       "description": "Invalid status value rejected",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -364,7 +355,6 @@
     {
       "name": "tx_agent_account_set_energy_pool",
       "description": "Set energy pool for agent",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -413,7 +403,6 @@
     {
       "name": "tx_agent_account_clear_energy_pool",
       "description": "Clear energy pool assignment",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -452,7 +441,6 @@
     {
       "name": "tx_agent_account_set_session_key_root",
       "description": "Set session key merkle root",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -491,7 +479,6 @@
     {
       "name": "tx_agent_account_add_session_key",
       "description": "Add individual session key",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -530,7 +517,6 @@
     {
       "name": "tx_agent_account_add_session_key_max_reached",
       "description": "Cannot exceed max session keys",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -569,7 +555,6 @@
     {
       "name": "tx_agent_account_add_session_key_duplicate",
       "description": "Cannot add duplicate session key",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -608,7 +593,6 @@
     {
       "name": "tx_agent_account_revoke_session_key",
       "description": "Revoke session key",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -647,7 +631,6 @@
     {
       "name": "tx_agent_account_revoke_session_key_not_found",
       "description": "Cannot revoke non-existent key",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -686,7 +669,6 @@
     {
       "name": "tx_agent_account_not_agent",
       "description": "Non-agent cannot use agent operations",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -725,7 +707,6 @@
     {
       "name": "tx_agent_account_variants",
       "description": "AgentAccountPayload variant enumeration",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -752,7 +733,6 @@
     {
       "name": "tx_agent_account_payload_structure",
       "description": "AgentAccountPayload wire format",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -779,7 +759,6 @@
     {
       "name": "tx_agent_account_gas_costs",
       "description": "AgentAccount gas costs by variant",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {

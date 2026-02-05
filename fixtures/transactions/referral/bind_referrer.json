@@ -50,8 +50,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_bind_referrer_with_campaign",
@@ -84,8 +83,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_bind_referrer_already_bound",
@@ -118,8 +116,7 @@
         "ok": false,
         "error": "REFERRER_ALREADY_BOUND",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_bind_referrer_self_referral",
@@ -162,8 +159,7 @@
         "ok": false,
         "error": "SELF_REFERRAL_NOT_ALLOWED",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_bind_referrer_nonexistent",
@@ -196,8 +192,7 @@
         "ok": false,
         "error": "REFERRER_NOT_FOUND",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_bind_referrer_circular",
@@ -249,8 +244,7 @@
         "ok": false,
         "error": "CIRCULAR_REFERRAL",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_bind_referrer_payload_structure",
@@ -271,8 +265,7 @@
         "ok": false,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_batch_referral_reward_basic",
@@ -333,8 +326,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_batch_referral_reward_ratios_validation",
@@ -355,8 +347,7 @@
         "ok": false,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_batch_referral_reward_level_limits",
@@ -377,8 +368,7 @@
         "ok": false,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_batch_referral_reward_insufficient_chain",
@@ -411,8 +401,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_batch_referral_reward_payload_structure",
@@ -433,8 +422,7 @@
         "ok": false,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_referral_gas_costs",
@@ -455,8 +443,7 @@
         "ok": false,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     }
   ]
 }

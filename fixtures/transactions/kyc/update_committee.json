@@ -41,8 +41,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_update_committee_remove_member",
@@ -75,8 +74,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_update_committee_update_role",
@@ -109,8 +107,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_update_committee_update_status",
@@ -143,8 +140,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_update_committee_update_threshold",
@@ -177,8 +173,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_update_committee_threshold_too_low",
@@ -211,8 +206,7 @@
         "ok": false,
         "error": "THRESHOLD_TOO_LOW",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_update_committee_update_kyc_threshold",
@@ -245,8 +239,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_update_committee_update_name",
@@ -279,8 +272,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_update_committee_suspend",
@@ -313,8 +305,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_update_committee_activate",
@@ -347,8 +338,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_update_committee_insufficient_approvals",
@@ -381,8 +371,7 @@
         "ok": false,
         "error": "INSUFFICIENT_APPROVALS",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_update_committee_not_found",
@@ -415,8 +404,7 @@
         "ok": false,
         "error": "COMMITTEE_NOT_FOUND",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_update_committee_update_types",
@@ -437,8 +425,7 @@
         "ok": false,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_update_committee_payload_structure",
@@ -459,8 +446,7 @@
         "ok": false,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_update_committee_gas_cost",
@@ -481,8 +467,7 @@
         "ok": false,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     }
   ]
 }

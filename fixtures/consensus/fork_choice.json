@@ -19,8 +19,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "consensus_fork_choice_same_height_different_difficulty",
@@ -41,8 +40,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "consensus_fork_choice_tie_breaker_hash",
@@ -63,8 +61,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "consensus_fork_choice_invalid_tip_rejected",
@@ -85,8 +82,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "consensus_fork_choice_dag_multiple_tips",
@@ -107,8 +103,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "consensus_fork_choice_topoheight_ordering",
@@ -129,8 +124,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "consensus_fork_choice_reorg_deeper_than_stable",
@@ -151,8 +145,7 @@
         "ok": false,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "consensus_fork_choice_lower_difficulty_rejected",
@@ -173,8 +166,7 @@
         "ok": false,
         "error": "LOWER_CUMULATIVE_DIFFICULTY",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "consensus_fork_choice_block_deviation",
@@ -195,8 +187,7 @@
         "ok": false,
         "error": "BLOCK_DEVIATION",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "consensus_fork_choice_non_reachability",
@@ -217,8 +208,7 @@
         "ok": false,
         "error": "INVALID_REACHABILITY",
         "post_state": null
-      },
-      "runnable": false
+      }
     }
   ]
 }

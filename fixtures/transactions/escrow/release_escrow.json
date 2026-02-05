@@ -41,8 +41,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_release_escrow_partial",
@@ -75,8 +74,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_release_escrow_with_proof",
@@ -109,8 +107,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_release_escrow_unauthorized",
@@ -153,8 +150,7 @@
         "ok": false,
         "error": "UNAUTHORIZED_RELEASE",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_release_escrow_not_found",
@@ -187,8 +183,7 @@
         "ok": false,
         "error": "ESCROW_NOT_FOUND",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_release_escrow_already_released",
@@ -221,8 +216,7 @@
         "ok": false,
         "error": "ESCROW_ALREADY_RELEASED",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_release_escrow_exceed_remaining",
@@ -255,8 +249,7 @@
         "ok": false,
         "error": "INSUFFICIENT_ESCROW_BALANCE",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_release_escrow_zero_amount",
@@ -289,8 +282,7 @@
         "ok": false,
         "error": "INVALID_AMOUNT",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_release_escrow_disputed",
@@ -323,8 +315,7 @@
         "ok": false,
         "error": "ESCROW_DISPUTED",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_release_escrow_optimistic_auto_release",
@@ -357,8 +348,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_release_escrow_during_challenge",
@@ -391,8 +381,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_release_escrow_payload_structure",
@@ -413,8 +402,7 @@
         "ok": false,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_release_escrow_multiple_releases",
@@ -435,8 +423,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     }
   ]
 }

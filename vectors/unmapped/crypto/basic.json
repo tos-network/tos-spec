@@ -13,8 +13,7 @@
         "amount": 1000000000,
         "wire_hex": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa000000003b9aca00",
         "expected_size": 40
-      },
-      "runnable": false
+      }
     },
     {
       "name": "burn_max",
@@ -26,8 +25,7 @@
         "amount": 18446744073709551615,
         "wire_hex": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaffffffffffffffff",
         "expected_size": 40
-      },
-      "runnable": false
+      }
     },
     {
       "name": "burn_min",
@@ -39,8 +37,7 @@
         "amount": 1,
         "wire_hex": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa0000000000000001",
         "expected_size": 40
-      },
-      "runnable": false
+      }
     },
     {
       "name": "transfer_basic",
@@ -54,8 +51,7 @@
         "has_extra_data": false,
         "wire_hex": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa0101010101010101010101010101010101010101010101010101010101010101000000001dcd650000",
         "expected_size": 73
-      },
-      "runnable": false
+      }
     },
     {
       "name": "transfer_large",
@@ -69,8 +65,7 @@
         "has_extra_data": false,
         "wire_hex": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa0101010101010101010101010101010101010101010101010101010101010101000000174876e80000",
         "expected_size": 73
-      },
-      "runnable": false
+      }
     },
     {
       "name": "energy_freeze_basic",
@@ -87,8 +82,7 @@
         "has_delegatee_address": null,
         "wire_hex": "000000000005f5e10000000007",
         "expected_size": 13
-      },
-      "runnable": false
+      }
     },
     {
       "name": "energy_freeze_30days",
@@ -105,8 +99,7 @@
         "has_delegatee_address": null,
         "wire_hex": "00000000001dcd65000000001e",
         "expected_size": 13
-      },
-      "runnable": false
+      }
     },
     {
       "name": "energy_delegate_multi",
@@ -123,8 +116,7 @@
         "has_delegatee_address": null,
         "wire_hex": "01000000000000000211111111111111111111111111111111111111111111111111111111111111110000000005f5e1002222222222222222222222222222222222222222222222222222222222222222000000000bebc2000000000e",
         "expected_size": 93
-      },
-      "runnable": false
+      }
     },
     {
       "name": "energy_unfreeze_basic",
@@ -141,8 +133,7 @@
         "has_delegatee_address": false,
         "wire_hex": "020000000005f5e100000000",
         "expected_size": 12
-      },
-      "runnable": false
+      }
     },
     {
       "name": "energy_unfreeze_delegation",
@@ -159,8 +150,7 @@
         "has_delegatee_address": false,
         "wire_hex": "02000000000bebc20001010000000500",
         "expected_size": 16
-      },
-      "runnable": false
+      }
     },
     {
       "name": "energy_unfreeze_with_delegatee",
@@ -177,8 +167,7 @@
         "has_delegatee_address": true,
         "wire_hex": "020000000005f5e100010100000000011111111111111111111111111111111111111111111111111111111111111111",
         "expected_size": 48
-      },
-      "runnable": false
+      }
     },
     {
       "name": "energy_withdraw",
@@ -195,8 +184,7 @@
         "has_delegatee_address": null,
         "wire_hex": "03",
         "expected_size": 1
-      },
-      "runnable": false
+      }
     }
   ]
 }

@@ -19,8 +19,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "syscall_invoke_with_return_data",
@@ -41,8 +40,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "syscall_invoke_nonexistent_contract",
@@ -63,8 +61,7 @@
         "ok": false,
         "error": "CONTRACT_NOT_FOUND",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "syscall_invoke_reentrancy_blocked",
@@ -85,8 +82,7 @@
         "ok": false,
         "error": "REENTRANT_CALL_PROHIBITED",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "syscall_invoke_call_depth_limit",
@@ -107,8 +103,7 @@
         "ok": false,
         "error": "CALL_DEPTH_EXCEEDED",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "syscall_invoke_callee_error",
@@ -129,8 +124,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "syscall_invoke_compute_budget",
@@ -151,8 +145,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "syscall_invoke_insufficient_compute",
@@ -173,8 +166,7 @@
         "ok": false,
         "error": "COMPUTE_BUDGET_EXCEEDED",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "syscall_invoke_state_isolation",
@@ -195,8 +187,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     }
   ]
 }

@@ -86,8 +86,7 @@
           },
           "network_chain_id": 3
         }
-      },
-      "runnable": true
+      }
     },
     {
       "name": "nonce_too_high",
@@ -175,8 +174,7 @@
           },
           "network_chain_id": 3
         }
-      },
-      "runnable": true
+      }
     },
     {
       "name": "insufficient_balance_execution_failure",
@@ -264,8 +262,7 @@
           },
           "network_chain_id": 3
         }
-      },
-      "runnable": true
+      }
     },
     {
       "name": "invalid_fee",
@@ -324,8 +321,7 @@
         "ok": false,
         "error": "INSUFFICIENT_FEE",
         "post_state": null
-      },
-      "runnable": true
+      }
     },
     {
       "name": "invalid_chain_id",
@@ -384,8 +380,7 @@
         "ok": false,
         "error": "INVALID_TYPE",
         "post_state": null
-      },
-      "runnable": true
+      }
     },
     {
       "name": "invalid_signature",
@@ -444,8 +439,7 @@
         "ok": false,
         "error": "INVALID_SIGNATURE",
         "post_state": null
-      },
-      "runnable": true
+      }
     }
   ]
 }

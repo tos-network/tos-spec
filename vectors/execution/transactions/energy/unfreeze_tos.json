@@ -3,7 +3,6 @@
     {
       "name": "tx_unfreeze_tos_basic",
       "description": "Basic unfreeze from self-freeze record",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -52,7 +51,6 @@
     {
       "name": "tx_unfreeze_tos_before_unlock",
       "description": "Unfreeze rejected before unlock time",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -91,7 +89,6 @@
     {
       "name": "tx_unfreeze_tos_partial",
       "description": "Partial unfreeze from a record",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -130,7 +127,6 @@
     {
       "name": "tx_unfreeze_tos_minimum_amount",
       "description": "Minimum unfreeze amount is 1 TOS",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -169,7 +165,6 @@
     {
       "name": "tx_unfreeze_tos_exceed_frozen_amount",
       "description": "Cannot unfreeze more than frozen",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -208,7 +203,6 @@
     {
       "name": "tx_unfreeze_tos_with_record_index",
       "description": "Unfreeze from specific record by index",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -247,7 +241,6 @@
     {
       "name": "tx_unfreeze_tos_fifo_order",
       "description": "Without record_index, uses FIFO order",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -286,7 +279,6 @@
     {
       "name": "tx_unfreeze_tos_from_delegation",
       "description": "Unfreeze from delegation record",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -344,7 +336,6 @@
     {
       "name": "tx_unfreeze_tos_delegation_missing_delegatee",
       "description": "Delegation unfreeze requires delegatee_address",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -383,7 +374,6 @@
     {
       "name": "tx_unfreeze_tos_max_pending",
       "description": "Maximum 32 pending unfreezes",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -422,7 +412,6 @@
     {
       "name": "tx_unfreeze_tos_no_records",
       "description": "Unfreeze fails with no freeze records",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -461,7 +450,6 @@
     {
       "name": "tx_unfreeze_tos_payload_structure",
       "description": "UnfreezeTos payload wire format",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -488,7 +476,6 @@
     {
       "name": "tx_unfreeze_tos_cooldown_period",
       "description": "14-day cooldown before withdrawal",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {

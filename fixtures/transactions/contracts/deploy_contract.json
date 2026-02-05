@@ -41,8 +41,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_deploy_contract_with_constructor",
@@ -75,8 +74,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_deploy_contract_insufficient_burn",
@@ -109,8 +107,7 @@
         "ok": false,
         "error": "INSUFFICIENT_FEE",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_deploy_contract_invalid_wasm",
@@ -143,8 +140,7 @@
         "ok": false,
         "error": "INVALID_MODULE",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_deploy_contract_empty_module",
@@ -177,8 +173,7 @@
         "ok": false,
         "error": "EMPTY_MODULE",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_deploy_contract_module_too_large",
@@ -211,8 +206,7 @@
         "ok": false,
         "error": "MODULE_TOO_LARGE",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_deploy_contract_constructor_fails",
@@ -245,8 +239,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_deploy_contract_constructor_out_of_gas",
@@ -279,8 +272,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_deploy_contract_multiple_deposits",
@@ -313,8 +305,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_deploy_contract_max_deposits",
@@ -347,8 +338,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_deploy_contract_exceed_max_deposits",
@@ -381,8 +371,7 @@
         "ok": false,
         "error": "TOO_MANY_DEPOSITS",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_deploy_contract_gas_burn",
@@ -403,8 +392,7 @@
         "ok": false,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_deploy_contract_payload_structure",
@@ -425,8 +413,7 @@
         "ok": false,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_deploy_contract_address_derivation",
@@ -447,8 +434,7 @@
         "ok": false,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     }
   ]
 }

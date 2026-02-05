@@ -17,8 +17,7 @@
         "plaintext_length": 0,
         "ciphertext_hex": "",
         "tag_hex": "4be5fe96d8b3a2726e4a7669d001bb80"
-      },
-      "runnable": false
+      }
     },
     {
       "name": "hello_counter0",
@@ -31,8 +30,7 @@
         "plaintext_length": 15,
         "ciphertext_hex": "1103884772981399a3f27464cd7f89",
         "tag_hex": "b6e20293244e2823c5946181dd77c221"
-      },
-      "runnable": false
+      }
     },
     {
       "name": "hello_counter1",
@@ -45,8 +43,7 @@
         "plaintext_length": 15,
         "ciphertext_hex": "b92caa6597ff4a4da99d209ad176a0",
         "tag_hex": "7f365334b9ae21edf6d49637e342c697"
-      },
-      "runnable": false
+      }
     },
     {
       "name": "hello_counter255",
@@ -59,8 +56,7 @@
         "plaintext_length": 15,
         "ciphertext_hex": "ff7cf0b1c1297ace3258c042be2de4",
         "tag_hex": "255acd97a36ee94e76a408f062540ea1"
-      },
-      "runnable": false
+      }
     },
     {
       "name": "hello_large_counter",
@@ -73,8 +69,7 @@
         "plaintext_length": 15,
         "ciphertext_hex": "a7441a0714fb0a463eb2cf7fb30bdd",
         "tag_hex": "a2f1999829a146da3843559082b850c7"
-      },
-      "runnable": false
+      }
     },
     {
       "name": "with_aad",
@@ -88,8 +83,7 @@
         "plaintext_length": 14,
         "ciphertext_hex": "72422ea38b2636af61881aecc9c1",
         "tag_hex": "248d9b5444fa94dc714b169c2cfcb229"
-      },
-      "runnable": false
+      }
     },
     {
       "name": "64bytes",
@@ -102,8 +96,7 @@
         "plaintext_length": 64,
         "ciphertext_hex": "d381a6709c8188e51a19f53a8f436bf17ce632fe980e031adde15a41323c6989bb9a9f502c6586850ee7367f74fcece8f011140532d2baf6a84c050d291beb1a",
         "tag_hex": "e93e3e0b803245e8902087199ef29c84"
-      },
-      "runnable": false
+      }
     },
     {
       "name": "1024bytes",
@@ -116,8 +109,7 @@
         "plaintext_length": 1024,
         "ciphertext_hex": "d380a47398848ee21210ff31834e65fe6cf720ed8c1b150dc5f8405a2e2177969bbbbd730840a0a226ce1c5458d1c2c7c020263606e78cc190753f361526d525cfdc4bc4e89e5e79eb3b1b271aaff15d1c94456c28ce80b3772938a1951caea9c1973e860ec1764f8e3033b2787988999786cb3486ca1a152f196a65b300faefa372dd768725a2de212bd5ce661498d259f58c1eee9be8fdd5cba700a9e9be169dd6beefe559a056acd9474f0d969764b04fc990da7fe54257eb19b84995698de6e2beff09606c59ef2fecfd347b0908fd47fbd6d3790dd9f54723214eda0c1ad6c1a069bbfc226906ed24fb33138dab9694f575d026874cc96d1d14dd65e136a584010c505c352b8ad00e54471a96a258396a39a905a9560aabe338607e022a4e4956be6ac63915eae66672026eb76390621a15b8f4f908fabb801574071ef1011272ce7da6175a42cf211f69bc08c994a35f3eafe42e26a79833114563820b2f3738e1893a5e1b339f288dff7f1cc399a8c2c2f0c57cfa14ca2a696448096a804210f7cb942d970fadc68315ae7069c74ba8c09f7354e6a948339e27ae3b2cd059664197485998544621ce8d649f859becbdbb3d2f16c1ea7b0610fef967385e149c558eaf1d7a08db4e9122dc5b8cc21dde4b6b89766790742d14771b96f5cf890d3312a1466fc61c49cd2864f2246a622e12c1300fb6a9f643f3306397632178a199fb5233798158717d7fb0902109320f25b404fdb7b36ece97421cd98ca12cea9414b4d5cc10d85bd475c95c2861abd690e292967d0496e9cf7ac83012f6ecd7655228ff68e6752302751363f3dd35532856db41f52cb66eac1499555a58318c49a7f6ab41c2e9bc0be1cf3dc9f35dc8eb73c3125ca8325ad382cf76d05bdc01129e96c87f468f6c7048166e9e32b84c2a5ca5c3054a382c0bc72a83646adf939a5a36ad0b0a41dd1c86409fd2bcdaed1b8975b3ec9eb042cf372ef5b5be3a63e8597e0ff1dc676e62c1699014f173785e5d45e361f66cf4bd5d6f261222a2b3910d568de4b70446ada24b557ebcbb74ec122d191403bab24e5c7140704f7ab8fc376207504f3983804242acbf2593293a6e11c2e4cd5093dd73e6a9f8458392d0f66f82c593b3fa46b8bb2825c6c2b9c1e47eea3678e74863e0bd9d46407c4a1a81710a3394b4c32159aed3fc8e7419d32e386888baa4a2dff25a841b63c15b01e9299a4495cd4de7527191174e38f753b256561e98b618f918aee6413aaac03506d0bc1ede5c8d3005b1395c4292322fdc1972d33a3bd96eb07da594cb6462775721ce5263713f74a91fcf779c7d5f42b3df570a9d79e958ef4c6a4c1a8f9485c1abcc9c31260089b117cc1cbc61ea7032400e4f1c0d65bb9059036d0fb0cc8d45dc53b3c1aea468987e4661379fcb945500123fbe3e26b0774eee09",
         "tag_hex": "a5f40197afadc75d8f83b6c8b393cabd"
-      },
-      "runnable": false
+      }
     },
     {
       "name": "rfc8439_test",
@@ -131,8 +123,7 @@
         "plaintext_length": 114,
         "ciphertext_hex": "d31a8d34648e60db7b86afbc53ef7ec2a4aded51296e08fea9e2b5a736ee62d63dbea45e8ca9671282fafb69da92728b1a71de0a9e060b2905d6a5b67ecd3b3692ddbd7f2d778b8c9803aee328091b58fab324e4fad675945585808b4831d7bc3ff4def08e4b7a9de576d26586cec64b6116",
         "tag_hex": "1ae10b594f09e26a7e902ecbd0600691"
-      },
-      "runnable": false
+      }
     },
     {
       "name": "zero_key_nonce",
@@ -145,8 +136,7 @@
         "plaintext_length": 4,
         "ciphertext_hex": "eb6294ca",
         "tag_hex": "9950b40d4986bd00be21ea4f3497ffdd"
-      },
-      "runnable": false
+      }
     }
   ]
 }

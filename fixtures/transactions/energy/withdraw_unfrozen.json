@@ -41,8 +41,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_withdraw_unfrozen_multiple",
@@ -75,8 +74,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_withdraw_unfrozen_none_matured",
@@ -109,8 +107,7 @@
         "ok": false,
         "error": "NO_PENDING_UNFREEZE_MATURED",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_withdraw_unfrozen_no_pending",
@@ -143,8 +140,7 @@
         "ok": false,
         "error": "NO_PENDING_UNFREEZE",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_withdraw_unfrozen_partial_list",
@@ -177,8 +173,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_withdraw_unfrozen_at_exact_expiry",
@@ -211,8 +206,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_withdraw_unfrozen_balance_accumulation",
@@ -245,8 +239,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_withdraw_unfrozen_overflow_protection",
@@ -279,8 +272,7 @@
         "ok": false,
         "error": "BALANCE_OVERFLOW",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_withdraw_unfrozen_free_operation",
@@ -313,8 +305,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_withdraw_unfrozen_payload_structure",
@@ -335,8 +326,7 @@
         "ok": false,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_withdraw_unfrozen_idempotent",
@@ -357,8 +347,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     }
   ]
 }

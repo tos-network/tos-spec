@@ -50,8 +50,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_emergency_suspend_minimum_approvals",
@@ -84,8 +83,7 @@
         "ok": false,
         "error": "INSUFFICIENT_EMERGENCY_APPROVALS",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_emergency_suspend_auto_expire",
@@ -106,8 +104,7 @@
         "ok": false,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_emergency_suspend_confirm_with_revoke",
@@ -140,8 +137,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_emergency_suspend_already_suspended",
@@ -174,8 +170,7 @@
         "ok": false,
         "error": "ALREADY_SUSPENDED",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_emergency_suspend_not_verified",
@@ -208,8 +203,7 @@
         "ok": false,
         "error": "ACCOUNT_NOT_VERIFIED",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_emergency_suspend_expiry_validation",
@@ -230,8 +224,7 @@
         "ok": false,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_emergency_suspend_payload_structure",
@@ -252,8 +245,7 @@
         "ok": false,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_emergency_suspend_gas_cost",
@@ -274,8 +266,7 @@
         "ok": false,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_emergency_suspend_use_cases",
@@ -296,8 +287,7 @@
         "ok": false,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     }
   ]
 }

@@ -3,7 +3,6 @@
     {
       "name": "ws_subscribe_new_block",
       "description": "Subscribe to new block events",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -30,7 +29,6 @@
     {
       "name": "ws_subscribe_block_ordered",
       "description": "Subscribe to block ordering events",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -57,7 +55,6 @@
     {
       "name": "ws_subscribe_block_orphaned",
       "description": "Subscribe to block orphaning events (DAG reorg)",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -84,7 +81,6 @@
     {
       "name": "ws_subscribe_transaction_mempool",
       "description": "Subscribe to mempool transaction events",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -111,7 +107,6 @@
     {
       "name": "ws_subscribe_transaction_executed",
       "description": "Subscribe to transaction execution events",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -138,7 +133,6 @@
     {
       "name": "ws_subscribe_transaction_orphaned",
       "description": "Subscribe to transaction orphaning events",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -165,7 +159,6 @@
     {
       "name": "ws_subscribe_stable_height",
       "description": "Subscribe to stable height changes",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -192,7 +185,6 @@
     {
       "name": "ws_subscribe_stable_topoheight",
       "description": "Subscribe to stable topoheight changes",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -219,7 +211,6 @@
     {
       "name": "ws_subscribe_peer_connected",
       "description": "Subscribe to peer connection events",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -246,7 +237,6 @@
     {
       "name": "ws_subscribe_peer_disconnected",
       "description": "Subscribe to peer disconnection events",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -273,7 +263,6 @@
     {
       "name": "ws_subscribe_contract_event",
       "description": "Subscribe to contract events",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -300,7 +289,6 @@
     {
       "name": "ws_subscribe_new_asset",
       "description": "Subscribe to new asset events",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -327,7 +315,6 @@
     {
       "name": "ws_unsubscribe",
       "description": "Unsubscribe from event",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -354,7 +341,6 @@
     {
       "name": "ws_connection_keepalive",
       "description": "WebSocket connection stays alive with ping/pong",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {

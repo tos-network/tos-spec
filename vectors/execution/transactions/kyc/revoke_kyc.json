@@ -3,7 +3,6 @@
     {
       "name": "tx_revoke_kyc_basic",
       "description": "Basic KYC revocation",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -61,7 +60,6 @@
     {
       "name": "tx_revoke_kyc_insufficient_approvals",
       "description": "Revocation requires kyc_threshold approvals",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -100,7 +98,6 @@
     {
       "name": "tx_revoke_kyc_invalid_committee",
       "description": "Cannot revoke with wrong committee",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -139,7 +136,6 @@
     {
       "name": "tx_revoke_kyc_not_verified",
       "description": "Cannot revoke unverified account",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -178,7 +174,6 @@
     {
       "name": "tx_revoke_kyc_invalid_signature",
       "description": "Invalid committee member signature rejected",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -217,7 +212,6 @@
     {
       "name": "tx_revoke_kyc_non_member_approval",
       "description": "Non-committee member cannot approve revocation",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -266,7 +260,6 @@
     {
       "name": "tx_revoke_kyc_duplicate_approvals",
       "description": "Duplicate member approvals rejected",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -305,7 +298,6 @@
     {
       "name": "tx_revoke_kyc_expired_timestamp",
       "description": "Expired approval timestamp rejected",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -344,7 +336,6 @@
     {
       "name": "tx_revoke_kyc_payload_structure",
       "description": "RevokeKycPayload wire format",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -371,7 +362,6 @@
     {
       "name": "tx_revoke_kyc_gas_cost",
       "description": "RevokeKyc gas consumption",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {

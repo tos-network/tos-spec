@@ -3,7 +3,6 @@
     {
       "name": "consensus_block_valid_dag",
       "description": "Valid block with DAG tips is accepted",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -30,7 +29,6 @@
     {
       "name": "consensus_block_invalid_no_tips",
       "description": "Block with no tips (except genesis) is rejected",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -57,7 +55,6 @@
     {
       "name": "consensus_block_invalid_tips_count",
       "description": "Block with more than TIPS_LIMIT tips is rejected",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -84,7 +81,6 @@
     {
       "name": "consensus_block_invalid_tip_not_found",
       "description": "Block with unknown tip is rejected",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -111,7 +107,6 @@
     {
       "name": "consensus_block_invalid_height",
       "description": "Block with height not matching tips is rejected",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -138,7 +133,6 @@
     {
       "name": "consensus_block_invalid_height_stable",
       "description": "Block with height in stable range is rejected",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -165,7 +159,6 @@
     {
       "name": "consensus_block_invalid_timestamp_future",
       "description": "Block with timestamp >2 seconds in future is rejected",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -192,7 +185,6 @@
     {
       "name": "consensus_block_invalid_timestamp_past",
       "description": "Block with timestamp less than parent is rejected",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -219,7 +211,6 @@
     {
       "name": "consensus_block_invalid_difficulty",
       "description": "Block with invalid proof-of-work difficulty is rejected",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -246,7 +237,6 @@
     {
       "name": "consensus_block_invalid_tips_difficulty",
       "description": "Block must reference tips with highest cumulative difficulty",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -273,7 +263,6 @@
     {
       "name": "consensus_block_size_limit",
       "description": "Block exceeding MAX_BLOCK_SIZE is rejected",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -300,7 +289,6 @@
     {
       "name": "consensus_nonce_sequential",
       "description": "Transactions in block must have sequential nonces per sender",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -337,7 +325,6 @@
     {
       "name": "consensus_nonce_gap_rejected",
       "description": "Transaction with nonce gap is orphaned",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -374,7 +361,6 @@
     {
       "name": "consensus_block_version",
       "description": "Block version must be valid for current height",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {

@@ -14,8 +14,7 @@
         "signature_hex": "aecc91c64bd1222a7775f194a1841daed9e5e16fdab286378170462867db65316c0e7e126932726456f42a204b19e4f04040ee5551f880720e92480aa719b76d",
         "public_key_hex": "02f80b8db56b93e4e49627ae5890932b77fcfbcd5e08be112021e2379550ffa2f7",
         "should_verify": true
-      },
-      "runnable": false
+      }
     },
     {
       "name": "empty_message",
@@ -27,8 +26,7 @@
         "signature_hex": "e92192184afb0a86bc283744dc6c8a78b44d229a702b0c4d4010a9e91340ae9b507d7d5f43452fc7321d6a25db6f5b477d09d4617cde581e785322b5cdb68bdb",
         "public_key_hex": "02a75c68b2e6990bace24a1d9216dfb5a04c7eb161bec8561f9fe2404b3a82cf69",
         "should_verify": true
-      },
-      "runnable": false
+      }
     },
     {
       "name": "long_message",
@@ -40,8 +38,7 @@
         "signature_hex": "7d6de49d59b103d946e23612aed01d6e9da96075dcce7ab96504f587b92845500a012501f6745c54b179adc4ff91e20b35d6e361239c9e2be83b9000b29e309c",
         "public_key_hex": "025422bdb885dc2cf603a4840b79a27bc7070ae7445f659766646ffb3d1779e23a",
         "should_verify": true
-      },
-      "runnable": false
+      }
     },
     {
       "name": "deterministic",
@@ -53,8 +50,7 @@
         "signature_hex": "5c3c052d70d43e9835a7c2e8fdb223a50fa872d48f09620bf46e7fc520719d7559cf4edc907ba1f103b7e9b8f3d0271d33ea6ca910f187b34a78d91c1a1ee374",
         "public_key_hex": "02515c3d6eb9e396b904d3feca7f54fdcd0cc1e997bf375dca515ad0a6c3b4035f",
         "should_verify": true
-      },
-      "runnable": false
+      }
     },
     {
       "name": "binary_data",
@@ -66,8 +62,7 @@
         "signature_hex": "3b743d55fcdfecffe6b10ee2fa659b0ba61245a90c33e8179b83e6bbcea6234c44d8ff0d6d7844ff3342132962f6b19f8c3dc7d653c6c8344dbad219041b7a78",
         "public_key_hex": "03c3eb3affe8d3f897b39612a32d6ec72c1597e24774b46a5018b730c794f508ef",
         "should_verify": true
-      },
-      "runnable": false
+      }
     }
   ]
 }

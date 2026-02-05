@@ -3,7 +3,6 @@
     {
       "name": "tx_emergency_suspend_basic",
       "description": "Emergency KYC suspension",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -61,7 +60,6 @@
     {
       "name": "tx_emergency_suspend_minimum_approvals",
       "description": "Emergency suspend requires minimum 2 approvals",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -100,7 +98,6 @@
     {
       "name": "tx_emergency_suspend_auto_expire",
       "description": "Suspension auto-expires after 24 hours",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -127,7 +124,6 @@
     {
       "name": "tx_emergency_suspend_confirm_with_revoke",
       "description": "Confirm suspension with full revocation",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -166,7 +162,6 @@
     {
       "name": "tx_emergency_suspend_already_suspended",
       "description": "Cannot emergency suspend already suspended account",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -205,7 +200,6 @@
     {
       "name": "tx_emergency_suspend_not_verified",
       "description": "Cannot suspend unverified account",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -244,7 +238,6 @@
     {
       "name": "tx_emergency_suspend_expiry_validation",
       "description": "Expiry timestamp validation",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -271,7 +264,6 @@
     {
       "name": "tx_emergency_suspend_payload_structure",
       "description": "EmergencySuspendPayload wire format",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -298,7 +290,6 @@
     {
       "name": "tx_emergency_suspend_gas_cost",
       "description": "EmergencySuspend gas consumption",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -325,7 +316,6 @@
     {
       "name": "tx_emergency_suspend_use_cases",
       "description": "Emergency suspension use cases",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {

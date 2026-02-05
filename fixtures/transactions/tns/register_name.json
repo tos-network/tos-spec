@@ -41,8 +41,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_register_name_length_validation",
@@ -63,8 +62,7 @@
         "ok": false,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_register_name_character_validation",
@@ -85,8 +83,7 @@
         "ok": false,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_register_name_already_taken",
@@ -119,8 +116,7 @@
         "ok": false,
         "error": "NAME_ALREADY_REGISTERED",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_register_name_already_has_name",
@@ -153,8 +149,7 @@
         "ok": false,
         "error": "ACCOUNT_ALREADY_HAS_NAME",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_register_name_case_insensitive",
@@ -187,8 +182,7 @@
         "ok": false,
         "error": "NAME_ALREADY_REGISTERED",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_register_name_payload_structure",
@@ -209,8 +203,7 @@
         "ok": false,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_ephemeral_message_basic",
@@ -262,8 +255,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_ephemeral_message_ttl_validation",
@@ -284,8 +276,7 @@
         "ok": false,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_ephemeral_message_content_size",
@@ -306,8 +297,7 @@
         "ok": false,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_ephemeral_message_sender_not_registered",
@@ -340,8 +330,7 @@
         "ok": false,
         "error": "SENDER_NOT_REGISTERED",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_ephemeral_message_recipient_not_found",
@@ -374,8 +363,7 @@
         "ok": false,
         "error": "RECIPIENT_NOT_FOUND",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_ephemeral_message_payload_structure",
@@ -396,8 +384,7 @@
         "ok": false,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_tns_gas_costs",
@@ -418,8 +405,7 @@
         "ok": false,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     }
   ]
 }

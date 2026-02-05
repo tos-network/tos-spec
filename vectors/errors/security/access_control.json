@@ -3,7 +3,6 @@
     {
       "name": "security_access_signature_required",
       "description": "All transactions require valid signature",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -30,7 +29,6 @@
     {
       "name": "security_access_signature_verification",
       "description": "Invalid signature is rejected",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -57,7 +55,6 @@
     {
       "name": "security_access_kyc_required",
       "description": "KYC-gated operations require sufficient KYC level",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -106,7 +103,6 @@
     {
       "name": "security_access_kyc_expired",
       "description": "Expired KYC is rejected",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -155,7 +151,6 @@
     {
       "name": "security_access_committee_approval",
       "description": "Committee-gated operations require threshold approvals",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -182,7 +177,6 @@
     {
       "name": "security_access_contract_caller_check",
       "description": "Contract can check caller via get_caller syscall",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -209,7 +203,6 @@
     {
       "name": "security_access_multisig_threshold",
       "description": "Multisig transactions require threshold signatures",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -236,7 +229,6 @@
     {
       "name": "security_access_sender_not_receiver",
       "description": "Self-transfers are rejected",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {

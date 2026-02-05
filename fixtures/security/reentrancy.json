@@ -19,8 +19,7 @@
         "ok": false,
         "error": "REENTRANT_CALL_PROHIBITED",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "security_reentrancy_different_contracts_allowed",
@@ -41,8 +40,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "security_reentrancy_call_depth_limit",
@@ -63,8 +61,7 @@
         "ok": false,
         "error": "CALL_DEPTH_EXCEEDED",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "security_reentrancy_cross_contract_chain",
@@ -85,8 +82,7 @@
         "ok": false,
         "error": "REENTRANT_CALL_PROHIBITED",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "security_reentrancy_state_consistency",
@@ -107,8 +103,7 @@
         "ok": false,
         "error": "REENTRANT_CALL_PROHIBITED",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "security_reentrancy_vs_delegatecall",
@@ -129,8 +124,7 @@
         "ok": false,
         "error": "SYSCALL_NOT_FOUND",
         "post_state": null
-      },
-      "runnable": false
+      }
     }
   ]
 }

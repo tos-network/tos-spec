@@ -41,8 +41,7 @@
         "ok": true,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_deposit_escrow_not_payer",
@@ -85,8 +84,7 @@
         "ok": false,
         "error": "UNAUTHORIZED_DEPOSIT",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_deposit_escrow_not_found",
@@ -119,8 +117,7 @@
         "ok": false,
         "error": "ESCROW_NOT_FOUND",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_deposit_escrow_zero_amount",
@@ -153,8 +150,7 @@
         "ok": false,
         "error": "INVALID_AMOUNT",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_deposit_escrow_insufficient_balance",
@@ -187,8 +183,7 @@
         "ok": false,
         "error": "INSUFFICIENT_BALANCE",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_deposit_escrow_invalid_state",
@@ -209,8 +204,7 @@
         "ok": false,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_deposit_escrow_during_challenge",
@@ -243,8 +237,7 @@
         "ok": false,
         "error": "ESCROW_CHALLENGED",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "tx_deposit_escrow_payload_structure",
@@ -265,8 +258,7 @@
         "ok": false,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     }
   ]
 }

@@ -3,7 +3,6 @@
     {
       "name": "tx_commit_selection_commitment_basic",
       "description": "Basic juror selection commitment",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -52,7 +51,6 @@
     {
       "name": "tx_commit_selection_commitment_not_arbiter",
       "description": "Only registered arbiters can commit",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -91,7 +89,6 @@
     {
       "name": "tx_commit_selection_commitment_invalid_request",
       "description": "Request ID must exist",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -130,7 +127,6 @@
     {
       "name": "tx_commit_selection_commitment_wrong_state",
       "description": "Arbitration must be in VoteRequested state",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -169,7 +165,6 @@
     {
       "name": "tx_commit_selection_commitment_duplicate",
       "description": "Cannot commit twice for same request",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -218,7 +213,6 @@
     {
       "name": "tx_commit_selection_commitment_deadline_passed",
       "description": "Must commit before deadline",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -257,7 +251,6 @@
     {
       "name": "tx_commit_selection_commitment_payload_too_large",
       "description": "Payload size limit enforcement",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -296,7 +289,6 @@
     {
       "name": "tx_commit_selection_commitment_inactive_arbiter",
       "description": "Arbiter must be active to commit",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -345,7 +337,6 @@
     {
       "name": "tx_commit_selection_commitment_payload_structure",
       "description": "CommitSelectionCommitmentPayload wire format",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -372,7 +363,6 @@
     {
       "name": "tx_commit_selection_commitment_gas_cost",
       "description": "CommitSelectionCommitment gas consumption",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {

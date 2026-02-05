@@ -18,8 +18,7 @@
         "fee_basis_points": 500,
         "wire_hex": "05416c696365000000000002540be4000000000005f5e100000000e8d4a5100001f4",
         "expected_size": 34
-      },
-      "runnable": false
+      }
     },
     {
       "name": "register_with_expertise",
@@ -40,8 +39,7 @@
         "fee_basis_points": 250,
         "wire_hex": "0a426f6241726269746572000304080d0000000ba43b7400000000003b9aca00000000174876e80000fa",
         "expected_size": 42
-      },
-      "runnable": false
+      }
     },
     {
       "name": "register_all_expertise",
@@ -73,8 +71,7 @@
         "fee_basis_points": 10000,
         "wire_hex": "06457870657274000e000102030405060708090a0b0c0d000000174876e8000000000000000000ffffffffffffffff2710",
         "expected_size": 49
-      },
-      "runnable": false
+      }
     },
     {
       "name": "register_single_expertise",
@@ -93,8 +90,7 @@
         "fee_basis_points": 0,
         "wire_hex": "0347656e000100000000003b9aca00000000000000000000000000000000000000",
         "expected_size": 33
-      },
-      "runnable": false
+      }
     },
     {
       "name": "register_zero_fee",
@@ -111,8 +107,7 @@
         "fee_basis_points": 0,
         "wire_hex": "07467265654172620000000000012a05f20000000000000f4240000000003b9aca000000",
         "expected_size": 36
-      },
-      "runnable": false
+      }
     },
     {
       "name": "update_all_none",
@@ -130,8 +125,7 @@
         "deactivate": false,
         "wire_hex": "0000000000000000",
         "expected_size": 8
-      },
-      "runnable": false
+      }
     },
     {
       "name": "update_deactivate_only",
@@ -149,8 +143,7 @@
         "deactivate": true,
         "wire_hex": "0000000000000001",
         "expected_size": 8
-      },
-      "runnable": false
+      }
     },
     {
       "name": "update_name_only",
@@ -170,8 +163,7 @@
         "deactivate": false,
         "wire_hex": "01074e65774e616d6500000000000000",
         "expected_size": 16
-      },
-      "runnable": false
+      }
     },
     {
       "name": "update_fee_only",
@@ -190,8 +182,7 @@
         "deactivate": false,
         "wire_hex": "00000102ee0000000000",
         "expected_size": 10
-      },
-      "runnable": false
+      }
     },
     {
       "name": "update_add_stake",
@@ -210,8 +201,7 @@
         "deactivate": false,
         "wire_hex": "000000000001000000012a05f2000000",
         "expected_size": 16
-      },
-      "runnable": false
+      }
     },
     {
       "name": "update_status_suspended",
@@ -230,8 +220,7 @@
         "deactivate": false,
         "wire_hex": "000000000000010100",
         "expected_size": 9
-      },
-      "runnable": false
+      }
     },
     {
       "name": "update_expertise_only",
@@ -253,8 +242,7 @@
         "deactivate": false,
         "wire_hex": "000100020408000000000000",
         "expected_size": 12
-      },
-      "runnable": false
+      }
     },
     {
       "name": "update_escrow_bounds",
@@ -274,8 +262,7 @@
         "deactivate": false,
         "wire_hex": "00000001000000001dcd6500010000000ba43b7400000000",
         "expected_size": 24
-      },
-      "runnable": false
+      }
     },
     {
       "name": "update_all_fields",
@@ -305,8 +292,7 @@
         "deactivate": false,
         "wire_hex": "010746756c6c55706401000300040801012c010000000005f5e1000100000002540be40001000000003b9aca00010000",
         "expected_size": 48
-      },
-      "runnable": false
+      }
     },
     {
       "name": "slash_arbiter_no_approvals",
@@ -321,8 +307,7 @@
         "approvals_count": 0,
         "wire_hex": "11111111111111111111111111111111111111111111111111111111111111112222222222222222222222222222222222222222222222222222222222222222000000003b9aca0033333333333333333333333333333333333333333333333333333333333333330000",
         "expected_size": 106
-      },
-      "runnable": false
+      }
     },
     {
       "name": "slash_arbiter_2_approvals",
@@ -337,8 +322,7 @@
         "approvals_count": 2,
         "wire_hex": "44444444444444444444444444444444444444444444444444444444444444445555555555555555555555555555555555555555555555555555555555555555000000012a05f20066666666666666666666666666666666666666666666666666666666666666660002777777777777777777777777777777777777777777777777777777777777777704040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404000000006553f100888888888888888888888888888888888888888888888888888888888888888804040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404000000006553f101",
         "expected_size": 314
-      },
-      "runnable": false
+      }
     },
     {
       "name": "request_arbiter_exit",
@@ -348,8 +332,7 @@
         "description": "RequestArbiterExit (empty payload)",
         "wire_hex": "",
         "expected_size": 0
-      },
-      "runnable": false
+      }
     },
     {
       "name": "withdraw_arbiter_stake_specific",
@@ -360,8 +343,7 @@
         "amount": 5000000000,
         "wire_hex": "000000012a05f200",
         "expected_size": 8
-      },
-      "runnable": false
+      }
     },
     {
       "name": "withdraw_arbiter_stake_all",
@@ -372,8 +354,7 @@
         "amount": 0,
         "wire_hex": "0000000000000000",
         "expected_size": 8
-      },
-      "runnable": false
+      }
     },
     {
       "name": "cancel_arbiter_exit",
@@ -383,8 +364,7 @@
         "description": "CancelArbiterExit (empty payload)",
         "wire_hex": "",
         "expected_size": 0
-      },
-      "runnable": false
+      }
     },
     {
       "name": "commit_arbitration_open_basic",
@@ -401,8 +381,7 @@
         "payload_len": 32,
         "wire_hex": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb00000001ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd0404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040400000020eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
         "expected_size": 232
-      },
-      "runnable": false
+      }
     },
     {
       "name": "commit_vote_request_basic",
@@ -416,8 +395,7 @@
         "payload_len": 64,
         "wire_hex": 11111111111111111111111111111111111111111111111111111111111111112222222222222222222222222222222222222222222222222222222222222222040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040000004033333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333,
         "expected_size": 196
-      },
-      "runnable": false
+      }
     },
     {
       "name": "commit_selection_commitment_basic",
@@ -430,8 +408,7 @@
         "payload_len": 16,
         "wire_hex": "444444444444444444444444444444444444444444444444444444444444444455555555555555555555555555555555555555555555555555555555555555550000001066666666666666666666666666666666",
         "expected_size": 84
-      },
-      "runnable": false
+      }
     },
     {
       "name": "commit_juror_vote_basic",
@@ -446,8 +423,7 @@
         "payload_len": 48,
         "wire_hex": "7777777777777777777777777777777777777777777777777777777777777777888888888888888888888888888888888888888888888888888888888888888899999999999999999999999999999999999999999999999999999999999999990404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040400000030aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
         "expected_size": 212
-      },
-      "runnable": false
+      }
     }
   ]
 }

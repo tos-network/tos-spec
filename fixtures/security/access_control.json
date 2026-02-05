@@ -19,8 +19,7 @@
         "ok": false,
         "error": "NO_TX_SIGNATURE",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "security_access_signature_verification",
@@ -41,8 +40,7 @@
         "ok": false,
         "error": "INVALID_TRANSACTION_SIGNATURE",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "security_access_kyc_required",
@@ -85,8 +83,7 @@
         "ok": false,
         "error": "INSUFFICIENT_KYC_LEVEL",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "security_access_kyc_expired",
@@ -129,8 +126,7 @@
         "ok": false,
         "error": "KYC_EXPIRED",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "security_access_committee_approval",
@@ -151,8 +147,7 @@
         "ok": false,
         "error": "INSUFFICIENT_APPROVALS",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "security_access_contract_caller_check",
@@ -173,8 +168,7 @@
         "ok": false,
         "error": null,
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "security_access_multisig_threshold",
@@ -195,8 +189,7 @@
         "ok": false,
         "error": "MULTI_SIG_THRESHOLD",
         "post_state": null
-      },
-      "runnable": false
+      }
     },
     {
       "name": "security_access_sender_not_receiver",
@@ -217,8 +210,7 @@
         "ok": false,
         "error": "SENDER_IS_RECEIVER",
         "post_state": null
-      },
-      "runnable": false
+      }
     }
   ]
 }

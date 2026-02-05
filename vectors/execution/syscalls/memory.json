@@ -3,7 +3,6 @@
     {
       "name": "syscall_sload_basic",
       "description": "Permanent storage load (sload)",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -30,7 +29,6 @@
     {
       "name": "syscall_sload_uninitialized",
       "description": "Load from uninitialized storage returns zero",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -57,7 +55,6 @@
     {
       "name": "syscall_sstore_basic",
       "description": "Permanent storage write (sstore)",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -84,7 +81,6 @@
     {
       "name": "syscall_sstore_update",
       "description": "Update existing storage value",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -111,7 +107,6 @@
     {
       "name": "syscall_sstore_clear",
       "description": "Clear storage by setting to zero",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -138,7 +133,6 @@
     {
       "name": "syscall_tload_basic",
       "description": "Transient storage load (tload, EIP-1153)",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -165,7 +159,6 @@
     {
       "name": "syscall_tstore_basic",
       "description": "Transient storage write (tstore, EIP-1153)",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -192,7 +185,6 @@
     {
       "name": "syscall_tstore_cleared_after_tx",
       "description": "Transient storage is cleared after transaction",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -219,7 +211,6 @@
     {
       "name": "memory_heap_limit",
       "description": "Heap allocation limited to HEAP_SIZE (32 KB)",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -246,7 +237,6 @@
     {
       "name": "memory_stack_limit",
       "description": "Stack limited to STACK_SIZE (256 KB)",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -273,7 +263,6 @@
     {
       "name": "memory_get_input_data",
       "description": "Get call input data into memory",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -300,7 +289,6 @@
     {
       "name": "memory_input_data_bounded",
       "description": "Input data size bounded to 1 MB",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -327,7 +315,6 @@
     {
       "name": "storage_isolation_between_contracts",
       "description": "Storage is isolated between contracts",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -354,7 +341,6 @@
     {
       "name": "transient_storage_shared_in_tx",
       "description": "Transient storage visible across CPI within same TX",
-      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
