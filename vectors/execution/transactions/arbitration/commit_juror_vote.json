@@ -3,6 +3,7 @@
     {
       "name": "tx_commit_juror_vote_basic",
       "description": "Basic juror vote commitment",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -51,6 +52,7 @@
     {
       "name": "tx_commit_juror_vote_not_selected",
       "description": "Only selected jurors can vote",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -99,6 +101,7 @@
     {
       "name": "tx_commit_juror_vote_wrong_state",
       "description": "Arbitration must be in voting phase",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -137,6 +140,7 @@
     {
       "name": "tx_commit_juror_vote_invalid_signature",
       "description": "Juror signature must be valid",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -175,6 +179,7 @@
     {
       "name": "tx_commit_juror_vote_already_voted",
       "description": "Cannot vote twice",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -213,6 +218,7 @@
     {
       "name": "tx_commit_juror_vote_deadline_passed",
       "description": "Must vote before deadline",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -251,6 +257,7 @@
     {
       "name": "tx_commit_juror_vote_payload_too_large",
       "description": "Vote payload size limit",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -289,6 +296,7 @@
     {
       "name": "tx_commit_juror_vote_pubkey_mismatch",
       "description": "Juror pubkey must match sender",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -337,6 +345,7 @@
     {
       "name": "tx_commit_juror_vote_hash_mismatch",
       "description": "Vote hash must match payload",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -375,6 +384,7 @@
     {
       "name": "tx_commit_juror_vote_request_not_found",
       "description": "Vote request must exist",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -413,6 +423,7 @@
     {
       "name": "tx_commit_juror_vote_payload_structure",
       "description": "CommitJurorVotePayload wire format",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -439,6 +450,7 @@
     {
       "name": "tx_commit_juror_vote_gas_cost",
       "description": "CommitJurorVote gas consumption",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {

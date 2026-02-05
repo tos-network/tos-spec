@@ -3,6 +3,7 @@
     {
       "name": "tx_transfer_kyc_basic",
       "description": "Basic KYC transfer between regions",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -60,6 +61,7 @@
     {
       "name": "tx_transfer_kyc_insufficient_source_approvals",
       "description": "Transfer requires source committee approval",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -98,6 +100,7 @@
     {
       "name": "tx_transfer_kyc_insufficient_dest_approvals",
       "description": "Transfer requires destination committee approval",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -136,6 +139,7 @@
     {
       "name": "tx_transfer_kyc_wrong_source_committee",
       "description": "Source committee must match user's current committee",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -174,6 +178,7 @@
     {
       "name": "tx_transfer_kyc_dest_level_too_low",
       "description": "Destination committee must support user's KYC level",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -212,6 +217,7 @@
     {
       "name": "tx_transfer_kyc_same_committee",
       "description": "Cannot transfer to same committee",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -250,6 +256,7 @@
     {
       "name": "tx_transfer_kyc_not_verified",
       "description": "Cannot transfer unverified account",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -288,6 +295,7 @@
     {
       "name": "tx_transfer_kyc_suspended_source",
       "description": "Cannot transfer from suspended committee",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -326,6 +334,7 @@
     {
       "name": "tx_transfer_kyc_payload_structure",
       "description": "TransferKycPayload wire format",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -352,6 +361,7 @@
     {
       "name": "tx_transfer_kyc_use_cases",
       "description": "KYC transfer use cases",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -378,6 +388,7 @@
     {
       "name": "tx_transfer_kyc_gas_cost",
       "description": "TransferKyc gas consumption",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {

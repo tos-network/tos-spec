@@ -50,7 +50,8 @@
         "ok": true,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_revoke_kyc_insufficient_approvals",
@@ -83,7 +84,8 @@
         "ok": false,
         "error": "INSUFFICIENT_APPROVALS",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_revoke_kyc_invalid_committee",
@@ -116,7 +118,8 @@
         "ok": false,
         "error": "COMMITTEE_MISMATCH",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_revoke_kyc_not_verified",
@@ -149,7 +152,8 @@
         "ok": false,
         "error": "ACCOUNT_NOT_VERIFIED",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_revoke_kyc_invalid_signature",
@@ -182,7 +186,8 @@
         "ok": false,
         "error": "INVALID_SIGNATURE",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_revoke_kyc_non_member_approval",
@@ -225,7 +230,8 @@
         "ok": false,
         "error": "NOT_COMMITTEE_MEMBER",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_revoke_kyc_duplicate_approvals",
@@ -258,7 +264,8 @@
         "ok": false,
         "error": "DUPLICATE_APPROVAL",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_revoke_kyc_expired_timestamp",
@@ -291,7 +298,8 @@
         "ok": false,
         "error": "APPROVAL_EXPIRED",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_revoke_kyc_payload_structure",
@@ -312,7 +320,8 @@
         "ok": false,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_revoke_kyc_gas_cost",
@@ -333,7 +342,8 @@
         "ok": false,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     }
   ]
 }

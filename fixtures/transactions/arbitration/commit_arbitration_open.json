@@ -41,7 +41,8 @@
         "ok": true,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_commit_arbitration_open_not_arbiter",
@@ -74,7 +75,8 @@
         "ok": false,
         "error": "NOT_REGISTERED_ARBITER",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_commit_arbitration_open_not_assigned",
@@ -117,7 +119,8 @@
         "ok": false,
         "error": "ARBITER_NOT_ASSIGNED",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_commit_arbitration_open_wrong_dispute",
@@ -150,7 +153,8 @@
         "ok": false,
         "error": "DISPUTE_ID_MISMATCH",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_commit_arbitration_open_escrow_not_disputed",
@@ -183,7 +187,8 @@
         "ok": false,
         "error": "ESCROW_NOT_DISPUTED",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_commit_arbitration_open_invalid_signature",
@@ -216,7 +221,8 @@
         "ok": false,
         "error": "INVALID_OPENER_SIGNATURE",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_commit_arbitration_open_payload_too_large",
@@ -249,7 +255,8 @@
         "ok": false,
         "error": "PAYLOAD_TOO_LARGE",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_commit_arbitration_open_already_committed",
@@ -282,7 +289,8 @@
         "ok": false,
         "error": "ARBITRATION_ALREADY_OPEN",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_commit_arbitration_open_appeal_round",
@@ -315,7 +323,8 @@
         "ok": true,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_commit_arbitration_open_payload_structure",
@@ -336,7 +345,8 @@
         "ok": false,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_commit_arbitration_open_constants",
@@ -357,7 +367,8 @@
         "ok": false,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     }
   ]
 }

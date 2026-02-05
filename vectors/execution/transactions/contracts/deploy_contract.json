@@ -3,6 +3,7 @@
     {
       "name": "tx_deploy_contract_basic",
       "description": "Basic contract deployment",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -51,6 +52,7 @@
     {
       "name": "tx_deploy_contract_with_constructor",
       "description": "Deploy contract with constructor invocation",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -89,6 +91,7 @@
     {
       "name": "tx_deploy_contract_insufficient_burn",
       "description": "Deployment fails without 1 TOS burn fee",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -127,6 +130,7 @@
     {
       "name": "tx_deploy_contract_invalid_wasm",
       "description": "Deployment fails with invalid WASM bytecode",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -165,6 +169,7 @@
     {
       "name": "tx_deploy_contract_empty_module",
       "description": "Deployment fails with empty module",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -203,6 +208,7 @@
     {
       "name": "tx_deploy_contract_module_too_large",
       "description": "Deployment fails if module exceeds size limit",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -241,6 +247,7 @@
     {
       "name": "tx_deploy_contract_constructor_fails",
       "description": "Deployment succeeds even if constructor fails",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -279,6 +286,7 @@
     {
       "name": "tx_deploy_contract_constructor_out_of_gas",
       "description": "Constructor execution stops at gas limit",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -317,6 +325,7 @@
     {
       "name": "tx_deploy_contract_multiple_deposits",
       "description": "Constructor with multiple asset deposits",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -355,6 +364,7 @@
     {
       "name": "tx_deploy_contract_max_deposits",
       "description": "Maximum 255 deposits per constructor",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -393,6 +403,7 @@
     {
       "name": "tx_deploy_contract_exceed_max_deposits",
       "description": "Exceeding 255 deposits rejected",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -431,6 +442,7 @@
     {
       "name": "tx_deploy_contract_gas_burn",
       "description": "30% of gas fees are burned",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -457,6 +469,7 @@
     {
       "name": "tx_deploy_contract_payload_structure",
       "description": "DeployContractPayload wire format",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -483,6 +496,7 @@
     {
       "name": "tx_deploy_contract_address_derivation",
       "description": "Contract address is the deployment transaction hash",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {

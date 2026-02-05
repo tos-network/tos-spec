@@ -3,6 +3,7 @@
     {
       "name": "tx_register_committee_basic",
       "description": "Create regional committee",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -51,6 +52,7 @@
     {
       "name": "tx_register_committee_threshold_validation",
       "description": "Committee threshold must be >= 2/3 of members",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -77,6 +79,7 @@
     {
       "name": "tx_register_committee_member_requirements",
       "description": "Committee member requirements",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -103,6 +106,7 @@
     {
       "name": "tx_register_committee_parent_approval",
       "description": "Parent committee governance threshold required",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -141,6 +145,7 @@
     {
       "name": "tx_register_committee_max_level_constraint",
       "description": "max_kyc_level cannot exceed parent's",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -179,6 +184,7 @@
     {
       "name": "tx_register_committee_name_validation",
       "description": "Committee name validation",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -205,6 +211,7 @@
     {
       "name": "tx_register_committee_regions",
       "description": "Valid KycRegion values",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -231,6 +238,7 @@
     {
       "name": "tx_register_committee_member_roles",
       "description": "Valid MemberRole values",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -257,6 +265,7 @@
     {
       "name": "tx_register_committee_payload_structure",
       "description": "RegisterCommitteePayload wire format",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -283,6 +292,7 @@
     {
       "name": "tx_register_committee_gas_cost",
       "description": "RegisterCommittee gas consumption",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {

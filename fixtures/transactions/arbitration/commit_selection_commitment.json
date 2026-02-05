@@ -41,7 +41,8 @@
         "ok": true,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_commit_selection_commitment_not_arbiter",
@@ -74,7 +75,8 @@
         "ok": false,
         "error": "NOT_REGISTERED_ARBITER",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_commit_selection_commitment_invalid_request",
@@ -107,7 +109,8 @@
         "ok": false,
         "error": "VOTE_REQUEST_NOT_FOUND",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_commit_selection_commitment_wrong_state",
@@ -140,7 +143,8 @@
         "ok": false,
         "error": "INVALID_ARBITRATION_STATE",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_commit_selection_commitment_duplicate",
@@ -183,7 +187,8 @@
         "ok": false,
         "error": "ALREADY_COMMITTED",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_commit_selection_commitment_deadline_passed",
@@ -216,7 +221,8 @@
         "ok": false,
         "error": "COMMITMENT_DEADLINE_PASSED",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_commit_selection_commitment_payload_too_large",
@@ -249,7 +255,8 @@
         "ok": false,
         "error": "PAYLOAD_TOO_LARGE",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_commit_selection_commitment_inactive_arbiter",
@@ -292,7 +299,8 @@
         "ok": false,
         "error": "ARBITER_NOT_ACTIVE",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_commit_selection_commitment_payload_structure",
@@ -313,7 +321,8 @@
         "ok": false,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_commit_selection_commitment_gas_cost",
@@ -334,7 +343,8 @@
         "ok": false,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     }
   ]
 }

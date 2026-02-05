@@ -19,7 +19,8 @@
         "ok": false,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "block_size_validation",
@@ -40,7 +41,8 @@
         "ok": false,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tips_limit_validation",
@@ -61,7 +63,8 @@
         "ok": false,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "transaction_count_validation",
@@ -82,7 +85,8 @@
         "ok": false,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "transaction_size_validation",
@@ -103,7 +107,8 @@
         "ok": false,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "transfer_count_limit",
@@ -124,7 +129,8 @@
         "ok": false,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "extra_data_limits",
@@ -145,7 +151,8 @@
         "ok": false,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "multisig_limits",
@@ -166,7 +173,8 @@
         "ok": false,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "energy_system_limits",
@@ -187,7 +195,8 @@
         "ok": false,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "referral_limits",
@@ -208,7 +217,8 @@
         "ok": false,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "arbitration_limits",
@@ -229,7 +239,8 @@
         "ok": false,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "kyc_timing_limits",
@@ -250,7 +261,8 @@
         "ok": false,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "privacy_limits",
@@ -271,7 +283,8 @@
         "ok": false,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "static_assertions",
@@ -292,7 +305,8 @@
         "ok": false,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     }
   ]
 }

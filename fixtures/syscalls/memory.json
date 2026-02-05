@@ -19,7 +19,8 @@
         "ok": true,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "syscall_sload_uninitialized",
@@ -40,7 +41,8 @@
         "ok": true,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "syscall_sstore_basic",
@@ -61,7 +63,8 @@
         "ok": true,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "syscall_sstore_update",
@@ -82,7 +85,8 @@
         "ok": true,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "syscall_sstore_clear",
@@ -103,7 +107,8 @@
         "ok": true,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "syscall_tload_basic",
@@ -124,7 +129,8 @@
         "ok": true,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "syscall_tstore_basic",
@@ -145,7 +151,8 @@
         "ok": true,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "syscall_tstore_cleared_after_tx",
@@ -166,7 +173,8 @@
         "ok": true,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "memory_heap_limit",
@@ -187,7 +195,8 @@
         "ok": false,
         "error": "HEAP_EXHAUSTED",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "memory_stack_limit",
@@ -208,7 +217,8 @@
         "ok": false,
         "error": "CALL_DEPTH_EXCEEDED",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "memory_get_input_data",
@@ -229,7 +239,8 @@
         "ok": true,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "memory_input_data_bounded",
@@ -250,7 +261,8 @@
         "ok": false,
         "error": "INPUT_TOO_LARGE",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "storage_isolation_between_contracts",
@@ -271,7 +283,8 @@
         "ok": true,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "transient_storage_shared_in_tx",
@@ -292,7 +305,8 @@
         "ok": false,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     }
   ]
 }

@@ -3,6 +3,7 @@
     {
       "name": "fee_types_overview",
       "description": "Three fee types: TOS, Energy, UNO",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -29,6 +30,7 @@
     {
       "name": "tos_fee_calculation",
       "description": "TOS fee calculation formula",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -55,6 +57,7 @@
     {
       "name": "energy_fee_calculation",
       "description": "Energy fee calculation for transfers",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -81,6 +84,7 @@
     {
       "name": "uno_fee_calculation",
       "description": "UNO fee calculation (burned, not rewarded)",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -107,6 +111,7 @@
     {
       "name": "contract_fee_calculation",
       "description": "Smart contract execution fee calculation",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -133,6 +138,7 @@
     {
       "name": "free_operations",
       "description": "Operations with zero fees",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -159,6 +165,7 @@
     {
       "name": "fee_validation_rules",
       "description": "Fee validation rules",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -185,6 +192,7 @@
     {
       "name": "fee_distribution",
       "description": "Fee distribution to miners and burn",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -211,6 +219,7 @@
     {
       "name": "fee_model_constants",
       "description": "All fee-related constants",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {

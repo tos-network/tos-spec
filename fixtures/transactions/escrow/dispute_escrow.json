@@ -41,7 +41,8 @@
         "ok": true,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_dispute_escrow_from_created_state",
@@ -74,7 +75,8 @@
         "ok": true,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_dispute_escrow_no_arbitration_config",
@@ -107,7 +109,8 @@
         "ok": false,
         "error": "NO_ARBITRATION_CONFIG",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_dispute_escrow_only_parties",
@@ -150,7 +153,8 @@
         "ok": false,
         "error": "UNAUTHORIZED_DISPUTE",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_dispute_escrow_provider_initiates",
@@ -193,7 +197,8 @@
         "ok": true,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_dispute_escrow_already_disputed",
@@ -226,7 +231,8 @@
         "ok": false,
         "error": "ESCROW_ALREADY_DISPUTED",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_dispute_escrow_invalid_state",
@@ -247,7 +253,8 @@
         "ok": false,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_dispute_escrow_empty_reason",
@@ -280,7 +287,8 @@
         "ok": false,
         "error": "EMPTY_REASON",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_dispute_escrow_triggers_arbitration",
@@ -313,7 +321,8 @@
         "ok": true,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_dispute_escrow_payload_structure",
@@ -334,7 +343,8 @@
         "ok": false,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_dispute_escrow_gas_cost",
@@ -355,7 +365,8 @@
         "ok": false,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     }
   ]
 }

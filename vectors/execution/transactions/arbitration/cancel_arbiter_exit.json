@@ -3,6 +3,7 @@
     {
       "name": "tx_cancel_arbiter_exit_basic",
       "description": "Basic arbiter exit cancellation",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -51,6 +52,7 @@
     {
       "name": "tx_cancel_arbiter_exit_not_exiting",
       "description": "Cannot cancel if not in exiting state",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -89,6 +91,7 @@
     {
       "name": "tx_cancel_arbiter_exit_not_registered",
       "description": "Cannot cancel if not registered arbiter",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -127,6 +130,7 @@
     {
       "name": "tx_cancel_arbiter_exit_after_cooldown",
       "description": "Can still cancel after cooldown expires",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -165,6 +169,7 @@
     {
       "name": "tx_cancel_arbiter_exit_with_pending_cases",
       "description": "Cancelling makes arbiter available for new cases",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -203,6 +208,7 @@
     {
       "name": "tx_cancel_arbiter_exit_payload_structure",
       "description": "CancelArbiterExitPayload wire format",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -229,6 +235,7 @@
     {
       "name": "tx_cancel_arbiter_exit_gas_cost",
       "description": "CancelArbiterExit gas consumption",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {

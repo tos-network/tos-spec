@@ -29,7 +29,8 @@
         "k_hex": "aabbccddeeff001122334455667788990123456789abcdeffedcba9876543200",
         "signature_s_hex": "52a03c91dcc0b45925a506a60b864fccedeca9c13170f15e74eb43dc21c0920a",
         "signature_e_hex": "7a0c2b0dd4435dd898ab8d74a5b6d1e1614bbfb133259488db0923039190280c"
-      }
+      },
+      "runnable": false
     },
     {
       "name": "empty_message",
@@ -43,7 +44,8 @@
         "k_hex": "2222222222222222222222222222222222222222222222222222222222222202",
         "signature_s_hex": "2f8eb2515bfbfa5baf1f0bc71a4974f8c41294c2f725e2871c2ac493eee7540c",
         "signature_e_hex": "851ee1caca73832263090db38c5d9928fdea736c3f33bc15b95772eb15ca3101"
-      }
+      },
+      "runnable": false
     },
     {
       "name": "64_bytes_0x55",
@@ -56,7 +58,8 @@
         "k_hex": "4444444444444444444444444444444444444444444444444444444444444404",
         "signature_s_hex": "6595b6d11da2c681541dbec53213b3eaf5071e63d35892de7235335ddd2c2709",
         "signature_e_hex": "894e22976d527659e84b9eabd52e37f9a0ee981572a68a19bc67fb44053e2c0b"
-      }
+      },
+      "runnable": false
     },
     {
       "name": "32_zeros",
@@ -69,7 +72,8 @@
         "k_hex": "8888888888888888888888888888888888888888888888888888888888888808",
         "signature_s_hex": "c61d2149a4b4b03ec2cc38b6b5b3acc1e881da7c9d3c863c4a97f728b6fd380d",
         "signature_e_hex": "5022bdb8277dbbd3b1a3c9c16befd95e2581c6cbfa8996424e7740478dda1203"
-      }
+      },
+      "runnable": false
     }
   ]
 }

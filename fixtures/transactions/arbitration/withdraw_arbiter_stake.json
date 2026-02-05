@@ -41,7 +41,8 @@
         "ok": true,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_withdraw_arbiter_stake_partial",
@@ -74,7 +75,8 @@
         "ok": true,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_withdraw_arbiter_stake_not_exiting",
@@ -107,7 +109,8 @@
         "ok": false,
         "error": "NOT_IN_EXITING_STATE",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_withdraw_arbiter_stake_cooldown_not_passed",
@@ -140,7 +143,8 @@
         "ok": false,
         "error": "COOLDOWN_NOT_PASSED",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_withdraw_arbiter_stake_pending_cases",
@@ -173,7 +177,8 @@
         "ok": false,
         "error": "PENDING_CASES_REMAIN",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_withdraw_arbiter_stake_exceeds_balance",
@@ -206,7 +211,8 @@
         "ok": false,
         "error": "INSUFFICIENT_STAKE",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_withdraw_arbiter_stake_zero_amount",
@@ -239,7 +245,8 @@
         "ok": false,
         "error": "INVALID_AMOUNT",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_withdraw_arbiter_stake_not_registered",
@@ -272,7 +279,8 @@
         "ok": false,
         "error": "NOT_REGISTERED_ARBITER",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_withdraw_arbiter_stake_slashed",
@@ -305,7 +313,8 @@
         "ok": true,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_withdraw_arbiter_stake_payload_structure",
@@ -326,7 +335,8 @@
         "ok": false,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_withdraw_arbiter_stake_gas_cost",
@@ -347,7 +357,8 @@
         "ok": false,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     }
   ]
 }

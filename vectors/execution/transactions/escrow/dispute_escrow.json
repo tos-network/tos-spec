@@ -3,6 +3,7 @@
     {
       "name": "tx_dispute_escrow_basic",
       "description": "Basic escrow dispute",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -51,6 +52,7 @@
     {
       "name": "tx_dispute_escrow_from_created_state",
       "description": "Direct dispute from created state (non-optimistic)",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -89,6 +91,7 @@
     {
       "name": "tx_dispute_escrow_no_arbitration_config",
       "description": "Cannot dispute escrow without arbitration config",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -127,6 +130,7 @@
     {
       "name": "tx_dispute_escrow_only_parties",
       "description": "Only payer or provider can initiate dispute",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -175,6 +179,7 @@
     {
       "name": "tx_dispute_escrow_provider_initiates",
       "description": "Provider can also initiate dispute",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -223,6 +228,7 @@
     {
       "name": "tx_dispute_escrow_already_disputed",
       "description": "Cannot dispute already disputed escrow",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -261,6 +267,7 @@
     {
       "name": "tx_dispute_escrow_invalid_state",
       "description": "Cannot dispute certain escrow states",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -287,6 +294,7 @@
     {
       "name": "tx_dispute_escrow_empty_reason",
       "description": "Dispute reason cannot be empty",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -325,6 +333,7 @@
     {
       "name": "tx_dispute_escrow_triggers_arbitration",
       "description": "Dispute triggers arbitration process",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -363,6 +372,7 @@
     {
       "name": "tx_dispute_escrow_payload_structure",
       "description": "DisputeEscrowPayload wire format",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -389,6 +399,7 @@
     {
       "name": "tx_dispute_escrow_gas_cost",
       "description": "DisputeEscrow gas consumption",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {

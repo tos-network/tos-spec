@@ -41,7 +41,8 @@
         "ok": true,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_bootstrap_committee_unauthorized_sender",
@@ -84,7 +85,8 @@
         "ok": false,
         "error": "UNAUTHORIZED_BOOTSTRAP",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_bootstrap_committee_already_exists",
@@ -127,7 +129,8 @@
         "ok": false,
         "error": "GLOBAL_COMMITTEE_ALREADY_EXISTS",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_bootstrap_committee_threshold_validation",
@@ -170,7 +173,8 @@
         "ok": false,
         "error": "THRESHOLD_TOO_LOW",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_bootstrap_committee_threshold_exceeds_members",
@@ -203,7 +207,8 @@
         "ok": false,
         "error": "THRESHOLD_EXCEEDS_MEMBER_COUNT",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_bootstrap_committee_minimum_members",
@@ -224,7 +229,8 @@
         "ok": false,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_bootstrap_committee_duplicate_members",
@@ -257,7 +263,8 @@
         "ok": false,
         "error": "DUPLICATE_MEMBER",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_bootstrap_committee_member_roles",
@@ -278,7 +285,8 @@
         "ok": false,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_bootstrap_committee_kyc_threshold_range",
@@ -299,7 +307,8 @@
         "ok": false,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_bootstrap_committee_empty_members",
@@ -332,7 +341,8 @@
         "ok": false,
         "error": "EMPTY_MEMBER_LIST",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_bootstrap_committee_max_kyc_level",
@@ -353,7 +363,8 @@
         "ok": false,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_bootstrap_committee_payload_structure",
@@ -374,7 +385,8 @@
         "ok": false,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_bootstrap_committee_constants",
@@ -395,7 +407,8 @@
         "ok": false,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     }
   ]
 }

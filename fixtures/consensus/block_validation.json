@@ -19,7 +19,8 @@
         "ok": true,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "consensus_block_invalid_no_tips",
@@ -40,7 +41,8 @@
         "ok": false,
         "error": "EXPECTED_TIPS",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "consensus_block_invalid_tips_count",
@@ -61,7 +63,8 @@
         "ok": false,
         "error": "INVALID_TIPS_COUNT",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "consensus_block_invalid_tip_not_found",
@@ -82,7 +85,8 @@
         "ok": false,
         "error": "INVALID_TIPS_NOT_FOUND",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "consensus_block_invalid_height",
@@ -103,7 +107,8 @@
         "ok": false,
         "error": "INVALID_BLOCK_HEIGHT",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "consensus_block_invalid_height_stable",
@@ -124,7 +129,8 @@
         "ok": false,
         "error": "INVALID_BLOCK_HEIGHT_STABLE_HEIGHT",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "consensus_block_invalid_timestamp_future",
@@ -145,7 +151,8 @@
         "ok": false,
         "error": "TIMESTAMP_IS_IN_FUTURE",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "consensus_block_invalid_timestamp_past",
@@ -166,7 +173,8 @@
         "ok": false,
         "error": "TIMESTAMP_IS_LESS_THAN_PARENT",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "consensus_block_invalid_difficulty",
@@ -187,7 +195,8 @@
         "ok": false,
         "error": "INVALID_DIFFICULTY",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "consensus_block_invalid_tips_difficulty",
@@ -208,7 +217,8 @@
         "ok": false,
         "error": "INVALID_TIPS_DIFFICULTY",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "consensus_block_size_limit",
@@ -229,7 +239,8 @@
         "ok": false,
         "error": "INVALID_BLOCK_SIZE",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "consensus_nonce_sequential",
@@ -260,7 +271,8 @@
         "ok": true,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "consensus_nonce_gap_rejected",
@@ -291,7 +303,8 @@
         "ok": false,
         "error": "INVALID_TRANSACTION_NONCE",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "consensus_block_version",
@@ -312,7 +325,8 @@
         "ok": false,
         "error": "INVALID_BLOCK_VERSION",
         "post_state": null
-      }
+      },
+      "runnable": false
     }
   ]
 }

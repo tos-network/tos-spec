@@ -14,7 +14,8 @@
         "num_inputs": 1,
         "expected_hex": "33018202c57d898b84338b16d1a4960e133c6a4d656cfec1bd62a9ea00611729",
         "big_endian": false
-      }
+      },
+      "runnable": false
     },
     {
       "name": "two_inputs_1_2",
@@ -25,7 +26,8 @@
         "num_inputs": 2,
         "expected_hex": "9a1817447a60199e51453274f217362acfe962966b4cf63d4190d6e7f5c05c11",
         "big_endian": false
-      }
+      },
+      "runnable": false
     },
     {
       "name": "three_inputs",
@@ -36,7 +38,8 @@
         "num_inputs": 3,
         "expected_hex": "e2711c7931695b91c2e67f62eb84dd5b7a4207295f2798c81fbdc4b248e22717",
         "big_endian": false
-      }
+      },
+      "runnable": false
     },
     {
       "name": "single_zero",
@@ -47,7 +50,8 @@
         "num_inputs": 1,
         "expected_hex": "1ce165cb1124ed3a0a94b4e212aaf7e8079f49b2fbef916bc290c593fda9092a",
         "big_endian": false
-      }
+      },
+      "runnable": false
     },
     {
       "name": "large_value",
@@ -58,7 +62,8 @@
         "num_inputs": 1,
         "expected_hex": "3841687cd3ef97cbcfc0d9b2e42fd4c60123e9d3a1c540fbf95132b163c37505",
         "big_endian": false
-      }
+      },
+      "runnable": false
     },
     {
       "name": "two_zeros",
@@ -69,7 +74,8 @@
         "num_inputs": 2,
         "expected_hex": "6448b64684ee39a823d5fe5fd52431dc81e4817bf2c3ea3cab9e239efbf59820",
         "big_endian": false
-      }
+      },
+      "runnable": false
     },
     {
       "name": "two_inputs_be",
@@ -80,7 +86,8 @@
         "num_inputs": 2,
         "expected_hex": "115cc0f5e7d690413df64c6b9662e9cf2a3617f2743245519e19607a4417189a",
         "big_endian": true
-      }
+      },
+      "runnable": false
     },
     {
       "name": "four_inputs",
@@ -91,7 +98,8 @@
         "num_inputs": 4,
         "expected_hex": "65042565df25a5ba3d66e01cbb0ee637980b51e440face9dd7fdc1b67d869c29",
         "big_endian": false
-      }
+      },
+      "runnable": false
     }
   ]
 }

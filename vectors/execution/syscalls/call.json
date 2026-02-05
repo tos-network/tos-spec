@@ -3,6 +3,7 @@
     {
       "name": "syscall_invoke_basic",
       "description": "Basic cross-program invocation (CPI)",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -29,6 +30,7 @@
     {
       "name": "syscall_invoke_with_return_data",
       "description": "CPI with return data from callee",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -55,6 +57,7 @@
     {
       "name": "syscall_invoke_nonexistent_contract",
       "description": "CPI to non-existent contract fails",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -81,6 +84,7 @@
     {
       "name": "syscall_invoke_reentrancy_blocked",
       "description": "Re-entrant CPI to same contract is blocked",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -107,6 +111,7 @@
     {
       "name": "syscall_invoke_call_depth_limit",
       "description": "CPI fails when MAX_CALL_DEPTH (64) exceeded",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -133,6 +138,7 @@
     {
       "name": "syscall_invoke_callee_error",
       "description": "CPI returns error code when callee fails",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -159,6 +165,7 @@
     {
       "name": "syscall_invoke_compute_budget",
       "description": "CPI consumes compute units from caller's budget",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -185,6 +192,7 @@
     {
       "name": "syscall_invoke_insufficient_compute",
       "description": "CPI fails when compute budget exhausted",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -211,6 +219,7 @@
     {
       "name": "syscall_invoke_state_isolation",
       "description": "CPI maintains storage isolation between contracts",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {

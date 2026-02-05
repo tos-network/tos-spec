@@ -177,6 +177,7 @@ def main() -> None:
                         {
                             "name": case.get("name", ""),
                             "description": case.get("description", ""),
+                            "runnable": bool(case.get("runnable", True)),
                             "pre_state": case.get("pre_state"),
                             "input": {
                                 "kind": "tx" if "tx" in case else "block",

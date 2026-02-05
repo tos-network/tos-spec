@@ -41,7 +41,8 @@
         "ok": true,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_agent_account_register_minimal",
@@ -74,7 +75,8 @@
         "ok": true,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_agent_account_register_already_agent",
@@ -107,7 +109,8 @@
         "ok": false,
         "error": "ALREADY_AGENT_ACCOUNT",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_agent_account_update_policy",
@@ -140,7 +143,8 @@
         "ok": true,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_agent_account_update_policy_not_controller",
@@ -173,7 +177,8 @@
         "ok": false,
         "error": "NOT_CONTROLLER",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_agent_account_rotate_controller",
@@ -206,7 +211,8 @@
         "ok": true,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_agent_account_rotate_controller_same",
@@ -239,7 +245,8 @@
         "ok": false,
         "error": "SAME_CONTROLLER",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_agent_account_set_status",
@@ -272,7 +279,8 @@
         "ok": true,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_agent_account_set_status_invalid",
@@ -305,7 +313,8 @@
         "ok": false,
         "error": "INVALID_STATUS",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_agent_account_set_energy_pool",
@@ -348,7 +357,8 @@
         "ok": true,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_agent_account_clear_energy_pool",
@@ -381,7 +391,8 @@
         "ok": true,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_agent_account_set_session_key_root",
@@ -414,7 +425,8 @@
         "ok": true,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_agent_account_add_session_key",
@@ -447,7 +459,8 @@
         "ok": true,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_agent_account_add_session_key_max_reached",
@@ -480,7 +493,8 @@
         "ok": false,
         "error": "MAX_SESSION_KEYS_REACHED",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_agent_account_add_session_key_duplicate",
@@ -513,7 +527,8 @@
         "ok": false,
         "error": "DUPLICATE_SESSION_KEY",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_agent_account_revoke_session_key",
@@ -546,7 +561,8 @@
         "ok": true,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_agent_account_revoke_session_key_not_found",
@@ -579,7 +595,8 @@
         "ok": false,
         "error": "SESSION_KEY_NOT_FOUND",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_agent_account_not_agent",
@@ -612,7 +629,8 @@
         "ok": false,
         "error": "NOT_AGENT_ACCOUNT",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_agent_account_variants",
@@ -633,7 +651,8 @@
         "ok": false,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_agent_account_payload_structure",
@@ -654,7 +673,8 @@
         "ok": false,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_agent_account_gas_costs",
@@ -675,7 +695,8 @@
         "ok": false,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     }
   ]
 }

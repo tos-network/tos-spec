@@ -41,7 +41,8 @@
         "ok": true,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_register_arbiter_minimum_stake",
@@ -62,7 +63,8 @@
         "ok": false,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_register_arbiter_insufficient_balance",
@@ -95,7 +97,8 @@
         "ok": false,
         "error": "INSUFFICIENT_BALANCE",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_register_arbiter_already_registered",
@@ -128,7 +131,8 @@
         "ok": false,
         "error": "ALREADY_REGISTERED",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_register_arbiter_expertise_domains",
@@ -149,7 +153,8 @@
         "ok": false,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_register_arbiter_escrow_value_range",
@@ -170,7 +175,8 @@
         "ok": false,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_register_arbiter_fee_basis_points",
@@ -191,7 +197,8 @@
         "ok": false,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_register_arbiter_name_validation",
@@ -212,7 +219,8 @@
         "ok": false,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_register_arbiter_stake_locked",
@@ -233,7 +241,8 @@
         "ok": false,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_register_arbiter_payload_structure",
@@ -254,7 +263,8 @@
         "ok": false,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_register_arbiter_constants",
@@ -275,7 +285,8 @@
         "ok": false,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_register_arbiter_status_lifecycle",
@@ -296,7 +307,8 @@
         "ok": false,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     }
   ]
 }

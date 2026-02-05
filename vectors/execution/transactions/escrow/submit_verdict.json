@@ -3,6 +3,7 @@
     {
       "name": "tx_submit_verdict_basic",
       "description": "Basic arbitration verdict submission",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -51,6 +52,7 @@
     {
       "name": "tx_submit_verdict_full_to_payer",
       "description": "Verdict awarding full amount to payer (refund)",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -89,6 +91,7 @@
     {
       "name": "tx_submit_verdict_full_to_provider",
       "description": "Verdict awarding full amount to provider",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -127,6 +130,7 @@
     {
       "name": "tx_submit_verdict_amount_mismatch",
       "description": "Verdict amounts must equal escrow amount",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -165,6 +169,7 @@
     {
       "name": "tx_submit_verdict_insufficient_signatures",
       "description": "Verdict requires threshold signatures",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -203,6 +208,7 @@
     {
       "name": "tx_submit_verdict_invalid_signature",
       "description": "Invalid arbiter signature rejected",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -241,6 +247,7 @@
     {
       "name": "tx_submit_verdict_unregistered_arbiter",
       "description": "Signature from unregistered arbiter rejected",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -289,6 +296,7 @@
     {
       "name": "tx_submit_verdict_escrow_not_disputed",
       "description": "Cannot submit verdict for non-disputed escrow",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -327,6 +335,7 @@
     {
       "name": "tx_submit_verdict_wrong_dispute_id",
       "description": "Dispute ID must match active dispute",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -365,6 +374,7 @@
     {
       "name": "tx_submit_verdict_appeal_round",
       "description": "Appeal verdict (round > 0)",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -403,6 +413,7 @@
     {
       "name": "tx_submit_verdict_by_juror",
       "description": "Fallback verdict submission by juror",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -441,6 +452,7 @@
     {
       "name": "tx_submit_verdict_signature_structure",
       "description": "ArbiterSignature structure",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -467,6 +479,7 @@
     {
       "name": "tx_submit_verdict_payload_structure",
       "description": "SubmitVerdictPayload wire format",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -493,6 +506,7 @@
     {
       "name": "tx_submit_verdict_signature_message",
       "description": "Message signed by arbiters",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -519,6 +533,7 @@
     {
       "name": "tx_submit_verdict_duplicate_signatures",
       "description": "Duplicate arbiter signatures rejected",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {

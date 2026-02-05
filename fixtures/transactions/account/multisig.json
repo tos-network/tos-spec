@@ -41,7 +41,8 @@
         "ok": true,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_multisig_2_of_2",
@@ -74,7 +75,8 @@
         "ok": true,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_multisig_threshold_validation",
@@ -95,7 +97,8 @@
         "ok": false,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_multisig_participant_limits",
@@ -116,7 +119,8 @@
         "ok": false,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_multisig_duplicate_participants",
@@ -149,7 +153,8 @@
         "ok": false,
         "error": "DUPLICATE_PARTICIPANT",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_multisig_delete",
@@ -182,7 +187,8 @@
         "ok": true,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_multisig_update",
@@ -215,7 +221,8 @@
         "ok": true,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_multisig_self_included",
@@ -258,7 +265,8 @@
         "ok": true,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_multisig_spending_requires_signatures",
@@ -291,7 +299,8 @@
         "ok": true,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_multisig_insufficient_signatures",
@@ -324,7 +333,8 @@
         "ok": false,
         "error": "INSUFFICIENT_SIGNATURES",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_multisig_payload_structure",
@@ -345,7 +355,8 @@
         "ok": false,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_multisig_gas_cost",
@@ -366,7 +377,8 @@
         "ok": false,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     }
   ]
 }

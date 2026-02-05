@@ -3,6 +3,7 @@
     {
       "name": "tx_freeze_delegate_basic",
       "description": "Basic batch delegation to single delegatee",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -60,6 +61,7 @@
     {
       "name": "tx_freeze_delegate_batch_multiple",
       "description": "Batch delegation to multiple delegatees",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -126,6 +128,7 @@
     {
       "name": "tx_freeze_delegate_self_delegation_rejected",
       "description": "Self-delegation is rejected",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -174,6 +177,7 @@
     {
       "name": "tx_freeze_delegate_inactive_delegatee",
       "description": "Delegation to inactive account rejected",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -222,6 +226,7 @@
     {
       "name": "tx_freeze_delegate_duplicate_delegatee",
       "description": "Duplicate delegatee in batch rejected",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -260,6 +265,7 @@
     {
       "name": "tx_freeze_delegate_max_delegatees",
       "description": "Maximum 500 delegatees per batch",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -298,6 +304,7 @@
     {
       "name": "tx_freeze_delegate_exceed_max_delegatees",
       "description": "Exceeding 500 delegatees rejected",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -336,6 +343,7 @@
     {
       "name": "tx_freeze_delegate_minimum_per_delegatee",
       "description": "Minimum 1 TOS per delegatee",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -374,6 +382,7 @@
     {
       "name": "tx_freeze_delegate_insufficient_balance",
       "description": "Delegation fails with insufficient balance",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -412,6 +421,7 @@
     {
       "name": "tx_freeze_delegate_counts_toward_record_limit",
       "description": "One batch delegation = one record (toward 32 limit)",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -450,6 +460,7 @@
     {
       "name": "tx_freeze_delegate_at_record_limit",
       "description": "New delegation rejected at 32 records",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -488,6 +499,7 @@
     {
       "name": "tx_freeze_delegate_energy_lease_tracking",
       "description": "Delegatee receives energy as a lease",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -545,6 +557,7 @@
     {
       "name": "tx_freeze_delegate_payload_structure",
       "description": "FreezeTosDelegate payload wire format",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {

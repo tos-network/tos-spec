@@ -41,7 +41,8 @@
         "ok": true,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_appeal_escrow_dao_governance",
@@ -74,7 +75,8 @@
         "ok": true,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_appeal_escrow_not_resolved",
@@ -107,7 +109,8 @@
         "ok": false,
         "error": "ESCROW_NOT_RESOLVED",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_appeal_escrow_not_party",
@@ -150,7 +153,8 @@
         "ok": false,
         "error": "NOT_ESCROW_PARTY",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_appeal_escrow_window_expired",
@@ -183,7 +187,8 @@
         "ok": false,
         "error": "APPEAL_WINDOW_EXPIRED",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_appeal_escrow_insufficient_deposit",
@@ -216,7 +221,8 @@
         "ok": false,
         "error": "INSUFFICIENT_APPEAL_DEPOSIT",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_appeal_escrow_max_rounds",
@@ -249,7 +255,8 @@
         "ok": false,
         "error": "MAX_APPEALS_REACHED",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_appeal_escrow_already_appealed",
@@ -282,7 +289,8 @@
         "ok": false,
         "error": "APPEAL_ALREADY_PENDING",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_appeal_escrow_appeal_modes",
@@ -303,7 +311,8 @@
         "ok": false,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_appeal_escrow_payload_structure",
@@ -324,7 +333,8 @@
         "ok": false,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_appeal_escrow_gas_cost",
@@ -345,7 +355,8 @@
         "ok": false,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     }
   ]
 }

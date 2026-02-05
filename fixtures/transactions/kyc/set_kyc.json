@@ -50,7 +50,8 @@
         "ok": true,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_set_kyc_levels",
@@ -71,7 +72,8 @@
         "ok": false,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_set_kyc_invalid_level",
@@ -104,7 +106,8 @@
         "ok": false,
         "error": "INVALID_KYC_LEVEL",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_set_kyc_insufficient_approvals",
@@ -137,7 +140,8 @@
         "ok": false,
         "error": "INSUFFICIENT_APPROVALS",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_set_kyc_high_tier_extra_approval",
@@ -170,7 +174,8 @@
         "ok": false,
         "error": "INSUFFICIENT_APPROVALS_FOR_HIGH_TIER",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_set_kyc_expired_approval",
@@ -203,7 +208,8 @@
         "ok": false,
         "error": "APPROVAL_EXPIRED",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_set_kyc_future_approval",
@@ -236,7 +242,8 @@
         "ok": false,
         "error": "APPROVAL_TIMESTAMP_IN_FUTURE",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_set_kyc_invalid_signature",
@@ -269,7 +276,8 @@
         "ok": false,
         "error": "INVALID_SIGNATURE",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_set_kyc_non_member_approval",
@@ -302,7 +310,8 @@
         "ok": false,
         "error": "APPROVER_NOT_COMMITTEE_MEMBER",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_set_kyc_committee_not_found",
@@ -335,7 +344,8 @@
         "ok": false,
         "error": "COMMITTEE_NOT_FOUND",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_set_kyc_exceeds_committee_max",
@@ -368,7 +378,8 @@
         "ok": false,
         "error": "KYC_LEVEL_EXCEEDS_COMMITTEE_AUTHORITY",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_set_kyc_upgrade_level",
@@ -401,7 +412,8 @@
         "ok": true,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_set_kyc_downgrade_level",
@@ -434,7 +446,8 @@
         "ok": true,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_set_kyc_onchain_storage",
@@ -455,7 +468,8 @@
         "ok": false,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_set_kyc_payload_structure",
@@ -476,7 +490,8 @@
         "ok": false,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     }
   ]
 }

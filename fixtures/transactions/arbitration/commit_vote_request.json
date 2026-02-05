@@ -41,7 +41,8 @@
         "ok": true,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_commit_vote_request_not_coordinator",
@@ -84,7 +85,8 @@
         "ok": false,
         "error": "NOT_COORDINATOR",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_commit_vote_request_wrong_state",
@@ -117,7 +119,8 @@
         "ok": false,
         "error": "INVALID_ARBITRATION_STATE",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_commit_vote_request_invalid_signature",
@@ -150,7 +153,8 @@
         "ok": false,
         "error": "INVALID_COORDINATOR_SIGNATURE",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_commit_vote_request_hash_mismatch",
@@ -183,7 +187,8 @@
         "ok": false,
         "error": "PAYLOAD_HASH_MISMATCH",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_commit_vote_request_payload_too_large",
@@ -216,7 +221,8 @@
         "ok": false,
         "error": "PAYLOAD_TOO_LARGE",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_commit_vote_request_duplicate",
@@ -249,7 +255,8 @@
         "ok": false,
         "error": "DUPLICATE_REQUEST_ID",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_commit_vote_request_payload_structure",
@@ -270,7 +277,8 @@
         "ok": false,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_commit_vote_request_gas_cost",
@@ -291,7 +299,8 @@
         "ok": false,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     }
   ]
 }

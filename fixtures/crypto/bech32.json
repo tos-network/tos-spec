@@ -14,7 +14,8 @@
         "data_hex": "0014751e",
         "data_5bit_hex": "00000a070a0710",
         "encoded": "tos1qq2828s7x3ce7"
-      }
+      },
+      "runnable": false
     },
     {
       "name": "simple_tst",
@@ -26,7 +27,8 @@
         "data_hex": "abcdef12",
         "data_5bit_hex": "150f061e1e0410",
         "encoded": "tst140x77ysn66he5"
-      }
+      },
+      "runnable": false
     },
     {
       "name": "zeros_mainnet",
@@ -37,7 +39,8 @@
         "mainnet": true,
         "public_key_hex": "0000000000000000000000000000000000000000000000000000000000000000",
         "address": "tos1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqhcaa6f"
-      }
+      },
+      "runnable": false
     },
     {
       "name": "zeros_testnet",
@@ -48,7 +51,8 @@
         "mainnet": false,
         "public_key_hex": "0000000000000000000000000000000000000000000000000000000000000000",
         "address": "tst1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqvg5uj9"
-      }
+      },
+      "runnable": false
     },
     {
       "name": "sequential_mainnet",
@@ -59,7 +63,8 @@
         "mainnet": true,
         "public_key_hex": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f",
         "address": "tos1qqqqzqsrqszsvpcgpy9qkrqdpc83qygjzv2p29shrqv35xcur50p7knpe4h"
-      }
+      },
+      "runnable": false
     },
     {
       "name": "all_ff_testnet",
@@ -70,7 +75,8 @@
         "mainnet": false,
         "public_key_hex": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
         "address": "tst1qrllllllllllllllllllllllllllllllllllllllllllllllllll7czqtsx"
-      }
+      },
+      "runnable": false
     },
     {
       "name": "schnorr_pubkey_mainnet",
@@ -81,7 +87,8 @@
         "mainnet": true,
         "public_key_hex": "3cc4fec02e2342dca15352d5c5c27135f9e42c5805c07ca9dc500e000f89a665",
         "address": "tos1qq7vflkq9c359h9p2dfdt3wzwy6lnepvtqzuql9fm3gquqq03xnx28jpnkv"
-      }
+      },
+      "runnable": false
     }
   ]
 }

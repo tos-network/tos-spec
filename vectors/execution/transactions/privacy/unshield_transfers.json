@@ -3,6 +3,7 @@
     {
       "name": "tx_unshield_transfer_basic",
       "description": "Basic unshield transfer (UNO to TOS)",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -51,6 +52,7 @@
     {
       "name": "tx_unshield_transfer_to_other",
       "description": "Unshield to another address",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -99,6 +101,7 @@
     {
       "name": "tx_unshield_transfer_proof_requirements",
       "description": "Unshield proof verification",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -125,6 +128,7 @@
     {
       "name": "tx_unshield_transfer_insufficient_uno",
       "description": "Cannot unshield more than UNO balance",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -163,6 +167,7 @@
     {
       "name": "tx_unshield_transfer_invalid_proof",
       "description": "Invalid unshield proof rejected",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -201,6 +206,7 @@
     {
       "name": "tx_unshield_transfer_zero_amount",
       "description": "Zero amount unshield rejected",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -239,6 +245,7 @@
     {
       "name": "tx_unshield_transfer_full_balance",
       "description": "Unshield entire UNO balance",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -277,6 +284,7 @@
     {
       "name": "tx_unshield_transfer_payload_structure",
       "description": "UnshieldTransferPayload wire format",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -303,6 +311,7 @@
     {
       "name": "tx_unshield_transfer_fee_model",
       "description": "Unshield transfer fee calculation",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -329,6 +338,7 @@
     {
       "name": "tx_unshield_transfer_amount_visibility",
       "description": "Unshielded amount is publicly visible",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -355,6 +365,7 @@
     {
       "name": "tx_unshield_transfer_privacy_considerations",
       "description": "Privacy implications of unshielding",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {

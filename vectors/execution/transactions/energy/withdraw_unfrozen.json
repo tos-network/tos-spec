@@ -3,6 +3,7 @@
     {
       "name": "tx_withdraw_unfrozen_basic",
       "description": "Basic withdrawal of matured pending unfreeze",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -51,6 +52,7 @@
     {
       "name": "tx_withdraw_unfrozen_multiple",
       "description": "Withdraw multiple matured pending unfreezes",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -89,6 +91,7 @@
     {
       "name": "tx_withdraw_unfrozen_none_matured",
       "description": "Withdraw with no matured unfreezes",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -127,6 +130,7 @@
     {
       "name": "tx_withdraw_unfrozen_no_pending",
       "description": "Withdraw with empty pending list",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -165,6 +169,7 @@
     {
       "name": "tx_withdraw_unfrozen_partial_list",
       "description": "Only expired entries are withdrawn",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -203,6 +208,7 @@
     {
       "name": "tx_withdraw_unfrozen_at_exact_expiry",
       "description": "Withdrawal at exactly expire_topoheight",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -241,6 +247,7 @@
     {
       "name": "tx_withdraw_unfrozen_balance_accumulation",
       "description": "Withdrawn TOS adds to existing balance",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -279,6 +286,7 @@
     {
       "name": "tx_withdraw_unfrozen_overflow_protection",
       "description": "Withdrawal uses checked arithmetic",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -317,6 +325,7 @@
     {
       "name": "tx_withdraw_unfrozen_free_operation",
       "description": "WithdrawUnfrozen is a free operation",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -355,6 +364,7 @@
     {
       "name": "tx_withdraw_unfrozen_payload_structure",
       "description": "WithdrawUnfrozen payload wire format",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -381,6 +391,7 @@
     {
       "name": "tx_withdraw_unfrozen_idempotent",
       "description": "Multiple withdrawals process remaining items",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {

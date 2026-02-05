@@ -41,7 +41,8 @@
         "ok": true,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_freeze_tos_minimum_amount",
@@ -74,7 +75,8 @@
         "ok": true,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_freeze_tos_below_minimum",
@@ -107,7 +109,8 @@
         "ok": false,
         "error": "AMOUNT_BELOW_MINIMUM",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_freeze_tos_whole_tos_only",
@@ -140,7 +143,8 @@
         "ok": true,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_freeze_tos_duration_minimum",
@@ -173,7 +177,8 @@
         "ok": true,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_freeze_tos_duration_below_minimum",
@@ -206,7 +211,8 @@
         "ok": false,
         "error": "INVALID_FREEZE_DURATION",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_freeze_tos_duration_maximum",
@@ -239,7 +245,8 @@
         "ok": true,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_freeze_tos_duration_above_maximum",
@@ -272,7 +279,8 @@
         "ok": false,
         "error": "INVALID_FREEZE_DURATION",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_freeze_tos_insufficient_balance",
@@ -305,7 +313,8 @@
         "ok": false,
         "error": "INSUFFICIENT_BALANCE",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_freeze_tos_multiple_records",
@@ -326,7 +335,8 @@
         "ok": true,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_freeze_tos_max_records",
@@ -359,7 +369,8 @@
         "ok": false,
         "error": "MAX_FREEZE_RECORDS_REACHED",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_freeze_tos_unlock_calculation",
@@ -392,7 +403,8 @@
         "ok": true,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_freeze_tos_devnet_timing",
@@ -425,7 +437,8 @@
         "ok": true,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_freeze_tos_payload_structure",
@@ -446,7 +459,8 @@
         "ok": false,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     }
   ]
 }

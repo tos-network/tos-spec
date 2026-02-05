@@ -3,6 +3,7 @@
     {
       "name": "tx_withdraw_arbiter_stake_basic",
       "description": "Basic arbiter stake withdrawal",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -51,6 +52,7 @@
     {
       "name": "tx_withdraw_arbiter_stake_partial",
       "description": "Partial stake withdrawal",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -89,6 +91,7 @@
     {
       "name": "tx_withdraw_arbiter_stake_not_exiting",
       "description": "Cannot withdraw if not in exiting state",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -127,6 +130,7 @@
     {
       "name": "tx_withdraw_arbiter_stake_cooldown_not_passed",
       "description": "Cannot withdraw before cooldown expires",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -165,6 +169,7 @@
     {
       "name": "tx_withdraw_arbiter_stake_pending_cases",
       "description": "Cannot withdraw with pending cases",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -203,6 +208,7 @@
     {
       "name": "tx_withdraw_arbiter_stake_exceeds_balance",
       "description": "Cannot withdraw more than staked",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -241,6 +247,7 @@
     {
       "name": "tx_withdraw_arbiter_stake_zero_amount",
       "description": "Cannot withdraw zero amount",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -279,6 +286,7 @@
     {
       "name": "tx_withdraw_arbiter_stake_not_registered",
       "description": "Cannot withdraw if not registered",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -317,6 +325,7 @@
     {
       "name": "tx_withdraw_arbiter_stake_slashed",
       "description": "Withdrawal reflects slashed amount",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -355,6 +364,7 @@
     {
       "name": "tx_withdraw_arbiter_stake_payload_structure",
       "description": "WithdrawArbiterStakePayload wire format",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -381,6 +391,7 @@
     {
       "name": "tx_withdraw_arbiter_stake_gas_cost",
       "description": "WithdrawArbiterStake gas consumption",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {

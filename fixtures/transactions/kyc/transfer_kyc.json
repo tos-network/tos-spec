@@ -50,7 +50,8 @@
         "ok": true,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_transfer_kyc_insufficient_source_approvals",
@@ -83,7 +84,8 @@
         "ok": false,
         "error": "INSUFFICIENT_SOURCE_APPROVALS",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_transfer_kyc_insufficient_dest_approvals",
@@ -116,7 +118,8 @@
         "ok": false,
         "error": "INSUFFICIENT_DEST_APPROVALS",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_transfer_kyc_wrong_source_committee",
@@ -149,7 +152,8 @@
         "ok": false,
         "error": "SOURCE_COMMITTEE_MISMATCH",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_transfer_kyc_dest_level_too_low",
@@ -182,7 +186,8 @@
         "ok": false,
         "error": "DEST_COMMITTEE_LEVEL_TOO_LOW",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_transfer_kyc_same_committee",
@@ -215,7 +220,8 @@
         "ok": false,
         "error": "SAME_COMMITTEE",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_transfer_kyc_not_verified",
@@ -248,7 +254,8 @@
         "ok": false,
         "error": "ACCOUNT_NOT_VERIFIED",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_transfer_kyc_suspended_source",
@@ -281,7 +288,8 @@
         "ok": false,
         "error": "SOURCE_COMMITTEE_SUSPENDED",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_transfer_kyc_payload_structure",
@@ -302,7 +310,8 @@
         "ok": false,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_transfer_kyc_use_cases",
@@ -323,7 +332,8 @@
         "ok": false,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_transfer_kyc_gas_cost",
@@ -344,7 +354,8 @@
         "ok": false,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     }
   ]
 }

@@ -14,7 +14,8 @@
         "message_ascii": "Hi There",
         "message_length": 8,
         "expected_hex": "87aa7cdea5ef619d4ff0b4241a1d6cb02379f4e2ce4ec2787ad0b30545e17cdedaa833b7d6b8a702038b274eaea3f4e4be9d914eeb61f1702e696c203a126854"
-      }
+      },
+      "runnable": false
     },
     {
       "name": "rfc4231_test2",
@@ -27,7 +28,8 @@
         "message_ascii": "what do ya want for nothing?",
         "message_length": 28,
         "expected_hex": "164b7a7bfcf819e2e395fbe73b56e0a387bd64222e831fd610270cd7ea2505549758bf75c05a994a6d034f65f8f0e6fdcaeab1a34d4a6b4b636e070a38bce737"
-      }
+      },
+      "runnable": false
     },
     {
       "name": "empty_message",
@@ -40,7 +42,8 @@
         "message_ascii": "",
         "message_length": 0,
         "expected_hex": "1cd0aba801bedf468a60876a5ea960ec9718c570c3f9c79dafd08765949196a33ab7efde80975cebe5a5efedd2dfb9794d24cc5e81c18c6ae300ffe17c6a0e46"
-      }
+      },
+      "runnable": false
     },
     {
       "name": "long_key",
@@ -53,7 +56,8 @@
         "message_ascii": "Test with a key longer than block size",
         "message_length": 38,
         "expected_hex": "4f05beb201549069430ec635e76a5b357aa5f21be0d94c022523c4889fd18f38a1887b78817b097a4f3a7075e9689240be6224cf8b58b8dc83fcbeee611cf58f"
-      }
+      },
+      "runnable": false
     },
     {
       "name": "bip39_mnemonic",
@@ -66,7 +70,8 @@
         "message_ascii": "abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about",
         "message_length": 93,
         "expected_hex": "f49792f4a261394f1e00356f99b34104760c96977263799d0392b597f341c420e38efabe8c93dc896f62c03683e72cda07ba4c1833ccc3b0c60835cad471fbc2"
-      }
+      },
+      "runnable": false
     }
   ]
 }

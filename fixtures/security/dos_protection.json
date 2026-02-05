@@ -19,7 +19,8 @@
         "ok": false,
         "error": "COMPUTE_BUDGET_EXCEEDED",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "security_dos_call_depth_limit",
@@ -40,7 +41,8 @@
         "ok": false,
         "error": "CALL_DEPTH_EXCEEDED",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "security_dos_block_size_limit",
@@ -61,7 +63,8 @@
         "ok": false,
         "error": "INVALID_BLOCK_SIZE",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "security_dos_txs_per_block_limit",
@@ -82,7 +85,8 @@
         "ok": false,
         "error": "INVALID_BLOCK_TXS",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "security_dos_heap_memory_limit",
@@ -103,7 +107,8 @@
         "ok": false,
         "error": "HEAP_EXHAUSTED",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "security_dos_stack_size_limit",
@@ -124,7 +129,8 @@
         "ok": false,
         "error": "STACK_OVERFLOW",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "security_dos_bytecode_limit",
@@ -145,7 +151,8 @@
         "ok": false,
         "error": "BYTECODE_TOO_LARGE",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "security_dos_transaction_size_limit",
@@ -166,7 +173,8 @@
         "ok": false,
         "error": "TX_TOO_BIG",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "security_dos_peer_timeout",
@@ -187,7 +195,8 @@
         "ok": false,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "security_dos_mempool_limit",
@@ -208,7 +217,8 @@
         "ok": false,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     }
   ]
 }

@@ -17,7 +17,8 @@
         "secret_key_hex": "1c95988d7431ecd670cf7d73f45befc6feffffffffffffffffffffffffffff0f",
         "public_key_hex": "f6decfbf9efabc8aa59452aa570cb84eed7fcfca7daea58a93b93444400a7a73",
         "node_id_hex": "f5c314e1bd33e954519328ff79759264d0b09cbb1d09f46ec670c4db6c033e35"
-      }
+      },
+      "runnable": false
     },
     {
       "name": "sequential_secret",
@@ -28,7 +29,8 @@
         "secret_key_hex": "132d0ca6e9a1f3ae316c12682d132ffa0f1112131415161718191a1b1c1d1e0f",
         "public_key_hex": "e2bc92a12d845a672d09d7d600f1b2f93c189427752a8649f090d792f805274e",
         "node_id_hex": "75e1a443be4cfce8615158c251d602cc6bac26b295aafdf3c81b082f608a004f"
-      }
+      },
+      "runnable": false
     },
     {
       "name": "seed_based_secret",
@@ -39,7 +41,8 @@
         "secret_key_hex": "adf3910915403c5bec9f7e89dd32d72673742073656564203132333435363708",
         "public_key_hex": "ae9713bdcaaa864000d6dfa4ddea5a9381c05f3e443c515664d03b91c37b2a08",
         "node_id_hex": "ed06832a08e1dae69f2aea55659d6ffb1faabf6084420f0f958874e5a138a3a0"
-      }
+      },
+      "runnable": false
     },
     {
       "name": "random_pattern_secret",
@@ -50,7 +53,8 @@
         "secret_key_hex": "1a2b3c4d5e6f708192a3b4c5d6e7f809102132435465768798a9bacbdcedfe0f",
         "public_key_hex": "306539cf638c3b0f6b3115f892074a8e215f73cfbb484728b28cb2a4a5f2af13",
         "node_id_hex": "aaff920f6ca71d3767b61dfa97be94886db721e6a81492ad7bdaa8372c76f662"
-      }
+      },
+      "runnable": false
     },
     {
       "name": "same_ids",
@@ -61,7 +65,8 @@
         "node_id_a_hex": "1212121212121212121212121212121212121212121212121212121212121212",
         "node_id_b_hex": "1212121212121212121212121212121212121212121212121212121212121212",
         "xor_distance_hex": "0000000000000000000000000000000000000000000000000000000000000000"
-      }
+      },
+      "runnable": false
     },
     {
       "name": "zeros_vs_ones",
@@ -72,7 +77,8 @@
         "node_id_a_hex": "0000000000000000000000000000000000000000000000000000000000000000",
         "node_id_b_hex": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
         "xor_distance_hex": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
-      }
+      },
+      "runnable": false
     },
     {
       "name": "differ_first_byte_msb",
@@ -83,7 +89,8 @@
         "node_id_a_hex": "8000000000000000000000000000000000000000000000000000000000000000",
         "node_id_b_hex": "0000000000000000000000000000000000000000000000000000000000000000",
         "xor_distance_hex": "8000000000000000000000000000000000000000000000000000000000000000"
-      }
+      },
+      "runnable": false
     },
     {
       "name": "differ_last_bit",
@@ -94,7 +101,8 @@
         "node_id_a_hex": "0000000000000000000000000000000000000000000000000000000000000000",
         "node_id_b_hex": "0000000000000000000000000000000000000000000000000000000000000001",
         "xor_distance_hex": "0000000000000000000000000000000000000000000000000000000000000001"
-      }
+      },
+      "runnable": false
     },
     {
       "name": "arbitrary_pattern",
@@ -105,7 +113,8 @@
         "node_id_a_hex": "123456789abcdef0112233445566778899aabbccddeeff000102030405060708",
         "node_id_b_hex": "fedcba9876543210eeddccbbaa99887766554433221100fffefdfcfbfaf9f8f7",
         "xor_distance_hex": "ece8ece0ece8ece0ffffffffffffffffffffffffffffffffffffffffffffffff"
-      }
+      },
+      "runnable": false
     },
     {
       "name": "same_ids",
@@ -116,7 +125,8 @@
         "node_id_a_hex": "1212121212121212121212121212121212121212121212121212121212121212",
         "node_id_b_hex": "1212121212121212121212121212121212121212121212121212121212121212",
         "bucket_index": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "bucket_255",
@@ -127,7 +137,8 @@
         "node_id_a_hex": "8000000000000000000000000000000000000000000000000000000000000000",
         "node_id_b_hex": "0000000000000000000000000000000000000000000000000000000000000000",
         "bucket_index": 255
-      }
+      },
+      "runnable": false
     },
     {
       "name": "bucket_0",
@@ -138,7 +149,8 @@
         "node_id_a_hex": "0000000000000000000000000000000000000000000000000000000000000000",
         "node_id_b_hex": "0000000000000000000000000000000000000000000000000000000000000001",
         "bucket_index": 0
-      }
+      },
+      "runnable": false
     },
     {
       "name": "bucket_254",
@@ -149,7 +161,8 @@
         "node_id_a_hex": "4000000000000000000000000000000000000000000000000000000000000000",
         "node_id_b_hex": "0000000000000000000000000000000000000000000000000000000000000000",
         "bucket_index": 254
-      }
+      },
+      "runnable": false
     },
     {
       "name": "bucket_247",
@@ -160,7 +173,8 @@
         "node_id_a_hex": "0080000000000000000000000000000000000000000000000000000000000000",
         "node_id_b_hex": "0000000000000000000000000000000000000000000000000000000000000000",
         "bucket_index": 247
-      }
+      },
+      "runnable": false
     },
     {
       "name": "bucket_3",
@@ -171,7 +185,8 @@
         "node_id_a_hex": "0000000000000000000000000000000000000000000000000000000000000008",
         "node_id_b_hex": "0000000000000000000000000000000000000000000000000000000000000000",
         "bucket_index": 3
-      }
+      },
+      "runnable": false
     },
     {
       "name": "bucket_127",
@@ -182,7 +197,8 @@
         "node_id_a_hex": "0000000000000000000000000000000080000000000000000000000000000000",
         "node_id_b_hex": "0000000000000000000000000000000000000000000000000000000000000000",
         "bucket_index": 127
-      }
+      },
+      "runnable": false
     },
     {
       "name": "valid_ipv4",
@@ -196,7 +212,8 @@
         "ip": "192.168.1.1",
         "port": 2126,
         "is_ipv6": false
-      }
+      },
+      "runnable": false
     },
     {
       "name": "valid_ipv6",
@@ -210,7 +227,8 @@
         "ip": "::1",
         "port": 2126,
         "is_ipv6": true
-      }
+      },
+      "runnable": false
     },
     {
       "name": "valid_ipv6_full",
@@ -224,7 +242,8 @@
         "ip": "2001:db8::1",
         "port": 2126,
         "is_ipv6": true
-      }
+      },
+      "runnable": false
     },
     {
       "name": "missing_scheme",
@@ -234,7 +253,8 @@
         "description": "URL without tosnode:// prefix",
         "url": "1a2b3c4d5e6f708192a3b4c5d6e7f80910213243546576879899aabbccddeeff@192.168.1.1:2126",
         "valid": false
-      }
+      },
+      "runnable": false
     },
     {
       "name": "missing_separator",
@@ -244,7 +264,8 @@
         "description": "URL without @ separator",
         "url": "tosnode://1a2b3c4d5e6f708192a3b4c5d6e7f80910213243546576879899aabbccddeeff192.168.1.1:2126",
         "valid": false
-      }
+      },
+      "runnable": false
     },
     {
       "name": "short_node_id",
@@ -254,7 +275,8 @@
         "description": "Node ID too short (not 64 hex chars)",
         "url": "tosnode://1a2b3c@192.168.1.1:2126",
         "valid": false
-      }
+      },
+      "runnable": false
     },
     {
       "name": "invalid_hex",
@@ -264,7 +286,8 @@
         "description": "Node ID contains non-hex characters",
         "url": "tosnode://gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg@192.168.1.1:2126",
         "valid": false
-      }
+      },
+      "runnable": false
     },
     {
       "name": "invalid_address",
@@ -274,7 +297,8 @@
         "description": "Invalid IP address format",
         "url": "tosnode://1a2b3c4d5e6f708192a3b4c5d6e7f80910213243546576879899aabbccddeeff@not-an-address:2126",
         "valid": false
-      }
+      },
+      "runnable": false
     },
     {
       "name": "missing_port",
@@ -284,7 +308,8 @@
         "description": "URL without port number",
         "url": "tosnode://1a2b3c4d5e6f708192a3b4c5d6e7f80910213243546576879899aabbccddeeff@192.168.1.1",
         "valid": false
-      }
+      },
+      "runnable": false
     },
     {
       "name": "localhost",
@@ -298,7 +323,8 @@
         "ip": "127.0.0.1",
         "port": 2126,
         "is_ipv6": false
-      }
+      },
+      "runnable": false
     },
     {
       "name": "high_port",
@@ -312,7 +338,8 @@
         "ip": "192.168.1.1",
         "port": 65535,
         "is_ipv6": false
-      }
+      },
+      "runnable": false
     },
     {
       "name": "zeros_node_id",
@@ -326,7 +353,8 @@
         "ip": "10.0.0.1",
         "port": 2126,
         "is_ipv6": false
-      }
+      },
+      "runnable": false
     }
   ]
 }

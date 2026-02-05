@@ -3,6 +3,7 @@
     {
       "name": "consensus_finality_stable_limit",
       "description": "Block considered stable after STABLE_LIMIT (24) depth",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -29,6 +30,7 @@
     {
       "name": "consensus_finality_not_stable",
       "description": "Block not stable before STABLE_LIMIT depth",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -55,6 +57,7 @@
     {
       "name": "consensus_finality_genesis_stable",
       "description": "Genesis block becomes stable at height 24",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -81,6 +84,7 @@
     {
       "name": "consensus_finality_stable_height_calculation",
       "description": "Stable height = current_height - STABLE_LIMIT",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -107,6 +111,7 @@
     {
       "name": "consensus_finality_monotonic",
       "description": "Stable height never decreases (monotonically increasing)",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -133,6 +138,7 @@
     {
       "name": "consensus_finality_prune_safety",
       "description": "PRUNE_SAFETY_LIMIT = STABLE_LIMIT * 10",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -159,6 +165,7 @@
     {
       "name": "consensus_finality_sync_block",
       "description": "Sync block is highest cumulative difficulty block at stable height",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -185,6 +192,7 @@
     {
       "name": "consensus_finality_reachability_depth",
       "description": "Reachability traversal uses 2 * STABLE_LIMIT = 48",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {

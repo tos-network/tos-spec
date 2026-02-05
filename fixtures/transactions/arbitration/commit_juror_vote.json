@@ -41,7 +41,8 @@
         "ok": true,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_commit_juror_vote_not_selected",
@@ -84,7 +85,8 @@
         "ok": false,
         "error": "NOT_SELECTED_JUROR",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_commit_juror_vote_wrong_state",
@@ -117,7 +119,8 @@
         "ok": false,
         "error": "INVALID_ARBITRATION_STATE",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_commit_juror_vote_invalid_signature",
@@ -150,7 +153,8 @@
         "ok": false,
         "error": "INVALID_JUROR_SIGNATURE",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_commit_juror_vote_already_voted",
@@ -183,7 +187,8 @@
         "ok": false,
         "error": "ALREADY_VOTED",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_commit_juror_vote_deadline_passed",
@@ -216,7 +221,8 @@
         "ok": false,
         "error": "VOTING_DEADLINE_PASSED",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_commit_juror_vote_payload_too_large",
@@ -249,7 +255,8 @@
         "ok": false,
         "error": "PAYLOAD_TOO_LARGE",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_commit_juror_vote_pubkey_mismatch",
@@ -292,7 +299,8 @@
         "ok": false,
         "error": "JUROR_PUBKEY_MISMATCH",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_commit_juror_vote_hash_mismatch",
@@ -325,7 +333,8 @@
         "ok": false,
         "error": "VOTE_HASH_MISMATCH",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_commit_juror_vote_request_not_found",
@@ -358,7 +367,8 @@
         "ok": false,
         "error": "VOTE_REQUEST_NOT_FOUND",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_commit_juror_vote_payload_structure",
@@ -379,7 +389,8 @@
         "ok": false,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_commit_juror_vote_gas_cost",
@@ -400,7 +411,8 @@
         "ok": false,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     }
   ]
 }

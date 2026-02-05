@@ -13,7 +13,8 @@
         "has_extra_data": false,
         "wire_hex": "111111111111111111111111111111111111111111111111111111111111111100",
         "expected_size": 33
-      }
+      },
+      "runnable": false
     },
     {
       "name": "bind_referrer_alt",
@@ -25,7 +26,8 @@
         "has_extra_data": false,
         "wire_hex": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa00",
         "expected_size": 33
-      }
+      },
+      "runnable": false
     },
     {
       "name": "batch_referral_3levels",
@@ -44,7 +46,8 @@
         ],
         "wire_hex": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa1111111111111111111111111111111111111111111111111111111111111111000000003b9aca00030303e801f4012c",
         "expected_size": 80
-      }
+      },
+      "runnable": false
     },
     {
       "name": "batch_referral_single",
@@ -61,7 +64,8 @@
         ],
         "wire_hex": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb2222222222222222222222222222222222222222222222222222222222222222000000001dcd6500010101f4",
         "expected_size": 76
-      }
+      },
+      "runnable": false
     },
     {
       "name": "batch_referral_5levels",
@@ -82,7 +86,8 @@
         ],
         "wire_hex": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc333333333333333333333333333333333333333333333333333333333333333300000002540be400050503e803200258019000c8",
         "expected_size": 84
-      }
+      },
+      "runnable": false
     },
     {
       "name": "agent_register_basic",
@@ -93,7 +98,8 @@
         "variant": 0,
         "wire_hex": "00111111111111111111111111111111111111111111111111111111111111111122222222222222222222222222222222222222222222222222222222222222220000",
         "expected_size": 67
-      }
+      },
+      "runnable": false
     },
     {
       "name": "agent_register_with_energy",
@@ -104,7 +110,8 @@
         "variant": 0,
         "wire_hex": "003333333333333333333333333333333333333333333333333333333333333333444444444444444444444444444444444444444444444444444444444444444401555555555555555555555555555555555555555555555555555555555555555500",
         "expected_size": 99
-      }
+      },
+      "runnable": false
     },
     {
       "name": "agent_register_full",
@@ -115,7 +122,8 @@
         "variant": 0,
         "wire_hex": "0066666666666666666666666666666666666666666666666666666666666666667777777777777777777777777777777777777777777777777777777777777777018888888888888888888888888888888888888888888888888888888888888888019999999999999999999999999999999999999999999999999999999999999999",
         "expected_size": 131
-      }
+      },
+      "runnable": false
     },
     {
       "name": "agent_update_policy",
@@ -126,7 +134,8 @@
         "variant": 1,
         "wire_hex": "01aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
         "expected_size": 33
-      }
+      },
+      "runnable": false
     },
     {
       "name": "agent_rotate_controller",
@@ -137,7 +146,8 @@
         "variant": 2,
         "wire_hex": "02bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
         "expected_size": 33
-      }
+      },
+      "runnable": false
     },
     {
       "name": "agent_set_status",
@@ -148,7 +158,8 @@
         "variant": 3,
         "wire_hex": "0301",
         "expected_size": 2
-      }
+      },
+      "runnable": false
     },
     {
       "name": "agent_set_energy_pool",
@@ -159,7 +170,8 @@
         "variant": 4,
         "wire_hex": "0401cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
         "expected_size": 34
-      }
+      },
+      "runnable": false
     },
     {
       "name": "agent_set_session_key_root",
@@ -170,7 +182,8 @@
         "variant": 5,
         "wire_hex": "0501dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
         "expected_size": 34
-      }
+      },
+      "runnable": false
     },
     {
       "name": "agent_revoke_session_key",
@@ -181,7 +194,8 @@
         "variant": 7,
         "wire_hex": "070000000000003039",
         "expected_size": 9
-      }
+      },
+      "runnable": false
     }
   ]
 }

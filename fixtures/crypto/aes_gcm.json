@@ -16,7 +16,8 @@
         "plaintext_length": 0,
         "ciphertext_hex": "",
         "tag_hex": "1a617befa577e0b78c66db5b289e6113"
-      }
+      },
+      "runnable": false
     },
     {
       "name": "aes256_hello",
@@ -30,7 +31,8 @@
         "plaintext_length": 13,
         "ciphertext_hex": "bcd7939533a0a590f63d276b10",
         "tag_hex": "4b6af96054cec9121040a535280d2182"
-      }
+      },
+      "runnable": false
     },
     {
       "name": "aes256_with_aad",
@@ -45,7 +47,8 @@
         "plaintext_length": 14,
         "ciphertext_hex": "c8c3f654458a26149b1994a5470c",
         "tag_hex": "4eae94d750e770bc403a4ada7e33a21b"
-      }
+      },
+      "runnable": false
     },
     {
       "name": "aes256_64bytes",
@@ -59,7 +62,8 @@
         "plaintext_length": 64,
         "ciphertext_hex": "91c8d10d442835537b351ee36aa63b7db8395a3f2150edbc07c17a7f3bc5155aea02bcc70efda0039dcc23550c4659916c2e72f1da396d5d6b9f94c9b7724e89",
         "tag_hex": "4832798de6c7f9639861cd10d47c3d5d"
-      }
+      },
+      "runnable": false
     },
     {
       "name": "aes128_empty",
@@ -73,7 +77,8 @@
         "plaintext_length": 0,
         "ciphertext_hex": "",
         "tag_hex": "b79a4ed1b63f3449a97dba67284adb90"
-      }
+      },
+      "runnable": false
     },
     {
       "name": "aes128_hello",
@@ -87,7 +92,8 @@
         "plaintext_length": 13,
         "ciphertext_hex": "b472a5ce96d98ee231ffb305db",
         "tag_hex": "1e07d982913d71d0bea3581e41b64764"
-      }
+      },
+      "runnable": false
     },
     {
       "name": "aes128_with_aad",
@@ -102,7 +108,8 @@
         "plaintext_length": 14,
         "ciphertext_hex": "6b3faecc13970c631bef1950d83a",
         "tag_hex": "5b344cf8541533f705a6d97ec7c9cbad"
-      }
+      },
+      "runnable": false
     },
     {
       "name": "nist_aes256_tc14",
@@ -116,7 +123,8 @@
         "plaintext_length": 0,
         "ciphertext_hex": "",
         "tag_hex": "530f8afbc74536b9a963b4f1c4cb738b"
-      }
+      },
+      "runnable": false
     }
   ]
 }

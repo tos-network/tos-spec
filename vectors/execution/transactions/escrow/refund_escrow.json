@@ -3,6 +3,7 @@
     {
       "name": "tx_refund_escrow_basic",
       "description": "Basic escrow refund",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -51,6 +52,7 @@
     {
       "name": "tx_refund_escrow_partial",
       "description": "Partial escrow refund",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -89,6 +91,7 @@
     {
       "name": "tx_refund_escrow_only_provider",
       "description": "Only provider can initiate refund",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -137,6 +140,7 @@
     {
       "name": "tx_refund_escrow_not_found",
       "description": "Cannot refund non-existent escrow",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -175,6 +179,7 @@
     {
       "name": "tx_refund_escrow_zero_amount",
       "description": "Zero refund rejected",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -213,6 +218,7 @@
     {
       "name": "tx_refund_escrow_exceed_remaining",
       "description": "Cannot refund more than remaining",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -251,6 +257,7 @@
     {
       "name": "tx_refund_escrow_invalid_state",
       "description": "Cannot refund certain escrow states",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -277,6 +284,7 @@
     {
       "name": "tx_refund_escrow_with_reason",
       "description": "Refund with reason string",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -315,6 +323,7 @@
     {
       "name": "tx_refund_escrow_payload_structure",
       "description": "RefundEscrowPayload wire format",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {

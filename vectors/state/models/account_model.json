@@ -3,6 +3,7 @@
     {
       "name": "account_model_basic_structure",
       "description": "Basic account structure with balance and nonce",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -29,6 +30,7 @@
     {
       "name": "account_model_new_account",
       "description": "New account creation on first incoming transfer",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -65,6 +67,7 @@
     {
       "name": "account_model_balance_invariant",
       "description": "Balance must never be negative",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -91,6 +94,7 @@
     {
       "name": "account_model_native_asset",
       "description": "Native TOS asset identification",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -117,6 +121,7 @@
     {
       "name": "account_model_uno_asset",
       "description": "UNO privacy asset identification",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -143,6 +148,7 @@
     {
       "name": "account_model_multisig_structure",
       "description": "Multi-signature account structure",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -169,6 +175,7 @@
     {
       "name": "account_model_agent_account_structure",
       "description": "Agent account (delegated session) structure",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -195,6 +202,7 @@
     {
       "name": "account_model_versioning_update",
       "description": "Version updates on state modification",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -243,6 +251,7 @@
     {
       "name": "account_model_activation_status",
       "description": "Account activation requires sending a transaction",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {

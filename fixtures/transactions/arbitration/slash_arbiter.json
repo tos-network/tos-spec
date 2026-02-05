@@ -50,7 +50,8 @@
         "ok": true,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_slash_arbiter_insufficient_approvals",
@@ -83,7 +84,8 @@
         "ok": false,
         "error": "INSUFFICIENT_APPROVALS",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_slash_arbiter_not_registered",
@@ -116,7 +118,8 @@
         "ok": false,
         "error": "NOT_REGISTERED_ARBITER",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_slash_arbiter_exceed_stake",
@@ -149,7 +152,8 @@
         "ok": false,
         "error": "SLASH_EXCEEDS_STAKE",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_slash_arbiter_zero_amount",
@@ -182,7 +186,8 @@
         "ok": false,
         "error": "INVALID_AMOUNT",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_slash_arbiter_partial_slash",
@@ -215,7 +220,8 @@
         "ok": true,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_slash_arbiter_full_slash",
@@ -248,7 +254,8 @@
         "ok": true,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_slash_arbiter_below_minimum",
@@ -281,7 +288,8 @@
         "ok": true,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_slash_arbiter_invalid_signature",
@@ -314,7 +322,8 @@
         "ok": false,
         "error": "INVALID_SIGNATURE",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_slash_arbiter_payload_structure",
@@ -335,7 +344,8 @@
         "ok": false,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_slash_arbiter_reasons",
@@ -356,7 +366,8 @@
         "ok": false,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     }
   ]
 }

@@ -41,7 +41,8 @@
         "ok": true,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_request_arbiter_exit_not_registered",
@@ -74,7 +75,8 @@
         "ok": false,
         "error": "NOT_REGISTERED_ARBITER",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_request_arbiter_exit_already_requested",
@@ -107,7 +109,8 @@
         "ok": false,
         "error": "EXIT_ALREADY_REQUESTED",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_request_arbiter_exit_pending_disputes",
@@ -140,7 +143,8 @@
         "ok": false,
         "error": "HAS_PENDING_DISPUTES",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_request_arbiter_exit_slashed",
@@ -173,7 +177,8 @@
         "ok": false,
         "error": "ARBITER_SLASHED",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_request_arbiter_exit_cooldown_period",
@@ -194,7 +199,8 @@
         "ok": false,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_request_arbiter_exit_cancel",
@@ -227,7 +233,8 @@
         "ok": true,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_request_arbiter_exit_payload_structure",
@@ -248,7 +255,8 @@
         "ok": false,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_request_arbiter_exit_lifecycle",
@@ -269,7 +277,8 @@
         "ok": false,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     }
   ]
 }

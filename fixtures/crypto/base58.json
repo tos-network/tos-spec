@@ -10,7 +10,8 @@
         "input_hex": "",
         "input_length": 0,
         "expected_base58": ""
-      }
+      },
+      "runnable": false
     },
     {
       "name": "single_zero",
@@ -20,7 +21,8 @@
         "input_hex": "00",
         "input_length": 1,
         "expected_base58": "1"
-      }
+      },
+      "runnable": false
     },
     {
       "name": "leading_zeros",
@@ -30,7 +32,8 @@
         "input_hex": "00000001",
         "input_length": 4,
         "expected_base58": "1112"
-      }
+      },
+      "runnable": false
     },
     {
       "name": "hello_world",
@@ -39,7 +42,8 @@
         "input_hex": "48656c6c6f20576f726c64",
         "input_length": 11,
         "expected_base58": "JxF12TrwUP45BMd"
-      }
+      },
+      "runnable": false
     },
     {
       "name": "pubkey_32bytes",
@@ -49,7 +53,8 @@
         "input_hex": "0102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f20",
         "input_length": 32,
         "expected_base58": "4wBqpZM9xaSheZzJSMawUKKwhdpChKbZ5eu5ky4Vigw"
-      }
+      },
+      "runnable": false
     },
     {
       "name": "all_ff",
@@ -59,7 +64,8 @@
         "input_hex": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
         "input_length": 32,
         "expected_base58": "JEKNVnkbo3jma5nREBBJCDoXFVeKkD56V3xKrvRmWxFG"
-      }
+      },
+      "runnable": false
     },
     {
       "name": "solana_system_program",
@@ -69,7 +75,8 @@
         "input_hex": "0000000000000000000000000000000000000000000000000000000000000000",
         "input_length": 32,
         "expected_base58": "11111111111111111111111111111111"
-      }
+      },
+      "runnable": false
     },
     {
       "name": "signature_64bytes",
@@ -79,7 +86,8 @@
         "input_hex": "42424242424242424242424242424242424242424242424242424242424242424242424242424242424242424242424242424242424242424242424242424242",
         "input_length": 64,
         "expected_base58": "2KqNxgmhsAH91zr5iAty4FrUwjhEAcu22kj5htCEMTWVsCs9pt3GFyQGboaCpZkPGUX7csayY3RXYZFxactztr49"
-      }
+      },
+      "runnable": false
     },
     {
       "name": "sequential_bytes",
@@ -89,7 +97,8 @@
         "input_hex": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f30313233343536373839",
         "input_length": 58,
         "expected_base58": "17zGKMk8LJ2vxPFJLY5ZT29kPLxuY4YedQ2wsCWP5aYENhQ93SGhYcc3XZaWR5w7pEvXozuf3daKVr"
-      }
+      },
+      "runnable": false
     },
     {
       "name": "byte_00",
@@ -98,7 +107,8 @@
         "input_hex": "00",
         "input_length": 1,
         "expected_base58": "1"
-      }
+      },
+      "runnable": false
     },
     {
       "name": "byte_39",
@@ -107,7 +117,8 @@
         "input_hex": "39",
         "input_length": 1,
         "expected_base58": "z"
-      }
+      },
+      "runnable": false
     }
   ]
 }

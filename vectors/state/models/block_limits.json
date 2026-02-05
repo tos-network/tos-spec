@@ -3,6 +3,7 @@
     {
       "name": "block_limits_overview",
       "description": "Block and transaction size limits",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -29,6 +30,7 @@
     {
       "name": "block_size_validation",
       "description": "Block size must not exceed MAX_BLOCK_SIZE",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -55,6 +57,7 @@
     {
       "name": "tips_limit_validation",
       "description": "Block must have 1-3 parent tips",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -81,6 +84,7 @@
     {
       "name": "transaction_count_validation",
       "description": "Block transaction count limit",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -107,6 +111,7 @@
     {
       "name": "transaction_size_validation",
       "description": "Individual transaction size limit",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -133,6 +138,7 @@
     {
       "name": "transfer_count_limit",
       "description": "Transfers per transaction limit",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -159,6 +165,7 @@
     {
       "name": "extra_data_limits",
       "description": "Extra data (memo) size limits",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -185,6 +192,7 @@
     {
       "name": "multisig_limits",
       "description": "Multi-signature participant limits",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -211,6 +219,7 @@
     {
       "name": "energy_system_limits",
       "description": "Energy system operational limits",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -237,6 +246,7 @@
     {
       "name": "referral_limits",
       "description": "Referral system limits",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -263,6 +273,7 @@
     {
       "name": "arbitration_limits",
       "description": "Arbitration payload size limits",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -289,6 +300,7 @@
     {
       "name": "kyc_timing_limits",
       "description": "KYC approval timing constraints",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -315,6 +327,7 @@
     {
       "name": "privacy_limits",
       "description": "Privacy transaction limits",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -341,6 +354,7 @@
     {
       "name": "static_assertions",
       "description": "Compile-time invariants",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {

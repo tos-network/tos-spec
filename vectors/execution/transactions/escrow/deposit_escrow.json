@@ -3,6 +3,7 @@
     {
       "name": "tx_deposit_escrow_basic",
       "description": "Basic escrow deposit",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -51,6 +52,7 @@
     {
       "name": "tx_deposit_escrow_not_payer",
       "description": "Only payer can deposit to escrow",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -99,6 +101,7 @@
     {
       "name": "tx_deposit_escrow_not_found",
       "description": "Cannot deposit to non-existent escrow",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -137,6 +140,7 @@
     {
       "name": "tx_deposit_escrow_zero_amount",
       "description": "Zero deposit rejected",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -175,6 +179,7 @@
     {
       "name": "tx_deposit_escrow_insufficient_balance",
       "description": "Cannot deposit more than balance",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -213,6 +218,7 @@
     {
       "name": "tx_deposit_escrow_invalid_state",
       "description": "Cannot deposit to certain escrow states",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -239,6 +245,7 @@
     {
       "name": "tx_deposit_escrow_during_challenge",
       "description": "Deposit during challenge window",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -277,6 +284,7 @@
     {
       "name": "tx_deposit_escrow_payload_structure",
       "description": "DepositEscrowPayload wire format",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {

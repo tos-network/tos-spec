@@ -50,7 +50,8 @@
         "ok": true,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_create_escrow_with_arbitration",
@@ -93,7 +94,8 @@
         "ok": true,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_create_escrow_with_metadata",
@@ -126,7 +128,8 @@
         "ok": true,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_create_escrow_insufficient_balance",
@@ -159,7 +162,8 @@
         "ok": false,
         "error": "INSUFFICIENT_BALANCE",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_create_escrow_zero_amount",
@@ -192,7 +196,8 @@
         "ok": false,
         "error": "INVALID_AMOUNT",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_create_escrow_self_provider",
@@ -235,7 +240,8 @@
         "ok": false,
         "error": "SELF_ESCROW_NOT_ALLOWED",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_create_escrow_invalid_timeout",
@@ -256,7 +262,8 @@
         "ok": false,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_create_escrow_challenge_window_validation",
@@ -277,7 +284,8 @@
         "ok": false,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_create_escrow_challenge_deposit_bps",
@@ -298,7 +306,8 @@
         "ok": false,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_create_escrow_custom_asset",
@@ -331,7 +340,8 @@
         "ok": true,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_create_escrow_duplicate_task_id",
@@ -352,7 +362,8 @@
         "ok": false,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_create_escrow_escrow_id_derivation",
@@ -373,7 +384,8 @@
         "ok": false,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_create_escrow_payload_structure",
@@ -394,7 +406,8 @@
         "ok": false,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_create_escrow_state_machine",
@@ -415,7 +428,8 @@
         "ok": false,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     }
   ]
 }

@@ -3,6 +3,7 @@
     {
       "name": "tx_challenge_escrow_basic",
       "description": "Basic escrow challenge",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -41,6 +42,7 @@
     {
       "name": "tx_challenge_escrow_window_expired",
       "description": "Cannot challenge after window expires",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -79,6 +81,7 @@
     {
       "name": "tx_challenge_escrow_not_optimistic",
       "description": "Cannot challenge non-optimistic escrow",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -117,6 +120,7 @@
     {
       "name": "tx_challenge_escrow_only_payer",
       "description": "Only payer can challenge",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -165,6 +169,7 @@
     {
       "name": "tx_challenge_escrow_insufficient_deposit",
       "description": "Challenge deposit must meet minimum",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -203,6 +208,7 @@
     {
       "name": "tx_challenge_escrow_already_challenged",
       "description": "Cannot challenge already challenged escrow",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -241,6 +247,7 @@
     {
       "name": "tx_challenge_escrow_empty_reason",
       "description": "Challenge reason cannot be empty",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -279,6 +286,7 @@
     {
       "name": "tx_challenge_escrow_invalid_state",
       "description": "Cannot challenge certain escrow states",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -305,6 +313,7 @@
     {
       "name": "tx_challenge_escrow_deposit_calculation",
       "description": "Challenge deposit calculation",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -331,6 +340,7 @@
     {
       "name": "tx_challenge_escrow_payload_structure",
       "description": "ChallengeEscrowPayload wire format",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {

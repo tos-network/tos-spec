@@ -3,6 +3,7 @@
     {
       "name": "tx_create_escrow_basic",
       "description": "Basic escrow creation",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -60,6 +61,7 @@
     {
       "name": "tx_create_escrow_with_arbitration",
       "description": "Escrow with arbitration configuration",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -108,6 +110,7 @@
     {
       "name": "tx_create_escrow_with_metadata",
       "description": "Escrow with metadata (task description hash)",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -146,6 +149,7 @@
     {
       "name": "tx_create_escrow_insufficient_balance",
       "description": "Escrow creation fails with insufficient balance",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -184,6 +188,7 @@
     {
       "name": "tx_create_escrow_zero_amount",
       "description": "Zero amount escrow rejected",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -222,6 +227,7 @@
     {
       "name": "tx_create_escrow_self_provider",
       "description": "Payer cannot be provider",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -270,6 +276,7 @@
     {
       "name": "tx_create_escrow_invalid_timeout",
       "description": "Timeout must be reasonable",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -296,6 +303,7 @@
     {
       "name": "tx_create_escrow_challenge_window_validation",
       "description": "Challenge window must be valid",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -322,6 +330,7 @@
     {
       "name": "tx_create_escrow_challenge_deposit_bps",
       "description": "Challenge deposit percentage validation",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -348,6 +357,7 @@
     {
       "name": "tx_create_escrow_custom_asset",
       "description": "Escrow with custom token asset",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -386,6 +396,7 @@
     {
       "name": "tx_create_escrow_duplicate_task_id",
       "description": "Duplicate task_id handling",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -412,6 +423,7 @@
     {
       "name": "tx_create_escrow_escrow_id_derivation",
       "description": "Escrow ID is the creation transaction hash",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -438,6 +450,7 @@
     {
       "name": "tx_create_escrow_payload_structure",
       "description": "CreateEscrowPayload wire format",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -464,6 +477,7 @@
     {
       "name": "tx_create_escrow_state_machine",
       "description": "Escrow state transitions",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {

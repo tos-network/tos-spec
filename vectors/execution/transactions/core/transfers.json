@@ -3,6 +3,7 @@
     {
       "name": "transfer_success",
       "description": "transfer_success",
+      "runnable": true,
       "pre_state": {
         "accounts": [
           {
@@ -96,6 +97,7 @@
     {
       "name": "nonce_too_high",
       "description": "nonce_too_high",
+      "runnable": true,
       "pre_state": {
         "accounts": [
           {
@@ -189,6 +191,7 @@
     {
       "name": "insufficient_balance_execution_failure",
       "description": "insufficient_balance_execution_failure",
+      "runnable": true,
       "pre_state": {
         "accounts": [
           {
@@ -282,6 +285,7 @@
     {
       "name": "invalid_fee",
       "description": "invalid_fee",
+      "runnable": true,
       "pre_state": {
         "accounts": [
           {
@@ -346,6 +350,7 @@
     {
       "name": "invalid_chain_id",
       "description": "invalid_chain_id",
+      "runnable": true,
       "pre_state": {
         "accounts": [
           {
@@ -410,6 +415,7 @@
     {
       "name": "invalid_signature",
       "description": "invalid_signature",
+      "runnable": true,
       "pre_state": {
         "accounts": [
           {

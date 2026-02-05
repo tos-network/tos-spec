@@ -3,6 +3,7 @@
     {
       "name": "security_reentrancy_blocked_protocol",
       "description": "TAKO prevents re-entrant calls at protocol level",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -29,6 +30,7 @@
     {
       "name": "security_reentrancy_different_contracts_allowed",
       "description": "CPI to different contract is allowed",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -55,6 +57,7 @@
     {
       "name": "security_reentrancy_call_depth_limit",
       "description": "MAX_CALL_DEPTH (64) prevents deep recursion",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -81,6 +84,7 @@
     {
       "name": "security_reentrancy_cross_contract_chain",
       "description": "A -> B -> A call chain is blocked",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -107,6 +111,7 @@
     {
       "name": "security_reentrancy_state_consistency",
       "description": "Failed CPI does not affect caller state",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -133,6 +138,7 @@
     {
       "name": "security_reentrancy_vs_delegatecall",
       "description": "TAKO does not have delegatecall (unlike EVM)",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {

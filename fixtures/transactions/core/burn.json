@@ -41,7 +41,8 @@
         "ok": true,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_burn_token",
@@ -74,7 +75,8 @@
         "ok": true,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_burn_zero_amount",
@@ -107,7 +109,8 @@
         "ok": false,
         "error": "INVALID_AMOUNT",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_burn_insufficient_balance",
@@ -140,7 +143,8 @@
         "ok": false,
         "error": "INSUFFICIENT_BALANCE",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_burn_full_balance",
@@ -173,7 +177,8 @@
         "ok": true,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_burn_unknown_asset",
@@ -206,7 +211,8 @@
         "ok": false,
         "error": "ASSET_NOT_FOUND",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_burn_payload_structure",
@@ -227,7 +233,8 @@
         "ok": false,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_burn_use_cases",
@@ -248,7 +255,8 @@
         "ok": false,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_burn_gas_cost",
@@ -269,7 +277,8 @@
         "ok": false,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     }
   ]
 }

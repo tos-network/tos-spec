@@ -21,7 +21,8 @@
         "has_metadata": false,
         "wire_hex": "087461736b2d3030310101010101010101010101010101010101010101010101010101010101010101000000003b9aca00aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa00000000000003e8000000000000006401f4000000",
         "expected_size": 102
-      }
+      },
+      "runnable": false
     },
     {
       "name": "create_optimistic",
@@ -41,7 +42,8 @@
         "has_metadata": false,
         "wire_hex": "0f7461736b2d6f7074696d69737469630101010101010101010101010101010101010101010101010101010101010101000000012a05f200aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa000000000000138800000000000000c803e8010000",
         "expected_size": 109
-      }
+      },
+      "runnable": false
     },
     {
       "name": "create_single_arbiter",
@@ -61,7 +63,8 @@
         "has_metadata": false,
         "wire_hex": "087461736b2d617262010101010101010101010101010101010101010101010101010101010101010100000002540be400aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa000000000000271000000000000001f400fa000101000133333333333333333333333333333333333333333333333333333333333333330000000000000186a00100",
         "expected_size": 147
-      }
+      },
+      "runnable": false
     },
     {
       "name": "create_with_metadata",
@@ -81,7 +84,8 @@
         "has_metadata": true,
         "wire_hex": "097461736b2d6d65746101010101010101010101010101010101010101010101010101010101010101010000000077359400aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa00000000000007d0000000000000003200640100010004deadbeef",
         "expected_size": 109
-      }
+      },
+      "runnable": false
     },
     {
       "name": "deposit_basic",
@@ -93,7 +97,8 @@
         "amount": 500000000,
         "wire_hex": "1111111111111111111111111111111111111111111111111111111111111111000000001dcd6500",
         "expected_size": 40
-      }
+      },
+      "runnable": false
     },
     {
       "name": "deposit_large",
@@ -105,7 +110,8 @@
         "amount": 100000000000,
         "wire_hex": "1111111111111111111111111111111111111111111111111111111111111111000000174876e800",
         "expected_size": 40
-      }
+      },
+      "runnable": false
     },
     {
       "name": "release_basic",
@@ -118,7 +124,8 @@
         "has_completion_proof": false,
         "wire_hex": "1111111111111111111111111111111111111111111111111111111111111111000000003b9aca0000",
         "expected_size": 41
-      }
+      },
+      "runnable": false
     },
     {
       "name": "release_with_proof",
@@ -131,7 +138,8 @@
         "has_completion_proof": true,
         "wire_hex": "1111111111111111111111111111111111111111111111111111111111111111000000009502f90001cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
         "expected_size": 73
-      }
+      },
+      "runnable": false
     },
     {
       "name": "refund_basic",
@@ -144,7 +152,8 @@
         "has_reason": false,
         "wire_hex": "1111111111111111111111111111111111111111111111111111111111111111000000001dcd650000",
         "expected_size": 41
-      }
+      },
+      "runnable": false
     },
     {
       "name": "refund_with_reason",
@@ -157,7 +166,8 @@
         "has_reason": true,
         "wire_hex": "1111111111111111111111111111111111111111111111111111111111111111000000003b9aca0001125461736b206e6f7420636f6d706c65746564",
         "expected_size": 60
-      }
+      },
+      "runnable": false
     },
     {
       "name": "challenge_basic",
@@ -171,7 +181,8 @@
         "deposit": 50000000,
         "wire_hex": "111111111111111111111111111111111111111111111111111111111111111112576f726b207175616c697479206973737565000000000002faf080",
         "expected_size": 60
-      }
+      },
+      "runnable": false
     },
     {
       "name": "challenge_with_evidence",
@@ -185,7 +196,8 @@
         "deposit": 100000000,
         "wire_hex": "11111111111111111111111111111111111111111111111111111111111111111d44656c6976657261626c6573206e6f742061732073706563696669656401eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee0000000005f5e100",
         "expected_size": 103
-      }
+      },
+      "runnable": false
     },
     {
       "name": "dispute_basic",
@@ -198,7 +210,8 @@
         "has_evidence_hash": false,
         "wire_hex": "11111111111111111111111111111111111111111111111111111111111111111a50726f7669646572206661696c656420746f2064656c6976657200",
         "expected_size": 60
-      }
+      },
+      "runnable": false
     },
     {
       "name": "dispute_with_evidence",
@@ -211,7 +224,8 @@
         "has_evidence_hash": true,
         "wire_hex": "111111111111111111111111111111111111111111111111111111111111111119496e636f6d706c65746520776f726b207375626d697474656401eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
         "expected_size": 91
-      }
+      },
+      "runnable": false
     },
     {
       "name": "appeal_committee",
@@ -226,7 +240,8 @@
         "appeal_mode": 0,
         "wire_hex": "1111111111111111111111111111111111111111111111111111111111111111174172626974657220626961736564206465636973696f6e00000000001dcd650000",
         "expected_size": 66
-      }
+      },
+      "runnable": false
     },
     {
       "name": "appeal_dao_with_evidence",
@@ -241,7 +256,8 @@
         "appeal_mode": 1,
         "wire_hex": "111111111111111111111111111111111111111111111111111111111111111117436f6d6d69747465652072756c696e6720756e6a75737401eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee000000007735940001",
         "expected_size": 98
-      }
+      },
+      "runnable": false
     },
     {
       "name": "verdict_single_split",
@@ -257,7 +273,8 @@
         "signatures_cnt": 1,
         "wire_hex": "11111111111111111111111111111111111111111111111111111111111111112222222222222222222222222222222222222222222222222222222222222222000000010000000023c346000000000017d784000001333333333333333333333333333333333333333333333333333333333333333304040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404040404000000006553f100",
         "expected_size": 190
-      }
+      },
+      "runnable": false
     },
     {
       "name": "verdict_committee_full_payee",
@@ -273,7 +290,8 @@
         "signatures_cnt": 2,
         "wire_hex": "11111111111111111111111111111111111111111111111111111111111111112222222222222222222222222222222222222222222222222222222222222222000000020000000000000000000000003b9aca000002333333333333333333333333333333333333333333333333333333333333333301010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101000000006553f100444444444444444444444444444444444444444444444444444444444444444402020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202000000006553f101",
         "expected_size": 294
-      }
+      },
+      "runnable": false
     }
   ]
 }

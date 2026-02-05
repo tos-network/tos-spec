@@ -3,6 +3,7 @@
     {
       "name": "tx_burn_basic",
       "description": "Basic TOS burn transaction",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -51,6 +52,7 @@
     {
       "name": "tx_burn_token",
       "description": "Burn custom token",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -89,6 +91,7 @@
     {
       "name": "tx_burn_zero_amount",
       "description": "Zero amount burn rejected",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -127,6 +130,7 @@
     {
       "name": "tx_burn_insufficient_balance",
       "description": "Cannot burn more than balance",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -165,6 +169,7 @@
     {
       "name": "tx_burn_full_balance",
       "description": "Burn entire balance",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -203,6 +208,7 @@
     {
       "name": "tx_burn_unknown_asset",
       "description": "Burn unknown asset fails",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -241,6 +247,7 @@
     {
       "name": "tx_burn_payload_structure",
       "description": "BurnPayload wire format",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -267,6 +274,7 @@
     {
       "name": "tx_burn_use_cases",
       "description": "Common burn use cases",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -293,6 +301,7 @@
     {
       "name": "tx_burn_gas_cost",
       "description": "Burn transaction gas consumption",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {

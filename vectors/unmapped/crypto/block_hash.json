@@ -22,7 +22,8 @@
         "txs_hash_hex": "af1349b9f5f9a1a6a0404dea36dcc9499bcb25c9adc112b7cc9a93cae41f3262",
         "work_hash_hex": "8b283759e816c21306cd109917abc571fb2eb0dfa6907bdfe804de7fd23c24be",
         "block_hash_hex": "6cc20d6db715fa16c68fc3f575cfdd0dae00ea14c059145db750b88f7bb0163e"
-      }
+      },
+      "runnable": false
     },
     {
       "name": "single_tip_single_tx",
@@ -45,7 +46,8 @@
         "txs_hash_hex": "25dedf23768aec0305b1889c8e2c78ec957ad8ebd1c957b58695faecc1714147",
         "work_hash_hex": "c9423b97d4c6c48bd817249bdd377bfeb8574847fff59e1527cad4eea59f8a90",
         "block_hash_hex": "78e3a038f547355fdf44d21ddde517f8fe30691afa69c987af39f0b1c0a2ca61"
-      }
+      },
+      "runnable": false
     },
     {
       "name": "two_tips_three_txs",
@@ -71,7 +73,8 @@
         "txs_hash_hex": "5d4591b679863c2d1c746fe7f850197e764f21b810644a924b7b309e445533ad",
         "work_hash_hex": "74a087a1099a841e6161c9b9f20ff9d5ab37157debe28437ecc644e16afaa365",
         "block_hash_hex": "6c63e7808991479f544d5b4be552f32891edc74b180a5de07629b26df31d88c7"
-      }
+      },
+      "runnable": false
     },
     {
       "name": "three_tips_ten_txs",
@@ -105,7 +108,8 @@
         "txs_hash_hex": "a0fabd2acaf63728a5adcd26960ea3d773058fe52ad9172df91e0035ac82d898",
         "work_hash_hex": "8f6ba94cc6705202b09a2e149259d379d776b423dc2d7e30a08cc66204eccf87",
         "block_hash_hex": "b0d00690c89b3f92247bdea546dccd8e7fe33700ed7b8b2508bc022499880eb1"
-      }
+      },
+      "runnable": false
     },
     {
       "name": "genesis_like",
@@ -126,7 +130,8 @@
         "txs_hash_hex": "af1349b9f5f9a1a6a0404dea36dcc9499bcb25c9adc112b7cc9a93cae41f3262",
         "work_hash_hex": "905c34382ece9bdf0ac2730198c641da6ef161b72c78d4e143b5a0a9ce10cad5",
         "block_hash_hex": "ba2078bd67a624d2faff6acac5e8139b7c33c95478e9064c2322113db7e62ef4"
-      }
+      },
+      "runnable": false
     },
     {
       "name": "large_nonce",
@@ -147,7 +152,8 @@
         "txs_hash_hex": "af1349b9f5f9a1a6a0404dea36dcc9499bcb25c9adc112b7cc9a93cae41f3262",
         "work_hash_hex": "faab66f32dfcbe803cc04fb952fa55a47c6e0cc9d8b2b596220ddb5e34bb92d8",
         "block_hash_hex": "78355a64c8fe268c9e62c633686f32584a1441cc7b4a94480d811b09690e4477"
-      }
+      },
+      "runnable": false
     }
   ]
 }

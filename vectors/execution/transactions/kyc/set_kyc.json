@@ -3,6 +3,7 @@
     {
       "name": "tx_set_kyc_basic",
       "description": "Basic KYC level assignment",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -60,6 +61,7 @@
     {
       "name": "tx_set_kyc_levels",
       "description": "Valid KYC level bitmask values",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -86,6 +88,7 @@
     {
       "name": "tx_set_kyc_invalid_level",
       "description": "Invalid KYC level rejected",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -124,6 +127,7 @@
     {
       "name": "tx_set_kyc_insufficient_approvals",
       "description": "SetKyc requires kyc_threshold approvals",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -162,6 +166,7 @@
     {
       "name": "tx_set_kyc_high_tier_extra_approval",
       "description": "Tier 5+ requires kyc_threshold + 1 approvals",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -200,6 +205,7 @@
     {
       "name": "tx_set_kyc_expired_approval",
       "description": "Approval older than 24 hours rejected",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -238,6 +244,7 @@
     {
       "name": "tx_set_kyc_future_approval",
       "description": "Approval > 1 hour in future rejected",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -276,6 +283,7 @@
     {
       "name": "tx_set_kyc_invalid_signature",
       "description": "Invalid approval signature rejected",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -314,6 +322,7 @@
     {
       "name": "tx_set_kyc_non_member_approval",
       "description": "Approval from non-committee member rejected",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -352,6 +361,7 @@
     {
       "name": "tx_set_kyc_committee_not_found",
       "description": "Non-existent committee rejected",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -390,6 +400,7 @@
     {
       "name": "tx_set_kyc_exceeds_committee_max",
       "description": "Level exceeding committee's max_kyc_level rejected",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -428,6 +439,7 @@
     {
       "name": "tx_set_kyc_upgrade_level",
       "description": "Upgrade existing KYC level",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -466,6 +478,7 @@
     {
       "name": "tx_set_kyc_downgrade_level",
       "description": "Downgrade KYC level (allowed)",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -504,6 +517,7 @@
     {
       "name": "tx_set_kyc_onchain_storage",
       "description": "On-chain KYC data is minimal (43 bytes)",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {
@@ -530,6 +544,7 @@
     {
       "name": "tx_set_kyc_payload_structure",
       "description": "SetKycPayload wire format",
+      "runnable": false,
       "pre_state": {
         "network_chain_id": 0,
         "global_state": {

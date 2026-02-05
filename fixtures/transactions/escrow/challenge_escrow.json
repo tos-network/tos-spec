@@ -31,7 +31,8 @@
         "ok": true,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_challenge_escrow_window_expired",
@@ -64,7 +65,8 @@
         "ok": false,
         "error": "CHALLENGE_WINDOW_EXPIRED",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_challenge_escrow_not_optimistic",
@@ -97,7 +99,8 @@
         "ok": false,
         "error": "ESCROW_NOT_OPTIMISTIC",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_challenge_escrow_only_payer",
@@ -140,7 +143,8 @@
         "ok": false,
         "error": "UNAUTHORIZED_CHALLENGE",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_challenge_escrow_insufficient_deposit",
@@ -173,7 +177,8 @@
         "ok": false,
         "error": "INSUFFICIENT_CHALLENGE_DEPOSIT",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_challenge_escrow_already_challenged",
@@ -206,7 +211,8 @@
         "ok": false,
         "error": "ESCROW_ALREADY_CHALLENGED",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_challenge_escrow_empty_reason",
@@ -239,7 +245,8 @@
         "ok": false,
         "error": "EMPTY_REASON",
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_challenge_escrow_invalid_state",
@@ -260,7 +267,8 @@
         "ok": false,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_challenge_escrow_deposit_calculation",
@@ -281,7 +289,8 @@
         "ok": false,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     },
     {
       "name": "tx_challenge_escrow_payload_structure",
@@ -302,7 +311,8 @@
         "ok": false,
         "error": null,
         "post_state": null
-      }
+      },
+      "runnable": false
     }
   ]
 }
