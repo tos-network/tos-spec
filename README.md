@@ -208,6 +208,9 @@ Generate fixtures (pytest → fixtures):
 PYTHONPATH=~/tos-spec/src:~/tos-spec .venv/bin/python -m pytest -q --output ~/tos-spec/fixtures
 ```
 
+Pytest can emit multiple fixture files (e.g., `tx_core.json`, `transactions/core/burn.json`)
+depending on which test modules are enabled.
+
 Convert fixtures → vectors:
 ```
 PYTHONPATH=~/tos-spec/src:~/tos-spec .venv/bin/python tools/fixtures_to_vectors.py

@@ -88,6 +88,11 @@ def tx_to_json(tx: Transaction) -> dict[str, Any]:
         ]
     elif tx.tx_type == TransactionType.BURN:
         payload = tx.payload
+        if isinstance(payload, dict):
+            payload = dict(payload)
+            asset = payload.get("asset")
+            if isinstance(asset, (bytes, bytearray)):
+                payload["asset"] = _bytes_to_hex(bytes(asset))
     elif tx.tx_type == TransactionType.ENERGY:
         if tx.payload is None:
             payload = None

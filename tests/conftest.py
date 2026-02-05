@@ -12,7 +12,7 @@ from tos_spec.state_transition import apply_tx
 from tos_spec.types import ChainState, Transaction
 from tools.fixtures_io import state_to_json, tx_to_json
 
-_STATE_CASES: list[dict[str, Any]] = []
+_STATE_CASES: dict[str, list[dict[str, Any]]] = {}
 _WIRE_VECTORS: list[dict[str, Any]] = []
 
 
@@ -31,7 +31,7 @@ def state_test() -> Callable[[str, ChainState, Transaction], None]:
 
     def _state_test(name: str, pre_state: ChainState, tx: Transaction) -> None:
         post_state, result = apply_tx(pre_state, tx)
-        _STATE_CASES.append(
+        _STATE_CASES.setdefault("tx_core.json", []).append(
             {
                 "name": name,
                 "pre_state": state_to_json(pre_state),
@@ -45,6 +45,30 @@ def state_test() -> Callable[[str, ChainState, Transaction], None]:
         )
 
     return _state_test
+
+
+@pytest.fixture
+def state_test_group() -> Callable[[str, str, ChainState, Transaction], None]:
+    """Collect a state transition case under a specific fixture path."""
+
+    def _state_test_group(
+        rel_path: str, name: str, pre_state: ChainState, tx: Transaction
+    ) -> None:
+        post_state, result = apply_tx(pre_state, tx)
+        _STATE_CASES.setdefault(rel_path, []).append(
+            {
+                "name": name,
+                "pre_state": state_to_json(pre_state),
+                "tx": tx_to_json(tx),
+                "expected": {
+                    "ok": result.ok,
+                    "error": result.error.code.name if result.error else None,
+                    "post_state": state_to_json(post_state),
+                },
+            }
+        )
+
+    return _state_test_group
 
 
 @pytest.fixture
@@ -67,8 +91,12 @@ def pytest_sessionfinish(session: pytest.Session, exitstatus: int) -> None:
     out = Path(output_dir)
     out.mkdir(parents=True, exist_ok=True)
 
-    if _STATE_CASES:
-        (out / "tx_core.json").write_text(json.dumps({"cases": _STATE_CASES}, indent=2))
+    for rel_path, cases in _STATE_CASES.items():
+        if not cases:
+            continue
+        target = out / rel_path
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_text(json.dumps({"cases": cases}, indent=2))
 
     if _WIRE_VECTORS:
         (out / "wire_format.json").write_text(
