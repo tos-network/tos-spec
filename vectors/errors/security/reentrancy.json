@@ -1,0 +1,160 @@
+{
+  "test_vectors": [
+    {
+      "name": "security_reentrancy_blocked_protocol",
+      "description": "TAKO prevents re-entrant calls at protocol level",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "input": {
+        "kind": "tx",
+        "wire_hex": "",
+        "tx": null
+      },
+      "expected": {
+        "success": false,
+        "error_code": 65535,
+        "state_digest": "",
+        "post_state": null
+      }
+    },
+    {
+      "name": "security_reentrancy_different_contracts_allowed",
+      "description": "CPI to different contract is allowed",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "input": {
+        "kind": "tx",
+        "wire_hex": "",
+        "tx": null
+      },
+      "expected": {
+        "success": true,
+        "error_code": 0,
+        "state_digest": "",
+        "post_state": null
+      }
+    },
+    {
+      "name": "security_reentrancy_call_depth_limit",
+      "description": "MAX_CALL_DEPTH (64) prevents deep recursion",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "input": {
+        "kind": "tx",
+        "wire_hex": "",
+        "tx": null
+      },
+      "expected": {
+        "success": false,
+        "error_code": 65535,
+        "state_digest": "",
+        "post_state": null
+      }
+    },
+    {
+      "name": "security_reentrancy_cross_contract_chain",
+      "description": "A -> B -> A call chain is blocked",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "input": {
+        "kind": "tx",
+        "wire_hex": "",
+        "tx": null
+      },
+      "expected": {
+        "success": false,
+        "error_code": 65535,
+        "state_digest": "",
+        "post_state": null
+      }
+    },
+    {
+      "name": "security_reentrancy_state_consistency",
+      "description": "Failed CPI does not affect caller state",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "input": {
+        "kind": "tx",
+        "wire_hex": "",
+        "tx": null
+      },
+      "expected": {
+        "success": false,
+        "error_code": 65535,
+        "state_digest": "",
+        "post_state": null
+      }
+    },
+    {
+      "name": "security_reentrancy_vs_delegatecall",
+      "description": "TAKO does not have delegatecall (unlike EVM)",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "input": {
+        "kind": "tx",
+        "wire_hex": "",
+        "tx": null
+      },
+      "expected": {
+        "success": false,
+        "error_code": 65535,
+        "state_digest": "",
+        "post_state": null
+      }
+    }
+  ]
+}

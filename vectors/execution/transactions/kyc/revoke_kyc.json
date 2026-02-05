@@ -1,0 +1,389 @@
+{
+  "test_vectors": [
+    {
+      "name": "tx_revoke_kyc_basic",
+      "description": "Basic KYC revocation",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "76cab2b4b2ecab4d9b7e9bd199e550e05a1bdde9882e317772d064e238302259",
+            "balance": 0,
+            "nonce": 0,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          },
+          {
+            "address": "512d924310024905be5e539ccdca7d4e7d19409d17f98da038cbda03d9de3392",
+            "balance": 100000000,
+            "nonce": 0,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
+      },
+      "input": {
+        "kind": "tx",
+        "wire_hex": "",
+        "tx": {
+          "version": 1,
+          "chain_id": 0,
+          "source": "76cab2b4b2ecab4d9b7e9bd199e550e05a1bdde9882e317772d064e238302259",
+          "tx_type": "revokekyc",
+          "payload": [],
+          "fee": 30000,
+          "fee_type": 0,
+          "nonce": 0,
+          "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+          "reference_topoheight": 0,
+          "signature": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+        }
+      },
+      "expected": {
+        "success": true,
+        "error_code": 0,
+        "state_digest": "",
+        "post_state": null
+      }
+    },
+    {
+      "name": "tx_revoke_kyc_insufficient_approvals",
+      "description": "Revocation requires kyc_threshold approvals",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "input": {
+        "kind": "tx",
+        "wire_hex": "",
+        "tx": {
+          "version": 1,
+          "chain_id": 0,
+          "source": "7d1aa223722b2aaa89b92fc6b2ef0baa709c01eab9f8494b1de5c335f2750707",
+          "tx_type": "revokekyc",
+          "payload": [],
+          "fee": 0,
+          "fee_type": 0,
+          "nonce": 0,
+          "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+          "reference_topoheight": 0,
+          "signature": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+        }
+      },
+      "expected": {
+        "success": false,
+        "error_code": 65535,
+        "state_digest": "",
+        "post_state": null
+      }
+    },
+    {
+      "name": "tx_revoke_kyc_invalid_committee",
+      "description": "Cannot revoke with wrong committee",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "input": {
+        "kind": "tx",
+        "wire_hex": "",
+        "tx": {
+          "version": 1,
+          "chain_id": 0,
+          "source": "7d1aa223722b2aaa89b92fc6b2ef0baa709c01eab9f8494b1de5c335f2750707",
+          "tx_type": "revokekyc",
+          "payload": [],
+          "fee": 0,
+          "fee_type": 0,
+          "nonce": 0,
+          "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+          "reference_topoheight": 0,
+          "signature": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+        }
+      },
+      "expected": {
+        "success": false,
+        "error_code": 65535,
+        "state_digest": "",
+        "post_state": null
+      }
+    },
+    {
+      "name": "tx_revoke_kyc_not_verified",
+      "description": "Cannot revoke unverified account",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "input": {
+        "kind": "tx",
+        "wire_hex": "",
+        "tx": {
+          "version": 1,
+          "chain_id": 0,
+          "source": "7d1aa223722b2aaa89b92fc6b2ef0baa709c01eab9f8494b1de5c335f2750707",
+          "tx_type": "revokekyc",
+          "payload": [],
+          "fee": 0,
+          "fee_type": 0,
+          "nonce": 0,
+          "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+          "reference_topoheight": 0,
+          "signature": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+        }
+      },
+      "expected": {
+        "success": false,
+        "error_code": 65535,
+        "state_digest": "",
+        "post_state": null
+      }
+    },
+    {
+      "name": "tx_revoke_kyc_invalid_signature",
+      "description": "Invalid committee member signature rejected",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "input": {
+        "kind": "tx",
+        "wire_hex": "",
+        "tx": {
+          "version": 1,
+          "chain_id": 0,
+          "source": "7d1aa223722b2aaa89b92fc6b2ef0baa709c01eab9f8494b1de5c335f2750707",
+          "tx_type": "revokekyc",
+          "payload": [],
+          "fee": 0,
+          "fee_type": 0,
+          "nonce": 0,
+          "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+          "reference_topoheight": 0,
+          "signature": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+        }
+      },
+      "expected": {
+        "success": false,
+        "error_code": 259,
+        "state_digest": "",
+        "post_state": null
+      }
+    },
+    {
+      "name": "tx_revoke_kyc_non_member_approval",
+      "description": "Non-committee member cannot approve revocation",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "a53f5955556aefa5da1f3fdcdd840da2a091e697926ade9dcd8a7f42383366f5",
+            "balance": 0,
+            "nonce": 0,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
+      },
+      "input": {
+        "kind": "tx",
+        "wire_hex": "",
+        "tx": {
+          "version": 1,
+          "chain_id": 0,
+          "source": "a53f5955556aefa5da1f3fdcdd840da2a091e697926ade9dcd8a7f42383366f5",
+          "tx_type": "revokekyc",
+          "payload": [],
+          "fee": 0,
+          "fee_type": 0,
+          "nonce": 0,
+          "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+          "reference_topoheight": 0,
+          "signature": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+        }
+      },
+      "expected": {
+        "success": false,
+        "error_code": 65535,
+        "state_digest": "",
+        "post_state": null
+      }
+    },
+    {
+      "name": "tx_revoke_kyc_duplicate_approvals",
+      "description": "Duplicate member approvals rejected",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "input": {
+        "kind": "tx",
+        "wire_hex": "",
+        "tx": {
+          "version": 1,
+          "chain_id": 0,
+          "source": "7d1aa223722b2aaa89b92fc6b2ef0baa709c01eab9f8494b1de5c335f2750707",
+          "tx_type": "revokekyc",
+          "payload": [],
+          "fee": 0,
+          "fee_type": 0,
+          "nonce": 0,
+          "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+          "reference_topoheight": 0,
+          "signature": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+        }
+      },
+      "expected": {
+        "success": false,
+        "error_code": 65535,
+        "state_digest": "",
+        "post_state": null
+      }
+    },
+    {
+      "name": "tx_revoke_kyc_expired_timestamp",
+      "description": "Expired approval timestamp rejected",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "input": {
+        "kind": "tx",
+        "wire_hex": "",
+        "tx": {
+          "version": 1,
+          "chain_id": 0,
+          "source": "7d1aa223722b2aaa89b92fc6b2ef0baa709c01eab9f8494b1de5c335f2750707",
+          "tx_type": "revokekyc",
+          "payload": [],
+          "fee": 0,
+          "fee_type": 0,
+          "nonce": 0,
+          "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+          "reference_topoheight": 0,
+          "signature": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+        }
+      },
+      "expected": {
+        "success": false,
+        "error_code": 65535,
+        "state_digest": "",
+        "post_state": null
+      }
+    },
+    {
+      "name": "tx_revoke_kyc_payload_structure",
+      "description": "RevokeKycPayload wire format",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "input": {
+        "kind": "tx",
+        "wire_hex": "",
+        "tx": null
+      },
+      "expected": {
+        "success": false,
+        "error_code": 0,
+        "state_digest": "",
+        "post_state": null
+      }
+    },
+    {
+      "name": "tx_revoke_kyc_gas_cost",
+      "description": "RevokeKyc gas consumption",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "input": {
+        "kind": "tx",
+        "wire_hex": "",
+        "tx": null
+      },
+      "expected": {
+        "success": false,
+        "error_code": 0,
+        "state_digest": "",
+        "post_state": null
+      }
+    }
+  ]
+}

@@ -1,0 +1,351 @@
+{
+  "cases": [
+    {
+      "name": "tx_appeal_escrow_basic",
+      "description": "Basic escrow appeal",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "1d1f9c29f70989a753631fdb571c1ba22e7e283b191652a8f8453201e72baaae",
+            "balance": 100000000,
+            "nonce": 0,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
+      },
+      "tx": {
+        "version": 1,
+        "chain_id": 0,
+        "source": "1d1f9c29f70989a753631fdb571c1ba22e7e283b191652a8f8453201e72baaae",
+        "tx_type": "appealescrow",
+        "payload": [],
+        "fee": 30000,
+        "fee_type": 0,
+        "nonce": 0,
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expected": {
+        "ok": true,
+        "error": null,
+        "post_state": null
+      }
+    },
+    {
+      "name": "tx_appeal_escrow_dao_governance",
+      "description": "Appeal to DAO governance for high-value disputes",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "tx": {
+        "version": 1,
+        "chain_id": 0,
+        "source": "7d1aa223722b2aaa89b92fc6b2ef0baa709c01eab9f8494b1de5c335f2750707",
+        "tx_type": "appealescrow",
+        "payload": [],
+        "fee": 0,
+        "fee_type": 0,
+        "nonce": 0,
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expected": {
+        "ok": true,
+        "error": null,
+        "post_state": null
+      }
+    },
+    {
+      "name": "tx_appeal_escrow_not_resolved",
+      "description": "Cannot appeal escrow that is not resolved",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "tx": {
+        "version": 1,
+        "chain_id": 0,
+        "source": "7d1aa223722b2aaa89b92fc6b2ef0baa709c01eab9f8494b1de5c335f2750707",
+        "tx_type": "appealescrow",
+        "payload": [],
+        "fee": 0,
+        "fee_type": 0,
+        "nonce": 0,
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expected": {
+        "ok": false,
+        "error": "ESCROW_NOT_RESOLVED",
+        "post_state": null
+      }
+    },
+    {
+      "name": "tx_appeal_escrow_not_party",
+      "description": "Only dispute parties can appeal",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "66c8169b03b37ac70157825d63acfbd13fd4110f37683acbf9519c68d262bb9c",
+            "balance": 0,
+            "nonce": 0,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
+      },
+      "tx": {
+        "version": 1,
+        "chain_id": 0,
+        "source": "66c8169b03b37ac70157825d63acfbd13fd4110f37683acbf9519c68d262bb9c",
+        "tx_type": "appealescrow",
+        "payload": [],
+        "fee": 0,
+        "fee_type": 0,
+        "nonce": 0,
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expected": {
+        "ok": false,
+        "error": "NOT_ESCROW_PARTY",
+        "post_state": null
+      }
+    },
+    {
+      "name": "tx_appeal_escrow_window_expired",
+      "description": "Appeal must be within appeal window",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "tx": {
+        "version": 1,
+        "chain_id": 0,
+        "source": "7d1aa223722b2aaa89b92fc6b2ef0baa709c01eab9f8494b1de5c335f2750707",
+        "tx_type": "appealescrow",
+        "payload": [],
+        "fee": 0,
+        "fee_type": 0,
+        "nonce": 0,
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expected": {
+        "ok": false,
+        "error": "APPEAL_WINDOW_EXPIRED",
+        "post_state": null
+      }
+    },
+    {
+      "name": "tx_appeal_escrow_insufficient_deposit",
+      "description": "Appeal deposit must meet minimum",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "tx": {
+        "version": 1,
+        "chain_id": 0,
+        "source": "7d1aa223722b2aaa89b92fc6b2ef0baa709c01eab9f8494b1de5c335f2750707",
+        "tx_type": "appealescrow",
+        "payload": [],
+        "fee": 0,
+        "fee_type": 0,
+        "nonce": 0,
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expected": {
+        "ok": false,
+        "error": "INSUFFICIENT_APPEAL_DEPOSIT",
+        "post_state": null
+      }
+    },
+    {
+      "name": "tx_appeal_escrow_max_rounds",
+      "description": "Cannot exceed maximum appeal rounds",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "tx": {
+        "version": 1,
+        "chain_id": 0,
+        "source": "7d1aa223722b2aaa89b92fc6b2ef0baa709c01eab9f8494b1de5c335f2750707",
+        "tx_type": "appealescrow",
+        "payload": [],
+        "fee": 0,
+        "fee_type": 0,
+        "nonce": 0,
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expected": {
+        "ok": false,
+        "error": "MAX_APPEALS_REACHED",
+        "post_state": null
+      }
+    },
+    {
+      "name": "tx_appeal_escrow_already_appealed",
+      "description": "Cannot appeal while appeal is pending",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "tx": {
+        "version": 1,
+        "chain_id": 0,
+        "source": "7d1aa223722b2aaa89b92fc6b2ef0baa709c01eab9f8494b1de5c335f2750707",
+        "tx_type": "appealescrow",
+        "payload": [],
+        "fee": 0,
+        "fee_type": 0,
+        "nonce": 0,
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expected": {
+        "ok": false,
+        "error": "APPEAL_ALREADY_PENDING",
+        "post_state": null
+      }
+    },
+    {
+      "name": "tx_appeal_escrow_appeal_modes",
+      "description": "Appeal mode enumeration",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "tx": null,
+      "expected": {
+        "ok": false,
+        "error": null,
+        "post_state": null
+      }
+    },
+    {
+      "name": "tx_appeal_escrow_payload_structure",
+      "description": "AppealEscrowPayload wire format",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "tx": null,
+      "expected": {
+        "ok": false,
+        "error": null,
+        "post_state": null
+      }
+    },
+    {
+      "name": "tx_appeal_escrow_gas_cost",
+      "description": "AppealEscrow gas consumption",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "tx": null,
+      "expected": {
+        "ok": false,
+        "error": null,
+        "post_state": null
+      }
+    }
+  ]
+}

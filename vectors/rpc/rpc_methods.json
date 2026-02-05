@@ -1,0 +1,460 @@
+{
+  "test_vectors": [
+    {
+      "name": "rpc_get_info",
+      "description": "Returns node information",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "input": {
+        "kind": "tx",
+        "wire_hex": "",
+        "tx": null
+      },
+      "expected": {
+        "success": true,
+        "error_code": 0,
+        "state_digest": "",
+        "post_state": null
+      }
+    },
+    {
+      "name": "rpc_get_height",
+      "description": "Returns current block height",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "input": {
+        "kind": "tx",
+        "wire_hex": "",
+        "tx": null
+      },
+      "expected": {
+        "success": true,
+        "error_code": 0,
+        "state_digest": "",
+        "post_state": null
+      }
+    },
+    {
+      "name": "rpc_get_topoheight",
+      "description": "Returns current topological height",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "input": {
+        "kind": "tx",
+        "wire_hex": "",
+        "tx": null
+      },
+      "expected": {
+        "success": true,
+        "error_code": 0,
+        "state_digest": "",
+        "post_state": null
+      }
+    },
+    {
+      "name": "rpc_get_balance",
+      "description": "Returns account balance",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "fbee751daa544b97be4df27c128af291eec253dc0a526458b46409aff465ebf5",
+            "balance": 1000000000,
+            "nonce": 0,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
+      },
+      "input": {
+        "kind": "tx",
+        "wire_hex": "",
+        "tx": null
+      },
+      "expected": {
+        "success": true,
+        "error_code": 0,
+        "state_digest": "",
+        "post_state": null
+      }
+    },
+    {
+      "name": "rpc_get_nonce",
+      "description": "Returns account nonce",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "fbee751daa544b97be4df27c128af291eec253dc0a526458b46409aff465ebf5",
+            "balance": 0,
+            "nonce": 42,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
+      },
+      "input": {
+        "kind": "tx",
+        "wire_hex": "",
+        "tx": null
+      },
+      "expected": {
+        "success": true,
+        "error_code": 0,
+        "state_digest": "",
+        "post_state": null
+      }
+    },
+    {
+      "name": "rpc_submit_transaction",
+      "description": "Submits signed transaction to mempool",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "input": {
+        "kind": "tx",
+        "wire_hex": "",
+        "tx": null
+      },
+      "expected": {
+        "success": true,
+        "error_code": 0,
+        "state_digest": "",
+        "post_state": null
+      }
+    },
+    {
+      "name": "rpc_get_transaction",
+      "description": "Returns transaction by hash",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "input": {
+        "kind": "tx",
+        "wire_hex": "",
+        "tx": null
+      },
+      "expected": {
+        "success": true,
+        "error_code": 0,
+        "state_digest": "",
+        "post_state": null
+      }
+    },
+    {
+      "name": "rpc_get_block_at_topoheight",
+      "description": "Returns block at specific topoheight",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "input": {
+        "kind": "tx",
+        "wire_hex": "",
+        "tx": null
+      },
+      "expected": {
+        "success": true,
+        "error_code": 0,
+        "state_digest": "",
+        "post_state": null
+      }
+    },
+    {
+      "name": "rpc_get_tips",
+      "description": "Returns current DAG tips",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "input": {
+        "kind": "tx",
+        "wire_hex": "",
+        "tx": null
+      },
+      "expected": {
+        "success": true,
+        "error_code": 0,
+        "state_digest": "",
+        "post_state": null
+      }
+    },
+    {
+      "name": "rpc_get_mempool",
+      "description": "Returns mempool transactions",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "input": {
+        "kind": "tx",
+        "wire_hex": "",
+        "tx": null
+      },
+      "expected": {
+        "success": true,
+        "error_code": 0,
+        "state_digest": "",
+        "post_state": null
+      }
+    },
+    {
+      "name": "rpc_validate_address",
+      "description": "Validates address format",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "input": {
+        "kind": "tx",
+        "wire_hex": "",
+        "tx": null
+      },
+      "expected": {
+        "success": true,
+        "error_code": 0,
+        "state_digest": "",
+        "post_state": null
+      }
+    },
+    {
+      "name": "rpc_get_dag_order",
+      "description": "Returns DAG order between topoheights",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "input": {
+        "kind": "tx",
+        "wire_hex": "",
+        "tx": null
+      },
+      "expected": {
+        "success": true,
+        "error_code": 0,
+        "state_digest": "",
+        "post_state": null
+      }
+    },
+    {
+      "name": "rpc_get_block_template",
+      "description": "Returns block template for mining",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "input": {
+        "kind": "tx",
+        "wire_hex": "",
+        "tx": null
+      },
+      "expected": {
+        "success": true,
+        "error_code": 0,
+        "state_digest": "",
+        "post_state": null
+      }
+    },
+    {
+      "name": "rpc_get_energy",
+      "description": "Returns account energy balance",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "8ac58b65bd79308ec52981a92cbb8d021a51369f96918ffbd8efc3dd2819f369",
+            "balance": 0,
+            "nonce": 0,
+            "frozen": 0,
+            "energy": 5000,
+            "flags": 0,
+            "data": ""
+          }
+        ]
+      },
+      "input": {
+        "kind": "tx",
+        "wire_hex": "",
+        "tx": null
+      },
+      "expected": {
+        "success": true,
+        "error_code": 0,
+        "state_digest": "",
+        "post_state": null
+      }
+    },
+    {
+      "name": "rpc_get_contract_data",
+      "description": "Returns contract storage data",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "f9972732ce8d2bd1d3573d8fd37f41297e33219b04e6ed609dc8d2ed98c526d3",
+            "balance": 0,
+            "nonce": 0,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
+      },
+      "input": {
+        "kind": "tx",
+        "wire_hex": "",
+        "tx": null
+      },
+      "expected": {
+        "success": true,
+        "error_code": 0,
+        "state_digest": "",
+        "post_state": null
+      }
+    },
+    {
+      "name": "rpc_resolve_name",
+      "description": "Resolves TNS name to address",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "input": {
+        "kind": "tx",
+        "wire_hex": "",
+        "tx": null
+      },
+      "expected": {
+        "success": true,
+        "error_code": 0,
+        "state_digest": "",
+        "post_state": null
+      }
+    }
+  ]
+}

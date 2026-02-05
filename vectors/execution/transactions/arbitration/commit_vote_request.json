@@ -1,0 +1,342 @@
+{
+  "test_vectors": [
+    {
+      "name": "tx_commit_vote_request_basic",
+      "description": "Basic vote request commitment",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "72e125c5aa5a9c7cba7099d129b91b47364778fc98f4dd4c5da10bb445065979",
+            "balance": 0,
+            "nonce": 0,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
+      },
+      "input": {
+        "kind": "tx",
+        "wire_hex": "",
+        "tx": {
+          "version": 1,
+          "chain_id": 0,
+          "source": "72e125c5aa5a9c7cba7099d129b91b47364778fc98f4dd4c5da10bb445065979",
+          "tx_type": "commitvoterequest",
+          "payload": [],
+          "fee": 20000,
+          "fee_type": 0,
+          "nonce": 0,
+          "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+          "reference_topoheight": 0,
+          "signature": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+        }
+      },
+      "expected": {
+        "success": true,
+        "error_code": 0,
+        "state_digest": "",
+        "post_state": null
+      }
+    },
+    {
+      "name": "tx_commit_vote_request_not_coordinator",
+      "description": "Only coordinator can commit vote request",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "66c8169b03b37ac70157825d63acfbd13fd4110f37683acbf9519c68d262bb9c",
+            "balance": 0,
+            "nonce": 0,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
+      },
+      "input": {
+        "kind": "tx",
+        "wire_hex": "",
+        "tx": {
+          "version": 1,
+          "chain_id": 0,
+          "source": "66c8169b03b37ac70157825d63acfbd13fd4110f37683acbf9519c68d262bb9c",
+          "tx_type": "commitvoterequest",
+          "payload": [],
+          "fee": 0,
+          "fee_type": 0,
+          "nonce": 0,
+          "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+          "reference_topoheight": 0,
+          "signature": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+        }
+      },
+      "expected": {
+        "success": false,
+        "error_code": 65535,
+        "state_digest": "",
+        "post_state": null
+      }
+    },
+    {
+      "name": "tx_commit_vote_request_wrong_state",
+      "description": "Arbitration must be in Open state",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "input": {
+        "kind": "tx",
+        "wire_hex": "",
+        "tx": {
+          "version": 1,
+          "chain_id": 0,
+          "source": "7d1aa223722b2aaa89b92fc6b2ef0baa709c01eab9f8494b1de5c335f2750707",
+          "tx_type": "commitvoterequest",
+          "payload": [],
+          "fee": 0,
+          "fee_type": 0,
+          "nonce": 0,
+          "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+          "reference_topoheight": 0,
+          "signature": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+        }
+      },
+      "expected": {
+        "success": false,
+        "error_code": 65535,
+        "state_digest": "",
+        "post_state": null
+      }
+    },
+    {
+      "name": "tx_commit_vote_request_invalid_signature",
+      "description": "Coordinator signature must be valid",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "input": {
+        "kind": "tx",
+        "wire_hex": "",
+        "tx": {
+          "version": 1,
+          "chain_id": 0,
+          "source": "7d1aa223722b2aaa89b92fc6b2ef0baa709c01eab9f8494b1de5c335f2750707",
+          "tx_type": "commitvoterequest",
+          "payload": [],
+          "fee": 0,
+          "fee_type": 0,
+          "nonce": 0,
+          "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+          "reference_topoheight": 0,
+          "signature": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+        }
+      },
+      "expected": {
+        "success": false,
+        "error_code": 65535,
+        "state_digest": "",
+        "post_state": null
+      }
+    },
+    {
+      "name": "tx_commit_vote_request_hash_mismatch",
+      "description": "Payload hash must match declared hash",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "input": {
+        "kind": "tx",
+        "wire_hex": "",
+        "tx": {
+          "version": 1,
+          "chain_id": 0,
+          "source": "7d1aa223722b2aaa89b92fc6b2ef0baa709c01eab9f8494b1de5c335f2750707",
+          "tx_type": "commitvoterequest",
+          "payload": [],
+          "fee": 0,
+          "fee_type": 0,
+          "nonce": 0,
+          "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+          "reference_topoheight": 0,
+          "signature": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+        }
+      },
+      "expected": {
+        "success": false,
+        "error_code": 65535,
+        "state_digest": "",
+        "post_state": null
+      }
+    },
+    {
+      "name": "tx_commit_vote_request_payload_too_large",
+      "description": "Payload size limit enforcement",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "input": {
+        "kind": "tx",
+        "wire_hex": "",
+        "tx": {
+          "version": 1,
+          "chain_id": 0,
+          "source": "7d1aa223722b2aaa89b92fc6b2ef0baa709c01eab9f8494b1de5c335f2750707",
+          "tx_type": "commitvoterequest",
+          "payload": [],
+          "fee": 0,
+          "fee_type": 0,
+          "nonce": 0,
+          "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+          "reference_topoheight": 0,
+          "signature": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+        }
+      },
+      "expected": {
+        "success": false,
+        "error_code": 65535,
+        "state_digest": "",
+        "post_state": null
+      }
+    },
+    {
+      "name": "tx_commit_vote_request_duplicate",
+      "description": "Cannot commit duplicate request ID",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "input": {
+        "kind": "tx",
+        "wire_hex": "",
+        "tx": {
+          "version": 1,
+          "chain_id": 0,
+          "source": "7d1aa223722b2aaa89b92fc6b2ef0baa709c01eab9f8494b1de5c335f2750707",
+          "tx_type": "commitvoterequest",
+          "payload": [],
+          "fee": 0,
+          "fee_type": 0,
+          "nonce": 0,
+          "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+          "reference_topoheight": 0,
+          "signature": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+        }
+      },
+      "expected": {
+        "success": false,
+        "error_code": 65535,
+        "state_digest": "",
+        "post_state": null
+      }
+    },
+    {
+      "name": "tx_commit_vote_request_payload_structure",
+      "description": "CommitVoteRequestPayload wire format",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "input": {
+        "kind": "tx",
+        "wire_hex": "",
+        "tx": null
+      },
+      "expected": {
+        "success": false,
+        "error_code": 0,
+        "state_digest": "",
+        "post_state": null
+      }
+    },
+    {
+      "name": "tx_commit_vote_request_gas_cost",
+      "description": "CommitVoteRequest gas consumption",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "input": {
+        "kind": "tx",
+        "wire_hex": "",
+        "tx": null
+      },
+      "expected": {
+        "success": false,
+        "error_code": 0,
+        "state_digest": "",
+        "post_state": null
+      }
+    }
+  ]
+}

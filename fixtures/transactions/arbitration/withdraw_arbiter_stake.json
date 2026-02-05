@@ -1,0 +1,353 @@
+{
+  "cases": [
+    {
+      "name": "tx_withdraw_arbiter_stake_basic",
+      "description": "Basic arbiter stake withdrawal",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "996fa9fcca947eedaa779061dc46c3783078d248b254ba0097b2ea0c85f1d50f",
+            "balance": 100000000,
+            "nonce": 0,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
+      },
+      "tx": {
+        "version": 1,
+        "chain_id": 0,
+        "source": "996fa9fcca947eedaa779061dc46c3783078d248b254ba0097b2ea0c85f1d50f",
+        "tx_type": "withdrawarbiterstake",
+        "payload": [],
+        "fee": 10000,
+        "fee_type": 0,
+        "nonce": 0,
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expected": {
+        "ok": true,
+        "error": null,
+        "post_state": null
+      }
+    },
+    {
+      "name": "tx_withdraw_arbiter_stake_partial",
+      "description": "Partial stake withdrawal",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "tx": {
+        "version": 1,
+        "chain_id": 0,
+        "source": "7d1aa223722b2aaa89b92fc6b2ef0baa709c01eab9f8494b1de5c335f2750707",
+        "tx_type": "withdrawarbiterstake",
+        "payload": [],
+        "fee": 0,
+        "fee_type": 0,
+        "nonce": 0,
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expected": {
+        "ok": true,
+        "error": null,
+        "post_state": null
+      }
+    },
+    {
+      "name": "tx_withdraw_arbiter_stake_not_exiting",
+      "description": "Cannot withdraw if not in exiting state",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "tx": {
+        "version": 1,
+        "chain_id": 0,
+        "source": "7d1aa223722b2aaa89b92fc6b2ef0baa709c01eab9f8494b1de5c335f2750707",
+        "tx_type": "withdrawarbiterstake",
+        "payload": [],
+        "fee": 0,
+        "fee_type": 0,
+        "nonce": 0,
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expected": {
+        "ok": false,
+        "error": "NOT_IN_EXITING_STATE",
+        "post_state": null
+      }
+    },
+    {
+      "name": "tx_withdraw_arbiter_stake_cooldown_not_passed",
+      "description": "Cannot withdraw before cooldown expires",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "tx": {
+        "version": 1,
+        "chain_id": 0,
+        "source": "7d1aa223722b2aaa89b92fc6b2ef0baa709c01eab9f8494b1de5c335f2750707",
+        "tx_type": "withdrawarbiterstake",
+        "payload": [],
+        "fee": 0,
+        "fee_type": 0,
+        "nonce": 0,
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expected": {
+        "ok": false,
+        "error": "COOLDOWN_NOT_PASSED",
+        "post_state": null
+      }
+    },
+    {
+      "name": "tx_withdraw_arbiter_stake_pending_cases",
+      "description": "Cannot withdraw with pending cases",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "tx": {
+        "version": 1,
+        "chain_id": 0,
+        "source": "7d1aa223722b2aaa89b92fc6b2ef0baa709c01eab9f8494b1de5c335f2750707",
+        "tx_type": "withdrawarbiterstake",
+        "payload": [],
+        "fee": 0,
+        "fee_type": 0,
+        "nonce": 0,
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expected": {
+        "ok": false,
+        "error": "PENDING_CASES_REMAIN",
+        "post_state": null
+      }
+    },
+    {
+      "name": "tx_withdraw_arbiter_stake_exceeds_balance",
+      "description": "Cannot withdraw more than staked",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "tx": {
+        "version": 1,
+        "chain_id": 0,
+        "source": "7d1aa223722b2aaa89b92fc6b2ef0baa709c01eab9f8494b1de5c335f2750707",
+        "tx_type": "withdrawarbiterstake",
+        "payload": [],
+        "fee": 0,
+        "fee_type": 0,
+        "nonce": 0,
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expected": {
+        "ok": false,
+        "error": "INSUFFICIENT_STAKE",
+        "post_state": null
+      }
+    },
+    {
+      "name": "tx_withdraw_arbiter_stake_zero_amount",
+      "description": "Cannot withdraw zero amount",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "tx": {
+        "version": 1,
+        "chain_id": 0,
+        "source": "7d1aa223722b2aaa89b92fc6b2ef0baa709c01eab9f8494b1de5c335f2750707",
+        "tx_type": "withdrawarbiterstake",
+        "payload": [],
+        "fee": 0,
+        "fee_type": 0,
+        "nonce": 0,
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expected": {
+        "ok": false,
+        "error": "INVALID_AMOUNT",
+        "post_state": null
+      }
+    },
+    {
+      "name": "tx_withdraw_arbiter_stake_not_registered",
+      "description": "Cannot withdraw if not registered",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "tx": {
+        "version": 1,
+        "chain_id": 0,
+        "source": "7d1aa223722b2aaa89b92fc6b2ef0baa709c01eab9f8494b1de5c335f2750707",
+        "tx_type": "withdrawarbiterstake",
+        "payload": [],
+        "fee": 0,
+        "fee_type": 0,
+        "nonce": 0,
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expected": {
+        "ok": false,
+        "error": "NOT_REGISTERED_ARBITER",
+        "post_state": null
+      }
+    },
+    {
+      "name": "tx_withdraw_arbiter_stake_slashed",
+      "description": "Withdrawal reflects slashed amount",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "tx": {
+        "version": 1,
+        "chain_id": 0,
+        "source": "7d1aa223722b2aaa89b92fc6b2ef0baa709c01eab9f8494b1de5c335f2750707",
+        "tx_type": "withdrawarbiterstake",
+        "payload": [],
+        "fee": 0,
+        "fee_type": 0,
+        "nonce": 0,
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expected": {
+        "ok": true,
+        "error": null,
+        "post_state": null
+      }
+    },
+    {
+      "name": "tx_withdraw_arbiter_stake_payload_structure",
+      "description": "WithdrawArbiterStakePayload wire format",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "tx": null,
+      "expected": {
+        "ok": false,
+        "error": null,
+        "post_state": null
+      }
+    },
+    {
+      "name": "tx_withdraw_arbiter_stake_gas_cost",
+      "description": "WithdrawArbiterStake gas consumption",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "tx": null,
+      "expected": {
+        "ok": false,
+        "error": null,
+        "post_state": null
+      }
+    }
+  ]
+}

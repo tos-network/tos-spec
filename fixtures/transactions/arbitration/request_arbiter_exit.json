@@ -1,0 +1,275 @@
+{
+  "cases": [
+    {
+      "name": "tx_request_arbiter_exit_basic",
+      "description": "Basic arbiter exit request",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "996fa9fcca947eedaa779061dc46c3783078d248b254ba0097b2ea0c85f1d50f",
+            "balance": 0,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
+      },
+      "tx": {
+        "version": 1,
+        "chain_id": 0,
+        "source": "996fa9fcca947eedaa779061dc46c3783078d248b254ba0097b2ea0c85f1d50f",
+        "tx_type": "requestarbiterexit",
+        "payload": [],
+        "fee": 5000,
+        "fee_type": 0,
+        "nonce": 5,
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expected": {
+        "ok": true,
+        "error": null,
+        "post_state": null
+      }
+    },
+    {
+      "name": "tx_request_arbiter_exit_not_registered",
+      "description": "Cannot request exit if not registered",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "tx": {
+        "version": 1,
+        "chain_id": 0,
+        "source": "7d1aa223722b2aaa89b92fc6b2ef0baa709c01eab9f8494b1de5c335f2750707",
+        "tx_type": "requestarbiterexit",
+        "payload": [],
+        "fee": 0,
+        "fee_type": 0,
+        "nonce": 0,
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expected": {
+        "ok": false,
+        "error": "NOT_REGISTERED_ARBITER",
+        "post_state": null
+      }
+    },
+    {
+      "name": "tx_request_arbiter_exit_already_requested",
+      "description": "Cannot request exit twice",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "tx": {
+        "version": 1,
+        "chain_id": 0,
+        "source": "7d1aa223722b2aaa89b92fc6b2ef0baa709c01eab9f8494b1de5c335f2750707",
+        "tx_type": "requestarbiterexit",
+        "payload": [],
+        "fee": 0,
+        "fee_type": 0,
+        "nonce": 0,
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expected": {
+        "ok": false,
+        "error": "EXIT_ALREADY_REQUESTED",
+        "post_state": null
+      }
+    },
+    {
+      "name": "tx_request_arbiter_exit_pending_disputes",
+      "description": "Cannot exit with pending disputes",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "tx": {
+        "version": 1,
+        "chain_id": 0,
+        "source": "7d1aa223722b2aaa89b92fc6b2ef0baa709c01eab9f8494b1de5c335f2750707",
+        "tx_type": "requestarbiterexit",
+        "payload": [],
+        "fee": 0,
+        "fee_type": 0,
+        "nonce": 0,
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expected": {
+        "ok": false,
+        "error": "HAS_PENDING_DISPUTES",
+        "post_state": null
+      }
+    },
+    {
+      "name": "tx_request_arbiter_exit_slashed",
+      "description": "Cannot request exit if slashed",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "tx": {
+        "version": 1,
+        "chain_id": 0,
+        "source": "7d1aa223722b2aaa89b92fc6b2ef0baa709c01eab9f8494b1de5c335f2750707",
+        "tx_type": "requestarbiterexit",
+        "payload": [],
+        "fee": 0,
+        "fee_type": 0,
+        "nonce": 0,
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expected": {
+        "ok": false,
+        "error": "ARBITER_SLASHED",
+        "post_state": null
+      }
+    },
+    {
+      "name": "tx_request_arbiter_exit_cooldown_period",
+      "description": "Exit starts cooldown period",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "tx": null,
+      "expected": {
+        "ok": false,
+        "error": null,
+        "post_state": null
+      }
+    },
+    {
+      "name": "tx_request_arbiter_exit_cancel",
+      "description": "Exit request can be cancelled",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "tx": {
+        "version": 1,
+        "chain_id": 0,
+        "source": "7d1aa223722b2aaa89b92fc6b2ef0baa709c01eab9f8494b1de5c335f2750707",
+        "tx_type": "cancelarbiterexit",
+        "payload": [],
+        "fee": 0,
+        "fee_type": 0,
+        "nonce": 0,
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expected": {
+        "ok": true,
+        "error": null,
+        "post_state": null
+      }
+    },
+    {
+      "name": "tx_request_arbiter_exit_payload_structure",
+      "description": "RequestArbiterExitPayload wire format",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "tx": null,
+      "expected": {
+        "ok": false,
+        "error": null,
+        "post_state": null
+      }
+    },
+    {
+      "name": "tx_request_arbiter_exit_lifecycle",
+      "description": "Arbiter exit lifecycle",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "tx": null,
+      "expected": {
+        "ok": false,
+        "error": null,
+        "post_state": null
+      }
+    }
+  ]
+}

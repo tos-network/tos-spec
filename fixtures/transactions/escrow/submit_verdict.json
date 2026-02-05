@@ -1,0 +1,483 @@
+{
+  "cases": [
+    {
+      "name": "tx_submit_verdict_basic",
+      "description": "Basic arbitration verdict submission",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "996fa9fcca947eedaa779061dc46c3783078d248b254ba0097b2ea0c85f1d50f",
+            "balance": 0,
+            "nonce": 0,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
+      },
+      "tx": {
+        "version": 1,
+        "chain_id": 0,
+        "source": "996fa9fcca947eedaa779061dc46c3783078d248b254ba0097b2ea0c85f1d50f",
+        "tx_type": "submitverdict",
+        "payload": [],
+        "fee": 10000,
+        "fee_type": 0,
+        "nonce": 0,
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expected": {
+        "ok": true,
+        "error": null,
+        "post_state": null
+      }
+    },
+    {
+      "name": "tx_submit_verdict_full_to_payer",
+      "description": "Verdict awarding full amount to payer (refund)",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "tx": {
+        "version": 1,
+        "chain_id": 0,
+        "source": "7d1aa223722b2aaa89b92fc6b2ef0baa709c01eab9f8494b1de5c335f2750707",
+        "tx_type": "submitverdict",
+        "payload": [],
+        "fee": 0,
+        "fee_type": 0,
+        "nonce": 0,
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expected": {
+        "ok": true,
+        "error": null,
+        "post_state": null
+      }
+    },
+    {
+      "name": "tx_submit_verdict_full_to_provider",
+      "description": "Verdict awarding full amount to provider",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "tx": {
+        "version": 1,
+        "chain_id": 0,
+        "source": "7d1aa223722b2aaa89b92fc6b2ef0baa709c01eab9f8494b1de5c335f2750707",
+        "tx_type": "submitverdict",
+        "payload": [],
+        "fee": 0,
+        "fee_type": 0,
+        "nonce": 0,
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expected": {
+        "ok": true,
+        "error": null,
+        "post_state": null
+      }
+    },
+    {
+      "name": "tx_submit_verdict_amount_mismatch",
+      "description": "Verdict amounts must equal escrow amount",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "tx": {
+        "version": 1,
+        "chain_id": 0,
+        "source": "7d1aa223722b2aaa89b92fc6b2ef0baa709c01eab9f8494b1de5c335f2750707",
+        "tx_type": "submitverdict",
+        "payload": [],
+        "fee": 0,
+        "fee_type": 0,
+        "nonce": 0,
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expected": {
+        "ok": false,
+        "error": "VERDICT_AMOUNT_MISMATCH",
+        "post_state": null
+      }
+    },
+    {
+      "name": "tx_submit_verdict_insufficient_signatures",
+      "description": "Verdict requires threshold signatures",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "tx": {
+        "version": 1,
+        "chain_id": 0,
+        "source": "7d1aa223722b2aaa89b92fc6b2ef0baa709c01eab9f8494b1de5c335f2750707",
+        "tx_type": "submitverdict",
+        "payload": [],
+        "fee": 0,
+        "fee_type": 0,
+        "nonce": 0,
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expected": {
+        "ok": false,
+        "error": "INSUFFICIENT_SIGNATURES",
+        "post_state": null
+      }
+    },
+    {
+      "name": "tx_submit_verdict_invalid_signature",
+      "description": "Invalid arbiter signature rejected",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "tx": {
+        "version": 1,
+        "chain_id": 0,
+        "source": "7d1aa223722b2aaa89b92fc6b2ef0baa709c01eab9f8494b1de5c335f2750707",
+        "tx_type": "submitverdict",
+        "payload": [],
+        "fee": 0,
+        "fee_type": 0,
+        "nonce": 0,
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expected": {
+        "ok": false,
+        "error": "INVALID_ARBITER_SIGNATURE",
+        "post_state": null
+      }
+    },
+    {
+      "name": "tx_submit_verdict_unregistered_arbiter",
+      "description": "Signature from unregistered arbiter rejected",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "1b9def7407c35bdaf85aea8c1307ffcfcdc575149a81bfc4ce1a92250c3a57a6",
+            "balance": 0,
+            "nonce": 0,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
+      },
+      "tx": {
+        "version": 1,
+        "chain_id": 0,
+        "source": "1b9def7407c35bdaf85aea8c1307ffcfcdc575149a81bfc4ce1a92250c3a57a6",
+        "tx_type": "submitverdict",
+        "payload": [],
+        "fee": 0,
+        "fee_type": 0,
+        "nonce": 0,
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expected": {
+        "ok": false,
+        "error": "ARBITER_NOT_REGISTERED",
+        "post_state": null
+      }
+    },
+    {
+      "name": "tx_submit_verdict_escrow_not_disputed",
+      "description": "Cannot submit verdict for non-disputed escrow",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "tx": {
+        "version": 1,
+        "chain_id": 0,
+        "source": "7d1aa223722b2aaa89b92fc6b2ef0baa709c01eab9f8494b1de5c335f2750707",
+        "tx_type": "submitverdict",
+        "payload": [],
+        "fee": 0,
+        "fee_type": 0,
+        "nonce": 0,
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expected": {
+        "ok": false,
+        "error": "ESCROW_NOT_DISPUTED",
+        "post_state": null
+      }
+    },
+    {
+      "name": "tx_submit_verdict_wrong_dispute_id",
+      "description": "Dispute ID must match active dispute",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "tx": {
+        "version": 1,
+        "chain_id": 0,
+        "source": "7d1aa223722b2aaa89b92fc6b2ef0baa709c01eab9f8494b1de5c335f2750707",
+        "tx_type": "submitverdict",
+        "payload": [],
+        "fee": 0,
+        "fee_type": 0,
+        "nonce": 0,
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expected": {
+        "ok": false,
+        "error": "DISPUTE_ID_MISMATCH",
+        "post_state": null
+      }
+    },
+    {
+      "name": "tx_submit_verdict_appeal_round",
+      "description": "Appeal verdict (round > 0)",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "tx": {
+        "version": 1,
+        "chain_id": 0,
+        "source": "7d1aa223722b2aaa89b92fc6b2ef0baa709c01eab9f8494b1de5c335f2750707",
+        "tx_type": "submitverdict",
+        "payload": [],
+        "fee": 0,
+        "fee_type": 0,
+        "nonce": 0,
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expected": {
+        "ok": true,
+        "error": null,
+        "post_state": null
+      }
+    },
+    {
+      "name": "tx_submit_verdict_by_juror",
+      "description": "Fallback verdict submission by juror",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "tx": {
+        "version": 1,
+        "chain_id": 0,
+        "source": "7d1aa223722b2aaa89b92fc6b2ef0baa709c01eab9f8494b1de5c335f2750707",
+        "tx_type": "submitverdictbyjuror",
+        "payload": [],
+        "fee": 0,
+        "fee_type": 0,
+        "nonce": 0,
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expected": {
+        "ok": true,
+        "error": null,
+        "post_state": null
+      }
+    },
+    {
+      "name": "tx_submit_verdict_signature_structure",
+      "description": "ArbiterSignature structure",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "tx": null,
+      "expected": {
+        "ok": false,
+        "error": null,
+        "post_state": null
+      }
+    },
+    {
+      "name": "tx_submit_verdict_payload_structure",
+      "description": "SubmitVerdictPayload wire format",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "tx": null,
+      "expected": {
+        "ok": false,
+        "error": null,
+        "post_state": null
+      }
+    },
+    {
+      "name": "tx_submit_verdict_signature_message",
+      "description": "Message signed by arbiters",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "tx": null,
+      "expected": {
+        "ok": false,
+        "error": null,
+        "post_state": null
+      }
+    },
+    {
+      "name": "tx_submit_verdict_duplicate_signatures",
+      "description": "Duplicate arbiter signatures rejected",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "tx": {
+        "version": 1,
+        "chain_id": 0,
+        "source": "7d1aa223722b2aaa89b92fc6b2ef0baa709c01eab9f8494b1de5c335f2750707",
+        "tx_type": "submitverdict",
+        "payload": [],
+        "fee": 0,
+        "fee_type": 0,
+        "nonce": 0,
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expected": {
+        "ok": false,
+        "error": "DUPLICATE_SIGNATURE",
+        "post_state": null
+      }
+    }
+  ]
+}

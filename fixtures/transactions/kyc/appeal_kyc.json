@@ -1,0 +1,372 @@
+{
+  "cases": [
+    {
+      "name": "tx_appeal_kyc_basic",
+      "description": "Basic KYC appeal",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "76cab2b4b2ecab4d9b7e9bd199e550e05a1bdde9882e317772d064e238302259",
+            "balance": 100000000,
+            "nonce": 0,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
+      },
+      "tx": {
+        "version": 1,
+        "chain_id": 0,
+        "source": "76cab2b4b2ecab4d9b7e9bd199e550e05a1bdde9882e317772d064e238302259",
+        "tx_type": "appealkyc",
+        "payload": [],
+        "fee": 40000,
+        "fee_type": 0,
+        "nonce": 0,
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expected": {
+        "ok": true,
+        "error": null,
+        "post_state": null
+      }
+    },
+    {
+      "name": "tx_appeal_kyc_rejected_status",
+      "description": "Appeal rejected KYC application",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "tx": {
+        "version": 1,
+        "chain_id": 0,
+        "source": "7d1aa223722b2aaa89b92fc6b2ef0baa709c01eab9f8494b1de5c335f2750707",
+        "tx_type": "appealkyc",
+        "payload": [],
+        "fee": 0,
+        "fee_type": 0,
+        "nonce": 0,
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expected": {
+        "ok": true,
+        "error": null,
+        "post_state": null
+      }
+    },
+    {
+      "name": "tx_appeal_kyc_no_existing_record",
+      "description": "Cannot appeal without existing KYC record",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "tx": {
+        "version": 1,
+        "chain_id": 0,
+        "source": "7d1aa223722b2aaa89b92fc6b2ef0baa709c01eab9f8494b1de5c335f2750707",
+        "tx_type": "appealkyc",
+        "payload": [],
+        "fee": 0,
+        "fee_type": 0,
+        "nonce": 0,
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expected": {
+        "ok": false,
+        "error": "NO_KYC_RECORD",
+        "post_state": null
+      }
+    },
+    {
+      "name": "tx_appeal_kyc_active_status",
+      "description": "Cannot appeal active KYC",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "tx": {
+        "version": 1,
+        "chain_id": 0,
+        "source": "7d1aa223722b2aaa89b92fc6b2ef0baa709c01eab9f8494b1de5c335f2750707",
+        "tx_type": "appealkyc",
+        "payload": [],
+        "fee": 0,
+        "fee_type": 0,
+        "nonce": 0,
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expected": {
+        "ok": false,
+        "error": "KYC_IS_ACTIVE",
+        "post_state": null
+      }
+    },
+    {
+      "name": "tx_appeal_kyc_window_expired",
+      "description": "Appeal must be within appeal window",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "tx": {
+        "version": 1,
+        "chain_id": 0,
+        "source": "7d1aa223722b2aaa89b92fc6b2ef0baa709c01eab9f8494b1de5c335f2750707",
+        "tx_type": "appealkyc",
+        "payload": [],
+        "fee": 0,
+        "fee_type": 0,
+        "nonce": 0,
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expected": {
+        "ok": false,
+        "error": "APPEAL_WINDOW_EXPIRED",
+        "post_state": null
+      }
+    },
+    {
+      "name": "tx_appeal_kyc_wrong_parent",
+      "description": "Parent committee must be actual parent",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "tx": {
+        "version": 1,
+        "chain_id": 0,
+        "source": "7d1aa223722b2aaa89b92fc6b2ef0baa709c01eab9f8494b1de5c335f2750707",
+        "tx_type": "appealkyc",
+        "payload": [],
+        "fee": 0,
+        "fee_type": 0,
+        "nonce": 0,
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expected": {
+        "ok": false,
+        "error": "NOT_PARENT_COMMITTEE",
+        "post_state": null
+      }
+    },
+    {
+      "name": "tx_appeal_kyc_suspended_committee",
+      "description": "Cannot appeal to suspended committee",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "tx": {
+        "version": 1,
+        "chain_id": 0,
+        "source": "7d1aa223722b2aaa89b92fc6b2ef0baa709c01eab9f8494b1de5c335f2750707",
+        "tx_type": "appealkyc",
+        "payload": [],
+        "fee": 0,
+        "fee_type": 0,
+        "nonce": 0,
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expected": {
+        "ok": false,
+        "error": "PARENT_COMMITTEE_SUSPENDED",
+        "post_state": null
+      }
+    },
+    {
+      "name": "tx_appeal_kyc_already_pending",
+      "description": "Cannot have multiple pending appeals",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "tx": {
+        "version": 1,
+        "chain_id": 0,
+        "source": "7d1aa223722b2aaa89b92fc6b2ef0baa709c01eab9f8494b1de5c335f2750707",
+        "tx_type": "appealkyc",
+        "payload": [],
+        "fee": 0,
+        "fee_type": 0,
+        "nonce": 0,
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expected": {
+        "ok": false,
+        "error": "APPEAL_ALREADY_PENDING",
+        "post_state": null
+      }
+    },
+    {
+      "name": "tx_appeal_kyc_third_party",
+      "description": "Third party cannot appeal on behalf of user",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "76cab2b4b2ecab4d9b7e9bd199e550e05a1bdde9882e317772d064e238302259",
+            "balance": 0,
+            "nonce": 0,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          },
+          {
+            "address": "66c8169b03b37ac70157825d63acfbd13fd4110f37683acbf9519c68d262bb9c",
+            "balance": 0,
+            "nonce": 0,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
+      },
+      "tx": {
+        "version": 1,
+        "chain_id": 0,
+        "source": "76cab2b4b2ecab4d9b7e9bd199e550e05a1bdde9882e317772d064e238302259",
+        "tx_type": "appealkyc",
+        "payload": [],
+        "fee": 0,
+        "fee_type": 0,
+        "nonce": 0,
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expected": {
+        "ok": false,
+        "error": "UNAUTHORIZED_APPEAL",
+        "post_state": null
+      }
+    },
+    {
+      "name": "tx_appeal_kyc_payload_structure",
+      "description": "AppealKycPayload wire format",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "tx": null,
+      "expected": {
+        "ok": false,
+        "error": null,
+        "post_state": null
+      }
+    },
+    {
+      "name": "tx_appeal_kyc_gas_cost",
+      "description": "AppealKyc gas consumption",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "tx": null,
+      "expected": {
+        "ok": false,
+        "error": null,
+        "post_state": null
+      }
+    }
+  ]
+}

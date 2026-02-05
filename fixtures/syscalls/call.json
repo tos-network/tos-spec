@@ -1,0 +1,193 @@
+{
+  "cases": [
+    {
+      "name": "syscall_invoke_basic",
+      "description": "Basic cross-program invocation (CPI)",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "tx": null,
+      "expected": {
+        "ok": true,
+        "error": null,
+        "post_state": null
+      }
+    },
+    {
+      "name": "syscall_invoke_with_return_data",
+      "description": "CPI with return data from callee",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "tx": null,
+      "expected": {
+        "ok": true,
+        "error": null,
+        "post_state": null
+      }
+    },
+    {
+      "name": "syscall_invoke_nonexistent_contract",
+      "description": "CPI to non-existent contract fails",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "tx": null,
+      "expected": {
+        "ok": false,
+        "error": "CONTRACT_NOT_FOUND",
+        "post_state": null
+      }
+    },
+    {
+      "name": "syscall_invoke_reentrancy_blocked",
+      "description": "Re-entrant CPI to same contract is blocked",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "tx": null,
+      "expected": {
+        "ok": false,
+        "error": "REENTRANT_CALL_PROHIBITED",
+        "post_state": null
+      }
+    },
+    {
+      "name": "syscall_invoke_call_depth_limit",
+      "description": "CPI fails when MAX_CALL_DEPTH (64) exceeded",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "tx": null,
+      "expected": {
+        "ok": false,
+        "error": "CALL_DEPTH_EXCEEDED",
+        "post_state": null
+      }
+    },
+    {
+      "name": "syscall_invoke_callee_error",
+      "description": "CPI returns error code when callee fails",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "tx": null,
+      "expected": {
+        "ok": true,
+        "error": null,
+        "post_state": null
+      }
+    },
+    {
+      "name": "syscall_invoke_compute_budget",
+      "description": "CPI consumes compute units from caller's budget",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "tx": null,
+      "expected": {
+        "ok": true,
+        "error": null,
+        "post_state": null
+      }
+    },
+    {
+      "name": "syscall_invoke_insufficient_compute",
+      "description": "CPI fails when compute budget exhausted",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "tx": null,
+      "expected": {
+        "ok": false,
+        "error": "COMPUTE_BUDGET_EXCEEDED",
+        "post_state": null
+      }
+    },
+    {
+      "name": "syscall_invoke_state_isolation",
+      "description": "CPI maintains storage isolation between contracts",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "tx": null,
+      "expected": {
+        "ok": true,
+        "error": null,
+        "post_state": null
+      }
+    }
+  ]
+}

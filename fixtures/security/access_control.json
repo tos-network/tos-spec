@@ -1,0 +1,216 @@
+{
+  "cases": [
+    {
+      "name": "security_access_signature_required",
+      "description": "All transactions require valid signature",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "tx": null,
+      "expected": {
+        "ok": false,
+        "error": "NO_TX_SIGNATURE",
+        "post_state": null
+      }
+    },
+    {
+      "name": "security_access_signature_verification",
+      "description": "Invalid signature is rejected",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "tx": null,
+      "expected": {
+        "ok": false,
+        "error": "INVALID_TRANSACTION_SIGNATURE",
+        "post_state": null
+      }
+    },
+    {
+      "name": "security_access_kyc_required",
+      "description": "KYC-gated operations require sufficient KYC level",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "b6175a29609ce9b5eef4a0e98bd944fcad279e61016994bdcf81cb43571aedf5",
+            "balance": 0,
+            "nonce": 0,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
+      },
+      "tx": {
+        "version": 1,
+        "chain_id": 0,
+        "source": "b6175a29609ce9b5eef4a0e98bd944fcad279e61016994bdcf81cb43571aedf5",
+        "tx_type": "kycgatedoperation",
+        "payload": [],
+        "fee": 0,
+        "fee_type": 0,
+        "nonce": 0,
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expected": {
+        "ok": false,
+        "error": "INSUFFICIENT_KYC_LEVEL",
+        "post_state": null
+      }
+    },
+    {
+      "name": "security_access_kyc_expired",
+      "description": "Expired KYC is rejected",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "b6175a29609ce9b5eef4a0e98bd944fcad279e61016994bdcf81cb43571aedf5",
+            "balance": 0,
+            "nonce": 0,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
+      },
+      "tx": {
+        "version": 1,
+        "chain_id": 0,
+        "source": "b6175a29609ce9b5eef4a0e98bd944fcad279e61016994bdcf81cb43571aedf5",
+        "tx_type": "kycgatedoperation",
+        "payload": [],
+        "fee": 0,
+        "fee_type": 0,
+        "nonce": 0,
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expected": {
+        "ok": false,
+        "error": "KYC_EXPIRED",
+        "post_state": null
+      }
+    },
+    {
+      "name": "security_access_committee_approval",
+      "description": "Committee-gated operations require threshold approvals",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "tx": null,
+      "expected": {
+        "ok": false,
+        "error": "INSUFFICIENT_APPROVALS",
+        "post_state": null
+      }
+    },
+    {
+      "name": "security_access_contract_caller_check",
+      "description": "Contract can check caller via get_caller syscall",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "tx": null,
+      "expected": {
+        "ok": false,
+        "error": null,
+        "post_state": null
+      }
+    },
+    {
+      "name": "security_access_multisig_threshold",
+      "description": "Multisig transactions require threshold signatures",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "tx": null,
+      "expected": {
+        "ok": false,
+        "error": "MULTI_SIG_THRESHOLD",
+        "post_state": null
+      }
+    },
+    {
+      "name": "security_access_sender_not_receiver",
+      "description": "Self-transfers are rejected",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "tx": null,
+      "expected": {
+        "ok": false,
+        "error": "SENDER_IS_RECEIVER",
+        "post_state": null
+      }
+    }
+  ]
+}

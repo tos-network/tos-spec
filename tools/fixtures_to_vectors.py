@@ -158,6 +158,11 @@ def main() -> None:
                 count += 1
                 continue
 
+            if isinstance(data, dict) and data.get("format") == "crypto":
+                shutil.copy2(path, dest)
+                count += 1
+                continue
+
             if isinstance(data, dict) and "cases" in data and isinstance(data["cases"], list):
                 vectors_out = []
                 for case in data["cases"]:
