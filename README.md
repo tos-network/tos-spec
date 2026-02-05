@@ -68,6 +68,29 @@ You can also use the helper script:
 python tools/run_conformance.py --sim tos/execution --client tos-rust,avatar-c
 ```
 
+## Deterministic Accounts (Test Identities)
+
+To make signatures, addresses, and miner behavior reproducible across clients and simulators,
+we use a fixed set of deterministic test accounts stored in `vectors/accounts.json`.
+
+**Purpose**
+- Provide canonical addresses and private keys for vectors/signatures.
+- Ensure conformance and simulators use the same miner and test identities.
+- Keep all scenario artifacts reproducible and portable.
+
+**Source of truth**
+- `vectors/accounts.json` is the authoritative list of test identities.
+- Roles are fixed (e.g., `Miner`, `Alice`, `Bob`, ...).
+- The same identities are used by:
+  - vector generation/signing
+  - conformance server (miner key)
+  - simulators
+
+**Usage**
+- Vectors reference these addresses directly.
+- The conformance server should read the miner key from this list (or via env pointing to it).
+  - Environment: `LAB_ACCOUNTS_PATH` can point to `vectors/accounts.json`.
+
 ## Architecture Overview
 
 ```
