@@ -181,6 +181,19 @@ we use a fixed set of deterministic test accounts stored in `vectors/accounts.js
 
 ## Running the Fixture Flow
 
+## Dependencies
+
+This repo expects a local virtualenv in `.venv` and a working pytest stack.
+Key Python packages: `pytest`, `blake3`, `pyyaml`, `pycryptodomex`.
+
+Quick setup (from repo root):
+```
+python3 -m venv .venv
+. .venv/bin/activate
+pip install -e .
+pip install pytest
+```
+
 Generate fixtures (pytest → fixtures):
 ```
 PYTHONPATH=~/tos-spec/src:~/tos-spec .venv/bin/python -m pytest -q --output ~/tos-spec/fixtures
