@@ -23,6 +23,7 @@ from tos_spec.state_digest import compute_state_digest
 MAPPING = {
     "api": "rpc",
     "consensus": "execution/consensus",
+    "crypto": "execution/crypto",
     "models": "state/models",
     "security": "errors/security",
     "syscalls": "execution/syscalls",
