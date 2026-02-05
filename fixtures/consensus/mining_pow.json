@@ -1,0 +1,28 @@
+{
+  "test_vectors": [
+    {
+      "name": "target_from_difficulty",
+      "description": "target derived from difficulty",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "difficulty": 1000
+      },
+      "expected": {
+        "target": 115792089237316195423570985008687907853269984665640564039457584007913129639
+      }
+    },
+    {
+      "name": "randomx_key_block_height",
+      "description": "RandomX key block height",
+      "runnable": false,
+      "input": {
+        "kind": "spec",
+        "height": 3500
+      },
+      "expected": {
+        "key_block_height": 2048
+      }
+    }
+  ]
+}

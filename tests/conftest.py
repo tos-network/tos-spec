@@ -14,6 +14,7 @@ from tools.fixtures_io import state_to_json, tx_to_json
 
 _STATE_CASES: dict[str, list[dict[str, Any]]] = {}
 _WIRE_VECTORS: list[dict[str, Any]] = []
+_VECTOR_CASES: dict[str, list[dict[str, Any]]] = {}
 
 
 def pytest_addoption(parser: pytest.Parser) -> None:
@@ -83,6 +84,16 @@ def wire_vector() -> Callable[[str, dict[str, Any]], None]:
     return _wire_vector
 
 
+@pytest.fixture
+def vector_test_group() -> Callable[[str, dict[str, Any]], None]:
+    """Collect pre-built test_vectors under a specific fixture path."""
+
+    def _vector_test_group(rel_path: str, vector: dict[str, Any]) -> None:
+        _VECTOR_CASES.setdefault(rel_path, []).append(vector)
+
+    return _vector_test_group
+
+
 def pytest_sessionfinish(session: pytest.Session, exitstatus: int) -> None:
     output_dir = session.config.getoption("--output")
     if not output_dir:
@@ -102,3 +113,10 @@ def pytest_sessionfinish(session: pytest.Session, exitstatus: int) -> None:
         (out / "wire_format.json").write_text(
             json.dumps({"vectors": _WIRE_VECTORS}, indent=2)
         )
+
+    for rel_path, vectors in _VECTOR_CASES.items():
+        if not vectors:
+            continue
+        target = out / rel_path
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_text(json.dumps({"test_vectors": vectors}, indent=2))

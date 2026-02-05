@@ -157,6 +157,13 @@ def main() -> None:
             count += 1
             continue
 
+        if isinstance(data, dict) and "test_vectors" in data and isinstance(
+            data["test_vectors"], list
+        ):
+            shutil.copy2(path, dest)
+            count += 1
+            continue
+
         if isinstance(data, dict) and "cases" in data and isinstance(data["cases"], list):
             vectors_out = []
             for case in data["cases"]:
