@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run the Lab conformance harness with sane defaults."""
+"""Run the Labu conformance harness with sane defaults."""
 
 from __future__ import annotations
 
@@ -14,7 +14,7 @@ def _abs_path(path: str) -> str:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Run TOS conformance tests via Lab")
+    parser = argparse.ArgumentParser(description="Run TOS conformance tests via Labu")
     parser.add_argument(
         "--vectors",
         default=str(Path(__file__).resolve().parent.parent / "vectors"),
@@ -32,16 +32,16 @@ def main() -> None:
     )
     parser.add_argument(
         "--workspace",
-        default=str(Path(__file__).resolve().parent.parent / "vectors" / "_lab_workspace"),
-        help="Output directory for Lab logs/results",
+        default=str(Path(__file__).resolve().parent.parent / "vectors" / "_labu_workspace"),
+        help="Output directory for Labu logs/results",
     )
     args = parser.parse_args()
 
-    lab_root = Path(os.environ.get("LAB_ROOT", "~/lab")).expanduser().resolve()
-    lab_bin = Path(os.environ.get("LAB_BIN", lab_root / "lab")).expanduser().resolve()
+    lab_root = Path(os.environ.get("LABU_ROOT", "~/labu")).expanduser().resolve()
+    lab_bin = Path(os.environ.get("LABU_BIN", lab_root / "labu")).expanduser().resolve()
     if not lab_bin.exists():
         raise SystemExit(
-            f"Lab binary not found: {lab_bin}. Build it with: cd {lab_root} && go build -o lab ./cmd/lab"
+            f"Labu binary not found: {lab_bin}. Build it with: cd {lab_root} && go build -o labu ./cmd/labu"
         )
 
     cmd = [

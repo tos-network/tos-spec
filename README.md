@@ -9,7 +9,7 @@ machine-readable, testable, and capable of producing deterministic fixtures.
 - **Deterministic fixtures**: generated from the spec and consumed by all clients.
 - **Cross-client consistency**: the same inputs must yield the same outputs.
 - **Layered coverage**: wire format, transaction validation, and state transitions are all verified.
-- **Scenario/expected comparison**: fixtures define scenarios and expected results; vectors are the runnable form consumed by Lab.
+- **Scenario/expected comparison**: fixtures define scenarios and expected results; vectors are the runnable form consumed by Labu.
 
 ## Scenario/Expected Comparison Model
 
@@ -18,7 +18,7 @@ This repo defines the authoritative **scenario + expected** contracts. The runti
 1. **Fixtures are the spec truth** (human-readable, canonical intent).
 2. **Vectors are the runnable scenarios** (machine-executable JSON derived from fixtures).
 3. **Simulators execute vectors** and assert expected results.
-4. **Lab only orchestrates and aggregates results**; it does not interpret fixtures.
+4. **Labu only orchestrates and aggregates results**; it does not interpret fixtures.
 
 This mirrors the Ethereum Hive approach: simulator-owned assertions, harness-owned orchestration.
 
@@ -35,7 +35,7 @@ directly executable format for clients.
 **Vectors (harness-owned, client-consumable)**  
 Location: `vectors/`  
 Purpose: executable, client-consumable test inputs used by the multi-client conformance
-harness (Lab). Vectors are derived from fixtures and should be stable artifacts used for
+harness (Labu). Vectors are derived from fixtures and should be stable artifacts used for
 cross-client comparison.
 
 **Conversion responsibility**  
@@ -53,13 +53,13 @@ python tools/fixtures_to_vectors.py
 This creates/updates `vectors/` from `fixtures/` according to the mapping in
 `tools/fixtures_to_vectors.py`.
 
-**Conformance usage (Lab)**  
-The Lab orchestrator (`~/lab`) consumes `vectors/`. Example:
+**Conformance usage (Labu)**  
+The Labu orchestrator (`~/labu`) consumes `vectors/`. Example:
 
 ```bash
 python tools/fixtures_to_vectors.py
-cd ~/lab
-./lab --sim tos/execution --client tos-rust,avatar-c --vectors ~/tos-spec/vectors
+cd ~/labu
+./labu --sim tos/execution --client tos-rust,avatar-c --vectors ~/tos-spec/vectors
 ```
 
 You can also use the helper script:
@@ -89,7 +89,7 @@ we use a fixed set of deterministic test accounts stored in `vectors/accounts.js
 **Usage**
 - Vectors reference these addresses directly.
 - The conformance server should read the miner key from this list (or via env pointing to it).
-  - Environment: `LAB_ACCOUNTS_PATH` can point to `vectors/accounts.json`.
+  - Environment: `LABU_ACCOUNTS_PATH` can point to `vectors/accounts.json`.
 
 ## Architecture Overview
 
@@ -138,7 +138,7 @@ we use a fixed set of deterministic test accounts stored in `vectors/accounts.js
 ├── tools/                 # Fixture generation/consumption
 ├── fixtures/              # Generated vectors
 │   └── transactions/      # Legacy transaction fixtures (mirrored from tck/specs/transactions)
-├── vectors/               # Client-consumable vectors for Lab
+├── vectors/               # Client-consumable vectors for Labu
 └── pyproject.toml
 ```
 

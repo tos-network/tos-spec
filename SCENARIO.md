@@ -21,7 +21,7 @@ can be tested in a uniform, repeatable way across single-client and multi-client
 - `tools/`
   - Conversion pipeline `fixtures -> vectors`.
   - Validation/report tooling.
-- `~/lab/simulators/tos/`
+- `~/labu/simulators/tos/`
   - Execution engines that consume vectors and assert expected results.
 
 ## Vector Schema (JSON)
