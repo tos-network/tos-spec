@@ -35,19 +35,35 @@
       },
       "input": {
         "kind": "tx",
-        "wire_hex": "",
+        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b2491200010000000000000000000000000000000000000000000000000000000000000000c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824000a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0caaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa0000000000000000020000000000000005011414141414141414141414141414141414141414141414141414141414141414bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb00000000000000000000000000000000000000000000000000000000000000000000000000000000004df6957f936229ac814ff50f9b3e32e5947a052044e0ec0e51281957b1787e01bf3976c02b822552ae0120b0d0b49d4d867dd7927527bfd61eeac37b9e3f890b",
         "tx": {
           "version": 1,
           "chain_id": 3,
           "source": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
           "tx_type": "uno_transfers",
-          "payload": null,
+          "payload": {
+            "transfers": [
+              {
+                "asset": "0000000000000000000000000000000000000000000000000000000000000000",
+                "destination": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824",
+                "commitment": "0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a",
+                "sender_handle": "0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b",
+                "receiver_handle": "0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c",
+                "ct_validity_proof": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              }
+            ]
+          },
           "fee": 0,
           "fee_type": 2,
           "nonce": 5,
+          "source_commitments": [
+            "1414141414141414141414141414141414141414141414141414141414141414"
+          ],
+          "range_proof": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
           "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
           "reference_topoheight": 0,
-          "signature": "c97424ec5cd76b730d3176588f20398ace555cc8fc8399951deecd1735e79702280091925757b4719a4ed05ede9bd60fbf6ccc19698139921fd0c9b6fe7cfc0e"
+          "signature": "4df6957f936229ac814ff50f9b3e32e5947a052044e0ec0e51281957b1787e01bf3976c02b822552ae0120b0d0b49d4d867dd7927527bfd61eeac37b9e3f890b",
+          "wire_hex": ""
         }
       },
       "expected": {
@@ -112,19 +128,35 @@
       },
       "input": {
         "kind": "tx",
-        "wire_hex": "",
+        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b2491200010000000000000000000000000000000000000000000000000000000000000000f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249000a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0caaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa0000000000000000020000000000000005011414141414141414141414141414141414141414141414141414141414141414bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb00000000000000000000000000000000000000000000000000000000000000000000000000000000003026ec57fbff2110d1f7164953a43af24682e337cba0ca8dbdc9fd1de5514a0bbad7f38854516ddfee2d80f6c6006f1e051371cd7542c25916462373353f1305",
         "tx": {
           "version": 1,
           "chain_id": 3,
           "source": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
           "tx_type": "uno_transfers",
-          "payload": null,
+          "payload": {
+            "transfers": [
+              {
+                "asset": "0000000000000000000000000000000000000000000000000000000000000000",
+                "destination": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+                "commitment": "0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a",
+                "sender_handle": "0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b",
+                "receiver_handle": "0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c",
+                "ct_validity_proof": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              }
+            ]
+          },
           "fee": 0,
           "fee_type": 2,
           "nonce": 5,
+          "source_commitments": [
+            "1414141414141414141414141414141414141414141414141414141414141414"
+          ],
+          "range_proof": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
           "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
           "reference_topoheight": 0,
-          "signature": "9ed2ff7b4282acb8def0d2b199885d6db52930de52261894b10d18a6d362b308882335686c70483fb0e34fae39b72cc1f5d0fcfada99cdb1df08346821785005"
+          "signature": "3026ec57fbff2110d1f7164953a43af24682e337cba0ca8dbdc9fd1de5514a0bbad7f38854516ddfee2d80f6c6006f1e051371cd7542c25916462373353f1305",
+          "wire_hex": ""
         }
       },
       "expected": {

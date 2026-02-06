@@ -1,0 +1,17 @@
+[package]
+name = "tos_codec"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "tos_codec"
+crate-type = ["cdylib"]
+
+[dependencies]
+pyo3 = { version = "0.22", features = ["extension-module"] }
+tos_common = { path = "../../../tos/common", default-features = false }
+serde_json = "1"
+hex = "0.4"
+
+[patch.crates-io]
+curve25519-dalek = { git = "https://github.com/tos-network/curve25519-dalek", rev = "0ca0e1a1cab7c08733e35cfedc33fc68db2058be" }

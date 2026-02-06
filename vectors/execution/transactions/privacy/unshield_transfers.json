@@ -35,19 +35,34 @@
       },
       "input": {
         "kind": "tx",
-        "wire_hex": "",
+        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b2491400010000000000000000000000000000000000000000000000000000000000000000c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824000000001dcd6500000a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0bdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd00000000000186a00000000000000000050114141414141414141414141414141414141414141414141414141414141414140000000000000000000000000000000000000000000000000000000000000000000000000000000000200a070a4f3a8166b3a3d6cc81b57274565d47c7cdc6c565c6119750b4b9a50cbd579797553103597470344995f48c8c036fd0c60d9d5b5033047715a9a4a60c",
         "tx": {
           "version": 1,
           "chain_id": 3,
           "source": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
           "tx_type": "unshield_transfers",
-          "payload": null,
+          "payload": {
+            "transfers": [
+              {
+                "asset": "0000000000000000000000000000000000000000000000000000000000000000",
+                "destination": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824",
+                "amount": 500000000,
+                "commitment": "0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a",
+                "sender_handle": "0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b",
+                "ct_validity_proof": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+              }
+            ]
+          },
           "fee": 100000,
           "fee_type": 0,
           "nonce": 5,
+          "source_commitments": [
+            "1414141414141414141414141414141414141414141414141414141414141414"
+          ],
           "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
           "reference_topoheight": 0,
-          "signature": "bbedac8d2912a4911e905777386bf33da228af121608bac37d0468eaf5c2180727562fd76d1f1e96ca31773ca10d8b8eafec2f04314ed98570fb4ff751ab8105"
+          "signature": "200a070a4f3a8166b3a3d6cc81b57274565d47c7cdc6c565c6119750b4b9a50cbd579797553103597470344995f48c8c036fd0c60d9d5b5033047715a9a4a60c",
+          "wire_hex": ""
         }
       },
       "expected": {

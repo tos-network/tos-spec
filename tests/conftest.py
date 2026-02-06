@@ -14,6 +14,20 @@ from tos_spec.types import ChainState, Transaction
 from tools.fixtures_io import state_to_json, tx_to_json
 
 
+def _try_wire_hex(tx: Transaction) -> str:
+    """Try to encode a transaction to wire hex using tos_codec.
+
+    Returns the hex string on success, or empty string on failure.
+    """
+    try:
+        import tos_codec
+        from tos_spec.codec_adapter import tx_to_serde_json
+
+        return tos_codec.encode_tx(tx_to_serde_json(tx))
+    except Exception:
+        return ""
+
+
 def _auto_sign(tx: Transaction) -> None:
     """Sign the transaction if its source is a known test account.
 
@@ -48,11 +62,13 @@ def state_test() -> Callable[[str, ChainState, Transaction], None]:
     def _state_test(name: str, pre_state: ChainState, tx: Transaction) -> None:
         _auto_sign(tx)
         post_state, result = apply_tx(pre_state, tx)
+        tx_json = tx_to_json(tx)
+        tx_json["wire_hex"] = _try_wire_hex(tx)
         _STATE_CASES.setdefault("tx_core.json", []).append(
             {
                 "name": name,
                 "pre_state": state_to_json(pre_state),
-                "tx": tx_to_json(tx),
+                "tx": tx_json,
                 "expected": {
                     "ok": result.ok,
                     "error": result.error.code.name if result.error else None,
@@ -73,11 +89,13 @@ def state_test_group() -> Callable[[str, str, ChainState, Transaction], None]:
     ) -> None:
         _auto_sign(tx)
         post_state, result = apply_tx(pre_state, tx)
+        tx_json = tx_to_json(tx)
+        tx_json["wire_hex"] = _try_wire_hex(tx)
         _STATE_CASES.setdefault(rel_path, []).append(
             {
                 "name": name,
                 "pre_state": state_to_json(pre_state),
-                "tx": tx_to_json(tx),
+                "tx": tx_json,
                 "expected": {
                     "ok": result.ok,
                     "error": result.error.code.name if result.error else None,

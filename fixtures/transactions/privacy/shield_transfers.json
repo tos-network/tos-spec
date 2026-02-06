@@ -37,13 +37,28 @@
         "chain_id": 3,
         "source": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
         "tx_type": "shield_transfers",
-        "payload": null,
+        "payload": {
+          "transfers": [
+            {
+              "asset": "0000000000000000000000000000000000000000000000000000000000000000",
+              "destination": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824",
+              "amount": 10000000000,
+              "commitment": "0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a",
+              "receiver_handle": "0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c",
+              "proof": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+            }
+          ]
+        },
         "fee": 100000,
         "fee_type": 0,
         "nonce": 5,
+        "source_commitments": [
+          "1414141414141414141414141414141414141414141414141414141414141414"
+        ],
         "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
         "reference_topoheight": 0,
-        "signature": "cf41c446a42bf0e64c6795296a20415e5182a3c9cf2088ec1b5938d09e54cb0641ee21cc9bc0e56600156aac870da2256ce244ae3a61a985011131f2b45e5f0d"
+        "signature": "2398db00f322fda3860a6f160fb3245d273e0418108cc94d23c2b754dd3f4c0aa7ed3d80629b391184136cda0e60468546a0e8f08fca19740d04e87b3f127e02",
+        "wire_hex": ""
       },
       "expected": {
         "ok": false,
@@ -117,13 +132,28 @@
         "chain_id": 3,
         "source": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
         "tx_type": "shield_transfers",
-        "payload": null,
+        "payload": {
+          "transfers": [
+            {
+              "asset": "0000000000000000000000000000000000000000000000000000000000000000",
+              "destination": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824",
+              "amount": 100000000,
+              "commitment": "0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a",
+              "receiver_handle": "0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c",
+              "proof": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+            }
+          ]
+        },
         "fee": 100000,
         "fee_type": 0,
         "nonce": 5,
+        "source_commitments": [
+          "1414141414141414141414141414141414141414141414141414141414141414"
+        ],
         "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
         "reference_topoheight": 0,
-        "signature": "1c10837b726e0e45c9d8eb6d7af8ace24268023625eee98ef86fcb5865e6ad09865ca25da9acea090dce2bc6febf6218ce2509e58070e494fea695f46a499f01"
+        "signature": "ea70d524a83a8fed0a3f5dabe131045b0f2348474abeddff5b768aa16492df05b1ee5c05f464e1553412e2b53c5e5d7f12cbeb3fc0a45747788aec4806036905",
+        "wire_hex": ""
       },
       "expected": {
         "ok": false,

@@ -75,54 +75,36 @@ def _map_error_code(name: str | None) -> int:
         return int(ErrorCode.UNKNOWN)
 
 
+def _encode_tx_via_codec(tx: dict[str, Any]) -> str | None:
+    """Encode a fixture tx dict via tos_codec (handles all tx types)."""
+    try:
+        import tos_codec
+        from tos_spec.codec_adapter import tx_to_serde_json
+
+        from fixtures_io import tx_from_json
+
+        tx_obj = tx_from_json(tx)
+        serde = tx_to_serde_json(tx_obj)
+        return tos_codec.encode_tx(serde)
+    except Exception:
+        return None
+
+
 def _encode_tx_if_possible(tx: dict[str, Any]) -> str | None:
+    result = _encode_tx_via_codec(tx)
+    if result:
+        return result
     try:
         from tos_spec.encoding import encode_transaction
-        from tos_spec.types import FeeType, Transaction, TransactionType, TransferPayload, TxVersion
 
-        version = TxVersion(tx["version"])
-        chain_id = int(tx["chain_id"])
-        source = _hex_to_bytes(tx["source"])
-        tx_type = TransactionType(tx["tx_type"])
-        payload = tx.get("payload")
+        from fixtures_io import tx_from_json
 
-        if tx_type == TransactionType.TRANSFERS:
-            transfers = []
-            for entry in payload or []:
-                transfers.append(
-                    TransferPayload(
-                        asset=_hex_to_bytes(entry["asset"]),
-                        destination=_hex_to_bytes(entry["destination"]),
-                        amount=int(entry["amount"]),
-                        extra_data=_hex_to_bytes(entry["extra_data"]) if entry.get("extra_data") else None,
-                    )
-                )
-            payload_obj: object = transfers
-        elif tx_type == TransactionType.BURN:
-            payload_obj = {
-                "asset": _hex_to_bytes(payload["asset"]),
-                "amount": int(payload["amount"]),
-            }
-        else:
-            payload_obj = payload
-
-        sig = _hex_to_bytes(tx["signature"]) if tx.get("signature") else None
-        ref_hash = _hex_to_bytes(tx["reference_hash"]) if tx.get("reference_hash") else None
-
-        tx_obj = Transaction(
-            version=version,
-            chain_id=chain_id,
-            source=source,
-            tx_type=tx_type,
-            payload=payload_obj,
-            fee=int(tx["fee"]),
-            fee_type=FeeType(int(tx["fee_type"])),
-            nonce=int(tx["nonce"]),
-            reference_hash=ref_hash,
-            reference_topoheight=tx.get("reference_topoheight"),
-            signature=sig,
-        )
-        return encode_transaction(tx_obj).hex()
+        tx_obj = tx_from_json(tx)
+        # KYC types need current_time; use payload timestamp if available
+        ct = None
+        if isinstance(tx_obj.payload, dict):
+            ct = tx_obj.payload.get("transferred_at") or tx_obj.payload.get("timestamp")
+        return encode_transaction(tx_obj, current_time=ct).hex()
     except Exception:
         return None
 
@@ -174,7 +156,7 @@ def main() -> None:
                 error_code = _map_error_code(expected.get("error"))
                 wire_hex = None
                 if "tx" in case:
-                    wire_hex = _encode_tx_if_possible(case["tx"])
+                    wire_hex = case["tx"].get("wire_hex") or _encode_tx_if_possible(case["tx"])
                 vectors_out.append(
                     {
                         "name": case.get("name", ""),

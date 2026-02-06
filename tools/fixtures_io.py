@@ -74,6 +74,19 @@ def state_from_json(data: dict[str, Any]) -> ChainState:
     return state
 
 
+def _payload_to_json(payload: Any) -> Any:
+    """Recursively convert a payload value, turning bytes into hex strings."""
+    if payload is None:
+        return None
+    if isinstance(payload, (bytes, bytearray)):
+        return _bytes_to_hex(bytes(payload))
+    if isinstance(payload, dict):
+        return {k: _payload_to_json(v) for k, v in payload.items()}
+    if isinstance(payload, list):
+        return [_payload_to_json(item) for item in payload]
+    return payload
+
+
 def tx_to_json(tx: Transaction) -> dict[str, Any]:
     payload: Any
     if tx.tx_type == TransactionType.TRANSFERS:
@@ -112,9 +125,9 @@ def tx_to_json(tx: Transaction) -> dict[str, Any]:
                 else None,
             }
     else:
-        payload = None
+        payload = _payload_to_json(tx.payload)
 
-    return {
+    result: dict[str, Any] = {
         "version": int(tx.version),
         "chain_id": tx.chain_id,
         "source": _bytes_to_hex(tx.source),
@@ -123,10 +136,56 @@ def tx_to_json(tx: Transaction) -> dict[str, Any]:
         "fee": tx.fee,
         "fee_type": int(tx.fee_type),
         "nonce": tx.nonce,
-        "reference_hash": _bytes_to_hex(tx.reference_hash) if tx.reference_hash else None,
-        "reference_topoheight": tx.reference_topoheight,
-        "signature": _bytes_to_hex(tx.signature) if tx.signature else None,
     }
+    if tx.source_commitments:
+        result["source_commitments"] = [_bytes_to_hex(sc) for sc in tx.source_commitments]
+    if tx.range_proof is not None:
+        result["range_proof"] = _bytes_to_hex(tx.range_proof)
+    result["reference_hash"] = _bytes_to_hex(tx.reference_hash) if tx.reference_hash else None
+    result["reference_topoheight"] = tx.reference_topoheight
+    result["signature"] = _bytes_to_hex(tx.signature) if tx.signature else None
+    return result
+
+
+_BYTES_FIELDS: set[str] = {
+    "source", "destination", "provider", "controller", "new_controller",
+    "referrer", "delegatee", "buyer", "seller", "arbiter", "issuer",
+    "subject", "target", "from_user", "from_issuer", "to_issuer",
+    "arbiter_pubkey", "member_pubkey", "juror_pubkey", "proposer",
+    "account", "public_key", "energy_pool",
+    "asset", "contract", "escrow_id", "dispute_id", "request_id",
+    "committee_id", "source_committee_id", "dest_committee_id",
+    "original_committee_id", "parent_committee_id", "parent_id",
+    "reason_hash", "data_hash", "new_data_hash", "documents_hash",
+    "policy_hash", "session_key_root", "evidence_hash", "new_evidence_hash",
+    "completion_proof", "arbitration_open_hash", "vote_request_hash",
+    "selection_commitment_id", "vote_hash", "sender_name_hash",
+    "recipient_name_hash",
+    "signature", "opener_signature", "coordinator_signature", "juror_signature",
+    "extra_data", "module", "metadata", "encrypted_content", "receiver_handle",
+    "commitment", "sender_handle", "proof", "ct_validity_proof",
+    "arbitration_open_payload", "vote_request_payload",
+    "selection_commitment_payload", "vote_payload",
+}
+
+
+def _json_to_bytes_payload(payload: Any) -> Any:
+    """Recursively convert hex string fields to bytes in a JSON payload."""
+    if payload is None:
+        return None
+    if isinstance(payload, dict):
+        result: dict[str, Any] = {}
+        for key, value in payload.items():
+            if key in _BYTES_FIELDS and isinstance(value, str) and value:
+                result[key] = _hex_to_bytes(value)
+            elif isinstance(value, (dict, list)):
+                result[key] = _json_to_bytes_payload(value)
+            else:
+                result[key] = value
+        return result
+    if isinstance(payload, list):
+        return [_json_to_bytes_payload(item) for item in payload]
+    return payload
 
 
 def tx_from_json(data: dict[str, Any]) -> Transaction:
@@ -143,7 +202,7 @@ def tx_from_json(data: dict[str, Any]) -> Transaction:
             for p in data.get("payload", [])
         ]
     elif tx_type == TransactionType.BURN:
-        payload = data.get("payload", 0)
+        payload = _json_to_bytes_payload(data.get("payload", 0))
     elif tx_type == TransactionType.ENERGY:
         p = data.get("payload") or {}
         delegatees = [
@@ -169,7 +228,13 @@ def tx_from_json(data: dict[str, Any]) -> Transaction:
             else None,
         )
     else:
-        payload = data.get("payload")
+        payload = _json_to_bytes_payload(data.get("payload"))
+
+    source_commitments = [
+        _hex_to_bytes(sc) for sc in data.get("source_commitments", []) or []
+    ]
+    range_proof_raw = data.get("range_proof")
+    range_proof = _hex_to_bytes(range_proof_raw) if range_proof_raw else None
 
     return Transaction(
         version=TxVersion(data["version"]),
@@ -180,6 +245,8 @@ def tx_from_json(data: dict[str, Any]) -> Transaction:
         fee=data["fee"],
         fee_type=FeeType(data["fee_type"]),
         nonce=data["nonce"],
+        source_commitments=source_commitments,
+        range_proof=range_proof,
         reference_hash=_hex_to_bytes(data["reference_hash"]) if data.get("reference_hash") else None,
         reference_topoheight=data.get("reference_topoheight"),
         signature=_hex_to_bytes(data["signature"]) if data.get("signature") else None,

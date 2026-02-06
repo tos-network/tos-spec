@@ -28,13 +28,20 @@
         "chain_id": 3,
         "source": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
         "tx_type": "invoke_contract",
-        "payload": null,
+        "payload": {
+          "contract": "5050505050505050505050505050505050505050505050505050505050505050",
+          "deposits": [],
+          "entry_id": 0,
+          "max_gas": 100000,
+          "parameters": []
+        },
         "fee": 100000,
         "fee_type": 0,
         "nonce": 5,
         "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
         "reference_topoheight": 0,
-        "signature": "0c9c6d378b3dc24d5895530a9fcc9b88c8e59c754b20d01ee7ad84511738010b2c9fb8e7e18c43883f1a2aa7f3f92f97d25e0d5748cc7a6981de0de7a94d100f"
+        "signature": "c999b5ee94314ee4028f220de650177c7197eba705b71959cfb7ae9f04923003db993baf317271735e3565b654f63cfac7119d66ce1f0aa99d0ca73b4bafab01",
+        "wire_hex": ""
       },
       "expected": {
         "ok": false,
@@ -90,13 +97,25 @@
         "chain_id": 3,
         "source": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
         "tx_type": "invoke_contract",
-        "payload": null,
+        "payload": {
+          "contract": "5050505050505050505050505050505050505050505050505050505050505050",
+          "deposits": [
+            {
+              "asset": "0000000000000000000000000000000000000000000000000000000000000000",
+              "amount": 100000000
+            }
+          ],
+          "entry_id": 1,
+          "max_gas": 200000,
+          "parameters": []
+        },
         "fee": 100000,
         "fee_type": 0,
         "nonce": 5,
         "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
         "reference_topoheight": 0,
-        "signature": "4940ea971f5e54be1d9fb46b38760934e87ab6711ac7e15faf5993f18365b902ee183cc2592dcb5acd3cddf712fd6804e6ec7abc69af8d0e23485e5410bdd90a"
+        "signature": "207774acb9d3e6c2b7714fae17aa737a64aa80ae17a0d57b258517f2fcae780186fc21dd905f63e33fd26c3014ec16adde2121df30409efdf50f97000d348b07",
+        "wire_hex": ""
       },
       "expected": {
         "ok": false,

@@ -28,13 +28,36 @@
         "chain_id": 3,
         "source": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
         "tx_type": "bootstrap_committee",
-        "payload": null,
+        "payload": {
+          "name": "GlobalCommittee",
+          "members": [
+            {
+              "public_key": "0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a",
+              "name": "member_0",
+              "role": 0
+            },
+            {
+              "public_key": "0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b",
+              "name": "member_1",
+              "role": 0
+            },
+            {
+              "public_key": "0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c",
+              "name": "member_2",
+              "role": 0
+            }
+          ],
+          "threshold": 2,
+          "kyc_threshold": 2,
+          "max_kyc_level": 255
+        },
         "fee": 100000,
         "fee_type": 0,
         "nonce": 5,
         "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
         "reference_topoheight": 0,
-        "signature": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+        "signature": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b2490c0f476c6f62616c436f6d6d6974746565030a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a01086d656d6265725f30000b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b01086d656d6265725f31000c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c01086d656d6265725f3200020200ff00000000000186a0000000000000000005000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
       },
       "expected": {
         "ok": false,

@@ -23,7 +23,9 @@ def _hash(byte: int) -> bytes:
 
 
 def _sig(byte: int) -> bytes:
-    return bytes([byte]) * 64
+    # Use byte only in first position of each 32-byte scalar half to ensure
+    # the value is a canonical Ristretto scalar (< curve order l).
+    return bytes([byte]) + b"\x00" * 31 + bytes([byte]) + b"\x00" * 31
 
 
 def _base_state() -> ChainState:
@@ -104,6 +106,7 @@ def test_update_arbiter_success(state_test_group) -> None:
     payload = {
         "name": "ArbiterAliceUpdated",
         "fee_basis_points": 300,
+        "deactivate": False,
     }
     tx = _mk_arb_tx(sender, nonce=5, tx_type=TransactionType.UPDATE_ARBITER, payload=payload, fee=100_000)
     state_test_group(
