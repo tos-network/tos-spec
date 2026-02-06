@@ -21,6 +21,23 @@ This document defines how we write executable specs in `tests/` and how fixtures
 - Cover success path, main error branches, and boundary values.
 - Reuse common builders from `tests/helpers.py` where possible.
 
+## Template
+
+See `tests/test_template_example.py` for a runnable, minimal template.
+
+## Template Rules (Must Follow)
+- **File name**: `tests/<module>/test_<thing>.py`
+- **Fixture output**: always use `state_test_group` with a stable JSON path.
+- **Case naming**: `snake_case` with clear behavior.
+- **One behavior per test**: do not mix multiple failures in one case.
+- **No randomness**: if needed, use fixed seeds or fixed values.
+
+## Fixture Path Conventions
+- Transactions: `transactions/<group>/<name>.json`
+- Consensus/Models/Security: `consensus/<name>.json`, `models/<name>.json`, `security/<name>.json`
+- Syscalls: `syscalls/<name>.json`
+- API: `api/<name>.json`
+
 ## Output Flow
 1. Write tests in `tests/`.
 2. Generate fixtures:
