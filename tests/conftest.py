@@ -15,9 +15,17 @@ from tools.fixtures_io import state_to_json, tx_to_json
 
 
 def _auto_sign(tx: Transaction) -> None:
-    """Sign the transaction if its source is a known test account."""
+    """Sign the transaction if its source is a known test account.
+
+    If encoding fails (e.g. intentionally invalid payload in negative tests),
+    the existing dummy signature is kept so ``apply_tx`` can still run and
+    report the expected validation error.
+    """
     if tx.source in SEED_MAP:
-        tx.signature = sign_transaction(tx)
+        try:
+            tx.signature = sign_transaction(tx)
+        except Exception:
+            pass
 
 _STATE_CASES: dict[str, list[dict[str, Any]]] = {}
 _WIRE_VECTORS: list[dict[str, Any]] = []

@@ -13,7 +13,7 @@
         },
         "accounts": [
           {
-            "address": "0101010101010101010101010101010101010101010101010101010101010101",
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
             "balance": 10000000000,
             "nonce": 5,
             "frozen": 0,
@@ -26,7 +26,7 @@
       "tx": {
         "version": 1,
         "chain_id": 3,
-        "source": "0101010101010101010101010101010101010101010101010101010101010101",
+        "source": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
         "tx_type": "deploy_contract",
         "payload": null,
         "fee": 1000,
@@ -34,7 +34,7 @@
         "nonce": 5,
         "reference_hash": "0909090909090909090909090909090909090909090909090909090909090909",
         "reference_topoheight": 100,
-        "signature": "07070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707"
+        "signature": "919310b6c557ef394d51c3d232ace91f80dafb9570c0164c68beb5b9bc232c0d36e9b117a4d1ff04d6f0e43b2a9ca3e991de3ba150ae3161750eeeffeada370b"
       },
       "expected": {
         "ok": false,
@@ -50,69 +50,7 @@
           },
           "accounts": [
             {
-              "address": "0101010101010101010101010101010101010101010101010101010101010101",
-              "balance": 10000000000,
-              "nonce": 5,
-              "frozen": 0,
-              "energy": 0,
-              "flags": 0,
-              "data": ""
-            }
-          ]
-        }
-      }
-    },
-    {
-      "name": "deploy_contract_invalid_module",
-      "pre_state": {
-        "network_chain_id": 3,
-        "global_state": {
-          "total_supply": 0,
-          "total_burned": 0,
-          "total_energy": 0,
-          "block_height": 0,
-          "timestamp": 0
-        },
-        "accounts": [
-          {
-            "address": "0101010101010101010101010101010101010101010101010101010101010101",
-            "balance": 10000000000,
-            "nonce": 5,
-            "frozen": 0,
-            "energy": 0,
-            "flags": 0,
-            "data": ""
-          }
-        ]
-      },
-      "tx": {
-        "version": 1,
-        "chain_id": 3,
-        "source": "0101010101010101010101010101010101010101010101010101010101010101",
-        "tx_type": "deploy_contract",
-        "payload": null,
-        "fee": 1000,
-        "fee_type": 0,
-        "nonce": 5,
-        "reference_hash": "0909090909090909090909090909090909090909090909090909090909090909",
-        "reference_topoheight": 100,
-        "signature": "07070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707"
-      },
-      "expected": {
-        "ok": false,
-        "error": "NOT_IMPLEMENTED",
-        "post_state": {
-          "network_chain_id": 3,
-          "global_state": {
-            "total_supply": 0,
-            "total_burned": 0,
-            "total_energy": 0,
-            "block_height": 0,
-            "timestamp": 0
-          },
-          "accounts": [
-            {
-              "address": "0101010101010101010101010101010101010101010101010101010101010101",
+              "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
               "balance": 10000000000,
               "nonce": 5,
               "frozen": 0,

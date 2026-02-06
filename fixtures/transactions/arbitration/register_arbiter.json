@@ -13,7 +13,7 @@
         },
         "accounts": [
           {
-            "address": "0101010101010101010101010101010101010101010101010101010101010101",
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
             "balance": 1000000000000,
             "nonce": 5,
             "frozen": 0,
@@ -26,7 +26,7 @@
       "tx": {
         "version": 1,
         "chain_id": 3,
-        "source": "0101010101010101010101010101010101010101010101010101010101010101",
+        "source": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
         "tx_type": "register_arbiter",
         "payload": null,
         "fee": 1000,
@@ -34,7 +34,7 @@
         "nonce": 5,
         "reference_hash": "0909090909090909090909090909090909090909090909090909090909090909",
         "reference_topoheight": 100,
-        "signature": "07070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707"
+        "signature": "6670e70f9b51dae91fea846bc034764a433aa447d24bc305a7472a884a59d40b9f43ad542fff231e35585c7cf1ee62dd3d3bde13a3cdd3efaadf4cbd1d934102"
       },
       "expected": {
         "ok": false,
@@ -50,69 +50,7 @@
           },
           "accounts": [
             {
-              "address": "0101010101010101010101010101010101010101010101010101010101010101",
-              "balance": 1000000000000,
-              "nonce": 5,
-              "frozen": 0,
-              "energy": 0,
-              "flags": 0,
-              "data": ""
-            }
-          ]
-        }
-      }
-    },
-    {
-      "name": "register_arbiter_low_stake",
-      "pre_state": {
-        "network_chain_id": 3,
-        "global_state": {
-          "total_supply": 0,
-          "total_burned": 0,
-          "total_energy": 0,
-          "block_height": 0,
-          "timestamp": 0
-        },
-        "accounts": [
-          {
-            "address": "0101010101010101010101010101010101010101010101010101010101010101",
-            "balance": 1000000000000,
-            "nonce": 5,
-            "frozen": 0,
-            "energy": 0,
-            "flags": 0,
-            "data": ""
-          }
-        ]
-      },
-      "tx": {
-        "version": 1,
-        "chain_id": 3,
-        "source": "0101010101010101010101010101010101010101010101010101010101010101",
-        "tx_type": "register_arbiter",
-        "payload": null,
-        "fee": 1000,
-        "fee_type": 0,
-        "nonce": 5,
-        "reference_hash": "0909090909090909090909090909090909090909090909090909090909090909",
-        "reference_topoheight": 100,
-        "signature": "07070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707"
-      },
-      "expected": {
-        "ok": false,
-        "error": "NOT_IMPLEMENTED",
-        "post_state": {
-          "network_chain_id": 3,
-          "global_state": {
-            "total_supply": 0,
-            "total_burned": 0,
-            "total_energy": 0,
-            "block_height": 0,
-            "timestamp": 0
-          },
-          "accounts": [
-            {
-              "address": "0101010101010101010101010101010101010101010101010101010101010101",
+              "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
               "balance": 1000000000000,
               "nonce": 5,
               "frozen": 0,

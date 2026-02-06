@@ -95,6 +95,22 @@ class SpecError(Exception):
         return f"{self.code.name}({self.code:#06x}): {self.message}"
 
 
+# Allow Python's Exception machinery to set __traceback__/__context__/__cause__
+# while keeping dataclass fields frozen (Python 3.13 contextlib compat).
+_EXCEPTION_ATTRS = frozenset(("__traceback__", "__context__", "__cause__"))
+_frozen_setattr = SpecError.__setattr__
+
+
+def _spec_error_setattr(self: SpecError, name: str, value: object) -> None:
+    if name in _EXCEPTION_ATTRS:
+        object.__setattr__(self, name, value)
+    else:
+        _frozen_setattr(self, name, value)
+
+
+SpecError.__setattr__ = _spec_error_setattr  # type: ignore[method-assign]
+
+
 def ok() -> None:
     return None
 
