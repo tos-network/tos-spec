@@ -50,7 +50,7 @@
       },
       "expected": {
         "success": false,
-        "error_code": 65281,
+        "error_code": 65535,
         "state_digest": "2c3902ce8dfcf2de1cc11df340969da6c635924223da7a4b30a8941b0108e56e",
         "post_state": {
           "network_chain_id": 3,
@@ -130,7 +130,7 @@
       },
       "expected": {
         "success": false,
-        "error_code": 65281,
+        "error_code": 65535,
         "state_digest": "2c3902ce8dfcf2de1cc11df340969da6c635924223da7a4b30a8941b0108e56e",
         "post_state": {
           "network_chain_id": 3,

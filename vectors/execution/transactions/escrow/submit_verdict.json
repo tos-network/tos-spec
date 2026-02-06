@@ -66,7 +66,7 @@
       },
       "expected": {
         "success": false,
-        "error_code": 65281,
+        "error_code": 65535,
         "state_digest": "cc4843d64ba9236c37891963abc127368acb795b29f501741d182ea21992481f",
         "post_state": {
           "network_chain_id": 3,

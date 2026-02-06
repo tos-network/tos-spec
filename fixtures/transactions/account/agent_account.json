@@ -109,7 +109,7 @@
       },
       "expected": {
         "ok": false,
-        "error": "NOT_IMPLEMENTED",
+        "error": "UNKNOWN",
         "post_state": {
           "network_chain_id": 3,
           "global_state": {
@@ -175,7 +175,7 @@
       },
       "expected": {
         "ok": false,
-        "error": "NOT_IMPLEMENTED",
+        "error": "UNKNOWN",
         "post_state": {
           "network_chain_id": 3,
           "global_state": {
