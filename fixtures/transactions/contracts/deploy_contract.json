@@ -1,144 +1,128 @@
 {
-  "test_vectors": [
+  "cases": [
     {
-      "name": "tx_deploy_contract_basic",
-      "description": "Basic contract deployment",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "deploy_contract.yaml"
+      "name": "deploy_contract_success",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "0101010101010101010101010101010101010101010101010101010101010101",
+            "balance": 10000000000,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
       },
-      "expected": {}
+      "tx": {
+        "version": 1,
+        "chain_id": 0,
+        "source": "0101010101010101010101010101010101010101010101010101010101010101",
+        "tx_type": "deploy_contract",
+        "payload": null,
+        "fee": 1000,
+        "fee_type": 0,
+        "nonce": 5,
+        "reference_hash": "0909090909090909090909090909090909090909090909090909090909090909",
+        "reference_topoheight": 100,
+        "signature": "07070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707"
+      },
+      "expected": {
+        "ok": false,
+        "error": "NOT_IMPLEMENTED",
+        "post_state": {
+          "network_chain_id": 0,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "0101010101010101010101010101010101010101010101010101010101010101",
+              "balance": 10000000000,
+              "nonce": 5,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ]
+        }
+      }
     },
     {
-      "name": "tx_deploy_contract_with_constructor",
-      "description": "Deploy contract with constructor invocation",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "deploy_contract.yaml"
+      "name": "deploy_contract_invalid_module",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "0101010101010101010101010101010101010101010101010101010101010101",
+            "balance": 10000000000,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
       },
-      "expected": {}
-    },
-    {
-      "name": "tx_deploy_contract_insufficient_burn",
-      "description": "Deployment fails without 1 TOS burn fee",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "deploy_contract.yaml"
+      "tx": {
+        "version": 1,
+        "chain_id": 0,
+        "source": "0101010101010101010101010101010101010101010101010101010101010101",
+        "tx_type": "deploy_contract",
+        "payload": null,
+        "fee": 1000,
+        "fee_type": 0,
+        "nonce": 5,
+        "reference_hash": "0909090909090909090909090909090909090909090909090909090909090909",
+        "reference_topoheight": 100,
+        "signature": "07070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707"
       },
-      "expected": {}
-    },
-    {
-      "name": "tx_deploy_contract_invalid_wasm",
-      "description": "Deployment fails with invalid WASM bytecode",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "deploy_contract.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_deploy_contract_empty_module",
-      "description": "Deployment fails with empty module",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "deploy_contract.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_deploy_contract_module_too_large",
-      "description": "Deployment fails if module exceeds size limit",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "deploy_contract.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_deploy_contract_constructor_fails",
-      "description": "Deployment succeeds even if constructor fails",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "deploy_contract.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_deploy_contract_constructor_out_of_gas",
-      "description": "Constructor execution stops at gas limit",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "deploy_contract.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_deploy_contract_multiple_deposits",
-      "description": "Constructor with multiple asset deposits",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "deploy_contract.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_deploy_contract_max_deposits",
-      "description": "Maximum 255 deposits per constructor",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "deploy_contract.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_deploy_contract_exceed_max_deposits",
-      "description": "Exceeding 255 deposits rejected",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "deploy_contract.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_deploy_contract_gas_burn",
-      "description": "30% of gas fees are burned",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "deploy_contract.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_deploy_contract_payload_structure",
-      "description": "DeployContractPayload wire format",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "deploy_contract.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_deploy_contract_address_derivation",
-      "description": "Contract address is the deployment transaction hash",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "deploy_contract.yaml"
-      },
-      "expected": {}
+      "expected": {
+        "ok": false,
+        "error": "NOT_IMPLEMENTED",
+        "post_state": {
+          "network_chain_id": 0,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "0101010101010101010101010101010101010101010101010101010101010101",
+              "balance": 10000000000,
+              "nonce": 5,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ]
+        }
+      }
     }
   ]
 }

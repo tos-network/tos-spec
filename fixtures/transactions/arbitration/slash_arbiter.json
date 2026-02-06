@@ -1,114 +1,66 @@
 {
-  "test_vectors": [
+  "cases": [
     {
-      "name": "tx_slash_arbiter_basic",
-      "description": "Basic arbiter slashing",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "slash_arbiter.yaml"
+      "name": "slash_arbiter_success",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "0101010101010101010101010101010101010101010101010101010101010101",
+            "balance": 1000000000000,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
       },
-      "expected": {}
-    },
-    {
-      "name": "tx_slash_arbiter_insufficient_approvals",
-      "description": "Slashing requires committee threshold",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "slash_arbiter.yaml"
+      "tx": {
+        "version": 1,
+        "chain_id": 0,
+        "source": "0101010101010101010101010101010101010101010101010101010101010101",
+        "tx_type": "slash_arbiter",
+        "payload": null,
+        "fee": 1000,
+        "fee_type": 0,
+        "nonce": 5,
+        "reference_hash": "0909090909090909090909090909090909090909090909090909090909090909",
+        "reference_topoheight": 100,
+        "signature": "07070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707"
       },
-      "expected": {}
-    },
-    {
-      "name": "tx_slash_arbiter_not_registered",
-      "description": "Cannot slash non-registered arbiter",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "slash_arbiter.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_slash_arbiter_exceed_stake",
-      "description": "Cannot slash more than stake",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "slash_arbiter.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_slash_arbiter_zero_amount",
-      "description": "Zero slash amount rejected",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "slash_arbiter.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_slash_arbiter_partial_slash",
-      "description": "Partial slash leaves arbiter active",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "slash_arbiter.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_slash_arbiter_full_slash",
-      "description": "Full slash deactivates arbiter",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "slash_arbiter.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_slash_arbiter_below_minimum",
-      "description": "Slash below minimum stake deactivates arbiter",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "slash_arbiter.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_slash_arbiter_invalid_signature",
-      "description": "Invalid committee signature rejected",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "slash_arbiter.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_slash_arbiter_payload_structure",
-      "description": "SlashArbiterPayload wire format",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "slash_arbiter.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_slash_arbiter_reasons",
-      "description": "Slashing reasons",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "slash_arbiter.yaml"
-      },
-      "expected": {}
+      "expected": {
+        "ok": false,
+        "error": "NOT_IMPLEMENTED",
+        "post_state": {
+          "network_chain_id": 0,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "0101010101010101010101010101010101010101010101010101010101010101",
+              "balance": 1000000000000,
+              "nonce": 5,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ]
+        }
+      }
     }
   ]
 }

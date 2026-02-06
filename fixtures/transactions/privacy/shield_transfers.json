@@ -1,104 +1,164 @@
 {
-  "test_vectors": [
+  "cases": [
     {
-      "name": "tx_shield_transfer_basic",
-      "description": "Basic shield transfer (TOS to UNO)",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "shield_transfers.yaml"
+      "name": "shield_transfer_success",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "0101010101010101010101010101010101010101010101010101010101010101",
+            "balance": 100000000000,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          },
+          {
+            "address": "0202020202020202020202020202020202020202020202020202020202020202",
+            "balance": 0,
+            "nonce": 0,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
       },
-      "expected": {}
+      "tx": {
+        "version": 1,
+        "chain_id": 0,
+        "source": "0101010101010101010101010101010101010101010101010101010101010101",
+        "tx_type": "shield_transfers",
+        "payload": null,
+        "fee": 1000,
+        "fee_type": 0,
+        "nonce": 5,
+        "reference_hash": "0909090909090909090909090909090909090909090909090909090909090909",
+        "reference_topoheight": 100,
+        "signature": "07070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707"
+      },
+      "expected": {
+        "ok": false,
+        "error": "NOT_IMPLEMENTED",
+        "post_state": {
+          "network_chain_id": 0,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "0101010101010101010101010101010101010101010101010101010101010101",
+              "balance": 100000000000,
+              "nonce": 5,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            },
+            {
+              "address": "0202020202020202020202020202020202020202020202020202020202020202",
+              "balance": 0,
+              "nonce": 0,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ]
+        }
+      }
     },
     {
-      "name": "tx_shield_transfer_to_other",
-      "description": "Shield transfer to another address",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "shield_transfers.yaml"
+      "name": "shield_transfer_below_minimum",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "0101010101010101010101010101010101010101010101010101010101010101",
+            "balance": 100000000000,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          },
+          {
+            "address": "0202020202020202020202020202020202020202020202020202020202020202",
+            "balance": 0,
+            "nonce": 0,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
       },
-      "expected": {}
-    },
-    {
-      "name": "tx_shield_transfer_proof_requirements",
-      "description": "ShieldCommitmentProof verification",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "shield_transfers.yaml"
+      "tx": {
+        "version": 1,
+        "chain_id": 0,
+        "source": "0101010101010101010101010101010101010101010101010101010101010101",
+        "tx_type": "shield_transfers",
+        "payload": null,
+        "fee": 1000,
+        "fee_type": 0,
+        "nonce": 5,
+        "reference_hash": "0909090909090909090909090909090909090909090909090909090909090909",
+        "reference_topoheight": 100,
+        "signature": "07070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707"
       },
-      "expected": {}
-    },
-    {
-      "name": "tx_shield_transfer_invalid_proof",
-      "description": "Invalid shield proof rejected",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "shield_transfers.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_shield_transfer_insufficient_balance",
-      "description": "Cannot shield more than plaintext balance",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "shield_transfers.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_shield_transfer_zero_amount",
-      "description": "Zero amount shield rejected",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "shield_transfers.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_shield_transfer_accumulates_uno",
-      "description": "Multiple shields accumulate UNO balance",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "shield_transfers.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_shield_transfer_payload_structure",
-      "description": "ShieldTransferPayload wire format",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "shield_transfers.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_shield_transfer_fee_model",
-      "description": "Shield transfer fee calculation",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "shield_transfers.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_shield_transfer_asset_restriction",
-      "description": "Only TOS can be shielded (Phase 7)",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "shield_transfers.yaml"
-      },
-      "expected": {}
+      "expected": {
+        "ok": false,
+        "error": "NOT_IMPLEMENTED",
+        "post_state": {
+          "network_chain_id": 0,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "0101010101010101010101010101010101010101010101010101010101010101",
+              "balance": 100000000000,
+              "nonce": 5,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            },
+            {
+              "address": "0202020202020202020202020202020202020202020202020202020202020202",
+              "balance": 0,
+              "nonce": 0,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ]
+        }
+      }
     }
   ]
 }

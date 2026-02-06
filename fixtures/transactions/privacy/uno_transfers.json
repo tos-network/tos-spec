@@ -1,104 +1,146 @@
 {
-  "test_vectors": [
+  "cases": [
     {
-      "name": "tx_uno_transfer_basic",
-      "description": "Basic UNO confidential transfer",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "uno_transfers.yaml"
+      "name": "uno_transfer_success",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "0101010101010101010101010101010101010101010101010101010101010101",
+            "balance": 100000000000,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          },
+          {
+            "address": "0202020202020202020202020202020202020202020202020202020202020202",
+            "balance": 0,
+            "nonce": 0,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
       },
-      "expected": {}
+      "tx": {
+        "version": 1,
+        "chain_id": 0,
+        "source": "0101010101010101010101010101010101010101010101010101010101010101",
+        "tx_type": "uno_transfers",
+        "payload": null,
+        "fee": 0,
+        "fee_type": 2,
+        "nonce": 5,
+        "reference_hash": "0909090909090909090909090909090909090909090909090909090909090909",
+        "reference_topoheight": 100,
+        "signature": "07070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707"
+      },
+      "expected": {
+        "ok": false,
+        "error": "NOT_IMPLEMENTED",
+        "post_state": {
+          "network_chain_id": 0,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "0101010101010101010101010101010101010101010101010101010101010101",
+              "balance": 100000000000,
+              "nonce": 5,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            },
+            {
+              "address": "0202020202020202020202020202020202020202020202020202020202020202",
+              "balance": 0,
+              "nonce": 0,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ]
+        }
+      }
     },
     {
-      "name": "tx_uno_transfer_twisted_elgamal",
-      "description": "Twisted ElGamal encryption structure",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "uno_transfers.yaml"
+      "name": "uno_transfer_self",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "0101010101010101010101010101010101010101010101010101010101010101",
+            "balance": 100000000000,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
       },
-      "expected": {}
-    },
-    {
-      "name": "tx_uno_transfer_proof_validity",
-      "description": "CiphertextValidityProof requirements",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "uno_transfers.yaml"
+      "tx": {
+        "version": 1,
+        "chain_id": 0,
+        "source": "0101010101010101010101010101010101010101010101010101010101010101",
+        "tx_type": "uno_transfers",
+        "payload": null,
+        "fee": 0,
+        "fee_type": 2,
+        "nonce": 5,
+        "reference_hash": "0909090909090909090909090909090909090909090909090909090909090909",
+        "reference_topoheight": 100,
+        "signature": "07070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707"
       },
-      "expected": {}
-    },
-    {
-      "name": "tx_uno_transfer_invalid_proof",
-      "description": "Invalid proof rejected",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "uno_transfers.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_uno_transfer_insufficient_balance",
-      "description": "Transfer fails with insufficient encrypted balance",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "uno_transfers.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_uno_transfer_self_transfer",
-      "description": "Self UNO transfer allowed",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "uno_transfers.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_uno_transfer_with_extra_data",
-      "description": "UNO transfer with encrypted memo",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "uno_transfers.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_uno_transfer_payload_structure",
-      "description": "UnoTransferPayload wire format",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "uno_transfers.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_uno_transfer_fee_model",
-      "description": "UNO transfer fee calculation",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "uno_transfers.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_uno_transfer_ciphertext_roles",
-      "description": "Role-based ciphertext construction",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "uno_transfers.yaml"
-      },
-      "expected": {}
+      "expected": {
+        "ok": false,
+        "error": "NOT_IMPLEMENTED",
+        "post_state": {
+          "network_chain_id": 0,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "0101010101010101010101010101010101010101010101010101010101010101",
+              "balance": 100000000000,
+              "nonce": 5,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ]
+        }
+      }
     }
   ]
 }

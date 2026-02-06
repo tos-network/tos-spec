@@ -1,134 +1,244 @@
 {
-  "test_vectors": [
+  "cases": [
     {
-      "name": "tx_bind_referrer_basic",
-      "description": "Basic referrer binding",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "bind_referrer.yaml"
+      "name": "bind_referrer_success",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "0101010101010101010101010101010101010101010101010101010101010101",
+            "balance": 1000000,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          },
+          {
+            "address": "0202020202020202020202020202020202020202020202020202020202020202",
+            "balance": 0,
+            "nonce": 0,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
       },
-      "expected": {}
+      "tx": {
+        "version": 1,
+        "chain_id": 0,
+        "source": "0101010101010101010101010101010101010101010101010101010101010101",
+        "tx_type": "bind_referrer",
+        "payload": null,
+        "fee": 1000,
+        "fee_type": 0,
+        "nonce": 5,
+        "reference_hash": "0909090909090909090909090909090909090909090909090909090909090909",
+        "reference_topoheight": 100,
+        "signature": "07070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707"
+      },
+      "expected": {
+        "ok": false,
+        "error": "NOT_IMPLEMENTED",
+        "post_state": {
+          "network_chain_id": 0,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "0101010101010101010101010101010101010101010101010101010101010101",
+              "balance": 1000000,
+              "nonce": 5,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            },
+            {
+              "address": "0202020202020202020202020202020202020202020202020202020202020202",
+              "balance": 0,
+              "nonce": 0,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ]
+        }
+      }
     },
     {
-      "name": "tx_bind_referrer_with_campaign",
-      "description": "Bind referrer with campaign tracking",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "bind_referrer.yaml"
+      "name": "bind_referrer_self",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "0101010101010101010101010101010101010101010101010101010101010101",
+            "balance": 1000000,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          },
+          {
+            "address": "0202020202020202020202020202020202020202020202020202020202020202",
+            "balance": 0,
+            "nonce": 0,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
       },
-      "expected": {}
+      "tx": {
+        "version": 1,
+        "chain_id": 0,
+        "source": "0101010101010101010101010101010101010101010101010101010101010101",
+        "tx_type": "bind_referrer",
+        "payload": null,
+        "fee": 1000,
+        "fee_type": 0,
+        "nonce": 5,
+        "reference_hash": "0909090909090909090909090909090909090909090909090909090909090909",
+        "reference_topoheight": 100,
+        "signature": "07070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707"
+      },
+      "expected": {
+        "ok": false,
+        "error": "NOT_IMPLEMENTED",
+        "post_state": {
+          "network_chain_id": 0,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "0101010101010101010101010101010101010101010101010101010101010101",
+              "balance": 1000000,
+              "nonce": 5,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            },
+            {
+              "address": "0202020202020202020202020202020202020202020202020202020202020202",
+              "balance": 0,
+              "nonce": 0,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ]
+        }
+      }
     },
     {
-      "name": "tx_bind_referrer_already_bound",
-      "description": "Cannot change referrer once bound",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "bind_referrer.yaml"
+      "name": "bind_referrer_not_found",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "0101010101010101010101010101010101010101010101010101010101010101",
+            "balance": 1000000,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          },
+          {
+            "address": "0202020202020202020202020202020202020202020202020202020202020202",
+            "balance": 0,
+            "nonce": 0,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
       },
-      "expected": {}
-    },
-    {
-      "name": "tx_bind_referrer_self_referral",
-      "description": "Cannot refer self",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "bind_referrer.yaml"
+      "tx": {
+        "version": 1,
+        "chain_id": 0,
+        "source": "0101010101010101010101010101010101010101010101010101010101010101",
+        "tx_type": "bind_referrer",
+        "payload": null,
+        "fee": 1000,
+        "fee_type": 0,
+        "nonce": 5,
+        "reference_hash": "0909090909090909090909090909090909090909090909090909090909090909",
+        "reference_topoheight": 100,
+        "signature": "07070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707"
       },
-      "expected": {}
-    },
-    {
-      "name": "tx_bind_referrer_nonexistent",
-      "description": "Referrer account must exist",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "bind_referrer.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_bind_referrer_circular",
-      "description": "Circular referrals not allowed",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "bind_referrer.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_bind_referrer_payload_structure",
-      "description": "BindReferrerPayload wire format",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "bind_referrer.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_batch_referral_reward_basic",
-      "description": "Batch distribute rewards to uplines",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "bind_referrer.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_batch_referral_reward_ratios_validation",
-      "description": "Ratio validation rules",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "bind_referrer.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_batch_referral_reward_level_limits",
-      "description": "Level count constraints",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "bind_referrer.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_batch_referral_reward_insufficient_chain",
-      "description": "Handle incomplete referral chains",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "bind_referrer.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_batch_referral_reward_payload_structure",
-      "description": "BatchReferralRewardPayload wire format",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "bind_referrer.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_referral_gas_costs",
-      "description": "Referral transaction gas costs",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "bind_referrer.yaml"
-      },
-      "expected": {}
+      "expected": {
+        "ok": false,
+        "error": "NOT_IMPLEMENTED",
+        "post_state": {
+          "network_chain_id": 0,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "0101010101010101010101010101010101010101010101010101010101010101",
+              "balance": 1000000,
+              "nonce": 5,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            },
+            {
+              "address": "0202020202020202020202020202020202020202020202020202020202020202",
+              "balance": 0,
+              "nonce": 0,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ]
+        }
+      }
     }
   ]
 }

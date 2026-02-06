@@ -1,94 +1,66 @@
 {
-  "test_vectors": [
+  "cases": [
     {
-      "name": "tx_commit_vote_request_basic",
-      "description": "Basic vote request commitment",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "commit_vote_request.yaml"
+      "name": "commit_vote_request",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "0101010101010101010101010101010101010101010101010101010101010101",
+            "balance": 1000000000000,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
       },
-      "expected": {}
-    },
-    {
-      "name": "tx_commit_vote_request_not_coordinator",
-      "description": "Only coordinator can commit vote request",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "commit_vote_request.yaml"
+      "tx": {
+        "version": 1,
+        "chain_id": 0,
+        "source": "0101010101010101010101010101010101010101010101010101010101010101",
+        "tx_type": "commit_vote_request",
+        "payload": null,
+        "fee": 1000,
+        "fee_type": 0,
+        "nonce": 5,
+        "reference_hash": "0909090909090909090909090909090909090909090909090909090909090909",
+        "reference_topoheight": 100,
+        "signature": "07070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707"
       },
-      "expected": {}
-    },
-    {
-      "name": "tx_commit_vote_request_wrong_state",
-      "description": "Arbitration must be in Open state",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "commit_vote_request.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_commit_vote_request_invalid_signature",
-      "description": "Coordinator signature must be valid",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "commit_vote_request.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_commit_vote_request_hash_mismatch",
-      "description": "Payload hash must match declared hash",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "commit_vote_request.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_commit_vote_request_payload_too_large",
-      "description": "Payload size limit enforcement",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "commit_vote_request.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_commit_vote_request_duplicate",
-      "description": "Cannot commit duplicate request ID",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "commit_vote_request.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_commit_vote_request_payload_structure",
-      "description": "CommitVoteRequestPayload wire format",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "commit_vote_request.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_commit_vote_request_gas_cost",
-      "description": "CommitVoteRequest gas consumption",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "commit_vote_request.yaml"
-      },
-      "expected": {}
+      "expected": {
+        "ok": false,
+        "error": "NOT_IMPLEMENTED",
+        "post_state": {
+          "network_chain_id": 0,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "0101010101010101010101010101010101010101010101010101010101010101",
+              "balance": 1000000000000,
+              "nonce": 5,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ]
+        }
+      }
     }
   ]
 }

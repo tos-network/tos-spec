@@ -1,104 +1,66 @@
 {
-  "test_vectors": [
+  "cases": [
     {
-      "name": "tx_register_committee_basic",
-      "description": "Create regional committee",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "register_committee.yaml"
+      "name": "register_committee_success",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "0101010101010101010101010101010101010101010101010101010101010101",
+            "balance": 10000000,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
       },
-      "expected": {}
-    },
-    {
-      "name": "tx_register_committee_threshold_validation",
-      "description": "Committee threshold must be >= 2/3 of members",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "register_committee.yaml"
+      "tx": {
+        "version": 1,
+        "chain_id": 0,
+        "source": "0101010101010101010101010101010101010101010101010101010101010101",
+        "tx_type": "register_committee",
+        "payload": null,
+        "fee": 1000,
+        "fee_type": 0,
+        "nonce": 5,
+        "reference_hash": "0909090909090909090909090909090909090909090909090909090909090909",
+        "reference_topoheight": 100,
+        "signature": "07070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707"
       },
-      "expected": {}
-    },
-    {
-      "name": "tx_register_committee_member_requirements",
-      "description": "Committee member requirements",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "register_committee.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_register_committee_parent_approval",
-      "description": "Parent committee governance threshold required",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "register_committee.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_register_committee_max_level_constraint",
-      "description": "max_kyc_level cannot exceed parent's",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "register_committee.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_register_committee_name_validation",
-      "description": "Committee name validation",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "register_committee.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_register_committee_regions",
-      "description": "Valid KycRegion values",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "register_committee.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_register_committee_member_roles",
-      "description": "Valid MemberRole values",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "register_committee.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_register_committee_payload_structure",
-      "description": "RegisterCommitteePayload wire format",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "register_committee.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_register_committee_gas_cost",
-      "description": "RegisterCommittee gas consumption",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "register_committee.yaml"
-      },
-      "expected": {}
+      "expected": {
+        "ok": false,
+        "error": "NOT_IMPLEMENTED",
+        "post_state": {
+          "network_chain_id": 0,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "0101010101010101010101010101010101010101010101010101010101010101",
+              "balance": 10000000,
+              "nonce": 5,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ]
+        }
+      }
     }
   ]
 }

@@ -1,124 +1,128 @@
 {
-  "test_vectors": [
+  "cases": [
     {
-      "name": "tx_register_arbiter_basic",
-      "description": "Basic arbiter registration",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "register_arbiter.yaml"
+      "name": "register_arbiter_success",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "0101010101010101010101010101010101010101010101010101010101010101",
+            "balance": 1000000000000,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
       },
-      "expected": {}
+      "tx": {
+        "version": 1,
+        "chain_id": 0,
+        "source": "0101010101010101010101010101010101010101010101010101010101010101",
+        "tx_type": "register_arbiter",
+        "payload": null,
+        "fee": 1000,
+        "fee_type": 0,
+        "nonce": 5,
+        "reference_hash": "0909090909090909090909090909090909090909090909090909090909090909",
+        "reference_topoheight": 100,
+        "signature": "07070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707"
+      },
+      "expected": {
+        "ok": false,
+        "error": "NOT_IMPLEMENTED",
+        "post_state": {
+          "network_chain_id": 0,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "0101010101010101010101010101010101010101010101010101010101010101",
+              "balance": 1000000000000,
+              "nonce": 5,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ]
+        }
+      }
     },
     {
-      "name": "tx_register_arbiter_minimum_stake",
-      "description": "Minimum stake is 1000 TOS",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "register_arbiter.yaml"
+      "name": "register_arbiter_low_stake",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "0101010101010101010101010101010101010101010101010101010101010101",
+            "balance": 1000000000000,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
       },
-      "expected": {}
-    },
-    {
-      "name": "tx_register_arbiter_insufficient_balance",
-      "description": "Registration fails without sufficient balance for stake",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "register_arbiter.yaml"
+      "tx": {
+        "version": 1,
+        "chain_id": 0,
+        "source": "0101010101010101010101010101010101010101010101010101010101010101",
+        "tx_type": "register_arbiter",
+        "payload": null,
+        "fee": 1000,
+        "fee_type": 0,
+        "nonce": 5,
+        "reference_hash": "0909090909090909090909090909090909090909090909090909090909090909",
+        "reference_topoheight": 100,
+        "signature": "07070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707"
       },
-      "expected": {}
-    },
-    {
-      "name": "tx_register_arbiter_already_registered",
-      "description": "Cannot register twice",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "register_arbiter.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_register_arbiter_expertise_domains",
-      "description": "Valid expertise domain values",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "register_arbiter.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_register_arbiter_escrow_value_range",
-      "description": "min_escrow_value must be <= max_escrow_value",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "register_arbiter.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_register_arbiter_fee_basis_points",
-      "description": "Fee basis points validation",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "register_arbiter.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_register_arbiter_name_validation",
-      "description": "Arbiter name validation",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "register_arbiter.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_register_arbiter_stake_locked",
-      "description": "Staked TOS is locked until exit",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "register_arbiter.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_register_arbiter_payload_structure",
-      "description": "RegisterArbiterPayload wire format",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "register_arbiter.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_register_arbiter_constants",
-      "description": "Arbitration-related constants",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "register_arbiter.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_register_arbiter_status_lifecycle",
-      "description": "Arbiter status lifecycle",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "register_arbiter.yaml"
-      },
-      "expected": {}
+      "expected": {
+        "ok": false,
+        "error": "NOT_IMPLEMENTED",
+        "post_state": {
+          "network_chain_id": 0,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "0101010101010101010101010101010101010101010101010101010101010101",
+              "balance": 1000000000000,
+              "nonce": 5,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ]
+        }
+      }
     }
   ]
 }

@@ -1,144 +1,89 @@
 {
   "test_vectors": [
     {
-      "name": "consensus_block_valid_dag",
-      "description": "Valid block with DAG tips is accepted",
+      "name": "tips_within_limit",
       "runnable": false,
       "input": {
-        "kind": "spec",
-        "source": "block_validation.yaml"
+        "tips_count": 2
       },
-      "expected": {}
+      "expected": {
+        "valid": true
+      }
     },
     {
-      "name": "consensus_block_invalid_no_tips",
-      "description": "Block with no tips (except genesis) is rejected",
+      "name": "tips_exceed_limit",
       "runnable": false,
       "input": {
-        "kind": "spec",
-        "source": "block_validation.yaml"
+        "tips_count": 4
       },
-      "expected": {}
+      "expected": {
+        "valid": false
+      }
     },
     {
-      "name": "consensus_block_invalid_tips_count",
-      "description": "Block with more than TIPS_LIMIT tips is rejected",
+      "name": "tips_zero",
       "runnable": false,
       "input": {
-        "kind": "spec",
-        "source": "block_validation.yaml"
+        "tips_count": 0
       },
-      "expected": {}
+      "expected": {
+        "valid": false
+      }
     },
     {
-      "name": "consensus_block_invalid_tip_not_found",
-      "description": "Block with unknown tip is rejected",
+      "name": "header_size_constants",
       "runnable": false,
       "input": {
-        "kind": "spec",
-        "source": "block_validation.yaml"
+        "kind": "spec"
       },
-      "expected": {}
+      "expected": {
+        "tips_limit": 3,
+        "max_block_size": 1310720,
+        "max_txs_per_block": 10000,
+        "min_header_size": 91,
+        "max_header_size": 320350
+      }
     },
     {
-      "name": "consensus_block_invalid_height",
-      "description": "Block with height not matching tips is rejected",
+      "name": "timestamp_valid",
       "runnable": false,
       "input": {
-        "kind": "spec",
-        "source": "block_validation.yaml"
+        "timestamp_ms": 1700000030000,
+        "parent_timestamps": [
+          1700000000000
+        ],
+        "now_ms": 1700000060000
       },
-      "expected": {}
+      "expected": {
+        "valid": true
+      }
     },
     {
-      "name": "consensus_block_invalid_height_stable",
-      "description": "Block with height in stable range is rejected",
+      "name": "timestamp_too_old",
       "runnable": false,
       "input": {
-        "kind": "spec",
-        "source": "block_validation.yaml"
+        "timestamp_ms": 1700000040000,
+        "parent_timestamps": [
+          1700000050000
+        ],
+        "now_ms": 1700000060000
       },
-      "expected": {}
+      "expected": {
+        "valid": false
+      }
     },
     {
-      "name": "consensus_block_invalid_timestamp_future",
-      "description": "Block with timestamp >2 seconds in future is rejected",
+      "name": "duplicate_txs",
       "runnable": false,
       "input": {
-        "kind": "spec",
-        "source": "block_validation.yaml"
+        "txs_hashes": [
+          "0101010101010101010101010101010101010101010101010101010101010101",
+          "0101010101010101010101010101010101010101010101010101010101010101"
+        ]
       },
-      "expected": {}
-    },
-    {
-      "name": "consensus_block_invalid_timestamp_past",
-      "description": "Block with timestamp less than parent is rejected",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "block_validation.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "consensus_block_invalid_difficulty",
-      "description": "Block with invalid proof-of-work difficulty is rejected",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "block_validation.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "consensus_block_invalid_tips_difficulty",
-      "description": "Block must reference tips with highest cumulative difficulty",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "block_validation.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "consensus_block_size_limit",
-      "description": "Block exceeding MAX_BLOCK_SIZE is rejected",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "block_validation.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "consensus_nonce_sequential",
-      "description": "Transactions in block must have sequential nonces per sender",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "block_validation.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "consensus_nonce_gap_rejected",
-      "description": "Transaction with nonce gap is orphaned",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "block_validation.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "consensus_block_version",
-      "description": "Block version must be valid for current height",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "block_validation.yaml"
-      },
-      "expected": {}
+      "expected": {
+        "valid": false
+      }
     }
   ]
 }

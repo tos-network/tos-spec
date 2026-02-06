@@ -1,144 +1,214 @@
 {
-  "test_vectors": [
+  "cases": [
     {
-      "name": "tx_freeze_tos_basic",
-      "description": "Basic self-freeze TOS operation",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "freeze_tos.yaml"
+      "name": "freeze_tos_success",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "0101010101010101010101010101010101010101010101010101010101010101",
+            "balance": 10000000000,
+            "nonce": 5,
+            "frozen": 1000000000,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
       },
-      "expected": {}
+      "tx": {
+        "version": 1,
+        "chain_id": 0,
+        "source": "0101010101010101010101010101010101010101010101010101010101010101",
+        "tx_type": "energy",
+        "payload": {
+          "variant": "freeze_tos",
+          "amount": 100000000,
+          "duration_days": 7,
+          "delegatees": [],
+          "from_delegation": null,
+          "record_index": null,
+          "delegatee_address": null
+        },
+        "fee": 1000,
+        "fee_type": 0,
+        "nonce": 5,
+        "reference_hash": "0909090909090909090909090909090909090909090909090909090909090909",
+        "reference_topoheight": 100,
+        "signature": "07070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707"
+      },
+      "expected": {
+        "ok": false,
+        "error": "NOT_IMPLEMENTED",
+        "post_state": {
+          "network_chain_id": 0,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "0101010101010101010101010101010101010101010101010101010101010101",
+              "balance": 10000000000,
+              "nonce": 5,
+              "frozen": 1000000000,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ]
+        }
+      }
     },
     {
-      "name": "tx_freeze_tos_minimum_amount",
-      "description": "Minimum freeze amount is 1 TOS",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "freeze_tos.yaml"
+      "name": "freeze_tos_insufficient_balance",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "0101010101010101010101010101010101010101010101010101010101010101",
+            "balance": 10000000000,
+            "nonce": 5,
+            "frozen": 1000000000,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
       },
-      "expected": {}
+      "tx": {
+        "version": 1,
+        "chain_id": 0,
+        "source": "0101010101010101010101010101010101010101010101010101010101010101",
+        "tx_type": "energy",
+        "payload": {
+          "variant": "freeze_tos",
+          "amount": 20000000000,
+          "duration_days": 7,
+          "delegatees": [],
+          "from_delegation": null,
+          "record_index": null,
+          "delegatee_address": null
+        },
+        "fee": 1000,
+        "fee_type": 0,
+        "nonce": 5,
+        "reference_hash": "0909090909090909090909090909090909090909090909090909090909090909",
+        "reference_topoheight": 100,
+        "signature": "07070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707"
+      },
+      "expected": {
+        "ok": false,
+        "error": "NOT_IMPLEMENTED",
+        "post_state": {
+          "network_chain_id": 0,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "0101010101010101010101010101010101010101010101010101010101010101",
+              "balance": 10000000000,
+              "nonce": 5,
+              "frozen": 1000000000,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ]
+        }
+      }
     },
     {
-      "name": "tx_freeze_tos_below_minimum",
-      "description": "Freeze below 1 TOS rejected",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "freeze_tos.yaml"
+      "name": "freeze_tos_zero_amount",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "0101010101010101010101010101010101010101010101010101010101010101",
+            "balance": 10000000000,
+            "nonce": 5,
+            "frozen": 1000000000,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
       },
-      "expected": {}
-    },
-    {
-      "name": "tx_freeze_tos_whole_tos_only",
-      "description": "Only whole TOS amounts generate energy",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "freeze_tos.yaml"
+      "tx": {
+        "version": 1,
+        "chain_id": 0,
+        "source": "0101010101010101010101010101010101010101010101010101010101010101",
+        "tx_type": "energy",
+        "payload": {
+          "variant": "freeze_tos",
+          "amount": 0,
+          "duration_days": 7,
+          "delegatees": [],
+          "from_delegation": null,
+          "record_index": null,
+          "delegatee_address": null
+        },
+        "fee": 1000,
+        "fee_type": 0,
+        "nonce": 5,
+        "reference_hash": "0909090909090909090909090909090909090909090909090909090909090909",
+        "reference_topoheight": 100,
+        "signature": "07070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707"
       },
-      "expected": {}
-    },
-    {
-      "name": "tx_freeze_tos_duration_minimum",
-      "description": "Minimum freeze duration is 3 days",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "freeze_tos.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_freeze_tos_duration_below_minimum",
-      "description": "Freeze duration below 3 days rejected",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "freeze_tos.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_freeze_tos_duration_maximum",
-      "description": "Maximum freeze duration is 365 days",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "freeze_tos.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_freeze_tos_duration_above_maximum",
-      "description": "Freeze duration above 365 days rejected",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "freeze_tos.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_freeze_tos_insufficient_balance",
-      "description": "Freeze fails with insufficient balance",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "freeze_tos.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_freeze_tos_multiple_records",
-      "description": "Multiple freeze records with different durations",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "freeze_tos.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_freeze_tos_max_records",
-      "description": "Maximum 32 freeze records per account",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "freeze_tos.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_freeze_tos_unlock_calculation",
-      "description": "Unlock topoheight calculation",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "freeze_tos.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_freeze_tos_devnet_timing",
-      "description": "Devnet uses accelerated timing",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "freeze_tos.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_freeze_tos_payload_structure",
-      "description": "FreezeTos payload wire format",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "freeze_tos.yaml"
-      },
-      "expected": {}
+      "expected": {
+        "ok": false,
+        "error": "NOT_IMPLEMENTED",
+        "post_state": {
+          "network_chain_id": 0,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "0101010101010101010101010101010101010101010101010101010101010101",
+              "balance": 10000000000,
+              "nonce": 5,
+              "frozen": 1000000000,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ]
+        }
+      }
     }
   ]
 }

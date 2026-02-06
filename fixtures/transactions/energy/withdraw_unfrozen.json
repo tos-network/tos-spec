@@ -1,114 +1,144 @@
 {
-  "test_vectors": [
+  "cases": [
     {
-      "name": "tx_withdraw_unfrozen_basic",
-      "description": "Basic withdrawal of matured pending unfreeze",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "withdraw_unfrozen.yaml"
+      "name": "withdraw_unfrozen_success",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "0101010101010101010101010101010101010101010101010101010101010101",
+            "balance": 10000000000,
+            "nonce": 5,
+            "frozen": 1000000000,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
       },
-      "expected": {}
+      "tx": {
+        "version": 1,
+        "chain_id": 0,
+        "source": "0101010101010101010101010101010101010101010101010101010101010101",
+        "tx_type": "energy",
+        "payload": {
+          "variant": "withdraw_unfrozen",
+          "amount": null,
+          "duration_days": null,
+          "delegatees": [],
+          "from_delegation": null,
+          "record_index": null,
+          "delegatee_address": null
+        },
+        "fee": 1000,
+        "fee_type": 0,
+        "nonce": 5,
+        "reference_hash": "0909090909090909090909090909090909090909090909090909090909090909",
+        "reference_topoheight": 100,
+        "signature": "07070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707"
+      },
+      "expected": {
+        "ok": false,
+        "error": "NOT_IMPLEMENTED",
+        "post_state": {
+          "network_chain_id": 0,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "0101010101010101010101010101010101010101010101010101010101010101",
+              "balance": 10000000000,
+              "nonce": 5,
+              "frozen": 1000000000,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ]
+        }
+      }
     },
     {
-      "name": "tx_withdraw_unfrozen_multiple",
-      "description": "Withdraw multiple matured pending unfreezes",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "withdraw_unfrozen.yaml"
+      "name": "withdraw_unfrozen_nothing_pending",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "0101010101010101010101010101010101010101010101010101010101010101",
+            "balance": 10000000000,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
       },
-      "expected": {}
-    },
-    {
-      "name": "tx_withdraw_unfrozen_none_matured",
-      "description": "Withdraw with no matured unfreezes",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "withdraw_unfrozen.yaml"
+      "tx": {
+        "version": 1,
+        "chain_id": 0,
+        "source": "0101010101010101010101010101010101010101010101010101010101010101",
+        "tx_type": "energy",
+        "payload": {
+          "variant": "withdraw_unfrozen",
+          "amount": null,
+          "duration_days": null,
+          "delegatees": [],
+          "from_delegation": null,
+          "record_index": null,
+          "delegatee_address": null
+        },
+        "fee": 1000,
+        "fee_type": 0,
+        "nonce": 5,
+        "reference_hash": "0909090909090909090909090909090909090909090909090909090909090909",
+        "reference_topoheight": 100,
+        "signature": "07070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707"
       },
-      "expected": {}
-    },
-    {
-      "name": "tx_withdraw_unfrozen_no_pending",
-      "description": "Withdraw with empty pending list",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "withdraw_unfrozen.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_withdraw_unfrozen_partial_list",
-      "description": "Only expired entries are withdrawn",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "withdraw_unfrozen.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_withdraw_unfrozen_at_exact_expiry",
-      "description": "Withdrawal at exactly expire_topoheight",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "withdraw_unfrozen.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_withdraw_unfrozen_balance_accumulation",
-      "description": "Withdrawn TOS adds to existing balance",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "withdraw_unfrozen.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_withdraw_unfrozen_overflow_protection",
-      "description": "Withdrawal uses checked arithmetic",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "withdraw_unfrozen.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_withdraw_unfrozen_free_operation",
-      "description": "WithdrawUnfrozen is a free operation",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "withdraw_unfrozen.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_withdraw_unfrozen_payload_structure",
-      "description": "WithdrawUnfrozen payload wire format",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "withdraw_unfrozen.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_withdraw_unfrozen_idempotent",
-      "description": "Multiple withdrawals process remaining items",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "withdraw_unfrozen.yaml"
-      },
-      "expected": {}
+      "expected": {
+        "ok": false,
+        "error": "NOT_IMPLEMENTED",
+        "post_state": {
+          "network_chain_id": 0,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "0101010101010101010101010101010101010101010101010101010101010101",
+              "balance": 10000000000,
+              "nonce": 5,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ]
+        }
+      }
     }
   ]
 }

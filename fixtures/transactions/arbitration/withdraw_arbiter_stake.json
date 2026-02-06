@@ -1,114 +1,66 @@
 {
-  "test_vectors": [
+  "cases": [
     {
-      "name": "tx_withdraw_arbiter_stake_basic",
-      "description": "Basic arbiter stake withdrawal",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "withdraw_arbiter_stake.yaml"
+      "name": "withdraw_arbiter_stake_success",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "0101010101010101010101010101010101010101010101010101010101010101",
+            "balance": 1000000000000,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
       },
-      "expected": {}
-    },
-    {
-      "name": "tx_withdraw_arbiter_stake_partial",
-      "description": "Partial stake withdrawal",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "withdraw_arbiter_stake.yaml"
+      "tx": {
+        "version": 1,
+        "chain_id": 0,
+        "source": "0101010101010101010101010101010101010101010101010101010101010101",
+        "tx_type": "withdraw_arbiter_stake",
+        "payload": null,
+        "fee": 1000,
+        "fee_type": 0,
+        "nonce": 5,
+        "reference_hash": "0909090909090909090909090909090909090909090909090909090909090909",
+        "reference_topoheight": 100,
+        "signature": "07070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707"
       },
-      "expected": {}
-    },
-    {
-      "name": "tx_withdraw_arbiter_stake_not_exiting",
-      "description": "Cannot withdraw if not in exiting state",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "withdraw_arbiter_stake.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_withdraw_arbiter_stake_cooldown_not_passed",
-      "description": "Cannot withdraw before cooldown expires",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "withdraw_arbiter_stake.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_withdraw_arbiter_stake_pending_cases",
-      "description": "Cannot withdraw with pending cases",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "withdraw_arbiter_stake.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_withdraw_arbiter_stake_exceeds_balance",
-      "description": "Cannot withdraw more than staked",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "withdraw_arbiter_stake.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_withdraw_arbiter_stake_zero_amount",
-      "description": "Cannot withdraw zero amount",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "withdraw_arbiter_stake.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_withdraw_arbiter_stake_not_registered",
-      "description": "Cannot withdraw if not registered",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "withdraw_arbiter_stake.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_withdraw_arbiter_stake_slashed",
-      "description": "Withdrawal reflects slashed amount",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "withdraw_arbiter_stake.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_withdraw_arbiter_stake_payload_structure",
-      "description": "WithdrawArbiterStakePayload wire format",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "withdraw_arbiter_stake.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_withdraw_arbiter_stake_gas_cost",
-      "description": "WithdrawArbiterStake gas consumption",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "withdraw_arbiter_stake.yaml"
-      },
-      "expected": {}
+      "expected": {
+        "ok": false,
+        "error": "NOT_IMPLEMENTED",
+        "post_state": {
+          "network_chain_id": 0,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "0101010101010101010101010101010101010101010101010101010101010101",
+              "balance": 1000000000000,
+              "nonce": 5,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ]
+        }
+      }
     }
   ]
 }

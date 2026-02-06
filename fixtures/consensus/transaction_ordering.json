@@ -1,124 +1,84 @@
 {
   "test_vectors": [
     {
-      "name": "consensus_tx_ordering_by_nonce",
-      "description": "Transactions from same sender ordered by nonce",
+      "name": "tips_count_valid",
       "runnable": false,
       "input": {
-        "kind": "spec",
-        "source": "transaction_ordering.yaml"
+        "tips": [
+          "0101010101010101010101010101010101010101010101010101010101010101",
+          "0202020202020202020202020202020202020202020202020202020202020202"
+        ]
       },
-      "expected": {}
+      "expected": {
+        "valid": true
+      }
     },
     {
-      "name": "consensus_tx_ordering_by_fee",
-      "description": "Transactions from different senders ordered by fee (highest first)",
+      "name": "tips_count_empty",
       "runnable": false,
       "input": {
-        "kind": "spec",
-        "source": "transaction_ordering.yaml"
+        "tips": []
       },
-      "expected": {}
+      "expected": {
+        "valid": false
+      }
     },
     {
-      "name": "consensus_tx_ordering_nonce_gap_deferred",
-      "description": "Transaction with nonce gap is deferred in mempool",
+      "name": "best_tip_tiebreaker",
       "runnable": false,
       "input": {
-        "kind": "spec",
-        "source": "transaction_ordering.yaml"
+        "scores": [
+          {
+            "tip_hash": "0101010101010101010101010101010101010101010101010101010101010101",
+            "cumulative_difficulty": 100
+          },
+          {
+            "tip_hash": "0202020202020202020202020202020202020202020202020202020202020202",
+            "cumulative_difficulty": 120
+          },
+          {
+            "tip_hash": "0303030303030303030303030303030303030303030303030303030303030303",
+            "cumulative_difficulty": 120
+          }
+        ]
       },
-      "expected": {}
+      "expected": {
+        "best_tip": "0202020202020202020202020202020202020202020202020202020202020202"
+      }
     },
     {
-      "name": "consensus_tx_ordering_insufficient_balance",
-      "description": "Transaction with insufficient balance for fee+amount is skipped",
+      "name": "tips_difficulty_valid",
       "runnable": false,
       "input": {
-        "kind": "spec",
-        "source": "transaction_ordering.yaml"
+        "best_difficulty": 1000,
+        "tip_difficulties": [
+          920,
+          950
+        ]
       },
-      "expected": {}
+      "expected": {
+        "valid": true
+      }
     },
     {
-      "name": "consensus_tx_ordering_block_size_limit",
-      "description": "Block size limit respected in transaction ordering",
+      "name": "randomx_key_block",
       "runnable": false,
       "input": {
-        "kind": "spec",
-        "source": "transaction_ordering.yaml"
+        "height": 5000
       },
-      "expected": {}
+      "expected": {
+        "key_block_height": 4096
+      }
     },
     {
-      "name": "consensus_tx_ordering_fee_replacement",
-      "description": "Transaction with same nonce but higher fee replaces in mempool",
+      "name": "target_from_difficulty",
       "runnable": false,
       "input": {
-        "kind": "spec",
-        "source": "transaction_ordering.yaml"
+        "difficulty": 1000
       },
-      "expected": {}
-    },
-    {
-      "name": "consensus_tx_ordering_fee_too_low_rejected",
-      "description": "Replacement transaction with lower/equal fee is rejected",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "transaction_ordering.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "consensus_tx_ordering_already_in_mempool",
-      "description": "Duplicate transaction (same hash) is rejected",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "transaction_ordering.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "consensus_tx_ordering_already_in_blockchain",
-      "description": "Transaction already executed in blockchain is rejected",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "transaction_ordering.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "consensus_tx_ordering_max_txs_per_block",
-      "description": "Block cannot exceed MAX_TXS_PER_BLOCK transactions",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "transaction_ordering.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "consensus_tx_ordering_energy_vs_fee",
-      "description": "Transaction can use energy instead of fee",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "transaction_ordering.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "consensus_tx_ordering_multisig_fee",
-      "description": "Multisig transactions include additional signature fees",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "transaction_ordering.yaml"
-      },
-      "expected": {}
+      "expected": {
+        "target": 115792089237316195423570985008687907853269984665640564039457584007913129639
+      }
     }
   ]
 }

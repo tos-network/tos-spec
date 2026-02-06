@@ -1,134 +1,84 @@
 {
-  "test_vectors": [
+  "cases": [
     {
-      "name": "tx_release_escrow_basic",
-      "description": "Basic escrow release to provider",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "release_escrow.yaml"
+      "name": "release_escrow_success",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "0101010101010101010101010101010101010101010101010101010101010101",
+            "balance": 10000000000,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          },
+          {
+            "address": "0202020202020202020202020202020202020202020202020202020202020202",
+            "balance": 0,
+            "nonce": 0,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
       },
-      "expected": {}
-    },
-    {
-      "name": "tx_release_escrow_partial",
-      "description": "Partial escrow release",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "release_escrow.yaml"
+      "tx": {
+        "version": 1,
+        "chain_id": 0,
+        "source": "0101010101010101010101010101010101010101010101010101010101010101",
+        "tx_type": "release_escrow",
+        "payload": null,
+        "fee": 1000,
+        "fee_type": 0,
+        "nonce": 5,
+        "reference_hash": "0909090909090909090909090909090909090909090909090909090909090909",
+        "reference_topoheight": 100,
+        "signature": "07070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707"
       },
-      "expected": {}
-    },
-    {
-      "name": "tx_release_escrow_with_proof",
-      "description": "Release with completion proof hash",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "release_escrow.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_release_escrow_unauthorized",
-      "description": "Only payer can release escrow",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "release_escrow.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_release_escrow_not_found",
-      "description": "Release non-existent escrow fails",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "release_escrow.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_release_escrow_already_released",
-      "description": "Cannot release already released escrow",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "release_escrow.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_release_escrow_exceed_remaining",
-      "description": "Cannot release more than remaining",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "release_escrow.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_release_escrow_zero_amount",
-      "description": "Zero amount release rejected",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "release_escrow.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_release_escrow_disputed",
-      "description": "Cannot release disputed escrow",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "release_escrow.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_release_escrow_optimistic_auto_release",
-      "description": "Optimistic escrow auto-releases after challenge window",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "release_escrow.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_release_escrow_during_challenge",
-      "description": "Release during active challenge",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "release_escrow.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_release_escrow_payload_structure",
-      "description": "ReleaseEscrowPayload wire format",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "release_escrow.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_release_escrow_multiple_releases",
-      "description": "Multiple partial releases supported",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "release_escrow.yaml"
-      },
-      "expected": {}
+      "expected": {
+        "ok": false,
+        "error": "NOT_IMPLEMENTED",
+        "post_state": {
+          "network_chain_id": 0,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "0101010101010101010101010101010101010101010101010101010101010101",
+              "balance": 10000000000,
+              "nonce": 5,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            },
+            {
+              "address": "0202020202020202020202020202020202020202020202020202020202020202",
+              "balance": 0,
+              "nonce": 0,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ]
+        }
+      }
     }
   ]
 }

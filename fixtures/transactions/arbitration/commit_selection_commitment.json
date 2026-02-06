@@ -1,104 +1,66 @@
 {
-  "test_vectors": [
+  "cases": [
     {
-      "name": "tx_commit_selection_commitment_basic",
-      "description": "Basic juror selection commitment",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "commit_selection_commitment.yaml"
+      "name": "commit_selection_commitment",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "0101010101010101010101010101010101010101010101010101010101010101",
+            "balance": 1000000000000,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
       },
-      "expected": {}
-    },
-    {
-      "name": "tx_commit_selection_commitment_not_arbiter",
-      "description": "Only registered arbiters can commit",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "commit_selection_commitment.yaml"
+      "tx": {
+        "version": 1,
+        "chain_id": 0,
+        "source": "0101010101010101010101010101010101010101010101010101010101010101",
+        "tx_type": "commit_selection_commitment",
+        "payload": null,
+        "fee": 1000,
+        "fee_type": 0,
+        "nonce": 5,
+        "reference_hash": "0909090909090909090909090909090909090909090909090909090909090909",
+        "reference_topoheight": 100,
+        "signature": "07070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707"
       },
-      "expected": {}
-    },
-    {
-      "name": "tx_commit_selection_commitment_invalid_request",
-      "description": "Request ID must exist",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "commit_selection_commitment.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_commit_selection_commitment_wrong_state",
-      "description": "Arbitration must be in VoteRequested state",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "commit_selection_commitment.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_commit_selection_commitment_duplicate",
-      "description": "Cannot commit twice for same request",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "commit_selection_commitment.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_commit_selection_commitment_deadline_passed",
-      "description": "Must commit before deadline",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "commit_selection_commitment.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_commit_selection_commitment_payload_too_large",
-      "description": "Payload size limit enforcement",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "commit_selection_commitment.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_commit_selection_commitment_inactive_arbiter",
-      "description": "Arbiter must be active to commit",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "commit_selection_commitment.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_commit_selection_commitment_payload_structure",
-      "description": "CommitSelectionCommitmentPayload wire format",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "commit_selection_commitment.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_commit_selection_commitment_gas_cost",
-      "description": "CommitSelectionCommitment gas consumption",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "commit_selection_commitment.yaml"
-      },
-      "expected": {}
+      "expected": {
+        "ok": false,
+        "error": "NOT_IMPLEMENTED",
+        "post_state": {
+          "network_chain_id": 0,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "0101010101010101010101010101010101010101010101010101010101010101",
+              "balance": 1000000000000,
+              "nonce": 5,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ]
+        }
+      }
     }
   ]
 }

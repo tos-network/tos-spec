@@ -1,84 +1,75 @@
 {
   "test_vectors": [
     {
-      "name": "consensus_finality_stable_limit",
-      "description": "Block considered stable after STABLE_LIMIT (24) depth",
+      "name": "stable_check_true",
       "runnable": false,
       "input": {
-        "kind": "spec",
-        "source": "finality.yaml"
+        "current_topoheight": 1000,
+        "block_topoheight": 970
       },
-      "expected": {}
+      "expected": {
+        "is_stable": true
+      }
     },
     {
-      "name": "consensus_finality_not_stable",
-      "description": "Block not stable before STABLE_LIMIT depth",
+      "name": "stable_check_false",
       "runnable": false,
       "input": {
-        "kind": "spec",
-        "source": "finality.yaml"
+        "current_topoheight": 1000,
+        "block_topoheight": 990
       },
-      "expected": {}
+      "expected": {
+        "is_stable": false
+      }
     },
     {
-      "name": "consensus_finality_genesis_stable",
-      "description": "Genesis block becomes stable at height 24",
+      "name": "finality_constants",
       "runnable": false,
       "input": {
-        "kind": "spec",
-        "source": "finality.yaml"
+        "kind": "spec"
       },
-      "expected": {}
+      "expected": {
+        "stable_limit": 24,
+        "prune_safety_limit": 240,
+        "block_time_target_ms": 15000,
+        "coinbase_maturity": 100
+      }
     },
     {
-      "name": "consensus_finality_stable_height_calculation",
-      "description": "Stable height = current_height - STABLE_LIMIT",
+      "name": "height_from_parents",
       "runnable": false,
       "input": {
-        "kind": "spec",
-        "source": "finality.yaml"
+        "parent_heights": [
+          10,
+          12,
+          11
+        ]
       },
-      "expected": {}
+      "expected": {
+        "height": 13
+      }
     },
     {
-      "name": "consensus_finality_monotonic",
-      "description": "Stable height never decreases (monotonically increasing)",
+      "name": "block_reward_era0",
       "runnable": false,
       "input": {
-        "kind": "spec",
-        "source": "finality.yaml"
+        "height": 100,
+        "coin_value": 100000000
       },
-      "expected": {}
+      "expected": {
+        "reward": 5000000000
+      }
     },
     {
-      "name": "consensus_finality_prune_safety",
-      "description": "PRUNE_SAFETY_LIMIT = STABLE_LIMIT * 10",
+      "name": "block_reward_era1",
       "runnable": false,
       "input": {
-        "kind": "spec",
-        "source": "finality.yaml"
+        "height": 2100100,
+        "coin_value": 100000000
       },
-      "expected": {}
-    },
-    {
-      "name": "consensus_finality_sync_block",
-      "description": "Sync block is highest cumulative difficulty block at stable height",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "finality.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "consensus_finality_reachability_depth",
-      "description": "Reachability traversal uses 2 * STABLE_LIMIT = 48",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "finality.yaml"
-      },
-      "expected": {}
+      "expected": {
+        "reward": 2500000000
+      }
     }
   ]
 }

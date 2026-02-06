@@ -1,114 +1,49 @@
 {
   "test_vectors": [
     {
-      "name": "energy_system_overview",
-      "description": "Energy system overview and calculation rules",
+      "name": "energy_from_1tos_7days",
       "runnable": false,
       "input": {
-        "kind": "spec",
-        "source": "energy_system.yaml"
+        "amount": 100000000,
+        "days": 7
       },
-      "expected": {}
+      "expected": {
+        "energy": 14
+      }
     },
     {
-      "name": "energy_calculation_formula",
-      "description": "Energy gain calculation formula",
+      "name": "energy_from_10tos_30days",
       "runnable": false,
       "input": {
-        "kind": "spec",
-        "source": "energy_system.yaml"
+        "amount": 1000000000,
+        "days": 30
       },
-      "expected": {}
+      "expected": {
+        "energy": 600
+      }
     },
     {
-      "name": "freeze_duration_validation",
-      "description": "FreezeDuration constraints",
+      "name": "energy_from_zero_amount",
       "runnable": false,
       "input": {
-        "kind": "spec",
-        "source": "energy_system.yaml"
+        "amount": 0,
+        "days": 7
       },
-      "expected": {}
+      "expected": {
+        "energy": 0
+      }
     },
     {
-      "name": "freeze_record_structure",
-      "description": "FreezeRecord structure definition",
+      "name": "energy_from_sub_coin",
+      "description": "Amount less than COIN_VALUE yields zero energy",
       "runnable": false,
       "input": {
-        "kind": "spec",
-        "source": "energy_system.yaml"
+        "amount": 99999999,
+        "days": 7
       },
-      "expected": {}
-    },
-    {
-      "name": "delegated_freeze_record_structure",
-      "description": "DelegatedFreezeRecord for batch delegation",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "energy_system.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "pending_unfreeze_structure",
-      "description": "PendingUnfreeze for two-phase withdrawal",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "energy_system.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "energy_consumption_rate",
-      "description": "Energy consumption per transfer",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "energy_system.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "energy_limits",
-      "description": "Energy system limits",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "energy_system.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "energy_operations_are_free",
-      "description": "All energy operations have zero fee",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "energy_system.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "unlock_topoheight_calculation",
-      "description": "Unlock topoheight calculation per network",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "energy_system.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "energy_invariants",
-      "description": "Energy system invariants",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "energy_system.yaml"
-      },
-      "expected": {}
+      "expected": {
+        "energy": 0
+      }
     }
   ]
 }

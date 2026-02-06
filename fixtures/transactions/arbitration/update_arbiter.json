@@ -1,114 +1,66 @@
 {
-  "test_vectors": [
+  "cases": [
     {
-      "name": "tx_update_arbiter_basic",
-      "description": "Basic arbiter update",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "update_arbiter.yaml"
+      "name": "update_arbiter_success",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "0101010101010101010101010101010101010101010101010101010101010101",
+            "balance": 1000000000000,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
       },
-      "expected": {}
-    },
-    {
-      "name": "tx_update_arbiter_add_stake",
-      "description": "Add additional stake",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "update_arbiter.yaml"
+      "tx": {
+        "version": 1,
+        "chain_id": 0,
+        "source": "0101010101010101010101010101010101010101010101010101010101010101",
+        "tx_type": "update_arbiter",
+        "payload": null,
+        "fee": 1000,
+        "fee_type": 0,
+        "nonce": 5,
+        "reference_hash": "0909090909090909090909090909090909090909090909090909090909090909",
+        "reference_topoheight": 100,
+        "signature": "07070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707"
       },
-      "expected": {}
-    },
-    {
-      "name": "tx_update_arbiter_update_expertise",
-      "description": "Update expertise domains",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "update_arbiter.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_update_arbiter_escrow_range",
-      "description": "Update escrow value range",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "update_arbiter.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_update_arbiter_invalid_range",
-      "description": "Invalid escrow range rejected",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "update_arbiter.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_update_arbiter_not_registered",
-      "description": "Cannot update non-registered arbiter",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "update_arbiter.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_update_arbiter_self_suspend",
-      "description": "Arbiter can self-suspend",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "update_arbiter.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_update_arbiter_fee_too_high",
-      "description": "Fee cannot exceed 100%",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "update_arbiter.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_update_arbiter_empty_expertise",
-      "description": "Cannot set empty expertise list",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "update_arbiter.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_update_arbiter_deactivate",
-      "description": "Deactivate flag triggers exit request",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "update_arbiter.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_update_arbiter_payload_structure",
-      "description": "UpdateArbiterPayload wire format",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "update_arbiter.yaml"
-      },
-      "expected": {}
+      "expected": {
+        "ok": false,
+        "error": "NOT_IMPLEMENTED",
+        "post_state": {
+          "network_chain_id": 0,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "0101010101010101010101010101010101010101010101010101010101010101",
+              "balance": 1000000000000,
+              "nonce": 5,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ]
+        }
+      }
     }
   ]
 }

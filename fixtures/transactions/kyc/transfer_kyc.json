@@ -1,114 +1,84 @@
 {
-  "test_vectors": [
+  "cases": [
     {
-      "name": "tx_transfer_kyc_basic",
-      "description": "Basic KYC transfer between regions",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "transfer_kyc.yaml"
+      "name": "transfer_kyc_success",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "0101010101010101010101010101010101010101010101010101010101010101",
+            "balance": 10000000,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          },
+          {
+            "address": "0505050505050505050505050505050505050505050505050505050505050505",
+            "balance": 0,
+            "nonce": 0,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
       },
-      "expected": {}
-    },
-    {
-      "name": "tx_transfer_kyc_insufficient_source_approvals",
-      "description": "Transfer requires source committee approval",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "transfer_kyc.yaml"
+      "tx": {
+        "version": 1,
+        "chain_id": 0,
+        "source": "0101010101010101010101010101010101010101010101010101010101010101",
+        "tx_type": "transfer_kyc",
+        "payload": null,
+        "fee": 1000,
+        "fee_type": 0,
+        "nonce": 5,
+        "reference_hash": "0909090909090909090909090909090909090909090909090909090909090909",
+        "reference_topoheight": 100,
+        "signature": "07070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707"
       },
-      "expected": {}
-    },
-    {
-      "name": "tx_transfer_kyc_insufficient_dest_approvals",
-      "description": "Transfer requires destination committee approval",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "transfer_kyc.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_transfer_kyc_wrong_source_committee",
-      "description": "Source committee must match user's current committee",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "transfer_kyc.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_transfer_kyc_dest_level_too_low",
-      "description": "Destination committee must support user's KYC level",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "transfer_kyc.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_transfer_kyc_same_committee",
-      "description": "Cannot transfer to same committee",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "transfer_kyc.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_transfer_kyc_not_verified",
-      "description": "Cannot transfer unverified account",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "transfer_kyc.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_transfer_kyc_suspended_source",
-      "description": "Cannot transfer from suspended committee",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "transfer_kyc.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_transfer_kyc_payload_structure",
-      "description": "TransferKycPayload wire format",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "transfer_kyc.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_transfer_kyc_use_cases",
-      "description": "KYC transfer use cases",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "transfer_kyc.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_transfer_kyc_gas_cost",
-      "description": "TransferKyc gas consumption",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "transfer_kyc.yaml"
-      },
-      "expected": {}
+      "expected": {
+        "ok": false,
+        "error": "NOT_IMPLEMENTED",
+        "post_state": {
+          "network_chain_id": 0,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "0101010101010101010101010101010101010101010101010101010101010101",
+              "balance": 10000000,
+              "nonce": 5,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            },
+            {
+              "address": "0505050505050505050505050505050505050505050505050505050505050505",
+              "balance": 0,
+              "nonce": 0,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ]
+        }
+      }
     }
   ]
 }

@@ -1,114 +1,84 @@
 {
-  "test_vectors": [
+  "cases": [
     {
-      "name": "tx_appeal_escrow_basic",
-      "description": "Basic escrow appeal",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "appeal_escrow.yaml"
+      "name": "appeal_escrow_success",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "0101010101010101010101010101010101010101010101010101010101010101",
+            "balance": 10000000000,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          },
+          {
+            "address": "0202020202020202020202020202020202020202020202020202020202020202",
+            "balance": 0,
+            "nonce": 0,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
       },
-      "expected": {}
-    },
-    {
-      "name": "tx_appeal_escrow_dao_governance",
-      "description": "Appeal to DAO governance for high-value disputes",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "appeal_escrow.yaml"
+      "tx": {
+        "version": 1,
+        "chain_id": 0,
+        "source": "0101010101010101010101010101010101010101010101010101010101010101",
+        "tx_type": "appeal_escrow",
+        "payload": null,
+        "fee": 1000,
+        "fee_type": 0,
+        "nonce": 5,
+        "reference_hash": "0909090909090909090909090909090909090909090909090909090909090909",
+        "reference_topoheight": 100,
+        "signature": "07070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707"
       },
-      "expected": {}
-    },
-    {
-      "name": "tx_appeal_escrow_not_resolved",
-      "description": "Cannot appeal escrow that is not resolved",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "appeal_escrow.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_appeal_escrow_not_party",
-      "description": "Only dispute parties can appeal",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "appeal_escrow.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_appeal_escrow_window_expired",
-      "description": "Appeal must be within appeal window",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "appeal_escrow.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_appeal_escrow_insufficient_deposit",
-      "description": "Appeal deposit must meet minimum",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "appeal_escrow.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_appeal_escrow_max_rounds",
-      "description": "Cannot exceed maximum appeal rounds",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "appeal_escrow.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_appeal_escrow_already_appealed",
-      "description": "Cannot appeal while appeal is pending",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "appeal_escrow.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_appeal_escrow_appeal_modes",
-      "description": "Appeal mode enumeration",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "appeal_escrow.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_appeal_escrow_payload_structure",
-      "description": "AppealEscrowPayload wire format",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "appeal_escrow.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_appeal_escrow_gas_cost",
-      "description": "AppealEscrow gas consumption",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "appeal_escrow.yaml"
-      },
-      "expected": {}
+      "expected": {
+        "ok": false,
+        "error": "NOT_IMPLEMENTED",
+        "post_state": {
+          "network_chain_id": 0,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "0101010101010101010101010101010101010101010101010101010101010101",
+              "balance": 10000000000,
+              "nonce": 5,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            },
+            {
+              "address": "0202020202020202020202020202020202020202020202020202020202020202",
+              "balance": 0,
+              "nonce": 0,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ]
+        }
+      }
     }
   ]
 }

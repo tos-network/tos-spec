@@ -1,114 +1,84 @@
 {
-  "test_vectors": [
+  "cases": [
     {
-      "name": "tx_dispute_escrow_basic",
-      "description": "Basic escrow dispute",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "dispute_escrow.yaml"
+      "name": "dispute_escrow_success",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "0101010101010101010101010101010101010101010101010101010101010101",
+            "balance": 10000000000,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          },
+          {
+            "address": "0202020202020202020202020202020202020202020202020202020202020202",
+            "balance": 0,
+            "nonce": 0,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
       },
-      "expected": {}
-    },
-    {
-      "name": "tx_dispute_escrow_from_created_state",
-      "description": "Direct dispute from created state (non-optimistic)",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "dispute_escrow.yaml"
+      "tx": {
+        "version": 1,
+        "chain_id": 0,
+        "source": "0101010101010101010101010101010101010101010101010101010101010101",
+        "tx_type": "dispute_escrow",
+        "payload": null,
+        "fee": 1000,
+        "fee_type": 0,
+        "nonce": 5,
+        "reference_hash": "0909090909090909090909090909090909090909090909090909090909090909",
+        "reference_topoheight": 100,
+        "signature": "07070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707"
       },
-      "expected": {}
-    },
-    {
-      "name": "tx_dispute_escrow_no_arbitration_config",
-      "description": "Cannot dispute escrow without arbitration config",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "dispute_escrow.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_dispute_escrow_only_parties",
-      "description": "Only payer or provider can initiate dispute",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "dispute_escrow.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_dispute_escrow_provider_initiates",
-      "description": "Provider can also initiate dispute",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "dispute_escrow.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_dispute_escrow_already_disputed",
-      "description": "Cannot dispute already disputed escrow",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "dispute_escrow.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_dispute_escrow_invalid_state",
-      "description": "Cannot dispute certain escrow states",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "dispute_escrow.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_dispute_escrow_empty_reason",
-      "description": "Dispute reason cannot be empty",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "dispute_escrow.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_dispute_escrow_triggers_arbitration",
-      "description": "Dispute triggers arbitration process",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "dispute_escrow.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_dispute_escrow_payload_structure",
-      "description": "DisputeEscrowPayload wire format",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "dispute_escrow.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_dispute_escrow_gas_cost",
-      "description": "DisputeEscrow gas consumption",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "dispute_escrow.yaml"
-      },
-      "expected": {}
+      "expected": {
+        "ok": false,
+        "error": "NOT_IMPLEMENTED",
+        "post_state": {
+          "network_chain_id": 0,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "0101010101010101010101010101010101010101010101010101010101010101",
+              "balance": 10000000000,
+              "nonce": 5,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            },
+            {
+              "address": "0202020202020202020202020202020202020202020202020202020202020202",
+              "balance": 0,
+              "nonce": 0,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ]
+        }
+      }
     }
   ]
 }

@@ -1,154 +1,84 @@
 {
-  "test_vectors": [
+  "cases": [
     {
-      "name": "tx_submit_verdict_basic",
-      "description": "Basic arbitration verdict submission",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "submit_verdict.yaml"
+      "name": "submit_verdict_success",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "0101010101010101010101010101010101010101010101010101010101010101",
+            "balance": 10000000000,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          },
+          {
+            "address": "0202020202020202020202020202020202020202020202020202020202020202",
+            "balance": 0,
+            "nonce": 0,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
       },
-      "expected": {}
-    },
-    {
-      "name": "tx_submit_verdict_full_to_payer",
-      "description": "Verdict awarding full amount to payer (refund)",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "submit_verdict.yaml"
+      "tx": {
+        "version": 1,
+        "chain_id": 0,
+        "source": "0101010101010101010101010101010101010101010101010101010101010101",
+        "tx_type": "submit_verdict",
+        "payload": null,
+        "fee": 1000,
+        "fee_type": 0,
+        "nonce": 5,
+        "reference_hash": "0909090909090909090909090909090909090909090909090909090909090909",
+        "reference_topoheight": 100,
+        "signature": "07070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707"
       },
-      "expected": {}
-    },
-    {
-      "name": "tx_submit_verdict_full_to_provider",
-      "description": "Verdict awarding full amount to provider",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "submit_verdict.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_submit_verdict_amount_mismatch",
-      "description": "Verdict amounts must equal escrow amount",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "submit_verdict.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_submit_verdict_insufficient_signatures",
-      "description": "Verdict requires threshold signatures",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "submit_verdict.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_submit_verdict_invalid_signature",
-      "description": "Invalid arbiter signature rejected",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "submit_verdict.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_submit_verdict_unregistered_arbiter",
-      "description": "Signature from unregistered arbiter rejected",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "submit_verdict.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_submit_verdict_escrow_not_disputed",
-      "description": "Cannot submit verdict for non-disputed escrow",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "submit_verdict.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_submit_verdict_wrong_dispute_id",
-      "description": "Dispute ID must match active dispute",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "submit_verdict.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_submit_verdict_appeal_round",
-      "description": "Appeal verdict (round > 0)",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "submit_verdict.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_submit_verdict_by_juror",
-      "description": "Fallback verdict submission by juror",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "submit_verdict.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_submit_verdict_signature_structure",
-      "description": "ArbiterSignature structure",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "submit_verdict.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_submit_verdict_payload_structure",
-      "description": "SubmitVerdictPayload wire format",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "submit_verdict.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_submit_verdict_signature_message",
-      "description": "Message signed by arbiters",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "submit_verdict.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_submit_verdict_duplicate_signatures",
-      "description": "Duplicate arbiter signatures rejected",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "submit_verdict.yaml"
-      },
-      "expected": {}
+      "expected": {
+        "ok": false,
+        "error": "NOT_IMPLEMENTED",
+        "post_state": {
+          "network_chain_id": 0,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "0101010101010101010101010101010101010101010101010101010101010101",
+              "balance": 10000000000,
+              "nonce": 5,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            },
+            {
+              "address": "0202020202020202020202020202020202020202020202020202020202020202",
+              "balance": 0,
+              "nonce": 0,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ]
+        }
+      }
     }
   ]
 }

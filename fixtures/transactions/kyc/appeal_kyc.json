@@ -1,114 +1,84 @@
 {
-  "test_vectors": [
+  "cases": [
     {
-      "name": "tx_appeal_kyc_basic",
-      "description": "Basic KYC appeal",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "appeal_kyc.yaml"
+      "name": "appeal_kyc_success",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "0101010101010101010101010101010101010101010101010101010101010101",
+            "balance": 10000000,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          },
+          {
+            "address": "0505050505050505050505050505050505050505050505050505050505050505",
+            "balance": 0,
+            "nonce": 0,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
       },
-      "expected": {}
-    },
-    {
-      "name": "tx_appeal_kyc_rejected_status",
-      "description": "Appeal rejected KYC application",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "appeal_kyc.yaml"
+      "tx": {
+        "version": 1,
+        "chain_id": 0,
+        "source": "0101010101010101010101010101010101010101010101010101010101010101",
+        "tx_type": "appeal_kyc",
+        "payload": null,
+        "fee": 1000,
+        "fee_type": 0,
+        "nonce": 5,
+        "reference_hash": "0909090909090909090909090909090909090909090909090909090909090909",
+        "reference_topoheight": 100,
+        "signature": "07070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707"
       },
-      "expected": {}
-    },
-    {
-      "name": "tx_appeal_kyc_no_existing_record",
-      "description": "Cannot appeal without existing KYC record",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "appeal_kyc.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_appeal_kyc_active_status",
-      "description": "Cannot appeal active KYC",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "appeal_kyc.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_appeal_kyc_window_expired",
-      "description": "Appeal must be within appeal window",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "appeal_kyc.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_appeal_kyc_wrong_parent",
-      "description": "Parent committee must be actual parent",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "appeal_kyc.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_appeal_kyc_suspended_committee",
-      "description": "Cannot appeal to suspended committee",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "appeal_kyc.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_appeal_kyc_already_pending",
-      "description": "Cannot have multiple pending appeals",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "appeal_kyc.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_appeal_kyc_third_party",
-      "description": "Third party cannot appeal on behalf of user",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "appeal_kyc.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_appeal_kyc_payload_structure",
-      "description": "AppealKycPayload wire format",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "appeal_kyc.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_appeal_kyc_gas_cost",
-      "description": "AppealKyc gas consumption",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "appeal_kyc.yaml"
-      },
-      "expected": {}
+      "expected": {
+        "ok": false,
+        "error": "NOT_IMPLEMENTED",
+        "post_state": {
+          "network_chain_id": 0,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "0101010101010101010101010101010101010101010101010101010101010101",
+              "balance": 10000000,
+              "nonce": 5,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            },
+            {
+              "address": "0505050505050505050505050505050505050505050505050505050505050505",
+              "balance": 0,
+              "nonce": 0,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ]
+        }
+      }
     }
   ]
 }

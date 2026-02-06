@@ -1,154 +1,164 @@
 {
-  "test_vectors": [
+  "cases": [
     {
-      "name": "tx_set_kyc_basic",
-      "description": "Basic KYC level assignment",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "set_kyc.yaml"
+      "name": "set_kyc_success",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "0101010101010101010101010101010101010101010101010101010101010101",
+            "balance": 10000000,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          },
+          {
+            "address": "0505050505050505050505050505050505050505050505050505050505050505",
+            "balance": 0,
+            "nonce": 0,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
       },
-      "expected": {}
+      "tx": {
+        "version": 1,
+        "chain_id": 0,
+        "source": "0101010101010101010101010101010101010101010101010101010101010101",
+        "tx_type": "set_kyc",
+        "payload": null,
+        "fee": 1000,
+        "fee_type": 0,
+        "nonce": 5,
+        "reference_hash": "0909090909090909090909090909090909090909090909090909090909090909",
+        "reference_topoheight": 100,
+        "signature": "07070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707"
+      },
+      "expected": {
+        "ok": false,
+        "error": "NOT_IMPLEMENTED",
+        "post_state": {
+          "network_chain_id": 0,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "0101010101010101010101010101010101010101010101010101010101010101",
+              "balance": 10000000,
+              "nonce": 5,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            },
+            {
+              "address": "0505050505050505050505050505050505050505050505050505050505050505",
+              "balance": 0,
+              "nonce": 0,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ]
+        }
+      }
     },
     {
-      "name": "tx_set_kyc_levels",
-      "description": "Valid KYC level bitmask values",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "set_kyc.yaml"
+      "name": "set_kyc_invalid_level",
+      "pre_state": {
+        "network_chain_id": 0,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "0101010101010101010101010101010101010101010101010101010101010101",
+            "balance": 10000000,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          },
+          {
+            "address": "0505050505050505050505050505050505050505050505050505050505050505",
+            "balance": 0,
+            "nonce": 0,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
       },
-      "expected": {}
-    },
-    {
-      "name": "tx_set_kyc_invalid_level",
-      "description": "Invalid KYC level rejected",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "set_kyc.yaml"
+      "tx": {
+        "version": 1,
+        "chain_id": 0,
+        "source": "0101010101010101010101010101010101010101010101010101010101010101",
+        "tx_type": "set_kyc",
+        "payload": null,
+        "fee": 1000,
+        "fee_type": 0,
+        "nonce": 5,
+        "reference_hash": "0909090909090909090909090909090909090909090909090909090909090909",
+        "reference_topoheight": 100,
+        "signature": "07070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707"
       },
-      "expected": {}
-    },
-    {
-      "name": "tx_set_kyc_insufficient_approvals",
-      "description": "SetKyc requires kyc_threshold approvals",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "set_kyc.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_set_kyc_high_tier_extra_approval",
-      "description": "Tier 5+ requires kyc_threshold + 1 approvals",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "set_kyc.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_set_kyc_expired_approval",
-      "description": "Approval older than 24 hours rejected",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "set_kyc.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_set_kyc_future_approval",
-      "description": "Approval > 1 hour in future rejected",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "set_kyc.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_set_kyc_invalid_signature",
-      "description": "Invalid approval signature rejected",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "set_kyc.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_set_kyc_non_member_approval",
-      "description": "Approval from non-committee member rejected",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "set_kyc.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_set_kyc_committee_not_found",
-      "description": "Non-existent committee rejected",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "set_kyc.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_set_kyc_exceeds_committee_max",
-      "description": "Level exceeding committee's max_kyc_level rejected",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "set_kyc.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_set_kyc_upgrade_level",
-      "description": "Upgrade existing KYC level",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "set_kyc.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_set_kyc_downgrade_level",
-      "description": "Downgrade KYC level (allowed)",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "set_kyc.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_set_kyc_onchain_storage",
-      "description": "On-chain KYC data is minimal (43 bytes)",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "set_kyc.yaml"
-      },
-      "expected": {}
-    },
-    {
-      "name": "tx_set_kyc_payload_structure",
-      "description": "SetKycPayload wire format",
-      "runnable": false,
-      "input": {
-        "kind": "spec",
-        "source": "set_kyc.yaml"
-      },
-      "expected": {}
+      "expected": {
+        "ok": false,
+        "error": "NOT_IMPLEMENTED",
+        "post_state": {
+          "network_chain_id": 0,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "0101010101010101010101010101010101010101010101010101010101010101",
+              "balance": 10000000,
+              "nonce": 5,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            },
+            {
+              "address": "0505050505050505050505050505050505050505050505050505050505050505",
+              "balance": 0,
+              "nonce": 0,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ]
+        }
+      }
     }
   ]
 }
