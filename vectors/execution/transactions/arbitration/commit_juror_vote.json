@@ -14,7 +14,7 @@
         },
         "accounts": [
           {
-            "address": "0101010101010101010101010101010101010101010101010101010101010101",
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
             "balance": 1000000000000,
             "nonce": 5,
             "frozen": 0,
@@ -30,7 +30,7 @@
         "tx": {
           "version": 1,
           "chain_id": 3,
-          "source": "0101010101010101010101010101010101010101010101010101010101010101",
+          "source": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
           "tx_type": "commit_juror_vote",
           "payload": null,
           "fee": 1000,
@@ -38,13 +38,13 @@
           "nonce": 5,
           "reference_hash": "0909090909090909090909090909090909090909090909090909090909090909",
           "reference_topoheight": 100,
-          "signature": "07070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707"
+          "signature": "211d166b6b52895415f1b0192b1ced09677f3b37fd4e8055c42f66e576a6980d2a8cd475468079c7d131c3c82f710bd8fbd90f8915d5fbc4a10504382f84b903"
         }
       },
       "expected": {
         "success": false,
         "error_code": 65281,
-        "state_digest": "36f7cbad2b5bf9cca3dca8cb3ee5081c9c37fac9fd29841acc69660f627e9305",
+        "state_digest": "f5b498efa281234f2be0277ae4bcac77031f1d99aeb9f3c4d39737cce89c10ce",
         "post_state": {
           "network_chain_id": 3,
           "global_state": {
@@ -56,7 +56,7 @@
           },
           "accounts": [
             {
-              "address": "0101010101010101010101010101010101010101010101010101010101010101",
+              "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
               "balance": 1000000000000,
               "nonce": 5,
               "frozen": 0,

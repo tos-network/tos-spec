@@ -14,7 +14,7 @@
         },
         "accounts": [
           {
-            "address": "0101010101010101010101010101010101010101010101010101010101010101",
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
             "balance": 10000000000,
             "nonce": 5,
             "frozen": 1000000000,
@@ -30,7 +30,7 @@
         "tx": {
           "version": 1,
           "chain_id": 3,
-          "source": "0101010101010101010101010101010101010101010101010101010101010101",
+          "source": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
           "tx_type": "energy",
           "payload": {
             "variant": "unfreeze_tos",
@@ -46,13 +46,13 @@
           "nonce": 5,
           "reference_hash": "0909090909090909090909090909090909090909090909090909090909090909",
           "reference_topoheight": 100,
-          "signature": "07070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707"
+          "signature": "83750de2a8c2c95c851aadd03bf93c7544c2e2e57af91e48d77af0d1c31564020fdb02cd9194a273e88a3bc50925772099fbcee6f72ce9adaa6f80d7d00b4906"
         }
       },
       "expected": {
         "success": false,
         "error_code": 65281,
-        "state_digest": "b2c7aca1879ba88b47112cc33a4378eceda92a5cd0cdb77213b868865077f7de",
+        "state_digest": "4df2ac2f0daa5b915b9972154a04f26a67e1eb46437d28b3cd7c3a5267df9633",
         "post_state": {
           "network_chain_id": 3,
           "global_state": {
@@ -64,7 +64,7 @@
           },
           "accounts": [
             {
-              "address": "0101010101010101010101010101010101010101010101010101010101010101",
+              "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
               "balance": 10000000000,
               "nonce": 5,
               "frozen": 1000000000,
@@ -90,7 +90,7 @@
         },
         "accounts": [
           {
-            "address": "0101010101010101010101010101010101010101010101010101010101010101",
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
             "balance": 10000000000,
             "nonce": 5,
             "frozen": 1000000000,
@@ -106,7 +106,7 @@
         "tx": {
           "version": 1,
           "chain_id": 3,
-          "source": "0101010101010101010101010101010101010101010101010101010101010101",
+          "source": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
           "tx_type": "energy",
           "payload": {
             "variant": "unfreeze_tos",
@@ -122,13 +122,13 @@
           "nonce": 5,
           "reference_hash": "0909090909090909090909090909090909090909090909090909090909090909",
           "reference_topoheight": 100,
-          "signature": "07070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707"
+          "signature": "424e6663784360bc722195f382638c487a4c6057ad707ee8d04a36bcc26b54041cf58dfa94984abe11fe02aecff827bd90a3269800a9f9012f62da97cbd8c700"
         }
       },
       "expected": {
         "success": false,
         "error_code": 65281,
-        "state_digest": "b2c7aca1879ba88b47112cc33a4378eceda92a5cd0cdb77213b868865077f7de",
+        "state_digest": "4df2ac2f0daa5b915b9972154a04f26a67e1eb46437d28b3cd7c3a5267df9633",
         "post_state": {
           "network_chain_id": 3,
           "global_state": {
@@ -140,7 +140,7 @@
           },
           "accounts": [
             {
-              "address": "0101010101010101010101010101010101010101010101010101010101010101",
+              "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
               "balance": 10000000000,
               "nonce": 5,
               "frozen": 1000000000,
@@ -166,7 +166,7 @@
         },
         "accounts": [
           {
-            "address": "0101010101010101010101010101010101010101010101010101010101010101",
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
             "balance": 10000000000,
             "nonce": 5,
             "frozen": 1000000000,
@@ -182,7 +182,7 @@
         "tx": {
           "version": 1,
           "chain_id": 3,
-          "source": "0101010101010101010101010101010101010101010101010101010101010101",
+          "source": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
           "tx_type": "energy",
           "payload": {
             "variant": "unfreeze_tos",
@@ -198,13 +198,13 @@
           "nonce": 5,
           "reference_hash": "0909090909090909090909090909090909090909090909090909090909090909",
           "reference_topoheight": 100,
-          "signature": "07070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707"
+          "signature": "db27c4445aec7ba95c01f3858bfb741f42ae6d863e81207b4d9445d5cecb4a0916f67b4ce61ba34bd8893e0e0618ab22e347716d1f0e2c93025bbe95faed790e"
         }
       },
       "expected": {
         "success": false,
         "error_code": 65281,
-        "state_digest": "b2c7aca1879ba88b47112cc33a4378eceda92a5cd0cdb77213b868865077f7de",
+        "state_digest": "4df2ac2f0daa5b915b9972154a04f26a67e1eb46437d28b3cd7c3a5267df9633",
         "post_state": {
           "network_chain_id": 3,
           "global_state": {
@@ -216,7 +216,7 @@
           },
           "accounts": [
             {
-              "address": "0101010101010101010101010101010101010101010101010101010101010101",
+              "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
               "balance": 10000000000,
               "nonce": 5,
               "frozen": 1000000000,

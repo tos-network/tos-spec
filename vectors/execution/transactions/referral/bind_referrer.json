@@ -14,7 +14,7 @@
         },
         "accounts": [
           {
-            "address": "0101010101010101010101010101010101010101010101010101010101010101",
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
             "balance": 1000000,
             "nonce": 5,
             "frozen": 0,
@@ -23,7 +23,7 @@
             "data": ""
           },
           {
-            "address": "0202020202020202020202020202020202020202020202020202020202020202",
+            "address": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824",
             "balance": 0,
             "nonce": 0,
             "frozen": 0,
@@ -39,7 +39,7 @@
         "tx": {
           "version": 1,
           "chain_id": 3,
-          "source": "0101010101010101010101010101010101010101010101010101010101010101",
+          "source": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
           "tx_type": "bind_referrer",
           "payload": null,
           "fee": 1000,
@@ -47,13 +47,13 @@
           "nonce": 5,
           "reference_hash": "0909090909090909090909090909090909090909090909090909090909090909",
           "reference_topoheight": 100,
-          "signature": "07070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707"
+          "signature": "ade1004c5eae067b09474a6907c89596df24402497329f1b4928448393181801e9ec6df5a282619290bb9fe79789112e1425e9c799c75b062f979d605620440e"
         }
       },
       "expected": {
         "success": false,
         "error_code": 65281,
-        "state_digest": "272551b05f0a297aee4b60a75ef3caa51da83a9a5f0730eb355af0f58d4a4500",
+        "state_digest": "7c75aa8cc3b02395ff3b4475ce54dd6fd1157fbeafa9bb55142b81a467d88880",
         "post_state": {
           "network_chain_id": 3,
           "global_state": {
@@ -65,7 +65,7 @@
           },
           "accounts": [
             {
-              "address": "0101010101010101010101010101010101010101010101010101010101010101",
+              "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
               "balance": 1000000,
               "nonce": 5,
               "frozen": 0,
@@ -74,7 +74,7 @@
               "data": ""
             },
             {
-              "address": "0202020202020202020202020202020202020202020202020202020202020202",
+              "address": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824",
               "balance": 0,
               "nonce": 0,
               "frozen": 0,
@@ -100,7 +100,7 @@
         },
         "accounts": [
           {
-            "address": "0101010101010101010101010101010101010101010101010101010101010101",
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
             "balance": 1000000,
             "nonce": 5,
             "frozen": 0,
@@ -109,7 +109,7 @@
             "data": ""
           },
           {
-            "address": "0202020202020202020202020202020202020202020202020202020202020202",
+            "address": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824",
             "balance": 0,
             "nonce": 0,
             "frozen": 0,
@@ -125,7 +125,7 @@
         "tx": {
           "version": 1,
           "chain_id": 3,
-          "source": "0101010101010101010101010101010101010101010101010101010101010101",
+          "source": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
           "tx_type": "bind_referrer",
           "payload": null,
           "fee": 1000,
@@ -133,13 +133,13 @@
           "nonce": 5,
           "reference_hash": "0909090909090909090909090909090909090909090909090909090909090909",
           "reference_topoheight": 100,
-          "signature": "07070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707"
+          "signature": "d983ec6b3b176683c75b65638ae73a6639498e8f7bb2431bb4115e60abf2730ea4ecb939dd0b75780ac556445fa44a5a88e5e6c0c20f73958b581ac0c5f8c905"
         }
       },
       "expected": {
         "success": false,
         "error_code": 65281,
-        "state_digest": "272551b05f0a297aee4b60a75ef3caa51da83a9a5f0730eb355af0f58d4a4500",
+        "state_digest": "7c75aa8cc3b02395ff3b4475ce54dd6fd1157fbeafa9bb55142b81a467d88880",
         "post_state": {
           "network_chain_id": 3,
           "global_state": {
@@ -151,7 +151,7 @@
           },
           "accounts": [
             {
-              "address": "0101010101010101010101010101010101010101010101010101010101010101",
+              "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
               "balance": 1000000,
               "nonce": 5,
               "frozen": 0,
@@ -160,7 +160,7 @@
               "data": ""
             },
             {
-              "address": "0202020202020202020202020202020202020202020202020202020202020202",
+              "address": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824",
               "balance": 0,
               "nonce": 0,
               "frozen": 0,
@@ -186,7 +186,7 @@
         },
         "accounts": [
           {
-            "address": "0101010101010101010101010101010101010101010101010101010101010101",
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
             "balance": 1000000,
             "nonce": 5,
             "frozen": 0,
@@ -195,7 +195,7 @@
             "data": ""
           },
           {
-            "address": "0202020202020202020202020202020202020202020202020202020202020202",
+            "address": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824",
             "balance": 0,
             "nonce": 0,
             "frozen": 0,
@@ -211,7 +211,7 @@
         "tx": {
           "version": 1,
           "chain_id": 3,
-          "source": "0101010101010101010101010101010101010101010101010101010101010101",
+          "source": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
           "tx_type": "bind_referrer",
           "payload": null,
           "fee": 1000,
@@ -219,13 +219,13 @@
           "nonce": 5,
           "reference_hash": "0909090909090909090909090909090909090909090909090909090909090909",
           "reference_topoheight": 100,
-          "signature": "07070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707070707"
+          "signature": "1378a7fba05d0439f910e3f696a98e0f34fef2d975aa3f3c3578808d86f7eb08a285f3585948dac2200cd84a9db91efe978560b43cbcc66c8222c542b7189301"
         }
       },
       "expected": {
         "success": false,
         "error_code": 65281,
-        "state_digest": "272551b05f0a297aee4b60a75ef3caa51da83a9a5f0730eb355af0f58d4a4500",
+        "state_digest": "7c75aa8cc3b02395ff3b4475ce54dd6fd1157fbeafa9bb55142b81a467d88880",
         "post_state": {
           "network_chain_id": 3,
           "global_state": {
@@ -237,7 +237,7 @@
           },
           "accounts": [
             {
-              "address": "0101010101010101010101010101010101010101010101010101010101010101",
+              "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
               "balance": 1000000,
               "nonce": 5,
               "frozen": 0,
@@ -246,7 +246,7 @@
               "data": ""
             },
             {
-              "address": "0202020202020202020202020202020202020202020202020202020202020202",
+              "address": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824",
               "balance": 0,
               "nonce": 0,
               "frozen": 0,
