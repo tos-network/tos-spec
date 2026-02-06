@@ -40,7 +40,7 @@
         "nonce": 5,
         "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
         "reference_topoheight": 0,
-        "signature": "16ab7993831ff3d33e22c626de341a3e41d6c3d24dfc9b943729b70ec4f839048ad98ec733f25360c9ba8f271c2c496806546bf739ae48b26ee5e5d83271d60b",
+        "signature": "f6d905f7a9fb7a32a5b44dc07ae4e4f963cef66aa242e1a5ebc2745f9f05d605908bfa8fa5746410fb437a7d798c881112db3687f62f5be90e41cdc577496a07",
         "wire_hex": ""
       },
       "expected": {
@@ -114,7 +114,7 @@
         "nonce": 5,
         "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
         "reference_topoheight": 0,
-        "signature": "5ef9ca2c49c623e50d06917a23383a3fbc3296ce016baeceda9afa06085096056290758e4e153ae95028a9b34261ed14a55814273fbcf41e2bf2f55f20714f0c",
+        "signature": "023c8320ca3c618451c7633de1fff72df7be763db44636b64f2f01fcec9f2b08992211478b0b8b46509ad0d9a67f2f8f0600d4a3ff61227f293f2e838fad300b",
         "wire_hex": ""
       },
       "expected": {

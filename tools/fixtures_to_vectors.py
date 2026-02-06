@@ -166,11 +166,14 @@ def main() -> None:
                 wire_hex = None
                 if "tx" in case:
                     wire_hex = case["tx"].get("wire_hex") or _encode_tx_if_possible(case["tx"])
-                vectors_out.append(
-                    {
+                vec_entry: dict = {
                         "name": case.get("name", ""),
                         "description": case.get("description", ""),
                         "pre_state": case.get("pre_state"),
+                }
+                if case.get("runnable") is False:
+                    vec_entry["runnable"] = False
+                vec_entry.update({
                         "input": {
                             "kind": "tx" if "tx" in case else "block",
                             "wire_hex": wire_hex or "",
@@ -184,6 +187,7 @@ def main() -> None:
                         },
                     }
                 )
+                vectors_out.append(vec_entry)
             dest = dest.with_suffix(".json")
             dest.write_text(json.dumps({"test_vectors": vectors_out}, indent=2))
             written.add(dest.resolve())
