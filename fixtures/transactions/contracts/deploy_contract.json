@@ -36,7 +36,7 @@
         "nonce": 5,
         "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
         "reference_topoheight": 0,
-        "signature": "82768fc33df369d41fe5b82e9925c3b482c433cfdfc9ecd59c0963211c3f3601f4a8c8ac8c1d05646c351e0195a996f5983ae2ab97196ba54c5ecea7e8c6fc02",
+        "signature": "2f948370023e83bdc92a38c782ec8cd624e8ca4e288e85754c0dbacaff0985007d788afb11ed911317afa8b94d4b1481b104500a7f6a4eaf6aaaf3272c9d3f01",
         "wire_hex": ""
       },
       "expected": {

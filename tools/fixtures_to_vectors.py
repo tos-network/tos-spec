@@ -121,9 +121,14 @@ def main() -> None:
     if not fixtures.exists():
         raise SystemExit(f"fixtures dir not found: {fixtures}")
 
-    if vectors.exists():
-        shutil.rmtree(vectors)
+    # Collect the set of output paths we will write, then remove only stale
+    # generated files.  Never delete manually-maintained files such as
+    # accounts.json that live in vectors/ but have no fixtures source.
     vectors.mkdir(parents=True, exist_ok=True)
+
+    # Snapshot existing files so we can remove stale ones afterwards.
+    old_files = {p.resolve() for p in vectors.rglob("*") if p.is_file()}
+    written: set[Path] = set()
 
     count = 0
     for path in fixtures.rglob("*"):
@@ -139,6 +144,7 @@ def main() -> None:
             data = json.loads(path.read_text())
         except Exception:
             shutil.copy2(path, dest)
+            written.add(dest.resolve())
             count += 1
             continue
 
@@ -146,6 +152,7 @@ def main() -> None:
             data["test_vectors"], list
         ):
             shutil.copy2(path, dest)
+            written.add(dest.resolve())
             count += 1
             continue
 
@@ -179,13 +186,37 @@ def main() -> None:
                 )
             dest = dest.with_suffix(".json")
             dest.write_text(json.dumps({"test_vectors": vectors_out}, indent=2))
+            written.add(dest.resolve())
             count += 1
             continue
 
         shutil.copy2(path, dest)
+        written.add(dest.resolve())
         count += 1
 
-    print(f"Copied {count} fixture files into vectors at {vectors}")
+    # Remove stale generated files that no longer have a fixtures source.
+    # Only touch files inside known generated subdirectories; top-level files
+    # like accounts.json are manually maintained and must be preserved.
+    generated_prefixes = tuple(
+        vectors / p
+        for p in (
+            *MAPPING.values(),
+            "unmapped",
+        )
+    )
+    removed = 0
+    for old in sorted(old_files - written):
+        if any(str(old).startswith(str(pfx)) for pfx in generated_prefixes):
+            old.unlink()
+            removed += 1
+    # Prune empty directories left behind (bottom-up).
+    for d in sorted(vectors.rglob("*"), reverse=True):
+        if d.is_dir() and not any(d.iterdir()):
+            d.rmdir()
+
+    print(f"Written {count} vector files into {vectors}")
+    if removed:
+        print(f"Removed {removed} stale files")
 
 
 if __name__ == "__main__":

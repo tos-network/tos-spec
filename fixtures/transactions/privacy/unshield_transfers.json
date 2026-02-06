@@ -57,7 +57,7 @@
         ],
         "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
         "reference_topoheight": 0,
-        "signature": "e05e01d598bccef218394ad38003ed1efa790ea220664966f43947788e08200bfeabcdbef774f3352f534a698795ecd60178c4d6e6a556c9fd0767bba31a210c",
+        "signature": "2c65a4e12411ff14bc95183eed802d001b5369597511d24024a328ceec8a7500bd8ec7c85ab92eb4fb3f8d79588ffc911c38e8d9f54b6a479f0e33dd4c399403",
         "wire_hex": ""
       },
       "expected": {

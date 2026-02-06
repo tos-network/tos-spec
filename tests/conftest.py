@@ -44,6 +44,7 @@ def _auto_sign(tx: Transaction) -> None:
 _STATE_CASES: dict[str, list[dict[str, Any]]] = {}
 _WIRE_VECTORS: list[dict[str, Any]] = []
 _VECTOR_CASES: dict[str, list[dict[str, Any]]] = {}
+_ACCOUNTS: list[dict[str, str]] = []
 
 
 def pytest_addoption(parser: pytest.Parser) -> None:
@@ -120,6 +121,17 @@ def wire_vector() -> Callable[[str, dict[str, Any]], None]:
 
 
 @pytest.fixture
+def accounts_collector() -> Callable[[list[dict[str, str]]], None]:
+    """Collect deterministic test accounts for output to vectors/accounts.json."""
+
+    def _collect(accounts: list[dict[str, str]]) -> None:
+        _ACCOUNTS.clear()
+        _ACCOUNTS.extend(accounts)
+
+    return _collect
+
+
+@pytest.fixture
 def vector_test_group() -> Callable[[str, dict[str, Any]], None]:
     """Collect pre-built test_vectors under a specific fixture path."""
 
@@ -155,3 +167,10 @@ def pytest_sessionfinish(session: pytest.Session, exitstatus: int) -> None:
         target = out / rel_path
         target.parent.mkdir(parents=True, exist_ok=True)
         target.write_text(json.dumps({"test_vectors": vectors}, indent=2))
+
+    if _ACCOUNTS:
+        vectors_dir = Path(__file__).resolve().parent.parent / "vectors"
+        vectors_dir.mkdir(parents=True, exist_ok=True)
+        (vectors_dir / "accounts.json").write_text(
+            json.dumps({"accounts": _ACCOUNTS}, indent=2) + "\n"
+        )

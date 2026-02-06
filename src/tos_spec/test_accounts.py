@@ -1,37 +1,32 @@
-"""Test account helpers backed by accounts.json and tos_signer."""
+"""Test account helpers derived from tos_signer seed bytes.
+
+Accounts are deterministically derived from seed bytes 1..10 via Ristretto
+scalar multiplication. No external file dependency at import time.
+"""
 
 from __future__ import annotations
-
-import json
-from pathlib import Path
 
 import tos_signer
 
 from .encoding import encode_signing_bytes
 from .types import Transaction
 
-_ACCOUNTS_PATH = Path(__file__).resolve().parent.parent.parent / "vectors" / "accounts.json"
+# Derive public keys directly from seed bytes (1..10).
+MINER = bytes(tos_signer.get_public_key(1))
+ALICE = bytes(tos_signer.get_public_key(2))
+BOB = bytes(tos_signer.get_public_key(3))
+CAROL = bytes(tos_signer.get_public_key(4))
+DAVE = bytes(tos_signer.get_public_key(5))
+EVE = bytes(tos_signer.get_public_key(6))
+FRANK = bytes(tos_signer.get_public_key(7))
+GRACE = bytes(tos_signer.get_public_key(8))
+HEIDI = bytes(tos_signer.get_public_key(9))
+IVAN = bytes(tos_signer.get_public_key(10))
 
-_accounts = json.loads(_ACCOUNTS_PATH.read_text())["accounts"]
-
-# Named constants — 32-byte compressed Ristretto public key (= address)
-MINER = bytes.fromhex(_accounts[0]["address"])
-ALICE = bytes.fromhex(_accounts[1]["address"])
-BOB = bytes.fromhex(_accounts[2]["address"])
-CAROL = bytes.fromhex(_accounts[3]["address"])
-DAVE = bytes.fromhex(_accounts[4]["address"])
-EVE = bytes.fromhex(_accounts[5]["address"])
-FRANK = bytes.fromhex(_accounts[6]["address"])
-GRACE = bytes.fromhex(_accounts[7]["address"])
-HEIDI = bytes.fromhex(_accounts[8]["address"])
-IVAN = bytes.fromhex(_accounts[9]["address"])
-
-# Map address bytes -> seed_byte (the low byte of private_key)
-SEED_MAP: dict[bytes, int] = {}
-for _acct in _accounts:
-    _pk_bytes = bytes.fromhex(_acct["private_key"])
-    _addr = bytes.fromhex(_acct["address"])
-    SEED_MAP[_addr] = _pk_bytes[0]
+# Map address bytes -> seed_byte
+SEED_MAP: dict[bytes, int] = {
+    bytes(tos_signer.get_public_key(i)): i for i in range(1, 11)
+}
 
 
 def sign_transaction(tx: Transaction) -> bytes:
