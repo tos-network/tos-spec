@@ -134,6 +134,9 @@ we use a fixed set of deterministic test accounts stored in `vectors/accounts.js
 │   ├── state_transition.py# verify/apply logic
 │   ├── encoding.py        # Wire-format encoding
 │   └── tx/                # Per-transaction specs
+├── rust_py/               # Optional Rust PyO3 extensions
+│   ├── tos_signer/        # Cryptographic signing & tx encoding
+│   └── tos_yaml/          # YAML serialization backend
 ├── tests/                 # Pytest-based spec tests
 ├── tools/                 # Fixture generation/consumption
 ├── fixtures/              # Generated vectors
@@ -222,15 +225,105 @@ Consume fixtures locally (spec runner):
 PYTHONPATH=~/tos-spec/src:~/tos-spec .venv/bin/python tools/consume.py
 ```
 
-## Optional Rust YAML Backend
+## Rust Extensions (`rust_py/`)
 
-For YAML generation that matches Rust serialization, build the optional Rust extension:
-```
-cd rust_py/tos_yaml
-maturin develop
+The repository includes optional Rust-based PyO3 extensions under `rust_py/`.
+Each extension is built with [maturin](https://github.com/PyO3/maturin) and installed
+into the virtualenv as an editable package.
+
+Prerequisites: a working Rust toolchain and `maturin` (`pip install maturin`).
+
+### tos_yaml — YAML serialization backend
+
+For YAML generation that matches Rust serialization order, build the extension:
+
+```bash
+cd rust_py/tos_yaml && maturin develop --release
 ```
 
-When the `tos_yaml` module is installed, Python YAML generators will prefer it over PyYAML.
+When installed, Python YAML generators will prefer it over PyYAML.
+
+**API**
+
+| Function | Description |
+|----------|-------------|
+| `dump_yaml(json_str: str) -> str` | Convert a JSON string to YAML. |
+
+### tos_signer — cryptographic signing and transaction encoding
+
+Provides Ristretto-based key derivation, signing, and transaction serialization.
+Used by the test harness (`test_accounts.sign_transaction`) and available for
+direct use when building transactions from Python.
+
+```bash
+cd rust_py/tos_signer && maturin develop --release
+```
+
+All functions return `list[int]`; wrap with `bytes()` to get a `bytes` object
+(e.g. `sig = bytes(tos_signer.sign_data(data, seed))`).
+
+**Key management**
+
+| Function | Description |
+|----------|-------------|
+| `get_public_key(seed_byte: int) -> list[int]` | Derive 32-byte compressed public key from a single seed byte (0-255). |
+| `get_public_key_from_private(private_key: bytes) -> list[int]` | Derive 32-byte compressed public key from a raw 32-byte private key. |
+
+**Signing**
+
+| Function | Description |
+|----------|-------------|
+| `sign_data(data: bytes, seed_byte: int) -> list[int]` | Sign arbitrary data using a seed-byte keypair. Returns 64-byte signature. |
+| `sign_with_key(data: bytes, private_key: bytes) -> list[int]` | Sign arbitrary data using a raw 32-byte private key. Returns 64-byte signature. |
+
+**Transaction frame assembly**
+
+| Function | Description |
+|----------|-------------|
+| `build_signing_bytes(version, chain_id, source, tx_type_id, encoded_payload, fee, fee_type, nonce, ref_hash, ref_topo) -> list[int]` | Assemble the unsigned transaction frame for signing. Byte layout: `[version:1][chain_id:1][source:32][tx_type_id:1][payload:var][fee:8][fee_type:1][nonce:8][ref_hash:32][ref_topo:8]`. Output is byte-identical to `encoding.encode_signing_bytes()`. |
+
+**Payload encoding**
+
+| Function | Description |
+|----------|-------------|
+| `encode_transfer_payload(transfers: list[tuple]) -> list[int]` | Encode transfer payload. Each tuple: `(asset: bytes, destination: bytes, amount: int)` or `(asset, destination, amount, extra_data: Optional[bytes])`. Format: `[count:u16][asset:32][dest:32][amount:u64][optional_extra]...` |
+| `encode_burn_payload(asset: bytes, amount: int) -> list[int]` | Encode burn payload. Format: `[asset:32][amount:u64]`. |
+
+**All-in-one convenience**
+
+| Function | Description |
+|----------|-------------|
+| `sign_transfer(seed_byte, chain_id, nonce, fee, fee_type, ref_hash, ref_topo, transfers) -> list[int]` | Build a transfer transaction and sign it in one call. Returns 64-byte signature. Uses version=T1 and tx_type_id=1 (Transfers) internally. |
+
+**Example: sign a transfer**
+
+```python
+import tos_signer
+
+asset = b"\x00" * 32          # TOS native asset
+dest  = b"\x01" * 32          # recipient address
+ref_h = b"\x09" * 32          # reference block hash
+
+# One-step: build + sign
+sig = bytes(tos_signer.sign_transfer(
+    seed_byte=1, chain_id=3, nonce=0, fee=1000, fee_type=0,
+    ref_hash=ref_h, ref_topo=100,
+    transfers=[(asset, dest, 500_000)],
+))
+
+# Or step-by-step:
+payload = bytes(tos_signer.encode_transfer_payload([
+    (asset, dest, 500_000, b"memo"),
+]))
+frame = bytes(tos_signer.build_signing_bytes(
+    version=1, chain_id=3,
+    source=bytes(tos_signer.get_public_key(1)),
+    tx_type_id=1, encoded_payload=payload,
+    fee=1000, fee_type=0, nonce=0,
+    ref_hash=ref_h, ref_topo=100,
+))
+sig = bytes(tos_signer.sign_data(frame, seed_byte=1))
+```
 
 ## Design Principles
 - **Spec is authoritative**: the executable spec defines correct behavior.
