@@ -43,7 +43,7 @@
         "nonce": 5,
         "reference_hash": "0909090909090909090909090909090909090909090909090909090909090909",
         "reference_topoheight": 100,
-        "signature": "d9796c01cb7f40afbf5a7f1c5c4bd16698cce993a5924ec4d5186e3e263e3102799ac87eb60f257db5a7c5cf65ad6c979c4711b270776091d99d39850bbcef0c"
+        "signature": "0010f699f968318bc8b44abfe950d053f49b648b2e690f7ff203f6c61163dc0a5ff7ff3123794c23ca81c85ac1080d5c10ad5b8053a5a92ae54032a4649c9807"
       },
       "expected": {
         "ok": false,

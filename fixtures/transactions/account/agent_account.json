@@ -34,7 +34,7 @@
         "nonce": 5,
         "reference_hash": "0909090909090909090909090909090909090909090909090909090909090909",
         "reference_topoheight": 100,
-        "signature": "fe1a3960a92bb46e9bce594b45272c55c7d9def2337ad1056a8fcdda955a2a0dd3fd4f3ffe2c3d858283c93007c0940767f99bb168b63cb7595261838039280b"
+        "signature": "d148d3a478a1d0d643027e830c30fcd018233d498bb09fb854ea5fbcd462650e12f7981d7445375a29046a0eaa353b8a4f06ef5f13abaf5292cf0f55efc6ff02"
       },
       "expected": {
         "ok": false,
@@ -96,7 +96,7 @@
         "nonce": 5,
         "reference_hash": "0909090909090909090909090909090909090909090909090909090909090909",
         "reference_topoheight": 100,
-        "signature": "cab890e448e946e5262bda879a883088ad2ca4fec828bc30a2b5b2af9e067f08faa1a41e923302bf40e75b5a68cd464c6d80f94960b32fda7bacaf3949d74e0d"
+        "signature": "e001829dea15f30ecb13bb36ea32884e2d33e4847466d9dbd78f11b392d5ff0b94d9b3066f4df3a0e10d682fb1186066515e8c8bce25b7acc2543e86b1207309"
       },
       "expected": {
         "ok": false,
@@ -158,7 +158,7 @@
         "nonce": 5,
         "reference_hash": "0909090909090909090909090909090909090909090909090909090909090909",
         "reference_topoheight": 100,
-        "signature": "127ca3d2423e374fbb41c72943a04a103bd0bd39555ef5a8dafd2335c503cb06c9cdc11309a0b55698de692d2ef1f42a60538bf52769b961ebac1dfc058db304"
+        "signature": "ba5be3994c2ec58be8f97d26bd4697c570e1e1485c1d55a076be37323285a40ee08352cda13d01df7f0317cf01370af34c8261e004c7809f82412c9a7ef5a50f"
       },
       "expected": {
         "ok": false,
