@@ -53,20 +53,59 @@ python tools/fixtures_to_vectors.py
 This creates/updates `vectors/` from JSON fixtures under `fixtures/` according to the mapping in
 `tools/fixtures_to_vectors.py`.
 
-**Conformance usage (Labu)**  
-The Labu orchestrator (`~/labu`) consumes `vectors/`. Example:
+**Conformance usage (Labu)**
+The Labu orchestrator (`~/labu`) consumes `vectors/`. There are two ways to run
+conformance tests:
+
+**A) Docker multi-client (full harness)**
+
+Requires Docker. Labu starts simulator and client containers automatically.
 
 ```bash
 python tools/fixtures_to_vectors.py
 cd ~/labu
+go build -o labu ./cmd/labu
 ./labu --sim tos/execution --client tos-rust,avatar-c --vectors ~/tos-spec/vectors
 ```
 
-You can also use the helper script:
+Or use the helper script (builds/locates the labu binary via `LABU_ROOT`):
 
 ```bash
 python tools/run_conformance.py --sim tos/execution --client tos-rust,avatar-c
 ```
+
+Useful flags: `--sim.limit '.*transfer.*'` (regex filter), `--sim.parallelism 4`,
+`--workspace ./workspace` (logs/results output).
+
+**B) Local single-machine (no Docker)**
+
+Run the conformance server directly and drive it with vectors from the command line.
+Useful for debugging a single client without Docker overhead.
+
+Step 1 — build and start the conformance server:
+
+```bash
+cd ~/tos
+cargo build -p tos_daemon --bin conformance
+
+LABU_STATE_DIR=/tmp/labu-state \
+LABU_NETWORK=devnet \
+LABU_ACCOUNTS_PATH=~/tos-spec/vectors/accounts.json \
+./target/debug/conformance
+```
+
+The server listens on `http://0.0.0.0:8080`. Optional env vars:
+`LABU_GENESIS_STATE_PATH` for genesis-based state loading.
+
+Step 2 — run vectors against the server (in a separate terminal):
+
+```bash
+cd ~/labu
+python3 tools/local_execution_runner.py --vectors ~/tos-spec/vectors/execution
+```
+
+Options: `--base-url http://127.0.0.1:8080` (default), `--dump` (print
+exec results and post-state for each vector).
 
 ## Deterministic Accounts (Test Identities)
 
