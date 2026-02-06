@@ -65,9 +65,9 @@
         }
       },
       "expected": {
-        "success": false,
-        "error_code": 65535,
-        "state_digest": "3c0ede6c09188fa08a9f3f4f4bfb68af391806ce4ff769fcaa477cdfb2a7722f",
+        "success": true,
+        "error_code": 0,
+        "state_digest": "39ff7dcceb4e7fbb344c67d4986c9c9b67d2c87bbafa38500a4b8298d0e400b5",
         "post_state": {
           "network_chain_id": 3,
           "global_state": {
@@ -80,8 +80,8 @@
           "accounts": [
             {
               "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
-              "balance": 10000000,
-              "nonce": 5,
+              "balance": 9900000,
+              "nonce": 6,
               "frozen": 0,
               "energy": 0,
               "flags": 0,
@@ -166,7 +166,7 @@
       },
       "expected": {
         "success": false,
-        "error_code": 65535,
+        "error_code": 263,
         "state_digest": "3c0ede6c09188fa08a9f3f4f4bfb68af391806ce4ff769fcaa477cdfb2a7722f",
         "post_state": {
           "network_chain_id": 3,

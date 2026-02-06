@@ -40,12 +40,12 @@
         "nonce": 5,
         "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
         "reference_topoheight": 0,
-        "signature": "c999b5ee94314ee4028f220de650177c7197eba705b71959cfb7ae9f04923003db993baf317271735e3565b654f63cfac7119d66ce1f0aa99d0ca73b4bafab01",
+        "signature": "adb7575f864e32fb9ede66598782893f3b378582caae50cb7d215e4d7cfd4603fb35e9637b2db7131723485561b5d447da748a477def82e4aefc4e78f5d12f0c",
         "wire_hex": ""
       },
       "expected": {
-        "ok": false,
-        "error": "UNKNOWN",
+        "ok": true,
+        "error": null,
         "post_state": {
           "network_chain_id": 3,
           "global_state": {
@@ -58,8 +58,8 @@
           "accounts": [
             {
               "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
-              "balance": 10000000000,
-              "nonce": 5,
+              "balance": 9999900000,
+              "nonce": 6,
               "frozen": 0,
               "energy": 0,
               "flags": 0,
@@ -114,12 +114,12 @@
         "nonce": 5,
         "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
         "reference_topoheight": 0,
-        "signature": "207774acb9d3e6c2b7714fae17aa737a64aa80ae17a0d57b258517f2fcae780186fc21dd905f63e33fd26c3014ec16adde2121df30409efdf50f97000d348b07",
+        "signature": "56156c2b1e1ba1abbe513bd6c0459799b039e1ebd02e9c7ca0c6fd6caad44d04d1c929d733f9d8815c8d9c2f01e5133308767d550929bf3d7dab5c2caf994a03",
         "wire_hex": ""
       },
       "expected": {
-        "ok": false,
-        "error": "UNKNOWN",
+        "ok": true,
+        "error": null,
         "post_state": {
           "network_chain_id": 3,
           "global_state": {
@@ -132,8 +132,8 @@
           "accounts": [
             {
               "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
-              "balance": 10000000000,
-              "nonce": 5,
+              "balance": 9899900000,
+              "nonce": 6,
               "frozen": 0,
               "energy": 0,
               "flags": 0,

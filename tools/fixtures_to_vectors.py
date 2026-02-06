@@ -121,6 +121,8 @@ def main() -> None:
     if not fixtures.exists():
         raise SystemExit(f"fixtures dir not found: {fixtures}")
 
+    if vectors.exists():
+        shutil.rmtree(vectors)
     vectors.mkdir(parents=True, exist_ok=True)
 
     count = 0

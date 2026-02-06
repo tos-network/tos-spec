@@ -60,8 +60,8 @@
         "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b2490c0f476c6f62616c436f6d6d6974746565030a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a01086d656d6265725f30000b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b01086d656d6265725f31000c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c01086d656d6265725f3200020200ff00000000000186a0000000000000000005000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
       },
       "expected": {
-        "ok": false,
-        "error": "UNKNOWN",
+        "ok": true,
+        "error": null,
         "post_state": {
           "network_chain_id": 3,
           "global_state": {
@@ -74,8 +74,8 @@
           "accounts": [
             {
               "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
-              "balance": 10000000,
-              "nonce": 5,
+              "balance": 9900000,
+              "nonce": 6,
               "frozen": 0,
               "energy": 0,
               "flags": 0,

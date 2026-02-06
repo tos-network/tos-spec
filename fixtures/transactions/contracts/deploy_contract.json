@@ -36,12 +36,12 @@
         "nonce": 5,
         "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
         "reference_topoheight": 0,
-        "signature": "c9bf8a75da07fdd4cb3ba3a9f337f38d3a3703edbac764763f764c399de3820d302ddb2e05ea2b3ea5e70f7ca67dd7896b82659ddae77fbaa3ec332b71492e05",
+        "signature": "82768fc33df369d41fe5b82e9925c3b482c433cfdfc9ecd59c0963211c3f3601f4a8c8ac8c1d05646c351e0195a996f5983ae2ab97196ba54c5ecea7e8c6fc02",
         "wire_hex": ""
       },
       "expected": {
-        "ok": false,
-        "error": "NOT_IMPLEMENTED",
+        "ok": true,
+        "error": null,
         "post_state": {
           "network_chain_id": 3,
           "global_state": {
@@ -54,8 +54,8 @@
           "accounts": [
             {
               "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
-              "balance": 10000000000,
-              "nonce": 5,
+              "balance": 9999900000,
+              "nonce": 6,
               "frozen": 0,
               "energy": 0,
               "flags": 0,
@@ -105,8 +105,8 @@
         "wire_hex": ""
       },
       "expected": {
-        "ok": false,
-        "error": "NOT_IMPLEMENTED",
+        "ok": true,
+        "error": null,
         "post_state": {
           "network_chain_id": 3,
           "global_state": {
@@ -119,8 +119,8 @@
           "accounts": [
             {
               "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
-              "balance": 10000000000,
-              "nonce": 5,
+              "balance": 9999900000,
+              "nonce": 6,
               "frozen": 0,
               "energy": 0,
               "flags": 0,
