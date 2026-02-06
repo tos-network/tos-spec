@@ -2,7 +2,8 @@
 
 from __future__ import annotations
 
-from tos_spec.config import COIN_VALUE
+from tos_spec.config import CHAIN_ID_DEVNET, COIN_VALUE
+from tos_spec.test_accounts import ALICE
 from tos_spec.types import (
     AccountState,
     ChainState,
@@ -13,21 +14,13 @@ from tos_spec.types import (
 )
 
 
-def _addr(byte: int) -> bytes:
-    return bytes([byte]) * 32
-
-
 def _hash(byte: int) -> bytes:
     return bytes([byte]) * 32
 
 
-def _sig(byte: int) -> bytes:
-    return bytes([byte]) * 64
-
-
 def _base_state() -> ChainState:
-    sender = _addr(1)
-    state = ChainState(network_chain_id=0)
+    sender = ALICE
+    state = ChainState(network_chain_id=CHAIN_ID_DEVNET)
     state.accounts[sender] = AccountState(
         address=sender, balance=100 * COIN_VALUE, nonce=5
     )
@@ -39,7 +32,7 @@ def _mk_deploy_contract(
 ) -> Transaction:
     return Transaction(
         version=TxVersion.T1,
-        chain_id=0,
+        chain_id=CHAIN_ID_DEVNET,
         source=sender,
         tx_type=TransactionType.DEPLOY_CONTRACT,
         payload={"module": module},
@@ -48,7 +41,7 @@ def _mk_deploy_contract(
         nonce=nonce,
         reference_hash=_hash(9),
         reference_topoheight=100,
-        signature=_sig(7),
+        signature=bytes(64),
     )
 
 
@@ -57,7 +50,7 @@ def _mk_invoke_contract(
 ) -> Transaction:
     return Transaction(
         version=TxVersion.T1,
-        chain_id=0,
+        chain_id=CHAIN_ID_DEVNET,
         source=sender,
         tx_type=TransactionType.INVOKE_CONTRACT,
         payload={
@@ -72,7 +65,7 @@ def _mk_invoke_contract(
         nonce=nonce,
         reference_hash=_hash(9),
         reference_topoheight=100,
-        signature=_sig(7),
+        signature=bytes(64),
     )
 
 
@@ -81,7 +74,7 @@ def _mk_invoke_contract(
 
 def test_deploy_contract_success(state_test_group) -> None:
     state = _base_state()
-    sender = _addr(1)
+    sender = ALICE
     # Minimal valid ELF module
     module = b"\x7FELF" + b"\x00" * 100
     tx = _mk_deploy_contract(sender, nonce=5, module=module, fee=1_000)
@@ -95,7 +88,7 @@ def test_deploy_contract_success(state_test_group) -> None:
 
 def test_deploy_contract_invalid_module(state_test_group) -> None:
     state = _base_state()
-    sender = _addr(1)
+    sender = ALICE
     module = b"\x00" * 100  # Not an ELF
     tx = _mk_deploy_contract(sender, nonce=5, module=module, fee=1_000)
     state_test_group(
@@ -111,7 +104,7 @@ def test_deploy_contract_invalid_module(state_test_group) -> None:
 
 def test_invoke_contract_success(state_test_group) -> None:
     state = _base_state()
-    sender = _addr(1)
+    sender = ALICE
     contract = _hash(80)
     tx = _mk_invoke_contract(
         sender, nonce=5, contract=contract, entry_id=0, max_gas=100_000, fee=1_000
@@ -126,11 +119,11 @@ def test_invoke_contract_success(state_test_group) -> None:
 
 def test_invoke_contract_with_deposits(state_test_group) -> None:
     state = _base_state()
-    sender = _addr(1)
+    sender = ALICE
     contract = _hash(80)
     tx = Transaction(
         version=TxVersion.T1,
-        chain_id=0,
+        chain_id=CHAIN_ID_DEVNET,
         source=sender,
         tx_type=TransactionType.INVOKE_CONTRACT,
         payload={
@@ -145,7 +138,7 @@ def test_invoke_contract_with_deposits(state_test_group) -> None:
         nonce=5,
         reference_hash=_hash(9),
         reference_topoheight=100,
-        signature=_sig(7),
+        signature=bytes(64),
     )
     state_test_group(
         "transactions/contracts/invoke_contract.json",

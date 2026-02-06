@@ -9,8 +9,15 @@ from typing import Any, Callable
 import pytest
 
 from tos_spec.state_transition import apply_tx
+from tos_spec.test_accounts import SEED_MAP, sign_transaction
 from tos_spec.types import ChainState, Transaction
 from tools.fixtures_io import state_to_json, tx_to_json
+
+
+def _auto_sign(tx: Transaction) -> None:
+    """Sign the transaction if its source is a known test account."""
+    if tx.source in SEED_MAP:
+        tx.signature = sign_transaction(tx)
 
 _STATE_CASES: dict[str, list[dict[str, Any]]] = {}
 _WIRE_VECTORS: list[dict[str, Any]] = []
@@ -31,6 +38,7 @@ def state_test() -> Callable[[str, ChainState, Transaction], None]:
     """Collect a state transition case and append expected outputs."""
 
     def _state_test(name: str, pre_state: ChainState, tx: Transaction) -> None:
+        _auto_sign(tx)
         post_state, result = apply_tx(pre_state, tx)
         _STATE_CASES.setdefault("tx_core.json", []).append(
             {
@@ -55,6 +63,7 @@ def state_test_group() -> Callable[[str, str, ChainState, Transaction], None]:
     def _state_test_group(
         rel_path: str, name: str, pre_state: ChainState, tx: Transaction
     ) -> None:
+        _auto_sign(tx)
         post_state, result = apply_tx(pre_state, tx)
         _STATE_CASES.setdefault(rel_path, []).append(
             {

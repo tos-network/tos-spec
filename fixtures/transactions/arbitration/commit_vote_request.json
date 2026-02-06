@@ -3,7 +3,7 @@
     {
       "name": "commit_vote_request",
       "pre_state": {
-        "network_chain_id": 0,
+        "network_chain_id": 3,
         "global_state": {
           "total_supply": 0,
           "total_burned": 0,
@@ -25,7 +25,7 @@
       },
       "tx": {
         "version": 1,
-        "chain_id": 0,
+        "chain_id": 3,
         "source": "0101010101010101010101010101010101010101010101010101010101010101",
         "tx_type": "commit_vote_request",
         "payload": null,
@@ -40,7 +40,7 @@
         "ok": false,
         "error": "NOT_IMPLEMENTED",
         "post_state": {
-          "network_chain_id": 0,
+          "network_chain_id": 3,
           "global_state": {
             "total_supply": 0,
             "total_burned": 0,

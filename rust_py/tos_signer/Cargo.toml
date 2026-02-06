@@ -1,0 +1,18 @@
+[package]
+name = "tos_signer"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "tos_signer"
+crate-type = ["cdylib"]
+
+[dependencies]
+pyo3 = { version = "0.22", features = ["extension-module"] }
+tos-crypto = { git = "https://github.com/tos-network/tos-crypto", rev = "abb56b0", features = ["uno"] }
+sha3 = "0.10"
+rand = "0.8"
+lazy_static = "1.4"
+
+[patch.crates-io]
+curve25519-dalek = { git = "https://github.com/tos-network/curve25519-dalek", rev = "0ca0e1a1cab7c08733e35cfedc33fc68db2058be" }

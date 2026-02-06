@@ -2,7 +2,8 @@
 
 from __future__ import annotations
 
-from tos_spec.config import COIN_VALUE, MIN_ARBITER_STAKE
+from tos_spec.config import CHAIN_ID_DEVNET, COIN_VALUE, MIN_ARBITER_STAKE
+from tos_spec.test_accounts import ALICE
 from tos_spec.types import (
     AccountState,
     ChainState,
@@ -26,10 +27,9 @@ def _sig(byte: int) -> bytes:
 
 
 def _base_state() -> ChainState:
-    sender = _addr(1)
-    state = ChainState(network_chain_id=0)
-    state.accounts[sender] = AccountState(
-        address=sender, balance=10_000 * COIN_VALUE, nonce=5
+    state = ChainState(network_chain_id=CHAIN_ID_DEVNET)
+    state.accounts[ALICE] = AccountState(
+        address=ALICE, balance=10_000 * COIN_VALUE, nonce=5
     )
     return state
 
@@ -39,7 +39,7 @@ def _mk_arb_tx(
 ) -> Transaction:
     return Transaction(
         version=TxVersion.T1,
-        chain_id=0,
+        chain_id=CHAIN_ID_DEVNET,
         source=sender,
         tx_type=tx_type,
         payload=payload,
@@ -48,7 +48,7 @@ def _mk_arb_tx(
         nonce=nonce,
         reference_hash=_hash(9),
         reference_topoheight=100,
-        signature=_sig(7),
+        signature=bytes(64),
     )
 
 
@@ -57,7 +57,7 @@ def _mk_arb_tx(
 
 def test_register_arbiter_success(state_test_group) -> None:
     state = _base_state()
-    sender = _addr(1)
+    sender = ALICE
     payload = {
         "name": "ArbiterAlice",
         "expertise": [1, 2, 3],
@@ -77,7 +77,7 @@ def test_register_arbiter_success(state_test_group) -> None:
 
 def test_register_arbiter_low_stake(state_test_group) -> None:
     state = _base_state()
-    sender = _addr(1)
+    sender = ALICE
     payload = {
         "name": "LowStake",
         "expertise": [1],
@@ -100,7 +100,7 @@ def test_register_arbiter_low_stake(state_test_group) -> None:
 
 def test_update_arbiter_success(state_test_group) -> None:
     state = _base_state()
-    sender = _addr(1)
+    sender = ALICE
     payload = {
         "name": "ArbiterAliceUpdated",
         "fee_basis_points": 300,
@@ -119,7 +119,7 @@ def test_update_arbiter_success(state_test_group) -> None:
 
 def test_request_arbiter_exit(state_test_group) -> None:
     state = _base_state()
-    sender = _addr(1)
+    sender = ALICE
     payload = {}
     tx = _mk_arb_tx(sender, nonce=5, tx_type=TransactionType.REQUEST_ARBITER_EXIT, payload=payload, fee=1_000)
     state_test_group(
@@ -135,7 +135,7 @@ def test_request_arbiter_exit(state_test_group) -> None:
 
 def test_withdraw_arbiter_stake_success(state_test_group) -> None:
     state = _base_state()
-    sender = _addr(1)
+    sender = ALICE
     payload = {"amount": MIN_ARBITER_STAKE}
     tx = _mk_arb_tx(sender, nonce=5, tx_type=TransactionType.WITHDRAW_ARBITER_STAKE, payload=payload, fee=1_000)
     state_test_group(
@@ -151,7 +151,7 @@ def test_withdraw_arbiter_stake_success(state_test_group) -> None:
 
 def test_cancel_arbiter_exit(state_test_group) -> None:
     state = _base_state()
-    sender = _addr(1)
+    sender = ALICE
     payload = {}
     tx = _mk_arb_tx(sender, nonce=5, tx_type=TransactionType.CANCEL_ARBITER_EXIT, payload=payload, fee=1_000)
     state_test_group(
@@ -167,7 +167,7 @@ def test_cancel_arbiter_exit(state_test_group) -> None:
 
 def test_slash_arbiter_success(state_test_group) -> None:
     state = _base_state()
-    sender = _addr(1)
+    sender = ALICE
     payload = {
         "committee_id": _hash(50),
         "arbiter_pubkey": _addr(30),
@@ -200,7 +200,7 @@ def test_slash_arbiter_success(state_test_group) -> None:
 
 def test_commit_arbitration_open(state_test_group) -> None:
     state = _base_state()
-    sender = _addr(1)
+    sender = ALICE
     payload = {
         "escrow_id": _hash(60),
         "dispute_id": _hash(61),
@@ -224,7 +224,7 @@ def test_commit_arbitration_open(state_test_group) -> None:
 
 def test_commit_vote_request(state_test_group) -> None:
     state = _base_state()
-    sender = _addr(1)
+    sender = ALICE
     payload = {
         "request_id": _hash(62),
         "vote_request_hash": _hash(64),
@@ -245,7 +245,7 @@ def test_commit_vote_request(state_test_group) -> None:
 
 def test_commit_selection_commitment(state_test_group) -> None:
     state = _base_state()
-    sender = _addr(1)
+    sender = ALICE
     payload = {
         "request_id": _hash(62),
         "selection_commitment_id": _hash(65),
@@ -265,7 +265,7 @@ def test_commit_selection_commitment(state_test_group) -> None:
 
 def test_commit_juror_vote(state_test_group) -> None:
     state = _base_state()
-    sender = _addr(1)
+    sender = ALICE
     payload = {
         "request_id": _hash(62),
         "juror_pubkey": _addr(35),

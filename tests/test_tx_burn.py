@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from tos_spec.config import CHAIN_ID_DEVNET
+from tos_spec.test_accounts import ALICE
 from tos_spec.types import (
     AccountState,
     ChainState,
@@ -12,29 +14,20 @@ from tos_spec.types import (
 )
 
 
-def _addr(byte: int) -> bytes:
-    return bytes([byte]) * 32
-
-
 def _hash(byte: int) -> bytes:
     return bytes([byte]) * 32
 
 
-def _sig(byte: int) -> bytes:
-    return bytes([byte]) * 64
-
-
 def _base_state() -> ChainState:
-    sender = _addr(1)
-    state = ChainState(network_chain_id=0)
-    state.accounts[sender] = AccountState(address=sender, balance=1_000_000, nonce=5)
+    state = ChainState(network_chain_id=CHAIN_ID_DEVNET)
+    state.accounts[ALICE] = AccountState(address=ALICE, balance=1_000_000, nonce=5)
     return state
 
 
 def _mk_burn(sender: bytes, nonce: int, amount: int, fee: int) -> Transaction:
     return Transaction(
         version=TxVersion.T1,
-        chain_id=0,
+        chain_id=CHAIN_ID_DEVNET,
         source=sender,
         tx_type=TransactionType.BURN,
         payload={"asset": _hash(0), "amount": amount},
@@ -43,26 +36,23 @@ def _mk_burn(sender: bytes, nonce: int, amount: int, fee: int) -> Transaction:
         nonce=nonce,
         reference_hash=_hash(9),
         reference_topoheight=100,
-        signature=_sig(7),
+        signature=bytes(64),
     )
 
 
 def test_burn_success(state_test_group) -> None:
     state = _base_state()
-    sender = _addr(1)
-    tx = _mk_burn(sender, nonce=5, amount=100_000, fee=1_000)
+    tx = _mk_burn(ALICE, nonce=5, amount=100_000, fee=1_000)
     state_test_group("transactions/core/burn.json", "burn_success", state, tx)
 
 
 def test_burn_insufficient_balance(state_test_group) -> None:
     state = _base_state()
-    sender = _addr(1)
-    tx = _mk_burn(sender, nonce=5, amount=2_000_000, fee=1_000)
+    tx = _mk_burn(ALICE, nonce=5, amount=2_000_000, fee=1_000)
     state_test_group("transactions/core/burn.json", "burn_insufficient_balance", state, tx)
 
 
 def test_burn_invalid_amount(state_test_group) -> None:
     state = _base_state()
-    sender = _addr(1)
-    tx = _mk_burn(sender, nonce=5, amount=0, fee=1_000)
+    tx = _mk_burn(ALICE, nonce=5, amount=0, fee=1_000)
     state_test_group("transactions/core/burn.json", "burn_invalid_amount", state, tx)

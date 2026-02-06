@@ -2,7 +2,8 @@
 
 from __future__ import annotations
 
-from tos_spec.config import COIN_VALUE, MIN_SHIELD_TOS_AMOUNT
+from tos_spec.config import CHAIN_ID_DEVNET, COIN_VALUE, MIN_SHIELD_TOS_AMOUNT
+from tos_spec.test_accounts import ALICE, BOB
 from tos_spec.types import (
     AccountState,
     ChainState,
@@ -13,23 +14,14 @@ from tos_spec.types import (
 )
 
 
-def _addr(byte: int) -> bytes:
-    return bytes([byte]) * 32
-
-
 def _hash(byte: int) -> bytes:
     return bytes([byte]) * 32
 
 
-def _sig(byte: int) -> bytes:
-    return bytes([byte]) * 64
-
-
 def _base_state() -> ChainState:
-    sender = _addr(1)
-    state = ChainState(network_chain_id=0)
-    state.accounts[sender] = AccountState(
-        address=sender, balance=1000 * COIN_VALUE, nonce=5
+    state = ChainState(network_chain_id=CHAIN_ID_DEVNET)
+    state.accounts[ALICE] = AccountState(
+        address=ALICE, balance=1000 * COIN_VALUE, nonce=5
     )
     return state
 
@@ -39,7 +31,7 @@ def _mk_uno_transfer(
 ) -> Transaction:
     return Transaction(
         version=TxVersion.T1,
-        chain_id=0,
+        chain_id=CHAIN_ID_DEVNET,
         source=sender,
         tx_type=TransactionType.UNO_TRANSFERS,
         payload={
@@ -61,7 +53,7 @@ def _mk_uno_transfer(
         range_proof=bytes([0xBB]) * 64,
         reference_hash=_hash(9),
         reference_topoheight=100,
-        signature=_sig(7),
+        signature=bytes(64),
     )
 
 
@@ -70,7 +62,7 @@ def _mk_shield_transfer(
 ) -> Transaction:
     return Transaction(
         version=TxVersion.T1,
-        chain_id=0,
+        chain_id=CHAIN_ID_DEVNET,
         source=sender,
         tx_type=TransactionType.SHIELD_TRANSFERS,
         payload={
@@ -91,7 +83,7 @@ def _mk_shield_transfer(
         source_commitments=[_hash(20)],
         reference_hash=_hash(9),
         reference_topoheight=100,
-        signature=_sig(7),
+        signature=bytes(64),
     )
 
 
@@ -100,7 +92,7 @@ def _mk_unshield_transfer(
 ) -> Transaction:
     return Transaction(
         version=TxVersion.T1,
-        chain_id=0,
+        chain_id=CHAIN_ID_DEVNET,
         source=sender,
         tx_type=TransactionType.UNSHIELD_TRANSFERS,
         payload={
@@ -121,7 +113,7 @@ def _mk_unshield_transfer(
         source_commitments=[_hash(20)],
         reference_hash=_hash(9),
         reference_topoheight=100,
-        signature=_sig(7),
+        signature=bytes(64),
     )
 
 
@@ -130,10 +122,8 @@ def _mk_unshield_transfer(
 
 def test_uno_transfer_success(state_test_group) -> None:
     state = _base_state()
-    sender = _addr(1)
-    receiver = _addr(2)
-    state.accounts[receiver] = AccountState(address=receiver, balance=0, nonce=0)
-    tx = _mk_uno_transfer(sender, nonce=5, destination=receiver, fee=0)
+    state.accounts[BOB] = AccountState(address=BOB, balance=0, nonce=0)
+    tx = _mk_uno_transfer(ALICE, nonce=5, destination=BOB, fee=0)
     state_test_group(
         "transactions/privacy/uno_transfers.json",
         "uno_transfer_success",
@@ -144,8 +134,7 @@ def test_uno_transfer_success(state_test_group) -> None:
 
 def test_uno_transfer_self(state_test_group) -> None:
     state = _base_state()
-    sender = _addr(1)
-    tx = _mk_uno_transfer(sender, nonce=5, destination=sender, fee=0)
+    tx = _mk_uno_transfer(ALICE, nonce=5, destination=ALICE, fee=0)
     state_test_group(
         "transactions/privacy/uno_transfers.json",
         "uno_transfer_self",
@@ -159,11 +148,9 @@ def test_uno_transfer_self(state_test_group) -> None:
 
 def test_shield_transfer_success(state_test_group) -> None:
     state = _base_state()
-    sender = _addr(1)
-    receiver = _addr(2)
-    state.accounts[receiver] = AccountState(address=receiver, balance=0, nonce=0)
+    state.accounts[BOB] = AccountState(address=BOB, balance=0, nonce=0)
     tx = _mk_shield_transfer(
-        sender, nonce=5, destination=receiver, amount=MIN_SHIELD_TOS_AMOUNT, fee=1_000
+        ALICE, nonce=5, destination=BOB, amount=MIN_SHIELD_TOS_AMOUNT, fee=1_000
     )
     state_test_group(
         "transactions/privacy/shield_transfers.json",
@@ -175,11 +162,9 @@ def test_shield_transfer_success(state_test_group) -> None:
 
 def test_shield_transfer_below_minimum(state_test_group) -> None:
     state = _base_state()
-    sender = _addr(1)
-    receiver = _addr(2)
-    state.accounts[receiver] = AccountState(address=receiver, balance=0, nonce=0)
+    state.accounts[BOB] = AccountState(address=BOB, balance=0, nonce=0)
     tx = _mk_shield_transfer(
-        sender, nonce=5, destination=receiver, amount=COIN_VALUE, fee=1_000
+        ALICE, nonce=5, destination=BOB, amount=COIN_VALUE, fee=1_000
     )
     state_test_group(
         "transactions/privacy/shield_transfers.json",
@@ -194,11 +179,9 @@ def test_shield_transfer_below_minimum(state_test_group) -> None:
 
 def test_unshield_transfer_success(state_test_group) -> None:
     state = _base_state()
-    sender = _addr(1)
-    receiver = _addr(2)
-    state.accounts[receiver] = AccountState(address=receiver, balance=0, nonce=0)
+    state.accounts[BOB] = AccountState(address=BOB, balance=0, nonce=0)
     tx = _mk_unshield_transfer(
-        sender, nonce=5, destination=receiver, amount=5 * COIN_VALUE, fee=1_000
+        ALICE, nonce=5, destination=BOB, amount=5 * COIN_VALUE, fee=1_000
     )
     state_test_group(
         "transactions/privacy/unshield_transfers.json",

@@ -1,0 +1,89 @@
+{
+  "test_vectors": [
+    {
+      "name": "tips_within_limit",
+      "runnable": false,
+      "input": {
+        "tips_count": 2
+      },
+      "expected": {
+        "valid": true
+      }
+    },
+    {
+      "name": "tips_exceed_limit",
+      "runnable": false,
+      "input": {
+        "tips_count": 4
+      },
+      "expected": {
+        "valid": false
+      }
+    },
+    {
+      "name": "tips_zero",
+      "runnable": false,
+      "input": {
+        "tips_count": 0
+      },
+      "expected": {
+        "valid": false
+      }
+    },
+    {
+      "name": "header_size_constants",
+      "runnable": false,
+      "input": {
+        "kind": "spec"
+      },
+      "expected": {
+        "tips_limit": 3,
+        "max_block_size": 1310720,
+        "max_txs_per_block": 10000,
+        "min_header_size": 91,
+        "max_header_size": 320350
+      }
+    },
+    {
+      "name": "timestamp_valid",
+      "runnable": false,
+      "input": {
+        "timestamp_ms": 1700000030000,
+        "parent_timestamps": [
+          1700000000000
+        ],
+        "now_ms": 1700000060000
+      },
+      "expected": {
+        "valid": true
+      }
+    },
+    {
+      "name": "timestamp_too_old",
+      "runnable": false,
+      "input": {
+        "timestamp_ms": 1700000040000,
+        "parent_timestamps": [
+          1700000050000
+        ],
+        "now_ms": 1700000060000
+      },
+      "expected": {
+        "valid": false
+      }
+    },
+    {
+      "name": "duplicate_txs",
+      "runnable": false,
+      "input": {
+        "txs_hashes": [
+          "0101010101010101010101010101010101010101010101010101010101010101",
+          "0101010101010101010101010101010101010101010101010101010101010101"
+        ]
+      },
+      "expected": {
+        "valid": false
+      }
+    }
+  ]
+}

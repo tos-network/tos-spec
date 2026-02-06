@@ -2,7 +2,9 @@
 
 from __future__ import annotations
 
+from tos_spec.config import CHAIN_ID_DEVNET
 from tos_spec.encoding import encode_transaction
+from tos_spec.test_accounts import ALICE, BOB, CAROL
 from tos_spec.types import (
     EnergyPayload,
     FeeType,
@@ -14,24 +16,16 @@ from tos_spec.types import (
 )
 
 
-def _addr(byte: int) -> bytes:
-    return bytes([byte]) * 32
-
-
 def _hash(byte: int) -> bytes:
     return bytes([byte]) * 32
 
 
-def _sig(byte: int) -> bytes:
-    return bytes([byte]) * 64
-
-
 def test_transfer_wire_vector(wire_vector) -> None:
-    sender = _addr(1)
-    receiver = _addr(2)
+    sender = ALICE
+    receiver = BOB
     tx = Transaction(
         version=TxVersion.T1,
-        chain_id=0,
+        chain_id=CHAIN_ID_DEVNET,
         source=sender,
         tx_type=TransactionType.TRANSFERS,
         payload=[TransferPayload(asset=_hash(0), destination=receiver, amount=100_000)],
@@ -40,7 +34,7 @@ def test_transfer_wire_vector(wire_vector) -> None:
         nonce=5,
         reference_hash=_hash(9),
         reference_topoheight=100,
-        signature=_sig(7),
+        signature=bytes(64),
     )
 
     encoded = encode_transaction(tx)
@@ -73,10 +67,10 @@ def test_transfer_wire_vector(wire_vector) -> None:
 
 
 def test_energy_freeze_wire_vector(wire_vector) -> None:
-    sender = _addr(3)
+    sender = CAROL
     tx = Transaction(
         version=TxVersion.T1,
-        chain_id=0,
+        chain_id=CHAIN_ID_DEVNET,
         source=sender,
         tx_type=TransactionType.ENERGY,
         payload=EnergyPayload(
@@ -89,7 +83,7 @@ def test_energy_freeze_wire_vector(wire_vector) -> None:
         nonce=1,
         reference_hash=_hash(9),
         reference_topoheight=100,
-        signature=_sig(7),
+        signature=bytes(64),
     )
 
     encoded = encode_transaction(tx)

@@ -4,11 +4,13 @@ from __future__ import annotations
 
 from tos_spec.config import (
     APPROVAL_EXPIRY_SECONDS,
+    CHAIN_ID_DEVNET,
     EMERGENCY_SUSPEND_TIMEOUT,
     MAX_COMMITTEE_NAME_LEN,
     MIN_COMMITTEE_MEMBERS,
     VALID_KYC_LEVELS,
 )
+from tos_spec.test_accounts import ALICE, EVE
 from tos_spec.types import (
     AccountState,
     ChainState,
@@ -34,8 +36,8 @@ def _sig(byte: int) -> bytes:
 
 
 def _base_state() -> ChainState:
-    sender = _addr(1)
-    state = ChainState(network_chain_id=0)
+    sender = ALICE
+    state = ChainState(network_chain_id=CHAIN_ID_DEVNET)
     state.accounts[sender] = AccountState(address=sender, balance=10_000_000, nonce=5)
     return state
 
@@ -53,7 +55,7 @@ def _mk_kyc_tx(
 ) -> Transaction:
     return Transaction(
         version=TxVersion.T1,
-        chain_id=0,
+        chain_id=CHAIN_ID_DEVNET,
         source=sender,
         tx_type=tx_type,
         payload=payload,
@@ -62,7 +64,7 @@ def _mk_kyc_tx(
         nonce=nonce,
         reference_hash=_hash(9),
         reference_topoheight=100,
-        signature=_sig(7),
+        signature=bytes(64),
     )
 
 
@@ -71,7 +73,7 @@ def _mk_kyc_tx(
 
 def test_bootstrap_committee_success(state_test_group) -> None:
     state = _base_state()
-    sender = _addr(1)
+    sender = ALICE
     members = [
         {"public_key": _addr(10 + i), "name": f"member_{i}", "role": 0}
         for i in range(MIN_COMMITTEE_MEMBERS)
@@ -97,7 +99,7 @@ def test_bootstrap_committee_success(state_test_group) -> None:
 
 def test_register_committee_success(state_test_group) -> None:
     state = _base_state()
-    sender = _addr(1)
+    sender = ALICE
     members = [
         {"public_key": _addr(20 + i), "name": f"rmember_{i}", "role": 0}
         for i in range(MIN_COMMITTEE_MEMBERS)
@@ -126,7 +128,7 @@ def test_register_committee_success(state_test_group) -> None:
 
 def test_update_committee_add_member(state_test_group) -> None:
     state = _base_state()
-    sender = _addr(1)
+    sender = ALICE
     payload = {
         "committee_id": _hash(50),
         "update": {
@@ -151,8 +153,8 @@ def test_update_committee_add_member(state_test_group) -> None:
 
 def test_set_kyc_success(state_test_group) -> None:
     state = _base_state()
-    sender = _addr(1)
-    target = _addr(5)
+    sender = ALICE
+    target = EVE
     state.accounts[target] = AccountState(address=target, balance=0, nonce=0)
     payload = {
         "account": target,
@@ -170,8 +172,8 @@ def test_set_kyc_success(state_test_group) -> None:
 
 def test_set_kyc_invalid_level(state_test_group) -> None:
     state = _base_state()
-    sender = _addr(1)
-    target = _addr(5)
+    sender = ALICE
+    target = EVE
     state.accounts[target] = AccountState(address=target, balance=0, nonce=0)
     payload = {
         "account": target,
@@ -192,8 +194,8 @@ def test_set_kyc_invalid_level(state_test_group) -> None:
 
 def test_revoke_kyc_success(state_test_group) -> None:
     state = _base_state()
-    sender = _addr(1)
-    target = _addr(5)
+    sender = ALICE
+    target = EVE
     state.accounts[target] = AccountState(address=target, balance=0, nonce=0)
     payload = {
         "account": target,
@@ -212,8 +214,8 @@ def test_revoke_kyc_success(state_test_group) -> None:
 
 def test_transfer_kyc_success(state_test_group) -> None:
     state = _base_state()
-    sender = _addr(1)
-    target = _addr(5)
+    sender = ALICE
+    target = EVE
     state.accounts[target] = AccountState(address=target, balance=0, nonce=0)
     payload = {
         "account": target,
@@ -235,8 +237,8 @@ def test_transfer_kyc_success(state_test_group) -> None:
 
 def test_appeal_kyc_success(state_test_group) -> None:
     state = _base_state()
-    sender = _addr(1)
-    target = _addr(5)
+    sender = ALICE
+    target = EVE
     state.accounts[target] = AccountState(address=target, balance=0, nonce=0)
     payload = {
         "account": target,
@@ -257,8 +259,8 @@ def test_appeal_kyc_success(state_test_group) -> None:
 
 def test_emergency_suspend_success(state_test_group) -> None:
     state = _base_state()
-    sender = _addr(1)
-    target = _addr(5)
+    sender = ALICE
+    target = EVE
     state.accounts[target] = AccountState(address=target, balance=0, nonce=0)
     payload = {
         "account": target,

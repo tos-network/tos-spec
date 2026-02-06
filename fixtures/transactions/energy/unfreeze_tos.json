@@ -3,7 +3,7 @@
     {
       "name": "unfreeze_tos_success",
       "pre_state": {
-        "network_chain_id": 0,
+        "network_chain_id": 3,
         "global_state": {
           "total_supply": 0,
           "total_burned": 0,
@@ -25,7 +25,7 @@
       },
       "tx": {
         "version": 1,
-        "chain_id": 0,
+        "chain_id": 3,
         "source": "0101010101010101010101010101010101010101010101010101010101010101",
         "tx_type": "energy",
         "payload": {
@@ -48,7 +48,7 @@
         "ok": false,
         "error": "NOT_IMPLEMENTED",
         "post_state": {
-          "network_chain_id": 0,
+          "network_chain_id": 3,
           "global_state": {
             "total_supply": 0,
             "total_burned": 0,
@@ -73,7 +73,7 @@
     {
       "name": "unfreeze_tos_insufficient_frozen",
       "pre_state": {
-        "network_chain_id": 0,
+        "network_chain_id": 3,
         "global_state": {
           "total_supply": 0,
           "total_burned": 0,
@@ -95,7 +95,7 @@
       },
       "tx": {
         "version": 1,
-        "chain_id": 0,
+        "chain_id": 3,
         "source": "0101010101010101010101010101010101010101010101010101010101010101",
         "tx_type": "energy",
         "payload": {
@@ -118,7 +118,7 @@
         "ok": false,
         "error": "NOT_IMPLEMENTED",
         "post_state": {
-          "network_chain_id": 0,
+          "network_chain_id": 3,
           "global_state": {
             "total_supply": 0,
             "total_burned": 0,
@@ -143,7 +143,7 @@
     {
       "name": "unfreeze_tos_zero_amount",
       "pre_state": {
-        "network_chain_id": 0,
+        "network_chain_id": 3,
         "global_state": {
           "total_supply": 0,
           "total_burned": 0,
@@ -165,7 +165,7 @@
       },
       "tx": {
         "version": 1,
-        "chain_id": 0,
+        "chain_id": 3,
         "source": "0101010101010101010101010101010101010101010101010101010101010101",
         "tx_type": "energy",
         "payload": {
@@ -188,7 +188,7 @@
         "ok": false,
         "error": "NOT_IMPLEMENTED",
         "post_state": {
-          "network_chain_id": 0,
+          "network_chain_id": 3,
           "global_state": {
             "total_supply": 0,
             "total_burned": 0,

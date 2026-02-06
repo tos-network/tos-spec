@@ -1,0 +1,17 @@
+{
+  "test_vectors": [
+    {
+      "name": "fee_model_constants",
+      "runnable": false,
+      "input": {
+        "kind": "spec"
+      },
+      "expected": {
+        "max_transfer_count": 500,
+        "max_nonce_gap": 64,
+        "extra_data_limit_size": 128,
+        "extra_data_limit_sum_size": 4096
+      }
+    }
+  ]
+}

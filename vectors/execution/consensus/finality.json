@@ -1,0 +1,75 @@
+{
+  "test_vectors": [
+    {
+      "name": "stable_check_true",
+      "runnable": false,
+      "input": {
+        "current_topoheight": 1000,
+        "block_topoheight": 970
+      },
+      "expected": {
+        "is_stable": true
+      }
+    },
+    {
+      "name": "stable_check_false",
+      "runnable": false,
+      "input": {
+        "current_topoheight": 1000,
+        "block_topoheight": 990
+      },
+      "expected": {
+        "is_stable": false
+      }
+    },
+    {
+      "name": "finality_constants",
+      "runnable": false,
+      "input": {
+        "kind": "spec"
+      },
+      "expected": {
+        "stable_limit": 24,
+        "prune_safety_limit": 240,
+        "block_time_target_ms": 15000,
+        "coinbase_maturity": 100
+      }
+    },
+    {
+      "name": "height_from_parents",
+      "runnable": false,
+      "input": {
+        "parent_heights": [
+          10,
+          12,
+          11
+        ]
+      },
+      "expected": {
+        "height": 13
+      }
+    },
+    {
+      "name": "block_reward_era0",
+      "runnable": false,
+      "input": {
+        "height": 100,
+        "coin_value": 100000000
+      },
+      "expected": {
+        "reward": 5000000000
+      }
+    },
+    {
+      "name": "block_reward_era1",
+      "runnable": false,
+      "input": {
+        "height": 2100100,
+        "coin_value": 100000000
+      },
+      "expected": {
+        "reward": 2500000000
+      }
+    }
+  ]
+}

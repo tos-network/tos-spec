@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from tos_spec.config import CHAIN_ID_DEVNET
+from tos_spec.test_accounts import ALICE, BOB
 from tos_spec.types import (
     AccountState,
     ChainState,
@@ -12,22 +14,13 @@ from tos_spec.types import (
 )
 
 
-def _addr(byte: int) -> bytes:
-    return bytes([byte]) * 32
-
-
 def _hash(byte: int) -> bytes:
     return bytes([byte]) * 32
 
 
-def _sig(byte: int) -> bytes:
-    return bytes([byte]) * 64
-
-
 def _base_state() -> ChainState:
-    sender = _addr(1)
-    state = ChainState(network_chain_id=0)
-    state.accounts[sender] = AccountState(address=sender, balance=1_000_000, nonce=5)
+    state = ChainState(network_chain_id=CHAIN_ID_DEVNET)
+    state.accounts[ALICE] = AccountState(address=ALICE, balance=1_000_000, nonce=5)
     return state
 
 
@@ -36,7 +29,7 @@ def _mk_multisig(
 ) -> Transaction:
     return Transaction(
         version=TxVersion.T1,
-        chain_id=0,
+        chain_id=CHAIN_ID_DEVNET,
         source=sender,
         tx_type=TransactionType.MULTISIG,
         payload={"threshold": threshold, "participants": participants},
@@ -45,7 +38,7 @@ def _mk_multisig(
         nonce=nonce,
         reference_hash=_hash(9),
         reference_topoheight=100,
-        signature=_sig(7),
+        signature=bytes(64),
     )
 
 
@@ -54,7 +47,7 @@ def _mk_agent_account(
 ) -> Transaction:
     return Transaction(
         version=TxVersion.T1,
-        chain_id=0,
+        chain_id=CHAIN_ID_DEVNET,
         source=sender,
         tx_type=TransactionType.AGENT_ACCOUNT,
         payload=payload,
@@ -63,7 +56,7 @@ def _mk_agent_account(
         nonce=nonce,
         reference_hash=_hash(9),
         reference_topoheight=100,
-        signature=_sig(7),
+        signature=bytes(64),
     )
 
 
@@ -72,9 +65,8 @@ def _mk_agent_account(
 
 def test_multisig_setup(state_test_group) -> None:
     state = _base_state()
-    sender = _addr(1)
-    participants = [_addr(2), _addr(3), _addr(4)]
-    tx = _mk_multisig(sender, nonce=5, threshold=2, participants=participants, fee=1_000)
+    participants = [BOB, bytes([3]) * 32, bytes([4]) * 32]
+    tx = _mk_multisig(ALICE, nonce=5, threshold=2, participants=participants, fee=1_000)
     state_test_group(
         "transactions/account/multisig.json", "multisig_setup", state, tx
     )
@@ -82,8 +74,7 @@ def test_multisig_setup(state_test_group) -> None:
 
 def test_multisig_threshold_zero(state_test_group) -> None:
     state = _base_state()
-    sender = _addr(1)
-    tx = _mk_multisig(sender, nonce=5, threshold=0, participants=[], fee=1_000)
+    tx = _mk_multisig(ALICE, nonce=5, threshold=0, participants=[], fee=1_000)
     state_test_group(
         "transactions/account/multisig.json", "multisig_threshold_zero", state, tx
     )
@@ -91,8 +82,7 @@ def test_multisig_threshold_zero(state_test_group) -> None:
 
 def test_multisig_single_participant(state_test_group) -> None:
     state = _base_state()
-    sender = _addr(1)
-    tx = _mk_multisig(sender, nonce=5, threshold=1, participants=[_addr(2)], fee=1_000)
+    tx = _mk_multisig(ALICE, nonce=5, threshold=1, participants=[BOB], fee=1_000)
     state_test_group(
         "transactions/account/multisig.json",
         "multisig_single_participant",
@@ -106,13 +96,12 @@ def test_multisig_single_participant(state_test_group) -> None:
 
 def test_agent_account_register(state_test_group) -> None:
     state = _base_state()
-    sender = _addr(1)
     payload = {
         "variant": "register",
-        "controller": _addr(2),
+        "controller": BOB,
         "policy_hash": _hash(3),
     }
-    tx = _mk_agent_account(sender, nonce=5, payload=payload, fee=1_000)
+    tx = _mk_agent_account(ALICE, nonce=5, payload=payload, fee=1_000)
     state_test_group(
         "transactions/account/agent_account.json",
         "agent_account_register",
@@ -123,12 +112,11 @@ def test_agent_account_register(state_test_group) -> None:
 
 def test_agent_account_update_policy(state_test_group) -> None:
     state = _base_state()
-    sender = _addr(1)
     payload = {
         "variant": "update_policy",
         "policy_hash": _hash(4),
     }
-    tx = _mk_agent_account(sender, nonce=5, payload=payload, fee=1_000)
+    tx = _mk_agent_account(ALICE, nonce=5, payload=payload, fee=1_000)
     state_test_group(
         "transactions/account/agent_account.json",
         "agent_account_update_policy",
@@ -139,12 +127,11 @@ def test_agent_account_update_policy(state_test_group) -> None:
 
 def test_agent_account_rotate_controller(state_test_group) -> None:
     state = _base_state()
-    sender = _addr(1)
     payload = {
         "variant": "rotate_controller",
-        "new_controller": _addr(5),
+        "new_controller": bytes([5]) * 32,
     }
-    tx = _mk_agent_account(sender, nonce=5, payload=payload, fee=1_000)
+    tx = _mk_agent_account(ALICE, nonce=5, payload=payload, fee=1_000)
     state_test_group(
         "transactions/account/agent_account.json",
         "agent_account_rotate_controller",

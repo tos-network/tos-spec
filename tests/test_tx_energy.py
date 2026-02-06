@@ -2,7 +2,8 @@
 
 from __future__ import annotations
 
-from tos_spec.config import COIN_VALUE, MIN_FREEZE_TOS_AMOUNT, MIN_UNFREEZE_TOS_AMOUNT
+from tos_spec.config import CHAIN_ID_DEVNET, COIN_VALUE, MIN_FREEZE_TOS_AMOUNT, MIN_UNFREEZE_TOS_AMOUNT
+from tos_spec.test_accounts import ALICE, BOB
 from tos_spec.types import (
     AccountState,
     ChainState,
@@ -16,21 +17,13 @@ from tos_spec.types import (
 )
 
 
-def _addr(byte: int) -> bytes:
-    return bytes([byte]) * 32
-
-
 def _hash(byte: int) -> bytes:
     return bytes([byte]) * 32
 
 
-def _sig(byte: int) -> bytes:
-    return bytes([byte]) * 64
-
-
 def _base_state() -> ChainState:
-    sender = _addr(1)
-    state = ChainState(network_chain_id=0)
+    sender = ALICE
+    state = ChainState(network_chain_id=CHAIN_ID_DEVNET)
     state.accounts[sender] = AccountState(
         address=sender, balance=100 * COIN_VALUE, nonce=5, frozen=10 * COIN_VALUE
     )
@@ -42,7 +35,7 @@ def _mk_freeze_tos(
 ) -> Transaction:
     return Transaction(
         version=TxVersion.T1,
-        chain_id=0,
+        chain_id=CHAIN_ID_DEVNET,
         source=sender,
         tx_type=TransactionType.ENERGY,
         payload=EnergyPayload(
@@ -55,7 +48,7 @@ def _mk_freeze_tos(
         nonce=nonce,
         reference_hash=_hash(9),
         reference_topoheight=100,
-        signature=_sig(7),
+        signature=bytes(64),
     )
 
 
@@ -68,7 +61,7 @@ def _mk_freeze_delegate(
 ) -> Transaction:
     return Transaction(
         version=TxVersion.T1,
-        chain_id=0,
+        chain_id=CHAIN_ID_DEVNET,
         source=sender,
         tx_type=TransactionType.ENERGY,
         payload=EnergyPayload(
@@ -81,7 +74,7 @@ def _mk_freeze_delegate(
         nonce=nonce,
         reference_hash=_hash(9),
         reference_topoheight=100,
-        signature=_sig(7),
+        signature=bytes(64),
     )
 
 
@@ -94,7 +87,7 @@ def _mk_unfreeze_tos(
 ) -> Transaction:
     return Transaction(
         version=TxVersion.T1,
-        chain_id=0,
+        chain_id=CHAIN_ID_DEVNET,
         source=sender,
         tx_type=TransactionType.ENERGY,
         payload=EnergyPayload(
@@ -107,14 +100,14 @@ def _mk_unfreeze_tos(
         nonce=nonce,
         reference_hash=_hash(9),
         reference_topoheight=100,
-        signature=_sig(7),
+        signature=bytes(64),
     )
 
 
 def _mk_withdraw_unfrozen(sender: bytes, nonce: int, fee: int) -> Transaction:
     return Transaction(
         version=TxVersion.T1,
-        chain_id=0,
+        chain_id=CHAIN_ID_DEVNET,
         source=sender,
         tx_type=TransactionType.ENERGY,
         payload=EnergyPayload(variant="withdraw_unfrozen"),
@@ -123,7 +116,7 @@ def _mk_withdraw_unfrozen(sender: bytes, nonce: int, fee: int) -> Transaction:
         nonce=nonce,
         reference_hash=_hash(9),
         reference_topoheight=100,
-        signature=_sig(7),
+        signature=bytes(64),
     )
 
 
@@ -132,14 +125,14 @@ def _mk_withdraw_unfrozen(sender: bytes, nonce: int, fee: int) -> Transaction:
 
 def test_freeze_tos_success(state_test_group) -> None:
     state = _base_state()
-    sender = _addr(1)
+    sender = ALICE
     tx = _mk_freeze_tos(sender, nonce=5, amount=MIN_FREEZE_TOS_AMOUNT, days=7, fee=1_000)
     state_test_group("transactions/energy/freeze_tos.json", "freeze_tos_success", state, tx)
 
 
 def test_freeze_tos_insufficient_balance(state_test_group) -> None:
     state = _base_state()
-    sender = _addr(1)
+    sender = ALICE
     tx = _mk_freeze_tos(sender, nonce=5, amount=200 * COIN_VALUE, days=7, fee=1_000)
     state_test_group(
         "transactions/energy/freeze_tos.json",
@@ -151,7 +144,7 @@ def test_freeze_tos_insufficient_balance(state_test_group) -> None:
 
 def test_freeze_tos_zero_amount(state_test_group) -> None:
     state = _base_state()
-    sender = _addr(1)
+    sender = ALICE
     tx = _mk_freeze_tos(sender, nonce=5, amount=0, days=7, fee=1_000)
     state_test_group(
         "transactions/energy/freeze_tos.json", "freeze_tos_zero_amount", state, tx
@@ -163,8 +156,8 @@ def test_freeze_tos_zero_amount(state_test_group) -> None:
 
 def test_freeze_delegate_success(state_test_group) -> None:
     state = _base_state()
-    sender = _addr(1)
-    delegatee = _addr(2)
+    sender = ALICE
+    delegatee = BOB
     state.accounts[delegatee] = AccountState(address=delegatee, balance=0, nonce=0)
     entries = [DelegationEntry(delegatee=delegatee, amount=COIN_VALUE)]
     tx = _mk_freeze_delegate(sender, nonce=5, delegatees=entries, days=7, fee=1_000)
@@ -178,7 +171,7 @@ def test_freeze_delegate_success(state_test_group) -> None:
 
 def test_freeze_delegate_self(state_test_group) -> None:
     state = _base_state()
-    sender = _addr(1)
+    sender = ALICE
     entries = [DelegationEntry(delegatee=sender, amount=COIN_VALUE)]
     tx = _mk_freeze_delegate(sender, nonce=5, delegatees=entries, days=7, fee=1_000)
     state_test_group(
@@ -191,7 +184,7 @@ def test_freeze_delegate_self(state_test_group) -> None:
 
 def test_freeze_delegate_empty(state_test_group) -> None:
     state = _base_state()
-    sender = _addr(1)
+    sender = ALICE
     tx = _mk_freeze_delegate(sender, nonce=5, delegatees=[], days=7, fee=1_000)
     state_test_group(
         "transactions/energy/freeze_delegate.json",
@@ -206,7 +199,7 @@ def test_freeze_delegate_empty(state_test_group) -> None:
 
 def test_unfreeze_tos_success(state_test_group) -> None:
     state = _base_state()
-    sender = _addr(1)
+    sender = ALICE
     tx = _mk_unfreeze_tos(
         sender, nonce=5, amount=MIN_UNFREEZE_TOS_AMOUNT, from_delegation=False, fee=1_000
     )
@@ -217,7 +210,7 @@ def test_unfreeze_tos_success(state_test_group) -> None:
 
 def test_unfreeze_tos_insufficient_frozen(state_test_group) -> None:
     state = _base_state()
-    sender = _addr(1)
+    sender = ALICE
     tx = _mk_unfreeze_tos(
         sender, nonce=5, amount=50 * COIN_VALUE, from_delegation=False, fee=1_000
     )
@@ -231,7 +224,7 @@ def test_unfreeze_tos_insufficient_frozen(state_test_group) -> None:
 
 def test_unfreeze_tos_zero_amount(state_test_group) -> None:
     state = _base_state()
-    sender = _addr(1)
+    sender = ALICE
     tx = _mk_unfreeze_tos(sender, nonce=5, amount=0, from_delegation=False, fee=1_000)
     state_test_group(
         "transactions/energy/unfreeze_tos.json",
@@ -246,7 +239,7 @@ def test_unfreeze_tos_zero_amount(state_test_group) -> None:
 
 def test_withdraw_unfrozen_success(state_test_group) -> None:
     state = _base_state()
-    sender = _addr(1)
+    sender = ALICE
     tx = _mk_withdraw_unfrozen(sender, nonce=5, fee=1_000)
     state_test_group(
         "transactions/energy/withdraw_unfrozen.json",
@@ -258,7 +251,7 @@ def test_withdraw_unfrozen_success(state_test_group) -> None:
 
 def test_withdraw_unfrozen_nothing_pending(state_test_group) -> None:
     state = _base_state()
-    sender = _addr(1)
+    sender = ALICE
     state.accounts[sender].frozen = 0
     tx = _mk_withdraw_unfrozen(sender, nonce=5, fee=1_000)
     state_test_group(

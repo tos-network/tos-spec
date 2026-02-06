@@ -470,6 +470,49 @@ def _encode_energy(w: Writer, payload: EnergyPayload) -> None:
     raise SpecError(ErrorCode.INVALID_PAYLOAD, "unknown energy payload variant")
 
 
+def encode_signing_bytes(tx: Transaction, current_time: Optional[int] = None) -> bytes:
+    """Encode the unsigned portion of a transaction for signing.
+
+    Matches Rust UnsignedTransaction::finalize() field order:
+    [version:1][chain_id:1][source:32][tx_type_id+payload:var][fee:8][fee_type:1][nonce:8][ref_hash:32][ref_topo:8]
+    """
+    if tx.version != TxVersion.T1:
+        raise SpecError(ErrorCode.INVALID_VERSION, "unsupported tx version")
+
+    if tx.tx_type not in TX_TYPE_IDS:
+        raise SpecError(ErrorCode.INVALID_TYPE, "unsupported tx type")
+
+    if tx.reference_hash is None or tx.reference_topoheight is None:
+        raise SpecError(ErrorCode.INVALID_FORMAT, "missing reference")
+    if len(tx.reference_hash) != 32:
+        raise SpecError(ErrorCode.INVALID_FORMAT, "reference_hash must be 32 bytes")
+
+    if len(tx.source) != 32:
+        raise SpecError(ErrorCode.INVALID_FORMAT, "source must be 32 bytes")
+    if not (0 <= tx.chain_id <= 0xFF):
+        raise SpecError(ErrorCode.INVALID_FORMAT, "chain_id must fit u8")
+
+    w = Writer(bytearray())
+    w.write_u8(tx.version)
+    w.write_u8(tx.chain_id)
+    w.write_bytes(tx.source)
+
+    w.write_u8(TX_TYPE_IDS[tx.tx_type])
+
+    _encode_payload(w, tx, current_time)
+
+    w.write_u64(tx.fee)
+    if not isinstance(tx.fee_type, FeeType):
+        raise SpecError(ErrorCode.INVALID_PAYLOAD, "fee_type invalid")
+    w.write_u8(tx.fee_type)
+    w.write_u64(tx.nonce)
+
+    w.write_bytes(tx.reference_hash)
+    w.write_u64(tx.reference_topoheight)
+
+    return bytes(w.buf)
+
+
 def encode_transaction(tx: Transaction, current_time: Optional[int] = None) -> bytes:
     """Encode a transaction in wire format for supported types.
 

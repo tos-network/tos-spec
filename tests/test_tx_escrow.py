@@ -2,7 +2,8 @@
 
 from __future__ import annotations
 
-from tos_spec.config import COIN_VALUE, MIN_TIMEOUT_BLOCKS, MAX_BPS
+from tos_spec.config import CHAIN_ID_DEVNET, COIN_VALUE, MIN_TIMEOUT_BLOCKS, MAX_BPS
+from tos_spec.test_accounts import ALICE, BOB
 from tos_spec.types import (
     AccountState,
     ChainState,
@@ -11,10 +12,6 @@ from tos_spec.types import (
     TransactionType,
     TxVersion,
 )
-
-
-def _addr(byte: int) -> bytes:
-    return bytes([byte]) * 32
 
 
 def _hash(byte: int) -> bytes:
@@ -26,11 +23,9 @@ def _sig(byte: int) -> bytes:
 
 
 def _base_state() -> ChainState:
-    sender = _addr(1)
-    provider = _addr(2)
-    state = ChainState(network_chain_id=0)
-    state.accounts[sender] = AccountState(address=sender, balance=100 * COIN_VALUE, nonce=5)
-    state.accounts[provider] = AccountState(address=provider, balance=0, nonce=0)
+    state = ChainState(network_chain_id=CHAIN_ID_DEVNET)
+    state.accounts[ALICE] = AccountState(address=ALICE, balance=100 * COIN_VALUE, nonce=5)
+    state.accounts[BOB] = AccountState(address=BOB, balance=0, nonce=0)
     return state
 
 
@@ -39,7 +34,7 @@ def _mk_escrow_tx(
 ) -> Transaction:
     return Transaction(
         version=TxVersion.T1,
-        chain_id=0,
+        chain_id=CHAIN_ID_DEVNET,
         source=sender,
         tx_type=tx_type,
         payload=payload,
@@ -48,7 +43,7 @@ def _mk_escrow_tx(
         nonce=nonce,
         reference_hash=_hash(9),
         reference_topoheight=100,
-        signature=_sig(7),
+        signature=bytes(64),
     )
 
 
@@ -57,10 +52,10 @@ def _mk_escrow_tx(
 
 def test_create_escrow_success(state_test_group) -> None:
     state = _base_state()
-    sender = _addr(1)
+    sender = ALICE
     payload = {
         "task_id": "task_001",
-        "provider": _addr(2),
+        "provider": BOB,
         "amount": 10 * COIN_VALUE,
         "asset": _hash(0),
         "timeout_blocks": MIN_TIMEOUT_BLOCKS * 10,
@@ -79,10 +74,10 @@ def test_create_escrow_success(state_test_group) -> None:
 
 def test_create_escrow_zero_amount(state_test_group) -> None:
     state = _base_state()
-    sender = _addr(1)
+    sender = ALICE
     payload = {
         "task_id": "task_002",
-        "provider": _addr(2),
+        "provider": BOB,
         "amount": 0,
         "asset": _hash(0),
         "timeout_blocks": MIN_TIMEOUT_BLOCKS * 10,
@@ -104,7 +99,7 @@ def test_create_escrow_zero_amount(state_test_group) -> None:
 
 def test_deposit_escrow_success(state_test_group) -> None:
     state = _base_state()
-    sender = _addr(1)
+    sender = ALICE
     payload = {
         "escrow_id": _hash(60),
         "amount": 5 * COIN_VALUE,
@@ -123,7 +118,7 @@ def test_deposit_escrow_success(state_test_group) -> None:
 
 def test_release_escrow_success(state_test_group) -> None:
     state = _base_state()
-    sender = _addr(1)
+    sender = ALICE
     payload = {
         "escrow_id": _hash(60),
         "amount": 5 * COIN_VALUE,
@@ -142,7 +137,7 @@ def test_release_escrow_success(state_test_group) -> None:
 
 def test_refund_escrow_success(state_test_group) -> None:
     state = _base_state()
-    sender = _addr(1)
+    sender = ALICE
     payload = {
         "escrow_id": _hash(60),
         "amount": 5 * COIN_VALUE,
@@ -162,7 +157,7 @@ def test_refund_escrow_success(state_test_group) -> None:
 
 def test_challenge_escrow_success(state_test_group) -> None:
     state = _base_state()
-    sender = _addr(1)
+    sender = ALICE
     payload = {
         "escrow_id": _hash(60),
         "reason": "deliverable does not match specs",
@@ -182,7 +177,7 @@ def test_challenge_escrow_success(state_test_group) -> None:
 
 def test_dispute_escrow_success(state_test_group) -> None:
     state = _base_state()
-    sender = _addr(1)
+    sender = ALICE
     payload = {
         "escrow_id": _hash(60),
         "reason": "provider did not deliver",
@@ -201,7 +196,7 @@ def test_dispute_escrow_success(state_test_group) -> None:
 
 def test_appeal_escrow_success(state_test_group) -> None:
     state = _base_state()
-    sender = _addr(1)
+    sender = ALICE
     payload = {
         "escrow_id": _hash(60),
         "reason": "verdict was unfair",
@@ -222,7 +217,7 @@ def test_appeal_escrow_success(state_test_group) -> None:
 
 def test_submit_verdict_success(state_test_group) -> None:
     state = _base_state()
-    sender = _addr(1)
+    sender = ALICE
     payload = {
         "escrow_id": _hash(60),
         "dispute_id": _hash(61),
@@ -231,7 +226,7 @@ def test_submit_verdict_success(state_test_group) -> None:
         "payee_amount": 7 * COIN_VALUE,
         "signatures": [
             {
-                "arbiter_pubkey": _addr(30),
+                "arbiter_pubkey": bytes([30]) * 32,
                 "signature": _sig(30),
                 "timestamp": 1_700_000_000,
             }

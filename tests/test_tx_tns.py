@@ -2,7 +2,8 @@
 
 from __future__ import annotations
 
-from tos_spec.config import MAX_NAME_LENGTH, MIN_NAME_LENGTH
+from tos_spec.config import CHAIN_ID_DEVNET, MAX_NAME_LENGTH, MIN_NAME_LENGTH
+from tos_spec.test_accounts import ALICE
 from tos_spec.types import (
     AccountState,
     ChainState,
@@ -13,29 +14,20 @@ from tos_spec.types import (
 )
 
 
-def _addr(byte: int) -> bytes:
-    return bytes([byte]) * 32
-
-
 def _hash(byte: int) -> bytes:
     return bytes([byte]) * 32
 
 
-def _sig(byte: int) -> bytes:
-    return bytes([byte]) * 64
-
-
 def _base_state() -> ChainState:
-    sender = _addr(1)
-    state = ChainState(network_chain_id=0)
-    state.accounts[sender] = AccountState(address=sender, balance=1_000_000, nonce=5)
+    state = ChainState(network_chain_id=CHAIN_ID_DEVNET)
+    state.accounts[ALICE] = AccountState(address=ALICE, balance=1_000_000, nonce=5)
     return state
 
 
 def _mk_register_name(sender: bytes, nonce: int, name: str, fee: int) -> Transaction:
     return Transaction(
         version=TxVersion.T1,
-        chain_id=0,
+        chain_id=CHAIN_ID_DEVNET,
         source=sender,
         tx_type=TransactionType.REGISTER_NAME,
         payload={"name": name},
@@ -44,13 +36,13 @@ def _mk_register_name(sender: bytes, nonce: int, name: str, fee: int) -> Transac
         nonce=nonce,
         reference_hash=_hash(9),
         reference_topoheight=100,
-        signature=_sig(7),
+        signature=bytes(64),
     )
 
 
 def test_register_name_success(state_test_group) -> None:
     state = _base_state()
-    sender = _addr(1)
+    sender = ALICE
     tx = _mk_register_name(sender, nonce=5, name="alice", fee=1_000)
     state_test_group(
         "transactions/tns/register_name.json", "register_name_success", state, tx
@@ -59,7 +51,7 @@ def test_register_name_success(state_test_group) -> None:
 
 def test_register_name_too_short(state_test_group) -> None:
     state = _base_state()
-    sender = _addr(1)
+    sender = ALICE
     tx = _mk_register_name(sender, nonce=5, name="ab", fee=1_000)
     state_test_group(
         "transactions/tns/register_name.json", "register_name_too_short", state, tx
@@ -68,7 +60,7 @@ def test_register_name_too_short(state_test_group) -> None:
 
 def test_register_name_too_long(state_test_group) -> None:
     state = _base_state()
-    sender = _addr(1)
+    sender = ALICE
     long_name = "a" * (MAX_NAME_LENGTH + 1)
     tx = _mk_register_name(sender, nonce=5, name=long_name, fee=1_000)
     state_test_group(
@@ -78,7 +70,7 @@ def test_register_name_too_long(state_test_group) -> None:
 
 def test_register_name_min_length(state_test_group) -> None:
     state = _base_state()
-    sender = _addr(1)
+    sender = ALICE
     tx = _mk_register_name(sender, nonce=5, name="a" * MIN_NAME_LENGTH, fee=1_000)
     state_test_group(
         "transactions/tns/register_name.json", "register_name_min_length", state, tx
