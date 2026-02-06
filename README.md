@@ -180,7 +180,7 @@ we use a fixed set of deterministic test accounts stored in `vectors/accounts.js
 
 ## Running the Fixture Flow
 
-See `TESTING.md` for the spec test policy and authoring guidelines.
+See `Policy.md` for the spec test policy and authoring guidelines.
 
 ## Dependencies
 
