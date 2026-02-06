@@ -22,11 +22,32 @@
             "flags": 0,
             "data": ""
           }
+        ],
+        "arbiters": [
+          {
+            "public_key": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "name": "ArbiterAlice",
+            "status": "exiting",
+            "expertise": [
+              1,
+              2,
+              3
+            ],
+            "stake_amount": 100000000000,
+            "fee_basis_points": 250,
+            "min_escrow_value": 100000000,
+            "max_escrow_value": 100000000000,
+            "reputation_score": 0,
+            "total_cases": 0,
+            "active_cases": 0,
+            "registered_at": 0,
+            "total_slashed": 0
+          }
         ]
       },
       "input": {
         "kind": "tx",
-        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b2492f00000000000186a0000000000000000005000000000000000000000000000000000000000000000000000000000000000000000000000000000017314bff317307e66ede21aac48de707e258d3fa400164b32e89ed2e1339ea0a1237106838775d2a8f6503961fdb01e6fc999abecf35625418bdd610b82ea205",
+        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b2492f00000000000186a000000000000000000500000000000000000000000000000000000000000000000000000000000000000000000000000000009ab159507510a37f94ba84a72dd7671497792310fd3f973477a7205004dcd802c4c179241c52c4ce806016fcc1712a0776223219501184d9b76ed10cc46d870f",
         "tx": {
           "version": 1,
           "chain_id": 3,
@@ -38,14 +59,14 @@
           "nonce": 5,
           "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
           "reference_topoheight": 0,
-          "signature": "17314bff317307e66ede21aac48de707e258d3fa400164b32e89ed2e1339ea0a1237106838775d2a8f6503961fdb01e6fc999abecf35625418bdd610b82ea205",
-          "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b2492f00000000000186a0000000000000000005000000000000000000000000000000000000000000000000000000000000000000000000000000000017314bff317307e66ede21aac48de707e258d3fa400164b32e89ed2e1339ea0a1237106838775d2a8f6503961fdb01e6fc999abecf35625418bdd610b82ea205"
+          "signature": "9ab159507510a37f94ba84a72dd7671497792310fd3f973477a7205004dcd802c4c179241c52c4ce806016fcc1712a0776223219501184d9b76ed10cc46d870f",
+          "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b2492f00000000000186a000000000000000000500000000000000000000000000000000000000000000000000000000000000000000000000000000009ab159507510a37f94ba84a72dd7671497792310fd3f973477a7205004dcd802c4c179241c52c4ce806016fcc1712a0776223219501184d9b76ed10cc46d870f"
         }
       },
       "expected": {
-        "success": false,
-        "error_code": 1024,
-        "state_digest": "f5b498efa281234f2be0277ae4bcac77031f1d99aeb9f3c4d39737cce89c10ce",
+        "success": true,
+        "error_code": 0,
+        "state_digest": "b6cd71657ed96799178c24ca51d60d0d5778cc685810dcda362e4508e53503ff",
         "post_state": {
           "network_chain_id": 3,
           "global_state": {
@@ -58,12 +79,33 @@
           "accounts": [
             {
               "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
-              "balance": 1000000000000,
-              "nonce": 5,
+              "balance": 999999900000,
+              "nonce": 6,
               "frozen": 0,
               "energy": 0,
               "flags": 0,
               "data": ""
+            }
+          ],
+          "arbiters": [
+            {
+              "public_key": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+              "name": "ArbiterAlice",
+              "status": "active",
+              "expertise": [
+                1,
+                2,
+                3
+              ],
+              "stake_amount": 100000000000,
+              "fee_basis_points": 250,
+              "min_escrow_value": 100000000,
+              "max_escrow_value": 100000000000,
+              "reputation_score": 0,
+              "total_cases": 0,
+              "active_cases": 0,
+              "registered_at": 0,
+              "total_slashed": 0
             }
           ]
         }

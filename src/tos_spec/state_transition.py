@@ -209,8 +209,8 @@ def apply_tx(state: ChainState, tx: Transaction) -> tuple[ChainState, Transition
     """Apply tx to state after verification.
 
     Failed-tx semantics:
-    - Pre-validation failure: no fee, no nonce
-    - Execution failure: fee deducted, nonce advanced, payload effects rolled back
+    - Pre-validation failure: no fee, no nonce, state unchanged
+    - Execution failure: no fee, no nonce, state unchanged
     """
     # Pre-validation
     try:
@@ -225,18 +225,17 @@ def apply_tx(state: ChainState, tx: Transaction) -> tuple[ChainState, Transition
     working = deepcopy(state)
     sender = working.accounts[tx.source]
 
-    # Deduct fee + advance nonce
-    sender.balance -= tx.fee
-    sender.nonce += 1
-
-    checkpoint = deepcopy(working)
-
     try:
         working = _dispatch_apply(working, tx)
-        return working, TransitionResult.success()
     except SpecError as exc:
-        # Roll back payload effects, keep fee + nonce
-        return checkpoint, TransitionResult.failure(exc)
+        # Execution failure: state unchanged (no fee deducted)
+        return state, TransitionResult.failure(exc)
+
+    # Success: deduct fee + advance nonce
+    sender = working.accounts[tx.source]
+    sender.balance -= tx.fee
+    sender.nonce += 1
+    return working, TransitionResult.success()
 
 
 def apply_block(state: ChainState, txs: list[Transaction]) -> tuple[ChainState, TransitionResult]:

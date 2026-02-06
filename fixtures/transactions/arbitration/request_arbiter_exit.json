@@ -21,6 +21,27 @@
             "flags": 0,
             "data": ""
           }
+        ],
+        "arbiters": [
+          {
+            "public_key": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "name": "ArbiterAlice",
+            "status": "active",
+            "expertise": [
+              1,
+              2,
+              3
+            ],
+            "stake_amount": 100000000000,
+            "fee_basis_points": 250,
+            "min_escrow_value": 100000000,
+            "max_escrow_value": 100000000000,
+            "reputation_score": 0,
+            "total_cases": 0,
+            "active_cases": 0,
+            "registered_at": 0,
+            "total_slashed": 0
+          }
         ]
       },
       "tx": {
@@ -34,12 +55,12 @@
         "nonce": 5,
         "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
         "reference_topoheight": 0,
-        "signature": "9ad02e4cca086137b7e2f41279062475b9f6e481bef0707ba57c5ef775b7860d972d6e76ff6ae27adb32aacfd45bc8a8da7afbf0fc0a6f611d40111f91024b08",
-        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b2492d00000000000186a000000000000000000500000000000000000000000000000000000000000000000000000000000000000000000000000000009ad02e4cca086137b7e2f41279062475b9f6e481bef0707ba57c5ef775b7860d972d6e76ff6ae27adb32aacfd45bc8a8da7afbf0fc0a6f611d40111f91024b08"
+        "signature": "c21fdd789820b7ef8aefeb7e0fd814361b397ed8f54e1c36e5285051672e7c0bbe5c945ecbf62bcf0a9dcda7b16f00751e12de48c491e2f3fa8d8e05bcbfaf04",
+        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b2492d00000000000186a00000000000000000050000000000000000000000000000000000000000000000000000000000000000000000000000000000c21fdd789820b7ef8aefeb7e0fd814361b397ed8f54e1c36e5285051672e7c0bbe5c945ecbf62bcf0a9dcda7b16f00751e12de48c491e2f3fa8d8e05bcbfaf04"
       },
       "expected": {
-        "ok": false,
-        "error": "ACCOUNT_NOT_FOUND",
+        "ok": true,
+        "error": null,
         "post_state": {
           "network_chain_id": 3,
           "global_state": {
@@ -52,12 +73,33 @@
           "accounts": [
             {
               "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
-              "balance": 1000000000000,
-              "nonce": 5,
+              "balance": 999999900000,
+              "nonce": 6,
               "frozen": 0,
               "energy": 0,
               "flags": 0,
               "data": ""
+            }
+          ],
+          "arbiters": [
+            {
+              "public_key": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+              "name": "ArbiterAlice",
+              "status": "exiting",
+              "expertise": [
+                1,
+                2,
+                3
+              ],
+              "stake_amount": 100000000000,
+              "fee_basis_points": 250,
+              "min_escrow_value": 100000000,
+              "max_escrow_value": 100000000000,
+              "reputation_score": 0,
+              "total_cases": 0,
+              "active_cases": 0,
+              "registered_at": 0,
+              "total_slashed": 0
             }
           ]
         }

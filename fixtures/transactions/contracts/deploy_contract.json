@@ -36,7 +36,7 @@
         "nonce": 5,
         "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
         "reference_topoheight": 0,
-        "signature": "cc0666d368dc57d1ac62367c7db8e20acfd9655a2d28150991ce806192e4840d3c4c2b41b78fb1a26a5c35118f120d4c6109b601c36678bd7e42c2856f9fbf0a",
+        "signature": "38fc306de4feef1cd22d727ee244ddf54faa0c21bfe3ec2f6b0494bdf044c90ff3f00d9b42d2019d88457d23746fd860dd897ab7add33a8c3ab43c7af2778501",
         "wire_hex": ""
       },
       "expected": {
@@ -54,7 +54,7 @@
           "accounts": [
             {
               "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
-              "balance": 9999900000,
+              "balance": 9899900000,
               "nonce": 6,
               "frozen": 0,
               "energy": 0,
@@ -119,7 +119,7 @@
           "accounts": [
             {
               "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
-              "balance": 9999900000,
+              "balance": 9899900000,
               "nonce": 6,
               "frozen": 0,
               "energy": 0,

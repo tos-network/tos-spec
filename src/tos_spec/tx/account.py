@@ -44,6 +44,8 @@ def _verify_multisig(state: ChainState, tx: Transaction) -> None:
     participants = p.get("participants", [])
 
     if threshold == 0 and len(participants) == 0:
+        if tx.source not in state.multisig_configs:
+            raise SpecError(ErrorCode.INVALID_PAYLOAD, "multisig not configured")
         return
 
     if threshold <= 0:

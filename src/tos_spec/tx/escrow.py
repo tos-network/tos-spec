@@ -222,17 +222,10 @@ def _apply_release(state: ChainState, tx: Transaction, p: dict) -> ChainState:
 
     escrow = ns.escrows.get(eid)
     if escrow is not None:
-        escrow.amount -= amount
-        escrow.released_amount += amount
-        if escrow.amount == 0:
-            escrow.status = EscrowStatus.RELEASED
-        else:
-            escrow.status = EscrowStatus.PENDING_RELEASE
+        # Two-phase release: set PendingRelease state without immediate fund transfer.
+        # The payee receives funds only after the challenge window expires.
+        escrow.status = EscrowStatus.PENDING_RELEASE
         escrow.updated_at = ns.global_state.block_height
-
-        payee = ns.accounts.get(escrow.payee)
-        if payee is not None:
-            payee.balance += amount
 
     return ns
 

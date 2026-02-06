@@ -22,11 +22,32 @@
             "flags": 0,
             "data": ""
           }
+        ],
+        "arbiters": [
+          {
+            "public_key": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "name": "ArbiterAlice",
+            "status": "exiting",
+            "expertise": [
+              1,
+              2,
+              3
+            ],
+            "stake_amount": 100000000000,
+            "fee_basis_points": 250,
+            "min_escrow_value": 100000000,
+            "max_escrow_value": 100000000000,
+            "reputation_score": 0,
+            "total_cases": 0,
+            "active_cases": 0,
+            "registered_at": 0,
+            "total_slashed": 0
+          }
         ]
       },
       "input": {
         "kind": "tx",
-        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b2492e000000174876e80000000000000186a00000000000000000050000000000000000000000000000000000000000000000000000000000000000000000000000000000c71ac05e2c95466a9aec7e426b5a22cb993755ae47918ae5cd6debf14a02290a9b99c143e62154498a7a409cd94ee73781257a3d0b8c132ff72952ed4cb50c00",
+        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b2492e000000174876e80000000000000186a0000000000000000005000000000000000000000000000000000000000000000000000000000000000000000000000000000051fa088c80942c62479da277b00785d8cc5691a560afa79a5d148cfea5f0fe0c83b1476061a92126776ad7ade2a03b3d2e12eddada6a77a2fe09bcc492919c05",
         "tx": {
           "version": 1,
           "chain_id": 3,
@@ -40,14 +61,14 @@
           "nonce": 5,
           "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
           "reference_topoheight": 0,
-          "signature": "c71ac05e2c95466a9aec7e426b5a22cb993755ae47918ae5cd6debf14a02290a9b99c143e62154498a7a409cd94ee73781257a3d0b8c132ff72952ed4cb50c00",
-          "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b2492e000000174876e80000000000000186a00000000000000000050000000000000000000000000000000000000000000000000000000000000000000000000000000000c71ac05e2c95466a9aec7e426b5a22cb993755ae47918ae5cd6debf14a02290a9b99c143e62154498a7a409cd94ee73781257a3d0b8c132ff72952ed4cb50c00"
+          "signature": "51fa088c80942c62479da277b00785d8cc5691a560afa79a5d148cfea5f0fe0c83b1476061a92126776ad7ade2a03b3d2e12eddada6a77a2fe09bcc492919c05",
+          "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b2492e000000174876e80000000000000186a0000000000000000005000000000000000000000000000000000000000000000000000000000000000000000000000000000051fa088c80942c62479da277b00785d8cc5691a560afa79a5d148cfea5f0fe0c83b1476061a92126776ad7ade2a03b3d2e12eddada6a77a2fe09bcc492919c05"
         }
       },
       "expected": {
-        "success": false,
-        "error_code": 1024,
-        "state_digest": "f5b498efa281234f2be0277ae4bcac77031f1d99aeb9f3c4d39737cce89c10ce",
+        "success": true,
+        "error_code": 0,
+        "state_digest": "0b4b0af56fc1a35ed6b26b98427c542cf063389014c74b174dad9182b3312505",
         "post_state": {
           "network_chain_id": 3,
           "global_state": {
@@ -60,12 +81,33 @@
           "accounts": [
             {
               "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
-              "balance": 1000000000000,
-              "nonce": 5,
+              "balance": 1099999900000,
+              "nonce": 6,
               "frozen": 0,
               "energy": 0,
               "flags": 0,
               "data": ""
+            }
+          ],
+          "arbiters": [
+            {
+              "public_key": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+              "name": "ArbiterAlice",
+              "status": "removed",
+              "expertise": [
+                1,
+                2,
+                3
+              ],
+              "stake_amount": 0,
+              "fee_basis_points": 250,
+              "min_escrow_value": 100000000,
+              "max_escrow_value": 100000000000,
+              "reputation_score": 0,
+              "total_cases": 0,
+              "active_cases": 0,
+              "registered_at": 0,
+              "total_slashed": 0
             }
           ]
         }

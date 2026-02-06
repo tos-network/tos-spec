@@ -156,6 +156,24 @@ class EscrowStatus(Enum):
 
 
 @dataclass
+class ArbitrationConfig:
+    mode: str = "single"  # "none", "single", "committee", "dao-governance"
+    arbiters: list[bytes] = field(default_factory=list)
+    threshold: int | None = None
+    fee_amount: int = 0
+    allow_appeal: bool = False
+
+
+@dataclass
+class DisputeInfo:
+    initiator: bytes = field(default_factory=lambda: bytes(32))
+    reason: str = ""
+    evidence_hash: bytes | None = None
+    disputed_at: int = 0
+    deadline: int = 0
+
+
+@dataclass
 class EscrowAccount:
     id: bytes
     task_id: str
@@ -175,6 +193,12 @@ class EscrowAccount:
     created_at: int = 0
     updated_at: int = 0
     timeout_at: int = 0
+    arbitration_config: ArbitrationConfig | None = None
+    release_requested_at: int | None = None
+    pending_release_amount: int | None = None
+    dispute: DisputeInfo | None = None
+    dispute_id: bytes | None = None
+    dispute_round: int | None = None
 
 
 # --- Arbiter domain state ---
@@ -252,6 +276,7 @@ class KycData:
     status: KycStatus = KycStatus.ACTIVE
     verified_at: int = 0
     data_hash: bytes = field(default_factory=lambda: bytes(32))
+    committee_id: bytes = field(default_factory=lambda: bytes(32))
 
 
 # --- Committee ---
@@ -268,10 +293,12 @@ class CommitteeMember:
 class Committee:
     id: bytes
     name: str = ""
+    region: int = 0
     members: list[CommitteeMember] = field(default_factory=list)
     threshold: int = 0
     kyc_threshold: int = 0
     max_kyc_level: int = 0
+    parent_id: bytes | None = None
 
 
 # --- Referral ---

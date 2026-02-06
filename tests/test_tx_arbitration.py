@@ -4,14 +4,20 @@ from __future__ import annotations
 
 import hashlib
 import json
+import struct
+import time
 
 import tos_signer
 
 from tos_spec.config import CHAIN_ID_DEVNET, COIN_VALUE, MIN_ARBITER_STAKE
-from tos_spec.test_accounts import ALICE, BOB
+from tos_spec.test_accounts import ALICE, BOB, CAROL, DAVE, FRANK, SEED_MAP
 from tos_spec.types import (
     AccountState,
+    ArbiterAccount,
+    ArbiterStatus,
     ChainState,
+    Committee,
+    CommitteeMember,
     FeeType,
     Transaction,
     TransactionType,
@@ -116,9 +122,24 @@ def test_register_arbiter_low_stake(state_test_group) -> None:
 # --- update_arbiter specs ---
 
 
+def _active_arbiter(pubkey: bytes) -> ArbiterAccount:
+    """Create an active arbiter record for pre_state."""
+    return ArbiterAccount(
+        public_key=pubkey,
+        name="ArbiterAlice",
+        status=ArbiterStatus.ACTIVE,
+        expertise=[1, 2, 3],
+        stake_amount=MIN_ARBITER_STAKE,
+        fee_basis_points=250,
+        min_escrow_value=COIN_VALUE,
+        max_escrow_value=1000 * COIN_VALUE,
+    )
+
+
 def test_update_arbiter_success(state_test_group) -> None:
     state = _base_state()
     sender = ALICE
+    state.arbiters[ALICE] = _active_arbiter(ALICE)
     payload = {
         "name": "ArbiterAliceUpdated",
         "fee_basis_points": 300,
@@ -139,6 +160,7 @@ def test_update_arbiter_success(state_test_group) -> None:
 def test_request_arbiter_exit(state_test_group) -> None:
     state = _base_state()
     sender = ALICE
+    state.arbiters[ALICE] = _active_arbiter(ALICE)
     payload = {}
     tx = _mk_arb_tx(sender, nonce=5, tx_type=TransactionType.REQUEST_ARBITER_EXIT, payload=payload, fee=100_000)
     state_test_group(
@@ -155,6 +177,9 @@ def test_request_arbiter_exit(state_test_group) -> None:
 def test_withdraw_arbiter_stake_success(state_test_group) -> None:
     state = _base_state()
     sender = ALICE
+    arbiter = _active_arbiter(ALICE)
+    arbiter.status = ArbiterStatus.EXITING
+    state.arbiters[ALICE] = arbiter
     payload = {"amount": MIN_ARBITER_STAKE}
     tx = _mk_arb_tx(sender, nonce=5, tx_type=TransactionType.WITHDRAW_ARBITER_STAKE, payload=payload, fee=100_000)
     state_test_group(
@@ -171,6 +196,9 @@ def test_withdraw_arbiter_stake_success(state_test_group) -> None:
 def test_cancel_arbiter_exit(state_test_group) -> None:
     state = _base_state()
     sender = ALICE
+    arbiter = _active_arbiter(ALICE)
+    arbiter.status = ArbiterStatus.EXITING
+    state.arbiters[ALICE] = arbiter
     payload = {}
     tx = _mk_arb_tx(sender, nonce=5, tx_type=TransactionType.CANCEL_ARBITER_EXIT, payload=payload, fee=100_000)
     state_test_group(
@@ -184,25 +212,62 @@ def test_cancel_arbiter_exit(state_test_group) -> None:
 # --- slash_arbiter specs ---
 
 
+def _build_slash_arbiter_msg(
+    committee_id: bytes, arbiter_pubkey: bytes, amount: int,
+    reason_hash: bytes, timestamp: int,
+) -> bytes:
+    msg = b"TOS_ARBITER_SLASH"
+    msg += struct.pack("<Q", CHAIN_ID_DEVNET)
+    msg += committee_id
+    msg += arbiter_pubkey
+    msg += struct.pack("<Q", amount)
+    msg += reason_hash
+    msg += struct.pack("<Q", timestamp)
+    return msg
+
+
+def _sign_arb_approval(signer: bytes, message: bytes, timestamp: int) -> dict:
+    seed = SEED_MAP[signer]
+    sig = bytes(tos_signer.sign_data(message, seed))
+    return {"member_pubkey": signer, "signature": sig, "timestamp": timestamp}
+
+
 def test_slash_arbiter_success(state_test_group) -> None:
     state = _base_state()
     sender = ALICE
+    arbiter_key = BOB
+    state.arbiters[arbiter_key] = ArbiterAccount(
+        public_key=arbiter_key,
+        name="SlashTarget",
+        status=ArbiterStatus.ACTIVE,
+        stake_amount=MIN_ARBITER_STAKE,
+    )
+    state.accounts[arbiter_key] = AccountState(address=arbiter_key, balance=0, nonce=0)
+    committee_id = _hash(50)
+    state.committees[committee_id] = Committee(
+        id=committee_id,
+        name="GlobalCommittee",
+        members=[
+            CommitteeMember(public_key=CAROL, name="member_0", role=0),
+            CommitteeMember(public_key=DAVE, name="member_1", role=0),
+            CommitteeMember(public_key=FRANK, name="member_2", role=0),
+        ],
+        threshold=2,
+        kyc_threshold=2,
+        max_kyc_level=255,
+    )
+    now = int(time.time())
+    amount = COIN_VALUE * 10
+    reason_hash = _hash(70)
+    msg = _build_slash_arbiter_msg(committee_id, arbiter_key, amount, reason_hash, now)
     payload = {
-        "committee_id": _hash(50),
-        "arbiter_pubkey": _addr(30),
-        "amount": COIN_VALUE * 10,
-        "reason_hash": _hash(70),
+        "committee_id": committee_id,
+        "arbiter_pubkey": arbiter_key,
+        "amount": amount,
+        "reason_hash": reason_hash,
         "approvals": [
-            {
-                "member_pubkey": _addr(10),
-                "signature": _sig(10),
-                "timestamp": 1_700_000_000,
-            },
-            {
-                "member_pubkey": _addr(11),
-                "signature": _sig(11),
-                "timestamp": 1_700_000_000,
-            },
+            _sign_arb_approval(CAROL, msg, now),
+            _sign_arb_approval(DAVE, msg, now),
         ],
     }
     tx = _mk_arb_tx(sender, nonce=5, tx_type=TransactionType.SLASH_ARBITER, payload=payload, fee=100_000)

@@ -21,6 +21,27 @@
             "flags": 0,
             "data": ""
           }
+        ],
+        "energy_resources": [
+          {
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "energy": 0,
+            "frozen_tos": 1000000000,
+            "freeze_records": [
+              {
+                "amount": 1000000000,
+                "energy_gained": 0,
+                "freeze_height": 0,
+                "unlock_height": 99999
+              }
+            ],
+            "pending_unfreezes": [
+              {
+                "amount": 500000000,
+                "expire_height": 0
+              }
+            ]
+          }
         ]
       },
       "tx": {
@@ -37,13 +58,13 @@
           "record_index": null,
           "delegatee_address": null
         },
-        "fee": 100000,
+        "fee": 0,
         "fee_type": 0,
         "nonce": 5,
         "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
         "reference_topoheight": 0,
-        "signature": "c6ddc26887c749eae9323e99f885a074f6a0cf7a6f0af9b8d15d397daf587e0b5a4d2af4168e90946cd772913fc045e12341832d0f951275fb461c246b55f10d",
-        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249050300000000000186a00000000000000000050000000000000000000000000000000000000000000000000000000000000000000000000000000000c6ddc26887c749eae9323e99f885a074f6a0cf7a6f0af9b8d15d397daf587e0b5a4d2af4168e90946cd772913fc045e12341832d0f951275fb461c246b55f10d"
+        "signature": "cad39a97ba347415ef4837e151b9208a862e8a90ed01d6265bc80fd3b3bb500483ff29d1c99bbe1cd9af23c7e80cad2517d86571f947f6e412eee43ee6d5b70c",
+        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249050300000000000000000000000000000000050000000000000000000000000000000000000000000000000000000000000000000000000000000000cad39a97ba347415ef4837e151b9208a862e8a90ed01d6265bc80fd3b3bb500483ff29d1c99bbe1cd9af23c7e80cad2517d86571f947f6e412eee43ee6d5b70c"
       },
       "expected": {
         "ok": true,
@@ -60,12 +81,27 @@
           "accounts": [
             {
               "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
-              "balance": 10999900000,
+              "balance": 10500000000,
               "nonce": 6,
-              "frozen": 0,
+              "frozen": 1000000000,
               "energy": 0,
               "flags": 0,
               "data": ""
+            }
+          ],
+          "energy_resources": [
+            {
+              "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+              "energy": 0,
+              "frozen_tos": 1000000000,
+              "freeze_records": [
+                {
+                  "amount": 1000000000,
+                  "energy_gained": 0,
+                  "freeze_height": 0,
+                  "unlock_height": 99999
+                }
+              ]
             }
           ]
         }
@@ -92,6 +128,13 @@
             "flags": 0,
             "data": ""
           }
+        ],
+        "energy_resources": [
+          {
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "energy": 0,
+            "frozen_tos": 0
+          }
         ]
       },
       "tx": {
@@ -108,13 +151,13 @@
           "record_index": null,
           "delegatee_address": null
         },
-        "fee": 100000,
+        "fee": 0,
         "fee_type": 0,
         "nonce": 5,
         "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
         "reference_topoheight": 0,
-        "signature": "6465cd66a464b693407c40e3a3bf99ca9cf3d6a5e975ecb92493fbb684376a009d5f2646d82124af9b07ae3b154fe3f931fb4b1cc6c0fc1929a0eb440ce42209",
-        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249050300000000000186a000000000000000000500000000000000000000000000000000000000000000000000000000000000000000000000000000006465cd66a464b693407c40e3a3bf99ca9cf3d6a5e975ecb92493fbb684376a009d5f2646d82124af9b07ae3b154fe3f931fb4b1cc6c0fc1929a0eb440ce42209"
+        "signature": "2d5cc75d328d024c01e87620c67e5ce633df366f619cb46066a66235db1f1005954bad97a2501890bce85236e66e09ec80133a88036dd112d9591fc09062980d",
+        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b2490503000000000000000000000000000000000500000000000000000000000000000000000000000000000000000000000000000000000000000000002d5cc75d328d024c01e87620c67e5ce633df366f619cb46066a66235db1f1005954bad97a2501890bce85236e66e09ec80133a88036dd112d9591fc09062980d"
       },
       "expected": {
         "ok": false,
@@ -137,6 +180,13 @@
               "energy": 0,
               "flags": 0,
               "data": ""
+            }
+          ],
+          "energy_resources": [
+            {
+              "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+              "energy": 0,
+              "frozen_tos": 0
             }
           ]
         }

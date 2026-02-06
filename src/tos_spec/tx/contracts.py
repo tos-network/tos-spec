@@ -6,7 +6,7 @@ from copy import deepcopy
 
 from blake3 import blake3
 
-from ..config import MAX_DEPOSIT_PER_INVOKE_CALL
+from ..config import COIN_VALUE, MAX_DEPOSIT_PER_INVOKE_CALL
 from ..errors import ErrorCode, SpecError
 from ..types import ChainState, ContractState, Transaction, TransactionType
 
@@ -46,6 +46,11 @@ def _apply_deploy(state: ChainState, tx: Transaction) -> ChainState:
     module = p.get("module", b"")
     if isinstance(module, (list, tuple)):
         module = bytes(module)
+
+    # Deduct deployment cost (1 COIN_VALUE)
+    sender = ns.accounts.get(tx.source)
+    if sender is not None:
+        sender.balance -= COIN_VALUE
 
     module_hash = blake3(module).digest()
     ns.contracts[module_hash] = ContractState(

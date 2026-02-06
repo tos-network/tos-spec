@@ -30,6 +30,37 @@
             "flags": 0,
             "data": ""
           }
+        ],
+        "escrows": [
+          {
+            "id": "3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c",
+            "task_id": "test-task",
+            "payer": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "payee": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824",
+            "amount": 1000000000,
+            "total_amount": 1000000000,
+            "released_amount": 0,
+            "refunded_amount": 0,
+            "challenge_deposit": 0,
+            "asset": "0000000000000000000000000000000000000000000000000000000000000000",
+            "state": "challenged",
+            "timeout_blocks": 100,
+            "challenge_window": 100,
+            "challenge_deposit_bps": 500,
+            "optimistic_release": false,
+            "created_at": 0,
+            "updated_at": 0,
+            "timeout_at": 0,
+            "arbitration_config": {
+              "mode": "single",
+              "arbiters": [
+                "7ea555bf91bfb985561a91afcd669a79c0cc115ce03baf687cb8dd7e1e996e7b"
+              ],
+              "threshold": 1,
+              "fee_amount": 100000000,
+              "allow_appeal": false
+            }
+          }
         ]
       },
       "tx": {
@@ -46,8 +77,8 @@
         "nonce": 5,
         "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
         "reference_topoheight": 0,
-        "signature": "bccc1ea528a883e3630e4e314b7b7c6952841b250cca915ed9b72aae24b53504a10a5be2ca8dfa742b8dfa7873b37294e8efeeb83c468ec82b9dfcfa1203780c",
-        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b2491e3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c1870726f766964657220646964206e6f742064656c697665720000000000000186a00000000000000000050000000000000000000000000000000000000000000000000000000000000000000000000000000000bccc1ea528a883e3630e4e314b7b7c6952841b250cca915ed9b72aae24b53504a10a5be2ca8dfa742b8dfa7873b37294e8efeeb83c468ec82b9dfcfa1203780c"
+        "signature": "d5a7952dea63b40dd9273e1651e6da2e5fdf78e99b077995e67df114a286b10be46467e87e7abb48e87a97da6dca9262dc06c53a9ecfb05fa79fdd0ff7b9610b",
+        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b2491e3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c1870726f766964657220646964206e6f742064656c697665720000000000000186a00000000000000000050000000000000000000000000000000000000000000000000000000000000000000000000000000000d5a7952dea63b40dd9273e1651e6da2e5fdf78e99b077995e67df114a286b10be46467e87e7abb48e87a97da6dca9262dc06c53a9ecfb05fa79fdd0ff7b9610b"
       },
       "expected": {
         "ok": true,
@@ -79,6 +110,37 @@
               "energy": 0,
               "flags": 0,
               "data": ""
+            }
+          ],
+          "escrows": [
+            {
+              "id": "3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c",
+              "task_id": "test-task",
+              "payer": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+              "payee": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824",
+              "amount": 1000000000,
+              "total_amount": 1000000000,
+              "released_amount": 0,
+              "refunded_amount": 0,
+              "challenge_deposit": 0,
+              "asset": "0000000000000000000000000000000000000000000000000000000000000000",
+              "state": "challenged",
+              "timeout_blocks": 100,
+              "challenge_window": 100,
+              "challenge_deposit_bps": 500,
+              "optimistic_release": false,
+              "created_at": 0,
+              "updated_at": 0,
+              "timeout_at": 0,
+              "arbitration_config": {
+                "mode": "single",
+                "arbiters": [
+                  "7ea555bf91bfb985561a91afcd669a79c0cc115ce03baf687cb8dd7e1e996e7b"
+                ],
+                "threshold": 1,
+                "fee_amount": 100000000,
+                "allow_appeal": false
+              }
             }
           ]
         }

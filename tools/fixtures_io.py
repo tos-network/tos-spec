@@ -6,11 +6,27 @@ from typing import Any
 
 from tos_spec.types import (
     AccountState,
+    AgentAccountMeta,
+    ArbitrationConfig,
+    ArbiterAccount,
+    ArbiterStatus,
     ChainState,
+    Committee,
+    CommitteeMember,
     DelegationEntry,
+    DisputeInfo,
     EnergyPayload,
+    EnergyResource,
+    EscrowAccount,
+    EscrowStatus,
     FeeType,
+    FreezeRecord,
     FreezeDuration,
+    PendingUnfreeze,
+    KycData,
+    KycStatus,
+    ReferralBinding,
+    TnsRecord,
     Transaction,
     TransactionType,
     TransferPayload,
@@ -26,8 +42,59 @@ def _bytes_to_hex(v: bytes) -> str:
     return v.hex()
 
 
+def _escrow_to_json(e: EscrowAccount) -> dict[str, Any]:
+    d: dict[str, Any] = {
+        "id": _bytes_to_hex(e.id),
+        "task_id": e.task_id,
+        "payer": _bytes_to_hex(e.payer),
+        "payee": _bytes_to_hex(e.payee),
+        "amount": e.amount,
+        "total_amount": e.total_amount,
+        "released_amount": e.released_amount,
+        "refunded_amount": e.refunded_amount,
+        "challenge_deposit": e.challenge_deposit,
+        "asset": _bytes_to_hex(e.asset),
+        "state": e.status.value,
+        "timeout_blocks": e.timeout_blocks,
+        "challenge_window": e.challenge_window,
+        "challenge_deposit_bps": e.challenge_deposit_bps,
+        "optimistic_release": e.optimistic_release,
+        "created_at": e.created_at,
+        "updated_at": e.updated_at,
+        "timeout_at": e.timeout_at,
+    }
+    if e.arbitration_config is not None:
+        ac = e.arbitration_config
+        d["arbitration_config"] = {
+            "mode": ac.mode,
+            "arbiters": [_bytes_to_hex(a) for a in ac.arbiters],
+            "threshold": ac.threshold,
+            "fee_amount": ac.fee_amount,
+            "allow_appeal": ac.allow_appeal,
+        }
+    if e.release_requested_at is not None:
+        d["release_requested_at"] = e.release_requested_at
+    if e.pending_release_amount is not None:
+        d["pending_release_amount"] = e.pending_release_amount
+    if e.dispute is not None:
+        dd: dict[str, Any] = {
+            "initiator": _bytes_to_hex(e.dispute.initiator),
+            "reason": e.dispute.reason,
+            "disputed_at": e.dispute.disputed_at,
+            "deadline": e.dispute.deadline,
+        }
+        if e.dispute.evidence_hash is not None:
+            dd["evidence_hash"] = _bytes_to_hex(e.dispute.evidence_hash)
+        d["dispute"] = dd
+    if e.dispute_id is not None:
+        d["dispute_id"] = _bytes_to_hex(e.dispute_id)
+    if e.dispute_round is not None:
+        d["dispute_round"] = e.dispute_round
+    return d
+
+
 def state_to_json(state: ChainState) -> dict[str, Any]:
-    return {
+    result: dict[str, Any] = {
         "network_chain_id": state.network_chain_id,
         "global_state": {
             "total_supply": state.global_state.total_supply,
@@ -50,6 +117,125 @@ def state_to_json(state: ChainState) -> dict[str, Any]:
         ],
     }
 
+    if state.escrows:
+        result["escrows"] = [_escrow_to_json(e) for e in state.escrows.values()]
+
+    if state.arbiters:
+        result["arbiters"] = [
+            {
+                "public_key": _bytes_to_hex(a.public_key),
+                "name": a.name,
+                "status": a.status.value,
+                "expertise": a.expertise,
+                "stake_amount": a.stake_amount,
+                "fee_basis_points": a.fee_basis_points,
+                "min_escrow_value": a.min_escrow_value,
+                "max_escrow_value": a.max_escrow_value,
+                "reputation_score": a.reputation_score,
+                "total_cases": a.total_cases,
+                "active_cases": a.active_cases,
+                "registered_at": a.registered_at,
+                "total_slashed": a.total_slashed,
+            }
+            for a in state.arbiters.values()
+        ]
+
+    if state.kyc_data:
+        result["kyc_data"] = [
+            {
+                "address": _bytes_to_hex(addr),
+                "level": k.level,
+                "status": k.status.value,
+                "verified_at": k.verified_at,
+                "data_hash": _bytes_to_hex(k.data_hash),
+                "committee_id": _bytes_to_hex(k.committee_id),
+            }
+            for addr, k in state.kyc_data.items()
+        ]
+
+    if state.committees:
+        result["committees"] = []
+        for c in state.committees.values():
+            entry = {
+                "id": _bytes_to_hex(c.id),
+                "name": c.name,
+                "region": c.region,
+                "members": [
+                    {
+                        "public_key": _bytes_to_hex(m.public_key),
+                        "name": m.name,
+                        "role": m.role,
+                    }
+                    for m in c.members
+                ],
+                "threshold": c.threshold,
+                "kyc_threshold": c.kyc_threshold,
+                "max_kyc_level": c.max_kyc_level,
+            }
+            if c.parent_id is not None:
+                entry["parent_id"] = _bytes_to_hex(c.parent_id)
+            result["committees"].append(entry)
+
+    if state.agent_accounts:
+        result["agent_accounts"] = [
+            {
+                "address": _bytes_to_hex(addr),
+                "owner": _bytes_to_hex(a.owner),
+                "controller": _bytes_to_hex(a.controller),
+                "policy_hash": _bytes_to_hex(a.policy_hash),
+                "status": a.status,
+            }
+            for addr, a in state.agent_accounts.items()
+        ]
+
+    if state.tns_names:
+        result["tns_names"] = [
+            {
+                "name": r.name,
+                "owner": _bytes_to_hex(r.owner),
+            }
+            for r in state.tns_names.values()
+        ]
+
+    if state.referrals:
+        result["referrals"] = [
+            {
+                "user": _bytes_to_hex(user),
+                "referrer": _bytes_to_hex(referrer),
+            }
+            for user, referrer in state.referrals.items()
+        ]
+
+    if state.energy_resources:
+        result["energy_resources"] = []
+        for addr, er in state.energy_resources.items():
+            entry: dict[str, Any] = {
+                "address": _bytes_to_hex(addr),
+                "energy": er.energy,
+                "frozen_tos": er.frozen_tos,
+            }
+            if er.freeze_records:
+                entry["freeze_records"] = [
+                    {
+                        "amount": fr.amount,
+                        "energy_gained": fr.energy_gained,
+                        "freeze_height": fr.freeze_height,
+                        "unlock_height": fr.unlock_height,
+                    }
+                    for fr in er.freeze_records
+                ]
+            if er.pending_unfreezes:
+                entry["pending_unfreezes"] = [
+                    {
+                        "amount": pu.amount,
+                        "expire_height": pu.expire_height,
+                    }
+                    for pu in er.pending_unfreezes
+                ]
+            result["energy_resources"].append(entry)
+
+    return result
+
 
 def state_from_json(data: dict[str, Any]) -> ChainState:
     state = ChainState(network_chain_id=data["network_chain_id"])
@@ -71,6 +257,153 @@ def state_from_json(data: dict[str, Any]) -> ChainState:
             data=_hex_to_bytes(a.get("data", "")) if a.get("data") else b"",
         )
         state.accounts[acct.address] = acct
+
+    for e in data.get("escrows", []):
+        arb_cfg = None
+        if "arbitration_config" in e:
+            ac = e["arbitration_config"]
+            arb_cfg = ArbitrationConfig(
+                mode=ac.get("mode", "single"),
+                arbiters=[_hex_to_bytes(a) for a in ac.get("arbiters", [])],
+                threshold=ac.get("threshold"),
+                fee_amount=ac.get("fee_amount", 0),
+                allow_appeal=ac.get("allow_appeal", False),
+            )
+        dispute = None
+        if "dispute" in e:
+            dd = e["dispute"]
+            dispute = DisputeInfo(
+                initiator=_hex_to_bytes(dd.get("initiator", "00" * 32)),
+                reason=dd.get("reason", ""),
+                evidence_hash=_hex_to_bytes(dd["evidence_hash"]) if dd.get("evidence_hash") else None,
+                disputed_at=dd.get("disputed_at", 0),
+                deadline=dd.get("deadline", 0),
+            )
+        escrow = EscrowAccount(
+            id=_hex_to_bytes(e["id"]),
+            task_id=e["task_id"],
+            payer=_hex_to_bytes(e["payer"]),
+            payee=_hex_to_bytes(e["payee"]),
+            amount=e["amount"],
+            total_amount=e["total_amount"],
+            released_amount=e.get("released_amount", 0),
+            refunded_amount=e.get("refunded_amount", 0),
+            challenge_deposit=e.get("challenge_deposit", 0),
+            asset=_hex_to_bytes(e.get("asset", "00" * 32)),
+            status=EscrowStatus(e.get("state", "created")),
+            timeout_blocks=e.get("timeout_blocks", 0),
+            challenge_window=e.get("challenge_window", 0),
+            challenge_deposit_bps=e.get("challenge_deposit_bps", 0),
+            optimistic_release=e.get("optimistic_release", False),
+            created_at=e.get("created_at", 0),
+            updated_at=e.get("updated_at", 0),
+            timeout_at=e.get("timeout_at", 0),
+            arbitration_config=arb_cfg,
+            release_requested_at=e.get("release_requested_at"),
+            pending_release_amount=e.get("pending_release_amount"),
+            dispute=dispute,
+            dispute_id=_hex_to_bytes(e["dispute_id"]) if e.get("dispute_id") else None,
+            dispute_round=e.get("dispute_round"),
+        )
+        state.escrows[escrow.id] = escrow
+
+    for a in data.get("arbiters", []):
+        arbiter = ArbiterAccount(
+            public_key=_hex_to_bytes(a["public_key"]),
+            name=a.get("name", ""),
+            status=ArbiterStatus(a.get("status", "active")),
+            expertise=a.get("expertise", []),
+            stake_amount=a.get("stake_amount", 0),
+            fee_basis_points=a.get("fee_basis_points", 0),
+            min_escrow_value=a.get("min_escrow_value", 0),
+            max_escrow_value=a.get("max_escrow_value", 0),
+            reputation_score=a.get("reputation_score", 0),
+            total_cases=a.get("total_cases", 0),
+            active_cases=a.get("active_cases", 0),
+            registered_at=a.get("registered_at", 0),
+            total_slashed=a.get("total_slashed", 0),
+        )
+        state.arbiters[arbiter.public_key] = arbiter
+
+    for k in data.get("kyc_data", []):
+        addr = _hex_to_bytes(k["address"])
+        kyc = KycData(
+            level=k.get("level", 0),
+            status=KycStatus(k.get("status", "active")),
+            verified_at=k.get("verified_at", 0),
+            data_hash=_hex_to_bytes(k.get("data_hash", "00" * 32)),
+            committee_id=_hex_to_bytes(k.get("committee_id", "00" * 32)),
+        )
+        state.kyc_data[addr] = kyc
+
+    for c in data.get("committees", []):
+        members = [
+            CommitteeMember(
+                public_key=_hex_to_bytes(m["public_key"]),
+                name=m.get("name", ""),
+                role=m.get("role", 0),
+            )
+            for m in c.get("members", [])
+        ]
+        parent_raw = c.get("parent_id")
+        parent_id = _hex_to_bytes(parent_raw) if parent_raw else None
+        committee = Committee(
+            id=_hex_to_bytes(c["id"]),
+            name=c.get("name", ""),
+            region=c.get("region", 0),
+            members=members,
+            threshold=c.get("threshold", 0),
+            kyc_threshold=c.get("kyc_threshold", 0),
+            max_kyc_level=c.get("max_kyc_level", 0),
+            parent_id=parent_id,
+        )
+        state.committees[committee.id] = committee
+
+    for a in data.get("agent_accounts", []):
+        addr = _hex_to_bytes(a["address"])
+        meta = AgentAccountMeta(
+            owner=_hex_to_bytes(a["owner"]),
+            controller=_hex_to_bytes(a["controller"]),
+            policy_hash=_hex_to_bytes(a.get("policy_hash", "00" * 32)),
+            status=a.get("status", 0),
+        )
+        state.agent_accounts[addr] = meta
+
+    for t in data.get("tns_names", []):
+        rec = TnsRecord(name=t["name"], owner=_hex_to_bytes(t["owner"]))
+        state.tns_names[rec.name] = rec
+
+    for r in data.get("referrals", []):
+        user = _hex_to_bytes(r["user"])
+        referrer = _hex_to_bytes(r["referrer"])
+        state.referrals[user] = referrer
+
+    for er in data.get("energy_resources", []):
+        addr = _hex_to_bytes(er["address"])
+        freeze_records = [
+            FreezeRecord(
+                amount=fr.get("amount", 0),
+                energy_gained=fr.get("energy_gained", 0),
+                freeze_height=fr.get("freeze_height", 0),
+                unlock_height=fr.get("unlock_height", 0),
+            )
+            for fr in er.get("freeze_records", [])
+        ]
+        pending_unfreezes = [
+            PendingUnfreeze(
+                amount=pu.get("amount", 0),
+                expire_height=pu.get("expire_height", 0),
+            )
+            for pu in er.get("pending_unfreezes", [])
+        ]
+        resource = EnergyResource(
+            frozen_tos=er.get("frozen_tos", 0),
+            energy=er.get("energy", 0),
+            freeze_records=freeze_records,
+            pending_unfreezes=pending_unfreezes,
+        )
+        state.energy_resources[addr] = resource
+
     return state
 
 

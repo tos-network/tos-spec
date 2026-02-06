@@ -31,11 +31,26 @@
             "flags": 0,
             "data": ""
           }
+        ],
+        "energy_resources": [
+          {
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "energy": 0,
+            "frozen_tos": 1000000000,
+            "freeze_records": [
+              {
+                "amount": 1000000000,
+                "energy_gained": 0,
+                "freeze_height": 0,
+                "unlock_height": 99999
+              }
+            ]
+          }
         ]
       },
       "input": {
         "kind": "tx",
-        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b24905010000000000000001c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e378240000000005f5e1000000000700000000000186a00000000000000000050000000000000000000000000000000000000000000000000000000000000000000000000000000000d9c7fbff650da4fc31a45e21ce1cbed0d60c0ab84924390c885c3493e35d120144fbb4b531279b76bdcb2d74afc3547c5c543bc04cc467f1bd01ffe0a6a78a04",
+        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b24905010000000000000001c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e378240000000005f5e1000000000700000000000000000000000000000000050000000000000000000000000000000000000000000000000000000000000000000000000000000000b6ed7050c774d98d4f954c2ee37361f660f4c9922517cef6e444bf783de3da060fdd0abb7b3093072431fd70e9073b43683d26962907ac94222d34f0229b5703",
         "tx": {
           "version": 1,
           "chain_id": 3,
@@ -55,19 +70,19 @@
             "record_index": null,
             "delegatee_address": null
           },
-          "fee": 100000,
+          "fee": 0,
           "fee_type": 0,
           "nonce": 5,
           "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
           "reference_topoheight": 0,
-          "signature": "d9c7fbff650da4fc31a45e21ce1cbed0d60c0ab84924390c885c3493e35d120144fbb4b531279b76bdcb2d74afc3547c5c543bc04cc467f1bd01ffe0a6a78a04",
-          "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b24905010000000000000001c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e378240000000005f5e1000000000700000000000186a00000000000000000050000000000000000000000000000000000000000000000000000000000000000000000000000000000d9c7fbff650da4fc31a45e21ce1cbed0d60c0ab84924390c885c3493e35d120144fbb4b531279b76bdcb2d74afc3547c5c543bc04cc467f1bd01ffe0a6a78a04"
+          "signature": "b6ed7050c774d98d4f954c2ee37361f660f4c9922517cef6e444bf783de3da060fdd0abb7b3093072431fd70e9073b43683d26962907ac94222d34f0229b5703",
+          "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b24905010000000000000001c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e378240000000005f5e1000000000700000000000000000000000000000000050000000000000000000000000000000000000000000000000000000000000000000000000000000000b6ed7050c774d98d4f954c2ee37361f660f4c9922517cef6e444bf783de3da060fdd0abb7b3093072431fd70e9073b43683d26962907ac94222d34f0229b5703"
         }
       },
       "expected": {
         "success": true,
         "error_code": 0,
-        "state_digest": "c79019aabbd41752ed2ac389f6a7d3449f1f98e84cbd1fd6b3c13fc76ff08c58",
+        "state_digest": "dfef8964099cc07063ec914e5b9cbe9673d9c04485edc4173c26500da44a7786",
         "post_state": {
           "network_chain_id": 3,
           "global_state": {
@@ -80,7 +95,7 @@
           "accounts": [
             {
               "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
-              "balance": 9899900000,
+              "balance": 9900000000,
               "nonce": 6,
               "frozen": 1100000000,
               "energy": 0,
@@ -95,6 +110,21 @@
               "energy": 14,
               "flags": 0,
               "data": ""
+            }
+          ],
+          "energy_resources": [
+            {
+              "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+              "energy": 0,
+              "frozen_tos": 1100000000,
+              "freeze_records": [
+                {
+                  "amount": 1000000000,
+                  "energy_gained": 0,
+                  "freeze_height": 0,
+                  "unlock_height": 99999
+                }
+              ]
             }
           ]
         }
@@ -122,11 +152,26 @@
             "flags": 0,
             "data": ""
           }
+        ],
+        "energy_resources": [
+          {
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "energy": 0,
+            "frozen_tos": 1000000000,
+            "freeze_records": [
+              {
+                "amount": 1000000000,
+                "energy_gained": 0,
+                "freeze_height": 0,
+                "unlock_height": 99999
+              }
+            ]
+          }
         ]
       },
       "input": {
         "kind": "tx",
-        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b24905010000000000000001f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b2490000000005f5e1000000000700000000000186a000000000000000000500000000000000000000000000000000000000000000000000000000000000000000000000000000006dc55a3f078673b6e198524f2aee80ddacffa23c81e6d3a5e4ddef626a04c4041e1646e1a1b295acceec71f6fabaca721d522cd493972d24d4e0cbbbbcad2f07",
+        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b24905010000000000000001f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b2490000000005f5e100000000070000000000000000000000000000000005000000000000000000000000000000000000000000000000000000000000000000000000000000000075e3209d2d04d14d7cc9c600fec70675988af953bbfb2f798abc6c6ea1231a0826c604e0c9d37274fa0cf6225068cf509ab74277b48b8ce628365aad9c89300b",
         "tx": {
           "version": 1,
           "chain_id": 3,
@@ -146,13 +191,13 @@
             "record_index": null,
             "delegatee_address": null
           },
-          "fee": 100000,
+          "fee": 0,
           "fee_type": 0,
           "nonce": 5,
           "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
           "reference_topoheight": 0,
-          "signature": "6dc55a3f078673b6e198524f2aee80ddacffa23c81e6d3a5e4ddef626a04c4041e1646e1a1b295acceec71f6fabaca721d522cd493972d24d4e0cbbbbcad2f07",
-          "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b24905010000000000000001f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b2490000000005f5e1000000000700000000000186a000000000000000000500000000000000000000000000000000000000000000000000000000000000000000000000000000006dc55a3f078673b6e198524f2aee80ddacffa23c81e6d3a5e4ddef626a04c4041e1646e1a1b295acceec71f6fabaca721d522cd493972d24d4e0cbbbbcad2f07"
+          "signature": "75e3209d2d04d14d7cc9c600fec70675988af953bbfb2f798abc6c6ea1231a0826c604e0c9d37274fa0cf6225068cf509ab74277b48b8ce628365aad9c89300b",
+          "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b24905010000000000000001f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b2490000000005f5e100000000070000000000000000000000000000000005000000000000000000000000000000000000000000000000000000000000000000000000000000000075e3209d2d04d14d7cc9c600fec70675988af953bbfb2f798abc6c6ea1231a0826c604e0c9d37274fa0cf6225068cf509ab74277b48b8ce628365aad9c89300b"
         }
       },
       "expected": {
@@ -177,6 +222,21 @@
               "energy": 0,
               "flags": 0,
               "data": ""
+            }
+          ],
+          "energy_resources": [
+            {
+              "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+              "energy": 0,
+              "frozen_tos": 1000000000,
+              "freeze_records": [
+                {
+                  "amount": 1000000000,
+                  "energy_gained": 0,
+                  "freeze_height": 0,
+                  "unlock_height": 99999
+                }
+              ]
             }
           ]
         }
@@ -204,11 +264,26 @@
             "flags": 0,
             "data": ""
           }
+        ],
+        "energy_resources": [
+          {
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "energy": 0,
+            "frozen_tos": 1000000000,
+            "freeze_records": [
+              {
+                "amount": 1000000000,
+                "energy_gained": 0,
+                "freeze_height": 0,
+                "unlock_height": 99999
+              }
+            ]
+          }
         ]
       },
       "input": {
         "kind": "tx",
-        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249050100000000000000000000000700000000000186a00000000000000000050000000000000000000000000000000000000000000000000000000000000000000000000000000000e22d3d6fc2868b5bcf46d2d9aa3020d4fe1e25ee342c8fa94ad3c35cf6c4c80157f26d495b05ce41f3488abd6d708009e71251d7cca0c9aa467ce2055ad15507",
+        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249050100000000000000000000000700000000000000000000000000000000050000000000000000000000000000000000000000000000000000000000000000000000000000000000efc610eaa2161d849ceb2c6c8fd5cd40cc059ac23c03bfcb5c77a3626bb67e07e52ad42114e55eee6a08fed1689e7d8093a81e9e1d80477f165e6316b9a75b06",
         "tx": {
           "version": 1,
           "chain_id": 3,
@@ -223,13 +298,13 @@
             "record_index": null,
             "delegatee_address": null
           },
-          "fee": 100000,
+          "fee": 0,
           "fee_type": 0,
           "nonce": 5,
           "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
           "reference_topoheight": 0,
-          "signature": "e22d3d6fc2868b5bcf46d2d9aa3020d4fe1e25ee342c8fa94ad3c35cf6c4c80157f26d495b05ce41f3488abd6d708009e71251d7cca0c9aa467ce2055ad15507",
-          "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249050100000000000000000000000700000000000186a00000000000000000050000000000000000000000000000000000000000000000000000000000000000000000000000000000e22d3d6fc2868b5bcf46d2d9aa3020d4fe1e25ee342c8fa94ad3c35cf6c4c80157f26d495b05ce41f3488abd6d708009e71251d7cca0c9aa467ce2055ad15507"
+          "signature": "efc610eaa2161d849ceb2c6c8fd5cd40cc059ac23c03bfcb5c77a3626bb67e07e52ad42114e55eee6a08fed1689e7d8093a81e9e1d80477f165e6316b9a75b06",
+          "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249050100000000000000000000000700000000000000000000000000000000050000000000000000000000000000000000000000000000000000000000000000000000000000000000efc610eaa2161d849ceb2c6c8fd5cd40cc059ac23c03bfcb5c77a3626bb67e07e52ad42114e55eee6a08fed1689e7d8093a81e9e1d80477f165e6316b9a75b06"
         }
       },
       "expected": {
@@ -254,6 +329,21 @@
               "energy": 0,
               "flags": 0,
               "data": ""
+            }
+          ],
+          "energy_resources": [
+            {
+              "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+              "energy": 0,
+              "frozen_tos": 1000000000,
+              "freeze_records": [
+                {
+                  "amount": 1000000000,
+                  "energy_gained": 0,
+                  "freeze_height": 0,
+                  "unlock_height": 99999
+                }
+              ]
             }
           ]
         }

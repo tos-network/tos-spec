@@ -39,9 +39,6 @@ def _verify_bind_referrer(state: ChainState, tx: Transaction) -> None:
     if referrer == tx.source:
         raise SpecError(ErrorCode.SELF_OPERATION, "cannot bind self as referrer")
 
-    if referrer not in state.accounts:
-        raise SpecError(ErrorCode.ACCOUNT_NOT_FOUND, "referrer account not found")
-
     if tx.source in state.referrals:
         raise SpecError(ErrorCode.DELEGATION_EXISTS, "referrer already bound")
 

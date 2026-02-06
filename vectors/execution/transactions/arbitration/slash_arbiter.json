@@ -21,12 +21,65 @@
             "energy": 0,
             "flags": 0,
             "data": ""
+          },
+          {
+            "address": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824",
+            "balance": 0,
+            "nonce": 0,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ],
+        "arbiters": [
+          {
+            "public_key": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824",
+            "name": "SlashTarget",
+            "status": "active",
+            "expertise": [],
+            "stake_amount": 100000000000,
+            "fee_basis_points": 0,
+            "min_escrow_value": 0,
+            "max_escrow_value": 0,
+            "reputation_score": 0,
+            "total_cases": 0,
+            "active_cases": 0,
+            "registered_at": 0,
+            "total_slashed": 0
+          }
+        ],
+        "committees": [
+          {
+            "id": "3232323232323232323232323232323232323232323232323232323232323232",
+            "name": "GlobalCommittee",
+            "region": 0,
+            "members": [
+              {
+                "public_key": "7ea555bf91bfb985561a91afcd669a79c0cc115ce03baf687cb8dd7e1e996e7b",
+                "name": "member_0",
+                "role": 0
+              },
+              {
+                "public_key": "ec9daff86b25275ef43d7dbd7e81f09b44e8d3805c6048b09b3e1034931c6077",
+                "name": "member_1",
+                "role": 0
+              },
+              {
+                "public_key": "c236d1e09a12adc6dc4b857420e7dbef41e4553cc06168495b941398bee59531",
+                "name": "member_2",
+                "role": 0
+              }
+            ],
+            "threshold": 2,
+            "kyc_threshold": 2,
+            "max_kyc_level": 255
           }
         ]
       },
       "input": {
         "kind": "tx",
-        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b2492c32323232323232323232323232323232323232323232323232323232323232321e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e000000003b9aca00464646464646464646464646464646464646464646464646464646464646464600020a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a000000000000000000000000000000000000000000000000000000000000000a00000000000000000000000000000000000000000000000000000000000000000000006553f1000b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b000000000000000000000000000000000000000000000000000000000000000b00000000000000000000000000000000000000000000000000000000000000000000006553f10000000000000186a00000000000000000050000000000000000000000000000000000000000000000000000000000000000000000000000000000f06f9bfb7221a80f9f50385e5faaa6c532fb8e6e727281a67028e31f6b46370e4cf79721a1b0825ab70070a1433307a7ee45865dc3145c8ff6d6fcd773499909",
+        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b2492c3232323232323232323232323232323232323232323232323232323232323232c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824000000003b9aca00464646464646464646464646464646464646464646464646464646464646464600027ea555bf91bfb985561a91afcd669a79c0cc115ce03baf687cb8dd7e1e996e7b34530ba26f876c33ca1a775f0ca8bcc3795a5a8a70e0b43cd3372f357b271106548f96006c5a6e870051d8574dd9861d772d2513e92d03f38383522260265c060000000069867ae4ec9daff86b25275ef43d7dbd7e81f09b44e8d3805c6048b09b3e1034931c6077cfedc0aadbbc6c70989b27af2e837df6c4d7258a8ffcd45a65f663027b1eb4029796ab5fb45a7983f2cabe61361f35c1158bc17da4d1c8ce3f173252bffd2b0d0000000069867ae400000000000186a000000000000000000500000000000000000000000000000000000000000000000000000000000000000000000000000000004cd0df108cb95edeb8f96b42ed937eae9368526b3f5996a79e2cea128f6ed80ca4f6c1fd0f50aa1d7f761024dff0ecb2fcb64cd7696fb4ae3e022b6628a6ba00",
         "tx": {
           "version": 1,
           "chain_id": 3,
@@ -34,19 +87,19 @@
           "tx_type": "slash_arbiter",
           "payload": {
             "committee_id": "3232323232323232323232323232323232323232323232323232323232323232",
-            "arbiter_pubkey": "1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e",
+            "arbiter_pubkey": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824",
             "amount": 1000000000,
             "reason_hash": "4646464646464646464646464646464646464646464646464646464646464646",
             "approvals": [
               {
-                "member_pubkey": "0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a",
-                "signature": "0a000000000000000000000000000000000000000000000000000000000000000a00000000000000000000000000000000000000000000000000000000000000",
-                "timestamp": 1700000000
+                "member_pubkey": "7ea555bf91bfb985561a91afcd669a79c0cc115ce03baf687cb8dd7e1e996e7b",
+                "signature": "34530ba26f876c33ca1a775f0ca8bcc3795a5a8a70e0b43cd3372f357b271106548f96006c5a6e870051d8574dd9861d772d2513e92d03f38383522260265c06",
+                "timestamp": 1770420964
               },
               {
-                "member_pubkey": "0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b",
-                "signature": "0b000000000000000000000000000000000000000000000000000000000000000b00000000000000000000000000000000000000000000000000000000000000",
-                "timestamp": 1700000000
+                "member_pubkey": "ec9daff86b25275ef43d7dbd7e81f09b44e8d3805c6048b09b3e1034931c6077",
+                "signature": "cfedc0aadbbc6c70989b27af2e837df6c4d7258a8ffcd45a65f663027b1eb4029796ab5fb45a7983f2cabe61361f35c1158bc17da4d1c8ce3f173252bffd2b0d",
+                "timestamp": 1770420964
               }
             ]
           },
@@ -55,14 +108,14 @@
           "nonce": 5,
           "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
           "reference_topoheight": 0,
-          "signature": "f06f9bfb7221a80f9f50385e5faaa6c532fb8e6e727281a67028e31f6b46370e4cf79721a1b0825ab70070a1433307a7ee45865dc3145c8ff6d6fcd773499909",
-          "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b2492c32323232323232323232323232323232323232323232323232323232323232321e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e000000003b9aca00464646464646464646464646464646464646464646464646464646464646464600020a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a000000000000000000000000000000000000000000000000000000000000000a00000000000000000000000000000000000000000000000000000000000000000000006553f1000b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b000000000000000000000000000000000000000000000000000000000000000b00000000000000000000000000000000000000000000000000000000000000000000006553f10000000000000186a00000000000000000050000000000000000000000000000000000000000000000000000000000000000000000000000000000f06f9bfb7221a80f9f50385e5faaa6c532fb8e6e727281a67028e31f6b46370e4cf79721a1b0825ab70070a1433307a7ee45865dc3145c8ff6d6fcd773499909"
+          "signature": "4cd0df108cb95edeb8f96b42ed937eae9368526b3f5996a79e2cea128f6ed80ca4f6c1fd0f50aa1d7f761024dff0ecb2fcb64cd7696fb4ae3e022b6628a6ba00",
+          "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b2492c3232323232323232323232323232323232323232323232323232323232323232c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824000000003b9aca00464646464646464646464646464646464646464646464646464646464646464600027ea555bf91bfb985561a91afcd669a79c0cc115ce03baf687cb8dd7e1e996e7b34530ba26f876c33ca1a775f0ca8bcc3795a5a8a70e0b43cd3372f357b271106548f96006c5a6e870051d8574dd9861d772d2513e92d03f38383522260265c060000000069867ae4ec9daff86b25275ef43d7dbd7e81f09b44e8d3805c6048b09b3e1034931c6077cfedc0aadbbc6c70989b27af2e837df6c4d7258a8ffcd45a65f663027b1eb4029796ab5fb45a7983f2cabe61361f35c1158bc17da4d1c8ce3f173252bffd2b0d0000000069867ae400000000000186a000000000000000000500000000000000000000000000000000000000000000000000000000000000000000000000000000004cd0df108cb95edeb8f96b42ed937eae9368526b3f5996a79e2cea128f6ed80ca4f6c1fd0f50aa1d7f761024dff0ecb2fcb64cd7696fb4ae3e022b6628a6ba00"
         }
       },
       "expected": {
         "success": true,
         "error_code": 0,
-        "state_digest": "b6cd71657ed96799178c24ca51d60d0d5778cc685810dcda362e4508e53503ff",
+        "state_digest": "bff4ba4ae8e9eb5a9ea66497e531225648bc9a54989f1e5684fa6e4fb9328b78",
         "post_state": {
           "network_chain_id": 3,
           "global_state": {
@@ -81,6 +134,59 @@
               "energy": 0,
               "flags": 0,
               "data": ""
+            },
+            {
+              "address": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824",
+              "balance": 0,
+              "nonce": 0,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ],
+          "arbiters": [
+            {
+              "public_key": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824",
+              "name": "SlashTarget",
+              "status": "active",
+              "expertise": [],
+              "stake_amount": 99000000000,
+              "fee_basis_points": 0,
+              "min_escrow_value": 0,
+              "max_escrow_value": 0,
+              "reputation_score": 0,
+              "total_cases": 0,
+              "active_cases": 0,
+              "registered_at": 0,
+              "total_slashed": 1000000000
+            }
+          ],
+          "committees": [
+            {
+              "id": "3232323232323232323232323232323232323232323232323232323232323232",
+              "name": "GlobalCommittee",
+              "region": 0,
+              "members": [
+                {
+                  "public_key": "7ea555bf91bfb985561a91afcd669a79c0cc115ce03baf687cb8dd7e1e996e7b",
+                  "name": "member_0",
+                  "role": 0
+                },
+                {
+                  "public_key": "ec9daff86b25275ef43d7dbd7e81f09b44e8d3805c6048b09b3e1034931c6077",
+                  "name": "member_1",
+                  "role": 0
+                },
+                {
+                  "public_key": "c236d1e09a12adc6dc4b857420e7dbef41e4553cc06168495b941398bee59531",
+                  "name": "member_2",
+                  "role": 0
+                }
+              ],
+              "threshold": 2,
+              "kyc_threshold": 2,
+              "max_kyc_level": 255
             }
           ]
         }
