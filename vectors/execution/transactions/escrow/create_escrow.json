@@ -42,12 +42,12 @@
           "source": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
           "tx_type": "create_escrow",
           "payload": null,
-          "fee": 1000,
+          "fee": 100000,
           "fee_type": 0,
           "nonce": 5,
-          "reference_hash": "0909090909090909090909090909090909090909090909090909090909090909",
-          "reference_topoheight": 100,
-          "signature": "f951f78b3886d1a8bb7671c95258c938c7e34dd8a9791db4bfff2a13509c3e013801948c018073a10f1fb085f0184d396e94c4b672f6a12ec7252d9f34e48100"
+          "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+          "reference_topoheight": 0,
+          "signature": "394104ffcbfd79a12956e8a5f9798fea59bce2dec88644226a9d13ea7f43e403e6ecba48b794e8b8f8ae0688c2cc16ca7845b9b14558c708d273b43b76a32f04"
         }
       },
       "expected": {
@@ -128,11 +128,11 @@
           "source": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
           "tx_type": "create_escrow",
           "payload": null,
-          "fee": 1000,
+          "fee": 100000,
           "fee_type": 0,
           "nonce": 5,
-          "reference_hash": "0909090909090909090909090909090909090909090909090909090909090909",
-          "reference_topoheight": 100,
+          "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+          "reference_topoheight": 0,
           "signature": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
         }
       },

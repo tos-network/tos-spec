@@ -51,8 +51,8 @@ def _mk_uno_transfer(
         nonce=nonce,
         source_commitments=[_hash(20)],
         range_proof=bytes([0xBB]) * 64,
-        reference_hash=_hash(9),
-        reference_topoheight=100,
+        reference_hash=_hash(0),
+        reference_topoheight=0,
         signature=bytes(64),
     )
 
@@ -81,8 +81,8 @@ def _mk_shield_transfer(
         fee_type=FeeType.TOS,
         nonce=nonce,
         source_commitments=[_hash(20)],
-        reference_hash=_hash(9),
-        reference_topoheight=100,
+        reference_hash=_hash(0),
+        reference_topoheight=0,
         signature=bytes(64),
     )
 
@@ -111,8 +111,8 @@ def _mk_unshield_transfer(
         fee_type=FeeType.TOS,
         nonce=nonce,
         source_commitments=[_hash(20)],
-        reference_hash=_hash(9),
-        reference_topoheight=100,
+        reference_hash=_hash(0),
+        reference_topoheight=0,
         signature=bytes(64),
     )
 
@@ -150,7 +150,7 @@ def test_shield_transfer_success(state_test_group) -> None:
     state = _base_state()
     state.accounts[BOB] = AccountState(address=BOB, balance=0, nonce=0)
     tx = _mk_shield_transfer(
-        ALICE, nonce=5, destination=BOB, amount=MIN_SHIELD_TOS_AMOUNT, fee=1_000
+        ALICE, nonce=5, destination=BOB, amount=MIN_SHIELD_TOS_AMOUNT, fee=100_000
     )
     state_test_group(
         "transactions/privacy/shield_transfers.json",
@@ -164,7 +164,7 @@ def test_shield_transfer_below_minimum(state_test_group) -> None:
     state = _base_state()
     state.accounts[BOB] = AccountState(address=BOB, balance=0, nonce=0)
     tx = _mk_shield_transfer(
-        ALICE, nonce=5, destination=BOB, amount=COIN_VALUE, fee=1_000
+        ALICE, nonce=5, destination=BOB, amount=COIN_VALUE, fee=100_000
     )
     state_test_group(
         "transactions/privacy/shield_transfers.json",
@@ -181,7 +181,7 @@ def test_unshield_transfer_success(state_test_group) -> None:
     state = _base_state()
     state.accounts[BOB] = AccountState(address=BOB, balance=0, nonce=0)
     tx = _mk_unshield_transfer(
-        ALICE, nonce=5, destination=BOB, amount=5 * COIN_VALUE, fee=1_000
+        ALICE, nonce=5, destination=BOB, amount=5 * COIN_VALUE, fee=100_000
     )
     state_test_group(
         "transactions/privacy/unshield_transfers.json",

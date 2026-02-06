@@ -62,8 +62,8 @@ def _mk_kyc_tx(
         fee=fee,
         fee_type=FeeType.TOS,
         nonce=nonce,
-        reference_hash=_hash(9),
-        reference_topoheight=100,
+        reference_hash=_hash(0),
+        reference_topoheight=0,
         signature=bytes(64),
     )
 
@@ -85,7 +85,7 @@ def test_bootstrap_committee_success(state_test_group) -> None:
         "kyc_threshold": 2,
         "max_kyc_level": VALID_KYC_LEVELS[4],
     }
-    tx = _mk_kyc_tx(sender, nonce=5, tx_type=TransactionType.BOOTSTRAP_COMMITTEE, payload=payload, fee=1_000)
+    tx = _mk_kyc_tx(sender, nonce=5, tx_type=TransactionType.BOOTSTRAP_COMMITTEE, payload=payload, fee=100_000)
     state_test_group(
         "transactions/kyc/bootstrap_committee.json",
         "bootstrap_committee_success",
@@ -114,7 +114,7 @@ def test_register_committee_success(state_test_group) -> None:
         "parent_id": _hash(50),
         "approvals": [_approval(10), _approval(11)],
     }
-    tx = _mk_kyc_tx(sender, nonce=5, tx_type=TransactionType.REGISTER_COMMITTEE, payload=payload, fee=1_000)
+    tx = _mk_kyc_tx(sender, nonce=5, tx_type=TransactionType.REGISTER_COMMITTEE, payload=payload, fee=100_000)
     state_test_group(
         "transactions/kyc/register_committee.json",
         "register_committee_success",
@@ -139,7 +139,7 @@ def test_update_committee_add_member(state_test_group) -> None:
         },
         "approvals": [_approval(10), _approval(11)],
     }
-    tx = _mk_kyc_tx(sender, nonce=5, tx_type=TransactionType.UPDATE_COMMITTEE, payload=payload, fee=1_000)
+    tx = _mk_kyc_tx(sender, nonce=5, tx_type=TransactionType.UPDATE_COMMITTEE, payload=payload, fee=100_000)
     state_test_group(
         "transactions/kyc/update_committee.json",
         "update_committee_add_member",
@@ -164,7 +164,7 @@ def test_set_kyc_success(state_test_group) -> None:
         "committee_id": _hash(50),
         "approvals": [_approval(10)],
     }
-    tx = _mk_kyc_tx(sender, nonce=5, tx_type=TransactionType.SET_KYC, payload=payload, fee=1_000)
+    tx = _mk_kyc_tx(sender, nonce=5, tx_type=TransactionType.SET_KYC, payload=payload, fee=100_000)
     state_test_group(
         "transactions/kyc/set_kyc.json", "set_kyc_success", state, tx
     )
@@ -183,7 +183,7 @@ def test_set_kyc_invalid_level(state_test_group) -> None:
         "committee_id": _hash(50),
         "approvals": [_approval(10)],
     }
-    tx = _mk_kyc_tx(sender, nonce=5, tx_type=TransactionType.SET_KYC, payload=payload, fee=1_000)
+    tx = _mk_kyc_tx(sender, nonce=5, tx_type=TransactionType.SET_KYC, payload=payload, fee=100_000)
     state_test_group(
         "transactions/kyc/set_kyc.json", "set_kyc_invalid_level", state, tx
     )
@@ -203,7 +203,7 @@ def test_revoke_kyc_success(state_test_group) -> None:
         "committee_id": _hash(50),
         "approvals": [_approval(10)],
     }
-    tx = _mk_kyc_tx(sender, nonce=5, tx_type=TransactionType.REVOKE_KYC, payload=payload, fee=1_000)
+    tx = _mk_kyc_tx(sender, nonce=5, tx_type=TransactionType.REVOKE_KYC, payload=payload, fee=100_000)
     state_test_group(
         "transactions/kyc/revoke_kyc.json", "revoke_kyc_success", state, tx
     )
@@ -226,7 +226,7 @@ def test_transfer_kyc_success(state_test_group) -> None:
         "new_data_hash": _hash(42),
         "transferred_at": _CURRENT_TIME,
     }
-    tx = _mk_kyc_tx(sender, nonce=5, tx_type=TransactionType.TRANSFER_KYC, payload=payload, fee=1_000)
+    tx = _mk_kyc_tx(sender, nonce=5, tx_type=TransactionType.TRANSFER_KYC, payload=payload, fee=100_000)
     state_test_group(
         "transactions/kyc/transfer_kyc.json", "transfer_kyc_success", state, tx
     )
@@ -248,7 +248,7 @@ def test_appeal_kyc_success(state_test_group) -> None:
         "documents_hash": _hash(44),
         "submitted_at": _CURRENT_TIME,
     }
-    tx = _mk_kyc_tx(sender, nonce=5, tx_type=TransactionType.APPEAL_KYC, payload=payload, fee=1_000)
+    tx = _mk_kyc_tx(sender, nonce=5, tx_type=TransactionType.APPEAL_KYC, payload=payload, fee=100_000)
     state_test_group(
         "transactions/kyc/appeal_kyc.json", "appeal_kyc_success", state, tx
     )
@@ -269,7 +269,7 @@ def test_emergency_suspend_success(state_test_group) -> None:
         "approvals": [_approval(10), _approval(11)],
         "expires_at": _CURRENT_TIME + EMERGENCY_SUSPEND_TIMEOUT,
     }
-    tx = _mk_kyc_tx(sender, nonce=5, tx_type=TransactionType.EMERGENCY_SUSPEND, payload=payload, fee=1_000)
+    tx = _mk_kyc_tx(sender, nonce=5, tx_type=TransactionType.EMERGENCY_SUSPEND, payload=payload, fee=100_000)
     state_test_group(
         "transactions/kyc/emergency_suspend.json",
         "emergency_suspend_success",

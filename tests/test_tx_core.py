@@ -36,25 +36,25 @@ def _mk_tx(sender: bytes, receiver: bytes, nonce: int, amount: int, fee: int) ->
         fee=fee,
         fee_type=FeeType.TOS,
         nonce=nonce,
-        reference_hash=_hash(9),
-        reference_topoheight=100,
+        reference_hash=_hash(0),
+        reference_topoheight=0,
         signature=bytes(64),
     )
 
 
 def test_transfer_success(state_test) -> None:
     state = _base_state()
-    tx = _mk_tx(ALICE, BOB, nonce=5, amount=100_000, fee=1_000)
+    tx = _mk_tx(ALICE, BOB, nonce=5, amount=100_000, fee=100_000)
     state_test("transfer_success", state, tx)
 
 
 def test_nonce_too_high(state_test) -> None:
     state = _base_state()
-    tx = _mk_tx(ALICE, BOB, nonce=100, amount=100_000, fee=1_000)
+    tx = _mk_tx(ALICE, BOB, nonce=100, amount=100_000, fee=100_000)
     state_test("nonce_too_high", state, tx)
 
 
 def test_insufficient_balance_execution_failure(state_test) -> None:
     state = _base_state()
-    tx = _mk_tx(ALICE, BOB, nonce=5, amount=2_000_000, fee=1_000)
+    tx = _mk_tx(ALICE, BOB, nonce=5, amount=2_000_000, fee=100_000)
     state_test("insufficient_balance_execution_failure", state, tx)

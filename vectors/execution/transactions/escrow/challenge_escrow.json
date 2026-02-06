@@ -42,12 +42,12 @@
           "source": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
           "tx_type": "challenge_escrow",
           "payload": null,
-          "fee": 1000,
+          "fee": 100000,
           "fee_type": 0,
           "nonce": 5,
-          "reference_hash": "0909090909090909090909090909090909090909090909090909090909090909",
-          "reference_topoheight": 100,
-          "signature": "0010f699f968318bc8b44abfe950d053f49b648b2e690f7ff203f6c61163dc0a5ff7ff3123794c23ca81c85ac1080d5c10ad5b8053a5a92ae54032a4649c9807"
+          "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+          "reference_topoheight": 0,
+          "signature": "207e49959e81c06a3249eac11d6f189e674d0d6c34e1b5a6e132628e03ccee0d2e910d022d5724249c525217c4ad195b869f151d39dcc036aada8806fe8bc20a"
         }
       },
       "expected": {

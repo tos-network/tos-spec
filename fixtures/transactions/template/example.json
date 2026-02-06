@@ -45,12 +45,12 @@
             "extra_data": null
           }
         ],
-        "fee": 1000,
+        "fee": 100000,
         "fee_type": 0,
         "nonce": 1,
-        "reference_hash": "0909090909090909090909090909090909090909090909090909090909090909",
-        "reference_topoheight": 100,
-        "signature": "6bd5a988ae9af9e36ef4e5b5b3ba26c73407b205d4edc7e581ef9e24c593d10db5a64c5c18b713f84754454938cff5506e595ffda0d3beb4a14cbe475487d501"
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "412757ec4a55d533e7f3fac02ff69d8a33424e72a8163862e51526f8d505a20156aa0863a9d667a6e2f37a96484ae94e5c9ab507f0211b951ff75f49cc1f170c"
       },
       "expected": {
         "ok": true,
@@ -67,7 +67,7 @@
           "accounts": [
             {
               "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
-              "balance": 989000,
+              "balance": 890000,
               "nonce": 2,
               "frozen": 0,
               "energy": 0,
@@ -132,12 +132,12 @@
             "extra_data": null
           }
         ],
-        "fee": 1000,
+        "fee": 100000,
         "fee_type": 0,
         "nonce": 1,
-        "reference_hash": "0909090909090909090909090909090909090909090909090909090909090909",
-        "reference_topoheight": 100,
-        "signature": "76e7e2f31a98ccfdcd3886f6bb5a8146acf272eae91973d74a9643975c9fc8038f81ec5f94edaa6aadfd15c46b2b094dba2bb943ee44a3b7c7eb8fe9cc681e0b"
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "7d54335c59a94f9d44606764ac08e39c3c759e5493535a3b05a53da04be84106a95c1f14d15d4edc09d41777df5703ddfd66645afb0a919edb22c51261dcad0b"
       },
       "expected": {
         "ok": false,
@@ -154,7 +154,7 @@
           "accounts": [
             {
               "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
-              "balance": 999000,
+              "balance": 900000,
               "nonce": 2,
               "frozen": 0,
               "energy": 0,

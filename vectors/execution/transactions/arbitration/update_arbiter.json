@@ -33,12 +33,12 @@
           "source": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
           "tx_type": "update_arbiter",
           "payload": null,
-          "fee": 1000,
+          "fee": 100000,
           "fee_type": 0,
           "nonce": 5,
-          "reference_hash": "0909090909090909090909090909090909090909090909090909090909090909",
-          "reference_topoheight": 100,
-          "signature": "98a207bd958cb838e5e38a199122dc59703a5eabc4177e9f931c4c7838274e061011bf814cdc381eac391ba3d281f77849a00e48f59ee4b2b63bc486111bcf01"
+          "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+          "reference_topoheight": 0,
+          "signature": "8d5fecdfb2bcaa32ead323d1af9b5db907e0fac5c15ecf22c61cce121294930375f25d7f933413f539faa3deec224a4ecbc4b9d5c98ef84db0a4c788694ad107"
         }
       },
       "expected": {

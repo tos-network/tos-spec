@@ -38,12 +38,12 @@
         "source": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
         "tx_type": "refund_escrow",
         "payload": null,
-        "fee": 1000,
+        "fee": 100000,
         "fee_type": 0,
         "nonce": 5,
-        "reference_hash": "0909090909090909090909090909090909090909090909090909090909090909",
-        "reference_topoheight": 100,
-        "signature": "4505ab6b2d7cf201b16c490b96ad4cb55b2339f4cc1c61dd4b7ab1a23ca79d07fff0ff9681a9cb45ef02d59839d3b61db2d4d82859e947cb8cdfd6ee142c2707"
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "10eef5941af0501d724a69c3d3bbaf457e05889bd785c71bc1baf7becfa8d90c0c0512d1744dd2387f709371b9d79b016c95d14eb580b5814a25463bc5443401"
       },
       "expected": {
         "ok": false,

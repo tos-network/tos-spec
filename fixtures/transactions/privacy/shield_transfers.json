@@ -38,12 +38,12 @@
         "source": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
         "tx_type": "shield_transfers",
         "payload": null,
-        "fee": 1000,
+        "fee": 100000,
         "fee_type": 0,
         "nonce": 5,
-        "reference_hash": "0909090909090909090909090909090909090909090909090909090909090909",
-        "reference_topoheight": 100,
-        "signature": "9a44ede7a9314e3a7b2d19b49fe1380bd19ff20b1ff4267fedc4b3a158c18009dc9eca4c970d7a28b841b584911dc791f37b883705b0be501949c48d2a28530a"
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "cf41c446a42bf0e64c6795296a20415e5182a3c9cf2088ec1b5938d09e54cb0641ee21cc9bc0e56600156aac870da2256ce244ae3a61a985011131f2b45e5f0d"
       },
       "expected": {
         "ok": false,
@@ -118,12 +118,12 @@
         "source": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
         "tx_type": "shield_transfers",
         "payload": null,
-        "fee": 1000,
+        "fee": 100000,
         "fee_type": 0,
         "nonce": 5,
-        "reference_hash": "0909090909090909090909090909090909090909090909090909090909090909",
-        "reference_topoheight": 100,
-        "signature": "c643f2a1524ba4fe1d486be07dff36e342af546ca9f124ccb7c4719c70c4670cfca3e862ae068e7bda55640f8a99c3499d4b6bc781cfc69a4832a45269aab90b"
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "1c10837b726e0e45c9d8eb6d7af8ace24268023625eee98ef86fcb5865e6ad09865ca25da9acea090dce2bc6febf6218ce2509e58070e494fea695f46a499f01"
       },
       "expected": {
         "ok": false,

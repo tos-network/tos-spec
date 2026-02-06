@@ -29,12 +29,12 @@
         "source": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
         "tx_type": "register_name",
         "payload": null,
-        "fee": 1000,
+        "fee": 100000,
         "fee_type": 0,
         "nonce": 5,
-        "reference_hash": "0909090909090909090909090909090909090909090909090909090909090909",
-        "reference_topoheight": 100,
-        "signature": "84796f80698cc6d50943afb3a2e4625bc422f404ee27065049d800f53242ac0df532b267ef7d6637f7ad5b5e7b44d569696bd7eeba749affdc1b09ea3fa53a02"
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "2993e92c9faf4fa06f1fb0194de134ccec44277318a3684c4f8d09bd7e5e010ee29a107028a130288e3f1c9142cddcd61bbbca9e78c74fcef4d693eca4b89704"
       },
       "expected": {
         "ok": false,
@@ -91,11 +91,11 @@
         "source": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
         "tx_type": "register_name",
         "payload": null,
-        "fee": 1000,
+        "fee": 100000,
         "fee_type": 0,
         "nonce": 5,
-        "reference_hash": "0909090909090909090909090909090909090909090909090909090909090909",
-        "reference_topoheight": 100,
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
         "signature": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
       },
       "expected": {
@@ -153,11 +153,11 @@
         "source": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
         "tx_type": "register_name",
         "payload": null,
-        "fee": 1000,
+        "fee": 100000,
         "fee_type": 0,
         "nonce": 5,
-        "reference_hash": "0909090909090909090909090909090909090909090909090909090909090909",
-        "reference_topoheight": 100,
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
         "signature": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
       },
       "expected": {
@@ -215,12 +215,12 @@
         "source": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
         "tx_type": "register_name",
         "payload": null,
-        "fee": 1000,
+        "fee": 100000,
         "fee_type": 0,
         "nonce": 5,
-        "reference_hash": "0909090909090909090909090909090909090909090909090909090909090909",
-        "reference_topoheight": 100,
-        "signature": "d931f9d7cd59f7196c5d922d032b423e683191b1d702b2c16040ead68cbc8a0e61b7a8e0f97c534a7d94f5fa50c912c4c159aa45353d303e81b76ca7131a5c00"
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "bc7455116c100b5e3d7aa2549d0986badff26883c3bac256031581a22df6880d465b522fa5d9f048103dd48ee9f50bbc372dd2bee5a0102bf6444a5cf2104207"
       },
       "expected": {
         "ok": false,

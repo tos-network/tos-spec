@@ -34,8 +34,8 @@ def _mk_register_name(sender: bytes, nonce: int, name: str, fee: int) -> Transac
         fee=fee,
         fee_type=FeeType.TOS,
         nonce=nonce,
-        reference_hash=_hash(9),
-        reference_topoheight=100,
+        reference_hash=_hash(0),
+        reference_topoheight=0,
         signature=bytes(64),
     )
 
@@ -43,7 +43,7 @@ def _mk_register_name(sender: bytes, nonce: int, name: str, fee: int) -> Transac
 def test_register_name_success(state_test_group) -> None:
     state = _base_state()
     sender = ALICE
-    tx = _mk_register_name(sender, nonce=5, name="alice", fee=1_000)
+    tx = _mk_register_name(sender, nonce=5, name="alice", fee=100_000)
     state_test_group(
         "transactions/tns/register_name.json", "register_name_success", state, tx
     )
@@ -52,7 +52,7 @@ def test_register_name_success(state_test_group) -> None:
 def test_register_name_too_short(state_test_group) -> None:
     state = _base_state()
     sender = ALICE
-    tx = _mk_register_name(sender, nonce=5, name="ab", fee=1_000)
+    tx = _mk_register_name(sender, nonce=5, name="ab", fee=100_000)
     state_test_group(
         "transactions/tns/register_name.json", "register_name_too_short", state, tx
     )
@@ -62,7 +62,7 @@ def test_register_name_too_long(state_test_group) -> None:
     state = _base_state()
     sender = ALICE
     long_name = "a" * (MAX_NAME_LENGTH + 1)
-    tx = _mk_register_name(sender, nonce=5, name=long_name, fee=1_000)
+    tx = _mk_register_name(sender, nonce=5, name=long_name, fee=100_000)
     state_test_group(
         "transactions/tns/register_name.json", "register_name_too_long", state, tx
     )
@@ -71,7 +71,7 @@ def test_register_name_too_long(state_test_group) -> None:
 def test_register_name_min_length(state_test_group) -> None:
     state = _base_state()
     sender = ALICE
-    tx = _mk_register_name(sender, nonce=5, name="a" * MIN_NAME_LENGTH, fee=1_000)
+    tx = _mk_register_name(sender, nonce=5, name="a" * MIN_NAME_LENGTH, fee=100_000)
     state_test_group(
         "transactions/tns/register_name.json", "register_name_min_length", state, tx
     )

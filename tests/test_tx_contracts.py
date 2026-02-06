@@ -39,8 +39,8 @@ def _mk_deploy_contract(
         fee=fee,
         fee_type=FeeType.TOS,
         nonce=nonce,
-        reference_hash=_hash(9),
-        reference_topoheight=100,
+        reference_hash=_hash(0),
+        reference_topoheight=0,
         signature=bytes(64),
     )
 
@@ -63,8 +63,8 @@ def _mk_invoke_contract(
         fee=fee,
         fee_type=FeeType.TOS,
         nonce=nonce,
-        reference_hash=_hash(9),
-        reference_topoheight=100,
+        reference_hash=_hash(0),
+        reference_topoheight=0,
         signature=bytes(64),
     )
 
@@ -77,7 +77,7 @@ def test_deploy_contract_success(state_test_group) -> None:
     sender = ALICE
     # Minimal valid ELF module
     module = b"\x7FELF" + b"\x00" * 100
-    tx = _mk_deploy_contract(sender, nonce=5, module=module, fee=1_000)
+    tx = _mk_deploy_contract(sender, nonce=5, module=module, fee=100_000)
     state_test_group(
         "transactions/contracts/deploy_contract.json",
         "deploy_contract_success",
@@ -90,7 +90,7 @@ def test_deploy_contract_invalid_module(state_test_group) -> None:
     state = _base_state()
     sender = ALICE
     module = b"\x00" * 100  # Not an ELF
-    tx = _mk_deploy_contract(sender, nonce=5, module=module, fee=1_000)
+    tx = _mk_deploy_contract(sender, nonce=5, module=module, fee=100_000)
     state_test_group(
         "transactions/contracts/deploy_contract.json",
         "deploy_contract_invalid_module",
@@ -107,7 +107,7 @@ def test_invoke_contract_success(state_test_group) -> None:
     sender = ALICE
     contract = _hash(80)
     tx = _mk_invoke_contract(
-        sender, nonce=5, contract=contract, entry_id=0, max_gas=100_000, fee=1_000
+        sender, nonce=5, contract=contract, entry_id=0, max_gas=100_000, fee=100_000
     )
     state_test_group(
         "transactions/contracts/invoke_contract.json",
@@ -133,11 +133,11 @@ def test_invoke_contract_with_deposits(state_test_group) -> None:
             "max_gas": 200_000,
             "parameters": [],
         },
-        fee=1_000,
+        fee=100_000,
         fee_type=FeeType.TOS,
         nonce=5,
-        reference_hash=_hash(9),
-        reference_topoheight=100,
+        reference_hash=_hash(0),
+        reference_topoheight=0,
         signature=bytes(64),
     )
     state_test_group(

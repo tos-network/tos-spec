@@ -41,8 +41,8 @@ def _mk_escrow_tx(
         fee=fee,
         fee_type=FeeType.TOS,
         nonce=nonce,
-        reference_hash=_hash(9),
-        reference_topoheight=100,
+        reference_hash=_hash(0),
+        reference_topoheight=0,
         signature=bytes(64),
     )
 
@@ -63,7 +63,7 @@ def test_create_escrow_success(state_test_group) -> None:
         "challenge_deposit_bps": 500,
         "optimistic_release": False,
     }
-    tx = _mk_escrow_tx(sender, nonce=5, tx_type=TransactionType.CREATE_ESCROW, payload=payload, fee=1_000)
+    tx = _mk_escrow_tx(sender, nonce=5, tx_type=TransactionType.CREATE_ESCROW, payload=payload, fee=100_000)
     state_test_group(
         "transactions/escrow/create_escrow.json",
         "create_escrow_success",
@@ -85,7 +85,7 @@ def test_create_escrow_zero_amount(state_test_group) -> None:
         "challenge_deposit_bps": 500,
         "optimistic_release": False,
     }
-    tx = _mk_escrow_tx(sender, nonce=5, tx_type=TransactionType.CREATE_ESCROW, payload=payload, fee=1_000)
+    tx = _mk_escrow_tx(sender, nonce=5, tx_type=TransactionType.CREATE_ESCROW, payload=payload, fee=100_000)
     state_test_group(
         "transactions/escrow/create_escrow.json",
         "create_escrow_zero_amount",
@@ -104,7 +104,7 @@ def test_deposit_escrow_success(state_test_group) -> None:
         "escrow_id": _hash(60),
         "amount": 5 * COIN_VALUE,
     }
-    tx = _mk_escrow_tx(sender, nonce=5, tx_type=TransactionType.DEPOSIT_ESCROW, payload=payload, fee=1_000)
+    tx = _mk_escrow_tx(sender, nonce=5, tx_type=TransactionType.DEPOSIT_ESCROW, payload=payload, fee=100_000)
     state_test_group(
         "transactions/escrow/deposit_escrow.json",
         "deposit_escrow_success",
@@ -123,7 +123,7 @@ def test_release_escrow_success(state_test_group) -> None:
         "escrow_id": _hash(60),
         "amount": 5 * COIN_VALUE,
     }
-    tx = _mk_escrow_tx(sender, nonce=5, tx_type=TransactionType.RELEASE_ESCROW, payload=payload, fee=1_000)
+    tx = _mk_escrow_tx(sender, nonce=5, tx_type=TransactionType.RELEASE_ESCROW, payload=payload, fee=100_000)
     state_test_group(
         "transactions/escrow/release_escrow.json",
         "release_escrow_success",
@@ -143,7 +143,7 @@ def test_refund_escrow_success(state_test_group) -> None:
         "amount": 5 * COIN_VALUE,
         "reason": "work not delivered",
     }
-    tx = _mk_escrow_tx(sender, nonce=5, tx_type=TransactionType.REFUND_ESCROW, payload=payload, fee=1_000)
+    tx = _mk_escrow_tx(sender, nonce=5, tx_type=TransactionType.REFUND_ESCROW, payload=payload, fee=100_000)
     state_test_group(
         "transactions/escrow/refund_escrow.json",
         "refund_escrow_success",
@@ -163,7 +163,7 @@ def test_challenge_escrow_success(state_test_group) -> None:
         "reason": "deliverable does not match specs",
         "deposit": COIN_VALUE,
     }
-    tx = _mk_escrow_tx(sender, nonce=5, tx_type=TransactionType.CHALLENGE_ESCROW, payload=payload, fee=1_000)
+    tx = _mk_escrow_tx(sender, nonce=5, tx_type=TransactionType.CHALLENGE_ESCROW, payload=payload, fee=100_000)
     state_test_group(
         "transactions/escrow/challenge_escrow.json",
         "challenge_escrow_success",
@@ -182,7 +182,7 @@ def test_dispute_escrow_success(state_test_group) -> None:
         "escrow_id": _hash(60),
         "reason": "provider did not deliver",
     }
-    tx = _mk_escrow_tx(sender, nonce=5, tx_type=TransactionType.DISPUTE_ESCROW, payload=payload, fee=1_000)
+    tx = _mk_escrow_tx(sender, nonce=5, tx_type=TransactionType.DISPUTE_ESCROW, payload=payload, fee=100_000)
     state_test_group(
         "transactions/escrow/dispute_escrow.json",
         "dispute_escrow_success",
@@ -203,7 +203,7 @@ def test_appeal_escrow_success(state_test_group) -> None:
         "appeal_deposit": 2 * COIN_VALUE,
         "appeal_mode": 1,
     }
-    tx = _mk_escrow_tx(sender, nonce=5, tx_type=TransactionType.APPEAL_ESCROW, payload=payload, fee=1_000)
+    tx = _mk_escrow_tx(sender, nonce=5, tx_type=TransactionType.APPEAL_ESCROW, payload=payload, fee=100_000)
     state_test_group(
         "transactions/escrow/appeal_escrow.json",
         "appeal_escrow_success",
@@ -232,7 +232,7 @@ def test_submit_verdict_success(state_test_group) -> None:
             }
         ],
     }
-    tx = _mk_escrow_tx(sender, nonce=5, tx_type=TransactionType.SUBMIT_VERDICT, payload=payload, fee=1_000)
+    tx = _mk_escrow_tx(sender, nonce=5, tx_type=TransactionType.SUBMIT_VERDICT, payload=payload, fee=100_000)
     state_test_group(
         "transactions/escrow/submit_verdict.json",
         "submit_verdict_success",

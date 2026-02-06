@@ -36,15 +36,15 @@ def _mk_tx(sender: bytes, receiver: bytes, nonce: int, amount: int, fee: int) ->
         fee=fee,
         fee_type=FeeType.TOS,
         nonce=nonce,
-        reference_hash=_hash(9),
-        reference_topoheight=100,
+        reference_hash=_hash(0),
+        reference_topoheight=0,
         signature=bytes(64),
     )
 
 
 def test_template_transfer_success(state_test_group) -> None:
     state = _base_state()
-    tx = _mk_tx(ALICE, BOB, nonce=1, amount=10_000, fee=1_000)
+    tx = _mk_tx(ALICE, BOB, nonce=1, amount=10_000, fee=100_000)
     state_test_group(
         "transactions/template/example.json",
         "template_transfer_success",
@@ -55,7 +55,7 @@ def test_template_transfer_success(state_test_group) -> None:
 
 def test_template_transfer_insufficient_balance(state_test_group) -> None:
     state = _base_state()
-    tx = _mk_tx(ALICE, BOB, nonce=1, amount=10_000_000, fee=1_000)
+    tx = _mk_tx(ALICE, BOB, nonce=1, amount=10_000_000, fee=100_000)
     state_test_group(
         "transactions/template/example.json",
         "template_transfer_insufficient_balance",

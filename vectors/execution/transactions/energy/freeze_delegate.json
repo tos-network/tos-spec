@@ -55,12 +55,12 @@
             "record_index": null,
             "delegatee_address": null
           },
-          "fee": 1000,
+          "fee": 100000,
           "fee_type": 0,
           "nonce": 5,
-          "reference_hash": "0909090909090909090909090909090909090909090909090909090909090909",
-          "reference_topoheight": 100,
-          "signature": "f718fbe5a1472d64ed9122f373dea5e7df16400f5cfcf2c5bcfbe9a221244b01c06e7f6272c6465ba685949ad84744af9eb3870a41887502236cb5fcf3a8c20c"
+          "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+          "reference_topoheight": 0,
+          "signature": "a62cf7af60e0565b05f12667426f6877f1738815d51cc32fcd61d56a2dd9f607518c75950f789e8f9e13b9cb4b5e1d9cde55fd6fdfb1fb8be55541aee4452c0d"
         }
       },
       "expected": {
@@ -145,12 +145,12 @@
             "record_index": null,
             "delegatee_address": null
           },
-          "fee": 1000,
+          "fee": 100000,
           "fee_type": 0,
           "nonce": 5,
-          "reference_hash": "0909090909090909090909090909090909090909090909090909090909090909",
-          "reference_topoheight": 100,
-          "signature": "cc222616f357de7b32dfb6e2a72ea41c239b672616fc5825e5096de924c5210250ae194e20aefc7dfb16e9bc31726a96fa6566f2a561b256f78ba0cc583ec301"
+          "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+          "reference_topoheight": 0,
+          "signature": "70fc740afb83e3366caafbe6b29657f0b345c6766bafc1bca862b89f8e053806f570e7a293b7548a00e07a6df4fa44bc50a2c0cbc4032e1a4ff856a4956efe0c"
         }
       },
       "expected": {
@@ -221,12 +221,12 @@
             "record_index": null,
             "delegatee_address": null
           },
-          "fee": 1000,
+          "fee": 100000,
           "fee_type": 0,
           "nonce": 5,
-          "reference_hash": "0909090909090909090909090909090909090909090909090909090909090909",
-          "reference_topoheight": 100,
-          "signature": "5bdd1ad20bbe535ac5c37814a185e9c3cb5837644c334e10e212309f362d3401320bfa29bd47d31fb021347830b0779cca27cdad329e5247c797c07673d9dc04"
+          "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+          "reference_topoheight": 0,
+          "signature": "e123724ff4f23dc49d22a5b43d5851e98c9f89f95d51ab1fc2c9aa52d31fb6061f435cf883c33e97bca2481facc9de898ae67839c729385944ea08b1e67ea205"
         }
       },
       "expected": {

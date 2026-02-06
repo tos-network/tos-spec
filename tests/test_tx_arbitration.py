@@ -46,8 +46,8 @@ def _mk_arb_tx(
         fee=fee,
         fee_type=FeeType.TOS,
         nonce=nonce,
-        reference_hash=_hash(9),
-        reference_topoheight=100,
+        reference_hash=_hash(0),
+        reference_topoheight=0,
         signature=bytes(64),
     )
 
@@ -66,7 +66,7 @@ def test_register_arbiter_success(state_test_group) -> None:
         "max_escrow_value": 1000 * COIN_VALUE,
         "fee_basis_points": 250,
     }
-    tx = _mk_arb_tx(sender, nonce=5, tx_type=TransactionType.REGISTER_ARBITER, payload=payload, fee=1_000)
+    tx = _mk_arb_tx(sender, nonce=5, tx_type=TransactionType.REGISTER_ARBITER, payload=payload, fee=100_000)
     state_test_group(
         "transactions/arbitration/register_arbiter.json",
         "register_arbiter_success",
@@ -86,7 +86,7 @@ def test_register_arbiter_low_stake(state_test_group) -> None:
         "max_escrow_value": 10 * COIN_VALUE,
         "fee_basis_points": 100,
     }
-    tx = _mk_arb_tx(sender, nonce=5, tx_type=TransactionType.REGISTER_ARBITER, payload=payload, fee=1_000)
+    tx = _mk_arb_tx(sender, nonce=5, tx_type=TransactionType.REGISTER_ARBITER, payload=payload, fee=100_000)
     state_test_group(
         "transactions/arbitration/register_arbiter.json",
         "register_arbiter_low_stake",
@@ -105,7 +105,7 @@ def test_update_arbiter_success(state_test_group) -> None:
         "name": "ArbiterAliceUpdated",
         "fee_basis_points": 300,
     }
-    tx = _mk_arb_tx(sender, nonce=5, tx_type=TransactionType.UPDATE_ARBITER, payload=payload, fee=1_000)
+    tx = _mk_arb_tx(sender, nonce=5, tx_type=TransactionType.UPDATE_ARBITER, payload=payload, fee=100_000)
     state_test_group(
         "transactions/arbitration/update_arbiter.json",
         "update_arbiter_success",
@@ -121,7 +121,7 @@ def test_request_arbiter_exit(state_test_group) -> None:
     state = _base_state()
     sender = ALICE
     payload = {}
-    tx = _mk_arb_tx(sender, nonce=5, tx_type=TransactionType.REQUEST_ARBITER_EXIT, payload=payload, fee=1_000)
+    tx = _mk_arb_tx(sender, nonce=5, tx_type=TransactionType.REQUEST_ARBITER_EXIT, payload=payload, fee=100_000)
     state_test_group(
         "transactions/arbitration/request_arbiter_exit.json",
         "request_arbiter_exit",
@@ -137,7 +137,7 @@ def test_withdraw_arbiter_stake_success(state_test_group) -> None:
     state = _base_state()
     sender = ALICE
     payload = {"amount": MIN_ARBITER_STAKE}
-    tx = _mk_arb_tx(sender, nonce=5, tx_type=TransactionType.WITHDRAW_ARBITER_STAKE, payload=payload, fee=1_000)
+    tx = _mk_arb_tx(sender, nonce=5, tx_type=TransactionType.WITHDRAW_ARBITER_STAKE, payload=payload, fee=100_000)
     state_test_group(
         "transactions/arbitration/withdraw_arbiter_stake.json",
         "withdraw_arbiter_stake_success",
@@ -153,7 +153,7 @@ def test_cancel_arbiter_exit(state_test_group) -> None:
     state = _base_state()
     sender = ALICE
     payload = {}
-    tx = _mk_arb_tx(sender, nonce=5, tx_type=TransactionType.CANCEL_ARBITER_EXIT, payload=payload, fee=1_000)
+    tx = _mk_arb_tx(sender, nonce=5, tx_type=TransactionType.CANCEL_ARBITER_EXIT, payload=payload, fee=100_000)
     state_test_group(
         "transactions/arbitration/cancel_arbiter_exit.json",
         "cancel_arbiter_exit",
@@ -186,7 +186,7 @@ def test_slash_arbiter_success(state_test_group) -> None:
             },
         ],
     }
-    tx = _mk_arb_tx(sender, nonce=5, tx_type=TransactionType.SLASH_ARBITER, payload=payload, fee=1_000)
+    tx = _mk_arb_tx(sender, nonce=5, tx_type=TransactionType.SLASH_ARBITER, payload=payload, fee=100_000)
     state_test_group(
         "transactions/arbitration/slash_arbiter.json",
         "slash_arbiter_success",
@@ -210,7 +210,7 @@ def test_commit_arbitration_open(state_test_group) -> None:
         "opener_signature": _sig(30),
         "arbitration_open_payload": b"\x00" * 64,
     }
-    tx = _mk_arb_tx(sender, nonce=5, tx_type=TransactionType.COMMIT_ARBITRATION_OPEN, payload=payload, fee=1_000)
+    tx = _mk_arb_tx(sender, nonce=5, tx_type=TransactionType.COMMIT_ARBITRATION_OPEN, payload=payload, fee=100_000)
     state_test_group(
         "transactions/arbitration/commit_arbitration_open.json",
         "commit_arbitration_open",
@@ -231,7 +231,7 @@ def test_commit_vote_request(state_test_group) -> None:
         "coordinator_signature": _sig(31),
         "vote_request_payload": b"\x01" * 32,
     }
-    tx = _mk_arb_tx(sender, nonce=5, tx_type=TransactionType.COMMIT_VOTE_REQUEST, payload=payload, fee=1_000)
+    tx = _mk_arb_tx(sender, nonce=5, tx_type=TransactionType.COMMIT_VOTE_REQUEST, payload=payload, fee=100_000)
     state_test_group(
         "transactions/arbitration/commit_vote_request.json",
         "commit_vote_request",
@@ -251,7 +251,7 @@ def test_commit_selection_commitment(state_test_group) -> None:
         "selection_commitment_id": _hash(65),
         "selection_commitment_payload": b"\x02" * 32,
     }
-    tx = _mk_arb_tx(sender, nonce=5, tx_type=TransactionType.COMMIT_SELECTION_COMMITMENT, payload=payload, fee=1_000)
+    tx = _mk_arb_tx(sender, nonce=5, tx_type=TransactionType.COMMIT_SELECTION_COMMITMENT, payload=payload, fee=100_000)
     state_test_group(
         "transactions/arbitration/commit_selection_commitment.json",
         "commit_selection_commitment",
@@ -273,7 +273,7 @@ def test_commit_juror_vote(state_test_group) -> None:
         "juror_signature": _sig(35),
         "vote_payload": b"\x03" * 16,
     }
-    tx = _mk_arb_tx(sender, nonce=5, tx_type=TransactionType.COMMIT_JUROR_VOTE, payload=payload, fee=1_000)
+    tx = _mk_arb_tx(sender, nonce=5, tx_type=TransactionType.COMMIT_JUROR_VOTE, payload=payload, fee=100_000)
     state_test_group(
         "transactions/arbitration/commit_juror_vote.json",
         "commit_juror_vote",

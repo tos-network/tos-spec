@@ -42,12 +42,12 @@
           "source": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
           "tx_type": "dispute_escrow",
           "payload": null,
-          "fee": 1000,
+          "fee": 100000,
           "fee_type": 0,
           "nonce": 5,
-          "reference_hash": "0909090909090909090909090909090909090909090909090909090909090909",
-          "reference_topoheight": 100,
-          "signature": "30a69279a276ba5e16a8a2f664f97cdecb7b997c16701f922b5b07dc73516c024b16651924b9319f6b153d84d7a60ec6c72864ba0a6393ba48f3753347e0ef0e"
+          "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+          "reference_topoheight": 0,
+          "signature": "1f3e67a4e9f2ed54a9153f329bab1f53d0fd2c422f8dcf13061c4bb9e798b90c40d6e7a835e0425f51f452b6edb2970438f7ffb57278dd130a0a8261ae035109"
         }
       },
       "expected": {

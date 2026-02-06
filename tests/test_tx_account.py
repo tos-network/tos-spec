@@ -36,8 +36,8 @@ def _mk_multisig(
         fee=fee,
         fee_type=FeeType.TOS,
         nonce=nonce,
-        reference_hash=_hash(9),
-        reference_topoheight=100,
+        reference_hash=_hash(0),
+        reference_topoheight=0,
         signature=bytes(64),
     )
 
@@ -54,8 +54,8 @@ def _mk_agent_account(
         fee=fee,
         fee_type=FeeType.TOS,
         nonce=nonce,
-        reference_hash=_hash(9),
-        reference_topoheight=100,
+        reference_hash=_hash(0),
+        reference_topoheight=0,
         signature=bytes(64),
     )
 
@@ -66,7 +66,7 @@ def _mk_agent_account(
 def test_multisig_setup(state_test_group) -> None:
     state = _base_state()
     participants = [BOB, bytes([3]) * 32, bytes([4]) * 32]
-    tx = _mk_multisig(ALICE, nonce=5, threshold=2, participants=participants, fee=1_000)
+    tx = _mk_multisig(ALICE, nonce=5, threshold=2, participants=participants, fee=100_000)
     state_test_group(
         "transactions/account/multisig.json", "multisig_setup", state, tx
     )
@@ -74,7 +74,7 @@ def test_multisig_setup(state_test_group) -> None:
 
 def test_multisig_threshold_zero(state_test_group) -> None:
     state = _base_state()
-    tx = _mk_multisig(ALICE, nonce=5, threshold=0, participants=[], fee=1_000)
+    tx = _mk_multisig(ALICE, nonce=5, threshold=0, participants=[], fee=100_000)
     state_test_group(
         "transactions/account/multisig.json", "multisig_threshold_zero", state, tx
     )
@@ -82,7 +82,7 @@ def test_multisig_threshold_zero(state_test_group) -> None:
 
 def test_multisig_single_participant(state_test_group) -> None:
     state = _base_state()
-    tx = _mk_multisig(ALICE, nonce=5, threshold=1, participants=[BOB], fee=1_000)
+    tx = _mk_multisig(ALICE, nonce=5, threshold=1, participants=[BOB], fee=100_000)
     state_test_group(
         "transactions/account/multisig.json",
         "multisig_single_participant",
@@ -101,7 +101,7 @@ def test_agent_account_register(state_test_group) -> None:
         "controller": BOB,
         "policy_hash": _hash(3),
     }
-    tx = _mk_agent_account(ALICE, nonce=5, payload=payload, fee=1_000)
+    tx = _mk_agent_account(ALICE, nonce=5, payload=payload, fee=100_000)
     state_test_group(
         "transactions/account/agent_account.json",
         "agent_account_register",
@@ -116,7 +116,7 @@ def test_agent_account_update_policy(state_test_group) -> None:
         "variant": "update_policy",
         "policy_hash": _hash(4),
     }
-    tx = _mk_agent_account(ALICE, nonce=5, payload=payload, fee=1_000)
+    tx = _mk_agent_account(ALICE, nonce=5, payload=payload, fee=100_000)
     state_test_group(
         "transactions/account/agent_account.json",
         "agent_account_update_policy",
@@ -131,7 +131,7 @@ def test_agent_account_rotate_controller(state_test_group) -> None:
         "variant": "rotate_controller",
         "new_controller": bytes([5]) * 32,
     }
-    tx = _mk_agent_account(ALICE, nonce=5, payload=payload, fee=1_000)
+    tx = _mk_agent_account(ALICE, nonce=5, payload=payload, fee=100_000)
     state_test_group(
         "transactions/account/agent_account.json",
         "agent_account_rotate_controller",

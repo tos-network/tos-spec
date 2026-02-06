@@ -29,12 +29,12 @@
         "source": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
         "tx_type": "commit_arbitration_open",
         "payload": null,
-        "fee": 1000,
+        "fee": 100000,
         "fee_type": 0,
         "nonce": 5,
-        "reference_hash": "0909090909090909090909090909090909090909090909090909090909090909",
-        "reference_topoheight": 100,
-        "signature": "1084db32ea5322b956f57e7e34203eef94aa0240d815e322862dbd15a2d4960dfbe5768cdc72e01313670f5ef1725555419f81892457e74668397b502295a40f"
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "95bca4d37d05a31ada7d8ee9a1596e3b9f68fae3ac554af9728b5a78ec2d7f0f1fd1651f44c629c6cf71aa73299b523671a20aac219cf24d2c32c2159079b50c"
       },
       "expected": {
         "ok": false,

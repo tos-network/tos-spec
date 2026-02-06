@@ -32,12 +32,12 @@
           "asset": "0000000000000000000000000000000000000000000000000000000000000000",
           "amount": 100000
         },
-        "fee": 1000,
+        "fee": 100000,
         "fee_type": 0,
         "nonce": 5,
-        "reference_hash": "0909090909090909090909090909090909090909090909090909090909090909",
-        "reference_topoheight": 100,
-        "signature": "1841adad1b0130adeb4a01d1d21174b01262878ced7f6469268059a41ae9e80c8c030cf21fab9c0aa5816494a869db76f1683b7e2be753d75a51b27b34727409"
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "aa886555d27770febd5be8255230a0a16967dd8d3997695115d3e8e27959dd074422e1bc219a59a1c93da8b0b3f20df9b73648ddb02b5df44fdce124c57f590e"
       },
       "expected": {
         "ok": true,
@@ -54,7 +54,7 @@
           "accounts": [
             {
               "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
-              "balance": 899000,
+              "balance": 800000,
               "nonce": 6,
               "frozen": 0,
               "energy": 0,
@@ -97,12 +97,12 @@
           "asset": "0000000000000000000000000000000000000000000000000000000000000000",
           "amount": 2000000
         },
-        "fee": 1000,
+        "fee": 100000,
         "fee_type": 0,
         "nonce": 5,
-        "reference_hash": "0909090909090909090909090909090909090909090909090909090909090909",
-        "reference_topoheight": 100,
-        "signature": "6c22d84f0485b650dc96caab326a20c6bc3c1a14cd23118121c43b85a514f00cffa13645f5ab836506d42d68cf768942fa507063a52821300d7df8a6e9c80206"
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "3f7d5e2a5d183cc1e8c5a4543a0471d20da0a3ab74d687414d0594fe4544680d04abfb4c6fe6bc66e9beb687f8e627d329aacd9b77c6c720943a6f390c52bb0a"
       },
       "expected": {
         "ok": false,
@@ -119,7 +119,7 @@
           "accounts": [
             {
               "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
-              "balance": 999000,
+              "balance": 900000,
               "nonce": 6,
               "frozen": 0,
               "energy": 0,
@@ -162,12 +162,12 @@
           "asset": "0000000000000000000000000000000000000000000000000000000000000000",
           "amount": 0
         },
-        "fee": 1000,
+        "fee": 100000,
         "fee_type": 0,
         "nonce": 5,
-        "reference_hash": "0909090909090909090909090909090909090909090909090909090909090909",
-        "reference_topoheight": 100,
-        "signature": "1207c54cd3a66debcbd86e555f22d1f383eb974b3b5e01fcf7cdf1d5f5827806f6fcbcf2706a3e5d810c758eecf58a19470fe2de819a6ce1b37c539ab656a005"
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "248406a9a520e74beb3c0cdaadd5075f4b3ed1dd5126004ccefb41916d1df4092b2d981a04b2b7749dabd0c0c9f829296cb9f71f5778933da28e8ac507f7a508"
       },
       "expected": {
         "ok": false,

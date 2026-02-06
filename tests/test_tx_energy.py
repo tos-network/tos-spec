@@ -46,8 +46,8 @@ def _mk_freeze_tos(
         fee=fee,
         fee_type=FeeType.TOS,
         nonce=nonce,
-        reference_hash=_hash(9),
-        reference_topoheight=100,
+        reference_hash=_hash(0),
+        reference_topoheight=0,
         signature=bytes(64),
     )
 
@@ -72,8 +72,8 @@ def _mk_freeze_delegate(
         fee=fee,
         fee_type=FeeType.TOS,
         nonce=nonce,
-        reference_hash=_hash(9),
-        reference_topoheight=100,
+        reference_hash=_hash(0),
+        reference_topoheight=0,
         signature=bytes(64),
     )
 
@@ -98,8 +98,8 @@ def _mk_unfreeze_tos(
         fee=fee,
         fee_type=FeeType.TOS,
         nonce=nonce,
-        reference_hash=_hash(9),
-        reference_topoheight=100,
+        reference_hash=_hash(0),
+        reference_topoheight=0,
         signature=bytes(64),
     )
 
@@ -114,8 +114,8 @@ def _mk_withdraw_unfrozen(sender: bytes, nonce: int, fee: int) -> Transaction:
         fee=fee,
         fee_type=FeeType.TOS,
         nonce=nonce,
-        reference_hash=_hash(9),
-        reference_topoheight=100,
+        reference_hash=_hash(0),
+        reference_topoheight=0,
         signature=bytes(64),
     )
 
@@ -126,14 +126,14 @@ def _mk_withdraw_unfrozen(sender: bytes, nonce: int, fee: int) -> Transaction:
 def test_freeze_tos_success(state_test_group) -> None:
     state = _base_state()
     sender = ALICE
-    tx = _mk_freeze_tos(sender, nonce=5, amount=MIN_FREEZE_TOS_AMOUNT, days=7, fee=1_000)
+    tx = _mk_freeze_tos(sender, nonce=5, amount=MIN_FREEZE_TOS_AMOUNT, days=7, fee=100_000)
     state_test_group("transactions/energy/freeze_tos.json", "freeze_tos_success", state, tx)
 
 
 def test_freeze_tos_insufficient_balance(state_test_group) -> None:
     state = _base_state()
     sender = ALICE
-    tx = _mk_freeze_tos(sender, nonce=5, amount=200 * COIN_VALUE, days=7, fee=1_000)
+    tx = _mk_freeze_tos(sender, nonce=5, amount=200 * COIN_VALUE, days=7, fee=100_000)
     state_test_group(
         "transactions/energy/freeze_tos.json",
         "freeze_tos_insufficient_balance",
@@ -145,7 +145,7 @@ def test_freeze_tos_insufficient_balance(state_test_group) -> None:
 def test_freeze_tos_zero_amount(state_test_group) -> None:
     state = _base_state()
     sender = ALICE
-    tx = _mk_freeze_tos(sender, nonce=5, amount=0, days=7, fee=1_000)
+    tx = _mk_freeze_tos(sender, nonce=5, amount=0, days=7, fee=100_000)
     state_test_group(
         "transactions/energy/freeze_tos.json", "freeze_tos_zero_amount", state, tx
     )
@@ -160,7 +160,7 @@ def test_freeze_delegate_success(state_test_group) -> None:
     delegatee = BOB
     state.accounts[delegatee] = AccountState(address=delegatee, balance=0, nonce=0)
     entries = [DelegationEntry(delegatee=delegatee, amount=COIN_VALUE)]
-    tx = _mk_freeze_delegate(sender, nonce=5, delegatees=entries, days=7, fee=1_000)
+    tx = _mk_freeze_delegate(sender, nonce=5, delegatees=entries, days=7, fee=100_000)
     state_test_group(
         "transactions/energy/freeze_delegate.json",
         "freeze_delegate_success",
@@ -173,7 +173,7 @@ def test_freeze_delegate_self(state_test_group) -> None:
     state = _base_state()
     sender = ALICE
     entries = [DelegationEntry(delegatee=sender, amount=COIN_VALUE)]
-    tx = _mk_freeze_delegate(sender, nonce=5, delegatees=entries, days=7, fee=1_000)
+    tx = _mk_freeze_delegate(sender, nonce=5, delegatees=entries, days=7, fee=100_000)
     state_test_group(
         "transactions/energy/freeze_delegate.json",
         "freeze_delegate_self",
@@ -185,7 +185,7 @@ def test_freeze_delegate_self(state_test_group) -> None:
 def test_freeze_delegate_empty(state_test_group) -> None:
     state = _base_state()
     sender = ALICE
-    tx = _mk_freeze_delegate(sender, nonce=5, delegatees=[], days=7, fee=1_000)
+    tx = _mk_freeze_delegate(sender, nonce=5, delegatees=[], days=7, fee=100_000)
     state_test_group(
         "transactions/energy/freeze_delegate.json",
         "freeze_delegate_empty",
@@ -225,7 +225,7 @@ def test_unfreeze_tos_insufficient_frozen(state_test_group) -> None:
 def test_unfreeze_tos_zero_amount(state_test_group) -> None:
     state = _base_state()
     sender = ALICE
-    tx = _mk_unfreeze_tos(sender, nonce=5, amount=0, from_delegation=False, fee=1_000)
+    tx = _mk_unfreeze_tos(sender, nonce=5, amount=0, from_delegation=False, fee=100_000)
     state_test_group(
         "transactions/energy/unfreeze_tos.json",
         "unfreeze_tos_zero_amount",
@@ -240,7 +240,7 @@ def test_unfreeze_tos_zero_amount(state_test_group) -> None:
 def test_withdraw_unfrozen_success(state_test_group) -> None:
     state = _base_state()
     sender = ALICE
-    tx = _mk_withdraw_unfrozen(sender, nonce=5, fee=1_000)
+    tx = _mk_withdraw_unfrozen(sender, nonce=5, fee=100_000)
     state_test_group(
         "transactions/energy/withdraw_unfrozen.json",
         "withdraw_unfrozen_success",
@@ -253,7 +253,7 @@ def test_withdraw_unfrozen_nothing_pending(state_test_group) -> None:
     state = _base_state()
     sender = ALICE
     state.accounts[sender].frozen = 0
-    tx = _mk_withdraw_unfrozen(sender, nonce=5, fee=1_000)
+    tx = _mk_withdraw_unfrozen(sender, nonce=5, fee=100_000)
     state_test_group(
         "transactions/energy/withdraw_unfrozen.json",
         "withdraw_unfrozen_nothing_pending",

@@ -44,9 +44,9 @@
           "fee": 1000,
           "fee_type": 0,
           "nonce": 5,
-          "reference_hash": "0909090909090909090909090909090909090909090909090909090909090909",
-          "reference_topoheight": 100,
-          "signature": "83750de2a8c2c95c851aadd03bf93c7544c2e2e57af91e48d77af0d1c31564020fdb02cd9194a273e88a3bc50925772099fbcee6f72ce9adaa6f80d7d00b4906"
+          "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+          "reference_topoheight": 0,
+          "signature": "d5f6a86383911715d4de3c071d96f14044a752aaef5cae6ac04704448fe6f30aac818b9f61927c5faaf0f916fcd6459ad09a98800cc431512ecb9f620d6bff06"
         }
       },
       "expected": {
@@ -120,9 +120,9 @@
           "fee": 1000,
           "fee_type": 0,
           "nonce": 5,
-          "reference_hash": "0909090909090909090909090909090909090909090909090909090909090909",
-          "reference_topoheight": 100,
-          "signature": "424e6663784360bc722195f382638c487a4c6057ad707ee8d04a36bcc26b54041cf58dfa94984abe11fe02aecff827bd90a3269800a9f9012f62da97cbd8c700"
+          "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+          "reference_topoheight": 0,
+          "signature": "8e352c0d81d6eb06cacec722652c94b91ba23233a1b6dd632276e091c971890bceaa524a63f790af9e3ead89ccb953aa27623632ee2512fdc94de290000d4a06"
         }
       },
       "expected": {
@@ -193,12 +193,12 @@
             "record_index": null,
             "delegatee_address": null
           },
-          "fee": 1000,
+          "fee": 100000,
           "fee_type": 0,
           "nonce": 5,
-          "reference_hash": "0909090909090909090909090909090909090909090909090909090909090909",
-          "reference_topoheight": 100,
-          "signature": "db27c4445aec7ba95c01f3858bfb741f42ae6d863e81207b4d9445d5cecb4a0916f67b4ce61ba34bd8893e0e0618ab22e347716d1f0e2c93025bbe95faed790e"
+          "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+          "reference_topoheight": 0,
+          "signature": "effb3f9aa5eaed815b4ddad46d17a9d98b4faa1f25762518ab200cadb9764d0378540c6a7046722c2c38c717c67b213a6ea573963749b7aeed9593816681b509"
         }
       },
       "expected": {

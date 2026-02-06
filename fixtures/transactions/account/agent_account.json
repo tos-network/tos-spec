@@ -29,12 +29,12 @@
         "source": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
         "tx_type": "agent_account",
         "payload": null,
-        "fee": 1000,
+        "fee": 100000,
         "fee_type": 0,
         "nonce": 5,
-        "reference_hash": "0909090909090909090909090909090909090909090909090909090909090909",
-        "reference_topoheight": 100,
-        "signature": "d148d3a478a1d0d643027e830c30fcd018233d498bb09fb854ea5fbcd462650e12f7981d7445375a29046a0eaa353b8a4f06ef5f13abaf5292cf0f55efc6ff02"
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "f3a1393943ad3ba3f89b614171c1ae260109e39a3f54bf39fc8f294636b1cc0bbca053b4ace6a9b9a17b8eb763d80f77f8eb45c92baf410749ed29858b89890d"
       },
       "expected": {
         "ok": false,
@@ -91,12 +91,12 @@
         "source": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
         "tx_type": "agent_account",
         "payload": null,
-        "fee": 1000,
+        "fee": 100000,
         "fee_type": 0,
         "nonce": 5,
-        "reference_hash": "0909090909090909090909090909090909090909090909090909090909090909",
-        "reference_topoheight": 100,
-        "signature": "e001829dea15f30ecb13bb36ea32884e2d33e4847466d9dbd78f11b392d5ff0b94d9b3066f4df3a0e10d682fb1186066515e8c8bce25b7acc2543e86b1207309"
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "51b8e6dcaec1aea54cafd2212e01f3dfd5cca6d2ec8ddef7d830103070d6eb0d5c2469717e978560d9e7e84a9f5aef8d8a6f7ef7bcf5c9a6b6b4143862ebc206"
       },
       "expected": {
         "ok": false,
@@ -153,12 +153,12 @@
         "source": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
         "tx_type": "agent_account",
         "payload": null,
-        "fee": 1000,
+        "fee": 100000,
         "fee_type": 0,
         "nonce": 5,
-        "reference_hash": "0909090909090909090909090909090909090909090909090909090909090909",
-        "reference_topoheight": 100,
-        "signature": "ba5be3994c2ec58be8f97d26bd4697c570e1e1485c1d55a076be37323285a40ee08352cda13d01df7f0317cf01370af34c8261e004c7809f82412c9a7ef5a50f"
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "4675332c73b8e303c57249abef6003d714d23125231fc2d82121a6f298673d01485414ccd5d72e85a9286d79fedf51331c9bb1d451d4b941aa09d856c20e0502"
       },
       "expected": {
         "ok": false,

@@ -29,12 +29,12 @@
         "source": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
         "tx_type": "slash_arbiter",
         "payload": null,
-        "fee": 1000,
+        "fee": 100000,
         "fee_type": 0,
         "nonce": 5,
-        "reference_hash": "0909090909090909090909090909090909090909090909090909090909090909",
-        "reference_topoheight": 100,
-        "signature": "d1941afb41c5acb0dc31fecdb7097e8c30e634f52545e3ad84dff8bd36c60a03d84be4f6ba1fd0eaa95ed27e3389ed1f4779a8805788d8e707cb3c275a7c5801"
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "83a931facab16512ce835e46758dfa3d981e8a808eece8d890e991ebc1a9b70bfa73ff43066afdea35bc02302547b9a7385168de8b7ce41f6f1166524bf3f200"
       },
       "expected": {
         "ok": false,

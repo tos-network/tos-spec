@@ -35,15 +35,15 @@ def _mk_bind_referrer(sender: bytes, nonce: int, referrer: bytes, fee: int) -> T
         fee=fee,
         fee_type=FeeType.TOS,
         nonce=nonce,
-        reference_hash=_hash(9),
-        reference_topoheight=100,
+        reference_hash=_hash(0),
+        reference_topoheight=0,
         signature=bytes(64),
     )
 
 
 def test_bind_referrer_success(state_test_group) -> None:
     state = _base_state()
-    tx = _mk_bind_referrer(ALICE, nonce=5, referrer=BOB, fee=1_000)
+    tx = _mk_bind_referrer(ALICE, nonce=5, referrer=BOB, fee=100_000)
     state_test_group(
         "transactions/referral/bind_referrer.json",
         "bind_referrer_success",
@@ -54,7 +54,7 @@ def test_bind_referrer_success(state_test_group) -> None:
 
 def test_bind_referrer_self(state_test_group) -> None:
     state = _base_state()
-    tx = _mk_bind_referrer(ALICE, nonce=5, referrer=ALICE, fee=1_000)
+    tx = _mk_bind_referrer(ALICE, nonce=5, referrer=ALICE, fee=100_000)
     state_test_group(
         "transactions/referral/bind_referrer.json",
         "bind_referrer_self",
@@ -66,7 +66,7 @@ def test_bind_referrer_self(state_test_group) -> None:
 def test_bind_referrer_not_found(state_test_group) -> None:
     state = _base_state()
     unknown = bytes([99]) * 32
-    tx = _mk_bind_referrer(ALICE, nonce=5, referrer=unknown, fee=1_000)
+    tx = _mk_bind_referrer(ALICE, nonce=5, referrer=unknown, fee=100_000)
     state_test_group(
         "transactions/referral/bind_referrer.json",
         "bind_referrer_not_found",

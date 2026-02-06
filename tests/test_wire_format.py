@@ -29,11 +29,11 @@ def test_transfer_wire_vector(wire_vector) -> None:
         source=sender,
         tx_type=TransactionType.TRANSFERS,
         payload=[TransferPayload(asset=_hash(0), destination=receiver, amount=100_000)],
-        fee=1_000,
+        fee=100_000,
         fee_type=FeeType.TOS,
         nonce=5,
-        reference_hash=_hash(9),
-        reference_topoheight=100,
+        reference_hash=_hash(0),
+        reference_topoheight=0,
         signature=bytes(64),
     )
 
@@ -81,8 +81,8 @@ def test_energy_freeze_wire_vector(wire_vector) -> None:
         fee=0,
         fee_type=FeeType.ENERGY,
         nonce=1,
-        reference_hash=_hash(9),
-        reference_topoheight=100,
+        reference_hash=_hash(0),
+        reference_topoheight=0,
         signature=bytes(64),
     )
 

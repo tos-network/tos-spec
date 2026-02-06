@@ -42,12 +42,12 @@
           "source": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
           "tx_type": "unshield_transfers",
           "payload": null,
-          "fee": 1000,
+          "fee": 100000,
           "fee_type": 0,
           "nonce": 5,
-          "reference_hash": "0909090909090909090909090909090909090909090909090909090909090909",
-          "reference_topoheight": 100,
-          "signature": "6a0732aa55d32d14e6ddd9f38c811c8d6790f6239a792654ab305d38345bc4004792e19e6204feceadbb0d40f8a1644f982fa23ac02397848447de40d65c4708"
+          "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+          "reference_topoheight": 0,
+          "signature": "bbedac8d2912a4911e905777386bf33da228af121608bac37d0468eaf5c2180727562fd76d1f1e96ca31773ca10d8b8eafec2f04314ed98570fb4ff751ab8105"
         }
       },
       "expected": {

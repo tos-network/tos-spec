@@ -34,25 +34,25 @@ def _mk_burn(sender: bytes, nonce: int, amount: int, fee: int) -> Transaction:
         fee=fee,
         fee_type=FeeType.TOS,
         nonce=nonce,
-        reference_hash=_hash(9),
-        reference_topoheight=100,
+        reference_hash=_hash(0),
+        reference_topoheight=0,
         signature=bytes(64),
     )
 
 
 def test_burn_success(state_test_group) -> None:
     state = _base_state()
-    tx = _mk_burn(ALICE, nonce=5, amount=100_000, fee=1_000)
+    tx = _mk_burn(ALICE, nonce=5, amount=100_000, fee=100_000)
     state_test_group("transactions/core/burn.json", "burn_success", state, tx)
 
 
 def test_burn_insufficient_balance(state_test_group) -> None:
     state = _base_state()
-    tx = _mk_burn(ALICE, nonce=5, amount=2_000_000, fee=1_000)
+    tx = _mk_burn(ALICE, nonce=5, amount=2_000_000, fee=100_000)
     state_test_group("transactions/core/burn.json", "burn_insufficient_balance", state, tx)
 
 
 def test_burn_invalid_amount(state_test_group) -> None:
     state = _base_state()
-    tx = _mk_burn(ALICE, nonce=5, amount=0, fee=1_000)
+    tx = _mk_burn(ALICE, nonce=5, amount=0, fee=100_000)
     state_test_group("transactions/core/burn.json", "burn_invalid_amount", state, tx)

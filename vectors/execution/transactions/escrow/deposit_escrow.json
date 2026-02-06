@@ -42,12 +42,12 @@
           "source": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
           "tx_type": "deposit_escrow",
           "payload": null,
-          "fee": 1000,
+          "fee": 100000,
           "fee_type": 0,
           "nonce": 5,
-          "reference_hash": "0909090909090909090909090909090909090909090909090909090909090909",
-          "reference_topoheight": 100,
-          "signature": "8c3b2111d4bbf722f665ede254eda571fc777741003c3729a3e1711a8cf9560b1f5271cb4593d14155f92a17559b9f7e97d83ecd4e3cab389967a50a68a32702"
+          "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+          "reference_topoheight": 0,
+          "signature": "2e294172cba19a22a2fc6ef913ef510d231589cbd7f5a7a5542d7578ea750f014ba92f0389f1c2ca3e86f9ea8b00ea4649ba4d3ecddb2aeb9c87d192e0003300"
         }
       },
       "expected": {

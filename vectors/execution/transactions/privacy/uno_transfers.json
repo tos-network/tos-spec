@@ -45,9 +45,9 @@
           "fee": 0,
           "fee_type": 2,
           "nonce": 5,
-          "reference_hash": "0909090909090909090909090909090909090909090909090909090909090909",
-          "reference_topoheight": 100,
-          "signature": "4c3c2be8375da5d332ea3d4bd3378ccc92f960e8199100f623b0c0ef7323e70a23d6a613bdc4674995c6842d689778e53237ca40bd82fd0e02660d499edc3900"
+          "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+          "reference_topoheight": 0,
+          "signature": "c97424ec5cd76b730d3176588f20398ace555cc8fc8399951deecd1735e79702280091925757b4719a4ed05ede9bd60fbf6ccc19698139921fd0c9b6fe7cfc0e"
         }
       },
       "expected": {
@@ -122,9 +122,9 @@
           "fee": 0,
           "fee_type": 2,
           "nonce": 5,
-          "reference_hash": "0909090909090909090909090909090909090909090909090909090909090909",
-          "reference_topoheight": 100,
-          "signature": "bd0ed50230ce61fe9328e1ae137b5f7150bd3ae5f1a9edb2b3c5f2226593170a0759a545b3050b581bd47c3c70e7490406cd8a236245eafe93d731793044670c"
+          "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+          "reference_topoheight": 0,
+          "signature": "9ed2ff7b4282acb8def0d2b199885d6db52930de52261894b10d18a6d362b308882335686c70483fb0e34fae39b72cc1f5d0fcfada99cdb1df08346821785005"
         }
       },
       "expected": {
