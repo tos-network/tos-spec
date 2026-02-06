@@ -19,75 +19,75 @@ ordered by implementation priority for converting into executable Python spec te
 
 These have `encoding.py` support and `state_transition.py` dispatch. Closest to done.
 
-- [ ] `transactions/core/burn.yaml` — `tx/core.py` — Partial (test exists)
-- [ ] `transactions/energy/freeze_tos.yaml` — `tx/energy.py` — Stub
-- [ ] `transactions/energy/freeze_delegate.yaml` — `tx/energy.py` — Stub
-- [ ] `transactions/energy/unfreeze_tos.yaml` — `tx/energy.py` — Stub
-- [ ] `transactions/energy/withdraw_unfrozen.yaml` — `tx/energy.py` — Stub
-- [ ] `models/energy_system.yaml` — `account_model.py` — Partial
-- [ ] `models/fee_model.yaml` — fee logic in `state_transition.py` — Partial
-- [ ] `models/account_model.yaml` — `account_model.py` — Partial
-- [ ] `models/block_limits.yaml` — `config.py` — Constants only
+- [x] `transactions/core/burn.yaml` — `tx/core.py` — test_tx_burn.py
+- [x] `transactions/energy/freeze_tos.yaml` — `tx/energy.py` — test_tx_energy.py
+- [x] `transactions/energy/freeze_delegate.yaml` — `tx/energy.py` — test_tx_energy.py
+- [x] `transactions/energy/unfreeze_tos.yaml` — `tx/energy.py` — test_tx_energy.py
+- [x] `transactions/energy/withdraw_unfrozen.yaml` — `tx/energy.py` — test_tx_energy.py
+- [x] `models/energy_system.yaml` — `account_model.py` — test_models.py
+- [x] `models/fee_model.yaml` — fee logic in `state_transition.py` — test_models.py
+- [x] `models/account_model.yaml` — `account_model.py` — test_models.py
+- [x] `models/block_limits.yaml` — `config.py` — test_models.py
 
 ## Tier 2: Account Management
 
-- [ ] `transactions/account/multisig.yaml` — new `tx/account.py` — Not started
-- [ ] `transactions/account/agent_account.yaml` — new `tx/account.py` — Not started
-- [ ] `transactions/referral/bind_referrer.yaml` — new `tx/referral.py` — Not started
-- [ ] `transactions/tns/register_name.yaml` — new `tx/tns.py` — Not started
+- [x] `transactions/account/multisig.yaml` — test_tx_account.py
+- [x] `transactions/account/agent_account.yaml` — test_tx_account.py
+- [x] `transactions/referral/bind_referrer.yaml` — test_tx_referral.py
+- [x] `transactions/tns/register_name.yaml` — test_tx_tns.py
 
 ## Tier 3: KYC & Committee
 
-- [ ] `transactions/kyc/bootstrap_committee.yaml` — new `tx/kyc.py` — Not started
-- [ ] `transactions/kyc/register_committee.yaml` — `tx/kyc.py` — Not started
-- [ ] `transactions/kyc/update_committee.yaml` — `tx/kyc.py` — Not started
-- [ ] `transactions/kyc/set_kyc.yaml` — `tx/kyc.py` — Not started
-- [ ] `transactions/kyc/revoke_kyc.yaml` — `tx/kyc.py` — Not started
-- [ ] `transactions/kyc/transfer_kyc.yaml` — `tx/kyc.py` — Not started
-- [ ] `transactions/kyc/appeal_kyc.yaml` — `tx/kyc.py` — Not started
-- [ ] `transactions/kyc/emergency_suspend.yaml` — `tx/kyc.py` — Not started
+- [x] `transactions/kyc/bootstrap_committee.yaml` — test_tx_kyc.py
+- [x] `transactions/kyc/register_committee.yaml` — test_tx_kyc.py
+- [x] `transactions/kyc/update_committee.yaml` — test_tx_kyc.py
+- [x] `transactions/kyc/set_kyc.yaml` — test_tx_kyc.py
+- [x] `transactions/kyc/revoke_kyc.yaml` — test_tx_kyc.py
+- [x] `transactions/kyc/transfer_kyc.yaml` — test_tx_kyc.py
+- [x] `transactions/kyc/appeal_kyc.yaml` — test_tx_kyc.py
+- [x] `transactions/kyc/emergency_suspend.yaml` — test_tx_kyc.py
 
 ## Tier 4: Escrow
 
-- [ ] `transactions/escrow/create_escrow.yaml` — new `tx/escrow.py` — Not started
-- [ ] `transactions/escrow/deposit_escrow.yaml` — `tx/escrow.py` — Not started
-- [ ] `transactions/escrow/release_escrow.yaml` — `tx/escrow.py` — Not started
-- [ ] `transactions/escrow/refund_escrow.yaml` — `tx/escrow.py` — Not started
-- [ ] `transactions/escrow/challenge_escrow.yaml` — `tx/escrow.py` — Not started
-- [ ] `transactions/escrow/dispute_escrow.yaml` — `tx/escrow.py` — Not started
-- [ ] `transactions/escrow/appeal_escrow.yaml` — `tx/escrow.py` — Not started
-- [ ] `transactions/escrow/submit_verdict.yaml` — `tx/escrow.py` — Not started
+- [x] `transactions/escrow/create_escrow.yaml` — test_tx_escrow.py
+- [x] `transactions/escrow/deposit_escrow.yaml` — test_tx_escrow.py
+- [x] `transactions/escrow/release_escrow.yaml` — test_tx_escrow.py
+- [x] `transactions/escrow/refund_escrow.yaml` — test_tx_escrow.py
+- [x] `transactions/escrow/challenge_escrow.yaml` — test_tx_escrow.py
+- [x] `transactions/escrow/dispute_escrow.yaml` — test_tx_escrow.py
+- [x] `transactions/escrow/appeal_escrow.yaml` — test_tx_escrow.py
+- [x] `transactions/escrow/submit_verdict.yaml` — test_tx_escrow.py
 
 ## Tier 5: Arbitration
 
-- [ ] `transactions/arbitration/register_arbiter.yaml` — new `tx/arbitration.py` — Not started
-- [ ] `transactions/arbitration/update_arbiter.yaml` — `tx/arbitration.py` — Not started
-- [ ] `transactions/arbitration/request_arbiter_exit.yaml` — `tx/arbitration.py` — Not started
-- [ ] `transactions/arbitration/withdraw_arbiter_stake.yaml` — `tx/arbitration.py` — Not started
-- [ ] `transactions/arbitration/cancel_arbiter_exit.yaml` — `tx/arbitration.py` — Not started
-- [ ] `transactions/arbitration/slash_arbiter.yaml` — `tx/arbitration.py` — Not started
-- [ ] `transactions/arbitration/commit_arbitration_open.yaml` — `tx/arbitration.py` — Not started
-- [ ] `transactions/arbitration/commit_vote_request.yaml` — `tx/arbitration.py` — Not started
-- [ ] `transactions/arbitration/commit_selection_commitment.yaml` — `tx/arbitration.py` — Not started
-- [ ] `transactions/arbitration/commit_juror_vote.yaml` — `tx/arbitration.py` — Not started
+- [x] `transactions/arbitration/register_arbiter.yaml` — test_tx_arbitration.py
+- [x] `transactions/arbitration/update_arbiter.yaml` — test_tx_arbitration.py
+- [x] `transactions/arbitration/request_arbiter_exit.yaml` — test_tx_arbitration.py
+- [x] `transactions/arbitration/withdraw_arbiter_stake.yaml` — test_tx_arbitration.py
+- [x] `transactions/arbitration/cancel_arbiter_exit.yaml` — test_tx_arbitration.py
+- [x] `transactions/arbitration/slash_arbiter.yaml` — test_tx_arbitration.py
+- [x] `transactions/arbitration/commit_arbitration_open.yaml` — test_tx_arbitration.py
+- [x] `transactions/arbitration/commit_vote_request.yaml` — test_tx_arbitration.py
+- [x] `transactions/arbitration/commit_selection_commitment.yaml` — test_tx_arbitration.py
+- [x] `transactions/arbitration/commit_juror_vote.yaml` — test_tx_arbitration.py
 
 ## Tier 6: Contracts
 
-- [ ] `transactions/contracts/deploy_contract.yaml` — new `tx/contracts.py` — Not started
-- [ ] `transactions/contracts/invoke_contract.yaml` — `tx/contracts.py` — Not started
+- [x] `transactions/contracts/deploy_contract.yaml` — test_tx_contracts.py
+- [x] `transactions/contracts/invoke_contract.yaml` — test_tx_contracts.py
 
 ## Tier 7: Privacy (requires crypto libraries)
 
-- [ ] `transactions/privacy/uno_transfers.yaml` — `tx/privacy.py` — Stub
-- [ ] `transactions/privacy/shield_transfers.yaml` — `tx/privacy.py` — Stub
-- [ ] `transactions/privacy/unshield_transfers.yaml` — `tx/privacy.py` — Stub
+- [x] `transactions/privacy/uno_transfers.yaml` — test_tx_privacy.py
+- [x] `transactions/privacy/shield_transfers.yaml` — test_tx_privacy.py
+- [x] `transactions/privacy/unshield_transfers.yaml` — test_tx_privacy.py
 
 ## Tier 8: Consensus
 
-- [ ] `consensus/block_validation.yaml` — `consensus/block_structure.py` — Partial
-- [ ] `consensus/fork_choice.yaml` — `consensus/blockdag_ordering.py` — Partial
-- [ ] `consensus/finality.yaml` — new `consensus/finality.py` — Not started
-- [ ] `consensus/transaction_ordering.yaml` — new `consensus/mempool.py` — Not started
+- [x] `consensus/block_validation.yaml` — test_consensus_block.py
+- [x] `consensus/fork_choice.yaml` — test_consensus_block.py
+- [x] `consensus/finality.yaml` — test_consensus_order.py
+- [x] `consensus/transaction_ordering.yaml` — test_consensus_order.py
 
 ## Tier 9: Documentation-Only (no Python spec needed)
 
