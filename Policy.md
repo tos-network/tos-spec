@@ -26,6 +26,29 @@ This document defines how we write executable specs in `tests/` and how fixtures
 See `tests/test_template_example.py` for a runnable, minimal template.
 More examples live under `tests/`.
 
+## Extracting Tests From `~/tos` (Guidelines + Matrix)
+
+When adding new pytest cases, **use `~/tos` as the reference implementation** to
+pick realistic scenarios, but keep the spec tests **pure and deterministic**.
+
+### Source → Test Mapping Matrix
+
+| Source in `~/tos` | What it represents | What to extract into pytest | What to avoid |
+|---|---|---|---|
+| `daemon` happy-path flows | Valid real-world usage | **Success cases** with minimal pre_state | External IO, networking |
+| Error handling branches | Expected failures | **Single-error** cases with exact error code | Multi-error overlaps |
+| Transaction validation code | Rule boundaries | **Boundary tests** (min/max, zero, overflow) | Implicit defaults |
+| Genesis / chain init | Initial state rules | **Deterministic pre_state** snapshots | Environment-dependent data |
+| Encoding / decoding | Wire format | **Wire-format vectors** (hex) | Randomized keys |
+| State transitions | Core consensus logic | **State transitions** (pre→post) | Side effects / storage |
+
+### Extraction Rules
+- Always reduce to **one behavior per test**.
+- Replace any randomness with fixed values.
+- Keep pre_state **smallest possible** that still proves the rule.
+- Ensure the spec (`tos_spec`) can compute expected outputs without external services.
+- If the behavior depends on storage/db, first model it in Python spec before adding tests.
+
 ## Template Rules (Must Follow)
 - **File name**: `tests/<module>/test_<thing>.py`
 - **Fixture output**: always use `state_test_group` with a stable JSON path.
