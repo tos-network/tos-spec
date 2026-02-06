@@ -24,6 +24,7 @@ This document defines how we write executable specs in `tests/` and how fixtures
 ## Template
 
 See `tests/test_template_example.py` for a runnable, minimal template.
+More examples live under `tests/`.
 
 ## Template Rules (Must Follow)
 - **File name**: `tests/<module>/test_<thing>.py`
