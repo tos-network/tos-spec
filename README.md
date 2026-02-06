@@ -151,7 +151,8 @@ we use a fixed set of deterministic test accounts stored in `vectors/accounts.js
 
 **Fixture formats by layer**
 - Execution-layer fixtures: JSON (pytest-generated transactions, state transitions, wire-format).
-- Consensus/crypto YAML files currently act as *spec references* and are not consumed by the vector conversion pipeline.
+- YAML specs are documentation only; pytest generates JSON fixtures from executable tests.
+- YAML specs are mirrored into JSON as non-runnable `test_vectors` for unified consumption.
 
 ### 2) Fixtures → Clients
 - Clients consume fixtures, execute them, and compare outputs to expected results.
@@ -178,6 +179,8 @@ we use a fixed set of deterministic test accounts stored in `vectors/accounts.js
 - Each module is responsible for its boundary rules and state changes.
 
 ## Running the Fixture Flow
+
+See `TESTING.md` for the spec test policy and authoring guidelines.
 
 ## Dependencies
 
