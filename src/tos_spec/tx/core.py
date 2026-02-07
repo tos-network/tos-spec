@@ -66,6 +66,8 @@ def apply(state: ChainState, tx: Transaction) -> ChainState:
         if sender.balance < amount:
             raise SpecError(ErrorCode.INSUFFICIENT_BALANCE, "insufficient balance")
         sender.balance -= amount
+        if next_state.global_state.total_burned + amount > U64_MAX:
+            raise SpecError(ErrorCode.OVERFLOW, "total_burned overflow")
         next_state.global_state.total_burned += amount
         return next_state
 
@@ -84,6 +86,8 @@ def apply(state: ChainState, tx: Transaction) -> ChainState:
         if receiver is None:
             receiver = AccountState(address=t.destination, balance=0, nonce=0)
             next_state.accounts[t.destination] = receiver
+        if receiver.balance + t.amount > U64_MAX:
+            raise SpecError(ErrorCode.OVERFLOW, "receiver balance overflow")
         receiver.balance += t.amount
 
     return next_state

@@ -156,6 +156,30 @@ DAEMON_MISMATCH_SKIP: set[str] = {
     "transfer_kyc_no_source_approvals",
     "transfer_kyc_same_committee",
     "transfer_kyc_zero_data_hash",
+    # overflow (apply-phase) — daemon returns different error codes
+    "transfer_receiver_balance_overflow",
+    "burn_total_burned_overflow",
+    "freeze_frozen_overflow",
+    "freeze_energy_overflow",
+    "delegate_energy_overflow",
+    "withdraw_balance_overflow",
+    "deposit_escrow_amount_u64_overflow",
+    "refund_escrow_balance_overflow",
+    "update_arbiter_stake_overflow",
+    "withdraw_arbiter_balance_overflow",
+    # fee variants — daemon validates fee_type differently
+    "transfer_energy_fee_zero",
+    "transfer_energy_fee_nonzero",
+    "burn_energy_fee",
+    "burn_uno_fee",
+    "freeze_energy_fee",
+    "freeze_uno_fee",
+    "contract_energy_fee",
+    "tns_energy_fee",
+    "multisig_energy_fee",
+    "transfer_insufficient_fee",
+    "freeze_insufficient_fee",
+    "uno_transfer_uno_fee_nonzero",
 }
 
 

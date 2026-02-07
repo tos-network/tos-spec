@@ -426,3 +426,114 @@ def test_delegate_self(state_test_group) -> None:
         state,
         tx,
     )
+
+
+# ===================================================================
+# Overflow tests (u64 boundary)
+# ===================================================================
+
+U64_MAX = (1 << 64) - 1
+
+
+def test_freeze_frozen_overflow(state_test_group) -> None:
+    """Freezing TOS when sender.frozen is near U64_MAX should overflow.
+
+    Pre-state: sender.frozen = U64_MAX - COIN_VALUE + 1.
+    Freeze amount = COIN_VALUE (1 TOS).
+    frozen + amount = U64_MAX + 1 > U64_MAX => OVERFLOW.
+    """
+    state = ChainState(network_chain_id=CHAIN_ID_DEVNET)
+    sender = ALICE
+    frozen_val = U64_MAX - COIN_VALUE + 1
+    state.accounts[sender] = AccountState(
+        address=sender, balance=10 * COIN_VALUE, nonce=5, frozen=frozen_val,
+    )
+    state.energy_resources[sender] = EnergyResource(
+        frozen_tos=frozen_val, energy=0,
+        freeze_records=[
+            FreezeRecord(
+                amount=frozen_val, energy_gained=0,
+                freeze_height=0, unlock_height=99999,
+            )
+        ],
+    )
+    tx = _mk_freeze_tos(sender, nonce=5, amount=COIN_VALUE, days=3, fee=0)
+    state_test_group(
+        "transactions/energy/freeze_tos.json", "freeze_frozen_overflow", state, tx
+    )
+
+
+def test_freeze_energy_overflow(state_test_group) -> None:
+    """Freezing TOS when sender.energy is near U64_MAX should overflow.
+
+    Freeze 1 TOS for 3 days => energy_gained = 1 * (3 * 2) = 6.
+    Pre-state: sender.energy = U64_MAX - 5.
+    energy + 6 = U64_MAX + 1 > U64_MAX => OVERFLOW.
+    """
+    state = ChainState(network_chain_id=CHAIN_ID_DEVNET)
+    sender = ALICE
+    state.accounts[sender] = AccountState(
+        address=sender, balance=10 * COIN_VALUE, nonce=5,
+        frozen=0, energy=U64_MAX - 5,
+    )
+    state.energy_resources[sender] = EnergyResource(
+        frozen_tos=0, energy=U64_MAX - 5,
+    )
+    tx = _mk_freeze_tos(sender, nonce=5, amount=COIN_VALUE, days=3, fee=0)
+    state_test_group(
+        "transactions/energy/freeze_tos.json", "freeze_energy_overflow", state, tx
+    )
+
+
+def test_delegate_energy_overflow(state_test_group) -> None:
+    """Delegation where delegatee.energy would overflow.
+
+    Delegate 1 TOS for 3 days => energy_gained = 6.
+    Pre-state: delegatee (BOB) energy = U64_MAX - 5.
+    delegatee.energy + 6 = U64_MAX + 1 > U64_MAX => OVERFLOW.
+    """
+    state = ChainState(network_chain_id=CHAIN_ID_DEVNET)
+    sender = ALICE
+    delegatee = BOB
+    state.accounts[sender] = AccountState(
+        address=sender, balance=10 * COIN_VALUE, nonce=5, frozen=0,
+    )
+    state.accounts[delegatee] = AccountState(
+        address=delegatee, balance=0, nonce=0, energy=U64_MAX - 5,
+    )
+    entries = [DelegationEntry(delegatee=delegatee, amount=COIN_VALUE)]
+    tx = _mk_freeze_delegate(sender, nonce=5, delegatees=entries, days=3, fee=0)
+    state_test_group(
+        "transactions/energy/freeze_delegate.json",
+        "delegate_energy_overflow",
+        state,
+        tx,
+    )
+
+
+def test_withdraw_balance_overflow(state_test_group) -> None:
+    """Withdrawing unfrozen TOS when sender.balance is near U64_MAX.
+
+    Pre-state: sender.balance = U64_MAX - COIN_VALUE + 1,
+    pending unfreeze amount = COIN_VALUE.
+    balance + withdrawn = U64_MAX + 1 > U64_MAX => OVERFLOW.
+    """
+    state = ChainState(network_chain_id=CHAIN_ID_DEVNET)
+    sender = ALICE
+    balance_val = U64_MAX - COIN_VALUE + 1
+    state.accounts[sender] = AccountState(
+        address=sender, balance=balance_val, nonce=5, frozen=COIN_VALUE,
+    )
+    state.energy_resources[sender] = EnergyResource(
+        frozen_tos=COIN_VALUE, energy=0,
+        pending_unfreezes=[
+            PendingUnfreeze(amount=COIN_VALUE, expire_height=0),
+        ],
+    )
+    tx = _mk_withdraw_unfrozen(sender, nonce=5, fee=0)
+    state_test_group(
+        "transactions/energy/withdraw_unfrozen.json",
+        "withdraw_balance_overflow",
+        state,
+        tx,
+    )

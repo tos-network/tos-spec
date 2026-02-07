@@ -21,6 +21,8 @@ from ..types import (
     Transaction,
 )
 
+U64_MAX = (1 << 64) - 1
+
 MIN_FREEZE_DURATION_DAYS = 3
 MAX_FREEZE_DURATION_DAYS = 365
 MAX_FREEZE_RECORDS = 32
@@ -101,10 +103,16 @@ def _apply_freeze_tos(state: ChainState, tx: Transaction, p: EnergyPayload) -> C
 
     sender = ns.accounts[tx.source]
     sender.balance -= amount
+
+    if sender.frozen + amount > U64_MAX:
+        raise SpecError(ErrorCode.OVERFLOW, "frozen balance overflow")
     sender.frozen += amount
 
     whole_tos = amount // COIN_VALUE
     energy_gained = whole_tos * (days * 2)
+
+    if sender.energy + energy_gained > U64_MAX:
+        raise SpecError(ErrorCode.OVERFLOW, "energy overflow")
     sender.energy += energy_gained
 
     er = ns.energy_resources.get(tx.source)
@@ -122,9 +130,17 @@ def _apply_freeze_tos(state: ChainState, tx: Transaction, p: EnergyPayload) -> C
         freeze_height=height,
         unlock_height=height + days * bpd,
     ))
+
+    if er.frozen_tos + amount > U64_MAX:
+        raise SpecError(ErrorCode.OVERFLOW, "energy resource frozen_tos overflow")
     er.frozen_tos += amount
+
+    if er.energy + energy_gained > U64_MAX:
+        raise SpecError(ErrorCode.OVERFLOW, "energy resource energy overflow")
     er.energy += energy_gained
 
+    if ns.global_state.total_energy + energy_gained > U64_MAX:
+        raise SpecError(ErrorCode.OVERFLOW, "total energy overflow")
     ns.global_state.total_energy += energy_gained
 
     return ns
@@ -196,7 +212,13 @@ def _apply_freeze_delegate(state: ChainState, tx: Transaction, p: EnergyPayload)
 
         sender.balance -= amount
         sender.frozen += amount
+
+        if total_amount + amount > U64_MAX:
+            raise SpecError(ErrorCode.OVERFLOW, "delegation total amount overflow")
         total_amount += amount
+
+        if total_energy + energy_gained > U64_MAX:
+            raise SpecError(ErrorCode.OVERFLOW, "delegation total energy overflow")
         total_energy += energy_gained
 
         er.delegated_records.append(DelegatedFreezeRecord(
@@ -209,9 +231,16 @@ def _apply_freeze_delegate(state: ChainState, tx: Transaction, p: EnergyPayload)
 
         delegatee_acct = ns.accounts.get(entry.delegatee)
         if delegatee_acct is not None:
+            if delegatee_acct.energy + energy_gained > U64_MAX:
+                raise SpecError(ErrorCode.OVERFLOW, "delegatee energy overflow")
             delegatee_acct.energy += energy_gained
 
+    if er.frozen_tos + total_amount > U64_MAX:
+        raise SpecError(ErrorCode.OVERFLOW, "energy resource frozen_tos overflow")
     er.frozen_tos += total_amount
+
+    if ns.global_state.total_energy + total_energy > U64_MAX:
+        raise SpecError(ErrorCode.OVERFLOW, "total energy overflow")
     ns.global_state.total_energy += total_energy
 
     return ns
@@ -291,10 +320,14 @@ def _apply_withdraw_unfrozen(state: ChainState, tx: Transaction, p: EnergyPayloa
             else:
                 remaining.append(pending)
         er.pending_unfreezes = remaining
+        if sender.balance + withdrawn > U64_MAX:
+            raise SpecError(ErrorCode.OVERFLOW, "balance overflow on withdraw")
         sender.balance += withdrawn
     else:
         withdrawn = sender.frozen
         sender.frozen = 0
+        if sender.balance + withdrawn > U64_MAX:
+            raise SpecError(ErrorCode.OVERFLOW, "balance overflow on withdraw")
         sender.balance += withdrawn
 
     return ns

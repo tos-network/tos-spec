@@ -44,7 +44,7 @@ Legend:  +++  strong coverage
 | Energy model       | n/a        | +          | -          | -          | n/a        | n/a        |
 | Account model      | n/a        | +          | -          | -          | n/a        | n/a        |
 
-**Reading this matrix:** L1 dominates as expected (126/126 conformance). L0 wire
+**Reading this matrix:** L1 dominates as expected (127/127 conformance). L0 wire
 format now covers all 45 TX types. The priority gaps are:
 - L0: negative wire format tests (malformed payloads) not yet started
 - L2: no executable block processing tests yet
@@ -85,26 +85,27 @@ What aspects are tested for each domain. Aspects represent the testing perspecti
 
 | Domain             | Happy Path | Error Path | Boundary | Overflow | Auth/ACL | Self-ref | Fee Variant | Fork Param |
 |--------------------|------------|------------|----------|----------|----------|----------|-------------|------------|
-| Core (transfer)    | YES        | YES        | YES      | YES      | -        | YES      | -           | -          |
-| Burn               | YES        | YES        | YES      | -        | -        | n/a      | -           | -          |
-| Multisig           | YES        | YES        | YES      | -        | -        | -        | -           | -          |
-| Energy / Freeze    | YES        | YES        | YES      | -        | -        | -        | -           | -          |
-| Energy / Delegate  | YES        | YES        | YES      | -        | -        | YES      | -           | -          |
-| Escrow             | YES        | YES        | YES      | -        | YES      | YES      | -           | -          |
-| Arbitration        | YES        | YES        | YES      | -        | -        | -        | -           | -          |
-| KYC                | YES        | YES        | YES      | -        | YES      | -        | -           | -          |
+| Core (transfer)    | YES        | YES        | YES      | YES      | -        | YES      | YES         | -          |
+| Burn               | YES        | YES        | YES      | YES      | -        | n/a      | YES         | -          |
+| Multisig           | YES        | YES        | YES      | -        | -        | -        | YES         | -          |
+| Energy / Freeze    | YES        | YES        | YES      | YES      | -        | -        | YES         | -          |
+| Energy / Delegate  | YES        | YES        | YES      | YES      | -        | YES      | -           | -          |
+| Escrow             | YES        | YES        | YES      | YES      | YES      | YES      | YES         | -          |
+| Arbitration        | YES        | YES        | YES      | YES      | -        | -        | YES         | -          |
+| KYC                | YES        | YES        | YES      | -        | YES      | -        | YES         | -          |
 | Committee          | YES        | YES        | YES      | -        | YES      | -        | -           | -          |
-| Contracts          | YES        | YES        | YES      | -        | -        | -        | -           | -          |
-| Privacy (UNO)      | YES        | YES        | YES      | -        | -        | YES      | -           | -          |
+| Contracts          | YES        | YES        | YES      | -        | -        | -        | YES         | -          |
+| Privacy (UNO)      | YES        | YES        | YES      | -        | -        | YES      | YES         | -          |
 | Privacy (shield)   | YES        | YES        | YES      | -        | -        | -        | -           | -          |
-| TNS (names)        | YES        | YES        | YES      | -        | -        | YES      | -           | -          |
+| TNS (names)        | YES        | YES        | YES      | -        | -        | YES      | YES         | -          |
 | Referral           | YES        | YES        | YES      | -        | -        | YES      | -           | -          |
-| Account / Agent    | YES        | YES        | YES      | -        | -        | -        | -           | -          |
+| Account / Agent    | YES        | YES        | YES      | -        | -        | -        | YES         | -          |
 
 **Reading this matrix:** Happy and error paths have broad coverage. Boundary testing
-now covers all 15 domains. Overflow testing covers Core (transfer). Auth/ACL testing
-covers 4 domains (KYC, Committee, Escrow, Energy). The remaining empty columns
-(Fee Variant, Fork Param) represent systematic gaps that should be addressed next.
+now covers all 15 domains. Overflow testing covers 7 domains (Core, Burn, Energy/Freeze,
+Energy/Delegate, Escrow, Arbitration). Fee variant testing covers 11 domains. Auth/ACL
+testing covers 4 domains (KYC, Committee, Escrow, Energy). The remaining gap is Fork
+Param testing (not yet applicable).
 
 ## Matrix 4: Transaction Type x Test Count
 
@@ -113,15 +114,15 @@ Detailed per-type coverage showing how many tests and vectors exist for each of 
 
 | # | Transaction Type          | Handler Module | Tests | Vectors | Neg Tests | Wire Tests |
 |---|---------------------------|----------------|-------|---------|-----------|------------|
-| 1 | transfers                 | core           | 14    | 14      | 11        | 2          |
-| 2 | burn                      | core           | 4     | 3       | 3         | 1          |
+| 1 | transfers                 | core           | 15    | 15      | 12        | 2          |
+| 2 | burn                      | core           | 5     | 4       | 4         | 1          |
 | 3 | multisig                  | account        | 7     | 7       | 5         | 1          |
 | 4 | invoke_contract           | contracts      | 9     | 9       | 6         | 1          |
 | 5 | deploy_contract           | contracts      | 5     | 4       | 4         | 1          |
-| 6 | energy (freeze)           | energy         | 8     | 8       | 7         | 2          |
+| 6 | energy (freeze)           | energy         | 10    | 10      | 9         | 2          |
 | 7 | energy (unfreeze)         | energy         | 4     | 4       | 3         | 1          |
-| 8 | energy (delegate)         | energy         | 5     | 5       | 4         | 1          |
-| 9 | energy (withdraw)         | energy         | 2     | 2       | 1         | 1          |
+| 8 | energy (delegate)         | energy         | 6     | 6       | 5         | 1          |
+| 9 | energy (withdraw)         | energy         | 3     | 3       | 2         | 1          |
 |10 | bind_referrer             | referral       | 3     | 3       | 2         | 1          |
 |11 | batch_referral_reward     | referral       | 5     | 0\*     | 4         | 1          |
 |12 | set_kyc                   | kyc            | 5     | 5       | 4         | 1          |
@@ -140,9 +141,9 @@ Detailed per-type coverage showing how many tests and vectors exist for each of 
 |25 | register_name             | tns            | 5     | 5       | 3         | 1          |
 |26 | ephemeral_message         | tns            | 9     | 0\*     | 8         | 1          |
 |27 | create_escrow             | escrow         | 9     | 9       | 8         | 1          |
-|28 | deposit_escrow            | escrow         | 5     | 5       | 4         | 1          |
+|28 | deposit_escrow            | escrow         | 6     | 6       | 5         | 1          |
 |29 | release_escrow            | escrow         | 7     | 7       | 6         | 1          |
-|30 | refund_escrow             | escrow         | 6     | 6       | 5         | 1          |
+|30 | refund_escrow             | escrow         | 7     | 7       | 6         | 1          |
 |31 | challenge_escrow          | escrow         | 6     | 6       | 5         | 1          |
 |32 | dispute_escrow            | escrow         | 7     | 7       | 6         | 1          |
 |33 | appeal_escrow             | escrow         | 8     | 8       | 7         | 1          |
@@ -153,18 +154,21 @@ Detailed per-type coverage showing how many tests and vectors exist for each of 
 |38 | commit_selection          | arbitration    | 2     | 2       | 1         | 1          |
 |39 | commit_juror_vote         | arbitration    | 2     | 2       | 1         | 1          |
 |40 | register_arbiter          | arbitration    | 12    | 12      | 11        | 1          |
-|41 | update_arbiter            | arbitration    | 5     | 5       | 4         | 1          |
+|41 | update_arbiter            | arbitration    | 6     | 6       | 5         | 1          |
 |42 | slash_arbiter             | arbitration    | 5     | 5       | 4         | 1          |
 |43 | request_arbiter_exit      | arbitration    | 5     | 5       | 4         | 1          |
-|44 | withdraw_arbiter_stake    | arbitration    | 4     | 4       | 3         | 1          |
+|44 | withdraw_arbiter_stake    | arbitration    | 5     | 5       | 4         | 1          |
 |45 | cancel_arbiter_exit       | arbitration    | 3     | 3       | 2         | 1          |
-|   | **TOTAL**                 |                |**289**|**262**  | **224**   | **45**     |
+|   | **Subtotal (per-type)**   |                |**299**|**272**  | **234**   | **45**     |
+|   | fee_variants (cross-type) | -              | 20    | 20      | 19        | -          |
+|   | **TOTAL**                 |                |**319**|**292**  | **253**   | **45**     |
 
 `*` Vectors = 0 because the wire codec does not yet support this tx type;
 tests exist at spec level but are marked `runnable: false` in vector output.
 
 **Reading this matrix:** All 45 types now have at least 2 tests with comprehensive
-negative coverage. 289 state tests + 45 wire tests = 334 total. 224 negative tests.
+negative coverage. 319 state tests + 45 wire tests = 364 total. 253 negative tests.
+20 cross-type fee variant tests verify fee_type validation across 11 domains.
 3 types lack runnable vectors pending codec support (batch_referral_reward,
 ephemeral_message, submit_verdict_by_juror). Wire format coverage is now complete
 (45/45 types).
@@ -216,10 +220,10 @@ Prioritized backlog of test aspects to implement, ordered by impact and effort.
 | ~~P0~~   | ~~Wire format all 45 tx types~~ | L0   | 45 done      | -      | -       |
 | P0       | Negative wire format (invalid) | L0     | ~20          | Low    | High    |
 | P1       | Boundary values per tx type   | L1     | ~86          | Medium | High    |
-| P1       | Overflow arithmetic           | L1     | ~20          | Low    | High    |
+| ~~P1~~   | ~~Overflow arithmetic~~       | L1     | 10 done      | -      | -       |
 | P1       | Insufficient balance variants | L1     | ~30          | Low    | Medium  |
 | P1       | Wrong nonce / auth failures   | L1     | ~30          | Low    | Medium  |
-| P2       | Fee type variations           | L1     | ~43          | Medium | Medium  |
+| ~~P2~~   | ~~Fee type variations~~       | L1     | 20 done      | -      | -       |
 | P2       | Multi-tx block execution      | L2     | ~20          | High   | High    |
 | P2       | Block reward distribution     | L2     | ~10          | Medium | Medium  |
 | P2       | DAG reorg vectors             | L2     | ~10          | High   | High    |
@@ -236,18 +240,18 @@ Prioritized backlog of test aspects to implement, ordered by impact and effort.
 
 Aggregate coverage quality per handler module.
 
-| Module      | Types | Tests | Vectors | Neg | Wire | Boundary | Depth Score |
-|-------------|-------|-------|---------|-----|------|----------|-------------|
-| core        | 2     | 18    | 17      | 14  | 3    | YES      | 4/5         |
-| energy      | 4     | 19    | 19      | 15  | 5    | YES      | 4/5         |
-| escrow      | 9     | 57    | 55      | 48  | 9    | YES      | 4/5         |
-| arbitration | 10    | 43    | 43      | 33  | 10   | YES      | 4/5         |
-| kyc         | 8     | 47    | 47      | 38  | 8    | YES      | 4/5         |
-| contracts   | 2     | 14    | 13      | 10  | 2    | YES      | 4/5         |
-| privacy     | 3     | 12    | 12      | 9   | 3    | YES      | 4/5         |
-| referral    | 2     | 8     | 3       | 6   | 2    | YES      | 4/5         |
-| tns         | 2     | 14    | 5       | 11  | 2    | YES      | 4/5         |
-| account     | 2     | 22    | 22      | 17  | 2    | YES      | 4/5         |
+| Module      | Types | Tests | Vectors | Neg | Wire | Boundary | Fee Var | Depth Score |
+|-------------|-------|-------|---------|-----|------|----------|---------|-------------|
+| core        | 2     | 20    | 19      | 16  | 3    | YES      | YES     | 5/5         |
+| energy      | 4     | 23    | 23      | 19  | 5    | YES      | YES     | 5/5         |
+| escrow      | 9     | 59    | 57      | 50  | 9    | YES      | YES     | 5/5         |
+| arbitration | 10    | 45    | 45      | 35  | 10   | YES      | YES     | 5/5         |
+| kyc         | 8     | 47    | 47      | 38  | 8    | YES      | YES     | 5/5         |
+| contracts   | 2     | 14    | 13      | 10  | 2    | YES      | YES     | 5/5         |
+| privacy     | 3     | 12    | 12      | 9   | 3    | YES      | YES     | 5/5         |
+| referral    | 2     | 8     | 3       | 6   | 2    | YES      | -       | 4/5         |
+| tns         | 2     | 14    | 5       | 11  | 2    | YES      | YES     | 5/5         |
+| account     | 2     | 22    | 22      | 17  | 2    | YES      | YES     | 5/5         |
 
 Depth score criteria (1 point each):
 1. All types have at least 1 vector

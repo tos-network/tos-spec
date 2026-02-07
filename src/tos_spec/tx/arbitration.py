@@ -23,6 +23,8 @@ from ..types import (
     TransactionType,
 )
 
+U64_MAX = (1 << 64) - 1
+
 _ARBITER_TYPES = frozenset({
     TransactionType.REGISTER_ARBITER,
     TransactionType.UPDATE_ARBITER,
@@ -194,6 +196,8 @@ def _apply_update_arbiter(state: ChainState, tx: Transaction, p: dict) -> ChainS
         if sender.balance < add_stake:
             raise SpecError(ErrorCode.INSUFFICIENT_BALANCE, "insufficient balance for stake")
         sender.balance -= add_stake
+        if arbiter.stake_amount + add_stake > U64_MAX:
+            raise SpecError(ErrorCode.OVERFLOW, "arbiter stake overflow")
         arbiter.stake_amount += add_stake
 
     deactivate = p.get("deactivate", False)
@@ -228,6 +232,8 @@ def _apply_slash_arbiter(state: ChainState, tx: Transaction, p: dict) -> ChainSt
     if arbiter is not None:
         slash = min(amount, arbiter.stake_amount)
         arbiter.stake_amount -= slash
+        if arbiter.total_slashed + slash > U64_MAX:
+            raise SpecError(ErrorCode.OVERFLOW, "arbiter total_slashed overflow")
         arbiter.total_slashed += slash
 
     return ns
@@ -272,6 +278,8 @@ def _apply_withdraw_stake(state: ChainState, tx: Transaction, p: dict) -> ChainS
 
     sender = ns.accounts.get(tx.source)
     if sender is not None:
+        if sender.balance + stake > U64_MAX:
+            raise SpecError(ErrorCode.OVERFLOW, "sender balance overflow")
         sender.balance += stake
 
     return ns

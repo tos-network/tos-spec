@@ -23,6 +23,8 @@ from ..types import (
     TransactionType,
 )
 
+U64_MAX = (1 << 64) - 1
+
 _ESCROW_TYPES = frozenset({
     TransactionType.CREATE_ESCROW,
     TransactionType.DEPOSIT_ESCROW,
@@ -193,6 +195,10 @@ def _apply_deposit(state: ChainState, tx: Transaction, p: dict) -> ChainState:
 
     escrow = ns.escrows.get(eid)
     if escrow is not None:
+        if escrow.amount + amount > U64_MAX:
+            raise SpecError(ErrorCode.OVERFLOW, "escrow amount overflow")
+        if escrow.total_amount + amount > U64_MAX:
+            raise SpecError(ErrorCode.OVERFLOW, "escrow total_amount overflow")
         escrow.amount += amount
         escrow.total_amount += amount
         escrow.status = EscrowStatus.FUNDED
@@ -276,6 +282,8 @@ def _apply_refund(state: ChainState, tx: Transaction, p: dict) -> ChainState:
 
         payer = ns.accounts.get(escrow.payer)
         if payer is not None:
+            if payer.balance + amount > U64_MAX:
+                raise SpecError(ErrorCode.OVERFLOW, "payer balance overflow")
             payer.balance += amount
 
     return ns
@@ -321,6 +329,8 @@ def _apply_challenge(state: ChainState, tx: Transaction, p: dict) -> ChainState:
 
     escrow = ns.escrows.get(eid)
     if escrow is not None:
+        if escrow.challenge_deposit + deposit > U64_MAX:
+            raise SpecError(ErrorCode.OVERFLOW, "challenge deposit overflow")
         escrow.challenge_deposit += deposit
         escrow.status = EscrowStatus.CHALLENGED
         escrow.updated_at = ns.global_state.block_height
@@ -444,10 +454,14 @@ def _apply_submit_verdict(state: ChainState, tx: Transaction, p: dict) -> ChainS
         if payer_amount > 0:
             payer = ns.accounts.get(escrow.payer)
             if payer is not None:
+                if payer.balance + payer_amount > U64_MAX:
+                    raise SpecError(ErrorCode.OVERFLOW, "payer balance overflow")
                 payer.balance += payer_amount
         if payee_amount > 0:
             payee = ns.accounts.get(escrow.payee)
             if payee is not None:
+                if payee.balance + payee_amount > U64_MAX:
+                    raise SpecError(ErrorCode.OVERFLOW, "payee balance overflow")
                 payee.balance += payee_amount
         escrow.amount = 0
         escrow.status = EscrowStatus.RESOLVED

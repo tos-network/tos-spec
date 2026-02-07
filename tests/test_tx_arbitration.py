@@ -1253,3 +1253,49 @@ def test_register_arbiter_zero_stake(state_test_group) -> None:
         state,
         tx,
     )
+
+
+# ===================================================================
+# U64 overflow tests (apply-phase)
+# ===================================================================
+
+U64_MAX = (1 << 64) - 1
+
+
+def test_update_arbiter_stake_overflow(state_test_group) -> None:
+    """Adding stake causes arbiter.stake_amount to overflow u64 max."""
+    state = _base_state()
+    # Give ALICE enough balance for the add_stake
+    state.accounts[ALICE] = AccountState(address=ALICE, balance=U64_MAX, nonce=5)
+    arbiter = _active_arbiter(ALICE)
+    arbiter.stake_amount = U64_MAX - 100
+    state.arbiters[ALICE] = arbiter
+    payload = {
+        "add_stake": 200,
+    }
+    tx = _mk_arb_tx(ALICE, nonce=5, tx_type=TransactionType.UPDATE_ARBITER, payload=payload, fee=0)
+    state_test_group(
+        "transactions/arbitration/update_arbiter.json",
+        "update_arbiter_stake_overflow",
+        state,
+        tx,
+    )
+
+
+def test_withdraw_arbiter_balance_overflow(state_test_group) -> None:
+    """Withdrawing stake causes sender.balance to overflow u64 max."""
+    state = _base_state()
+    # Sender balance near U64_MAX, stake withdrawal would overflow
+    state.accounts[ALICE] = AccountState(address=ALICE, balance=U64_MAX - 50, nonce=5)
+    arbiter = _active_arbiter(ALICE)
+    arbiter.status = ArbiterStatus.EXITING
+    arbiter.stake_amount = 200
+    state.arbiters[ALICE] = arbiter
+    payload = {"amount": 200}
+    tx = _mk_arb_tx(ALICE, nonce=5, tx_type=TransactionType.WITHDRAW_ARBITER_STAKE, payload=payload, fee=0)
+    state_test_group(
+        "transactions/arbitration/withdraw_arbiter_stake.json",
+        "withdraw_arbiter_balance_overflow",
+        state,
+        tx,
+    )

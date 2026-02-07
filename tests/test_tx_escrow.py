@@ -1424,3 +1424,54 @@ def test_refund_escrow_amount_exceeds_balance(state_test_group) -> None:
         state,
         tx,
     )
+
+
+# ===================================================================
+# U64 overflow tests (apply-phase)
+# ===================================================================
+
+U64_MAX = (1 << 64) - 1
+
+
+def test_deposit_escrow_amount_u64_overflow(state_test_group) -> None:
+    """Deposit causes escrow.amount to overflow u64 max."""
+    state = _base_state()
+    state.accounts[ALICE] = AccountState(address=ALICE, balance=U64_MAX, nonce=5)
+    escrow_id = _hash(61)
+    escrow = _funded_escrow(escrow_id, ALICE, BOB, U64_MAX - 100)
+    escrow.status = EscrowStatus.CREATED
+    state.escrows[escrow_id] = escrow
+    payload = {
+        "escrow_id": escrow_id,
+        "amount": 200,
+    }
+    tx = _mk_escrow_tx(ALICE, nonce=5, tx_type=TransactionType.DEPOSIT_ESCROW, payload=payload, fee=0)
+    state_test_group(
+        "transactions/escrow/deposit_escrow.json",
+        "deposit_escrow_amount_u64_overflow",
+        state,
+        tx,
+    )
+
+
+def test_refund_escrow_balance_overflow(state_test_group) -> None:
+    """Refund causes payer.balance to overflow u64 max."""
+    state = _base_state()
+    # Payer (ALICE) has balance near U64_MAX
+    state.accounts[ALICE] = AccountState(address=ALICE, balance=U64_MAX - 50, nonce=5)
+    state.accounts[BOB] = AccountState(address=BOB, balance=COIN_VALUE, nonce=0)
+    escrow_id = _hash(62)
+    escrow = _funded_escrow(escrow_id, ALICE, BOB, 200)
+    state.escrows[escrow_id] = escrow
+    payload = {
+        "escrow_id": escrow_id,
+        "amount": 200,
+        "reason": "refund overflow test",
+    }
+    tx = _mk_escrow_tx(BOB, nonce=0, tx_type=TransactionType.REFUND_ESCROW, payload=payload, fee=0)
+    state_test_group(
+        "transactions/escrow/refund_escrow.json",
+        "refund_escrow_balance_overflow",
+        state,
+        tx,
+    )

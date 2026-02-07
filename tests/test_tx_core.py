@@ -256,3 +256,38 @@ def test_burn_amount_exceeds_balance(state_test) -> None:
         signature=bytes(64),
     )
     state_test("burn_amount_exceeds_balance", state, tx)
+
+
+# ===================================================================
+# U64 overflow tests (apply-phase)
+# ===================================================================
+
+
+def test_transfer_receiver_balance_overflow(state_test) -> None:
+    """Transfer causes receiver.balance to overflow u64 max."""
+    state = _base_state()
+    state.accounts[ALICE] = AccountState(address=ALICE, balance=U64_MAX, nonce=5)
+    state.accounts[BOB] = AccountState(address=BOB, balance=U64_MAX - 50, nonce=0)
+    tx = _mk_tx(ALICE, BOB, nonce=5, amount=100, fee=0)
+    state_test("transfer_receiver_balance_overflow", state, tx)
+
+
+def test_burn_total_burned_overflow(state_test) -> None:
+    """Burn causes global_state.total_burned to overflow u64 max."""
+    state = _base_state()
+    state.accounts[ALICE] = AccountState(address=ALICE, balance=U64_MAX, nonce=5)
+    state.global_state.total_burned = U64_MAX - 50
+    tx = Transaction(
+        version=TxVersion.T1,
+        chain_id=CHAIN_ID_DEVNET,
+        source=ALICE,
+        tx_type=TransactionType.BURN,
+        payload={"amount": 100, "asset": _hash(0)},
+        fee=0,
+        fee_type=FeeType.TOS,
+        nonce=5,
+        reference_hash=_hash(0),
+        reference_topoheight=0,
+        signature=bytes(64),
+    )
+    state_test("burn_total_burned_overflow", state, tx)
