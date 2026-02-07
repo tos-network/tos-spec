@@ -44,9 +44,9 @@ Legend:  +++  strong coverage
 | Energy model       | n/a        | +          | -          | -          | n/a        | n/a        |
 | Account model      | n/a        | +          | -          | -          | n/a        | n/a        |
 
-**Reading this matrix:** L1 dominates as expected (368/368 conformance). L0 wire
-format now covers all 45 TX types. The priority gaps are:
-- L0: negative wire format tests (malformed payloads) not yet started
+**Reading this matrix:** L1 dominates as expected (382/382 conformance). L0 wire
+format covers all 45 TX types plus 15 negative (malformed) wire tests. The
+priority gaps are:
 - L2: no executable block processing tests yet
 - L3-L5: entirely unimplemented
 
@@ -220,7 +220,7 @@ Prioritized backlog of test aspects to implement, ordered by impact and effort.
 | Priority | Aspect                        | Layers | Est. Vectors | Effort | Impact  |
 |----------|-------------------------------|--------|--------------|--------|---------|
 | ~~P0~~   | ~~Wire format all 45 tx types~~ | L0   | 45 done      | -      | -       |
-| P0       | Negative wire format (invalid) | L0     | ~20          | Low    | High    |
+| ~~P0~~   | ~~Negative wire format (invalid)~~ | L0 | 15 done    | -      | -       |
 | P1       | Boundary values per tx type   | L1     | ~86          | Medium | High    |
 | ~~P1~~   | ~~Overflow arithmetic~~       | L1     | 10 done      | -      | -       |
 | P1       | Insufficient balance variants | L1     | ~30          | Low    | Medium  |
