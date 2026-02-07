@@ -47,14 +47,8 @@ DAEMON_MISMATCH_SKIP: set[str] = {
     "withdraw_arbiter_balance_overflow",
     # fee variants — daemon validates fee_type differently
     "transfer_energy_fee_zero",
-    "transfer_energy_fee_nonzero",
-    "burn_energy_fee",
     "burn_uno_fee",
-    "freeze_energy_fee",
     "freeze_uno_fee",
-    "contract_energy_fee",
-    "tns_energy_fee",
-    "multisig_energy_fee",
     "transfer_insufficient_fee",
     "freeze_insufficient_fee",
     "uno_transfer_uno_fee_nonzero",
@@ -91,7 +85,6 @@ DAEMON_MISMATCH_SKIP: set[str] = {
     "commit_selection_commitment_exact_max_size",
     "commit_juror_vote_exact_max_size",
     "invoke_contract_duplicate_deposit_assets",
-    "transfer_max_count_exact",
     # Fee check order: daemon checks fee before overflow → returns INSUFFICIENT_FEE not OVERFLOW
     "burn_amount_plus_fee_overflow",
     "transfer_amount_overflow",
@@ -100,8 +93,6 @@ DAEMON_MISMATCH_SKIP: set[str] = {
     "commit_arbitration_open_payload_too_large",
     "commit_vote_request_payload_too_large",
     "commit_selection_commitment_payload_too_large",
-    # Escrow appeal: daemon doesn't detect existing appeal field at runtime
-    "appeal_escrow_duplicate_appeal",
     # Wire format: daemon rejects at deserialization level (INVALID_FORMAT) before business logic
     "multisig_zero_participants_nonzero_threshold",
     "invoke_contract_zero_deposit_amount",
