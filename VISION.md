@@ -6,7 +6,7 @@ current coverage, and the roadmap for expanding test coverage across all system 
 
 ## Testing Philosophy
 
-TOS conformance testing is built on three principles:
+TOS conformance testing is built on four principles:
 
 1. **Deterministic and offline.** Every test vector is self-contained. Given a pre-state
    and a set of inputs, any correct client must arrive at the same post-state. No network
@@ -19,6 +19,11 @@ TOS conformance testing is built on three principles:
 3. **Layered verification.** Testing is organized into layers of increasing complexity,
    from pure computation up through network-level interoperability. Each layer builds
    on the correctness guarantees of the layers below it.
+
+4. **Fork-aware.** Test vectors are parameterized by protocol version. The same
+   transaction may produce different results under different protocol rules. Tests
+   explicitly cover fork boundaries — the last block before an upgrade and the first
+   block after — to verify that clients activate new rules at the correct height.
 
 The core question every test answers:
 
@@ -84,13 +89,23 @@ Tests at this layer verify behavior that only emerges from multi-transaction exe
 
 ### Layer 3 — API Boundary
 
-RPC and WebSocket interface conformance. Tests verify that clients expose the same
-query interface with identical response formats.
+API conformance is split into two categories with distinct testing requirements.
+
+**Query APIs** (read-only). Tests verify that clients expose the same query interface
+with identical response formats.
 
 - JSON-RPC method signatures and return types
 - WebSocket subscription behavior
 - Error code and error message consistency
 - Pagination and filtering behavior
+
+**Block production APIs** (write path). Tests verify the interface through which
+miners and block producers submit new blocks and the client validates them.
+
+- Block submission and validation responses
+- Transaction pool submission and status reporting
+- Block template construction (transaction selection, reward calculation)
+- Rejection of invalid blocks with correct error codes
 
 ### Layer 4 — Network Protocol
 
@@ -101,6 +116,15 @@ this layer require simulated network environments.
 - Transaction pool synchronization
 - Peer discovery and handshake
 - Chain sync from genesis or checkpoint
+
+**Fault injection and chaos testing.** Beyond correct-path protocol tests, this layer
+includes adversarial scenarios that verify client resilience:
+
+- Network partitions (split-brain, asymmetric connectivity)
+- Message reordering, duplication, and corruption
+- Peer disconnection during sync
+- Resource exhaustion (connection flooding, oversized messages)
+- Clock skew between peers
 
 ### Layer 5 — Cross-Client Interoperability
 
@@ -122,9 +146,11 @@ layer in the testing pyramid.
 | StateTest         | L1    | Single transaction execution             | Active     |
 | BlockTest         | L2    | Multi-transaction block processing       | Planned    |
 | TransactionTest   | L0    | Wire format validity (no execution)      | Partial    |
+| CodecTest         | L0    | Raw encoding/decoding round-trip         | Planned    |
 | ConsensusTest     | L2    | DAG ordering, mining, finality           | Partial    |
 | CryptoTest        | L0    | Hash algorithms, HMAC, signatures        | Partial    |
-| RPCTest           | L3    | RPC method conformance                   | Planned    |
+| RPCTest           | L3    | RPC query method conformance             | Planned    |
+| EngineTest        | L3    | Block production API conformance         | Planned    |
 
 ## Current Coverage
 
@@ -170,6 +196,7 @@ As of the latest run: **105 pytest tests, 71 conformance vectors**.
 **Current**: 2 wire format tests (transfer, energy freeze).
 
 **Gaps**:
+- CodecTest fixtures: raw encoding/decoding round-trip for all field types
 - Wire format tests for all 43 transaction types
 - Negative wire format tests (truncated, oversized, invalid type codes)
 - BLAKE3 hash test vectors (cross-implementation)
@@ -188,6 +215,8 @@ As of the latest run: **105 pytest tests, 71 conformance vectors**.
 - More negative cases (insufficient balance, wrong nonce, unauthorized signer)
 - Interaction tests (e.g., freeze then transfer, delegate then unfreeze)
 - Fee type variations (energy fee vs direct fee per transaction type)
+- Protocol version parameterization (same tx tested under different rule sets)
+- Fork boundary vectors (last block before upgrade, first block after)
 
 ### Layer 2 — Block Processing
 
@@ -210,6 +239,8 @@ As of the latest run: **105 pytest tests, 71 conformance vectors**.
 - Error response format conformance
 - Query methods (get_balance, get_transaction, get_block)
 - Domain query methods (get_escrow, get_energy, get_name)
+- EngineTest fixtures for block production API (submit block, get template)
+- Block production API error codes (invalid block, duplicate submission)
 
 ### Layer 4 — Network Protocol
 
@@ -221,6 +252,8 @@ As of the latest run: **105 pytest tests, 71 conformance vectors**.
 - Transaction relay behavior
 - Peer scoring and ban rules
 - Chain sync protocol (header-first, state sync)
+- Fault injection vectors (partition, message corruption, clock skew)
+- Resource exhaustion scenarios (connection flooding, oversized messages)
 
 ### Layer 5 — Cross-Client Interoperability
 
@@ -322,3 +355,45 @@ The end-to-end flow from spec change to conformance verification:
 
 Each step is deterministic and reproducible. Fixtures and vectors are committed to
 the repository so that conformance can be verified without re-running the spec.
+
+### Transition Tool Interface
+
+The Python spec computes expected outputs directly. For client implementations, TOS
+defines a standardized **transition tool (`t8n`) interface** — a CLI command that each
+client exposes to execute a single state transition in isolation:
+
+```
+tos-t8n --input.pre <pre-state> --input.txs <transactions> --input.env <env>
+        --output.post <post-state> --output.result <result>
+```
+
+This interface serves two purposes:
+
+1. **Filling.** The spec framework can invoke any client's `t8n` tool to independently
+   verify that the Python spec and the client agree on expected outputs. Discrepancies
+   discovered during filling indicate spec or client bugs before vectors are published.
+
+2. **Standalone testing.** Client developers can run individual vectors through their
+   `t8n` tool without needing the full Labu harness, enabling fast local iteration.
+
+## Differential Fuzzing
+
+Hand-written test vectors cover known scenarios. Differential fuzzing covers the
+unknown by generating random inputs and comparing outputs across implementations.
+
+**Approach.** A fuzzer generates random but structurally valid transactions and
+pre-states, then feeds them to two or more `t8n` implementations (the Python spec
+and one or more client transition tools). Any output disagreement is a bug in at
+least one implementation.
+
+**Scope.** Fuzzing is most effective at layers 0-1:
+
+- **L0 (codec):** Random byte sequences tested against all wire format decoders.
+  Any decoder that accepts input another rejects (or vice versa) indicates a
+  conformance gap.
+- **L1 (state transition):** Random transactions with valid structure but arbitrary
+  field values. Catches edge cases in balance arithmetic, nonce handling, and
+  authorization logic that hand-written tests miss.
+
+**Integration.** Fuzzing is a continuous process, not a one-time pass. Inputs that
+trigger disagreements are minimized and added to the vector suite as regression tests.
