@@ -5,9 +5,12 @@ use pyo3::types::{PyList, PyModule, PyTuple};
 use sha3::{Digest, Sha3_512};
 use tos_crypto::bulletproofs::PedersenGens;
 use tos_crypto::curve25519_dalek::{RistrettoPoint, Scalar};
+use tos_crypto::merlin::Transcript;
 
 lazy_static! {
-    static ref H: RistrettoPoint = PedersenGens::default().B_blinding;
+    static ref PC_GENS: PedersenGens = PedersenGens::default();
+    static ref G: RistrettoPoint = PC_GENS.B;
+    static ref H: RistrettoPoint = PC_GENS.B_blinding;
 }
 
 // ---------------------------------------------------------------------------
@@ -359,6 +362,106 @@ fn sign_transfer(
 }
 
 // ---------------------------------------------------------------------------
+// Level 5: Privacy crypto helpers
+// ---------------------------------------------------------------------------
+
+/// Generate valid shield transfer crypto (commitment, receiver_handle, proof).
+///
+/// Returns (commitment: 32 bytes, receiver_handle: 32 bytes, proof: 96 bytes).
+/// The proof is a valid ShieldCommitmentProof that passes daemon verification.
+#[pyfunction]
+fn make_shield_crypto(dest_seed: u8, amount: u64) -> PyResult<(Vec<u8>, Vec<u8>, Vec<u8>)> {
+    let (_, dest_pub) = keypair_from_byte(dest_seed);
+
+    // Pedersen opening (random scalar r)
+    let r = Scalar::random(&mut rand::rngs::OsRng);
+
+    // Commitment C = amount*G + r*H
+    let x = Scalar::from(amount);
+    let commitment = &x * &*G + &r * &*H;
+
+    // Receiver handle D = r * P_dest
+    let receiver_handle = &r * &dest_pub;
+
+    // Shield commitment proof using fresh transcript (matches daemon verifier)
+    let mut transcript = Transcript::new(b"shield_commitment_proof");
+    // Domain separator (matches ProtocolTranscript::shield_commitment_proof_domain_separator)
+    transcript.append_message(b"dom-sep", b"shield-commitment-proof");
+
+    // Random nonce k
+    let k = Scalar::random(&mut rand::rngs::OsRng);
+    let y_h = (&k * &*H).compress();
+    let y_p = (&k * &dest_pub).compress();
+
+    // Append proof commitments to transcript
+    transcript.append_message(b"Y_H", y_h.as_bytes());
+    transcript.append_message(b"Y_P", y_p.as_bytes());
+
+    // Challenge c
+    let c = {
+        let mut bytes = [0u8; 64];
+        transcript.challenge_bytes(b"c", &mut bytes);
+        Scalar::from_bytes_mod_order_wide(&bytes)
+    };
+
+    // Response z = c*r + k
+    let z = &c * &r + &k;
+
+    // Consume w challenge (matches proof protocol)
+    {
+        let mut bytes = [0u8; 64];
+        transcript.challenge_bytes(b"w", &mut bytes);
+    }
+
+    // Serialize commitment (32 bytes)
+    let commitment_bytes = commitment.compress().as_bytes().to_vec();
+
+    // Serialize receiver handle (32 bytes)
+    let handle_bytes = receiver_handle.compress().as_bytes().to_vec();
+
+    // Serialize proof: Y_H (32) + Y_P (32) + z (32) = 96 bytes
+    let mut proof = Vec::with_capacity(96);
+    proof.extend_from_slice(y_h.as_bytes());
+    proof.extend_from_slice(y_p.as_bytes());
+    proof.extend_from_slice(z.as_bytes());
+
+    Ok((commitment_bytes, handle_bytes, proof))
+}
+
+/// Generate a random valid compressed Ristretto point (32 bytes).
+///
+/// Useful for filling fields that need valid curve points for deserialization
+/// but don't need to pass proof verification.
+#[pyfunction]
+fn random_valid_point() -> PyResult<Vec<u8>> {
+    let point = RistrettoPoint::random(&mut rand::rngs::OsRng);
+    Ok(point.compress().as_bytes().to_vec())
+}
+
+/// Generate a valid CiphertextValidityProof byte sequence (160 bytes for T1+).
+///
+/// Contains valid compressed Ristretto points and canonical scalars that
+/// pass wire deserialization. Does NOT pass proof verification.
+#[pyfunction]
+fn make_dummy_ct_validity_proof() -> PyResult<Vec<u8>> {
+    // Y_0, Y_1, Y_2 (for T1), z_r, z_x — all random valid values
+    let y0 = RistrettoPoint::random(&mut rand::rngs::OsRng).compress();
+    let y1 = RistrettoPoint::random(&mut rand::rngs::OsRng).compress();
+    let y2 = RistrettoPoint::random(&mut rand::rngs::OsRng).compress();
+    let z_r = Scalar::random(&mut rand::rngs::OsRng);
+    let z_x = Scalar::random(&mut rand::rngs::OsRng);
+
+    let mut out = Vec::with_capacity(160);
+    out.extend_from_slice(y0.as_bytes());
+    out.extend_from_slice(y1.as_bytes());
+    out.extend_from_slice(y2.as_bytes());
+    out.extend_from_slice(z_r.as_bytes());
+    out.extend_from_slice(z_x.as_bytes());
+
+    Ok(out)
+}
+
+// ---------------------------------------------------------------------------
 // Module registration
 // ---------------------------------------------------------------------------
 
@@ -377,5 +480,9 @@ fn tos_signer(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(encode_burn_payload, m)?)?;
     // Level 4: convenience
     m.add_function(wrap_pyfunction!(sign_transfer, m)?)?;
+    // Level 5: privacy crypto
+    m.add_function(wrap_pyfunction!(make_shield_crypto, m)?)?;
+    m.add_function(wrap_pyfunction!(random_valid_point, m)?)?;
+    m.add_function(wrap_pyfunction!(make_dummy_ct_validity_proof, m)?)?;
     Ok(())
 }

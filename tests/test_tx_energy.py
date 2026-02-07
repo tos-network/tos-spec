@@ -500,6 +500,7 @@ def test_freeze_energy_overflow(state_test_group) -> None:
     state.energy_resources[sender] = EnergyResource(
         frozen_tos=0, energy=U64_MAX - 5,
     )
+    state.global_state.total_energy = U64_MAX - 5
     tx = _mk_freeze_tos(sender, nonce=5, amount=COIN_VALUE, days=3, fee=0)
     state_test_group(
         "transactions/energy/freeze_tos.json", "freeze_energy_overflow", state, tx
@@ -522,6 +523,7 @@ def test_delegate_energy_overflow(state_test_group) -> None:
     state.accounts[delegatee] = AccountState(
         address=delegatee, balance=0, nonce=0, energy=U64_MAX - 5,
     )
+    state.global_state.total_energy = U64_MAX - 5
     entries = [DelegationEntry(delegatee=delegatee, amount=COIN_VALUE)]
     tx = _mk_freeze_delegate(sender, nonce=5, delegatees=entries, days=3, fee=0)
     state_test_group(

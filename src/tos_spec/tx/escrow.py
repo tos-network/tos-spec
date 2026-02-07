@@ -112,7 +112,7 @@ def _verify_create(state: ChainState, tx: Transaction, p: dict) -> None:
 
     task_id = p.get("task_id", "")
     if not task_id or len(task_id) > MAX_TASK_ID_LEN:
-        raise SpecError(ErrorCode.INVALID_PAYLOAD, "invalid task_id")
+        raise SpecError(ErrorCode.INVALID_FORMAT, "invalid task_id")
 
     timeout = p.get("timeout_blocks", 0)
     if timeout < MIN_TIMEOUT_BLOCKS or timeout > MAX_TIMEOUT_BLOCKS:
@@ -289,7 +289,7 @@ def _verify_refund(state: ChainState, tx: Transaction, p: dict) -> None:
 
     reason = p.get("reason")
     if reason is not None and len(reason) > MAX_REASON_LEN:
-        raise SpecError(ErrorCode.INVALID_PAYLOAD, "reason too long")
+        raise SpecError(ErrorCode.INVALID_FORMAT, "reason too long")
 
     eid = _to_bytes(p.get("escrow_id"))
     escrow = state.escrows.get(eid)
@@ -297,6 +297,17 @@ def _verify_refund(state: ChainState, tx: Transaction, p: dict) -> None:
         raise SpecError(ErrorCode.ESCROW_NOT_FOUND, "escrow not found")
     if amount > escrow.amount:
         raise SpecError(ErrorCode.INVALID_AMOUNT, "refund amount exceeds escrow balance")
+
+    # Timeout check: before timeout, only payee can refund
+    timeout_height = escrow.created_at + escrow.timeout_blocks
+    height = state.global_state.block_height
+    if height < timeout_height:
+        if tx.source == escrow.payee:
+            if escrow.status not in (EscrowStatus.FUNDED, EscrowStatus.PENDING_RELEASE):
+                raise SpecError(ErrorCode.ESCROW_WRONG_STATE, "invalid escrow state for payee refund")
+            return  # payee can refund before timeout
+        raise SpecError(ErrorCode.INVALID_PAYLOAD, "timeout not reached")
+
     # Terminal states cannot be refunded
     if escrow.status in (EscrowStatus.RELEASED, EscrowStatus.REFUNDED, EscrowStatus.RESOLVED):
         raise SpecError(ErrorCode.ESCROW_WRONG_STATE, "escrow in terminal state")

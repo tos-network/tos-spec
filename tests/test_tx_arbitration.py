@@ -769,7 +769,7 @@ def test_commit_arbitration_open_payload_too_large(state_test_group) -> None:
         "opener_signature": bytes(64),
         "arbitration_open_payload": oversized_payload,
     }
-    tx = _mk_arb_tx(ALICE, nonce=5, tx_type=TransactionType.COMMIT_ARBITRATION_OPEN, payload=payload, fee=100_000)
+    tx = _mk_arb_tx(ALICE, nonce=5, tx_type=TransactionType.COMMIT_ARBITRATION_OPEN, payload=payload, fee=10 * COIN_VALUE)
     state_test_group(
         "transactions/arbitration/commit_arbitration_open.json",
         "commit_arbitration_open_payload_too_large",
@@ -857,7 +857,7 @@ def test_commit_vote_request_payload_too_large(state_test_group) -> None:
         "coordinator_signature": bytes(64),
         "vote_request_payload": oversized_payload,
     }
-    tx = _mk_arb_tx(ALICE, nonce=5, tx_type=TransactionType.COMMIT_VOTE_REQUEST, payload=payload, fee=100_000)
+    tx = _mk_arb_tx(ALICE, nonce=5, tx_type=TransactionType.COMMIT_VOTE_REQUEST, payload=payload, fee=10 * COIN_VALUE)
     state_test_group(
         "transactions/arbitration/commit_vote_request.json",
         "commit_vote_request_payload_too_large",
@@ -910,7 +910,7 @@ def test_commit_selection_commitment_payload_too_large(state_test_group) -> None
         "selection_commitment_id": _hash(75),
         "selection_commitment_payload": oversized_payload,
     }
-    tx = _mk_arb_tx(ALICE, nonce=5, tx_type=TransactionType.COMMIT_SELECTION_COMMITMENT, payload=payload, fee=100_000)
+    tx = _mk_arb_tx(ALICE, nonce=5, tx_type=TransactionType.COMMIT_SELECTION_COMMITMENT, payload=payload, fee=10 * COIN_VALUE)
     state_test_group(
         "transactions/arbitration/commit_selection_commitment.json",
         "commit_selection_commitment_payload_too_large",
@@ -1056,26 +1056,56 @@ def _escrow_with_dispute() -> tuple[ChainState, bytes]:
 
 
 def _build_verdict_msg(
-    escrow_id: bytes, payer_amount: int, payee_amount: int, timestamp: int,
+    escrow_id: bytes, dispute_id: bytes, round: int,
+    payer_amount: int, payee_amount: int,
 ) -> bytes:
+    """Build verdict signing message matching Rust build_verdict_message."""
+    # Derive outcome: 0=PayerWins, 1=PayeeWins, 2=Split
+    if payer_amount == 0 and payee_amount > 0:
+        outcome = 1
+    elif payee_amount == 0 and payer_amount > 0:
+        outcome = 0
+    else:
+        outcome = 2
     msg = b"TOS_VERDICT_V1"
     msg += struct.pack("<Q", CHAIN_ID_DEVNET)
     msg += escrow_id
+    msg += dispute_id
+    msg += struct.pack("<I", round)
+    msg += bytes([outcome])
     msg += struct.pack("<Q", payer_amount)
     msg += struct.pack("<Q", payee_amount)
-    msg += struct.pack("<Q", timestamp)
     return msg
 
 
 def test_submit_verdict_by_juror_success(state_test_group) -> None:
     """Juror submits verdict on active dispute."""
     state, escrow_id = _escrow_with_dispute()
-    sender = ALICE
-    now = int(time.time())
+    # CAROL is one of the escrow arbiters — must be the submitter for juror variant
+    sender = CAROL
+    state.accounts[CAROL] = AccountState(
+        address=CAROL, balance=10_000 * COIN_VALUE, nonce=5
+    )
+    # Arbiter records needed for daemon's ArbiterRegistry check
+    state.arbiters[CAROL] = ArbiterAccount(
+        public_key=CAROL, name="carol-arb",
+        status=ArbiterStatus.ACTIVE, stake_amount=MIN_ARBITER_STAKE,
+    )
+    state.arbiters[DAVE] = ArbiterAccount(
+        public_key=DAVE, name="dave-arb",
+        status=ArbiterStatus.ACTIVE, stake_amount=MIN_ARBITER_STAKE,
+    )
+    # Block height must be past coordinator deadline (1000) but within juror window
+    state.global_state.block_height = 1500
+    dispute_id = escrow_id  # first dispute uses escrow_id as dispute_id
+    dispute_round = 0
+
     payer_amount = 6 * COIN_VALUE
     payee_amount = 4 * COIN_VALUE
+    now = int(time.time())
 
-    msg = _build_verdict_msg(escrow_id, payer_amount, payee_amount, now)
+    msg = _build_verdict_msg(escrow_id, dispute_id, dispute_round,
+                             payer_amount, payee_amount)
     sigs = [
         _sign_arb_approval(CAROL, msg, now),
         _sign_arb_approval(DAVE, msg, now),
@@ -1083,6 +1113,8 @@ def test_submit_verdict_by_juror_success(state_test_group) -> None:
 
     payload = {
         "escrow_id": escrow_id,
+        "dispute_id": dispute_id,
+        "round": dispute_round,
         "payer_amount": payer_amount,
         "payee_amount": payee_amount,
         "signatures": sigs,
@@ -1273,7 +1305,7 @@ def test_update_arbiter_stake_overflow(state_test_group) -> None:
     payload = {
         "add_stake": 200,
     }
-    tx = _mk_arb_tx(ALICE, nonce=5, tx_type=TransactionType.UPDATE_ARBITER, payload=payload, fee=0)
+    tx = _mk_arb_tx(ALICE, nonce=5, tx_type=TransactionType.UPDATE_ARBITER, payload=payload, fee=100_000)
     state_test_group(
         "transactions/arbitration/update_arbiter.json",
         "update_arbiter_stake_overflow",
@@ -1286,13 +1318,15 @@ def test_withdraw_arbiter_balance_overflow(state_test_group) -> None:
     """Withdrawing stake causes sender.balance to overflow u64 max."""
     state = _base_state()
     # Sender balance near U64_MAX, stake withdrawal would overflow
+    # After fee deduction: balance = U64_MAX - 50 - 100_000 = U64_MAX - 100_050
+    # Withdraw 100_100 → U64_MAX - 100_050 + 100_100 = U64_MAX + 50 → OVERFLOW
     state.accounts[ALICE] = AccountState(address=ALICE, balance=U64_MAX - 50, nonce=5)
     arbiter = _active_arbiter(ALICE)
     arbiter.status = ArbiterStatus.EXITING
-    arbiter.stake_amount = 200
+    arbiter.stake_amount = 100_100
     state.arbiters[ALICE] = arbiter
-    payload = {"amount": 200}
-    tx = _mk_arb_tx(ALICE, nonce=5, tx_type=TransactionType.WITHDRAW_ARBITER_STAKE, payload=payload, fee=0)
+    payload = {"amount": 100_100}
+    tx = _mk_arb_tx(ALICE, nonce=5, tx_type=TransactionType.WITHDRAW_ARBITER_STAKE, payload=payload, fee=100_000)
     state_test_group(
         "transactions/arbitration/withdraw_arbiter_stake.json",
         "withdraw_arbiter_balance_overflow",
@@ -1538,7 +1572,7 @@ def test_commit_arbitration_open_exact_max_size(state_test_group) -> None:
         "opener_signature": bytes(64),
         "arbitration_open_payload": payload_data,
     }
-    tx = _mk_arb_tx(ALICE, nonce=5, tx_type=TransactionType.COMMIT_ARBITRATION_OPEN, payload=payload, fee=100_000)
+    tx = _mk_arb_tx(ALICE, nonce=5, tx_type=TransactionType.COMMIT_ARBITRATION_OPEN, payload=payload, fee=10 * COIN_VALUE)
     state_test_group(
         "transactions/arbitration/commit_arbitration_open.json",
         "commit_arbitration_open_exact_max_size",
@@ -1557,7 +1591,7 @@ def test_commit_vote_request_exact_max_size(state_test_group) -> None:
         "coordinator_signature": bytes(64),
         "vote_request_payload": payload_data,
     }
-    tx = _mk_arb_tx(ALICE, nonce=5, tx_type=TransactionType.COMMIT_VOTE_REQUEST, payload=payload, fee=100_000)
+    tx = _mk_arb_tx(ALICE, nonce=5, tx_type=TransactionType.COMMIT_VOTE_REQUEST, payload=payload, fee=10 * COIN_VALUE)
     state_test_group(
         "transactions/arbitration/commit_vote_request.json",
         "commit_vote_request_exact_max_size",
@@ -1575,7 +1609,7 @@ def test_commit_selection_commitment_exact_max_size(state_test_group) -> None:
         "selection_commitment_id": _hash(75),
         "selection_commitment_payload": payload_data,
     }
-    tx = _mk_arb_tx(ALICE, nonce=5, tx_type=TransactionType.COMMIT_SELECTION_COMMITMENT, payload=payload, fee=100_000)
+    tx = _mk_arb_tx(ALICE, nonce=5, tx_type=TransactionType.COMMIT_SELECTION_COMMITMENT, payload=payload, fee=10 * COIN_VALUE)
     state_test_group(
         "transactions/arbitration/commit_selection_commitment.json",
         "commit_selection_commitment_exact_max_size",
@@ -1595,7 +1629,7 @@ def test_commit_juror_vote_exact_max_size(state_test_group) -> None:
         "juror_signature": bytes(64),
         "vote_payload": payload_data,
     }
-    tx = _mk_arb_tx(ALICE, nonce=5, tx_type=TransactionType.COMMIT_JUROR_VOTE, payload=payload, fee=100_000)
+    tx = _mk_arb_tx(ALICE, nonce=5, tx_type=TransactionType.COMMIT_JUROR_VOTE, payload=payload, fee=10 * COIN_VALUE)
     state_test_group(
         "transactions/arbitration/commit_juror_vote.json",
         "commit_juror_vote_exact_max_size",

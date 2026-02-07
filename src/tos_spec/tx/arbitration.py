@@ -121,7 +121,7 @@ def _verify_register_arbiter(state: ChainState, tx: Transaction, p: dict) -> Non
         raise SpecError(ErrorCode.INVALID_PAYLOAD, "min_escrow_value > max_escrow_value")
 
     if tx.source in state.arbiters:
-        raise SpecError(ErrorCode.ACCOUNT_EXISTS, "arbiter already registered")
+        raise SpecError(ErrorCode.DOMAIN_EXISTS, "arbiter already registered")
 
     sender = state.accounts.get(tx.source)
     if sender is None:

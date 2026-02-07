@@ -176,11 +176,15 @@ def _verify_common(state: ChainState, tx: Transaction) -> None:
     if tx.fee_type == FeeType.ENERGY and tx.fee != 0:
         raise SpecError(ErrorCode.INVALID_PAYLOAD, "energy fee must be zero")
 
+    # Energy transactions must have zero fee regardless of fee_type
+    if tx.tx_type == TransactionType.ENERGY and tx.fee != 0:
+        raise SpecError(ErrorCode.INVALID_PAYLOAD, "energy transactions must have zero fee")
+
     if tx.fee_type == FeeType.UNO and tx.tx_type != TransactionType.UNO_TRANSFERS:
-        raise SpecError(ErrorCode.INVALID_PAYLOAD, "uno fee only for uno transfers")
+        raise SpecError(ErrorCode.INVALID_FORMAT, "uno fee only for uno transfers")
 
     if tx.fee_type == FeeType.UNO and tx.fee != 0:
-        raise SpecError(ErrorCode.INVALID_PAYLOAD, "uno fee must be zero")
+        raise SpecError(ErrorCode.INVALID_FORMAT, "uno fee must be zero")
 
     # Nonce range rules (verification phase)
     if tx.nonce < sender.nonce:
@@ -189,8 +193,16 @@ def _verify_common(state: ChainState, tx: Transaction) -> None:
     if tx.nonce > sender.nonce + MAX_NONCE_GAP:
         raise SpecError(ErrorCode.NONCE_TOO_HIGH, "nonce too high")
 
-    # Fee availability check (pre-validation)
-    if sender.balance < tx.fee:
+
+
+def _check_fee_availability(state: ChainState, tx: Transaction) -> None:
+    """Check sender has enough balance to cover the fee.
+
+    Called after type-specific validation so that protocol violations
+    (overflow, payload errors) take precedence over fee insufficiency.
+    """
+    sender = state.accounts.get(tx.source)
+    if sender is not None and sender.balance < tx.fee:
         raise SpecError(ErrorCode.INSUFFICIENT_FEE, "insufficient fee")
 
 
@@ -198,6 +210,7 @@ def verify_tx(state: ChainState, tx: Transaction) -> TransitionResult:
     """Stateless + stateful verification for a single tx."""
     try:
         _verify_common(state, tx)
+        _check_fee_availability(state, tx)
         _dispatch_verify(state, tx)
         return TransitionResult.success()
     except SpecError as exc:
@@ -224,6 +237,7 @@ def apply_tx(state: ChainState, tx: Transaction) -> tuple[ChainState, Transition
         # Strict nonce validation happens before execution.
         sender = state.accounts[tx.source]
         _require_strict_nonce(sender.nonce, tx.nonce)
+        _check_fee_availability(state, tx)
         _dispatch_verify(state, tx)
     except SpecError as exc:
         return state, TransitionResult.failure(exc)

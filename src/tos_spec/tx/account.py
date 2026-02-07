@@ -52,7 +52,7 @@ def _verify_multisig(state: ChainState, tx: Transaction) -> None:
         raise SpecError(ErrorCode.INVALID_PAYLOAD, "threshold must be > 0 for setup")
 
     if len(participants) == 0:
-        raise SpecError(ErrorCode.INVALID_PAYLOAD, "participants must not be empty")
+        raise SpecError(ErrorCode.INVALID_FORMAT, "participants must not be empty")
 
     if len(participants) > MAX_MULTISIG_PARTICIPANTS:
         raise SpecError(ErrorCode.INVALID_PAYLOAD, "too many multisig participants")

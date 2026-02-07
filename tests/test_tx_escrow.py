@@ -1394,14 +1394,14 @@ def test_deposit_escrow_amount_overflow(state_test_group) -> None:
     state = _base_state()
     state.accounts[ALICE] = AccountState(address=ALICE, balance=U64_MAX, nonce=5)
     escrow_id = _hash(60)
-    escrow = _funded_escrow(escrow_id, ALICE, BOB, U64_MAX - 1)
+    escrow = _funded_escrow(escrow_id, ALICE, BOB, U64_MAX - 100)
     escrow.status = EscrowStatus.CREATED
     state.escrows[escrow_id] = escrow
     payload = {
         "escrow_id": escrow_id,
-        "amount": U64_MAX,
+        "amount": 200,
     }
-    tx = _mk_escrow_tx(ALICE, nonce=5, tx_type=TransactionType.DEPOSIT_ESCROW, payload=payload, fee=0)
+    tx = _mk_escrow_tx(ALICE, nonce=5, tx_type=TransactionType.DEPOSIT_ESCROW, payload=payload, fee=100_000)
     state_test_group(
         "transactions/escrow/deposit_escrow.json",
         "deposit_escrow_amount_overflow",
@@ -1445,7 +1445,7 @@ def test_deposit_escrow_amount_u64_overflow(state_test_group) -> None:
         "escrow_id": escrow_id,
         "amount": 200,
     }
-    tx = _mk_escrow_tx(ALICE, nonce=5, tx_type=TransactionType.DEPOSIT_ESCROW, payload=payload, fee=0)
+    tx = _mk_escrow_tx(ALICE, nonce=5, tx_type=TransactionType.DEPOSIT_ESCROW, payload=payload, fee=100_000)
     state_test_group(
         "transactions/escrow/deposit_escrow.json",
         "deposit_escrow_amount_u64_overflow",
@@ -1468,7 +1468,7 @@ def test_refund_escrow_balance_overflow(state_test_group) -> None:
         "amount": 200,
         "reason": "refund overflow test",
     }
-    tx = _mk_escrow_tx(BOB, nonce=0, tx_type=TransactionType.REFUND_ESCROW, payload=payload, fee=0)
+    tx = _mk_escrow_tx(BOB, nonce=0, tx_type=TransactionType.REFUND_ESCROW, payload=payload, fee=100_000)
     state_test_group(
         "transactions/escrow/refund_escrow.json",
         "refund_escrow_balance_overflow",

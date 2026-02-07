@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import tos_signer
 from tos_spec.config import (
     CHAIN_ID_DEVNET,
     COIN_VALUE,
@@ -18,9 +19,23 @@ from tos_spec.types import (
     TxVersion,
 )
 
+# Seed bytes for key derivation (must match test_accounts.py)
+_SEED_ALICE = 2
+_SEED_BOB = 3
+
 
 def _hash(byte: int) -> bytes:
     return bytes([byte]) * 32
+
+
+def _valid_point() -> bytes:
+    """Generate a random valid compressed Ristretto point (32 bytes)."""
+    return bytes(tos_signer.random_valid_point())
+
+
+def _valid_ct_proof() -> bytes:
+    """Generate a valid CiphertextValidityProof (160 bytes, T1)."""
+    return bytes(tos_signer.make_dummy_ct_validity_proof())
 
 
 def _base_state() -> ChainState:
@@ -44,18 +59,17 @@ def _mk_uno_transfer(
                 {
                     "asset": _hash(0),
                     "destination": destination,
-                    "commitment": _hash(10),
-                    "sender_handle": _hash(11),
-                    "receiver_handle": _hash(12),
-                    "ct_validity_proof": bytes([0xAA]) * 160,
+                    "commitment": _valid_point(),
+                    "sender_handle": _valid_point(),
+                    "receiver_handle": _valid_point(),
+                    "ct_validity_proof": _valid_ct_proof(),
                 }
             ]
         },
         fee=fee,
         fee_type=FeeType.UNO,
         nonce=nonce,
-        source_commitments=[_hash(20)],
-        range_proof=bytes([0xBB]) * 64,
+        source_commitments=[],
         reference_hash=_hash(0),
         reference_topoheight=0,
         signature=bytes(64),
@@ -63,8 +77,12 @@ def _mk_uno_transfer(
 
 
 def _mk_shield_transfer(
-    sender: bytes, nonce: int, destination: bytes, amount: int, fee: int
+    sender: bytes, nonce: int, destination: bytes, amount: int, fee: int,
+    dest_seed: int = _SEED_BOB,
 ) -> Transaction:
+    commitment, receiver_handle, proof = [
+        bytes(x) for x in tos_signer.make_shield_crypto(dest_seed, amount)
+    ]
     return Transaction(
         version=TxVersion.T1,
         chain_id=CHAIN_ID_DEVNET,
@@ -76,16 +94,16 @@ def _mk_shield_transfer(
                     "asset": _hash(0),
                     "destination": destination,
                     "amount": amount,
-                    "commitment": _hash(10),
-                    "receiver_handle": _hash(12),
-                    "proof": bytes([0xCC]) * 96,
+                    "commitment": commitment,
+                    "receiver_handle": receiver_handle,
+                    "proof": proof,
                 }
             ]
         },
         fee=fee,
         fee_type=FeeType.TOS,
         nonce=nonce,
-        source_commitments=[_hash(20)],
+        source_commitments=[],
         reference_hash=_hash(0),
         reference_topoheight=0,
         signature=bytes(64),
@@ -106,16 +124,16 @@ def _mk_unshield_transfer(
                     "asset": _hash(0),
                     "destination": destination,
                     "amount": amount,
-                    "commitment": _hash(10),
-                    "sender_handle": _hash(11),
-                    "ct_validity_proof": bytes([0xDD]) * 160,
+                    "commitment": _valid_point(),
+                    "sender_handle": _valid_point(),
+                    "ct_validity_proof": _valid_ct_proof(),
                 }
             ]
         },
         fee=fee,
         fee_type=FeeType.TOS,
         nonce=nonce,
-        source_commitments=[_hash(20)],
+        source_commitments=[],
         reference_hash=_hash(0),
         reference_topoheight=0,
         signature=bytes(64),
@@ -307,17 +325,16 @@ def test_uno_transfer_zero_amount(state_test_group) -> None:
                     "asset": _hash(0),
                     "destination": BOB,
                     "commitment": bytes(32),  # zero commitment
-                    "sender_handle": _hash(11),
-                    "receiver_handle": _hash(12),
-                    "ct_validity_proof": bytes([0xAA]) * 160,
+                    "sender_handle": _valid_point(),
+                    "receiver_handle": _valid_point(),
+                    "ct_validity_proof": _valid_ct_proof(),
                 }
             ]
         },
         fee=0,
         fee_type=FeeType.UNO,
         nonce=5,
-        source_commitments=[_hash(20)],
-        range_proof=bytes([0xBB]) * 64,
+        source_commitments=[],
         reference_hash=_hash(0),
         reference_topoheight=0,
         signature=bytes(64),
@@ -350,8 +367,7 @@ def test_uno_transfer_empty_list(state_test_group) -> None:
         fee=0,
         fee_type=FeeType.UNO,
         nonce=5,
-        source_commitments=[_hash(20)],
-        range_proof=bytes([0xBB]) * 64,
+        source_commitments=[],
         reference_hash=_hash(0),
         reference_topoheight=0,
         signature=bytes(64),
@@ -371,14 +387,18 @@ def test_uno_transfer_max_count_exceeded(state_test_group) -> None:
     """
     state = _base_state()
     state.accounts[BOB] = AccountState(address=BOB, balance=0, nonce=0)
+    commitment = _valid_point()
+    sender_handle = _valid_point()
+    receiver_handle = _valid_point()
+    ct_proof = _valid_ct_proof()
     transfers = [
         {
             "asset": _hash(0),
             "destination": BOB,
-            "commitment": _hash(10),
-            "sender_handle": _hash(11),
-            "receiver_handle": _hash(12),
-            "ct_validity_proof": bytes([0xAA]) * 160,
+            "commitment": commitment,
+            "sender_handle": sender_handle,
+            "receiver_handle": receiver_handle,
+            "ct_validity_proof": ct_proof,
         }
         for _ in range(MAX_TRANSFER_COUNT + 1)
     ]
@@ -391,8 +411,7 @@ def test_uno_transfer_max_count_exceeded(state_test_group) -> None:
         fee=0,
         fee_type=FeeType.UNO,
         nonce=5,
-        source_commitments=[_hash(20)],
-        range_proof=bytes([0xBB]) * 64,
+        source_commitments=[],
         reference_hash=_hash(0),
         reference_topoheight=0,
         signature=bytes(64),
@@ -444,14 +463,17 @@ def test_shield_transfer_max_count_exceeded(state_test_group) -> None:
     """
     state = _base_state()
     state.accounts[BOB] = AccountState(address=BOB, balance=0, nonce=0)
+    commitment, receiver_handle, proof = [
+        bytes(x) for x in tos_signer.make_shield_crypto(_SEED_BOB, MIN_SHIELD_TOS_AMOUNT)
+    ]
     transfers = [
         {
             "asset": _hash(0),
             "destination": BOB,
             "amount": MIN_SHIELD_TOS_AMOUNT,
-            "commitment": _hash(10),
-            "receiver_handle": _hash(12),
-            "proof": bytes([0xCC]) * 96,
+            "commitment": commitment,
+            "receiver_handle": receiver_handle,
+            "proof": proof,
         }
         for _ in range(MAX_TRANSFER_COUNT + 1)
     ]
@@ -483,6 +505,9 @@ def test_shield_transfer_non_tos_asset(state_test_group) -> None:
     """
     state = _base_state()
     state.accounts[BOB] = AccountState(address=BOB, balance=0, nonce=0)
+    commitment, receiver_handle, proof = [
+        bytes(x) for x in tos_signer.make_shield_crypto(_SEED_BOB, MIN_SHIELD_TOS_AMOUNT)
+    ]
     tx = Transaction(
         version=TxVersion.T1,
         chain_id=CHAIN_ID_DEVNET,
@@ -494,15 +519,16 @@ def test_shield_transfer_non_tos_asset(state_test_group) -> None:
                     "asset": _hash(1),  # Non-TOS asset
                     "destination": BOB,
                     "amount": MIN_SHIELD_TOS_AMOUNT,
-                    "commitment": _hash(10),
-                    "receiver_handle": _hash(12),
-                    "proof": bytes([0xCC]) * 96,
+                    "commitment": commitment,
+                    "receiver_handle": receiver_handle,
+                    "proof": proof,
                 }
             ]
         },
         fee=100_000,
         fee_type=FeeType.TOS,
         nonce=5,
+        source_commitments=[],
         reference_hash=_hash(0),
         reference_topoheight=0,
         signature=bytes(64),
@@ -554,14 +580,17 @@ def test_unshield_transfer_max_count_exceeded(state_test_group) -> None:
     """
     state = _base_state()
     state.accounts[BOB] = AccountState(address=BOB, balance=0, nonce=0)
+    commitment = _valid_point()
+    sender_handle = _valid_point()
+    ct_proof = _valid_ct_proof()
     transfers = [
         {
             "asset": _hash(0),
             "destination": BOB,
             "amount": 5 * COIN_VALUE,
-            "commitment": _hash(10),
-            "sender_handle": _hash(11),
-            "ct_validity_proof": bytes([0xDD]) * 160,
+            "commitment": commitment,
+            "sender_handle": sender_handle,
+            "ct_validity_proof": ct_proof,
         }
         for _ in range(MAX_TRANSFER_COUNT + 1)
     ]
@@ -574,6 +603,7 @@ def test_unshield_transfer_max_count_exceeded(state_test_group) -> None:
         fee=100_000,
         fee_type=FeeType.TOS,
         nonce=5,
+        source_commitments=[],
         reference_hash=_hash(0),
         reference_topoheight=0,
         signature=bytes(64),
@@ -598,6 +628,9 @@ def test_uno_fee_type_invalid_tx(state_test_group) -> None:
     """
     state = _base_state()
     state.accounts[BOB] = AccountState(address=BOB, balance=0, nonce=0)
+    commitment, receiver_handle, proof = [
+        bytes(x) for x in tos_signer.make_shield_crypto(_SEED_BOB, MIN_SHIELD_TOS_AMOUNT)
+    ]
     tx = Transaction(
         version=TxVersion.T1,
         chain_id=CHAIN_ID_DEVNET,
@@ -609,15 +642,16 @@ def test_uno_fee_type_invalid_tx(state_test_group) -> None:
                     "asset": _hash(0),
                     "destination": BOB,
                     "amount": MIN_SHIELD_TOS_AMOUNT,
-                    "commitment": _hash(10),
-                    "receiver_handle": _hash(12),
-                    "proof": bytes([0xCC]) * 96,
+                    "commitment": commitment,
+                    "receiver_handle": receiver_handle,
+                    "proof": proof,
                 }
             ]
         },
         fee=0,
         fee_type=FeeType.UNO,
         nonce=5,
+        source_commitments=[],
         reference_hash=_hash(0),
         reference_topoheight=0,
         signature=bytes(64),
@@ -647,18 +681,17 @@ def test_uno_fee_nonzero(state_test_group) -> None:
                 {
                     "asset": _hash(0),
                     "destination": BOB,
-                    "commitment": _hash(10),
-                    "sender_handle": _hash(11),
-                    "receiver_handle": _hash(12),
-                    "ct_validity_proof": bytes([0xAA]) * 160,
+                    "commitment": _valid_point(),
+                    "sender_handle": _valid_point(),
+                    "receiver_handle": _valid_point(),
+                    "ct_validity_proof": _valid_ct_proof(),
                 }
             ]
         },
         fee=1000,
         fee_type=FeeType.UNO,
         nonce=5,
-        source_commitments=[_hash(20)],
-        range_proof=bytes([0xBB]) * 64,
+        source_commitments=[],
         reference_hash=_hash(0),
         reference_topoheight=0,
         signature=bytes(64),

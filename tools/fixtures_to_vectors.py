@@ -34,85 +34,48 @@ MAPPING = {
 # mismatches or missing validation rules).  Marked non-runnable until the daemon
 # conformance endpoint is updated to match.
 DAEMON_MISMATCH_SKIP: set[str] = {
-    # overflow (apply-phase) — daemon returns different error codes
-    "transfer_receiver_balance_overflow",
-    "burn_total_burned_overflow",
+    # overflow: frozen_tos stored in whole TOS in daemon, value too small to overflow
     "freeze_frozen_overflow",
-    "freeze_energy_overflow",
-    "delegate_energy_overflow",
-    "withdraw_balance_overflow",
-    "deposit_escrow_amount_u64_overflow",
-    "refund_escrow_balance_overflow",
-    "update_arbiter_stake_overflow",
-    "withdraw_arbiter_balance_overflow",
-    # fee variants — daemon validates fee_type differently
+    # fee variants — daemon validates fee differently
     "transfer_energy_fee_zero",
-    "burn_uno_fee",
-    "freeze_uno_fee",
     "transfer_insufficient_fee",
-    "freeze_insufficient_fee",
-    "uno_transfer_uno_fee_nonzero",
-    # Privacy: daemon INVALID_FORMAT — dummy ZK proofs fail wire deserialization
-    "shield_transfer_success",
-    "shield_transfer_below_minimum",
-    "shield_transfer_zero_amount",
-    "shield_transfer_insufficient_balance",
-    "shield_transfer_exact_minimum",
-    "shield_transfer_non_tos_asset",
-    "uno_fee_type_invalid_tx",
+    # Privacy: UNO transfers — codec can't encode UNO wire format (empty wire_hex)
     "uno_transfer_success",
     "uno_transfer_self",
     "uno_transfer_insufficient_balance",
     "uno_transfer_zero_amount",
-    "uno_fee_nonzero",
+    "uno_transfer_tos_fee",
+    # Privacy: unshield — daemon rejects dummy proof data (INVALID_PAYLOAD)
     "unshield_transfer_success",
     "unshield_transfer_self",
     "unshield_transfer_zero_amount",
-    "uno_transfer_tos_fee",
-    # Arbiter: daemon apply phase doesn't check status before state change
-    "cancel_arbiter_exit_removed",
-    "request_arbiter_exit_suspended",
-    # Block height: conformance daemon operates at height ~0, can't inject pre_state block_height
-    "appeal_escrow_window_expired",
-    "challenge_escrow_window_expired",
-    "refund_escrow_payer_before_timeout",
-    "refund_escrow_payer_after_timeout",
-    # Auto-account: conformance creates sender with 0 balance, fee check fails before account check
-    "sender_not_found",
     # Encoding: wire encoding mismatch for large/complex payloads
     "commit_arbitration_open_exact_max_size",
     "commit_vote_request_exact_max_size",
     "commit_selection_commitment_exact_max_size",
     "commit_juror_vote_exact_max_size",
     "invoke_contract_duplicate_deposit_assets",
-    # Fee check order: daemon checks fee before overflow → returns INSUFFICIENT_FEE not OVERFLOW
-    "burn_amount_plus_fee_overflow",
-    "transfer_amount_overflow",
-    "transfer_amount_plus_fee_overflow",
-    "deposit_escrow_amount_overflow",
-    "commit_arbitration_open_payload_too_large",
-    "commit_vote_request_payload_too_large",
-    "commit_selection_commitment_payload_too_large",
     # Wire format: daemon rejects at deserialization level (INVALID_FORMAT) before business logic
-    "multisig_zero_participants_nonzero_threshold",
-    "invoke_contract_zero_deposit_amount",
-    "create_escrow_empty_task_id",
-    "create_escrow_task_id_too_long",
     "create_escrow_task_id_max_length",
-    "refund_escrow_reason_too_long",
-    # Arbiter: daemon apply phase doesn't check state conditions
-    "cancel_arbiter_exit_not_exiting",
-    "register_arbiter_already_registered",
-    "request_arbiter_exit_already_exiting",
-    "request_arbiter_exit_has_active_cases",
-    "update_arbiter_already_removed",
-    "withdraw_arbiter_stake_still_active",
     # Energy: daemon doesn't enforce max freeze records count
     "freeze_max_records_exceeded",
     # Capacity limits: daemon uses different max values
     "invoke_contract_max_deposits",
     "bootstrap_committee_max_members",
     "emergency_suspend_max_approvals",
+    # Encoding: large deposit list causes fee-per-byte rejection
+    "invoke_contract_too_many_deposits",
+    # Referral: daemon returns different error codes or unimplemented
+    "batch_referral_reward_success",
+    "batch_referral_reward_zero_amount",
+    "batch_referral_reward_empty_levels",
+    "batch_referral_reward_ratio_exceeds_max",
+    "batch_referral_reward_levels_mismatch",
+    "batch_referral_reward_max_ratio",
+    "batch_referral_reward_sender_not_from_user",
+    "batch_referral_reward_sender_is_from_user",
+    "batch_referral_reward_insufficient_balance",
+    "batch_referral_reward_zero_levels",
 }
 
 

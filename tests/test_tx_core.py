@@ -273,7 +273,7 @@ def test_transfer_receiver_balance_overflow(state_test) -> None:
     state = _base_state()
     state.accounts[ALICE] = AccountState(address=ALICE, balance=U64_MAX, nonce=5)
     state.accounts[BOB] = AccountState(address=BOB, balance=U64_MAX - 50, nonce=0)
-    tx = _mk_tx(ALICE, BOB, nonce=5, amount=100, fee=0)
+    tx = _mk_tx(ALICE, BOB, nonce=5, amount=100, fee=100_000)
     state_test("transfer_receiver_balance_overflow", state, tx)
 
 
@@ -288,7 +288,7 @@ def test_burn_total_burned_overflow(state_test) -> None:
         source=ALICE,
         tx_type=TransactionType.BURN,
         payload={"amount": 100, "asset": _hash(0)},
-        fee=0,
+        fee=100_000,
         fee_type=FeeType.TOS,
         nonce=5,
         reference_hash=_hash(0),

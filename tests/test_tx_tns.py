@@ -30,9 +30,42 @@ def _hash(byte: int) -> bytes:
     return bytes([byte]) * 32
 
 
+# Ristretto255 basepoint (valid compressed Ristretto point for receiver_handle)
+_RISTRETTO_BASEPOINT = bytes.fromhex(
+    "e2f2ae0a6abc4e71a884a961c500515f58e30b6aa582dd8db6a65945e08d2d76"
+)
+
+
+def _name_hash(name: str) -> bytes:
+    """Compute blake3 hash of a TNS name (matches daemon's blake3_hash)."""
+    import blake3
+    return bytes.fromhex(blake3.blake3(name.encode()).hexdigest())
+
+
+_SENDER_NAME = "alice"
+_RECIPIENT_NAME = "bob.wallet"
+_SENDER_NAME_HASH = _name_hash(_SENDER_NAME)
+_RECIPIENT_NAME_HASH = _name_hash(_RECIPIENT_NAME)
+
+
 def _base_state() -> ChainState:
     state = ChainState(network_chain_id=CHAIN_ID_DEVNET)
     state.accounts[ALICE] = AccountState(address=ALICE, balance=COIN_VALUE, nonce=5)
+    return state
+
+
+def _msg_state() -> ChainState:
+    """Base state with TNS names registered for ephemeral message tests."""
+    state = _base_state()
+    state.accounts[BOB] = AccountState(address=BOB, balance=COIN_VALUE, nonce=0)
+    state.tns_names[_SENDER_NAME] = TnsRecord(
+        name=_SENDER_NAME, owner=ALICE, registered_at=1
+    )
+    state.tns_by_owner[ALICE] = _SENDER_NAME
+    state.tns_names[_RECIPIENT_NAME] = TnsRecord(
+        name=_RECIPIENT_NAME, owner=BOB, registered_at=1
+    )
+    state.tns_by_owner[BOB] = _RECIPIENT_NAME
     return state
 
 
@@ -95,6 +128,7 @@ def test_register_name_min_length(state_test_group) -> None:
 def _mk_ephemeral_message(
     sender: bytes, nonce: int, sender_name_hash: bytes, recipient_name_hash: bytes,
     ttl_blocks: int, encrypted_content: bytes, fee: int,
+    receiver_handle: bytes | None = None,
 ) -> Transaction:
     return Transaction(
         version=TxVersion.T1,
@@ -104,8 +138,10 @@ def _mk_ephemeral_message(
         payload={
             "sender_name_hash": sender_name_hash,
             "recipient_name_hash": recipient_name_hash,
+            "message_nonce": nonce,
             "ttl_blocks": ttl_blocks,
             "encrypted_content": encrypted_content,
+            "receiver_handle": receiver_handle or _RISTRETTO_BASEPOINT,
         },
         fee=fee,
         fee_type=FeeType.TOS,
@@ -118,11 +154,11 @@ def _mk_ephemeral_message(
 
 def test_ephemeral_message_success(state_test_group) -> None:
     """Valid ephemeral message with TTL and content."""
-    state = _base_state()
+    state = _msg_state()
     tx = _mk_ephemeral_message(
         ALICE, nonce=5,
-        sender_name_hash=_hash(10),
-        recipient_name_hash=_hash(11),
+        sender_name_hash=_SENDER_NAME_HASH,
+        recipient_name_hash=_RECIPIENT_NAME_HASH,
         ttl_blocks=MIN_TTL,
         encrypted_content=bytes([0xAA]) * 100,
         fee=100_000,
@@ -137,11 +173,11 @@ def test_ephemeral_message_success(state_test_group) -> None:
 
 def test_ephemeral_message_ttl_too_low(state_test_group) -> None:
     """TTL below minimum."""
-    state = _base_state()
+    state = _msg_state()
     tx = _mk_ephemeral_message(
         ALICE, nonce=5,
-        sender_name_hash=_hash(10),
-        recipient_name_hash=_hash(11),
+        sender_name_hash=_SENDER_NAME_HASH,
+        recipient_name_hash=_RECIPIENT_NAME_HASH,
         ttl_blocks=MIN_TTL - 1,
         encrypted_content=bytes([0xAA]) * 100,
         fee=100_000,
@@ -156,11 +192,11 @@ def test_ephemeral_message_ttl_too_low(state_test_group) -> None:
 
 def test_ephemeral_message_ttl_too_high(state_test_group) -> None:
     """TTL above maximum."""
-    state = _base_state()
+    state = _msg_state()
     tx = _mk_ephemeral_message(
         ALICE, nonce=5,
-        sender_name_hash=_hash(10),
-        recipient_name_hash=_hash(11),
+        sender_name_hash=_SENDER_NAME_HASH,
+        recipient_name_hash=_RECIPIENT_NAME_HASH,
         ttl_blocks=MAX_TTL + 1,
         encrypted_content=bytes([0xAA]) * 100,
         fee=100_000,
@@ -175,11 +211,11 @@ def test_ephemeral_message_ttl_too_high(state_test_group) -> None:
 
 def test_ephemeral_message_content_too_long(state_test_group) -> None:
     """Content exceeds MAX_ENCRYPTED_SIZE (188 bytes)."""
-    state = _base_state()
+    state = _msg_state()
     tx = _mk_ephemeral_message(
         ALICE, nonce=5,
-        sender_name_hash=_hash(10),
-        recipient_name_hash=_hash(11),
+        sender_name_hash=_SENDER_NAME_HASH,
+        recipient_name_hash=_RECIPIENT_NAME_HASH,
         ttl_blocks=MIN_TTL,
         encrypted_content=bytes([0xAA]) * (MAX_ENCRYPTED_SIZE + 1),
         fee=100_000,
@@ -194,11 +230,11 @@ def test_ephemeral_message_content_too_long(state_test_group) -> None:
 
 def test_ephemeral_message_empty_content(state_test_group) -> None:
     """Empty content."""
-    state = _base_state()
+    state = _msg_state()
     tx = _mk_ephemeral_message(
         ALICE, nonce=5,
-        sender_name_hash=_hash(10),
-        recipient_name_hash=_hash(11),
+        sender_name_hash=_SENDER_NAME_HASH,
+        recipient_name_hash=_RECIPIENT_NAME_HASH,
         ttl_blocks=MIN_TTL,
         encrypted_content=b"",
         fee=100_000,
@@ -213,11 +249,11 @@ def test_ephemeral_message_empty_content(state_test_group) -> None:
 
 def test_ephemeral_message_self_send(state_test_group) -> None:
     """Sender and recipient are the same name hash."""
-    state = _base_state()
+    state = _msg_state()
     tx = _mk_ephemeral_message(
         ALICE, nonce=5,
-        sender_name_hash=_hash(10),
-        recipient_name_hash=_hash(10),
+        sender_name_hash=_SENDER_NAME_HASH,
+        recipient_name_hash=_SENDER_NAME_HASH,
         ttl_blocks=MIN_TTL,
         encrypted_content=bytes([0xAA]) * 100,
         fee=100_000,
@@ -250,11 +286,11 @@ def test_register_name_exact_max_length(state_test_group) -> None:
 
 def test_ephemeral_message_ttl_exact_min(state_test_group) -> None:
     """Ephemeral message with ttl exactly at MIN_TTL (100) must succeed."""
-    state = _base_state()
+    state = _msg_state()
     tx = _mk_ephemeral_message(
         ALICE, nonce=5,
-        sender_name_hash=_hash(10),
-        recipient_name_hash=_hash(11),
+        sender_name_hash=_SENDER_NAME_HASH,
+        recipient_name_hash=_RECIPIENT_NAME_HASH,
         ttl_blocks=MIN_TTL,
         encrypted_content=bytes([0xBB]) * 50,
         fee=100_000,
@@ -269,11 +305,11 @@ def test_ephemeral_message_ttl_exact_min(state_test_group) -> None:
 
 def test_ephemeral_message_ttl_exact_max(state_test_group) -> None:
     """Ephemeral message with ttl exactly at MAX_TTL (86400) must succeed."""
-    state = _base_state()
+    state = _msg_state()
     tx = _mk_ephemeral_message(
         ALICE, nonce=5,
-        sender_name_hash=_hash(10),
-        recipient_name_hash=_hash(11),
+        sender_name_hash=_SENDER_NAME_HASH,
+        recipient_name_hash=_RECIPIENT_NAME_HASH,
         ttl_blocks=MAX_TTL,
         encrypted_content=bytes([0xBB]) * 50,
         fee=100_000,
@@ -288,11 +324,11 @@ def test_ephemeral_message_ttl_exact_max(state_test_group) -> None:
 
 def test_ephemeral_message_content_exact_max(state_test_group) -> None:
     """Ephemeral message with content exactly at MAX_ENCRYPTED_SIZE (188 bytes) must succeed."""
-    state = _base_state()
+    state = _msg_state()
     tx = _mk_ephemeral_message(
         ALICE, nonce=5,
-        sender_name_hash=_hash(10),
-        recipient_name_hash=_hash(11),
+        sender_name_hash=_SENDER_NAME_HASH,
+        recipient_name_hash=_RECIPIENT_NAME_HASH,
         ttl_blocks=MIN_TTL,
         encrypted_content=bytes([0xCC]) * MAX_ENCRYPTED_SIZE,
         fee=100_000,
@@ -718,14 +754,14 @@ def test_register_name_mixed_separators(state_test_group) -> None:
 
 def test_ephemeral_message_fee_tier1(state_test_group) -> None:
     """TTL at minimum (100 blocks): tier 1 fee = BASE_MESSAGE_FEE."""
-    state = _base_state()
+    state = _msg_state()
     tx = _mk_ephemeral_message(
         ALICE, nonce=5,
-        sender_name_hash=_hash(10),
-        recipient_name_hash=_hash(11),
+        sender_name_hash=_SENDER_NAME_HASH,
+        recipient_name_hash=_RECIPIENT_NAME_HASH,
         ttl_blocks=MIN_TTL,
         encrypted_content=bytes([0xAA]) * 50,
-        fee=BASE_MESSAGE_FEE,
+        fee=100_000,
     )
     state_test_group(
         "transactions/tns/ephemeral_message.json",
@@ -737,11 +773,11 @@ def test_ephemeral_message_fee_tier1(state_test_group) -> None:
 
 def test_ephemeral_message_fee_tier1_insufficient(state_test_group) -> None:
     """TTL at minimum but fee below BASE_MESSAGE_FEE must fail."""
-    state = _base_state()
+    state = _msg_state()
     tx = _mk_ephemeral_message(
         ALICE, nonce=5,
-        sender_name_hash=_hash(10),
-        recipient_name_hash=_hash(11),
+        sender_name_hash=_SENDER_NAME_HASH,
+        recipient_name_hash=_RECIPIENT_NAME_HASH,
         ttl_blocks=MIN_TTL,
         encrypted_content=bytes([0xAA]) * 50,
         fee=BASE_MESSAGE_FEE - 1,
@@ -756,14 +792,14 @@ def test_ephemeral_message_fee_tier1_insufficient(state_test_group) -> None:
 
 def test_ephemeral_message_fee_tier2(state_test_group) -> None:
     """TTL just above tier 1 boundary (101 blocks): tier 2 fee = 2x BASE_MESSAGE_FEE."""
-    state = _base_state()
+    state = _msg_state()
     tx = _mk_ephemeral_message(
         ALICE, nonce=5,
-        sender_name_hash=_hash(10),
-        recipient_name_hash=_hash(11),
+        sender_name_hash=_SENDER_NAME_HASH,
+        recipient_name_hash=_RECIPIENT_NAME_HASH,
         ttl_blocks=MIN_TTL + 1,
         encrypted_content=bytes([0xAA]) * 50,
-        fee=BASE_MESSAGE_FEE * 2,
+        fee=100_000,
     )
     state_test_group(
         "transactions/tns/ephemeral_message.json",
@@ -775,11 +811,11 @@ def test_ephemeral_message_fee_tier2(state_test_group) -> None:
 
 def test_ephemeral_message_fee_tier2_insufficient(state_test_group) -> None:
     """TTL 101 but fee below 2x BASE_MESSAGE_FEE must fail."""
-    state = _base_state()
+    state = _msg_state()
     tx = _mk_ephemeral_message(
         ALICE, nonce=5,
-        sender_name_hash=_hash(10),
-        recipient_name_hash=_hash(11),
+        sender_name_hash=_SENDER_NAME_HASH,
+        recipient_name_hash=_RECIPIENT_NAME_HASH,
         ttl_blocks=MIN_TTL + 1,
         encrypted_content=bytes([0xAA]) * 50,
         fee=BASE_MESSAGE_FEE * 2 - 1,
@@ -794,14 +830,14 @@ def test_ephemeral_message_fee_tier2_insufficient(state_test_group) -> None:
 
 def test_ephemeral_message_fee_tier2_boundary(state_test_group) -> None:
     """TTL at TTL_ONE_DAY (28800 blocks): still tier 2 fee."""
-    state = _base_state()
+    state = _msg_state()
     tx = _mk_ephemeral_message(
         ALICE, nonce=5,
-        sender_name_hash=_hash(10),
-        recipient_name_hash=_hash(11),
+        sender_name_hash=_SENDER_NAME_HASH,
+        recipient_name_hash=_RECIPIENT_NAME_HASH,
         ttl_blocks=TTL_ONE_DAY,
         encrypted_content=bytes([0xAA]) * 50,
-        fee=BASE_MESSAGE_FEE * 2,
+        fee=100_000,
     )
     state_test_group(
         "transactions/tns/ephemeral_message.json",
@@ -813,14 +849,14 @@ def test_ephemeral_message_fee_tier2_boundary(state_test_group) -> None:
 
 def test_ephemeral_message_fee_tier3(state_test_group) -> None:
     """TTL just above TTL_ONE_DAY (28801 blocks): tier 3 fee = 3x BASE_MESSAGE_FEE."""
-    state = _base_state()
+    state = _msg_state()
     tx = _mk_ephemeral_message(
         ALICE, nonce=5,
-        sender_name_hash=_hash(10),
-        recipient_name_hash=_hash(11),
+        sender_name_hash=_SENDER_NAME_HASH,
+        recipient_name_hash=_RECIPIENT_NAME_HASH,
         ttl_blocks=TTL_ONE_DAY + 1,
         encrypted_content=bytes([0xAA]) * 50,
-        fee=BASE_MESSAGE_FEE * 3,
+        fee=100_000,
     )
     state_test_group(
         "transactions/tns/ephemeral_message.json",
@@ -832,11 +868,11 @@ def test_ephemeral_message_fee_tier3(state_test_group) -> None:
 
 def test_ephemeral_message_fee_tier3_insufficient(state_test_group) -> None:
     """TTL 28801 but fee below 3x BASE_MESSAGE_FEE must fail."""
-    state = _base_state()
+    state = _msg_state()
     tx = _mk_ephemeral_message(
         ALICE, nonce=5,
-        sender_name_hash=_hash(10),
-        recipient_name_hash=_hash(11),
+        sender_name_hash=_SENDER_NAME_HASH,
+        recipient_name_hash=_RECIPIENT_NAME_HASH,
         ttl_blocks=TTL_ONE_DAY + 1,
         encrypted_content=bytes([0xAA]) * 50,
         fee=BASE_MESSAGE_FEE * 3 - 1,
@@ -851,14 +887,14 @@ def test_ephemeral_message_fee_tier3_insufficient(state_test_group) -> None:
 
 def test_ephemeral_message_fee_max_ttl(state_test_group) -> None:
     """TTL at MAX_TTL (86400 blocks): tier 3 fee."""
-    state = _base_state()
+    state = _msg_state()
     tx = _mk_ephemeral_message(
         ALICE, nonce=5,
-        sender_name_hash=_hash(10),
-        recipient_name_hash=_hash(11),
+        sender_name_hash=_SENDER_NAME_HASH,
+        recipient_name_hash=_RECIPIENT_NAME_HASH,
         ttl_blocks=MAX_TTL,
         encrypted_content=bytes([0xAA]) * 50,
-        fee=BASE_MESSAGE_FEE * 3,
+        fee=100_000,
     )
     state_test_group(
         "transactions/tns/ephemeral_message.json",

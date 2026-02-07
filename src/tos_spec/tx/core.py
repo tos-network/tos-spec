@@ -20,9 +20,9 @@ def verify(state: ChainState, tx: Transaction) -> None:
             raise SpecError(ErrorCode.INVALID_AMOUNT, "burn amount invalid")
         if amount > U64_MAX:
             raise SpecError(ErrorCode.OVERFLOW, "burn amount exceeds u64 max")
-        # Rust: fee.checked_add(amount) -> InvalidFormat on overflow
+        # Rust: fee.checked_add(amount) -> Err → InvalidFormat (wire deserialization)
         if tx.fee + amount > U64_MAX:
-            raise SpecError(ErrorCode.OVERFLOW, "burn amount plus fee overflow")
+            raise SpecError(ErrorCode.INVALID_FORMAT, "burn amount plus fee overflow")
         return
 
     if tx.tx_type != TransactionType.TRANSFERS:
@@ -45,7 +45,7 @@ def verify(state: ChainState, tx: Transaction) -> None:
             raise SpecError(ErrorCode.INVALID_AMOUNT, "transfer amount invalid")
         total_amount += t.amount
         if total_amount > U64_MAX:
-            raise SpecError(ErrorCode.OVERFLOW, "total transfer amount overflow")
+            raise SpecError(ErrorCode.INSUFFICIENT_FEE, "total transfer amount overflow")
         if t.extra_data is not None:
             if len(t.extra_data) > EXTRA_DATA_LIMIT_SIZE:
                 raise SpecError(ErrorCode.INVALID_PAYLOAD, "extra_data too large")
@@ -56,7 +56,7 @@ def verify(state: ChainState, tx: Transaction) -> None:
 
     # Check amount + fee overflow (matches Rust checked_add on spending + fee)
     if total_amount + tx.fee > U64_MAX:
-        raise SpecError(ErrorCode.OVERFLOW, "total amount plus fee overflow")
+        raise SpecError(ErrorCode.INSUFFICIENT_FEE, "total amount plus fee overflow")
 
     # Check sender can afford total transfers + fee (Rust: verify_spending)
     sender = state.accounts.get(tx.source)

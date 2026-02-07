@@ -156,15 +156,15 @@ def _verify_ephemeral_message(state: ChainState, tx: Transaction) -> None:
 
     ttl = p.get("ttl_blocks", 0)
     if ttl < MIN_TTL or ttl > MAX_TTL:
-        raise SpecError(ErrorCode.INVALID_PAYLOAD, f"ttl must be {MIN_TTL}-{MAX_TTL}")
+        raise SpecError(ErrorCode.INVALID_FORMAT, f"ttl must be {MIN_TTL}-{MAX_TTL}")
 
     content = p.get("encrypted_content", b"")
     if isinstance(content, (list, tuple)):
         content = bytes(content)
     if not content:
-        raise SpecError(ErrorCode.INVALID_PAYLOAD, "message content empty")
+        raise SpecError(ErrorCode.INVALID_FORMAT, "message content empty")
     if len(content) > MAX_ENCRYPTED_SIZE:
-        raise SpecError(ErrorCode.INVALID_PAYLOAD, f"message too large (max {MAX_ENCRYPTED_SIZE})")
+        raise SpecError(ErrorCode.INVALID_FORMAT, f"message too large (max {MAX_ENCRYPTED_SIZE})")
 
     # Fee check: minimum message fee based on TTL tier
     required_fee = _calculate_message_fee(ttl)

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import tos_signer
 from tos_spec.config import CHAIN_ID_DEVNET, COIN_VALUE
 from tos_spec.test_accounts import ALICE, BOB
 from tos_spec.types import (
@@ -518,6 +519,8 @@ def test_freeze_insufficient_fee(state_test_group) -> None:
 def test_uno_transfer_tos_fee(state_test_group) -> None:
     """UNO_TRANSFERS with FeeType.TOS — should succeed (TOS fee always allowed)."""
     state = _base_state()
+    _vp = lambda: bytes(tos_signer.random_valid_point())
+    _ct = lambda: bytes(tos_signer.make_dummy_ct_validity_proof())
     tx = Transaction(
         version=TxVersion.T1,
         chain_id=CHAIN_ID_DEVNET,
@@ -528,18 +531,17 @@ def test_uno_transfer_tos_fee(state_test_group) -> None:
                 {
                     "asset": _hash(0),
                     "destination": BOB,
-                    "commitment": _hash(10),
-                    "sender_handle": _hash(11),
-                    "receiver_handle": _hash(12),
-                    "ct_validity_proof": bytes([0xAA]) * 160,
+                    "commitment": _vp(),
+                    "sender_handle": _vp(),
+                    "receiver_handle": _vp(),
+                    "ct_validity_proof": _ct(),
                 }
             ]
         },
         fee=100_000,
         fee_type=FeeType.TOS,
         nonce=5,
-        source_commitments=[_hash(20)],
-        range_proof=bytes([0xBB]) * 64,
+        source_commitments=[],
         reference_hash=_hash(0),
         reference_topoheight=0,
         signature=bytes(64),
@@ -555,6 +557,8 @@ def test_uno_transfer_tos_fee(state_test_group) -> None:
 def test_uno_transfer_uno_fee_nonzero(state_test_group) -> None:
     """UNO_TRANSFERS with FeeType.UNO and fee=100 — should FAIL: uno fee must be zero."""
     state = _base_state()
+    _vp = lambda: bytes(tos_signer.random_valid_point())
+    _ct = lambda: bytes(tos_signer.make_dummy_ct_validity_proof())
     tx = Transaction(
         version=TxVersion.T1,
         chain_id=CHAIN_ID_DEVNET,
@@ -565,18 +569,17 @@ def test_uno_transfer_uno_fee_nonzero(state_test_group) -> None:
                 {
                     "asset": _hash(0),
                     "destination": BOB,
-                    "commitment": _hash(10),
-                    "sender_handle": _hash(11),
-                    "receiver_handle": _hash(12),
-                    "ct_validity_proof": bytes([0xAA]) * 160,
+                    "commitment": _vp(),
+                    "sender_handle": _vp(),
+                    "receiver_handle": _vp(),
+                    "ct_validity_proof": _ct(),
                 }
             ]
         },
         fee=100,
         fee_type=FeeType.UNO,
         nonce=5,
-        source_commitments=[_hash(20)],
-        range_proof=bytes([0xBB]) * 64,
+        source_commitments=[],
         reference_hash=_hash(0),
         reference_topoheight=0,
         signature=bytes(64),

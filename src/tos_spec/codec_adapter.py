@@ -392,11 +392,16 @@ def _convert_agent_account(payload: dict[str, Any]) -> dict[str, Any]:
     if variant is None:
         raise ValueError(f"Unknown agent_account variant: {variant_key}")
 
+    # SetStatus.status is u8 in Rust, not an enum string
+    skip_enum = variant_key == "set_status"
+
     inner = {}
     for key, value in payload.items():
         if key == "variant":
             continue
-        if isinstance(value, dict):
+        if skip_enum and key == "status":
+            inner[key] = value
+        elif isinstance(value, dict):
             inner[key] = _convert_dict(value)
         elif isinstance(value, list):
             inner[key] = [_convert_list_item(key, item) for item in value]
@@ -454,6 +459,205 @@ def _convert_expertise_list(expertise: list[Any]) -> list[str]:
     return [_EXPERTISE_DOMAIN_MAP.get(e, str(e)) if isinstance(e, int) else e for e in expertise]
 
 
+def _convert_deposits(deposits: list[dict[str, Any]]) -> dict[str, int]:
+    """Convert deposits list to IndexMap<Hash, ContractDeposit> serde format."""
+    result: dict[str, int] = {}
+    for dep in deposits:
+        asset = dep.get("asset")
+        amount = dep.get("amount", 0)
+        if isinstance(asset, (bytes, bytearray)):
+            key = bytes(asset).hex()
+        elif isinstance(asset, str):
+            key = asset
+        else:
+            continue
+        result[key] = amount
+    return result
+
+
+def _convert_invoke_contract(payload: dict[str, Any]) -> dict[str, Any]:
+    """Convert invoke_contract payload, converting deposits list to map."""
+    result: dict[str, Any] = {}
+    for key, value in payload.items():
+        if key == "deposits" and isinstance(value, list):
+            result[key] = _convert_deposits(value)
+        elif isinstance(value, dict):
+            result[key] = _convert_dict(value)
+        elif isinstance(value, list):
+            result[key] = [_convert_list_item(key, item) for item in value]
+        else:
+            result[key] = _convert_value(key, value)
+    return result
+
+
+def _convert_deploy_contract(payload: dict[str, Any]) -> dict[str, Any]:
+    """Convert deploy_contract payload, handling module and invoke fields."""
+    result: dict[str, Any] = {}
+    for key, value in payload.items():
+        if key == "module" and isinstance(value, (bytes, bytearray)):
+            result[key] = list(bytes(value))
+        elif key == "invoke" and isinstance(value, dict):
+            result[key] = _convert_invoke_contract(value)
+        elif isinstance(value, dict):
+            result[key] = _convert_dict(value)
+        elif isinstance(value, list):
+            result[key] = [_convert_list_item(key, item) for item in value]
+        else:
+            result[key] = _convert_value(key, value)
+    return result
+
+
+def _convert_shield_proof(proof_bytes: bytes) -> dict[str, list[int]]:
+    """Convert 96-byte ShieldCommitmentProof bytes to serde struct."""
+    if len(proof_bytes) != 96:
+        raise ValueError(f"Shield proof must be 96 bytes, got {len(proof_bytes)}")
+    return {
+        "Y_H": list(proof_bytes[:32]),
+        "Y_P": list(proof_bytes[32:64]),
+        "z": list(proof_bytes[64:96]),
+    }
+
+
+def _convert_shield_transfer(item: dict[str, Any]) -> dict[str, Any]:
+    """Convert a single shield transfer payload to serde format."""
+    result: dict[str, Any] = {}
+    for key, value in item.items():
+        if key == "proof" and isinstance(value, (bytes, bytearray)):
+            result[key] = _convert_shield_proof(bytes(value))
+        elif key == "extra_data" and value is None:
+            continue
+        else:
+            result[key] = _convert_value(key, value)
+    return result
+
+
+def _convert_shield_transfers(payload: Any) -> list[dict[str, Any]]:
+    """Convert shield_transfers payload to serde list format."""
+    if isinstance(payload, dict):
+        transfers = payload.get("transfers", [])
+    elif isinstance(payload, list):
+        transfers = payload
+    else:
+        raise ValueError(f"Unexpected shield_transfers payload type: {type(payload)}")
+    return [_convert_shield_transfer(t) if isinstance(t, dict) else t for t in transfers]
+
+
+def _convert_arbiter_payload(payload: dict[str, Any]) -> dict[str, Any]:
+    """Convert register/update arbiter payload, adding defaults."""
+    result: dict[str, Any] = {}
+    for key, value in payload.items():
+        if key == "expertise" and isinstance(value, list):
+            result[key] = _convert_expertise_list(value)
+        elif isinstance(value, dict):
+            result[key] = _convert_dict(value)
+        elif isinstance(value, list):
+            result[key] = [
+                _convert_dict(item) if isinstance(item, dict) else _convert_value(key, item)
+                for item in value
+            ]
+        else:
+            result[key] = _convert_value(key, value)
+    # UpdateArbiterPayload.deactivate is a required bool
+    if "deactivate" not in result:
+        result["deactivate"] = False
+    return result
+
+
+def _convert_escrow_payload(payload: dict[str, Any]) -> dict[str, Any]:
+    """Convert escrow payload, handling arbitration_config arbiters as pubkeys."""
+    result: dict[str, Any] = {}
+    for key, value in payload.items():
+        if key == "arbitration_config" and isinstance(value, dict):
+            result[key] = _convert_arbitration_config(value)
+        elif isinstance(value, dict):
+            result[key] = _convert_dict(value)
+        elif isinstance(value, list):
+            result[key] = [_convert_list_item(key, item) for item in value]
+        else:
+            result[key] = _convert_value(key, value)
+    return result
+
+
+def _convert_arbitration_config(config: dict[str, Any]) -> dict[str, Any]:
+    """Convert ArbitrationConfig to serde camelCase format."""
+    # Rust uses #[serde(rename_all = "camelCase")]
+    _CAMEL_MAP = {
+        "fee_amount": "feeAmount",
+        "allow_appeal": "allowAppeal",
+        "timeout_blocks": "timeoutBlocks",
+        "challenge_window": "challengeWindow",
+        "challenge_deposit_bps": "challengeDepositBps",
+    }
+    result: dict[str, Any] = {}
+    for key, value in config.items():
+        out_key = _CAMEL_MAP.get(key, key)
+        if key == "arbiters" and isinstance(value, list):
+            result[out_key] = [
+                _bytes_to_pubkey(item) if isinstance(item, (bytes, bytearray))
+                else _bytes_to_pubkey(bytes.fromhex(item)) if isinstance(item, str) and len(item) == 64
+                else item
+                for item in value
+            ]
+        elif key == "mode" and isinstance(value, int):
+            result[out_key] = _ARBITRATION_MODE_MAP.get(value, value)
+        elif key == "mode" and isinstance(value, str):
+            result[out_key] = value
+        else:
+            result[out_key] = _convert_value(key, value)
+    return result
+
+
+def _convert_verdict_payload(payload: dict[str, Any]) -> dict[str, Any]:
+    """Convert submit_verdict/submit_verdict_by_juror payload."""
+    result: dict[str, Any] = {}
+    for key, value in payload.items():
+        if key == "signatures" and isinstance(value, list):
+            sigs = []
+            for sig in value:
+                if isinstance(sig, dict):
+                    s: dict[str, Any] = {}
+                    for sk, sv in sig.items():
+                        # Rename member_pubkey → arbiter_pubkey for Rust ArbiterSignature
+                        if sk == "member_pubkey":
+                            s["arbiter_pubkey"] = _convert_value("arbiter_pubkey", sv)
+                        else:
+                            s[sk] = _convert_value(sk, sv)
+                    sigs.append(s)
+                else:
+                    sigs.append(sig)
+            result[key] = sigs
+        else:
+            result[key] = _convert_value(key, value)
+    # Ensure required fields with defaults
+    if "dispute_id" not in result:
+        result["dispute_id"] = result.get("escrow_id", "0" * 64)
+    if "round" not in result:
+        result["round"] = 0
+    return result
+
+
+def _convert_ephemeral_message(payload: dict[str, Any], tx_nonce: int) -> dict[str, Any]:
+    """Convert ephemeral_message payload, adding message_nonce."""
+    result: dict[str, Any] = {}
+    for key, value in payload.items():
+        result[key] = _convert_value(key, value)
+    if "message_nonce" not in result:
+        result["message_nonce"] = tx_nonce
+    if "receiver_handle" not in result:
+        result["receiver_handle"] = [0] * 32
+    return result
+
+
+def _convert_batch_referral(payload: dict[str, Any]) -> dict[str, Any]:
+    """Convert batch_referral_reward payload, ensuring asset field."""
+    result: dict[str, Any] = {}
+    for key, value in payload.items():
+        result[key] = _convert_value(key, value)
+    if "asset" not in result:
+        result["asset"] = "0" * 64
+    return result
+
+
 def _build_data(tx: Transaction) -> dict[str, Any]:
     """Build the serde 'data' field (externally-tagged TransactionType enum)."""
     variant = SERDE_VARIANT_MAP.get(tx.tx_type.value)
@@ -504,26 +708,40 @@ def _build_data(tx: Transaction) -> dict[str, Any]:
 
     if tx.tx_type in (TransactionType.REGISTER_ARBITER, TransactionType.UPDATE_ARBITER):
         if isinstance(payload, dict):
-            result = {}
-            for key, value in payload.items():
-                if key == "expertise" and isinstance(value, list):
-                    result[key] = _convert_expertise_list(value)
-                elif isinstance(value, dict):
-                    result[key] = _convert_dict(value)
-                elif isinstance(value, list):
-                    result[key] = [
-                        _convert_dict(item) if isinstance(item, dict) else _convert_value(key, item)
-                        for item in value
-                    ]
-                else:
-                    result[key] = _convert_value(key, value)
-            return {variant: result}
+            return {variant: _convert_arbiter_payload(payload)}
+
+    if tx.tx_type in (TransactionType.INVOKE_CONTRACT,):
+        if isinstance(payload, dict):
+            return {variant: _convert_invoke_contract(payload)}
+
+    if tx.tx_type == TransactionType.DEPLOY_CONTRACT:
+        if isinstance(payload, dict):
+            return {variant: _convert_deploy_contract(payload)}
+
+    if tx.tx_type == TransactionType.SHIELD_TRANSFERS:
+        return {variant: _convert_shield_transfers(payload)}
+
+    if tx.tx_type in (TransactionType.SUBMIT_VERDICT, TransactionType.SUBMIT_VERDICT_BY_JUROR):
+        if isinstance(payload, dict):
+            return {variant: _convert_verdict_payload(payload)}
+
+    if tx.tx_type == TransactionType.EPHEMERAL_MESSAGE:
+        if isinstance(payload, dict):
+            return {variant: _convert_ephemeral_message(payload, tx.nonce)}
+
+    if tx.tx_type == TransactionType.BATCH_REFERRAL_REWARD:
+        if isinstance(payload, dict):
+            return {variant: _convert_batch_referral(payload)}
+
+    if tx.tx_type == TransactionType.CREATE_ESCROW:
+        if isinstance(payload, dict):
+            return {variant: _convert_escrow_payload(payload)}
 
     # Generic dict payload
     if isinstance(payload, dict):
         return {variant: _convert_dict(payload)}
 
-    # List payloads (uno_transfers, shield_transfers, etc.)
+    # List payloads (uno_transfers, etc.)
     if isinstance(payload, list):
         return {variant: [_convert_dict(item) if isinstance(item, dict) else item for item in payload]}
 

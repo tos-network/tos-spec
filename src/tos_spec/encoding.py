@@ -1342,13 +1342,20 @@ def _write_new_committee_member(w: Writer, member: dict) -> None:
     w.write_u8(role)
 
 
+_ARB_MODE_MAP = {"single": 1, "committee": 2, "juror": 3}
+
+
 def _write_arbitration_config(w: Writer, cfg: dict) -> None:
     # ArbitrationConfig serializer order:
     # mode (u8) + arbiters (Vec<PublicKey>) + threshold (Option<u8>) + fee_amount (u64) + allow_appeal (bool)
-    mode = int(cfg["mode"])
+    raw_mode = cfg["mode"]
+    mode = _ARB_MODE_MAP.get(raw_mode, raw_mode) if isinstance(raw_mode, str) else raw_mode
+    mode = int(mode)
     if mode == 0:
         raise SpecError(ErrorCode.INVALID_PAYLOAD, "arbitration mode cannot be None")
     arbiters = cfg.get("arbiters", [])
+    # Convert hex strings to bytes if needed
+    arbiters = [bytes.fromhex(a) if isinstance(a, str) else a for a in arbiters]
     if mode == 1:
         if len(arbiters) != 1:
             raise SpecError(ErrorCode.INVALID_PAYLOAD, "single mode requires 1 arbiter")
@@ -1442,7 +1449,8 @@ def _write_committee_approval(w: Writer, ap: dict) -> None:
 
 
 def _write_arbiter_signature(w: Writer, sig: dict) -> None:
-    _write_pubkey(w, sig["arbiter_pubkey"])
+    pubkey = sig.get("arbiter_pubkey") or sig["member_pubkey"]
+    _write_pubkey(w, pubkey)
     _write_signature(w, sig["signature"])
     w.write_u64(int(sig["timestamp"]))
 

@@ -93,7 +93,7 @@ def _verify_invoke(state: ChainState, tx: Transaction) -> None:
             raise SpecError(ErrorCode.INVALID_PAYLOAD, "deposit must be dict")
         amount = d.get("amount", 0)
         if amount <= 0:
-            raise SpecError(ErrorCode.INVALID_AMOUNT, "deposit amount must be > 0")
+            raise SpecError(ErrorCode.INVALID_FORMAT, "deposit amount must be > 0")
 
     # Contract must exist
     contract_hash = p.get("contract", b"")
