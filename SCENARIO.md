@@ -41,8 +41,20 @@ can be tested in a uniform, repeatable way across single-client and multi-client
       "timestamp": 0
     },
     "accounts": [
-      { "address": "...", "balance": 0, "nonce": 0, "frozen": 0, "energy": 0, "flags": 0, "data": "" }
-    ]
+      { "address": "hex", "balance": 0, "nonce": 0, "frozen": 0, "energy": 0, "flags": 0, "data": "" }
+    ],
+    "escrows": [],
+    "arbiters": [],
+    "kyc_data": [],
+    "committees": [],
+    "agent_accounts": [],
+    "tns_names": [],
+    "referrals": [],
+    "energy_resources": [],
+    "contracts": [],
+    "arbitration_commit_opens": [],
+    "arbitration_commit_vote_requests": [],
+    "arbitration_commit_selections": []
   },
   "input": {
     "kind": "tx | block | rpc",
@@ -61,6 +73,11 @@ can be tested in a uniform, repeatable way across single-client and multi-client
   }
 }
 ```
+
+All `pre_state` domain fields (escrows, arbiters, etc.) are optional and default
+to empty lists when omitted. They provide the initial domain-specific state that
+certain transaction types require (e.g., escrow operations need an existing escrow
+in `escrows`, contract invocations need a deployed contract in `contracts`).
 
 ## Simulator Behavior
 - **Single-client mode**:

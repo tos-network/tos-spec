@@ -100,8 +100,7 @@ The server listens on `http://0.0.0.0:8080`. Optional env vars:
 Step 2 — run vectors against the server (in a separate terminal):
 
 ```bash
-cd ~/labu
-python3 tools/local_execution_runner.py --vectors ~/tos-spec/vectors/execution
+python3 ~/labu/tools/local_execution_runner.py --vectors ~/tos-spec/vectors
 ```
 
 Options: `--base-url http://127.0.0.1:8080` (default), `--dump` (print
@@ -169,17 +168,23 @@ we use a fixed set of deterministic test accounts stored in `vectors/accounts.js
 ├── src/tos_spec/          # Executable spec (Python)
 │   ├── config.py          # Constants and limits
 │   ├── errors.py          # Error codes and exceptions
-│   ├── types.py           # Core data models
+│   ├── types.py           # Core data models (accounts, escrows, energy, etc.)
+│   ├── account_model.py   # Account state model
 │   ├── state_transition.py# verify/apply logic
+│   ├── state_digest.py    # Deterministic state digest (BLAKE3)
 │   ├── encoding.py        # Wire-format encoding
-│   └── tx/                # Per-transaction specs
+│   ├── codec_adapter.py   # Bridge to tos_codec Rust extension
+│   ├── test_accounts.py   # Deterministic test identities
+│   ├── tx/                # Per-transaction specs (core, energy, escrow, kyc, etc.)
+│   ├── consensus/         # Block structure, DAG ordering, mining
+│   └── crypto/            # Hash algorithms, HMAC vectors
 ├── rust_py/               # Optional Rust PyO3 extensions
+│   ├── tos_codec/         # Transaction encoding/decoding & hashing
 │   ├── tos_signer/        # Cryptographic signing & tx encoding
 │   └── tos_yaml/          # YAML serialization backend
 ├── tests/                 # Pytest-based spec tests
 ├── tools/                 # Fixture generation/consumption
-├── fixtures/              # Generated vectors
-│   └── transactions/      # Legacy transaction fixtures (mirrored from tck/specs/transactions)
+├── fixtures/              # Generated fixtures (JSON)
 ├── vectors/               # Client-consumable vectors for Labu
 └── pyproject.toml
 ```
@@ -362,6 +367,35 @@ frame = bytes(tos_signer.build_signing_bytes(
     ref_hash=ref_h, ref_topo=100,
 ))
 sig = bytes(tos_signer.sign_data(frame, seed_byte=1))
+```
+
+### tos_codec — transaction encoding, decoding, and hashing
+
+Provides wire-format encoding/decoding for all transaction types and transaction
+hash computation. Used by `fixtures_to_vectors.py` to produce `wire_hex` fields
+and by tests for round-trip validation.
+
+```bash
+cd rust_py/tos_codec && maturin develop --release
+```
+
+**API**
+
+| Function | Description |
+|----------|-------------|
+| `encode_tx(json_str: str) -> str` | Encode a transaction (JSON) to wire-format hex. |
+| `decode_tx(hex_str: str) -> str` | Decode a wire-format hex string back to JSON. |
+| `tx_hash(hex_str: str) -> str` | Compute the BLAKE3 transaction hash from wire-format hex. Returns hex-encoded 32-byte hash. |
+
+**Example**
+
+```python
+import json, tos_codec
+
+tx = {"version": 1, "source": "ab" * 32, "tx_type": "transfers", ...}
+wire_hex = tos_codec.encode_tx(json.dumps(tx))
+decoded  = json.loads(tos_codec.decode_tx(wire_hex))
+tx_id    = tos_codec.tx_hash(wire_hex)
 ```
 
 ## Design Principles

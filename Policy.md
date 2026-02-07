@@ -65,9 +65,9 @@ pick realistic scenarios, but keep the spec tests **pure and deterministic**.
 ## Output Flow
 1. Write tests in `tests/`.
 2. Generate fixtures:
-   `PYTHONPATH=~/tos-spec/src:~/tos-spec .venv/bin/python -m pytest -q ~/tos-spec --output ~/tos-spec/fixtures`
+   `.venv/bin/python -m pytest tests/ --output fixtures -q`
 3. Generate vectors:
-   `.venv/bin/python tools/fixtures_to_vectors.py --fixtures fixtures --vectors vectors/execution`
+   `.venv/bin/python tools/fixtures_to_vectors.py`
 
 ## Non-goals
 - No direct YAML → pytest translation.
