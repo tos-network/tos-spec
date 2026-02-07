@@ -6,7 +6,7 @@ current coverage, and the roadmap for expanding test coverage across all system 
 
 ## Testing Philosophy
 
-TOS conformance testing is built on four principles:
+TOS conformance testing is built on five principles:
 
 1. **Deterministic and offline.** Every test vector is self-contained. Given a pre-state
    and a set of inputs, any correct client must arrive at the same post-state. No network
@@ -24,6 +24,22 @@ TOS conformance testing is built on four principles:
    transaction may produce different results under different protocol rules. Tests
    explicitly cover fork boundaries — the last block before an upgrade and the first
    block after — to verify that clients activate new rules at the correct height.
+   Fork parameterization uses one of two data models:
+   - **Per-fork expansion**: a single test definition generates one vector per
+     applicable fork, each with its own expected output. The vector's `fork` field
+     identifies which protocol rules apply.
+   - **Multi-fork map**: a single vector contains an `expected_by_fork` map keyed
+     by fork name, allowing compact representation when only the expected output
+     differs.
+   Both height-based and timestamp-based fork activations are supported. Transition
+   schedule tests use synthetic fork configurations (e.g., "activate fork X at
+   block 5") to stress fork-boundary logic independently of the mainnet schedule.
+
+5. **Fill is not conformance.** Generating (filling) test vectors from the spec is a
+   necessary step, but it does not prove client correctness. A client is only
+   conformant when it independently consumes the published vectors and produces
+   matching outputs. Filling and consumption are separate checkpoints — passing one
+   does not imply passing the other.
 
 The core question every test answers:
 
@@ -87,6 +103,16 @@ Tests at this layer verify behavior that only emerges from multi-transaction exe
 - Finality computation across block sequences
 - Coinbase reward distribution and halving schedule
 
+**Consumption modalities.** The same BlockchainTest fixtures are consumed through
+multiple independent execution paths, each exercising different client codepaths:
+
+- **Direct import**: blocks are fed sequentially via the client's block import API
+- **Engine API**: blocks are delivered through the block production interface
+- **Sync**: the client syncs a pre-built chain from a peer, validating as it goes
+
+A client that passes direct import but fails sync consumption has a real bug. All
+three modalities must agree on the final state.
+
 ### Layer 3 — API Boundary
 
 API conformance is split into two categories with distinct testing requirements.
@@ -136,6 +162,12 @@ implementations process the same chain and must arrive at identical state.
 - Graceful handling of invalid blocks from peers
 - Client restart and state recovery
 
+**Devnet and shadow network testing.** Beyond deterministic vector consumption, L5
+includes deploying multiple clients on a shared test network (devnet) to validate
+behavior under realistic conditions — real block times, real P2P propagation, and
+real resource contention. Shadow networks replay mainnet traffic against new client
+versions to detect regressions before release.
+
 ## Fixture Types
 
 Test fixtures are categorized by what they verify. Each type maps to a specific
@@ -144,13 +176,36 @@ layer in the testing pyramid.
 | Fixture Type      | Layer | Description                              | Status     |
 |-------------------|-------|------------------------------------------|------------|
 | StateTest         | L1    | Single transaction execution             | Active     |
-| BlockTest         | L2    | Multi-transaction block processing       | Planned    |
+| BlockchainTest    | L2    | Multi-block chain import with reorgs     | Planned    |
 | TransactionTest   | L0    | Wire format validity (no execution)      | Partial    |
 | CodecTest         | L0    | Raw encoding/decoding round-trip         | Planned    |
+| ContractTest      | L0    | Bytecode container validity              | Planned    |
 | ConsensusTest     | L2    | DAG ordering, mining, finality           | Partial    |
 | CryptoTest        | L0    | Hash algorithms, HMAC, signatures        | Partial    |
 | RPCTest           | L3    | RPC query method conformance             | Planned    |
 | EngineTest        | L3    | Block production API conformance         | Planned    |
+| FuzzCorpusTest    | L0-L1 | Minimized cases from differential fuzzing| Planned    |
+
+**Fixture type definitions:**
+
+- **StateTest**: provides a pre-state, a single transaction, and the expected
+  post-state or error code. The primary fixture type for L1 conformance.
+- **BlockchainTest**: imports a sequence of blocks (possibly including invalid
+  blocks) into a chain, then verifies the final post-state, the canonical chain
+  head, and correct rejection of invalid blocks. Covers multi-block state
+  accumulation, reorgs, and fork-choice rule validation.
+- **TransactionTest**: provides a transaction in its wire-encoded form. The client
+  must parse it, validate structure, and derive the sender. No state transition is
+  executed. Tests wire format compliance and signature recovery.
+- **CodecTest**: provides raw byte sequences and their expected decoded values (or
+  expected parse errors). Tests encoding/decoding round-trips for all field types,
+  blocks, receipts, and messages — independent of transaction semantics.
+- **ContractTest**: provides contract bytecode and expected validation results
+  (valid/invalid with specific error). Tests container format parsing and bytecode
+  validation rules before execution.
+- **FuzzCorpusTest**: minimized inputs from differential fuzzing that triggered
+  disagreements between implementations. Promoted into the stable vector suite as
+  regression tests with deterministic seeds.
 
 ## Current Coverage
 
@@ -223,11 +278,13 @@ As of the latest run: **105 pytest tests, 71 conformance vectors**.
 **Current**: 6 consensus vectors covering block structure, ordering, and PoW rules.
 
 **Gaps**:
-- Multi-transaction block execution (ordering effects, cumulative state)
+- BlockchainTest fixtures: multi-block chain import with reorgs and invalid blocks
 - Block reward calculation and distribution vectors
 - DAG reordering vectors (multiple parents, competing tips)
 - Finality vectors (stable vs unstable blocks across sequences)
-- Invalid block rejection vectors
+- Invalid block rejection vectors (must appear in `rejected_blocks` list)
+- Fork transition vectors (rule change at specific block height or timestamp)
+- Consumption via all modalities (direct import, Engine API, sync)
 
 ### Layer 3 — API Boundary
 
@@ -235,7 +292,7 @@ As of the latest run: **105 pytest tests, 71 conformance vectors**.
 
 **Gaps**:
 - Executable RPC conformance tests (currently spec-only, not runnable)
-- Per-method request/response validation
+- Golden request/response transcripts per RPC method
 - Error response format conformance
 - Query methods (get_balance, get_transaction, get_block)
 - Domain query methods (get_escrow, get_energy, get_name)
@@ -311,24 +368,85 @@ functional area of TOS.
 
 ## Verification Strategy
 
-Each test vector specifies what the client must verify. The strictness levels allow
-incremental adoption by new client implementations.
+Each test vector specifies what the client must verify. Verification requirements
+vary by fixture type and layer.
 
-| Level       | Fields Checked          | Purpose                          |
-|-------------|-------------------------|----------------------------------|
-| Required    | success, error_code     | Basic correctness                |
-| Recommended | post_state, state_digest| Full state transition validation |
-| Optional    | events, receipts        | Observability and debugging      |
+### StateTest (L1) Verification
 
-**Required** fields must match exactly. A conformant client must return the correct
-success/failure status and, on failure, the correct error code.
+| Field          | Requirement | Description                                    |
+|----------------|-------------|------------------------------------------------|
+| success        | Required    | Transaction succeeded or failed                |
+| error_code     | Required    | Specific error code on failure                 |
+| post_state     | Required    | Full post-state (balances, nonces, storage)    |
+| state_digest   | Required    | BLAKE3 hash over canonical post-state          |
+| logs_hash      | Required    | BLAKE3 hash over emitted log entries           |
+| receipts       | Recommended | Per-transaction receipt (gas used, status)     |
 
-**Recommended** fields verify that the full post-state (account balances, nonces,
-energy resources, domain data) matches the expected output. The state digest provides
-a single BLAKE3 hash over the canonical post-state for fast comparison.
+### BlockchainTest (L2) Verification
 
-**Optional** fields verify event emission and receipt generation. These are useful
-for client debugging but are not required for conformance.
+| Field          | Requirement | Description                                    |
+|----------------|-------------|------------------------------------------------|
+| chain_head     | Required    | Hash of the canonical chain tip after import   |
+| post_state     | Required    | Full post-state after all blocks               |
+| state_digest   | Required    | BLAKE3 hash over canonical post-state          |
+| rejected_blocks| Required    | List of block hashes that must be rejected     |
+| logs_hash      | Recommended | Cumulative log commitment across all blocks    |
+
+### Canonicalization
+
+The `state_digest` and `logs_hash` fields depend on deterministic canonicalization.
+Independent implementations must produce identical digests for equivalent state.
+
+**State digest canonicalization rules:**
+- Accounts are sorted by address (lexicographic byte order)
+- Within each account: fields are serialized in fixed order (balance, nonce,
+  code_hash, storage_root)
+- Storage entries are sorted by key (lexicographic byte order)
+- All integers use fixed-width little-endian encoding
+- The BLAKE3 hash is computed over the concatenated canonical byte sequence
+
+**Logs hash canonicalization rules:**
+- Logs are ordered by emission sequence (block order, then transaction order,
+  then log index within transaction)
+- Each log entry is serialized as: address || topics_count || topic_0 || ... || data
+- The BLAKE3 hash is computed over the concatenated log byte sequence
+
+These rules are specified so that two implementations that agree on semantics will
+always agree on the digest. Ambiguity in encoding order or integer width would
+cause false negatives in conformance checks.
+
+## Separation of Responsibilities
+
+The testing infrastructure is divided into four components with strict boundaries.
+No component should duplicate the responsibilities of another.
+
+| Component        | Owns                                      | Must Not                          |
+|------------------|-------------------------------------------|-----------------------------------|
+| Spec / Generator | Semantics, expected results, fixture fill | Interpret client-specific formats  |
+| Fixtures/Vectors | Immutable test artifacts (JSON)           | Be hand-edited after generation    |
+| Harness (Labu)   | Scheduling, orchestration, IO, reporting  | Encode protocol logic or semantics |
+| Simulator        | Protocol-specific client driving          | Contain assertion logic            |
+
+**Spec / Generator.** The Python executable spec defines canonical behavior. It
+produces fixtures and vectors. It may invoke client `t8n` tools during filling to
+cross-check expected outputs, but it is the sole authority on what the expected
+output should be.
+
+**Fixtures and Vectors.** Generated artifacts that are committed to the repository.
+They are reproducible from the spec and must never be hand-edited. Changes flow
+through the spec, not through fixture files.
+
+**Harness (Labu).** The orchestration layer that launches clients, feeds them
+vectors, collects outputs, and compares against expected results. It must remain a
+thin shell — it does not interpret transaction semantics, compute state digests, or
+validate block structure. If the harness needs protocol knowledge, that logic
+belongs in a simulator adapter.
+
+**Simulator adapters.** Thin, protocol-specific drivers that translate between the
+harness's generic interface and a specific client consumption path (RPC, Engine API,
+direct import, P2P sync). Each adapter exercises a different client codepath. The
+adapter is responsible for driving the client, not for deciding correctness —
+assertion logic stays in the harness's comparison step.
 
 ## Workflow
 
@@ -356,18 +474,101 @@ The end-to-end flow from spec change to conformance verification:
 Each step is deterministic and reproducible. Fixtures and vectors are committed to
 the repository so that conformance can be verified without re-running the spec.
 
+### Artifact Immutability Rules
+
+The testing pipeline distinguishes between **source artifacts** (author-edited) and
+**generated artifacts** (machine-produced). This separation is strictly enforced.
+
+| Artifact       | Location     | Editable? | Regenerated By                    |
+|----------------|-------------|-----------|-----------------------------------|
+| Test specs     | `tests/`     | Yes       | Authors (human-edited)            |
+| Spec modules   | `src/`       | Yes       | Authors (human-edited)            |
+| Fixtures       | `fixtures/`  | No        | `pytest --output fixtures`        |
+| Vectors        | `vectors/`   | No        | `fixtures_to_vectors.py`          |
+
+**Rule: edit fillers, never edit fixtures.** To change a test's expected output,
+modify the test spec under `tests/` or the spec module under `src/`, then
+regenerate fixtures and vectors. Direct edits to `fixtures/` or `vectors/` are
+rejected by CI.
+
+### Fill Reproducibility
+
+Fixture generation must be deterministic and reproducible. The fill process is
+pinned by:
+
+- **Python version**: specified in `pyproject.toml` (`requires-python`)
+- **Dependency versions**: locked via `requirements.txt` or equivalent
+- **Rust extension versions**: `tos_codec`, `tos_signer` built from pinned commits
+- **Fork configuration**: the set of protocol versions and activation heights
+  used during filling is recorded in the fixture metadata
+
+A `make fill` target regenerates all fixtures and vectors from source. If the
+output differs from the committed artifacts, the CI build fails — indicating
+either an uncommitted spec change or a toolchain version mismatch.
+
+### Outdated Fixture Detection
+
+When the spec changes, affected fixtures may become stale. The CI pipeline detects
+this by regenerating fixtures and comparing against the committed versions. A
+mismatch triggers a build failure with a clear message identifying which fixtures
+need updating.
+
+### Large Vector Storage
+
+As the vector suite grows, individual files or the total repository size may exceed
+practical limits for Git. The storage strategy scales in stages:
+
+1. **Default**: vectors committed directly (current, suitable for < 100 MB total)
+2. **Git LFS**: large vector files tracked via LFS when individual files exceed
+   1 MB or total vectors exceed 100 MB
+3. **Split repository**: vectors published as versioned release artifacts in a
+   dedicated repository, consumed by the harness via download
+
 ### Transition Tool Interface
 
 The Python spec computes expected outputs directly. For client implementations, TOS
-defines a standardized **transition tool (`t8n`) interface** — a CLI command that each
-client exposes to execute a single state transition in isolation:
+defines a standardized **transition tool (`t8n`) interface** — a versioned CLI
+specification that each client must implement. This interface enables both fixture
+filling and standalone vector consumption.
+
+**`tos-t8n` — state transition tool:**
 
 ```
-tos-t8n --input.pre <pre-state> --input.txs <transactions> --input.env <env>
-        --output.post <post-state> --output.result <result>
+tos-t8n --state.fork <fork-name>       # protocol version (e.g., "genesis", "v2")
+        --state.chainid <chain-id>     # network chain ID
+        --state.reward <block-reward>  # block reward override (-1 to disable)
+        --input.pre <path|stdin>       # pre-state (JSON: account → balance/nonce/code/storage)
+        --input.txs <path|stdin>       # transactions (JSON array)
+        --input.env <path|stdin>       # block environment (height, timestamp, coinbase, etc.)
+        --output.post <path|stdout>    # post-state allocation
+        --output.result <path|stdout>  # execution result (receipts, logs, gas used, errors)
+        --output.body <path|stdout>    # wire-encoded transaction bodies
+        --trace                        # emit per-step execution trace (optional)
+        --trace.dir <path>             # directory for trace output files
 ```
 
-This interface serves two purposes:
+When a path argument is `stdin` or `stdout`, the tool reads from or writes to the
+corresponding stream. This enables piped workflows without temporary files.
+
+**Result schema.** The `result` output includes per-transaction receipts with gas
+used, log entries, error codes (if failed), and the cumulative state digest. This
+enables verification beyond pass/fail — clients can be compared on intermediate
+execution details.
+
+**`tos-t9n` — transaction validation tool:**
+
+```
+tos-t9n --state.fork <fork-name>
+        --input.txs <path|stdin>       # wire-encoded transactions
+        --output.result <path|stdout>  # per-tx: valid/invalid, sender, error
+```
+
+The `t9n` tool performs parse-and-validate only — no state transition. It checks
+wire format validity, recovers the sender address, and reports structural errors.
+This corresponds to TransactionTest fixtures and isolates parsing bugs from
+execution bugs.
+
+**Purposes:**
 
 1. **Filling.** The spec framework can invoke any client's `t8n` tool to independently
    verify that the Python spec and the client agree on expected outputs. Discrepancies
@@ -375,6 +576,10 @@ This interface serves two purposes:
 
 2. **Standalone testing.** Client developers can run individual vectors through their
    `t8n` tool without needing the full Labu harness, enabling fast local iteration.
+
+3. **Differential comparison.** Multiple clients' `t8n` tools are invoked on the same
+   inputs and their outputs compared. Any disagreement is investigated and resolved
+   before vectors are published.
 
 ## Differential Fuzzing
 
@@ -395,5 +600,19 @@ least one implementation.
   field values. Catches edge cases in balance arithmetic, nonce handling, and
   authorization logic that hand-written tests miss.
 
-**Integration.** Fuzzing is a continuous process, not a one-time pass. Inputs that
-trigger disagreements are minimized and added to the vector suite as regression tests.
+**Corpus management.** Fuzz-discovered inputs follow a promotion pipeline:
+
+1. **Discovery**: the fuzzer flags an input that causes output disagreement.
+2. **Minimization**: the input is reduced to the smallest case that still triggers
+   the disagreement, using deterministic seed replay for reproducibility.
+3. **Triage**: the disagreement is classified as one of:
+   - *Spec bug* — the Python spec produces incorrect output.
+   - *Client bug* — the client implementation deviates from the spec.
+   - *Underspecified check* — the vector's expected output is too weak to detect the
+     real difference (e.g., only checking success/error without post-state).
+   Resolution requires traces, cross-client majority comparison, or spec amendment.
+4. **Promotion**: the minimized, triaged case is committed as a FuzzCorpusTest
+   fixture with a deterministic seed, becoming a permanent regression test.
+
+Fuzzing is a continuous process, not a one-time pass. The corpus grows over time
+and is versioned alongside hand-written vectors.
