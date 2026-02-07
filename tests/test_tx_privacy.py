@@ -218,3 +218,52 @@ def test_unshield_transfer_self(state_test_group) -> None:
         state,
         tx,
     )
+
+
+def test_uno_transfer_insufficient_balance(state_test_group) -> None:
+    """UNO transfer from account with zero balance."""
+    state = ChainState(network_chain_id=CHAIN_ID_DEVNET)
+    # Account with zero balance
+    state.accounts[ALICE] = AccountState(address=ALICE, balance=0, nonce=5)
+    state.accounts[BOB] = AccountState(address=BOB, balance=0, nonce=0)
+    tx = _mk_uno_transfer(ALICE, nonce=5, destination=BOB, fee=0)
+    state_test_group(
+        "transactions/privacy/uno_transfers.json",
+        "uno_transfer_insufficient_balance",
+        state,
+        tx,
+    )
+
+
+def test_unshield_transfer_zero_amount(state_test_group) -> None:
+    """Unshield with zero amount."""
+    state = _base_state()
+    state.accounts[BOB] = AccountState(address=BOB, balance=0, nonce=0)
+    tx = _mk_unshield_transfer(
+        ALICE, nonce=5, destination=BOB, amount=0, fee=100_000
+    )
+    state_test_group(
+        "transactions/privacy/unshield_transfers.json",
+        "unshield_transfer_zero_amount",
+        state,
+        tx,
+    )
+
+
+def test_shield_transfer_insufficient_balance(state_test_group) -> None:
+    """Shield transfer exceeding sender balance."""
+    state = ChainState(network_chain_id=CHAIN_ID_DEVNET)
+    # Account with only 1 TOS, trying to shield 100 TOS (MIN_SHIELD_TOS_AMOUNT)
+    state.accounts[ALICE] = AccountState(
+        address=ALICE, balance=COIN_VALUE, nonce=5
+    )
+    state.accounts[BOB] = AccountState(address=BOB, balance=0, nonce=0)
+    tx = _mk_shield_transfer(
+        ALICE, nonce=5, destination=BOB, amount=MIN_SHIELD_TOS_AMOUNT, fee=100_000
+    )
+    state_test_group(
+        "transactions/privacy/shield_transfers.json",
+        "shield_transfer_insufficient_balance",
+        state,
+        tx,
+    )

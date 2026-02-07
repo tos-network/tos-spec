@@ -173,7 +173,9 @@ def _verify_deposit(state: ChainState, tx: Transaction, p: dict) -> None:
 
     eid = _to_bytes(p.get("escrow_id"))
     escrow = state.escrows.get(eid)
-    if escrow is not None and escrow.status not in (EscrowStatus.CREATED, EscrowStatus.FUNDED):
+    if escrow is None:
+        raise SpecError(ErrorCode.ESCROW_NOT_FOUND, "escrow not found")
+    if escrow.status not in (EscrowStatus.CREATED, EscrowStatus.FUNDED):
         raise SpecError(ErrorCode.ESCROW_WRONG_STATE, "escrow not in depositable state")
 
 
@@ -208,11 +210,18 @@ def _verify_release(state: ChainState, tx: Transaction, p: dict) -> None:
 
     eid = _to_bytes(p.get("escrow_id"))
     escrow = state.escrows.get(eid)
-    if escrow is not None:
-        if escrow.status != EscrowStatus.FUNDED:
-            raise SpecError(ErrorCode.ESCROW_WRONG_STATE, "escrow not funded")
-        if amount > escrow.amount:
-            raise SpecError(ErrorCode.INVALID_AMOUNT, "release amount exceeds escrow balance")
+    if escrow is None:
+        raise SpecError(ErrorCode.ESCROW_NOT_FOUND, "escrow not found")
+    # Only the payee (provider) can request release
+    if tx.source != escrow.payee:
+        raise SpecError(ErrorCode.UNAUTHORIZED, "only payee can request release")
+    if escrow.status != EscrowStatus.FUNDED:
+        raise SpecError(ErrorCode.ESCROW_WRONG_STATE, "escrow not funded")
+    if amount > escrow.amount:
+        raise SpecError(ErrorCode.INVALID_AMOUNT, "release amount exceeds escrow balance")
+    # Release requires optimistic_release to be enabled
+    if not escrow.optimistic_release:
+        raise SpecError(ErrorCode.ESCROW_WRONG_STATE, "optimistic release not enabled")
 
 
 def _apply_release(state: ChainState, tx: Transaction, p: dict) -> ChainState:
@@ -243,9 +252,13 @@ def _verify_refund(state: ChainState, tx: Transaction, p: dict) -> None:
 
     eid = _to_bytes(p.get("escrow_id"))
     escrow = state.escrows.get(eid)
-    if escrow is not None:
-        if amount > escrow.amount:
-            raise SpecError(ErrorCode.INVALID_AMOUNT, "refund amount exceeds escrow balance")
+    if escrow is None:
+        raise SpecError(ErrorCode.ESCROW_NOT_FOUND, "escrow not found")
+    if amount > escrow.amount:
+        raise SpecError(ErrorCode.INVALID_AMOUNT, "refund amount exceeds escrow balance")
+    # Terminal states cannot be refunded
+    if escrow.status in (EscrowStatus.RELEASED, EscrowStatus.REFUNDED, EscrowStatus.RESOLVED):
+        raise SpecError(ErrorCode.ESCROW_WRONG_STATE, "escrow in terminal state")
 
 
 def _apply_refund(state: ChainState, tx: Transaction, p: dict) -> ChainState:
@@ -279,6 +292,20 @@ def _verify_challenge(state: ChainState, tx: Transaction, p: dict) -> None:
     if deposit <= 0:
         raise SpecError(ErrorCode.INVALID_AMOUNT, "challenge deposit must be > 0")
 
+    eid = _to_bytes(p.get("escrow_id"))
+    escrow = state.escrows.get(eid)
+    if escrow is None:
+        raise SpecError(ErrorCode.ESCROW_NOT_FOUND, "escrow not found")
+    # Only the payer (client) can challenge
+    if tx.source != escrow.payer:
+        raise SpecError(ErrorCode.UNAUTHORIZED, "only payer can challenge")
+    if escrow.status != EscrowStatus.PENDING_RELEASE:
+        raise SpecError(ErrorCode.ESCROW_WRONG_STATE, "escrow not in pending release state")
+    if not escrow.optimistic_release:
+        raise SpecError(ErrorCode.ESCROW_WRONG_STATE, "optimistic release not enabled")
+    if escrow.arbitration_config is None:
+        raise SpecError(ErrorCode.INVALID_PAYLOAD, "arbitration not configured")
+
 
 def _apply_challenge(state: ChainState, tx: Transaction, p: dict) -> ChainState:
     ns = deepcopy(state)
@@ -308,6 +335,25 @@ def _verify_dispute(state: ChainState, tx: Transaction, p: dict) -> None:
     if not reason or len(reason) > MAX_REASON_LEN:
         raise SpecError(ErrorCode.INVALID_PAYLOAD, "invalid dispute reason")
 
+    eid = _to_bytes(p.get("escrow_id"))
+    escrow = state.escrows.get(eid)
+    if escrow is None:
+        raise SpecError(ErrorCode.ESCROW_NOT_FOUND, "escrow not found")
+    # Only payer or payee can dispute
+    if tx.source != escrow.payer and tx.source != escrow.payee:
+        raise SpecError(ErrorCode.UNAUTHORIZED, "only payer or payee can dispute")
+    # Allow dispute from Funded, PendingRelease, or Challenged states
+    if escrow.status not in (
+        EscrowStatus.FUNDED,
+        EscrowStatus.PENDING_RELEASE,
+        EscrowStatus.CHALLENGED,
+    ):
+        raise SpecError(ErrorCode.ESCROW_WRONG_STATE, "escrow not in disputable state")
+    if escrow.dispute is not None:
+        raise SpecError(ErrorCode.ESCROW_WRONG_STATE, "dispute already exists")
+    if escrow.arbitration_config is None:
+        raise SpecError(ErrorCode.INVALID_PAYLOAD, "arbitration not configured")
+
 
 def _apply_dispute(state: ChainState, tx: Transaction, p: dict) -> ChainState:
     ns = deepcopy(state)
@@ -329,6 +375,21 @@ def _verify_appeal(state: ChainState, tx: Transaction, p: dict) -> None:
     appeal_deposit = p.get("appeal_deposit", 0)
     if appeal_deposit <= 0:
         raise SpecError(ErrorCode.INVALID_AMOUNT, "appeal deposit must be > 0")
+
+    eid = _to_bytes(p.get("escrow_id"))
+    escrow = state.escrows.get(eid)
+    if escrow is None:
+        raise SpecError(ErrorCode.ESCROW_NOT_FOUND, "escrow not found")
+    # Only payer or payee can appeal
+    if tx.source != escrow.payer and tx.source != escrow.payee:
+        raise SpecError(ErrorCode.UNAUTHORIZED, "only payer or payee can appeal")
+    if escrow.status != EscrowStatus.RESOLVED:
+        raise SpecError(ErrorCode.ESCROW_WRONG_STATE, "escrow not in resolved state")
+    if escrow.dispute is None:
+        raise SpecError(ErrorCode.ESCROW_WRONG_STATE, "no dispute record to appeal")
+    config = escrow.arbitration_config
+    if config is None or not config.allow_appeal:
+        raise SpecError(ErrorCode.INVALID_PAYLOAD, "appeal not allowed")
 
 
 def _apply_appeal(state: ChainState, tx: Transaction, p: dict) -> ChainState:
@@ -356,6 +417,20 @@ def _verify_submit_verdict(state: ChainState, tx: Transaction, p: dict) -> None:
     sigs = p.get("signatures", [])
     if not sigs:
         raise SpecError(ErrorCode.INVALID_PAYLOAD, "signatures required")
+
+    eid = _to_bytes(p.get("escrow_id"))
+    escrow = state.escrows.get(eid)
+    if escrow is None:
+        raise SpecError(ErrorCode.ESCROW_NOT_FOUND, "escrow not found")
+    if escrow.status != EscrowStatus.CHALLENGED:
+        raise SpecError(ErrorCode.ESCROW_WRONG_STATE, "escrow not in challenged state")
+    if escrow.dispute is None:
+        raise SpecError(ErrorCode.ESCROW_WRONG_STATE, "dispute record required")
+    if escrow.arbitration_config is None:
+        raise SpecError(ErrorCode.INVALID_PAYLOAD, "arbitration not configured")
+    # Verdict amounts must sum to escrow amount
+    if payer_amount + payee_amount != escrow.amount:
+        raise SpecError(ErrorCode.INVALID_AMOUNT, "verdict amounts must equal escrow amount")
 
 
 def _apply_submit_verdict(state: ChainState, tx: Transaction, p: dict) -> ChainState:

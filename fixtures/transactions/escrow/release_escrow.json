@@ -68,8 +68,8 @@
         "nonce": 0,
         "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
         "reference_topoheight": 0,
-        "signature": "3caa683d83b35c96ab32fea2741a22ee80c2047162ef0c372dd9d2a9e54d94079bf3cd5ebc527f362b6cc8862140331055be72a450c0ae0892351e55f9961c06",
-        "wire_hex": "0103c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e378241a3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c000000001dcd65000000000000000186a000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000003caa683d83b35c96ab32fea2741a22ee80c2047162ef0c372dd9d2a9e54d94079bf3cd5ebc527f362b6cc8862140331055be72a450c0ae0892351e55f9961c06"
+        "signature": "2afc64d43952e7f937da8e8a4b3cad9427a0853bce35da834041f9d1395aad01e0c703368b64d7a25ad4377c1c3b1ad489e1dd3141baf4d7cbffd9fa72687300",
+        "wire_hex": "0103c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e378241a3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c000000001dcd65000000000000000186a000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000002afc64d43952e7f937da8e8a4b3cad9427a0853bce35da834041f9d1395aad01e0c703368b64d7a25ad4377c1c3b1ad489e1dd3141baf4d7cbffd9fa72687300"
       },
       "expected": {
         "ok": true,
@@ -123,6 +123,730 @@
               "created_at": 0,
               "updated_at": 0,
               "timeout_at": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "release_escrow_zero_amount",
+      "pre_state": {
+        "network_chain_id": 3,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "balance": 10000000000,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          },
+          {
+            "address": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824",
+            "balance": 100000000,
+            "nonce": 0,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ],
+        "escrows": [
+          {
+            "id": "3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c",
+            "task_id": "test-task",
+            "payer": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "payee": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824",
+            "amount": 1000000000,
+            "total_amount": 1000000000,
+            "released_amount": 0,
+            "refunded_amount": 0,
+            "challenge_deposit": 0,
+            "asset": "0000000000000000000000000000000000000000000000000000000000000000",
+            "state": "funded",
+            "timeout_blocks": 100,
+            "challenge_window": 100,
+            "challenge_deposit_bps": 500,
+            "optimistic_release": true,
+            "created_at": 0,
+            "updated_at": 0,
+            "timeout_at": 0
+          }
+        ]
+      },
+      "tx": {
+        "version": 1,
+        "chain_id": 3,
+        "source": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824",
+        "tx_type": "release_escrow",
+        "payload": {
+          "escrow_id": "3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c",
+          "amount": 0
+        },
+        "fee": 100000,
+        "fee_type": 0,
+        "nonce": 0,
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "792b866ee0af00e4cd4b881cae1e216cebf32c0aac08aa0e7a7e24a2247d91067e5d3b583d5f38c3866e7681647715660c39d31ba87a50fddb6f8f972bff9002",
+        "wire_hex": "0103c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e378241a3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c00000000000000000000000000000186a00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000792b866ee0af00e4cd4b881cae1e216cebf32c0aac08aa0e7a7e24a2247d91067e5d3b583d5f38c3866e7681647715660c39d31ba87a50fddb6f8f972bff9002"
+      },
+      "expected": {
+        "ok": false,
+        "error": "INVALID_AMOUNT",
+        "post_state": {
+          "network_chain_id": 3,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+              "balance": 10000000000,
+              "nonce": 5,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            },
+            {
+              "address": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824",
+              "balance": 100000000,
+              "nonce": 0,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ],
+          "escrows": [
+            {
+              "id": "3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c",
+              "task_id": "test-task",
+              "payer": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+              "payee": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824",
+              "amount": 1000000000,
+              "total_amount": 1000000000,
+              "released_amount": 0,
+              "refunded_amount": 0,
+              "challenge_deposit": 0,
+              "asset": "0000000000000000000000000000000000000000000000000000000000000000",
+              "state": "funded",
+              "timeout_blocks": 100,
+              "challenge_window": 100,
+              "challenge_deposit_bps": 500,
+              "optimistic_release": true,
+              "created_at": 0,
+              "updated_at": 0,
+              "timeout_at": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "release_escrow_not_payee",
+      "pre_state": {
+        "network_chain_id": 3,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "balance": 10000000000,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          },
+          {
+            "address": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824",
+            "balance": 0,
+            "nonce": 0,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ],
+        "escrows": [
+          {
+            "id": "3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c",
+            "task_id": "test-task",
+            "payer": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "payee": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824",
+            "amount": 1000000000,
+            "total_amount": 1000000000,
+            "released_amount": 0,
+            "refunded_amount": 0,
+            "challenge_deposit": 0,
+            "asset": "0000000000000000000000000000000000000000000000000000000000000000",
+            "state": "funded",
+            "timeout_blocks": 100,
+            "challenge_window": 100,
+            "challenge_deposit_bps": 500,
+            "optimistic_release": true,
+            "created_at": 0,
+            "updated_at": 0,
+            "timeout_at": 0
+          }
+        ]
+      },
+      "tx": {
+        "version": 1,
+        "chain_id": 3,
+        "source": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+        "tx_type": "release_escrow",
+        "payload": {
+          "escrow_id": "3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c",
+          "amount": 500000000
+        },
+        "fee": 100000,
+        "fee_type": 0,
+        "nonce": 5,
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "2e4c41f6d95f9392de842d9cd7dfcf3524510cdf83879d0631455cad25a5df0f01a3388b71685302ae22c071520ae2262576e26817436850c583652c30a8450c",
+        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b2491a3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c000000001dcd65000000000000000186a000000000000000000500000000000000000000000000000000000000000000000000000000000000000000000000000000002e4c41f6d95f9392de842d9cd7dfcf3524510cdf83879d0631455cad25a5df0f01a3388b71685302ae22c071520ae2262576e26817436850c583652c30a8450c"
+      },
+      "expected": {
+        "ok": false,
+        "error": "UNAUTHORIZED",
+        "post_state": {
+          "network_chain_id": 3,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+              "balance": 10000000000,
+              "nonce": 5,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            },
+            {
+              "address": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824",
+              "balance": 0,
+              "nonce": 0,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ],
+          "escrows": [
+            {
+              "id": "3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c",
+              "task_id": "test-task",
+              "payer": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+              "payee": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824",
+              "amount": 1000000000,
+              "total_amount": 1000000000,
+              "released_amount": 0,
+              "refunded_amount": 0,
+              "challenge_deposit": 0,
+              "asset": "0000000000000000000000000000000000000000000000000000000000000000",
+              "state": "funded",
+              "timeout_blocks": 100,
+              "challenge_window": 100,
+              "challenge_deposit_bps": 500,
+              "optimistic_release": true,
+              "created_at": 0,
+              "updated_at": 0,
+              "timeout_at": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "release_escrow_not_funded",
+      "pre_state": {
+        "network_chain_id": 3,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "balance": 10000000000,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          },
+          {
+            "address": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824",
+            "balance": 100000000,
+            "nonce": 0,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ],
+        "escrows": [
+          {
+            "id": "3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c",
+            "task_id": "test-task",
+            "payer": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "payee": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824",
+            "amount": 1000000000,
+            "total_amount": 1000000000,
+            "released_amount": 0,
+            "refunded_amount": 0,
+            "challenge_deposit": 0,
+            "asset": "0000000000000000000000000000000000000000000000000000000000000000",
+            "state": "challenged",
+            "timeout_blocks": 100,
+            "challenge_window": 100,
+            "challenge_deposit_bps": 500,
+            "optimistic_release": true,
+            "created_at": 0,
+            "updated_at": 0,
+            "timeout_at": 0
+          }
+        ]
+      },
+      "tx": {
+        "version": 1,
+        "chain_id": 3,
+        "source": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824",
+        "tx_type": "release_escrow",
+        "payload": {
+          "escrow_id": "3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c",
+          "amount": 500000000
+        },
+        "fee": 100000,
+        "fee_type": 0,
+        "nonce": 0,
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "93376fe7047eda7777eacfb03b31a03fd425bea0fda0aa742e64d8f2c3d34a0a527278aec47b1ddb607dec8d5e3bbe5319d1a066de74b6949451918443b9cf0d",
+        "wire_hex": "0103c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e378241a3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c000000001dcd65000000000000000186a0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000093376fe7047eda7777eacfb03b31a03fd425bea0fda0aa742e64d8f2c3d34a0a527278aec47b1ddb607dec8d5e3bbe5319d1a066de74b6949451918443b9cf0d"
+      },
+      "expected": {
+        "ok": false,
+        "error": "ESCROW_WRONG_STATE",
+        "post_state": {
+          "network_chain_id": 3,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+              "balance": 10000000000,
+              "nonce": 5,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            },
+            {
+              "address": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824",
+              "balance": 100000000,
+              "nonce": 0,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ],
+          "escrows": [
+            {
+              "id": "3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c",
+              "task_id": "test-task",
+              "payer": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+              "payee": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824",
+              "amount": 1000000000,
+              "total_amount": 1000000000,
+              "released_amount": 0,
+              "refunded_amount": 0,
+              "challenge_deposit": 0,
+              "asset": "0000000000000000000000000000000000000000000000000000000000000000",
+              "state": "challenged",
+              "timeout_blocks": 100,
+              "challenge_window": 100,
+              "challenge_deposit_bps": 500,
+              "optimistic_release": true,
+              "created_at": 0,
+              "updated_at": 0,
+              "timeout_at": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "release_escrow_exceeds_balance",
+      "pre_state": {
+        "network_chain_id": 3,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "balance": 10000000000,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          },
+          {
+            "address": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824",
+            "balance": 100000000,
+            "nonce": 0,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ],
+        "escrows": [
+          {
+            "id": "3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c",
+            "task_id": "test-task",
+            "payer": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "payee": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824",
+            "amount": 500000000,
+            "total_amount": 500000000,
+            "released_amount": 0,
+            "refunded_amount": 0,
+            "challenge_deposit": 0,
+            "asset": "0000000000000000000000000000000000000000000000000000000000000000",
+            "state": "funded",
+            "timeout_blocks": 100,
+            "challenge_window": 100,
+            "challenge_deposit_bps": 500,
+            "optimistic_release": true,
+            "created_at": 0,
+            "updated_at": 0,
+            "timeout_at": 0
+          }
+        ]
+      },
+      "tx": {
+        "version": 1,
+        "chain_id": 3,
+        "source": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824",
+        "tx_type": "release_escrow",
+        "payload": {
+          "escrow_id": "3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c",
+          "amount": 1000000000
+        },
+        "fee": 100000,
+        "fee_type": 0,
+        "nonce": 0,
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "ebbffd57fe6204bb2c53fbdb7fe42bd0b0e07f988f22a5493c737ad48c25db00a12fe38ca534c3cf91ad8689c1a6a46a3f0cc3f5630eb371863a58539d5ee504",
+        "wire_hex": "0103c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e378241a3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c000000003b9aca000000000000000186a00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000ebbffd57fe6204bb2c53fbdb7fe42bd0b0e07f988f22a5493c737ad48c25db00a12fe38ca534c3cf91ad8689c1a6a46a3f0cc3f5630eb371863a58539d5ee504"
+      },
+      "expected": {
+        "ok": false,
+        "error": "INVALID_AMOUNT",
+        "post_state": {
+          "network_chain_id": 3,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+              "balance": 10000000000,
+              "nonce": 5,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            },
+            {
+              "address": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824",
+              "balance": 100000000,
+              "nonce": 0,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ],
+          "escrows": [
+            {
+              "id": "3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c",
+              "task_id": "test-task",
+              "payer": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+              "payee": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824",
+              "amount": 500000000,
+              "total_amount": 500000000,
+              "released_amount": 0,
+              "refunded_amount": 0,
+              "challenge_deposit": 0,
+              "asset": "0000000000000000000000000000000000000000000000000000000000000000",
+              "state": "funded",
+              "timeout_blocks": 100,
+              "challenge_window": 100,
+              "challenge_deposit_bps": 500,
+              "optimistic_release": true,
+              "created_at": 0,
+              "updated_at": 0,
+              "timeout_at": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "release_escrow_optimistic_not_enabled",
+      "pre_state": {
+        "network_chain_id": 3,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "balance": 10000000000,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          },
+          {
+            "address": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824",
+            "balance": 100000000,
+            "nonce": 0,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ],
+        "escrows": [
+          {
+            "id": "3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c",
+            "task_id": "test-task",
+            "payer": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "payee": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824",
+            "amount": 1000000000,
+            "total_amount": 1000000000,
+            "released_amount": 0,
+            "refunded_amount": 0,
+            "challenge_deposit": 0,
+            "asset": "0000000000000000000000000000000000000000000000000000000000000000",
+            "state": "funded",
+            "timeout_blocks": 100,
+            "challenge_window": 100,
+            "challenge_deposit_bps": 500,
+            "optimistic_release": false,
+            "created_at": 0,
+            "updated_at": 0,
+            "timeout_at": 0
+          }
+        ]
+      },
+      "tx": {
+        "version": 1,
+        "chain_id": 3,
+        "source": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824",
+        "tx_type": "release_escrow",
+        "payload": {
+          "escrow_id": "3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c",
+          "amount": 500000000
+        },
+        "fee": 100000,
+        "fee_type": 0,
+        "nonce": 0,
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "da4d5d759b1ab672d90107f204ae2ace4ed24f18c08fb58e7a7569e37a0bd903d7141899a7150946b7f4567b17c7d02abc24035c8ce26d12b46564726b2d2f09",
+        "wire_hex": "0103c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e378241a3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c000000001dcd65000000000000000186a00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000da4d5d759b1ab672d90107f204ae2ace4ed24f18c08fb58e7a7569e37a0bd903d7141899a7150946b7f4567b17c7d02abc24035c8ce26d12b46564726b2d2f09"
+      },
+      "expected": {
+        "ok": false,
+        "error": "ESCROW_WRONG_STATE",
+        "post_state": {
+          "network_chain_id": 3,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+              "balance": 10000000000,
+              "nonce": 5,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            },
+            {
+              "address": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824",
+              "balance": 100000000,
+              "nonce": 0,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ],
+          "escrows": [
+            {
+              "id": "3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c",
+              "task_id": "test-task",
+              "payer": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+              "payee": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824",
+              "amount": 1000000000,
+              "total_amount": 1000000000,
+              "released_amount": 0,
+              "refunded_amount": 0,
+              "challenge_deposit": 0,
+              "asset": "0000000000000000000000000000000000000000000000000000000000000000",
+              "state": "funded",
+              "timeout_blocks": 100,
+              "challenge_window": 100,
+              "challenge_deposit_bps": 500,
+              "optimistic_release": false,
+              "created_at": 0,
+              "updated_at": 0,
+              "timeout_at": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "release_escrow_not_found",
+      "pre_state": {
+        "network_chain_id": 3,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "balance": 10000000000,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          },
+          {
+            "address": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824",
+            "balance": 100000000,
+            "nonce": 0,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
+      },
+      "tx": {
+        "version": 1,
+        "chain_id": 3,
+        "source": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824",
+        "tx_type": "release_escrow",
+        "payload": {
+          "escrow_id": "6363636363636363636363636363636363636363636363636363636363636363",
+          "amount": 500000000
+        },
+        "fee": 100000,
+        "fee_type": 0,
+        "nonce": 0,
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "4231112989d75a9bf5f984c5d0c99e73a6487466232c690b0cd12c0a01607c098af25cb1dda277045b633abf1252ae1e1501e01d89412f7543d63f0c0920b402",
+        "wire_hex": "0103c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e378241a6363636363636363636363636363636363636363636363636363636363636363000000001dcd65000000000000000186a000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000004231112989d75a9bf5f984c5d0c99e73a6487466232c690b0cd12c0a01607c098af25cb1dda277045b633abf1252ae1e1501e01d89412f7543d63f0c0920b402"
+      },
+      "expected": {
+        "ok": false,
+        "error": "ESCROW_NOT_FOUND",
+        "post_state": {
+          "network_chain_id": 3,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+              "balance": 10000000000,
+              "nonce": 5,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            },
+            {
+              "address": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824",
+              "balance": 100000000,
+              "nonce": 0,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
             }
           ]
         }

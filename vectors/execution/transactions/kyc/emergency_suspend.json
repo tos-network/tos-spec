@@ -37,7 +37,7 @@
             "address": "5e9b22da885aa5a20006edfcbb5a79c5e4fc9156137f8ec3926a87cd0bb0b477",
             "level": 7,
             "status": "active",
-            "verified_at": 1770442445,
+            "verified_at": 1770444135,
             "data_hash": "2828282828282828282828282828282828282828282828282828282828282828",
             "committee_id": "3232323232323232323232323232323232323232323232323232323232323232"
           }
@@ -72,7 +72,7 @@
       },
       "input": {
         "kind": "tx",
-        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b2490f5e9b22da885aa5a20006edfcbb5a79c5e4fc9156137f8ec3926a87cd0bb0b4772d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d3232323232323232323232323232323232323232323232323232323232323232027ea555bf91bfb985561a91afcd669a79c0cc115ce03baf687cb8dd7e1e996e7b1bd97d08a38eb494cf3b9ff34cc67a5b441d520984fbe035c601faca2e0c98046ed147499c728299147fb2c3b4f1d76869747fc3dbb046aa14d9f35e63285f0a000000006986d2b5ec9daff86b25275ef43d7dbd7e81f09b44e8d3805c6048b09b3e1034931c6077cc05955ac55cd8a8d9087757c8e78c9bdfe24dacb95015618587a555b789c604417e8b412f073acdae6fbc4e6927bcf68b299f58f0b95cc103de1dc7a6be8a0e000000006986d2b5000000006988243500000000000186a000000000000000000500000000000000000000000000000000000000000000000000000000000000000000000000000000005947f49c5ed2e3eba2e18a7fe870ea070b6de7d063effbaa0748e003084dd409e770c4c1b4c4e545f200bce190f6ffcfd9f3289a5cca6d615606f5d8e6390806",
+        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b2490f5e9b22da885aa5a20006edfcbb5a79c5e4fc9156137f8ec3926a87cd0bb0b4772d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d3232323232323232323232323232323232323232323232323232323232323232027ea555bf91bfb985561a91afcd669a79c0cc115ce03baf687cb8dd7e1e996e7bb49d0ddc319ba80b98f5e21828c1dd8939fbb06d55f53adaa05589eeb1960b08134196b1ac997ad9976d71d44965af866ec7041bf534f8d9a8844b2405e5ef0b000000006986d94fec9daff86b25275ef43d7dbd7e81f09b44e8d3805c6048b09b3e1034931c60771b9bfc91b7f8f33286fc9e7bf5da8a326a3c60d9d19ad5b496fdabfba2ef6801c808be737b9c764afb884dac7cb87166711aa76ca9a9198614f8610de95e9507000000006986d94f0000000069882acf00000000000186a00000000000000000050000000000000000000000000000000000000000000000000000000000000000000000000000000000d6ad540d16799f441f295ef57db2f5f8d5a4ab1e2e819405c975712c2829ed09dc8870aaafb2cdcc28621dee41d4ca9d7e4844e8700085477545db41aef6560f",
         "tx": {
           "version": 1,
           "chain_id": 3,
@@ -85,24 +85,24 @@
             "approvals": [
               {
                 "member_pubkey": "7ea555bf91bfb985561a91afcd669a79c0cc115ce03baf687cb8dd7e1e996e7b",
-                "signature": "1bd97d08a38eb494cf3b9ff34cc67a5b441d520984fbe035c601faca2e0c98046ed147499c728299147fb2c3b4f1d76869747fc3dbb046aa14d9f35e63285f0a",
-                "timestamp": 1770443445
+                "signature": "b49d0ddc319ba80b98f5e21828c1dd8939fbb06d55f53adaa05589eeb1960b08134196b1ac997ad9976d71d44965af866ec7041bf534f8d9a8844b2405e5ef0b",
+                "timestamp": 1770445135
               },
               {
                 "member_pubkey": "ec9daff86b25275ef43d7dbd7e81f09b44e8d3805c6048b09b3e1034931c6077",
-                "signature": "cc05955ac55cd8a8d9087757c8e78c9bdfe24dacb95015618587a555b789c604417e8b412f073acdae6fbc4e6927bcf68b299f58f0b95cc103de1dc7a6be8a0e",
-                "timestamp": 1770443445
+                "signature": "1b9bfc91b7f8f33286fc9e7bf5da8a326a3c60d9d19ad5b496fdabfba2ef6801c808be737b9c764afb884dac7cb87166711aa76ca9a9198614f8610de95e9507",
+                "timestamp": 1770445135
               }
             ],
-            "expires_at": 1770529845
+            "expires_at": 1770531535
           },
           "fee": 100000,
           "fee_type": 0,
           "nonce": 5,
           "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
           "reference_topoheight": 0,
-          "signature": "5947f49c5ed2e3eba2e18a7fe870ea070b6de7d063effbaa0748e003084dd409e770c4c1b4c4e545f200bce190f6ffcfd9f3289a5cca6d615606f5d8e6390806",
-          "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b2490f5e9b22da885aa5a20006edfcbb5a79c5e4fc9156137f8ec3926a87cd0bb0b4772d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d3232323232323232323232323232323232323232323232323232323232323232027ea555bf91bfb985561a91afcd669a79c0cc115ce03baf687cb8dd7e1e996e7b1bd97d08a38eb494cf3b9ff34cc67a5b441d520984fbe035c601faca2e0c98046ed147499c728299147fb2c3b4f1d76869747fc3dbb046aa14d9f35e63285f0a000000006986d2b5ec9daff86b25275ef43d7dbd7e81f09b44e8d3805c6048b09b3e1034931c6077cc05955ac55cd8a8d9087757c8e78c9bdfe24dacb95015618587a555b789c604417e8b412f073acdae6fbc4e6927bcf68b299f58f0b95cc103de1dc7a6be8a0e000000006986d2b5000000006988243500000000000186a000000000000000000500000000000000000000000000000000000000000000000000000000000000000000000000000000005947f49c5ed2e3eba2e18a7fe870ea070b6de7d063effbaa0748e003084dd409e770c4c1b4c4e545f200bce190f6ffcfd9f3289a5cca6d615606f5d8e6390806"
+          "signature": "d6ad540d16799f441f295ef57db2f5f8d5a4ab1e2e819405c975712c2829ed09dc8870aaafb2cdcc28621dee41d4ca9d7e4844e8700085477545db41aef6560f",
+          "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b2490f5e9b22da885aa5a20006edfcbb5a79c5e4fc9156137f8ec3926a87cd0bb0b4772d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d3232323232323232323232323232323232323232323232323232323232323232027ea555bf91bfb985561a91afcd669a79c0cc115ce03baf687cb8dd7e1e996e7bb49d0ddc319ba80b98f5e21828c1dd8939fbb06d55f53adaa05589eeb1960b08134196b1ac997ad9976d71d44965af866ec7041bf534f8d9a8844b2405e5ef0b000000006986d94fec9daff86b25275ef43d7dbd7e81f09b44e8d3805c6048b09b3e1034931c60771b9bfc91b7f8f33286fc9e7bf5da8a326a3c60d9d19ad5b496fdabfba2ef6801c808be737b9c764afb884dac7cb87166711aa76ca9a9198614f8610de95e9507000000006986d94f0000000069882acf00000000000186a00000000000000000050000000000000000000000000000000000000000000000000000000000000000000000000000000000d6ad540d16799f441f295ef57db2f5f8d5a4ab1e2e819405c975712c2829ed09dc8870aaafb2cdcc28621dee41d4ca9d7e4844e8700085477545db41aef6560f"
         }
       },
       "expected": {
@@ -143,7 +143,519 @@
               "address": "5e9b22da885aa5a20006edfcbb5a79c5e4fc9156137f8ec3926a87cd0bb0b477",
               "level": 7,
               "status": "suspended",
-              "verified_at": 1770442445,
+              "verified_at": 1770444135,
+              "data_hash": "2828282828282828282828282828282828282828282828282828282828282828",
+              "committee_id": "3232323232323232323232323232323232323232323232323232323232323232"
+            }
+          ],
+          "committees": [
+            {
+              "id": "3232323232323232323232323232323232323232323232323232323232323232",
+              "name": "GlobalCommittee",
+              "region": 255,
+              "members": [
+                {
+                  "public_key": "7ea555bf91bfb985561a91afcd669a79c0cc115ce03baf687cb8dd7e1e996e7b",
+                  "name": "member_0",
+                  "role": 0
+                },
+                {
+                  "public_key": "ec9daff86b25275ef43d7dbd7e81f09b44e8d3805c6048b09b3e1034931c6077",
+                  "name": "member_1",
+                  "role": 0
+                },
+                {
+                  "public_key": "c236d1e09a12adc6dc4b857420e7dbef41e4553cc06168495b941398bee59531",
+                  "name": "member_2",
+                  "role": 0
+                }
+              ],
+              "threshold": 2,
+              "kyc_threshold": 2,
+              "max_kyc_level": 255
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "emergency_suspend_no_kyc_record",
+      "description": "",
+      "pre_state": {
+        "network_chain_id": 3,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "balance": 10000000,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          },
+          {
+            "address": "5e9b22da885aa5a20006edfcbb5a79c5e4fc9156137f8ec3926a87cd0bb0b477",
+            "balance": 0,
+            "nonce": 0,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ],
+        "committees": [
+          {
+            "id": "3232323232323232323232323232323232323232323232323232323232323232",
+            "name": "GlobalCommittee",
+            "region": 255,
+            "members": [
+              {
+                "public_key": "7ea555bf91bfb985561a91afcd669a79c0cc115ce03baf687cb8dd7e1e996e7b",
+                "name": "member_0",
+                "role": 0
+              },
+              {
+                "public_key": "ec9daff86b25275ef43d7dbd7e81f09b44e8d3805c6048b09b3e1034931c6077",
+                "name": "member_1",
+                "role": 0
+              },
+              {
+                "public_key": "c236d1e09a12adc6dc4b857420e7dbef41e4553cc06168495b941398bee59531",
+                "name": "member_2",
+                "role": 0
+              }
+            ],
+            "threshold": 2,
+            "kyc_threshold": 2,
+            "max_kyc_level": 255
+          }
+        ]
+      },
+      "runnable": false,
+      "input": {
+        "kind": "tx",
+        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b2490f5e9b22da885aa5a20006edfcbb5a79c5e4fc9156137f8ec3926a87cd0bb0b4772d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d3232323232323232323232323232323232323232323232323232323232323232027ea555bf91bfb985561a91afcd669a79c0cc115ce03baf687cb8dd7e1e996e7bd71fd4cb25c126c41fe9a7404947d43fe82cf0ddd7635927b9961c7e511f6405dc44c7b7b99121d00e78cebf1a7b7a662f61c576d98d9726c72cf7e2106f8a04000000006986d94fec9daff86b25275ef43d7dbd7e81f09b44e8d3805c6048b09b3e1034931c607785081469925ebf9553a32693ec9404fdbd33f05f020236d1796c4be3c7529101c06f66de2fd41a0d12e569c8f199e3e90ea93c5b101699e10b8bee297a44c30d000000006986d94f0000000069882acf00000000000186a000000000000000000500000000000000000000000000000000000000000000000000000000000000000000000000000000000e5b72985ff0618ece78f3d2f495451610bb6d06b7fa2f43cca0523a194c6a0866bcee810b1823dfced5c83040a0a77a6212bc6d90f2c8500ef8ce1643ac4105",
+        "tx": {
+          "version": 1,
+          "chain_id": 3,
+          "source": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+          "tx_type": "emergency_suspend",
+          "payload": {
+            "account": "5e9b22da885aa5a20006edfcbb5a79c5e4fc9156137f8ec3926a87cd0bb0b477",
+            "reason_hash": "2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d",
+            "committee_id": "3232323232323232323232323232323232323232323232323232323232323232",
+            "approvals": [
+              {
+                "member_pubkey": "7ea555bf91bfb985561a91afcd669a79c0cc115ce03baf687cb8dd7e1e996e7b",
+                "signature": "d71fd4cb25c126c41fe9a7404947d43fe82cf0ddd7635927b9961c7e511f6405dc44c7b7b99121d00e78cebf1a7b7a662f61c576d98d9726c72cf7e2106f8a04",
+                "timestamp": 1770445135
+              },
+              {
+                "member_pubkey": "ec9daff86b25275ef43d7dbd7e81f09b44e8d3805c6048b09b3e1034931c6077",
+                "signature": "85081469925ebf9553a32693ec9404fdbd33f05f020236d1796c4be3c7529101c06f66de2fd41a0d12e569c8f199e3e90ea93c5b101699e10b8bee297a44c30d",
+                "timestamp": 1770445135
+              }
+            ],
+            "expires_at": 1770531535
+          },
+          "fee": 100000,
+          "fee_type": 0,
+          "nonce": 5,
+          "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+          "reference_topoheight": 0,
+          "signature": "0e5b72985ff0618ece78f3d2f495451610bb6d06b7fa2f43cca0523a194c6a0866bcee810b1823dfced5c83040a0a77a6212bc6d90f2c8500ef8ce1643ac4105",
+          "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b2490f5e9b22da885aa5a20006edfcbb5a79c5e4fc9156137f8ec3926a87cd0bb0b4772d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d3232323232323232323232323232323232323232323232323232323232323232027ea555bf91bfb985561a91afcd669a79c0cc115ce03baf687cb8dd7e1e996e7bd71fd4cb25c126c41fe9a7404947d43fe82cf0ddd7635927b9961c7e511f6405dc44c7b7b99121d00e78cebf1a7b7a662f61c576d98d9726c72cf7e2106f8a04000000006986d94fec9daff86b25275ef43d7dbd7e81f09b44e8d3805c6048b09b3e1034931c607785081469925ebf9553a32693ec9404fdbd33f05f020236d1796c4be3c7529101c06f66de2fd41a0d12e569c8f199e3e90ea93c5b101699e10b8bee297a44c30d000000006986d94f0000000069882acf00000000000186a000000000000000000500000000000000000000000000000000000000000000000000000000000000000000000000000000000e5b72985ff0618ece78f3d2f495451610bb6d06b7fa2f43cca0523a194c6a0866bcee810b1823dfced5c83040a0a77a6212bc6d90f2c8500ef8ce1643ac4105"
+        }
+      },
+      "expected": {
+        "success": false,
+        "error_code": 1024,
+        "state_digest": "3c0ede6c09188fa08a9f3f4f4bfb68af391806ce4ff769fcaa477cdfb2a7722f",
+        "post_state": {
+          "network_chain_id": 3,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+              "balance": 10000000,
+              "nonce": 5,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            },
+            {
+              "address": "5e9b22da885aa5a20006edfcbb5a79c5e4fc9156137f8ec3926a87cd0bb0b477",
+              "balance": 0,
+              "nonce": 0,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ],
+          "committees": [
+            {
+              "id": "3232323232323232323232323232323232323232323232323232323232323232",
+              "name": "GlobalCommittee",
+              "region": 255,
+              "members": [
+                {
+                  "public_key": "7ea555bf91bfb985561a91afcd669a79c0cc115ce03baf687cb8dd7e1e996e7b",
+                  "name": "member_0",
+                  "role": 0
+                },
+                {
+                  "public_key": "ec9daff86b25275ef43d7dbd7e81f09b44e8d3805c6048b09b3e1034931c6077",
+                  "name": "member_1",
+                  "role": 0
+                },
+                {
+                  "public_key": "c236d1e09a12adc6dc4b857420e7dbef41e4553cc06168495b941398bee59531",
+                  "name": "member_2",
+                  "role": 0
+                }
+              ],
+              "threshold": 2,
+              "kyc_threshold": 2,
+              "max_kyc_level": 255
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "emergency_suspend_zero_reason_hash",
+      "description": "",
+      "pre_state": {
+        "network_chain_id": 3,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "balance": 10000000,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          },
+          {
+            "address": "5e9b22da885aa5a20006edfcbb5a79c5e4fc9156137f8ec3926a87cd0bb0b477",
+            "balance": 0,
+            "nonce": 0,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ],
+        "kyc_data": [
+          {
+            "address": "5e9b22da885aa5a20006edfcbb5a79c5e4fc9156137f8ec3926a87cd0bb0b477",
+            "level": 7,
+            "status": "active",
+            "verified_at": 1770444135,
+            "data_hash": "2828282828282828282828282828282828282828282828282828282828282828",
+            "committee_id": "3232323232323232323232323232323232323232323232323232323232323232"
+          }
+        ],
+        "committees": [
+          {
+            "id": "3232323232323232323232323232323232323232323232323232323232323232",
+            "name": "GlobalCommittee",
+            "region": 255,
+            "members": [
+              {
+                "public_key": "7ea555bf91bfb985561a91afcd669a79c0cc115ce03baf687cb8dd7e1e996e7b",
+                "name": "member_0",
+                "role": 0
+              },
+              {
+                "public_key": "ec9daff86b25275ef43d7dbd7e81f09b44e8d3805c6048b09b3e1034931c6077",
+                "name": "member_1",
+                "role": 0
+              },
+              {
+                "public_key": "c236d1e09a12adc6dc4b857420e7dbef41e4553cc06168495b941398bee59531",
+                "name": "member_2",
+                "role": 0
+              }
+            ],
+            "threshold": 2,
+            "kyc_threshold": 2,
+            "max_kyc_level": 255
+          }
+        ]
+      },
+      "runnable": false,
+      "input": {
+        "kind": "tx",
+        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b2490f5e9b22da885aa5a20006edfcbb5a79c5e4fc9156137f8ec3926a87cd0bb0b47700000000000000000000000000000000000000000000000000000000000000003232323232323232323232323232323232323232323232323232323232323232027ea555bf91bfb985561a91afcd669a79c0cc115ce03baf687cb8dd7e1e996e7b04000000000000000000000000000000000000000000000000000000000000000400000000000000000000000000000000000000000000000000000000000000000000006986d94fec9daff86b25275ef43d7dbd7e81f09b44e8d3805c6048b09b3e1034931c607705000000000000000000000000000000000000000000000000000000000000000500000000000000000000000000000000000000000000000000000000000000000000006986d94f0000000069882acf00000000000186a0000000000000000005000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "tx": {
+          "version": 1,
+          "chain_id": 3,
+          "source": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+          "tx_type": "emergency_suspend",
+          "payload": {
+            "account": "5e9b22da885aa5a20006edfcbb5a79c5e4fc9156137f8ec3926a87cd0bb0b477",
+            "reason_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+            "committee_id": "3232323232323232323232323232323232323232323232323232323232323232",
+            "approvals": [
+              {
+                "member_pubkey": "7ea555bf91bfb985561a91afcd669a79c0cc115ce03baf687cb8dd7e1e996e7b",
+                "signature": "04000000000000000000000000000000000000000000000000000000000000000400000000000000000000000000000000000000000000000000000000000000",
+                "timestamp": 1770445135
+              },
+              {
+                "member_pubkey": "ec9daff86b25275ef43d7dbd7e81f09b44e8d3805c6048b09b3e1034931c6077",
+                "signature": "05000000000000000000000000000000000000000000000000000000000000000500000000000000000000000000000000000000000000000000000000000000",
+                "timestamp": 1770445135
+              }
+            ],
+            "expires_at": 1770531535
+          },
+          "fee": 100000,
+          "fee_type": 0,
+          "nonce": 5,
+          "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+          "reference_topoheight": 0,
+          "signature": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b2490f5e9b22da885aa5a20006edfcbb5a79c5e4fc9156137f8ec3926a87cd0bb0b47700000000000000000000000000000000000000000000000000000000000000003232323232323232323232323232323232323232323232323232323232323232027ea555bf91bfb985561a91afcd669a79c0cc115ce03baf687cb8dd7e1e996e7b04000000000000000000000000000000000000000000000000000000000000000400000000000000000000000000000000000000000000000000000000000000000000006986d94fec9daff86b25275ef43d7dbd7e81f09b44e8d3805c6048b09b3e1034931c607705000000000000000000000000000000000000000000000000000000000000000500000000000000000000000000000000000000000000000000000000000000000000006986d94f0000000069882acf00000000000186a0000000000000000005000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+        }
+      },
+      "expected": {
+        "success": false,
+        "error_code": 263,
+        "state_digest": "3c0ede6c09188fa08a9f3f4f4bfb68af391806ce4ff769fcaa477cdfb2a7722f",
+        "post_state": {
+          "network_chain_id": 3,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+              "balance": 10000000,
+              "nonce": 5,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            },
+            {
+              "address": "5e9b22da885aa5a20006edfcbb5a79c5e4fc9156137f8ec3926a87cd0bb0b477",
+              "balance": 0,
+              "nonce": 0,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ],
+          "kyc_data": [
+            {
+              "address": "5e9b22da885aa5a20006edfcbb5a79c5e4fc9156137f8ec3926a87cd0bb0b477",
+              "level": 7,
+              "status": "active",
+              "verified_at": 1770444135,
+              "data_hash": "2828282828282828282828282828282828282828282828282828282828282828",
+              "committee_id": "3232323232323232323232323232323232323232323232323232323232323232"
+            }
+          ],
+          "committees": [
+            {
+              "id": "3232323232323232323232323232323232323232323232323232323232323232",
+              "name": "GlobalCommittee",
+              "region": 255,
+              "members": [
+                {
+                  "public_key": "7ea555bf91bfb985561a91afcd669a79c0cc115ce03baf687cb8dd7e1e996e7b",
+                  "name": "member_0",
+                  "role": 0
+                },
+                {
+                  "public_key": "ec9daff86b25275ef43d7dbd7e81f09b44e8d3805c6048b09b3e1034931c6077",
+                  "name": "member_1",
+                  "role": 0
+                },
+                {
+                  "public_key": "c236d1e09a12adc6dc4b857420e7dbef41e4553cc06168495b941398bee59531",
+                  "name": "member_2",
+                  "role": 0
+                }
+              ],
+              "threshold": 2,
+              "kyc_threshold": 2,
+              "max_kyc_level": 255
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "emergency_suspend_insufficient_approvals",
+      "description": "",
+      "pre_state": {
+        "network_chain_id": 3,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "balance": 10000000,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          },
+          {
+            "address": "5e9b22da885aa5a20006edfcbb5a79c5e4fc9156137f8ec3926a87cd0bb0b477",
+            "balance": 0,
+            "nonce": 0,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ],
+        "kyc_data": [
+          {
+            "address": "5e9b22da885aa5a20006edfcbb5a79c5e4fc9156137f8ec3926a87cd0bb0b477",
+            "level": 7,
+            "status": "active",
+            "verified_at": 1770444135,
+            "data_hash": "2828282828282828282828282828282828282828282828282828282828282828",
+            "committee_id": "3232323232323232323232323232323232323232323232323232323232323232"
+          }
+        ],
+        "committees": [
+          {
+            "id": "3232323232323232323232323232323232323232323232323232323232323232",
+            "name": "GlobalCommittee",
+            "region": 255,
+            "members": [
+              {
+                "public_key": "7ea555bf91bfb985561a91afcd669a79c0cc115ce03baf687cb8dd7e1e996e7b",
+                "name": "member_0",
+                "role": 0
+              },
+              {
+                "public_key": "ec9daff86b25275ef43d7dbd7e81f09b44e8d3805c6048b09b3e1034931c6077",
+                "name": "member_1",
+                "role": 0
+              },
+              {
+                "public_key": "c236d1e09a12adc6dc4b857420e7dbef41e4553cc06168495b941398bee59531",
+                "name": "member_2",
+                "role": 0
+              }
+            ],
+            "threshold": 2,
+            "kyc_threshold": 2,
+            "max_kyc_level": 255
+          }
+        ]
+      },
+      "runnable": false,
+      "input": {
+        "kind": "tx",
+        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b2490f5e9b22da885aa5a20006edfcbb5a79c5e4fc9156137f8ec3926a87cd0bb0b4772d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d3232323232323232323232323232323232323232323232323232323232323232017ea555bf91bfb985561a91afcd669a79c0cc115ce03baf687cb8dd7e1e996e7b4180ff1c4625a2d7bd735b15677a1f880e0e1c7abb47eccb258d7902203cba059a2e5cc0a5ed3835b93c6892fb0c7f0efafadc7691190bbc85436c04b9d49c01000000006986d94f0000000069882acf00000000000186a0000000000000000005000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "tx": {
+          "version": 1,
+          "chain_id": 3,
+          "source": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+          "tx_type": "emergency_suspend",
+          "payload": {
+            "account": "5e9b22da885aa5a20006edfcbb5a79c5e4fc9156137f8ec3926a87cd0bb0b477",
+            "reason_hash": "2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d",
+            "committee_id": "3232323232323232323232323232323232323232323232323232323232323232",
+            "approvals": [
+              {
+                "member_pubkey": "7ea555bf91bfb985561a91afcd669a79c0cc115ce03baf687cb8dd7e1e996e7b",
+                "signature": "4180ff1c4625a2d7bd735b15677a1f880e0e1c7abb47eccb258d7902203cba059a2e5cc0a5ed3835b93c6892fb0c7f0efafadc7691190bbc85436c04b9d49c01",
+                "timestamp": 1770445135
+              }
+            ],
+            "expires_at": 1770531535
+          },
+          "fee": 100000,
+          "fee_type": 0,
+          "nonce": 5,
+          "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+          "reference_topoheight": 0,
+          "signature": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b2490f5e9b22da885aa5a20006edfcbb5a79c5e4fc9156137f8ec3926a87cd0bb0b4772d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d3232323232323232323232323232323232323232323232323232323232323232017ea555bf91bfb985561a91afcd669a79c0cc115ce03baf687cb8dd7e1e996e7b4180ff1c4625a2d7bd735b15677a1f880e0e1c7abb47eccb258d7902203cba059a2e5cc0a5ed3835b93c6892fb0c7f0efafadc7691190bbc85436c04b9d49c01000000006986d94f0000000069882acf00000000000186a0000000000000000005000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+        }
+      },
+      "expected": {
+        "success": false,
+        "error_code": 263,
+        "state_digest": "3c0ede6c09188fa08a9f3f4f4bfb68af391806ce4ff769fcaa477cdfb2a7722f",
+        "post_state": {
+          "network_chain_id": 3,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+              "balance": 10000000,
+              "nonce": 5,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            },
+            {
+              "address": "5e9b22da885aa5a20006edfcbb5a79c5e4fc9156137f8ec3926a87cd0bb0b477",
+              "balance": 0,
+              "nonce": 0,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ],
+          "kyc_data": [
+            {
+              "address": "5e9b22da885aa5a20006edfcbb5a79c5e4fc9156137f8ec3926a87cd0bb0b477",
+              "level": 7,
+              "status": "active",
+              "verified_at": 1770444135,
               "data_hash": "2828282828282828282828282828282828282828282828282828282828282828",
               "committee_id": "3232323232323232323232323232323232323232323232323232323232323232"
             }

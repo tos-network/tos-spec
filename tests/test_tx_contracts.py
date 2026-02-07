@@ -4,8 +4,8 @@ from __future__ import annotations
 
 from blake3 import blake3
 
-from tos_spec.config import CHAIN_ID_DEVNET, COIN_VALUE
-from tos_spec.test_accounts import ALICE
+from tos_spec.config import CHAIN_ID_DEVNET, COIN_VALUE, MAX_DEPOSIT_PER_INVOKE_CALL
+from tos_spec.test_accounts import ALICE, BOB
 from tos_spec.types import (
     AccountState,
     ChainState,
@@ -196,6 +196,121 @@ def test_deploy_contract_empty_code(state_test_group) -> None:
     state_test_group(
         "transactions/contracts/deploy_contract.json",
         "deploy_contract_empty_code",
+        state,
+        tx,
+    )
+
+
+# ===================================================================
+# Negative / boundary / authorization tests
+# ===================================================================
+
+
+# --- invoke_contract neg tests ---
+
+
+def test_invoke_contract_not_found(state_test_group) -> None:
+    """Invoke a contract that does not exist."""
+    state = _base_state()
+    fake_contract = _hash(99)
+    tx = _mk_invoke_contract(
+        ALICE, nonce=5, contract=fake_contract, entry_id=0, max_gas=100_000, fee=100_000
+    )
+    state_test_group(
+        "transactions/contracts/invoke_contract.json",
+        "invoke_contract_not_found",
+        state,
+        tx,
+    )
+
+
+def test_invoke_contract_insufficient_balance_for_gas(state_test_group) -> None:
+    """Sender cannot afford max_gas + fee."""
+    state, contract_hash = _base_state_with_contract()
+    # Set balance to barely cover fee but not gas
+    state.accounts[ALICE].balance = 200_000
+    tx = _mk_invoke_contract(
+        ALICE, nonce=5, contract=contract_hash, entry_id=0, max_gas=500_000, fee=100_000
+    )
+    state_test_group(
+        "transactions/contracts/invoke_contract.json",
+        "invoke_contract_insufficient_balance_for_gas",
+        state,
+        tx,
+    )
+
+
+def test_invoke_contract_too_many_deposits(state_test_group) -> None:
+    """Exceed MAX_DEPOSIT_PER_INVOKE_CALL."""
+    state, contract_hash = _base_state_with_contract()
+    deposits = [{"asset": _hash(i % 256), "amount": 1} for i in range(MAX_DEPOSIT_PER_INVOKE_CALL + 1)]
+    tx = Transaction(
+        version=TxVersion.T1,
+        chain_id=CHAIN_ID_DEVNET,
+        source=ALICE,
+        tx_type=TransactionType.INVOKE_CONTRACT,
+        payload={
+            "contract": contract_hash,
+            "deposits": deposits,
+            "entry_id": 0,
+            "max_gas": 100_000,
+            "parameters": [],
+        },
+        fee=100_000,
+        fee_type=FeeType.TOS,
+        nonce=5,
+        reference_hash=_hash(0),
+        reference_topoheight=0,
+        signature=bytes(64),
+    )
+    state_test_group(
+        "transactions/contracts/invoke_contract.json",
+        "invoke_contract_too_many_deposits",
+        state,
+        tx,
+    )
+
+
+def test_invoke_contract_zero_deposit_amount(state_test_group) -> None:
+    """Deposit amount in invoke must be > 0."""
+    state, contract_hash = _base_state_with_contract()
+    tx = Transaction(
+        version=TxVersion.T1,
+        chain_id=CHAIN_ID_DEVNET,
+        source=ALICE,
+        tx_type=TransactionType.INVOKE_CONTRACT,
+        payload={
+            "contract": contract_hash,
+            "deposits": [{"asset": _hash(0), "amount": 0}],
+            "entry_id": 0,
+            "max_gas": 100_000,
+            "parameters": [],
+        },
+        fee=100_000,
+        fee_type=FeeType.TOS,
+        nonce=5,
+        reference_hash=_hash(0),
+        reference_topoheight=0,
+        signature=bytes(64),
+    )
+    state_test_group(
+        "transactions/contracts/invoke_contract.json",
+        "invoke_contract_zero_deposit_amount",
+        state,
+        tx,
+    )
+
+
+# --- deploy_contract neg tests ---
+
+
+def test_deploy_contract_short_module(state_test_group) -> None:
+    """Module too short to contain ELF magic."""
+    state = _base_state()
+    tx = _mk_deploy_contract(ALICE, nonce=5, module=b"\x7fEL", fee=100_000)
+    state_test_group(
+        "transactions/contracts/deploy_contract.json",
+        "deploy_contract_short_module",
         state,
         tx,
     )

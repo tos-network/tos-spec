@@ -702,3 +702,990 @@ def test_renew_kyc_success(state_test_group) -> None:
     )
 
 
+def test_renew_kyc_no_kyc_record(state_test_group) -> None:
+    """Renew KYC for address with no existing KYC record."""
+    state = _base_state()
+    sender = ALICE
+    target = EVE
+    state.accounts[target] = AccountState(address=target, balance=0, nonce=0)
+    state.committees[_hash(50)] = _global_committee()
+    # No kyc_data entry for target
+
+    committee_id = _hash(50)
+    new_data_hash = _hash(41)
+    verified_at = _CURRENT_TIME
+    ts = _CURRENT_TIME
+
+    msg = _build_renew_kyc_msg(committee_id, target, new_data_hash, verified_at, ts)
+    approvals = [
+        _sign_approval(CAROL, msg, ts),
+        _sign_approval(DAVE, msg, ts),
+    ]
+
+    payload = {
+        "account": target,
+        "data_hash": new_data_hash,
+        "verified_at": verified_at,
+        "committee_id": committee_id,
+        "approvals": approvals,
+    }
+    tx = _mk_kyc_tx(sender, nonce=5, tx_type=TransactionType.RENEW_KYC, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/kyc/renew_kyc.json", "renew_kyc_no_kyc_record", state, tx
+    )
+
+
+# --- revoke_kyc negative tests ---
+
+
+def test_revoke_kyc_no_kyc_record(state_test_group) -> None:
+    """Revoke KYC for address with no existing KYC record."""
+    state = _base_state()
+    sender = ALICE
+    target = EVE
+    state.accounts[target] = AccountState(address=target, balance=0, nonce=0)
+    state.committees[_hash(50)] = _global_committee()
+    # No kyc_data entry for target
+
+    committee_id = _hash(50)
+    reason_hash = _hash(41)
+    ts = _CURRENT_TIME
+
+    msg = _build_revoke_kyc_msg(committee_id, target, reason_hash, ts)
+    approvals = [
+        _sign_approval(CAROL, msg, ts),
+        _sign_approval(DAVE, msg, ts),
+    ]
+
+    payload = {
+        "account": target,
+        "reason_hash": reason_hash,
+        "committee_id": committee_id,
+        "approvals": approvals,
+    }
+    tx = _mk_kyc_tx(sender, nonce=5, tx_type=TransactionType.REVOKE_KYC, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/kyc/revoke_kyc.json", "revoke_kyc_no_kyc_record", state, tx
+    )
+
+
+def test_revoke_kyc_zero_reason_hash(state_test_group) -> None:
+    """Revoke KYC with zero reason_hash should fail."""
+    state = _base_state()
+    sender = ALICE
+    target = EVE
+    state.accounts[target] = AccountState(address=target, balance=0, nonce=0)
+    state.committees[_hash(50)] = _global_committee()
+    state.kyc_data[target] = KycData(
+        level=VALID_KYC_LEVELS[1],
+        status=KycStatus.ACTIVE,
+        verified_at=_CURRENT_TIME - 1000,
+        data_hash=_hash(40),
+        committee_id=_hash(50),
+    )
+
+    payload = {
+        "account": target,
+        "reason_hash": bytes(32),  # zero hash
+        "committee_id": _hash(50),
+        "approvals": [
+            {"member_pubkey": CAROL, "signature": _sig(4), "timestamp": _CURRENT_TIME},
+            {"member_pubkey": DAVE, "signature": _sig(5), "timestamp": _CURRENT_TIME},
+        ],
+    }
+    tx = _mk_kyc_tx(sender, nonce=5, tx_type=TransactionType.REVOKE_KYC, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/kyc/revoke_kyc.json", "revoke_kyc_zero_reason_hash", state, tx
+    )
+
+
+def test_revoke_kyc_no_approvals(state_test_group) -> None:
+    """Revoke KYC with empty approvals should fail."""
+    state = _base_state()
+    sender = ALICE
+    target = EVE
+    state.accounts[target] = AccountState(address=target, balance=0, nonce=0)
+    state.committees[_hash(50)] = _global_committee()
+    state.kyc_data[target] = KycData(
+        level=VALID_KYC_LEVELS[1],
+        status=KycStatus.ACTIVE,
+        verified_at=_CURRENT_TIME - 1000,
+        data_hash=_hash(40),
+        committee_id=_hash(50),
+    )
+
+    payload = {
+        "account": target,
+        "reason_hash": _hash(41),
+        "committee_id": _hash(50),
+        "approvals": [],
+    }
+    tx = _mk_kyc_tx(sender, nonce=5, tx_type=TransactionType.REVOKE_KYC, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/kyc/revoke_kyc.json", "revoke_kyc_no_approvals", state, tx
+    )
+
+
+# --- transfer_kyc negative tests ---
+
+
+def test_transfer_kyc_no_kyc_record(state_test_group) -> None:
+    """Transfer KYC for address with no existing KYC record."""
+    state = _base_state()
+    sender = ALICE
+    target = EVE
+    state.accounts[target] = AccountState(address=target, balance=0, nonce=0)
+    state.committees[_hash(50)] = _global_committee()
+    state.committees[_hash(51)] = _regional_committee()
+    # No kyc_data entry for target
+
+    source_committee = _hash(50)
+    dest_committee = _hash(51)
+    new_data_hash = _hash(42)
+    transferred_at = _CURRENT_TIME
+    ts = _CURRENT_TIME
+
+    src_msg = _build_transfer_src_msg(
+        source_committee, dest_committee, target, VALID_KYC_LEVELS[1],
+        new_data_hash, transferred_at, ts,
+    )
+    source_approvals = [
+        _sign_approval(CAROL, src_msg, ts),
+        _sign_approval(DAVE, src_msg, ts),
+    ]
+
+    dst_msg = _build_transfer_dst_msg(
+        source_committee, dest_committee, target, VALID_KYC_LEVELS[1],
+        new_data_hash, transferred_at, ts,
+    )
+    dest_approvals = [
+        _sign_approval(GRACE, dst_msg, ts),
+        _sign_approval(HEIDI, dst_msg, ts),
+    ]
+
+    payload = {
+        "account": target,
+        "source_committee_id": source_committee,
+        "source_approvals": source_approvals,
+        "dest_committee_id": dest_committee,
+        "dest_approvals": dest_approvals,
+        "new_data_hash": new_data_hash,
+        "transferred_at": transferred_at,
+    }
+    tx = _mk_kyc_tx(sender, nonce=5, tx_type=TransactionType.TRANSFER_KYC, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/kyc/transfer_kyc.json", "transfer_kyc_no_kyc_record", state, tx
+    )
+
+
+def test_transfer_kyc_same_committee(state_test_group) -> None:
+    """Transfer KYC where source and dest committee are the same should fail."""
+    state = _base_state()
+    sender = ALICE
+    target = EVE
+    state.accounts[target] = AccountState(address=target, balance=0, nonce=0)
+    state.committees[_hash(50)] = _global_committee()
+    state.kyc_data[target] = KycData(
+        level=VALID_KYC_LEVELS[1],
+        status=KycStatus.ACTIVE,
+        verified_at=_CURRENT_TIME - 1000,
+        data_hash=_hash(40),
+        committee_id=_hash(50),
+    )
+
+    payload = {
+        "account": target,
+        "source_committee_id": _hash(50),
+        "source_approvals": [
+            {"member_pubkey": CAROL, "signature": _sig(4), "timestamp": _CURRENT_TIME},
+        ],
+        "dest_committee_id": _hash(50),  # same as source
+        "dest_approvals": [
+            {"member_pubkey": DAVE, "signature": _sig(5), "timestamp": _CURRENT_TIME},
+        ],
+        "new_data_hash": _hash(42),
+        "transferred_at": _CURRENT_TIME,
+    }
+    tx = _mk_kyc_tx(sender, nonce=5, tx_type=TransactionType.TRANSFER_KYC, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/kyc/transfer_kyc.json", "transfer_kyc_same_committee", state, tx
+    )
+
+
+def test_transfer_kyc_zero_data_hash(state_test_group) -> None:
+    """Transfer KYC with zero new_data_hash should fail."""
+    state = _base_state()
+    sender = ALICE
+    target = EVE
+    state.accounts[target] = AccountState(address=target, balance=0, nonce=0)
+    state.committees[_hash(50)] = _global_committee()
+    state.committees[_hash(51)] = _regional_committee()
+    state.kyc_data[target] = KycData(
+        level=VALID_KYC_LEVELS[1],
+        status=KycStatus.ACTIVE,
+        verified_at=_CURRENT_TIME - 1000,
+        data_hash=_hash(40),
+        committee_id=_hash(50),
+    )
+
+    payload = {
+        "account": target,
+        "source_committee_id": _hash(50),
+        "source_approvals": [
+            {"member_pubkey": CAROL, "signature": _sig(4), "timestamp": _CURRENT_TIME},
+        ],
+        "dest_committee_id": _hash(51),
+        "dest_approvals": [
+            {"member_pubkey": GRACE, "signature": _sig(8), "timestamp": _CURRENT_TIME},
+        ],
+        "new_data_hash": bytes(32),  # zero hash
+        "transferred_at": _CURRENT_TIME,
+    }
+    tx = _mk_kyc_tx(sender, nonce=5, tx_type=TransactionType.TRANSFER_KYC, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/kyc/transfer_kyc.json", "transfer_kyc_zero_data_hash", state, tx
+    )
+
+
+def test_transfer_kyc_no_source_approvals(state_test_group) -> None:
+    """Transfer KYC with empty source approvals should fail."""
+    state = _base_state()
+    sender = ALICE
+    target = EVE
+    state.accounts[target] = AccountState(address=target, balance=0, nonce=0)
+    state.committees[_hash(50)] = _global_committee()
+    state.committees[_hash(51)] = _regional_committee()
+    state.kyc_data[target] = KycData(
+        level=VALID_KYC_LEVELS[1],
+        status=KycStatus.ACTIVE,
+        verified_at=_CURRENT_TIME - 1000,
+        data_hash=_hash(40),
+        committee_id=_hash(50),
+    )
+
+    payload = {
+        "account": target,
+        "source_committee_id": _hash(50),
+        "source_approvals": [],  # empty
+        "dest_committee_id": _hash(51),
+        "dest_approvals": [
+            {"member_pubkey": GRACE, "signature": _sig(8), "timestamp": _CURRENT_TIME},
+        ],
+        "new_data_hash": _hash(42),
+        "transferred_at": _CURRENT_TIME,
+    }
+    tx = _mk_kyc_tx(sender, nonce=5, tx_type=TransactionType.TRANSFER_KYC, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/kyc/transfer_kyc.json", "transfer_kyc_no_source_approvals", state, tx
+    )
+
+
+# --- appeal_kyc negative tests ---
+
+
+def test_appeal_kyc_no_kyc_record(state_test_group) -> None:
+    """Appeal KYC for address with no existing KYC record."""
+    state = _base_state()
+    target = EVE
+    state.accounts[target] = AccountState(address=target, balance=10_000_000, nonce=5)
+    state.committees[_hash(50)] = _global_committee()
+    state.committees[_hash(51)] = _regional_committee()
+    # No kyc_data entry for target
+
+    payload = {
+        "account": target,
+        "original_committee_id": _hash(51),
+        "parent_committee_id": _hash(50),
+        "reason_hash": _hash(43),
+        "documents_hash": _hash(44),
+        "submitted_at": _CURRENT_TIME,
+    }
+    tx = _mk_kyc_tx(target, nonce=5, tx_type=TransactionType.APPEAL_KYC, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/kyc/appeal_kyc.json", "appeal_kyc_no_kyc_record", state, tx
+    )
+
+
+def test_appeal_kyc_not_revoked(state_test_group) -> None:
+    """Appeal KYC when status is ACTIVE (not revoked/suspended) should fail."""
+    state = _base_state()
+    target = EVE
+    state.accounts[target] = AccountState(address=target, balance=10_000_000, nonce=5)
+    state.committees[_hash(50)] = _global_committee()
+    state.committees[_hash(51)] = _regional_committee()
+    state.kyc_data[target] = KycData(
+        level=VALID_KYC_LEVELS[1],
+        status=KycStatus.ACTIVE,  # Not revoked
+        verified_at=_CURRENT_TIME - 1000,
+        data_hash=_hash(40),
+        committee_id=_hash(51),
+    )
+
+    payload = {
+        "account": target,
+        "original_committee_id": _hash(51),
+        "parent_committee_id": _hash(50),
+        "reason_hash": _hash(43),
+        "documents_hash": _hash(44),
+        "submitted_at": _CURRENT_TIME,
+    }
+    tx = _mk_kyc_tx(target, nonce=5, tx_type=TransactionType.APPEAL_KYC, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/kyc/appeal_kyc.json", "appeal_kyc_not_revoked", state, tx
+    )
+
+
+def test_appeal_kyc_same_committee(state_test_group) -> None:
+    """Appeal KYC where original and parent committee are the same should fail."""
+    state = _base_state()
+    target = EVE
+    state.accounts[target] = AccountState(address=target, balance=10_000_000, nonce=5)
+    state.committees[_hash(50)] = _global_committee()
+    state.kyc_data[target] = KycData(
+        level=VALID_KYC_LEVELS[1],
+        status=KycStatus.REVOKED,
+        verified_at=_CURRENT_TIME - 1000,
+        data_hash=_hash(40),
+        committee_id=_hash(50),
+    )
+
+    payload = {
+        "account": target,
+        "original_committee_id": _hash(50),
+        "parent_committee_id": _hash(50),  # same as original
+        "reason_hash": _hash(43),
+        "documents_hash": _hash(44),
+        "submitted_at": _CURRENT_TIME,
+    }
+    tx = _mk_kyc_tx(target, nonce=5, tx_type=TransactionType.APPEAL_KYC, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/kyc/appeal_kyc.json", "appeal_kyc_same_committee", state, tx
+    )
+
+
+def test_appeal_kyc_zero_reason_hash(state_test_group) -> None:
+    """Appeal KYC with zero reason_hash should fail."""
+    state = _base_state()
+    target = EVE
+    state.accounts[target] = AccountState(address=target, balance=10_000_000, nonce=5)
+    state.committees[_hash(50)] = _global_committee()
+    state.committees[_hash(51)] = _regional_committee()
+    state.kyc_data[target] = KycData(
+        level=VALID_KYC_LEVELS[1],
+        status=KycStatus.REVOKED,
+        verified_at=_CURRENT_TIME - 1000,
+        data_hash=_hash(40),
+        committee_id=_hash(51),
+    )
+
+    payload = {
+        "account": target,
+        "original_committee_id": _hash(51),
+        "parent_committee_id": _hash(50),
+        "reason_hash": bytes(32),  # zero hash
+        "documents_hash": _hash(44),
+        "submitted_at": _CURRENT_TIME,
+    }
+    tx = _mk_kyc_tx(target, nonce=5, tx_type=TransactionType.APPEAL_KYC, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/kyc/appeal_kyc.json", "appeal_kyc_zero_reason_hash", state, tx
+    )
+
+
+def test_appeal_kyc_zero_documents_hash(state_test_group) -> None:
+    """Appeal KYC with zero documents_hash should fail."""
+    state = _base_state()
+    target = EVE
+    state.accounts[target] = AccountState(address=target, balance=10_000_000, nonce=5)
+    state.committees[_hash(50)] = _global_committee()
+    state.committees[_hash(51)] = _regional_committee()
+    state.kyc_data[target] = KycData(
+        level=VALID_KYC_LEVELS[1],
+        status=KycStatus.REVOKED,
+        verified_at=_CURRENT_TIME - 1000,
+        data_hash=_hash(40),
+        committee_id=_hash(51),
+    )
+
+    payload = {
+        "account": target,
+        "original_committee_id": _hash(51),
+        "parent_committee_id": _hash(50),
+        "reason_hash": _hash(43),
+        "documents_hash": bytes(32),  # zero hash
+        "submitted_at": _CURRENT_TIME,
+    }
+    tx = _mk_kyc_tx(target, nonce=5, tx_type=TransactionType.APPEAL_KYC, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/kyc/appeal_kyc.json", "appeal_kyc_zero_documents_hash", state, tx
+    )
+
+
+# --- set_kyc negative tests ---
+
+
+def test_set_kyc_zero_data_hash(state_test_group) -> None:
+    """Set KYC with zero data_hash should fail."""
+    state = _base_state()
+    sender = ALICE
+    target = EVE
+    state.accounts[target] = AccountState(address=target, balance=0, nonce=0)
+    state.committees[_hash(50)] = _global_committee()
+
+    payload = {
+        "account": target,
+        "level": VALID_KYC_LEVELS[1],
+        "verified_at": _CURRENT_TIME,
+        "data_hash": bytes(32),  # zero hash
+        "committee_id": _hash(50),
+        "approvals": [
+            {"member_pubkey": CAROL, "signature": _sig(4), "timestamp": _CURRENT_TIME},
+            {"member_pubkey": DAVE, "signature": _sig(5), "timestamp": _CURRENT_TIME},
+        ],
+    }
+    tx = _mk_kyc_tx(sender, nonce=5, tx_type=TransactionType.SET_KYC, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/kyc/set_kyc.json", "set_kyc_zero_data_hash", state, tx
+    )
+
+
+def test_set_kyc_no_approvals(state_test_group) -> None:
+    """Set KYC with empty approvals should fail."""
+    state = _base_state()
+    sender = ALICE
+    target = EVE
+    state.accounts[target] = AccountState(address=target, balance=0, nonce=0)
+    state.committees[_hash(50)] = _global_committee()
+
+    payload = {
+        "account": target,
+        "level": VALID_KYC_LEVELS[1],
+        "verified_at": _CURRENT_TIME,
+        "data_hash": _hash(40),
+        "committee_id": _hash(50),
+        "approvals": [],
+    }
+    tx = _mk_kyc_tx(sender, nonce=5, tx_type=TransactionType.SET_KYC, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/kyc/set_kyc.json", "set_kyc_no_approvals", state, tx
+    )
+
+
+# --- bootstrap_committee negative tests ---
+
+
+def test_bootstrap_committee_not_bootstrap_address(state_test_group) -> None:
+    """Bootstrap committee from non-bootstrap address should fail."""
+    state = ChainState(network_chain_id=CHAIN_ID_DEVNET)
+    sender = ALICE  # Not the bootstrap address (MINER on devnet)
+    state.accounts[sender] = AccountState(address=sender, balance=10_000_000, nonce=5)
+    members = [
+        {"public_key": _addr(10 + i), "name": f"member_{i}", "role": 0}
+        for i in range(MIN_COMMITTEE_MEMBERS)
+    ]
+    payload = {
+        "name": "GlobalCommittee",
+        "members": members,
+        "threshold": 2,
+        "kyc_threshold": 2,
+        "max_kyc_level": VALID_KYC_LEVELS[4],
+    }
+    tx = _mk_kyc_tx(sender, nonce=5, tx_type=TransactionType.BOOTSTRAP_COMMITTEE, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/kyc/bootstrap_committee.json",
+        "bootstrap_committee_not_bootstrap_address",
+        state,
+        tx,
+    )
+
+
+def test_bootstrap_committee_empty_name(state_test_group) -> None:
+    """Bootstrap committee with empty name should fail."""
+    state = ChainState(network_chain_id=CHAIN_ID_DEVNET)
+    sender = MINER
+    state.accounts[sender] = AccountState(address=sender, balance=10_000_000, nonce=5)
+    members = [
+        {"public_key": _addr(10 + i), "name": f"member_{i}", "role": 0}
+        for i in range(MIN_COMMITTEE_MEMBERS)
+    ]
+    payload = {
+        "name": "",  # empty name
+        "members": members,
+        "threshold": 2,
+        "kyc_threshold": 2,
+        "max_kyc_level": VALID_KYC_LEVELS[4],
+    }
+    tx = _mk_kyc_tx(sender, nonce=5, tx_type=TransactionType.BOOTSTRAP_COMMITTEE, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/kyc/bootstrap_committee.json",
+        "bootstrap_committee_empty_name",
+        state,
+        tx,
+    )
+
+
+def test_bootstrap_committee_too_few_members(state_test_group) -> None:
+    """Bootstrap committee with fewer members than minimum should fail."""
+    state = ChainState(network_chain_id=CHAIN_ID_DEVNET)
+    sender = MINER
+    state.accounts[sender] = AccountState(address=sender, balance=10_000_000, nonce=5)
+    members = [
+        {"public_key": _addr(10), "name": "member_0", "role": 0},
+        {"public_key": _addr(11), "name": "member_1", "role": 0},
+    ]  # Only 2, below MIN_COMMITTEE_MEMBERS=3
+    payload = {
+        "name": "SmallCommittee",
+        "members": members,
+        "threshold": 2,
+        "kyc_threshold": 2,
+        "max_kyc_level": VALID_KYC_LEVELS[4],
+    }
+    tx = _mk_kyc_tx(sender, nonce=5, tx_type=TransactionType.BOOTSTRAP_COMMITTEE, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/kyc/bootstrap_committee.json",
+        "bootstrap_committee_too_few_members",
+        state,
+        tx,
+    )
+
+
+def test_bootstrap_committee_duplicate_member(state_test_group) -> None:
+    """Bootstrap committee with duplicate member keys should fail."""
+    state = ChainState(network_chain_id=CHAIN_ID_DEVNET)
+    sender = MINER
+    state.accounts[sender] = AccountState(address=sender, balance=10_000_000, nonce=5)
+    members = [
+        {"public_key": _addr(10), "name": "member_0", "role": 0},
+        {"public_key": _addr(10), "name": "member_1", "role": 0},  # duplicate
+        {"public_key": _addr(12), "name": "member_2", "role": 0},
+    ]
+    payload = {
+        "name": "DupCommittee",
+        "members": members,
+        "threshold": 2,
+        "kyc_threshold": 2,
+        "max_kyc_level": VALID_KYC_LEVELS[4],
+    }
+    tx = _mk_kyc_tx(sender, nonce=5, tx_type=TransactionType.BOOTSTRAP_COMMITTEE, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/kyc/bootstrap_committee.json",
+        "bootstrap_committee_duplicate_member",
+        state,
+        tx,
+    )
+
+
+def test_bootstrap_committee_invalid_threshold(state_test_group) -> None:
+    """Bootstrap committee with threshold=0 should fail."""
+    state = ChainState(network_chain_id=CHAIN_ID_DEVNET)
+    sender = MINER
+    state.accounts[sender] = AccountState(address=sender, balance=10_000_000, nonce=5)
+    members = [
+        {"public_key": _addr(10 + i), "name": f"member_{i}", "role": 0}
+        for i in range(MIN_COMMITTEE_MEMBERS)
+    ]
+    payload = {
+        "name": "ZeroThreshold",
+        "members": members,
+        "threshold": 0,
+        "kyc_threshold": 2,
+        "max_kyc_level": VALID_KYC_LEVELS[4],
+    }
+    tx = _mk_kyc_tx(sender, nonce=5, tx_type=TransactionType.BOOTSTRAP_COMMITTEE, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/kyc/bootstrap_committee.json",
+        "bootstrap_committee_invalid_threshold",
+        state,
+        tx,
+    )
+
+
+def test_bootstrap_committee_invalid_kyc_level(state_test_group) -> None:
+    """Bootstrap committee with invalid max_kyc_level should fail."""
+    state = ChainState(network_chain_id=CHAIN_ID_DEVNET)
+    sender = MINER
+    state.accounts[sender] = AccountState(address=sender, balance=10_000_000, nonce=5)
+    members = [
+        {"public_key": _addr(10 + i), "name": f"member_{i}", "role": 0}
+        for i in range(MIN_COMMITTEE_MEMBERS)
+    ]
+    payload = {
+        "name": "BadLevel",
+        "members": members,
+        "threshold": 2,
+        "kyc_threshold": 2,
+        "max_kyc_level": 999,  # invalid level
+    }
+    tx = _mk_kyc_tx(sender, nonce=5, tx_type=TransactionType.BOOTSTRAP_COMMITTEE, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/kyc/bootstrap_committee.json",
+        "bootstrap_committee_invalid_kyc_level",
+        state,
+        tx,
+    )
+
+
+# --- register_committee negative tests ---
+
+
+def test_register_committee_no_approvals(state_test_group) -> None:
+    """Register committee with no approvals should fail."""
+    state = _base_state()
+    sender = ALICE
+    state.committees[_hash(50)] = _global_committee()
+
+    new_members = [
+        (GRACE, "rmember_0", 0),
+        (HEIDI, "rmember_1", 0),
+        (IVAN, "rmember_2", 0),
+    ]
+    members_payload = [
+        {"public_key": pk, "name": name, "role": role}
+        for pk, name, role in new_members
+    ]
+    payload = {
+        "name": "RegionalCommittee",
+        "region": 1,
+        "members": members_payload,
+        "threshold": 2,
+        "kyc_threshold": 2,
+        "max_kyc_level": VALID_KYC_LEVELS[3],
+        "parent_id": _hash(50),
+        "approvals": [],  # empty
+    }
+    tx = _mk_kyc_tx(sender, nonce=5, tx_type=TransactionType.REGISTER_COMMITTEE, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/kyc/register_committee.json",
+        "register_committee_no_approvals",
+        state,
+        tx,
+    )
+
+
+def test_register_committee_empty_name(state_test_group) -> None:
+    """Register committee with empty name should fail."""
+    state = _base_state()
+    sender = ALICE
+    state.committees[_hash(50)] = _global_committee()
+    ts = _CURRENT_TIME
+
+    new_members = [
+        (GRACE, "rmember_0", 0),
+        (HEIDI, "rmember_1", 0),
+        (IVAN, "rmember_2", 0),
+    ]
+    config_hash = _compute_register_config_hash(
+        new_members, 2, 2, VALID_KYC_LEVELS[3],
+    )
+    msg = _build_register_committee_msg(
+        _hash(50), "", 1, config_hash, ts,
+    )
+    approvals = [
+        _sign_approval(CAROL, msg, ts),
+        _sign_approval(DAVE, msg, ts),
+    ]
+    members_payload = [
+        {"public_key": pk, "name": name, "role": role}
+        for pk, name, role in new_members
+    ]
+    payload = {
+        "name": "",  # empty name
+        "region": 1,
+        "members": members_payload,
+        "threshold": 2,
+        "kyc_threshold": 2,
+        "max_kyc_level": VALID_KYC_LEVELS[3],
+        "parent_id": _hash(50),
+        "approvals": approvals,
+    }
+    tx = _mk_kyc_tx(sender, nonce=5, tx_type=TransactionType.REGISTER_COMMITTEE, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/kyc/register_committee.json",
+        "register_committee_empty_name",
+        state,
+        tx,
+    )
+
+
+def test_register_committee_too_few_members(state_test_group) -> None:
+    """Register committee with fewer members than minimum should fail."""
+    state = _base_state()
+    sender = ALICE
+    state.committees[_hash(50)] = _global_committee()
+    ts = _CURRENT_TIME
+
+    # Only 2 members (below MIN_COMMITTEE_MEMBERS=3)
+    new_members = [
+        (GRACE, "rmember_0", 0),
+        (HEIDI, "rmember_1", 0),
+    ]
+    config_hash = _compute_register_config_hash(
+        new_members, 2, 2, VALID_KYC_LEVELS[3],
+    )
+    msg = _build_register_committee_msg(
+        _hash(50), "SmallRegional", 1, config_hash, ts,
+    )
+    approvals = [
+        _sign_approval(CAROL, msg, ts),
+        _sign_approval(DAVE, msg, ts),
+    ]
+    members_payload = [
+        {"public_key": pk, "name": name, "role": role}
+        for pk, name, role in new_members
+    ]
+    payload = {
+        "name": "SmallRegional",
+        "region": 1,
+        "members": members_payload,
+        "threshold": 2,
+        "kyc_threshold": 2,
+        "max_kyc_level": VALID_KYC_LEVELS[3],
+        "parent_id": _hash(50),
+        "approvals": approvals,
+    }
+    tx = _mk_kyc_tx(sender, nonce=5, tx_type=TransactionType.REGISTER_COMMITTEE, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/kyc/register_committee.json",
+        "register_committee_too_few_members",
+        state,
+        tx,
+    )
+
+
+# --- update_committee negative tests ---
+
+
+def test_update_committee_no_approvals(state_test_group) -> None:
+    """Update committee with no approvals should fail."""
+    state = _base_state()
+    sender = ALICE
+    state.committees[_hash(50)] = _global_committee()
+
+    payload = {
+        "committee_id": _hash(50),
+        "update": {
+            "type": "update_name",
+            "new_name": "NewName",
+        },
+        "approvals": [],  # empty
+    }
+    tx = _mk_kyc_tx(sender, nonce=5, tx_type=TransactionType.UPDATE_COMMITTEE, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/kyc/update_committee.json",
+        "update_committee_no_approvals",
+        state,
+        tx,
+    )
+
+
+def test_update_committee_not_found(state_test_group) -> None:
+    """Update committee that does not exist in state."""
+    state = _base_state()
+    sender = ALICE
+    # No committee in state
+    ts = _CURRENT_TIME
+
+    msg = _build_update_committee_msg(_hash(99), 0, _hash(60), ts)
+    approvals = [
+        _sign_approval(CAROL, msg, ts),
+        _sign_approval(DAVE, msg, ts),
+    ]
+
+    payload = {
+        "committee_id": _hash(99),  # does not exist
+        "update": {
+            "type": "add_member",
+            "public_key": BOB,
+            "name": "new_member",
+            "role": 3,
+        },
+        "approvals": approvals,
+    }
+    tx = _mk_kyc_tx(sender, nonce=5, tx_type=TransactionType.UPDATE_COMMITTEE, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/kyc/update_committee.json",
+        "update_committee_not_found",
+        state,
+        tx,
+    )
+
+
+def test_update_committee_threshold_zero(state_test_group) -> None:
+    """Update committee threshold to zero should fail."""
+    state = _base_state()
+    sender = ALICE
+    state.committees[_hash(50)] = _global_committee()
+    ts = _CURRENT_TIME
+
+    msg = _build_update_committee_msg(_hash(50), 2, _hash(60), ts)
+    approvals = [
+        _sign_approval(CAROL, msg, ts),
+        _sign_approval(DAVE, msg, ts),
+    ]
+
+    payload = {
+        "committee_id": _hash(50),
+        "update": {
+            "type": "update_threshold",
+            "new_threshold": 0,
+        },
+        "approvals": approvals,
+    }
+    tx = _mk_kyc_tx(sender, nonce=5, tx_type=TransactionType.UPDATE_COMMITTEE, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/kyc/update_committee.json",
+        "update_committee_threshold_zero",
+        state,
+        tx,
+    )
+
+
+def test_update_committee_empty_name(state_test_group) -> None:
+    """Update committee name to empty should fail."""
+    state = _base_state()
+    sender = ALICE
+    state.committees[_hash(50)] = _global_committee()
+    ts = _CURRENT_TIME
+
+    msg = _build_update_committee_msg(_hash(50), 4, _hash(60), ts)
+    approvals = [
+        _sign_approval(CAROL, msg, ts),
+        _sign_approval(DAVE, msg, ts),
+    ]
+
+    payload = {
+        "committee_id": _hash(50),
+        "update": {
+            "type": "update_name",
+            "new_name": "",
+        },
+        "approvals": approvals,
+    }
+    tx = _mk_kyc_tx(sender, nonce=5, tx_type=TransactionType.UPDATE_COMMITTEE, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/kyc/update_committee.json",
+        "update_committee_empty_name",
+        state,
+        tx,
+    )
+
+
+# --- emergency_suspend negative tests ---
+
+
+def test_emergency_suspend_no_kyc_record(state_test_group) -> None:
+    """Emergency suspend for address with no existing KYC record."""
+    state = _base_state()
+    sender = ALICE
+    target = EVE
+    state.accounts[target] = AccountState(address=target, balance=0, nonce=0)
+    state.committees[_hash(50)] = _global_committee()
+    # No kyc_data entry for target
+
+    committee_id = _hash(50)
+    reason_hash = _hash(45)
+    expires_at = _CURRENT_TIME + EMERGENCY_SUSPEND_TIMEOUT
+    ts = _CURRENT_TIME
+
+    msg = _build_emergency_suspend_msg(
+        committee_id, target, reason_hash, expires_at, ts,
+    )
+    approvals = [
+        _sign_approval(CAROL, msg, ts),
+        _sign_approval(DAVE, msg, ts),
+    ]
+
+    payload = {
+        "account": target,
+        "reason_hash": reason_hash,
+        "committee_id": committee_id,
+        "approvals": approvals,
+        "expires_at": expires_at,
+    }
+    tx = _mk_kyc_tx(sender, nonce=5, tx_type=TransactionType.EMERGENCY_SUSPEND, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/kyc/emergency_suspend.json",
+        "emergency_suspend_no_kyc_record",
+        state,
+        tx,
+    )
+
+
+def test_emergency_suspend_zero_reason_hash(state_test_group) -> None:
+    """Emergency suspend with zero reason_hash should fail."""
+    state = _base_state()
+    sender = ALICE
+    target = EVE
+    state.accounts[target] = AccountState(address=target, balance=0, nonce=0)
+    state.committees[_hash(50)] = _global_committee()
+    state.kyc_data[target] = KycData(
+        level=VALID_KYC_LEVELS[1],
+        status=KycStatus.ACTIVE,
+        verified_at=_CURRENT_TIME - 1000,
+        data_hash=_hash(40),
+        committee_id=_hash(50),
+    )
+
+    payload = {
+        "account": target,
+        "reason_hash": bytes(32),  # zero hash
+        "committee_id": _hash(50),
+        "approvals": [
+            {"member_pubkey": CAROL, "signature": _sig(4), "timestamp": _CURRENT_TIME},
+            {"member_pubkey": DAVE, "signature": _sig(5), "timestamp": _CURRENT_TIME},
+        ],
+        "expires_at": _CURRENT_TIME + EMERGENCY_SUSPEND_TIMEOUT,
+    }
+    tx = _mk_kyc_tx(sender, nonce=5, tx_type=TransactionType.EMERGENCY_SUSPEND, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/kyc/emergency_suspend.json",
+        "emergency_suspend_zero_reason_hash",
+        state,
+        tx,
+    )
+
+
+def test_emergency_suspend_insufficient_approvals(state_test_group) -> None:
+    """Emergency suspend with only 1 approval should fail (needs 2)."""
+    state = _base_state()
+    sender = ALICE
+    target = EVE
+    state.accounts[target] = AccountState(address=target, balance=0, nonce=0)
+    state.committees[_hash(50)] = _global_committee()
+    state.kyc_data[target] = KycData(
+        level=VALID_KYC_LEVELS[1],
+        status=KycStatus.ACTIVE,
+        verified_at=_CURRENT_TIME - 1000,
+        data_hash=_hash(40),
+        committee_id=_hash(50),
+    )
+
+    committee_id = _hash(50)
+    reason_hash = _hash(45)
+    expires_at = _CURRENT_TIME + EMERGENCY_SUSPEND_TIMEOUT
+    ts = _CURRENT_TIME
+
+    msg = _build_emergency_suspend_msg(
+        committee_id, target, reason_hash, expires_at, ts,
+    )
+    approvals = [
+        _sign_approval(CAROL, msg, ts),
+        # Only 1 approval, but EMERGENCY_SUSPEND_MIN_APPROVALS = 2
+    ]
+
+    payload = {
+        "account": target,
+        "reason_hash": reason_hash,
+        "committee_id": committee_id,
+        "approvals": approvals,
+        "expires_at": expires_at,
+    }
+    tx = _mk_kyc_tx(sender, nonce=5, tx_type=TransactionType.EMERGENCY_SUSPEND, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/kyc/emergency_suspend.json",
+        "emergency_suspend_insufficient_approvals",
+        state,
+        tx,
+    )
+
+

@@ -7,6 +7,7 @@ from copy import deepcopy
 from blake3 import blake3
 
 from ..config import (
+    CHAIN_ID_DEVNET,
     EMERGENCY_SUSPEND_MIN_APPROVALS,
     MAX_APPROVALS,
     MAX_COMMITTEE_MEMBERS,
@@ -120,6 +121,21 @@ def _committee_id(name: str, members: list[dict]) -> bytes:
     return blake3(buf).digest()
 
 
+def _bootstrap_address_for_chain(chain_id: int) -> bytes | None:
+    """Return the bootstrap address (public key) for the given chain.
+
+    On devnet the bootstrap address is MINER (seed 1).
+    Returns None for unknown chains (skip authorization check).
+    """
+    try:
+        import tos_signer
+    except ImportError:
+        return None
+    if chain_id == CHAIN_ID_DEVNET:
+        return bytes(tos_signer.get_public_key(1))
+    return None
+
+
 # --- SET_KYC ---
 
 def _verify_set_kyc(state: ChainState, tx: Transaction, p: dict) -> None:
@@ -161,6 +177,11 @@ def _verify_revoke_kyc(state: ChainState, tx: Transaction, p: dict) -> None:
     if reason_hash == bytes(32):
         raise SpecError(ErrorCode.INVALID_PAYLOAD, "reason_hash must not be zero")
 
+    # State check: KYC record must exist
+    account = _to_bytes(p.get("account"))
+    if account not in state.kyc_data:
+        raise SpecError(ErrorCode.ACCOUNT_NOT_FOUND, "kyc record not found")
+
 
 def _apply_revoke_kyc(state: ChainState, tx: Transaction, p: dict) -> ChainState:
     ns = deepcopy(state)
@@ -184,6 +205,11 @@ def _verify_renew_kyc(state: ChainState, tx: Transaction, p: dict) -> None:
     data_hash = _to_bytes(p.get("data_hash"))
     if data_hash == bytes(32):
         raise SpecError(ErrorCode.INVALID_PAYLOAD, "data_hash must not be zero")
+
+    # State check: KYC record must exist for renewal
+    account = _to_bytes(p.get("account"))
+    if account not in state.kyc_data:
+        raise SpecError(ErrorCode.ACCOUNT_NOT_FOUND, "kyc record not found")
 
 
 def _apply_renew_kyc(state: ChainState, tx: Transaction, p: dict) -> ChainState:
@@ -217,6 +243,11 @@ def _verify_transfer_kyc(state: ChainState, tx: Transaction, p: dict) -> None:
     if new_data_hash == bytes(32):
         raise SpecError(ErrorCode.INVALID_PAYLOAD, "new_data_hash must not be zero")
 
+    # State check: KYC record must exist for transfer
+    account = _to_bytes(p.get("account"))
+    if account not in state.kyc_data:
+        raise SpecError(ErrorCode.ACCOUNT_NOT_FOUND, "kyc record not found")
+
 
 def _apply_transfer_kyc(state: ChainState, tx: Transaction, p: dict) -> ChainState:
     ns = deepcopy(state)
@@ -244,6 +275,16 @@ def _verify_appeal_kyc(state: ChainState, tx: Transaction, p: dict) -> None:
     if docs_hash == bytes(32):
         raise SpecError(ErrorCode.INVALID_PAYLOAD, "documents_hash must not be zero")
 
+    # State check: KYC record must exist
+    account = _to_bytes(p.get("account"))
+    kyc = state.kyc_data.get(account)
+    if kyc is None:
+        raise SpecError(ErrorCode.ACCOUNT_NOT_FOUND, "kyc record not found")
+
+    # State check: KYC status must be REVOKED or SUSPENDED to appeal
+    if kyc.status not in (KycStatus.REVOKED, KycStatus.SUSPENDED):
+        raise SpecError(ErrorCode.INVALID_PAYLOAD, "can only appeal revoked or suspended KYC")
+
 
 def _apply_appeal_kyc(state: ChainState, tx: Transaction, p: dict) -> ChainState:
     return deepcopy(state)
@@ -252,6 +293,15 @@ def _apply_appeal_kyc(state: ChainState, tx: Transaction, p: dict) -> ChainState
 # --- BOOTSTRAP_COMMITTEE ---
 
 def _verify_bootstrap_committee(state: ChainState, tx: Transaction, p: dict) -> None:
+    # Authorization: only the bootstrap address can create the global committee
+    bootstrap_addr = _bootstrap_address_for_chain(state.network_chain_id)
+    if bootstrap_addr is not None and tx.source != bootstrap_addr:
+        raise SpecError(ErrorCode.UNAUTHORIZED, "only bootstrap address can create global committee")
+
+    # State check: cannot bootstrap if a committee already exists
+    if state.committees:
+        raise SpecError(ErrorCode.ACCOUNT_EXISTS, "global committee already bootstrapped")
+
     name = p.get("name", "")
     if not name or len(name) > MAX_COMMITTEE_NAME_LEN:
         raise SpecError(ErrorCode.INVALID_PAYLOAD, "invalid committee name length")
@@ -386,6 +436,11 @@ def _verify_update_committee(state: ChainState, tx: Transaction, p: dict) -> Non
         raise SpecError(ErrorCode.INVALID_PAYLOAD, "approvals required")
     _validate_approvals(approvals)
 
+    # State check: committee must exist
+    committee_id = _to_bytes(p.get("committee_id"))
+    if committee_id not in state.committees:
+        raise SpecError(ErrorCode.ACCOUNT_NOT_FOUND, "committee not found")
+
     update = p.get("update", {})
     if not isinstance(update, dict):
         raise SpecError(ErrorCode.INVALID_PAYLOAD, "update must be dict")
@@ -452,6 +507,11 @@ def _verify_emergency_suspend(state: ChainState, tx: Transaction, p: dict) -> No
     reason_hash = _to_bytes(p.get("reason_hash"))
     if reason_hash == bytes(32):
         raise SpecError(ErrorCode.INVALID_PAYLOAD, "reason_hash must not be zero")
+
+    # State check: target account KYC record must exist
+    account = _to_bytes(p.get("account"))
+    if account not in state.kyc_data:
+        raise SpecError(ErrorCode.ACCOUNT_NOT_FOUND, "kyc record not found")
 
 
 def _apply_emergency_suspend(state: ChainState, tx: Transaction, p: dict) -> ChainState:

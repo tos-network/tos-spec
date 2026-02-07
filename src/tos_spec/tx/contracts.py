@@ -82,6 +82,22 @@ def _verify_invoke(state: ChainState, tx: Transaction) -> None:
         if amount <= 0:
             raise SpecError(ErrorCode.INVALID_AMOUNT, "deposit amount must be > 0")
 
+    # Contract must exist
+    contract_hash = p.get("contract", b"")
+    if isinstance(contract_hash, (list, tuple)):
+        contract_hash = bytes(contract_hash)
+    if contract_hash and contract_hash not in state.contracts:
+        raise SpecError(ErrorCode.CONTRACT_NOT_FOUND, "contract not found")
+
+    # Sender must have sufficient balance for max_gas
+    sender = state.accounts.get(tx.source)
+    if sender is not None and max_gas > 0:
+        if sender.balance < max_gas + tx.fee:
+            raise SpecError(
+                ErrorCode.INSUFFICIENT_BALANCE,
+                "insufficient balance for gas",
+            )
+
 
 def _apply_invoke(state: ChainState, tx: Transaction) -> ChainState:
     ns = deepcopy(state)

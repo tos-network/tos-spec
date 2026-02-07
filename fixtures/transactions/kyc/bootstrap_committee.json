@@ -56,8 +56,8 @@
         "nonce": 5,
         "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
         "reference_topoheight": 0,
-        "signature": "871bde382d6683a370ab1555da9dd3251d4c065f291b74043b100b50fec27d03760c29fd75b4fe4087e9a6b7dde3e5206f0854a01b4be018a283fdc968096e0e",
-        "wire_hex": "01038c9240b456a9e6dc65c377a1048d745f94a08cdb7f44cbcd7b46f340488711340c0f476c6f62616c436f6d6d6974746565030a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a01086d656d6265725f30000b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b01086d656d6265725f31000c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c01086d656d6265725f3200020200ff00000000000186a00000000000000000050000000000000000000000000000000000000000000000000000000000000000000000000000000000871bde382d6683a370ab1555da9dd3251d4c065f291b74043b100b50fec27d03760c29fd75b4fe4087e9a6b7dde3e5206f0854a01b4be018a283fdc968096e0e"
+        "signature": "eaec36f97f8ea0843da33bd4a1c2a14d7c9d8ea86a1886b9cc24b3d39bcf2f0f20b5bd7f14557cb1574ddc742cf85df7222c9a6f68aaf1a62edb592f2a91e700",
+        "wire_hex": "01038c9240b456a9e6dc65c377a1048d745f94a08cdb7f44cbcd7b46f340488711340c0f476c6f62616c436f6d6d6974746565030a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a01086d656d6265725f30000b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b01086d656d6265725f31000c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c01086d656d6265725f3200020200ff00000000000186a00000000000000000050000000000000000000000000000000000000000000000000000000000000000000000000000000000eaec36f97f8ea0843da33bd4a1c2a14d7c9d8ea86a1886b9cc24b3d39bcf2f0f20b5bd7f14557cb1574ddc742cf85df7222c9a6f68aaf1a62edb592f2a91e700"
       },
       "expected": {
         "ok": true,
@@ -107,6 +107,511 @@
               "threshold": 2,
               "kyc_threshold": 2,
               "max_kyc_level": 255
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "bootstrap_committee_not_bootstrap_address",
+      "pre_state": {
+        "network_chain_id": 3,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "balance": 10000000,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
+      },
+      "tx": {
+        "version": 1,
+        "chain_id": 3,
+        "source": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+        "tx_type": "bootstrap_committee",
+        "payload": {
+          "name": "GlobalCommittee",
+          "members": [
+            {
+              "public_key": "0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a",
+              "name": "member_0",
+              "role": 0
+            },
+            {
+              "public_key": "0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b",
+              "name": "member_1",
+              "role": 0
+            },
+            {
+              "public_key": "0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c",
+              "name": "member_2",
+              "role": 0
+            }
+          ],
+          "threshold": 2,
+          "kyc_threshold": 2,
+          "max_kyc_level": 255
+        },
+        "fee": 100000,
+        "fee_type": 0,
+        "nonce": 5,
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "96a85d99305bccddf29d07b5db52a9d0dc560324d56479f1dbdfae4d99e3eb093cf6f8d04ae05192999cb992e4619698752263199371147f2a89ad720762bb0a",
+        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b2490c0f476c6f62616c436f6d6d6974746565030a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a01086d656d6265725f30000b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b01086d656d6265725f31000c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c01086d656d6265725f3200020200ff00000000000186a0000000000000000005000000000000000000000000000000000000000000000000000000000000000000000000000000000096a85d99305bccddf29d07b5db52a9d0dc560324d56479f1dbdfae4d99e3eb093cf6f8d04ae05192999cb992e4619698752263199371147f2a89ad720762bb0a"
+      },
+      "expected": {
+        "ok": false,
+        "error": "UNAUTHORIZED",
+        "post_state": {
+          "network_chain_id": 3,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+              "balance": 10000000,
+              "nonce": 5,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "bootstrap_committee_empty_name",
+      "pre_state": {
+        "network_chain_id": 3,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "8c9240b456a9e6dc65c377a1048d745f94a08cdb7f44cbcd7b46f34048871134",
+            "balance": 10000000,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
+      },
+      "tx": {
+        "version": 1,
+        "chain_id": 3,
+        "source": "8c9240b456a9e6dc65c377a1048d745f94a08cdb7f44cbcd7b46f34048871134",
+        "tx_type": "bootstrap_committee",
+        "payload": {
+          "name": "",
+          "members": [
+            {
+              "public_key": "0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a",
+              "name": "member_0",
+              "role": 0
+            },
+            {
+              "public_key": "0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b",
+              "name": "member_1",
+              "role": 0
+            },
+            {
+              "public_key": "0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c",
+              "name": "member_2",
+              "role": 0
+            }
+          ],
+          "threshold": 2,
+          "kyc_threshold": 2,
+          "max_kyc_level": 255
+        },
+        "fee": 100000,
+        "fee_type": 0,
+        "nonce": 5,
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "wire_hex": "01038c9240b456a9e6dc65c377a1048d745f94a08cdb7f44cbcd7b46f340488711340c00030a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a01086d656d6265725f30000b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b01086d656d6265725f31000c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c01086d656d6265725f3200020200ff00000000000186a0000000000000000005000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expected": {
+        "ok": false,
+        "error": "INVALID_PAYLOAD",
+        "post_state": {
+          "network_chain_id": 3,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "8c9240b456a9e6dc65c377a1048d745f94a08cdb7f44cbcd7b46f34048871134",
+              "balance": 10000000,
+              "nonce": 5,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "bootstrap_committee_too_few_members",
+      "pre_state": {
+        "network_chain_id": 3,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "8c9240b456a9e6dc65c377a1048d745f94a08cdb7f44cbcd7b46f34048871134",
+            "balance": 10000000,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
+      },
+      "tx": {
+        "version": 1,
+        "chain_id": 3,
+        "source": "8c9240b456a9e6dc65c377a1048d745f94a08cdb7f44cbcd7b46f34048871134",
+        "tx_type": "bootstrap_committee",
+        "payload": {
+          "name": "SmallCommittee",
+          "members": [
+            {
+              "public_key": "0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a",
+              "name": "member_0",
+              "role": 0
+            },
+            {
+              "public_key": "0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b",
+              "name": "member_1",
+              "role": 0
+            }
+          ],
+          "threshold": 2,
+          "kyc_threshold": 2,
+          "max_kyc_level": 255
+        },
+        "fee": 100000,
+        "fee_type": 0,
+        "nonce": 5,
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "wire_hex": "01038c9240b456a9e6dc65c377a1048d745f94a08cdb7f44cbcd7b46f340488711340c0e536d616c6c436f6d6d6974746565020a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a01086d656d6265725f30000b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b01086d656d6265725f3100020200ff00000000000186a0000000000000000005000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expected": {
+        "ok": false,
+        "error": "INVALID_PAYLOAD",
+        "post_state": {
+          "network_chain_id": 3,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "8c9240b456a9e6dc65c377a1048d745f94a08cdb7f44cbcd7b46f34048871134",
+              "balance": 10000000,
+              "nonce": 5,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "bootstrap_committee_duplicate_member",
+      "pre_state": {
+        "network_chain_id": 3,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "8c9240b456a9e6dc65c377a1048d745f94a08cdb7f44cbcd7b46f34048871134",
+            "balance": 10000000,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
+      },
+      "tx": {
+        "version": 1,
+        "chain_id": 3,
+        "source": "8c9240b456a9e6dc65c377a1048d745f94a08cdb7f44cbcd7b46f34048871134",
+        "tx_type": "bootstrap_committee",
+        "payload": {
+          "name": "DupCommittee",
+          "members": [
+            {
+              "public_key": "0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a",
+              "name": "member_0",
+              "role": 0
+            },
+            {
+              "public_key": "0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a",
+              "name": "member_1",
+              "role": 0
+            },
+            {
+              "public_key": "0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c",
+              "name": "member_2",
+              "role": 0
+            }
+          ],
+          "threshold": 2,
+          "kyc_threshold": 2,
+          "max_kyc_level": 255
+        },
+        "fee": 100000,
+        "fee_type": 0,
+        "nonce": 5,
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "wire_hex": "01038c9240b456a9e6dc65c377a1048d745f94a08cdb7f44cbcd7b46f340488711340c0c447570436f6d6d6974746565030a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a01086d656d6265725f30000a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a01086d656d6265725f31000c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c01086d656d6265725f3200020200ff00000000000186a0000000000000000005000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expected": {
+        "ok": false,
+        "error": "INVALID_PAYLOAD",
+        "post_state": {
+          "network_chain_id": 3,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "8c9240b456a9e6dc65c377a1048d745f94a08cdb7f44cbcd7b46f34048871134",
+              "balance": 10000000,
+              "nonce": 5,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "bootstrap_committee_invalid_threshold",
+      "pre_state": {
+        "network_chain_id": 3,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "8c9240b456a9e6dc65c377a1048d745f94a08cdb7f44cbcd7b46f34048871134",
+            "balance": 10000000,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
+      },
+      "tx": {
+        "version": 1,
+        "chain_id": 3,
+        "source": "8c9240b456a9e6dc65c377a1048d745f94a08cdb7f44cbcd7b46f34048871134",
+        "tx_type": "bootstrap_committee",
+        "payload": {
+          "name": "ZeroThreshold",
+          "members": [
+            {
+              "public_key": "0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a",
+              "name": "member_0",
+              "role": 0
+            },
+            {
+              "public_key": "0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b",
+              "name": "member_1",
+              "role": 0
+            },
+            {
+              "public_key": "0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c",
+              "name": "member_2",
+              "role": 0
+            }
+          ],
+          "threshold": 0,
+          "kyc_threshold": 2,
+          "max_kyc_level": 255
+        },
+        "fee": 100000,
+        "fee_type": 0,
+        "nonce": 5,
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "wire_hex": "01038c9240b456a9e6dc65c377a1048d745f94a08cdb7f44cbcd7b46f340488711340c0d5a65726f5468726573686f6c64030a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a01086d656d6265725f30000b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b01086d656d6265725f31000c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c01086d656d6265725f3200000200ff00000000000186a0000000000000000005000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expected": {
+        "ok": false,
+        "error": "INVALID_PAYLOAD",
+        "post_state": {
+          "network_chain_id": 3,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "8c9240b456a9e6dc65c377a1048d745f94a08cdb7f44cbcd7b46f34048871134",
+              "balance": 10000000,
+              "nonce": 5,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "bootstrap_committee_invalid_kyc_level",
+      "pre_state": {
+        "network_chain_id": 3,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "8c9240b456a9e6dc65c377a1048d745f94a08cdb7f44cbcd7b46f34048871134",
+            "balance": 10000000,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
+      },
+      "tx": {
+        "version": 1,
+        "chain_id": 3,
+        "source": "8c9240b456a9e6dc65c377a1048d745f94a08cdb7f44cbcd7b46f34048871134",
+        "tx_type": "bootstrap_committee",
+        "payload": {
+          "name": "BadLevel",
+          "members": [
+            {
+              "public_key": "0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a",
+              "name": "member_0",
+              "role": 0
+            },
+            {
+              "public_key": "0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b",
+              "name": "member_1",
+              "role": 0
+            },
+            {
+              "public_key": "0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c",
+              "name": "member_2",
+              "role": 0
+            }
+          ],
+          "threshold": 2,
+          "kyc_threshold": 2,
+          "max_kyc_level": 999
+        },
+        "fee": 100000,
+        "fee_type": 0,
+        "nonce": 5,
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "wire_hex": "01038c9240b456a9e6dc65c377a1048d745f94a08cdb7f44cbcd7b46f340488711340c084261644c6576656c030a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a01086d656d6265725f30000b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b01086d656d6265725f31000c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c01086d656d6265725f3200020203e700000000000186a0000000000000000005000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expected": {
+        "ok": false,
+        "error": "INVALID_PAYLOAD",
+        "post_state": {
+          "network_chain_id": 3,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "8c9240b456a9e6dc65c377a1048d745f94a08cdb7f44cbcd7b46f34048871134",
+              "balance": 10000000,
+              "nonce": 5,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
             }
           ]
         }

@@ -36,7 +36,7 @@
             "address": "5e9b22da885aa5a20006edfcbb5a79c5e4fc9156137f8ec3926a87cd0bb0b477",
             "level": 7,
             "status": "revoked",
-            "verified_at": 1770442580,
+            "verified_at": 1770444135,
             "data_hash": "2828282828282828282828282828282828282828282828282828282828282828",
             "committee_id": "3333333333333333333333333333333333333333333333333333333333333333"
           }
@@ -106,15 +106,15 @@
           "parent_committee_id": "3232323232323232323232323232323232323232323232323232323232323232",
           "reason_hash": "2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b",
           "documents_hash": "2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c",
-          "submitted_at": 1770443580
+          "submitted_at": 1770445135
         },
         "fee": 100000,
         "fee_type": 0,
         "nonce": 5,
         "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
         "reference_topoheight": 0,
-        "signature": "13187ca459d3e94d24de38887e801e2d5cc52dfdef50a2ceaadf18b36cc4260f6b16409790021162143b984e4a26e5c2f4f47ca36f6b7d8594e1803fe9ee7706",
-        "wire_hex": "01035e9b22da885aa5a20006edfcbb5a79c5e4fc9156137f8ec3926a87cd0bb0b477115e9b22da885aa5a20006edfcbb5a79c5e4fc9156137f8ec3926a87cd0bb0b477333333333333333333333333333333333333333333333333333333333333333332323232323232323232323232323232323232323232323232323232323232322b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c000000006986d33c00000000000186a0000000000000000005000000000000000000000000000000000000000000000000000000000000000000000000000000000013187ca459d3e94d24de38887e801e2d5cc52dfdef50a2ceaadf18b36cc4260f6b16409790021162143b984e4a26e5c2f4f47ca36f6b7d8594e1803fe9ee7706"
+        "signature": "380cd719f00dd891b57da45cc519e84d83f66dcab757d18425e5003b09a40b0b0b9662904609328e46b10653ce1c023baef8a68d3f091168e3f7bbe04312f50e",
+        "wire_hex": "01035e9b22da885aa5a20006edfcbb5a79c5e4fc9156137f8ec3926a87cd0bb0b477115e9b22da885aa5a20006edfcbb5a79c5e4fc9156137f8ec3926a87cd0bb0b477333333333333333333333333333333333333333333333333333333333333333332323232323232323232323232323232323232323232323232323232323232322b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c000000006986d94f00000000000186a00000000000000000050000000000000000000000000000000000000000000000000000000000000000000000000000000000380cd719f00dd891b57da45cc519e84d83f66dcab757d18425e5003b09a40b0b0b9662904609328e46b10653ce1c023baef8a68d3f091168e3f7bbe04312f50e"
       },
       "expected": {
         "ok": true,
@@ -153,7 +153,1005 @@
               "address": "5e9b22da885aa5a20006edfcbb5a79c5e4fc9156137f8ec3926a87cd0bb0b477",
               "level": 7,
               "status": "revoked",
-              "verified_at": 1770442580,
+              "verified_at": 1770444135,
+              "data_hash": "2828282828282828282828282828282828282828282828282828282828282828",
+              "committee_id": "3333333333333333333333333333333333333333333333333333333333333333"
+            }
+          ],
+          "committees": [
+            {
+              "id": "3232323232323232323232323232323232323232323232323232323232323232",
+              "name": "GlobalCommittee",
+              "region": 255,
+              "members": [
+                {
+                  "public_key": "7ea555bf91bfb985561a91afcd669a79c0cc115ce03baf687cb8dd7e1e996e7b",
+                  "name": "member_0",
+                  "role": 0
+                },
+                {
+                  "public_key": "ec9daff86b25275ef43d7dbd7e81f09b44e8d3805c6048b09b3e1034931c6077",
+                  "name": "member_1",
+                  "role": 0
+                },
+                {
+                  "public_key": "c236d1e09a12adc6dc4b857420e7dbef41e4553cc06168495b941398bee59531",
+                  "name": "member_2",
+                  "role": 0
+                }
+              ],
+              "threshold": 2,
+              "kyc_threshold": 2,
+              "max_kyc_level": 255
+            },
+            {
+              "id": "3333333333333333333333333333333333333333333333333333333333333333",
+              "name": "RegionalCommittee",
+              "region": 1,
+              "members": [
+                {
+                  "public_key": "2a25d8817219016d0f3098e1b5fbae8e0e1e093ec3d4b7d6a502405c865bd373",
+                  "name": "rmember_0",
+                  "role": 0
+                },
+                {
+                  "public_key": "da673316b0f2f91283ef9fd1dbdf707f56587612a341b6fda5e3725ca8970a72",
+                  "name": "rmember_1",
+                  "role": 0
+                },
+                {
+                  "public_key": "1095f383297a0b6ed39ce8b1d78a43f3121dcffd7ecffc6c6a7d5913ae5aff1e",
+                  "name": "rmember_2",
+                  "role": 0
+                }
+              ],
+              "threshold": 2,
+              "kyc_threshold": 2,
+              "max_kyc_level": 63,
+              "parent_id": "3232323232323232323232323232323232323232323232323232323232323232"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "appeal_kyc_no_kyc_record",
+      "pre_state": {
+        "network_chain_id": 3,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "balance": 10000000,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          },
+          {
+            "address": "5e9b22da885aa5a20006edfcbb5a79c5e4fc9156137f8ec3926a87cd0bb0b477",
+            "balance": 10000000,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ],
+        "committees": [
+          {
+            "id": "3232323232323232323232323232323232323232323232323232323232323232",
+            "name": "GlobalCommittee",
+            "region": 255,
+            "members": [
+              {
+                "public_key": "7ea555bf91bfb985561a91afcd669a79c0cc115ce03baf687cb8dd7e1e996e7b",
+                "name": "member_0",
+                "role": 0
+              },
+              {
+                "public_key": "ec9daff86b25275ef43d7dbd7e81f09b44e8d3805c6048b09b3e1034931c6077",
+                "name": "member_1",
+                "role": 0
+              },
+              {
+                "public_key": "c236d1e09a12adc6dc4b857420e7dbef41e4553cc06168495b941398bee59531",
+                "name": "member_2",
+                "role": 0
+              }
+            ],
+            "threshold": 2,
+            "kyc_threshold": 2,
+            "max_kyc_level": 255
+          },
+          {
+            "id": "3333333333333333333333333333333333333333333333333333333333333333",
+            "name": "RegionalCommittee",
+            "region": 1,
+            "members": [
+              {
+                "public_key": "2a25d8817219016d0f3098e1b5fbae8e0e1e093ec3d4b7d6a502405c865bd373",
+                "name": "rmember_0",
+                "role": 0
+              },
+              {
+                "public_key": "da673316b0f2f91283ef9fd1dbdf707f56587612a341b6fda5e3725ca8970a72",
+                "name": "rmember_1",
+                "role": 0
+              },
+              {
+                "public_key": "1095f383297a0b6ed39ce8b1d78a43f3121dcffd7ecffc6c6a7d5913ae5aff1e",
+                "name": "rmember_2",
+                "role": 0
+              }
+            ],
+            "threshold": 2,
+            "kyc_threshold": 2,
+            "max_kyc_level": 63,
+            "parent_id": "3232323232323232323232323232323232323232323232323232323232323232"
+          }
+        ]
+      },
+      "tx": {
+        "version": 1,
+        "chain_id": 3,
+        "source": "5e9b22da885aa5a20006edfcbb5a79c5e4fc9156137f8ec3926a87cd0bb0b477",
+        "tx_type": "appeal_kyc",
+        "payload": {
+          "account": "5e9b22da885aa5a20006edfcbb5a79c5e4fc9156137f8ec3926a87cd0bb0b477",
+          "original_committee_id": "3333333333333333333333333333333333333333333333333333333333333333",
+          "parent_committee_id": "3232323232323232323232323232323232323232323232323232323232323232",
+          "reason_hash": "2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b",
+          "documents_hash": "2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c",
+          "submitted_at": 1770445135
+        },
+        "fee": 100000,
+        "fee_type": 0,
+        "nonce": 5,
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "e3d39adc1853ac173937716f118616b21f465d323072d9681cc214463d8c9f0b2e967cfbc3978812f3649363c3f121d889308b240ab094eb2d792b6c527c230c",
+        "wire_hex": "01035e9b22da885aa5a20006edfcbb5a79c5e4fc9156137f8ec3926a87cd0bb0b477115e9b22da885aa5a20006edfcbb5a79c5e4fc9156137f8ec3926a87cd0bb0b477333333333333333333333333333333333333333333333333333333333333333332323232323232323232323232323232323232323232323232323232323232322b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c000000006986d94f00000000000186a00000000000000000050000000000000000000000000000000000000000000000000000000000000000000000000000000000e3d39adc1853ac173937716f118616b21f465d323072d9681cc214463d8c9f0b2e967cfbc3978812f3649363c3f121d889308b240ab094eb2d792b6c527c230c"
+      },
+      "expected": {
+        "ok": false,
+        "error": "ACCOUNT_NOT_FOUND",
+        "post_state": {
+          "network_chain_id": 3,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+              "balance": 10000000,
+              "nonce": 5,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            },
+            {
+              "address": "5e9b22da885aa5a20006edfcbb5a79c5e4fc9156137f8ec3926a87cd0bb0b477",
+              "balance": 10000000,
+              "nonce": 5,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ],
+          "committees": [
+            {
+              "id": "3232323232323232323232323232323232323232323232323232323232323232",
+              "name": "GlobalCommittee",
+              "region": 255,
+              "members": [
+                {
+                  "public_key": "7ea555bf91bfb985561a91afcd669a79c0cc115ce03baf687cb8dd7e1e996e7b",
+                  "name": "member_0",
+                  "role": 0
+                },
+                {
+                  "public_key": "ec9daff86b25275ef43d7dbd7e81f09b44e8d3805c6048b09b3e1034931c6077",
+                  "name": "member_1",
+                  "role": 0
+                },
+                {
+                  "public_key": "c236d1e09a12adc6dc4b857420e7dbef41e4553cc06168495b941398bee59531",
+                  "name": "member_2",
+                  "role": 0
+                }
+              ],
+              "threshold": 2,
+              "kyc_threshold": 2,
+              "max_kyc_level": 255
+            },
+            {
+              "id": "3333333333333333333333333333333333333333333333333333333333333333",
+              "name": "RegionalCommittee",
+              "region": 1,
+              "members": [
+                {
+                  "public_key": "2a25d8817219016d0f3098e1b5fbae8e0e1e093ec3d4b7d6a502405c865bd373",
+                  "name": "rmember_0",
+                  "role": 0
+                },
+                {
+                  "public_key": "da673316b0f2f91283ef9fd1dbdf707f56587612a341b6fda5e3725ca8970a72",
+                  "name": "rmember_1",
+                  "role": 0
+                },
+                {
+                  "public_key": "1095f383297a0b6ed39ce8b1d78a43f3121dcffd7ecffc6c6a7d5913ae5aff1e",
+                  "name": "rmember_2",
+                  "role": 0
+                }
+              ],
+              "threshold": 2,
+              "kyc_threshold": 2,
+              "max_kyc_level": 63,
+              "parent_id": "3232323232323232323232323232323232323232323232323232323232323232"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "appeal_kyc_not_revoked",
+      "pre_state": {
+        "network_chain_id": 3,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "balance": 10000000,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          },
+          {
+            "address": "5e9b22da885aa5a20006edfcbb5a79c5e4fc9156137f8ec3926a87cd0bb0b477",
+            "balance": 10000000,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ],
+        "kyc_data": [
+          {
+            "address": "5e9b22da885aa5a20006edfcbb5a79c5e4fc9156137f8ec3926a87cd0bb0b477",
+            "level": 7,
+            "status": "active",
+            "verified_at": 1770444135,
+            "data_hash": "2828282828282828282828282828282828282828282828282828282828282828",
+            "committee_id": "3333333333333333333333333333333333333333333333333333333333333333"
+          }
+        ],
+        "committees": [
+          {
+            "id": "3232323232323232323232323232323232323232323232323232323232323232",
+            "name": "GlobalCommittee",
+            "region": 255,
+            "members": [
+              {
+                "public_key": "7ea555bf91bfb985561a91afcd669a79c0cc115ce03baf687cb8dd7e1e996e7b",
+                "name": "member_0",
+                "role": 0
+              },
+              {
+                "public_key": "ec9daff86b25275ef43d7dbd7e81f09b44e8d3805c6048b09b3e1034931c6077",
+                "name": "member_1",
+                "role": 0
+              },
+              {
+                "public_key": "c236d1e09a12adc6dc4b857420e7dbef41e4553cc06168495b941398bee59531",
+                "name": "member_2",
+                "role": 0
+              }
+            ],
+            "threshold": 2,
+            "kyc_threshold": 2,
+            "max_kyc_level": 255
+          },
+          {
+            "id": "3333333333333333333333333333333333333333333333333333333333333333",
+            "name": "RegionalCommittee",
+            "region": 1,
+            "members": [
+              {
+                "public_key": "2a25d8817219016d0f3098e1b5fbae8e0e1e093ec3d4b7d6a502405c865bd373",
+                "name": "rmember_0",
+                "role": 0
+              },
+              {
+                "public_key": "da673316b0f2f91283ef9fd1dbdf707f56587612a341b6fda5e3725ca8970a72",
+                "name": "rmember_1",
+                "role": 0
+              },
+              {
+                "public_key": "1095f383297a0b6ed39ce8b1d78a43f3121dcffd7ecffc6c6a7d5913ae5aff1e",
+                "name": "rmember_2",
+                "role": 0
+              }
+            ],
+            "threshold": 2,
+            "kyc_threshold": 2,
+            "max_kyc_level": 63,
+            "parent_id": "3232323232323232323232323232323232323232323232323232323232323232"
+          }
+        ]
+      },
+      "tx": {
+        "version": 1,
+        "chain_id": 3,
+        "source": "5e9b22da885aa5a20006edfcbb5a79c5e4fc9156137f8ec3926a87cd0bb0b477",
+        "tx_type": "appeal_kyc",
+        "payload": {
+          "account": "5e9b22da885aa5a20006edfcbb5a79c5e4fc9156137f8ec3926a87cd0bb0b477",
+          "original_committee_id": "3333333333333333333333333333333333333333333333333333333333333333",
+          "parent_committee_id": "3232323232323232323232323232323232323232323232323232323232323232",
+          "reason_hash": "2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b",
+          "documents_hash": "2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c",
+          "submitted_at": 1770445135
+        },
+        "fee": 100000,
+        "fee_type": 0,
+        "nonce": 5,
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "a1c03022b7c64c6d7e151ff040fd738dc745f88da8db967bfd7abe316fcb600961f9645cdc4a9a30d5406bca54bbc5ffd10ab779a1ee69023996acec162c0e09",
+        "wire_hex": "01035e9b22da885aa5a20006edfcbb5a79c5e4fc9156137f8ec3926a87cd0bb0b477115e9b22da885aa5a20006edfcbb5a79c5e4fc9156137f8ec3926a87cd0bb0b477333333333333333333333333333333333333333333333333333333333333333332323232323232323232323232323232323232323232323232323232323232322b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c000000006986d94f00000000000186a00000000000000000050000000000000000000000000000000000000000000000000000000000000000000000000000000000a1c03022b7c64c6d7e151ff040fd738dc745f88da8db967bfd7abe316fcb600961f9645cdc4a9a30d5406bca54bbc5ffd10ab779a1ee69023996acec162c0e09"
+      },
+      "expected": {
+        "ok": false,
+        "error": "INVALID_PAYLOAD",
+        "post_state": {
+          "network_chain_id": 3,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+              "balance": 10000000,
+              "nonce": 5,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            },
+            {
+              "address": "5e9b22da885aa5a20006edfcbb5a79c5e4fc9156137f8ec3926a87cd0bb0b477",
+              "balance": 10000000,
+              "nonce": 5,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ],
+          "kyc_data": [
+            {
+              "address": "5e9b22da885aa5a20006edfcbb5a79c5e4fc9156137f8ec3926a87cd0bb0b477",
+              "level": 7,
+              "status": "active",
+              "verified_at": 1770444135,
+              "data_hash": "2828282828282828282828282828282828282828282828282828282828282828",
+              "committee_id": "3333333333333333333333333333333333333333333333333333333333333333"
+            }
+          ],
+          "committees": [
+            {
+              "id": "3232323232323232323232323232323232323232323232323232323232323232",
+              "name": "GlobalCommittee",
+              "region": 255,
+              "members": [
+                {
+                  "public_key": "7ea555bf91bfb985561a91afcd669a79c0cc115ce03baf687cb8dd7e1e996e7b",
+                  "name": "member_0",
+                  "role": 0
+                },
+                {
+                  "public_key": "ec9daff86b25275ef43d7dbd7e81f09b44e8d3805c6048b09b3e1034931c6077",
+                  "name": "member_1",
+                  "role": 0
+                },
+                {
+                  "public_key": "c236d1e09a12adc6dc4b857420e7dbef41e4553cc06168495b941398bee59531",
+                  "name": "member_2",
+                  "role": 0
+                }
+              ],
+              "threshold": 2,
+              "kyc_threshold": 2,
+              "max_kyc_level": 255
+            },
+            {
+              "id": "3333333333333333333333333333333333333333333333333333333333333333",
+              "name": "RegionalCommittee",
+              "region": 1,
+              "members": [
+                {
+                  "public_key": "2a25d8817219016d0f3098e1b5fbae8e0e1e093ec3d4b7d6a502405c865bd373",
+                  "name": "rmember_0",
+                  "role": 0
+                },
+                {
+                  "public_key": "da673316b0f2f91283ef9fd1dbdf707f56587612a341b6fda5e3725ca8970a72",
+                  "name": "rmember_1",
+                  "role": 0
+                },
+                {
+                  "public_key": "1095f383297a0b6ed39ce8b1d78a43f3121dcffd7ecffc6c6a7d5913ae5aff1e",
+                  "name": "rmember_2",
+                  "role": 0
+                }
+              ],
+              "threshold": 2,
+              "kyc_threshold": 2,
+              "max_kyc_level": 63,
+              "parent_id": "3232323232323232323232323232323232323232323232323232323232323232"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "appeal_kyc_same_committee",
+      "pre_state": {
+        "network_chain_id": 3,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "balance": 10000000,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          },
+          {
+            "address": "5e9b22da885aa5a20006edfcbb5a79c5e4fc9156137f8ec3926a87cd0bb0b477",
+            "balance": 10000000,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ],
+        "kyc_data": [
+          {
+            "address": "5e9b22da885aa5a20006edfcbb5a79c5e4fc9156137f8ec3926a87cd0bb0b477",
+            "level": 7,
+            "status": "revoked",
+            "verified_at": 1770444135,
+            "data_hash": "2828282828282828282828282828282828282828282828282828282828282828",
+            "committee_id": "3232323232323232323232323232323232323232323232323232323232323232"
+          }
+        ],
+        "committees": [
+          {
+            "id": "3232323232323232323232323232323232323232323232323232323232323232",
+            "name": "GlobalCommittee",
+            "region": 255,
+            "members": [
+              {
+                "public_key": "7ea555bf91bfb985561a91afcd669a79c0cc115ce03baf687cb8dd7e1e996e7b",
+                "name": "member_0",
+                "role": 0
+              },
+              {
+                "public_key": "ec9daff86b25275ef43d7dbd7e81f09b44e8d3805c6048b09b3e1034931c6077",
+                "name": "member_1",
+                "role": 0
+              },
+              {
+                "public_key": "c236d1e09a12adc6dc4b857420e7dbef41e4553cc06168495b941398bee59531",
+                "name": "member_2",
+                "role": 0
+              }
+            ],
+            "threshold": 2,
+            "kyc_threshold": 2,
+            "max_kyc_level": 255
+          }
+        ]
+      },
+      "tx": {
+        "version": 1,
+        "chain_id": 3,
+        "source": "5e9b22da885aa5a20006edfcbb5a79c5e4fc9156137f8ec3926a87cd0bb0b477",
+        "tx_type": "appeal_kyc",
+        "payload": {
+          "account": "5e9b22da885aa5a20006edfcbb5a79c5e4fc9156137f8ec3926a87cd0bb0b477",
+          "original_committee_id": "3232323232323232323232323232323232323232323232323232323232323232",
+          "parent_committee_id": "3232323232323232323232323232323232323232323232323232323232323232",
+          "reason_hash": "2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b",
+          "documents_hash": "2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c",
+          "submitted_at": 1770445135
+        },
+        "fee": 100000,
+        "fee_type": 0,
+        "nonce": 5,
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "wire_hex": "01035e9b22da885aa5a20006edfcbb5a79c5e4fc9156137f8ec3926a87cd0bb0b477115e9b22da885aa5a20006edfcbb5a79c5e4fc9156137f8ec3926a87cd0bb0b477323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232323232322b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c000000006986d94f00000000000186a0000000000000000005000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expected": {
+        "ok": false,
+        "error": "INVALID_PAYLOAD",
+        "post_state": {
+          "network_chain_id": 3,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+              "balance": 10000000,
+              "nonce": 5,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            },
+            {
+              "address": "5e9b22da885aa5a20006edfcbb5a79c5e4fc9156137f8ec3926a87cd0bb0b477",
+              "balance": 10000000,
+              "nonce": 5,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ],
+          "kyc_data": [
+            {
+              "address": "5e9b22da885aa5a20006edfcbb5a79c5e4fc9156137f8ec3926a87cd0bb0b477",
+              "level": 7,
+              "status": "revoked",
+              "verified_at": 1770444135,
+              "data_hash": "2828282828282828282828282828282828282828282828282828282828282828",
+              "committee_id": "3232323232323232323232323232323232323232323232323232323232323232"
+            }
+          ],
+          "committees": [
+            {
+              "id": "3232323232323232323232323232323232323232323232323232323232323232",
+              "name": "GlobalCommittee",
+              "region": 255,
+              "members": [
+                {
+                  "public_key": "7ea555bf91bfb985561a91afcd669a79c0cc115ce03baf687cb8dd7e1e996e7b",
+                  "name": "member_0",
+                  "role": 0
+                },
+                {
+                  "public_key": "ec9daff86b25275ef43d7dbd7e81f09b44e8d3805c6048b09b3e1034931c6077",
+                  "name": "member_1",
+                  "role": 0
+                },
+                {
+                  "public_key": "c236d1e09a12adc6dc4b857420e7dbef41e4553cc06168495b941398bee59531",
+                  "name": "member_2",
+                  "role": 0
+                }
+              ],
+              "threshold": 2,
+              "kyc_threshold": 2,
+              "max_kyc_level": 255
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "appeal_kyc_zero_reason_hash",
+      "pre_state": {
+        "network_chain_id": 3,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "balance": 10000000,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          },
+          {
+            "address": "5e9b22da885aa5a20006edfcbb5a79c5e4fc9156137f8ec3926a87cd0bb0b477",
+            "balance": 10000000,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ],
+        "kyc_data": [
+          {
+            "address": "5e9b22da885aa5a20006edfcbb5a79c5e4fc9156137f8ec3926a87cd0bb0b477",
+            "level": 7,
+            "status": "revoked",
+            "verified_at": 1770444135,
+            "data_hash": "2828282828282828282828282828282828282828282828282828282828282828",
+            "committee_id": "3333333333333333333333333333333333333333333333333333333333333333"
+          }
+        ],
+        "committees": [
+          {
+            "id": "3232323232323232323232323232323232323232323232323232323232323232",
+            "name": "GlobalCommittee",
+            "region": 255,
+            "members": [
+              {
+                "public_key": "7ea555bf91bfb985561a91afcd669a79c0cc115ce03baf687cb8dd7e1e996e7b",
+                "name": "member_0",
+                "role": 0
+              },
+              {
+                "public_key": "ec9daff86b25275ef43d7dbd7e81f09b44e8d3805c6048b09b3e1034931c6077",
+                "name": "member_1",
+                "role": 0
+              },
+              {
+                "public_key": "c236d1e09a12adc6dc4b857420e7dbef41e4553cc06168495b941398bee59531",
+                "name": "member_2",
+                "role": 0
+              }
+            ],
+            "threshold": 2,
+            "kyc_threshold": 2,
+            "max_kyc_level": 255
+          },
+          {
+            "id": "3333333333333333333333333333333333333333333333333333333333333333",
+            "name": "RegionalCommittee",
+            "region": 1,
+            "members": [
+              {
+                "public_key": "2a25d8817219016d0f3098e1b5fbae8e0e1e093ec3d4b7d6a502405c865bd373",
+                "name": "rmember_0",
+                "role": 0
+              },
+              {
+                "public_key": "da673316b0f2f91283ef9fd1dbdf707f56587612a341b6fda5e3725ca8970a72",
+                "name": "rmember_1",
+                "role": 0
+              },
+              {
+                "public_key": "1095f383297a0b6ed39ce8b1d78a43f3121dcffd7ecffc6c6a7d5913ae5aff1e",
+                "name": "rmember_2",
+                "role": 0
+              }
+            ],
+            "threshold": 2,
+            "kyc_threshold": 2,
+            "max_kyc_level": 63,
+            "parent_id": "3232323232323232323232323232323232323232323232323232323232323232"
+          }
+        ]
+      },
+      "tx": {
+        "version": 1,
+        "chain_id": 3,
+        "source": "5e9b22da885aa5a20006edfcbb5a79c5e4fc9156137f8ec3926a87cd0bb0b477",
+        "tx_type": "appeal_kyc",
+        "payload": {
+          "account": "5e9b22da885aa5a20006edfcbb5a79c5e4fc9156137f8ec3926a87cd0bb0b477",
+          "original_committee_id": "3333333333333333333333333333333333333333333333333333333333333333",
+          "parent_committee_id": "3232323232323232323232323232323232323232323232323232323232323232",
+          "reason_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+          "documents_hash": "2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c",
+          "submitted_at": 1770445135
+        },
+        "fee": 100000,
+        "fee_type": 0,
+        "nonce": 5,
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "wire_hex": "01035e9b22da885aa5a20006edfcbb5a79c5e4fc9156137f8ec3926a87cd0bb0b477115e9b22da885aa5a20006edfcbb5a79c5e4fc9156137f8ec3926a87cd0bb0b4773333333333333333333333333333333333333333333333333333333333333333323232323232323232323232323232323232323232323232323232323232323200000000000000000000000000000000000000000000000000000000000000002c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c000000006986d94f00000000000186a0000000000000000005000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expected": {
+        "ok": false,
+        "error": "INVALID_PAYLOAD",
+        "post_state": {
+          "network_chain_id": 3,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+              "balance": 10000000,
+              "nonce": 5,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            },
+            {
+              "address": "5e9b22da885aa5a20006edfcbb5a79c5e4fc9156137f8ec3926a87cd0bb0b477",
+              "balance": 10000000,
+              "nonce": 5,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ],
+          "kyc_data": [
+            {
+              "address": "5e9b22da885aa5a20006edfcbb5a79c5e4fc9156137f8ec3926a87cd0bb0b477",
+              "level": 7,
+              "status": "revoked",
+              "verified_at": 1770444135,
+              "data_hash": "2828282828282828282828282828282828282828282828282828282828282828",
+              "committee_id": "3333333333333333333333333333333333333333333333333333333333333333"
+            }
+          ],
+          "committees": [
+            {
+              "id": "3232323232323232323232323232323232323232323232323232323232323232",
+              "name": "GlobalCommittee",
+              "region": 255,
+              "members": [
+                {
+                  "public_key": "7ea555bf91bfb985561a91afcd669a79c0cc115ce03baf687cb8dd7e1e996e7b",
+                  "name": "member_0",
+                  "role": 0
+                },
+                {
+                  "public_key": "ec9daff86b25275ef43d7dbd7e81f09b44e8d3805c6048b09b3e1034931c6077",
+                  "name": "member_1",
+                  "role": 0
+                },
+                {
+                  "public_key": "c236d1e09a12adc6dc4b857420e7dbef41e4553cc06168495b941398bee59531",
+                  "name": "member_2",
+                  "role": 0
+                }
+              ],
+              "threshold": 2,
+              "kyc_threshold": 2,
+              "max_kyc_level": 255
+            },
+            {
+              "id": "3333333333333333333333333333333333333333333333333333333333333333",
+              "name": "RegionalCommittee",
+              "region": 1,
+              "members": [
+                {
+                  "public_key": "2a25d8817219016d0f3098e1b5fbae8e0e1e093ec3d4b7d6a502405c865bd373",
+                  "name": "rmember_0",
+                  "role": 0
+                },
+                {
+                  "public_key": "da673316b0f2f91283ef9fd1dbdf707f56587612a341b6fda5e3725ca8970a72",
+                  "name": "rmember_1",
+                  "role": 0
+                },
+                {
+                  "public_key": "1095f383297a0b6ed39ce8b1d78a43f3121dcffd7ecffc6c6a7d5913ae5aff1e",
+                  "name": "rmember_2",
+                  "role": 0
+                }
+              ],
+              "threshold": 2,
+              "kyc_threshold": 2,
+              "max_kyc_level": 63,
+              "parent_id": "3232323232323232323232323232323232323232323232323232323232323232"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "appeal_kyc_zero_documents_hash",
+      "pre_state": {
+        "network_chain_id": 3,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "balance": 10000000,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          },
+          {
+            "address": "5e9b22da885aa5a20006edfcbb5a79c5e4fc9156137f8ec3926a87cd0bb0b477",
+            "balance": 10000000,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ],
+        "kyc_data": [
+          {
+            "address": "5e9b22da885aa5a20006edfcbb5a79c5e4fc9156137f8ec3926a87cd0bb0b477",
+            "level": 7,
+            "status": "revoked",
+            "verified_at": 1770444135,
+            "data_hash": "2828282828282828282828282828282828282828282828282828282828282828",
+            "committee_id": "3333333333333333333333333333333333333333333333333333333333333333"
+          }
+        ],
+        "committees": [
+          {
+            "id": "3232323232323232323232323232323232323232323232323232323232323232",
+            "name": "GlobalCommittee",
+            "region": 255,
+            "members": [
+              {
+                "public_key": "7ea555bf91bfb985561a91afcd669a79c0cc115ce03baf687cb8dd7e1e996e7b",
+                "name": "member_0",
+                "role": 0
+              },
+              {
+                "public_key": "ec9daff86b25275ef43d7dbd7e81f09b44e8d3805c6048b09b3e1034931c6077",
+                "name": "member_1",
+                "role": 0
+              },
+              {
+                "public_key": "c236d1e09a12adc6dc4b857420e7dbef41e4553cc06168495b941398bee59531",
+                "name": "member_2",
+                "role": 0
+              }
+            ],
+            "threshold": 2,
+            "kyc_threshold": 2,
+            "max_kyc_level": 255
+          },
+          {
+            "id": "3333333333333333333333333333333333333333333333333333333333333333",
+            "name": "RegionalCommittee",
+            "region": 1,
+            "members": [
+              {
+                "public_key": "2a25d8817219016d0f3098e1b5fbae8e0e1e093ec3d4b7d6a502405c865bd373",
+                "name": "rmember_0",
+                "role": 0
+              },
+              {
+                "public_key": "da673316b0f2f91283ef9fd1dbdf707f56587612a341b6fda5e3725ca8970a72",
+                "name": "rmember_1",
+                "role": 0
+              },
+              {
+                "public_key": "1095f383297a0b6ed39ce8b1d78a43f3121dcffd7ecffc6c6a7d5913ae5aff1e",
+                "name": "rmember_2",
+                "role": 0
+              }
+            ],
+            "threshold": 2,
+            "kyc_threshold": 2,
+            "max_kyc_level": 63,
+            "parent_id": "3232323232323232323232323232323232323232323232323232323232323232"
+          }
+        ]
+      },
+      "tx": {
+        "version": 1,
+        "chain_id": 3,
+        "source": "5e9b22da885aa5a20006edfcbb5a79c5e4fc9156137f8ec3926a87cd0bb0b477",
+        "tx_type": "appeal_kyc",
+        "payload": {
+          "account": "5e9b22da885aa5a20006edfcbb5a79c5e4fc9156137f8ec3926a87cd0bb0b477",
+          "original_committee_id": "3333333333333333333333333333333333333333333333333333333333333333",
+          "parent_committee_id": "3232323232323232323232323232323232323232323232323232323232323232",
+          "reason_hash": "2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b",
+          "documents_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+          "submitted_at": 1770445135
+        },
+        "fee": 100000,
+        "fee_type": 0,
+        "nonce": 5,
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "wire_hex": "01035e9b22da885aa5a20006edfcbb5a79c5e4fc9156137f8ec3926a87cd0bb0b477115e9b22da885aa5a20006edfcbb5a79c5e4fc9156137f8ec3926a87cd0bb0b477333333333333333333333333333333333333333333333333333333333333333332323232323232323232323232323232323232323232323232323232323232322b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b0000000000000000000000000000000000000000000000000000000000000000000000006986d94f00000000000186a0000000000000000005000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expected": {
+        "ok": false,
+        "error": "INVALID_PAYLOAD",
+        "post_state": {
+          "network_chain_id": 3,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+              "balance": 10000000,
+              "nonce": 5,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            },
+            {
+              "address": "5e9b22da885aa5a20006edfcbb5a79c5e4fc9156137f8ec3926a87cd0bb0b477",
+              "balance": 10000000,
+              "nonce": 5,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ],
+          "kyc_data": [
+            {
+              "address": "5e9b22da885aa5a20006edfcbb5a79c5e4fc9156137f8ec3926a87cd0bb0b477",
+              "level": 7,
+              "status": "revoked",
+              "verified_at": 1770444135,
               "data_hash": "2828282828282828282828282828282828282828282828282828282828282828",
               "committee_id": "3333333333333333333333333333333333333333333333333333333333333333"
             }

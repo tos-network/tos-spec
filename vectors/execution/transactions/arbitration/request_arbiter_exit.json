@@ -47,7 +47,7 @@
       },
       "input": {
         "kind": "tx",
-        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b2492d00000000000186a00000000000000000050000000000000000000000000000000000000000000000000000000000000000000000000000000000c4e2f4e5dd146e39cd6a1e994c98ba8ef5ab2d860715fa8184677cca7a3dda0fbc3b39ff4de5fb15bc0199db090af79bf02a5285c20afbfcce9e2c5b1abcea00",
+        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b2492d00000000000186a000000000000000000500000000000000000000000000000000000000000000000000000000000000000000000000000000006c85f3d494b9e2b7c2e3e2ca6a1a566d49f4b0b8d8211a0085b8c89391d2ba0f3cd484dd8f89439072c9a79e5028099a6d3e4a003aa226a8baf286488abf4a0b",
         "tx": {
           "version": 1,
           "chain_id": 3,
@@ -59,8 +59,8 @@
           "nonce": 5,
           "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
           "reference_topoheight": 0,
-          "signature": "c4e2f4e5dd146e39cd6a1e994c98ba8ef5ab2d860715fa8184677cca7a3dda0fbc3b39ff4de5fb15bc0199db090af79bf02a5285c20afbfcce9e2c5b1abcea00",
-          "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b2492d00000000000186a00000000000000000050000000000000000000000000000000000000000000000000000000000000000000000000000000000c4e2f4e5dd146e39cd6a1e994c98ba8ef5ab2d860715fa8184677cca7a3dda0fbc3b39ff4de5fb15bc0199db090af79bf02a5285c20afbfcce9e2c5b1abcea00"
+          "signature": "6c85f3d494b9e2b7c2e3e2ca6a1a566d49f4b0b8d8211a0085b8c89391d2ba0f3cd484dd8f89439072c9a79e5028099a6d3e4a003aa226a8baf286488abf4a0b",
+          "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b2492d00000000000186a000000000000000000500000000000000000000000000000000000000000000000000000000000000000000000000000000006c85f3d494b9e2b7c2e3e2ca6a1a566d49f4b0b8d8211a0085b8c89391d2ba0f3cd484dd8f89439072c9a79e5028099a6d3e4a003aa226a8baf286488abf4a0b"
         }
       },
       "expected": {
@@ -104,6 +104,300 @@
               "reputation_score": 0,
               "total_cases": 0,
               "active_cases": 0,
+              "registered_at": 0,
+              "total_slashed": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "request_arbiter_exit_not_registered",
+      "description": "",
+      "pre_state": {
+        "network_chain_id": 3,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "balance": 1000000000000,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
+      },
+      "runnable": false,
+      "input": {
+        "kind": "tx",
+        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b2492d00000000000186a00000000000000000050000000000000000000000000000000000000000000000000000000000000000000000000000000000af59e4218638e5aabdca72fbae544a6c1e41f7003cb97c4ab73b9b17868b6c03a3cd24aa5ca98223c1e76a3ffa56a80741bd89b93aef8ca0f376e43a466e5d0e",
+        "tx": {
+          "version": 1,
+          "chain_id": 3,
+          "source": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+          "tx_type": "request_arbiter_exit",
+          "payload": {},
+          "fee": 100000,
+          "fee_type": 0,
+          "nonce": 5,
+          "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+          "reference_topoheight": 0,
+          "signature": "af59e4218638e5aabdca72fbae544a6c1e41f7003cb97c4ab73b9b17868b6c03a3cd24aa5ca98223c1e76a3ffa56a80741bd89b93aef8ca0f376e43a466e5d0e",
+          "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b2492d00000000000186a00000000000000000050000000000000000000000000000000000000000000000000000000000000000000000000000000000af59e4218638e5aabdca72fbae544a6c1e41f7003cb97c4ab73b9b17868b6c03a3cd24aa5ca98223c1e76a3ffa56a80741bd89b93aef8ca0f376e43a466e5d0e"
+        }
+      },
+      "expected": {
+        "success": false,
+        "error_code": 1024,
+        "state_digest": "f5b498efa281234f2be0277ae4bcac77031f1d99aeb9f3c4d39737cce89c10ce",
+        "post_state": {
+          "network_chain_id": 3,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+              "balance": 1000000000000,
+              "nonce": 5,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "request_arbiter_exit_already_exiting",
+      "description": "",
+      "pre_state": {
+        "network_chain_id": 3,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "balance": 1000000000000,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ],
+        "arbiters": [
+          {
+            "public_key": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "name": "ArbiterAlice",
+            "status": "exiting",
+            "expertise": [
+              1,
+              2,
+              3
+            ],
+            "stake_amount": 100000000000,
+            "fee_basis_points": 250,
+            "min_escrow_value": 100000000,
+            "max_escrow_value": 100000000000,
+            "reputation_score": 0,
+            "total_cases": 0,
+            "active_cases": 0,
+            "registered_at": 0,
+            "total_slashed": 0
+          }
+        ]
+      },
+      "runnable": false,
+      "input": {
+        "kind": "tx",
+        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b2492d00000000000186a0000000000000000005000000000000000000000000000000000000000000000000000000000000000000000000000000000097bae8a0bcdd3fba6a09aef204b036df14ad5c1bea075cff782c068617fa7a038b57cecc29ac5c29c368204a3761f68a955246509ab95b050f539619056eeb0f",
+        "tx": {
+          "version": 1,
+          "chain_id": 3,
+          "source": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+          "tx_type": "request_arbiter_exit",
+          "payload": {},
+          "fee": 100000,
+          "fee_type": 0,
+          "nonce": 5,
+          "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+          "reference_topoheight": 0,
+          "signature": "97bae8a0bcdd3fba6a09aef204b036df14ad5c1bea075cff782c068617fa7a038b57cecc29ac5c29c368204a3761f68a955246509ab95b050f539619056eeb0f",
+          "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b2492d00000000000186a0000000000000000005000000000000000000000000000000000000000000000000000000000000000000000000000000000097bae8a0bcdd3fba6a09aef204b036df14ad5c1bea075cff782c068617fa7a038b57cecc29ac5c29c368204a3761f68a955246509ab95b050f539619056eeb0f"
+        }
+      },
+      "expected": {
+        "success": false,
+        "error_code": 263,
+        "state_digest": "f5b498efa281234f2be0277ae4bcac77031f1d99aeb9f3c4d39737cce89c10ce",
+        "post_state": {
+          "network_chain_id": 3,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+              "balance": 1000000000000,
+              "nonce": 5,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ],
+          "arbiters": [
+            {
+              "public_key": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+              "name": "ArbiterAlice",
+              "status": "exiting",
+              "expertise": [
+                1,
+                2,
+                3
+              ],
+              "stake_amount": 100000000000,
+              "fee_basis_points": 250,
+              "min_escrow_value": 100000000,
+              "max_escrow_value": 100000000000,
+              "reputation_score": 0,
+              "total_cases": 0,
+              "active_cases": 0,
+              "registered_at": 0,
+              "total_slashed": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "request_arbiter_exit_has_active_cases",
+      "description": "",
+      "pre_state": {
+        "network_chain_id": 3,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "balance": 1000000000000,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ],
+        "arbiters": [
+          {
+            "public_key": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "name": "ArbiterAlice",
+            "status": "active",
+            "expertise": [
+              1,
+              2,
+              3
+            ],
+            "stake_amount": 100000000000,
+            "fee_basis_points": 250,
+            "min_escrow_value": 100000000,
+            "max_escrow_value": 100000000000,
+            "reputation_score": 0,
+            "total_cases": 0,
+            "active_cases": 3,
+            "registered_at": 0,
+            "total_slashed": 0
+          }
+        ]
+      },
+      "runnable": false,
+      "input": {
+        "kind": "tx",
+        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b2492d00000000000186a00000000000000000050000000000000000000000000000000000000000000000000000000000000000000000000000000000157f8eac9268b0cc831e8761a94c1ae2169c2ae8a43f097ab9274c0e8b50b409e059aaa39dbb8c9178de6fd5f432e9f13da78288c3e888541459c3ebf63ad409",
+        "tx": {
+          "version": 1,
+          "chain_id": 3,
+          "source": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+          "tx_type": "request_arbiter_exit",
+          "payload": {},
+          "fee": 100000,
+          "fee_type": 0,
+          "nonce": 5,
+          "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+          "reference_topoheight": 0,
+          "signature": "157f8eac9268b0cc831e8761a94c1ae2169c2ae8a43f097ab9274c0e8b50b409e059aaa39dbb8c9178de6fd5f432e9f13da78288c3e888541459c3ebf63ad409",
+          "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b2492d00000000000186a00000000000000000050000000000000000000000000000000000000000000000000000000000000000000000000000000000157f8eac9268b0cc831e8761a94c1ae2169c2ae8a43f097ab9274c0e8b50b409e059aaa39dbb8c9178de6fd5f432e9f13da78288c3e888541459c3ebf63ad409"
+        }
+      },
+      "expected": {
+        "success": false,
+        "error_code": 263,
+        "state_digest": "f5b498efa281234f2be0277ae4bcac77031f1d99aeb9f3c4d39737cce89c10ce",
+        "post_state": {
+          "network_chain_id": 3,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+              "balance": 1000000000000,
+              "nonce": 5,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ],
+          "arbiters": [
+            {
+              "public_key": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+              "name": "ArbiterAlice",
+              "status": "active",
+              "expertise": [
+                1,
+                2,
+                3
+              ],
+              "stake_amount": 100000000000,
+              "fee_basis_points": 250,
+              "min_escrow_value": 100000000,
+              "max_escrow_value": 100000000000,
+              "reputation_score": 0,
+              "total_cases": 0,
+              "active_cases": 3,
               "registered_at": 0,
               "total_slashed": 0
             }

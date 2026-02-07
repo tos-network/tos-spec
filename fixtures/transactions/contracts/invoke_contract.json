@@ -46,7 +46,7 @@
         "nonce": 5,
         "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
         "reference_topoheight": 0,
-        "signature": "d95d6bc298d79e0ebb8eb74ac4a802004dbeedf4b2a6ae15f1d6546ce6e5c20b895cc8076b8a704f22301a2f5a208bd8051f3b8ccd39ab164847b9d7f3998e0f",
+        "signature": "294c0f5a4ed0907b493cf0dfb59c1961b427323e15cf0a86b48821a0dadda00d843e1b2dd2fd696e3643a11a2fa2b853c4f0fb2bb85830321ceec86ba9e5df07",
         "wire_hex": ""
       },
       "expected": {
@@ -132,7 +132,7 @@
         "nonce": 5,
         "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
         "reference_topoheight": 0,
-        "signature": "9878e6203bf55abef09e9b9251319c93fe55d789ec51a7a496c2e6f852b2570b290e22f527a7c1c769bcfc00a04fb724a4296e5db044cfc9f35c02ac5baa9005",
+        "signature": "b929b7cb8c29effca79ce8619c7d93dfeb375be2b66fe9c2b0f173797dde2304a650686e81134af2f27d5fd7dc408dbdb776f9e5238ec4f2b3a5bf7b166f9e07",
         "wire_hex": ""
       },
       "expected": {
@@ -213,7 +213,7 @@
         "nonce": 5,
         "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
         "reference_topoheight": 0,
-        "signature": "22ea3cd7bcbf1f6a3f17136b04fca137317b8c3a64d641949c79e654c0137d0af0daa4f1c8d5fda7ff8cc2691da0f2c286dc3a165d47138a6fe4a83d1310e203",
+        "signature": "6319817fc28c35be548099034bb85565a1dd87cc7b57cafdcd1f0a6f7bc79906ec07e766b5a17e258e1ac66859b962cb9c8059df558c0394166fb22e2a30060f",
         "wire_hex": ""
       },
       "expected": {
@@ -233,6 +233,1348 @@
               "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
               "balance": 9999900000,
               "nonce": 6,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ],
+          "contracts": [
+            {
+              "hash": "b5dfd5eefeb2e79744417c1a8c752332f99e8da93ee99a16f4ffcadd3ca51449",
+              "module": "7f454c4600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "invoke_contract_not_found",
+      "pre_state": {
+        "network_chain_id": 3,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "balance": 10000000000,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
+      },
+      "tx": {
+        "version": 1,
+        "chain_id": 3,
+        "source": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+        "tx_type": "invoke_contract",
+        "payload": {
+          "contract": "6363636363636363636363636363636363636363636363636363636363636363",
+          "deposits": [],
+          "entry_id": 0,
+          "max_gas": 100000,
+          "parameters": []
+        },
+        "fee": 100000,
+        "fee_type": 0,
+        "nonce": 5,
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "f35fc394207e9fd81e4845b2ab9a34e6f91e7b6f0c3000f29e2e95a09856970d6aaf3af0810977a53783aa529aa7c27fc9410b289e2238d86f460abb44377109",
+        "wire_hex": ""
+      },
+      "expected": {
+        "ok": false,
+        "error": "CONTRACT_NOT_FOUND",
+        "post_state": {
+          "network_chain_id": 3,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+              "balance": 10000000000,
+              "nonce": 5,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "invoke_contract_insufficient_balance_for_gas",
+      "pre_state": {
+        "network_chain_id": 3,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "balance": 200000,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ],
+        "contracts": [
+          {
+            "hash": "b5dfd5eefeb2e79744417c1a8c752332f99e8da93ee99a16f4ffcadd3ca51449",
+            "module": "7f454c4600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+          }
+        ]
+      },
+      "tx": {
+        "version": 1,
+        "chain_id": 3,
+        "source": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+        "tx_type": "invoke_contract",
+        "payload": {
+          "contract": "b5dfd5eefeb2e79744417c1a8c752332f99e8da93ee99a16f4ffcadd3ca51449",
+          "deposits": [],
+          "entry_id": 0,
+          "max_gas": 500000,
+          "parameters": []
+        },
+        "fee": 100000,
+        "fee_type": 0,
+        "nonce": 5,
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "ee9edcc60d4f8ece0da299b40935e4944ea3b15e20d0ebb0d7dc993342d7bd07171251d78af033ee0cb460b3bcf78a6f31b6783fb89b71ba1f1a47241d66350b",
+        "wire_hex": ""
+      },
+      "expected": {
+        "ok": false,
+        "error": "INSUFFICIENT_BALANCE",
+        "post_state": {
+          "network_chain_id": 3,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+              "balance": 200000,
+              "nonce": 5,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ],
+          "contracts": [
+            {
+              "hash": "b5dfd5eefeb2e79744417c1a8c752332f99e8da93ee99a16f4ffcadd3ca51449",
+              "module": "7f454c4600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "invoke_contract_too_many_deposits",
+      "pre_state": {
+        "network_chain_id": 3,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "balance": 10000000000,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ],
+        "contracts": [
+          {
+            "hash": "b5dfd5eefeb2e79744417c1a8c752332f99e8da93ee99a16f4ffcadd3ca51449",
+            "module": "7f454c4600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+          }
+        ]
+      },
+      "tx": {
+        "version": 1,
+        "chain_id": 3,
+        "source": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+        "tx_type": "invoke_contract",
+        "payload": {
+          "contract": "b5dfd5eefeb2e79744417c1a8c752332f99e8da93ee99a16f4ffcadd3ca51449",
+          "deposits": [
+            {
+              "asset": "0000000000000000000000000000000000000000000000000000000000000000",
+              "amount": 1
+            },
+            {
+              "asset": "0101010101010101010101010101010101010101010101010101010101010101",
+              "amount": 1
+            },
+            {
+              "asset": "0202020202020202020202020202020202020202020202020202020202020202",
+              "amount": 1
+            },
+            {
+              "asset": "0303030303030303030303030303030303030303030303030303030303030303",
+              "amount": 1
+            },
+            {
+              "asset": "0404040404040404040404040404040404040404040404040404040404040404",
+              "amount": 1
+            },
+            {
+              "asset": "0505050505050505050505050505050505050505050505050505050505050505",
+              "amount": 1
+            },
+            {
+              "asset": "0606060606060606060606060606060606060606060606060606060606060606",
+              "amount": 1
+            },
+            {
+              "asset": "0707070707070707070707070707070707070707070707070707070707070707",
+              "amount": 1
+            },
+            {
+              "asset": "0808080808080808080808080808080808080808080808080808080808080808",
+              "amount": 1
+            },
+            {
+              "asset": "0909090909090909090909090909090909090909090909090909090909090909",
+              "amount": 1
+            },
+            {
+              "asset": "0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a",
+              "amount": 1
+            },
+            {
+              "asset": "0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b",
+              "amount": 1
+            },
+            {
+              "asset": "0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c",
+              "amount": 1
+            },
+            {
+              "asset": "0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d",
+              "amount": 1
+            },
+            {
+              "asset": "0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e",
+              "amount": 1
+            },
+            {
+              "asset": "0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f",
+              "amount": 1
+            },
+            {
+              "asset": "1010101010101010101010101010101010101010101010101010101010101010",
+              "amount": 1
+            },
+            {
+              "asset": "1111111111111111111111111111111111111111111111111111111111111111",
+              "amount": 1
+            },
+            {
+              "asset": "1212121212121212121212121212121212121212121212121212121212121212",
+              "amount": 1
+            },
+            {
+              "asset": "1313131313131313131313131313131313131313131313131313131313131313",
+              "amount": 1
+            },
+            {
+              "asset": "1414141414141414141414141414141414141414141414141414141414141414",
+              "amount": 1
+            },
+            {
+              "asset": "1515151515151515151515151515151515151515151515151515151515151515",
+              "amount": 1
+            },
+            {
+              "asset": "1616161616161616161616161616161616161616161616161616161616161616",
+              "amount": 1
+            },
+            {
+              "asset": "1717171717171717171717171717171717171717171717171717171717171717",
+              "amount": 1
+            },
+            {
+              "asset": "1818181818181818181818181818181818181818181818181818181818181818",
+              "amount": 1
+            },
+            {
+              "asset": "1919191919191919191919191919191919191919191919191919191919191919",
+              "amount": 1
+            },
+            {
+              "asset": "1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a",
+              "amount": 1
+            },
+            {
+              "asset": "1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b",
+              "amount": 1
+            },
+            {
+              "asset": "1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c",
+              "amount": 1
+            },
+            {
+              "asset": "1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d",
+              "amount": 1
+            },
+            {
+              "asset": "1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e",
+              "amount": 1
+            },
+            {
+              "asset": "1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f",
+              "amount": 1
+            },
+            {
+              "asset": "2020202020202020202020202020202020202020202020202020202020202020",
+              "amount": 1
+            },
+            {
+              "asset": "2121212121212121212121212121212121212121212121212121212121212121",
+              "amount": 1
+            },
+            {
+              "asset": "2222222222222222222222222222222222222222222222222222222222222222",
+              "amount": 1
+            },
+            {
+              "asset": "2323232323232323232323232323232323232323232323232323232323232323",
+              "amount": 1
+            },
+            {
+              "asset": "2424242424242424242424242424242424242424242424242424242424242424",
+              "amount": 1
+            },
+            {
+              "asset": "2525252525252525252525252525252525252525252525252525252525252525",
+              "amount": 1
+            },
+            {
+              "asset": "2626262626262626262626262626262626262626262626262626262626262626",
+              "amount": 1
+            },
+            {
+              "asset": "2727272727272727272727272727272727272727272727272727272727272727",
+              "amount": 1
+            },
+            {
+              "asset": "2828282828282828282828282828282828282828282828282828282828282828",
+              "amount": 1
+            },
+            {
+              "asset": "2929292929292929292929292929292929292929292929292929292929292929",
+              "amount": 1
+            },
+            {
+              "asset": "2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a",
+              "amount": 1
+            },
+            {
+              "asset": "2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b",
+              "amount": 1
+            },
+            {
+              "asset": "2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c",
+              "amount": 1
+            },
+            {
+              "asset": "2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d",
+              "amount": 1
+            },
+            {
+              "asset": "2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e",
+              "amount": 1
+            },
+            {
+              "asset": "2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f",
+              "amount": 1
+            },
+            {
+              "asset": "3030303030303030303030303030303030303030303030303030303030303030",
+              "amount": 1
+            },
+            {
+              "asset": "3131313131313131313131313131313131313131313131313131313131313131",
+              "amount": 1
+            },
+            {
+              "asset": "3232323232323232323232323232323232323232323232323232323232323232",
+              "amount": 1
+            },
+            {
+              "asset": "3333333333333333333333333333333333333333333333333333333333333333",
+              "amount": 1
+            },
+            {
+              "asset": "3434343434343434343434343434343434343434343434343434343434343434",
+              "amount": 1
+            },
+            {
+              "asset": "3535353535353535353535353535353535353535353535353535353535353535",
+              "amount": 1
+            },
+            {
+              "asset": "3636363636363636363636363636363636363636363636363636363636363636",
+              "amount": 1
+            },
+            {
+              "asset": "3737373737373737373737373737373737373737373737373737373737373737",
+              "amount": 1
+            },
+            {
+              "asset": "3838383838383838383838383838383838383838383838383838383838383838",
+              "amount": 1
+            },
+            {
+              "asset": "3939393939393939393939393939393939393939393939393939393939393939",
+              "amount": 1
+            },
+            {
+              "asset": "3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a",
+              "amount": 1
+            },
+            {
+              "asset": "3b3b3b3b3b3b3b3b3b3b3b3b3b3b3b3b3b3b3b3b3b3b3b3b3b3b3b3b3b3b3b3b",
+              "amount": 1
+            },
+            {
+              "asset": "3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c",
+              "amount": 1
+            },
+            {
+              "asset": "3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d",
+              "amount": 1
+            },
+            {
+              "asset": "3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e",
+              "amount": 1
+            },
+            {
+              "asset": "3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f",
+              "amount": 1
+            },
+            {
+              "asset": "4040404040404040404040404040404040404040404040404040404040404040",
+              "amount": 1
+            },
+            {
+              "asset": "4141414141414141414141414141414141414141414141414141414141414141",
+              "amount": 1
+            },
+            {
+              "asset": "4242424242424242424242424242424242424242424242424242424242424242",
+              "amount": 1
+            },
+            {
+              "asset": "4343434343434343434343434343434343434343434343434343434343434343",
+              "amount": 1
+            },
+            {
+              "asset": "4444444444444444444444444444444444444444444444444444444444444444",
+              "amount": 1
+            },
+            {
+              "asset": "4545454545454545454545454545454545454545454545454545454545454545",
+              "amount": 1
+            },
+            {
+              "asset": "4646464646464646464646464646464646464646464646464646464646464646",
+              "amount": 1
+            },
+            {
+              "asset": "4747474747474747474747474747474747474747474747474747474747474747",
+              "amount": 1
+            },
+            {
+              "asset": "4848484848484848484848484848484848484848484848484848484848484848",
+              "amount": 1
+            },
+            {
+              "asset": "4949494949494949494949494949494949494949494949494949494949494949",
+              "amount": 1
+            },
+            {
+              "asset": "4a4a4a4a4a4a4a4a4a4a4a4a4a4a4a4a4a4a4a4a4a4a4a4a4a4a4a4a4a4a4a4a",
+              "amount": 1
+            },
+            {
+              "asset": "4b4b4b4b4b4b4b4b4b4b4b4b4b4b4b4b4b4b4b4b4b4b4b4b4b4b4b4b4b4b4b4b",
+              "amount": 1
+            },
+            {
+              "asset": "4c4c4c4c4c4c4c4c4c4c4c4c4c4c4c4c4c4c4c4c4c4c4c4c4c4c4c4c4c4c4c4c",
+              "amount": 1
+            },
+            {
+              "asset": "4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d",
+              "amount": 1
+            },
+            {
+              "asset": "4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e",
+              "amount": 1
+            },
+            {
+              "asset": "4f4f4f4f4f4f4f4f4f4f4f4f4f4f4f4f4f4f4f4f4f4f4f4f4f4f4f4f4f4f4f4f",
+              "amount": 1
+            },
+            {
+              "asset": "5050505050505050505050505050505050505050505050505050505050505050",
+              "amount": 1
+            },
+            {
+              "asset": "5151515151515151515151515151515151515151515151515151515151515151",
+              "amount": 1
+            },
+            {
+              "asset": "5252525252525252525252525252525252525252525252525252525252525252",
+              "amount": 1
+            },
+            {
+              "asset": "5353535353535353535353535353535353535353535353535353535353535353",
+              "amount": 1
+            },
+            {
+              "asset": "5454545454545454545454545454545454545454545454545454545454545454",
+              "amount": 1
+            },
+            {
+              "asset": "5555555555555555555555555555555555555555555555555555555555555555",
+              "amount": 1
+            },
+            {
+              "asset": "5656565656565656565656565656565656565656565656565656565656565656",
+              "amount": 1
+            },
+            {
+              "asset": "5757575757575757575757575757575757575757575757575757575757575757",
+              "amount": 1
+            },
+            {
+              "asset": "5858585858585858585858585858585858585858585858585858585858585858",
+              "amount": 1
+            },
+            {
+              "asset": "5959595959595959595959595959595959595959595959595959595959595959",
+              "amount": 1
+            },
+            {
+              "asset": "5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a",
+              "amount": 1
+            },
+            {
+              "asset": "5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b",
+              "amount": 1
+            },
+            {
+              "asset": "5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c",
+              "amount": 1
+            },
+            {
+              "asset": "5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d",
+              "amount": 1
+            },
+            {
+              "asset": "5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e",
+              "amount": 1
+            },
+            {
+              "asset": "5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f",
+              "amount": 1
+            },
+            {
+              "asset": "6060606060606060606060606060606060606060606060606060606060606060",
+              "amount": 1
+            },
+            {
+              "asset": "6161616161616161616161616161616161616161616161616161616161616161",
+              "amount": 1
+            },
+            {
+              "asset": "6262626262626262626262626262626262626262626262626262626262626262",
+              "amount": 1
+            },
+            {
+              "asset": "6363636363636363636363636363636363636363636363636363636363636363",
+              "amount": 1
+            },
+            {
+              "asset": "6464646464646464646464646464646464646464646464646464646464646464",
+              "amount": 1
+            },
+            {
+              "asset": "6565656565656565656565656565656565656565656565656565656565656565",
+              "amount": 1
+            },
+            {
+              "asset": "6666666666666666666666666666666666666666666666666666666666666666",
+              "amount": 1
+            },
+            {
+              "asset": "6767676767676767676767676767676767676767676767676767676767676767",
+              "amount": 1
+            },
+            {
+              "asset": "6868686868686868686868686868686868686868686868686868686868686868",
+              "amount": 1
+            },
+            {
+              "asset": "6969696969696969696969696969696969696969696969696969696969696969",
+              "amount": 1
+            },
+            {
+              "asset": "6a6a6a6a6a6a6a6a6a6a6a6a6a6a6a6a6a6a6a6a6a6a6a6a6a6a6a6a6a6a6a6a",
+              "amount": 1
+            },
+            {
+              "asset": "6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b",
+              "amount": 1
+            },
+            {
+              "asset": "6c6c6c6c6c6c6c6c6c6c6c6c6c6c6c6c6c6c6c6c6c6c6c6c6c6c6c6c6c6c6c6c",
+              "amount": 1
+            },
+            {
+              "asset": "6d6d6d6d6d6d6d6d6d6d6d6d6d6d6d6d6d6d6d6d6d6d6d6d6d6d6d6d6d6d6d6d",
+              "amount": 1
+            },
+            {
+              "asset": "6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e",
+              "amount": 1
+            },
+            {
+              "asset": "6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f",
+              "amount": 1
+            },
+            {
+              "asset": "7070707070707070707070707070707070707070707070707070707070707070",
+              "amount": 1
+            },
+            {
+              "asset": "7171717171717171717171717171717171717171717171717171717171717171",
+              "amount": 1
+            },
+            {
+              "asset": "7272727272727272727272727272727272727272727272727272727272727272",
+              "amount": 1
+            },
+            {
+              "asset": "7373737373737373737373737373737373737373737373737373737373737373",
+              "amount": 1
+            },
+            {
+              "asset": "7474747474747474747474747474747474747474747474747474747474747474",
+              "amount": 1
+            },
+            {
+              "asset": "7575757575757575757575757575757575757575757575757575757575757575",
+              "amount": 1
+            },
+            {
+              "asset": "7676767676767676767676767676767676767676767676767676767676767676",
+              "amount": 1
+            },
+            {
+              "asset": "7777777777777777777777777777777777777777777777777777777777777777",
+              "amount": 1
+            },
+            {
+              "asset": "7878787878787878787878787878787878787878787878787878787878787878",
+              "amount": 1
+            },
+            {
+              "asset": "7979797979797979797979797979797979797979797979797979797979797979",
+              "amount": 1
+            },
+            {
+              "asset": "7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a",
+              "amount": 1
+            },
+            {
+              "asset": "7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b",
+              "amount": 1
+            },
+            {
+              "asset": "7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c",
+              "amount": 1
+            },
+            {
+              "asset": "7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d",
+              "amount": 1
+            },
+            {
+              "asset": "7e7e7e7e7e7e7e7e7e7e7e7e7e7e7e7e7e7e7e7e7e7e7e7e7e7e7e7e7e7e7e7e",
+              "amount": 1
+            },
+            {
+              "asset": "7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f",
+              "amount": 1
+            },
+            {
+              "asset": "8080808080808080808080808080808080808080808080808080808080808080",
+              "amount": 1
+            },
+            {
+              "asset": "8181818181818181818181818181818181818181818181818181818181818181",
+              "amount": 1
+            },
+            {
+              "asset": "8282828282828282828282828282828282828282828282828282828282828282",
+              "amount": 1
+            },
+            {
+              "asset": "8383838383838383838383838383838383838383838383838383838383838383",
+              "amount": 1
+            },
+            {
+              "asset": "8484848484848484848484848484848484848484848484848484848484848484",
+              "amount": 1
+            },
+            {
+              "asset": "8585858585858585858585858585858585858585858585858585858585858585",
+              "amount": 1
+            },
+            {
+              "asset": "8686868686868686868686868686868686868686868686868686868686868686",
+              "amount": 1
+            },
+            {
+              "asset": "8787878787878787878787878787878787878787878787878787878787878787",
+              "amount": 1
+            },
+            {
+              "asset": "8888888888888888888888888888888888888888888888888888888888888888",
+              "amount": 1
+            },
+            {
+              "asset": "8989898989898989898989898989898989898989898989898989898989898989",
+              "amount": 1
+            },
+            {
+              "asset": "8a8a8a8a8a8a8a8a8a8a8a8a8a8a8a8a8a8a8a8a8a8a8a8a8a8a8a8a8a8a8a8a",
+              "amount": 1
+            },
+            {
+              "asset": "8b8b8b8b8b8b8b8b8b8b8b8b8b8b8b8b8b8b8b8b8b8b8b8b8b8b8b8b8b8b8b8b",
+              "amount": 1
+            },
+            {
+              "asset": "8c8c8c8c8c8c8c8c8c8c8c8c8c8c8c8c8c8c8c8c8c8c8c8c8c8c8c8c8c8c8c8c",
+              "amount": 1
+            },
+            {
+              "asset": "8d8d8d8d8d8d8d8d8d8d8d8d8d8d8d8d8d8d8d8d8d8d8d8d8d8d8d8d8d8d8d8d",
+              "amount": 1
+            },
+            {
+              "asset": "8e8e8e8e8e8e8e8e8e8e8e8e8e8e8e8e8e8e8e8e8e8e8e8e8e8e8e8e8e8e8e8e",
+              "amount": 1
+            },
+            {
+              "asset": "8f8f8f8f8f8f8f8f8f8f8f8f8f8f8f8f8f8f8f8f8f8f8f8f8f8f8f8f8f8f8f8f",
+              "amount": 1
+            },
+            {
+              "asset": "9090909090909090909090909090909090909090909090909090909090909090",
+              "amount": 1
+            },
+            {
+              "asset": "9191919191919191919191919191919191919191919191919191919191919191",
+              "amount": 1
+            },
+            {
+              "asset": "9292929292929292929292929292929292929292929292929292929292929292",
+              "amount": 1
+            },
+            {
+              "asset": "9393939393939393939393939393939393939393939393939393939393939393",
+              "amount": 1
+            },
+            {
+              "asset": "9494949494949494949494949494949494949494949494949494949494949494",
+              "amount": 1
+            },
+            {
+              "asset": "9595959595959595959595959595959595959595959595959595959595959595",
+              "amount": 1
+            },
+            {
+              "asset": "9696969696969696969696969696969696969696969696969696969696969696",
+              "amount": 1
+            },
+            {
+              "asset": "9797979797979797979797979797979797979797979797979797979797979797",
+              "amount": 1
+            },
+            {
+              "asset": "9898989898989898989898989898989898989898989898989898989898989898",
+              "amount": 1
+            },
+            {
+              "asset": "9999999999999999999999999999999999999999999999999999999999999999",
+              "amount": 1
+            },
+            {
+              "asset": "9a9a9a9a9a9a9a9a9a9a9a9a9a9a9a9a9a9a9a9a9a9a9a9a9a9a9a9a9a9a9a9a",
+              "amount": 1
+            },
+            {
+              "asset": "9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b",
+              "amount": 1
+            },
+            {
+              "asset": "9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c",
+              "amount": 1
+            },
+            {
+              "asset": "9d9d9d9d9d9d9d9d9d9d9d9d9d9d9d9d9d9d9d9d9d9d9d9d9d9d9d9d9d9d9d9d",
+              "amount": 1
+            },
+            {
+              "asset": "9e9e9e9e9e9e9e9e9e9e9e9e9e9e9e9e9e9e9e9e9e9e9e9e9e9e9e9e9e9e9e9e",
+              "amount": 1
+            },
+            {
+              "asset": "9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f",
+              "amount": 1
+            },
+            {
+              "asset": "a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0",
+              "amount": 1
+            },
+            {
+              "asset": "a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1",
+              "amount": 1
+            },
+            {
+              "asset": "a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2",
+              "amount": 1
+            },
+            {
+              "asset": "a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3a3",
+              "amount": 1
+            },
+            {
+              "asset": "a4a4a4a4a4a4a4a4a4a4a4a4a4a4a4a4a4a4a4a4a4a4a4a4a4a4a4a4a4a4a4a4",
+              "amount": 1
+            },
+            {
+              "asset": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5",
+              "amount": 1
+            },
+            {
+              "asset": "a6a6a6a6a6a6a6a6a6a6a6a6a6a6a6a6a6a6a6a6a6a6a6a6a6a6a6a6a6a6a6a6",
+              "amount": 1
+            },
+            {
+              "asset": "a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7a7",
+              "amount": 1
+            },
+            {
+              "asset": "a8a8a8a8a8a8a8a8a8a8a8a8a8a8a8a8a8a8a8a8a8a8a8a8a8a8a8a8a8a8a8a8",
+              "amount": 1
+            },
+            {
+              "asset": "a9a9a9a9a9a9a9a9a9a9a9a9a9a9a9a9a9a9a9a9a9a9a9a9a9a9a9a9a9a9a9a9",
+              "amount": 1
+            },
+            {
+              "asset": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "amount": 1
+            },
+            {
+              "asset": "abababababababababababababababababababababababababababababababab",
+              "amount": 1
+            },
+            {
+              "asset": "acacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacac",
+              "amount": 1
+            },
+            {
+              "asset": "adadadadadadadadadadadadadadadadadadadadadadadadadadadadadadadad",
+              "amount": 1
+            },
+            {
+              "asset": "aeaeaeaeaeaeaeaeaeaeaeaeaeaeaeaeaeaeaeaeaeaeaeaeaeaeaeaeaeaeaeae",
+              "amount": 1
+            },
+            {
+              "asset": "afafafafafafafafafafafafafafafafafafafafafafafafafafafafafafafaf",
+              "amount": 1
+            },
+            {
+              "asset": "b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0",
+              "amount": 1
+            },
+            {
+              "asset": "b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1",
+              "amount": 1
+            },
+            {
+              "asset": "b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2",
+              "amount": 1
+            },
+            {
+              "asset": "b3b3b3b3b3b3b3b3b3b3b3b3b3b3b3b3b3b3b3b3b3b3b3b3b3b3b3b3b3b3b3b3",
+              "amount": 1
+            },
+            {
+              "asset": "b4b4b4b4b4b4b4b4b4b4b4b4b4b4b4b4b4b4b4b4b4b4b4b4b4b4b4b4b4b4b4b4",
+              "amount": 1
+            },
+            {
+              "asset": "b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5b5",
+              "amount": 1
+            },
+            {
+              "asset": "b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6b6",
+              "amount": 1
+            },
+            {
+              "asset": "b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7b7",
+              "amount": 1
+            },
+            {
+              "asset": "b8b8b8b8b8b8b8b8b8b8b8b8b8b8b8b8b8b8b8b8b8b8b8b8b8b8b8b8b8b8b8b8",
+              "amount": 1
+            },
+            {
+              "asset": "b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9b9",
+              "amount": 1
+            },
+            {
+              "asset": "babababababababababababababababababababababababababababababababa",
+              "amount": 1
+            },
+            {
+              "asset": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+              "amount": 1
+            },
+            {
+              "asset": "bcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbc",
+              "amount": 1
+            },
+            {
+              "asset": "bdbdbdbdbdbdbdbdbdbdbdbdbdbdbdbdbdbdbdbdbdbdbdbdbdbdbdbdbdbdbdbd",
+              "amount": 1
+            },
+            {
+              "asset": "bebebebebebebebebebebebebebebebebebebebebebebebebebebebebebebebe",
+              "amount": 1
+            },
+            {
+              "asset": "bfbfbfbfbfbfbfbfbfbfbfbfbfbfbfbfbfbfbfbfbfbfbfbfbfbfbfbfbfbfbfbf",
+              "amount": 1
+            },
+            {
+              "asset": "c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0",
+              "amount": 1
+            },
+            {
+              "asset": "c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1",
+              "amount": 1
+            },
+            {
+              "asset": "c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2c2",
+              "amount": 1
+            },
+            {
+              "asset": "c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3",
+              "amount": 1
+            },
+            {
+              "asset": "c4c4c4c4c4c4c4c4c4c4c4c4c4c4c4c4c4c4c4c4c4c4c4c4c4c4c4c4c4c4c4c4",
+              "amount": 1
+            },
+            {
+              "asset": "c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5c5",
+              "amount": 1
+            },
+            {
+              "asset": "c6c6c6c6c6c6c6c6c6c6c6c6c6c6c6c6c6c6c6c6c6c6c6c6c6c6c6c6c6c6c6c6",
+              "amount": 1
+            },
+            {
+              "asset": "c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7c7",
+              "amount": 1
+            },
+            {
+              "asset": "c8c8c8c8c8c8c8c8c8c8c8c8c8c8c8c8c8c8c8c8c8c8c8c8c8c8c8c8c8c8c8c8",
+              "amount": 1
+            },
+            {
+              "asset": "c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9c9",
+              "amount": 1
+            },
+            {
+              "asset": "cacacacacacacacacacacacacacacacacacacacacacacacacacacacacacacaca",
+              "amount": 1
+            },
+            {
+              "asset": "cbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcbcb",
+              "amount": 1
+            },
+            {
+              "asset": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+              "amount": 1
+            },
+            {
+              "asset": "cdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcd",
+              "amount": 1
+            },
+            {
+              "asset": "cececececececececececececececececececececececececececececececece",
+              "amount": 1
+            },
+            {
+              "asset": "cfcfcfcfcfcfcfcfcfcfcfcfcfcfcfcfcfcfcfcfcfcfcfcfcfcfcfcfcfcfcfcf",
+              "amount": 1
+            },
+            {
+              "asset": "d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0",
+              "amount": 1
+            },
+            {
+              "asset": "d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1",
+              "amount": 1
+            },
+            {
+              "asset": "d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2d2",
+              "amount": 1
+            },
+            {
+              "asset": "d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3",
+              "amount": 1
+            },
+            {
+              "asset": "d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4d4",
+              "amount": 1
+            },
+            {
+              "asset": "d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5d5",
+              "amount": 1
+            },
+            {
+              "asset": "d6d6d6d6d6d6d6d6d6d6d6d6d6d6d6d6d6d6d6d6d6d6d6d6d6d6d6d6d6d6d6d6",
+              "amount": 1
+            },
+            {
+              "asset": "d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7d7",
+              "amount": 1
+            },
+            {
+              "asset": "d8d8d8d8d8d8d8d8d8d8d8d8d8d8d8d8d8d8d8d8d8d8d8d8d8d8d8d8d8d8d8d8",
+              "amount": 1
+            },
+            {
+              "asset": "d9d9d9d9d9d9d9d9d9d9d9d9d9d9d9d9d9d9d9d9d9d9d9d9d9d9d9d9d9d9d9d9",
+              "amount": 1
+            },
+            {
+              "asset": "dadadadadadadadadadadadadadadadadadadadadadadadadadadadadadadada",
+              "amount": 1
+            },
+            {
+              "asset": "dbdbdbdbdbdbdbdbdbdbdbdbdbdbdbdbdbdbdbdbdbdbdbdbdbdbdbdbdbdbdbdb",
+              "amount": 1
+            },
+            {
+              "asset": "dcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdc",
+              "amount": 1
+            },
+            {
+              "asset": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+              "amount": 1
+            },
+            {
+              "asset": "dededededededededededededededededededededededededededededededede",
+              "amount": 1
+            },
+            {
+              "asset": "dfdfdfdfdfdfdfdfdfdfdfdfdfdfdfdfdfdfdfdfdfdfdfdfdfdfdfdfdfdfdfdf",
+              "amount": 1
+            },
+            {
+              "asset": "e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0",
+              "amount": 1
+            },
+            {
+              "asset": "e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1",
+              "amount": 1
+            },
+            {
+              "asset": "e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2e2",
+              "amount": 1
+            },
+            {
+              "asset": "e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3",
+              "amount": 1
+            },
+            {
+              "asset": "e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4e4",
+              "amount": 1
+            },
+            {
+              "asset": "e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5e5",
+              "amount": 1
+            },
+            {
+              "asset": "e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6e6",
+              "amount": 1
+            },
+            {
+              "asset": "e7e7e7e7e7e7e7e7e7e7e7e7e7e7e7e7e7e7e7e7e7e7e7e7e7e7e7e7e7e7e7e7",
+              "amount": 1
+            },
+            {
+              "asset": "e8e8e8e8e8e8e8e8e8e8e8e8e8e8e8e8e8e8e8e8e8e8e8e8e8e8e8e8e8e8e8e8",
+              "amount": 1
+            },
+            {
+              "asset": "e9e9e9e9e9e9e9e9e9e9e9e9e9e9e9e9e9e9e9e9e9e9e9e9e9e9e9e9e9e9e9e9",
+              "amount": 1
+            },
+            {
+              "asset": "eaeaeaeaeaeaeaeaeaeaeaeaeaeaeaeaeaeaeaeaeaeaeaeaeaeaeaeaeaeaeaea",
+              "amount": 1
+            },
+            {
+              "asset": "ebebebebebebebebebebebebebebebebebebebebebebebebebebebebebebebeb",
+              "amount": 1
+            },
+            {
+              "asset": "ecececececececececececececececececececececececececececececececec",
+              "amount": 1
+            },
+            {
+              "asset": "edededededededededededededededededededededededededededededededed",
+              "amount": 1
+            },
+            {
+              "asset": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+              "amount": 1
+            },
+            {
+              "asset": "efefefefefefefefefefefefefefefefefefefefefefefefefefefefefefefef",
+              "amount": 1
+            },
+            {
+              "asset": "f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0",
+              "amount": 1
+            },
+            {
+              "asset": "f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1",
+              "amount": 1
+            },
+            {
+              "asset": "f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2",
+              "amount": 1
+            },
+            {
+              "asset": "f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3",
+              "amount": 1
+            },
+            {
+              "asset": "f4f4f4f4f4f4f4f4f4f4f4f4f4f4f4f4f4f4f4f4f4f4f4f4f4f4f4f4f4f4f4f4",
+              "amount": 1
+            },
+            {
+              "asset": "f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5f5",
+              "amount": 1
+            },
+            {
+              "asset": "f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6f6",
+              "amount": 1
+            },
+            {
+              "asset": "f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7",
+              "amount": 1
+            },
+            {
+              "asset": "f8f8f8f8f8f8f8f8f8f8f8f8f8f8f8f8f8f8f8f8f8f8f8f8f8f8f8f8f8f8f8f8",
+              "amount": 1
+            },
+            {
+              "asset": "f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9",
+              "amount": 1
+            },
+            {
+              "asset": "fafafafafafafafafafafafafafafafafafafafafafafafafafafafafafafafa",
+              "amount": 1
+            },
+            {
+              "asset": "fbfbfbfbfbfbfbfbfbfbfbfbfbfbfbfbfbfbfbfbfbfbfbfbfbfbfbfbfbfbfbfb",
+              "amount": 1
+            },
+            {
+              "asset": "fcfcfcfcfcfcfcfcfcfcfcfcfcfcfcfcfcfcfcfcfcfcfcfcfcfcfcfcfcfcfcfc",
+              "amount": 1
+            },
+            {
+              "asset": "fdfdfdfdfdfdfdfdfdfdfdfdfdfdfdfdfdfdfdfdfdfdfdfdfdfdfdfdfdfdfdfd",
+              "amount": 1
+            },
+            {
+              "asset": "fefefefefefefefefefefefefefefefefefefefefefefefefefefefefefefefe",
+              "amount": 1
+            },
+            {
+              "asset": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+              "amount": 1
+            }
+          ],
+          "entry_id": 0,
+          "max_gas": 100000,
+          "parameters": []
+        },
+        "fee": 100000,
+        "fee_type": 0,
+        "nonce": 5,
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "wire_hex": ""
+      },
+      "expected": {
+        "ok": false,
+        "error": "INVALID_PAYLOAD",
+        "post_state": {
+          "network_chain_id": 3,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+              "balance": 10000000000,
+              "nonce": 5,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ],
+          "contracts": [
+            {
+              "hash": "b5dfd5eefeb2e79744417c1a8c752332f99e8da93ee99a16f4ffcadd3ca51449",
+              "module": "7f454c4600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "invoke_contract_zero_deposit_amount",
+      "pre_state": {
+        "network_chain_id": 3,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "balance": 10000000000,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ],
+        "contracts": [
+          {
+            "hash": "b5dfd5eefeb2e79744417c1a8c752332f99e8da93ee99a16f4ffcadd3ca51449",
+            "module": "7f454c4600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+          }
+        ]
+      },
+      "tx": {
+        "version": 1,
+        "chain_id": 3,
+        "source": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+        "tx_type": "invoke_contract",
+        "payload": {
+          "contract": "b5dfd5eefeb2e79744417c1a8c752332f99e8da93ee99a16f4ffcadd3ca51449",
+          "deposits": [
+            {
+              "asset": "0000000000000000000000000000000000000000000000000000000000000000",
+              "amount": 0
+            }
+          ],
+          "entry_id": 0,
+          "max_gas": 100000,
+          "parameters": []
+        },
+        "fee": 100000,
+        "fee_type": 0,
+        "nonce": 5,
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "5b449b8a69ea028f943bec1b4bdd9c03ffd6d5af8e8b9ce1b028e5648d3baa0fea727379bca94e4d9aac72cf9c43bc8188c1188031454767ef7786f22aae9004",
+        "wire_hex": ""
+      },
+      "expected": {
+        "ok": false,
+        "error": "INVALID_AMOUNT",
+        "post_state": {
+          "network_chain_id": 3,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+              "balance": 10000000000,
+              "nonce": 5,
               "frozen": 0,
               "energy": 0,
               "flags": 0,
