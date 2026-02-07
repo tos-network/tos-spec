@@ -7,8 +7,8 @@ from ..types import ChainState, Transaction
 
 
 def verify(state: ChainState, tx: Transaction) -> None:
-    raise SpecError(ErrorCode.NOT_IMPLEMENTED, "privacy.verify not implemented")
+    raise SpecError(ErrorCode.INVALID_FORMAT, "privacy transactions not supported")
 
 
 def apply(state: ChainState, tx: Transaction) -> ChainState:
-    raise SpecError(ErrorCode.NOT_IMPLEMENTED, "privacy.apply not implemented")
+    raise SpecError(ErrorCode.INVALID_FORMAT, "privacy transactions not supported")

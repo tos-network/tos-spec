@@ -40,10 +40,10 @@ def _verify_register_name(state: ChainState, tx: Transaction) -> None:
         raise SpecError(ErrorCode.INVALID_PAYLOAD, "name must be string")
 
     if len(name) < MIN_NAME_LENGTH:
-        raise SpecError(ErrorCode.INVALID_PAYLOAD, f"name too short (min {MIN_NAME_LENGTH})")
+        raise SpecError(ErrorCode.INVALID_FORMAT, f"name too short (min {MIN_NAME_LENGTH})")
 
     if len(name) > MAX_NAME_LENGTH:
-        raise SpecError(ErrorCode.INVALID_PAYLOAD, f"name too long (max {MAX_NAME_LENGTH})")
+        raise SpecError(ErrorCode.INVALID_FORMAT, f"name too long (max {MAX_NAME_LENGTH})")
 
     normalized = name.lower()
 

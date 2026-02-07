@@ -386,3 +386,7 @@ class ChainState:
     contracts: dict[bytes, ContractState] = field(default_factory=dict)
     arbitration_commits: dict[bytes, ArbitrationCommit] = field(default_factory=dict)
     energy_resources: dict[bytes, EnergyResource] = field(default_factory=dict)
+    # Raw commit data lists for conformance pre_state loading
+    arbitration_commit_opens: list = field(default_factory=list)
+    arbitration_commit_vote_requests: list = field(default_factory=list)
+    arbitration_commit_selections: list = field(default_factory=list)

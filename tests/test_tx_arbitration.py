@@ -15,9 +15,13 @@ from tos_spec.types import (
     AccountState,
     ArbiterAccount,
     ArbiterStatus,
+    ArbitrationConfig,
     ChainState,
     Committee,
     CommitteeMember,
+    DisputeInfo,
+    EscrowAccount,
+    EscrowStatus,
     FeeType,
     Transaction,
     TransactionType,
@@ -290,6 +294,34 @@ def test_commit_arbitration_open(state_test_group) -> None:
     dispute_id = _hash(61)
     request_id = _hash(62)
 
+    # Escrow must exist with Committee arbitration mode
+    state.accounts[BOB] = AccountState(address=BOB, balance=0, nonce=0)
+    state.escrows[escrow_id] = EscrowAccount(
+        id=escrow_id,
+        task_id="test-task",
+        payer=ALICE,
+        payee=BOB,
+        amount=10 * COIN_VALUE,
+        total_amount=10 * COIN_VALUE,
+        status=EscrowStatus.CHALLENGED,
+        asset=_hash(0),
+        timeout_blocks=1000,
+        challenge_window=100,
+        arbitration_config=ArbitrationConfig(
+            mode="committee",
+            arbiters=[CAROL, DAVE, FRANK],
+            threshold=2,
+            fee_amount=COIN_VALUE,
+            allow_appeal=True,
+        ),
+        dispute=DisputeInfo(
+            initiator=ALICE,
+            reason="provider did not deliver",
+            disputed_at=1,
+            deadline=1000,
+        ),
+    )
+
     # Build ArbitrationOpen JSON matching Rust's serde(rename_all = "camelCase").
     # coordinator_pubkey must equal the tx signer (ALICE); opener signs the message.
     arb_open = {
@@ -312,10 +344,10 @@ def test_commit_arbitration_open(state_test_group) -> None:
         "clientNonce": "test-nonce-123",
         "issuedAt": 1700000000,
         "expiresAt": 1700100000,
-        "coordinatorPubkey": ALICE.hex(),
+        "coordinatorPubkey": list(ALICE),
         "coordinatorAccount": "coordinator-account",
         "requestId": request_id.hex(),
-        "openerPubkey": BOB.hex(),
+        "openerPubkey": list(BOB),
         "signature": "00" * 64,  # placeholder replaced below
     }
 
@@ -352,6 +384,15 @@ def test_commit_vote_request(state_test_group) -> None:
 
     request_id = _hash(62)
 
+    # Pre-load a CommitArbitrationOpen record so the daemon can find it
+    state.arbitration_commit_opens.append({
+        "escrow_id": _hash(60).hex(),
+        "dispute_id": _hash(61).hex(),
+        "round": 1,
+        "request_id": request_id.hex(),
+        "arbitration_open_hash": _hash(63).hex(),
+    })
+
     # Build VoteRequest JSON matching Rust's serde(rename_all = "camelCase").
     # coordinator_pubkey must equal the tx signer (ALICE); coordinator signs.
     vote_req = {
@@ -377,7 +418,7 @@ def test_commit_vote_request(state_test_group) -> None:
         "evidenceManifestHash": _hash(74).hex(),
         "evidenceUri": "https://example.com/evidence",
         "evidenceManifestUri": "https://example.com/manifest",
-        "coordinatorPubkey": ALICE.hex(),
+        "coordinatorPubkey": list(ALICE),
         "coordinatorAccount": "coordinator-account",
         "signature": "00" * 64,  # placeholder replaced below
     }
@@ -410,6 +451,15 @@ def test_commit_selection_commitment(state_test_group) -> None:
     state = _base_state()
     sender = ALICE
 
+    # Pre-load a CommitArbitrationOpen record so the daemon can find it
+    state.arbitration_commit_opens.append({
+        "escrow_id": _hash(60).hex(),
+        "dispute_id": _hash(61).hex(),
+        "round": 1,
+        "request_id": _hash(62).hex(),
+        "arbitration_open_hash": _hash(63).hex(),
+    })
+
     # For this type, the daemon only checks SHA3-256(raw_bytes) == id.
     # No JSON deserialization, no signature verification.
     commitment_payload = b"selection-commitment-test-data-v1"
@@ -438,6 +488,23 @@ def test_commit_juror_vote(state_test_group) -> None:
 
     request_id = _hash(62)
 
+    # Pre-load all three commit records needed for juror vote verification
+    state.arbitration_commit_opens.append({
+        "escrow_id": _hash(60).hex(),
+        "dispute_id": _hash(61).hex(),
+        "round": 1,
+        "request_id": request_id.hex(),
+        "arbitration_open_hash": _hash(63).hex(),
+    })
+    state.arbitration_commit_vote_requests.append({
+        "request_id": request_id.hex(),
+        "vote_request_hash": _hash(64).hex(),
+    })
+    state.arbitration_commit_selections.append({
+        "request_id": request_id.hex(),
+        "selection_commitment_id": _hash(75).hex(),
+    })
+
     # Build JurorVote JSON matching Rust's serde(rename_all = "camelCase").
     # juror_pubkey must be a real compressed Ristretto point (BOB).
     juror_vote = {
@@ -459,7 +526,7 @@ def test_commit_juror_vote(state_test_group) -> None:
         "evidenceManifestHash": _hash(74).hex(),
         "selectedJurorsHash": _hash(76).hex(),
         "committeePolicyHash": _hash(72).hex(),
-        "jurorPubkey": BOB.hex(),
+        "jurorPubkey": list(BOB),
         "jurorAccount": "juror-account",
         "vote": "pay",
         "votedAt": 1700050000,

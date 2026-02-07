@@ -58,12 +58,12 @@
         "range_proof": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
         "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
         "reference_topoheight": 0,
-        "signature": "15df016c7e21c7e1ad0e5132e7d316f4059ef7737ceb3a3a5c4bdb4c3939440d3f70080bf87c306ca5fa3a31d5cd9c0f760b734017d3548b7396961046a11f05",
+        "signature": "9f778685dfa7289e25491adcad6475f16689130e7253fcf4d897e2edc93df802020d15882f9f84b13439f39a52f9349e9209730ea58d163080e126259452440e",
         "wire_hex": ""
       },
       "expected": {
         "ok": false,
-        "error": "NOT_IMPLEMENTED",
+        "error": "INVALID_FORMAT",
         "post_state": {
           "network_chain_id": 3,
           "global_state": {
@@ -145,12 +145,12 @@
         "range_proof": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
         "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
         "reference_topoheight": 0,
-        "signature": "93c8625de01f05c4ef203901d81cb39c973c4ea3fd6eb622a59ca30c9a6e4006fefb89894103ac1822767298f7d9f10caa39bcfcaab0a1f411a5202e99394205",
+        "signature": "c63aaa3a1dad1a73a64dc133d4c0247fd1d25caf4c552f86ea853004b631f9050218421bc10ae8c4ff3e10a9055952b25a399538712443cb77e2995ea71a5900",
         "wire_hex": ""
       },
       "expected": {
         "ok": false,
-        "error": "NOT_IMPLEMENTED",
+        "error": "INVALID_FORMAT",
         "post_state": {
           "network_chain_id": 3,
           "global_state": {

@@ -57,12 +57,12 @@
         ],
         "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
         "reference_topoheight": 0,
-        "signature": "15a85725494160760365c910c41eaf107e53176572019fc8051cc38b892e41091fe14a07330b0f6526988ce03afe3fdc7b9e2cfbbba3660686f4cac9bf0b7f01",
+        "signature": "bccc52a1c28c8451f206625e01d4bafc03143a730ef1e000b73e0050d3f7a70ed28ca029e293da406fc0a8d9a644291a5640d53a657476eaf9d015dc923e2b0d",
         "wire_hex": ""
       },
       "expected": {
         "ok": false,
-        "error": "NOT_IMPLEMENTED",
+        "error": "INVALID_FORMAT",
         "post_state": {
           "network_chain_id": 3,
           "global_state": {
@@ -152,12 +152,12 @@
         ],
         "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
         "reference_topoheight": 0,
-        "signature": "d79f7c9931ed3620db1c2bd12dd4a14bf6fe04c12cd0dcf960928da4d3b56801d187441bd1ed48f8f23bac0a18a16fb4d30ffd135758eac83649038434da1007",
+        "signature": "204f04fa04bbf301cc4dbde52f0d7a16c3bc5614426f9def0c5b7caa72806d0c22a41887da1e51a9b361331f3731ce49796f2c006dbca285b36a4fd26414e402",
         "wire_hex": ""
       },
       "expected": {
         "ok": false,
-        "error": "NOT_IMPLEMENTED",
+        "error": "INVALID_FORMAT",
         "post_state": {
           "network_chain_id": 3,
           "global_state": {

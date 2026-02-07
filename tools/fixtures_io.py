@@ -234,6 +234,15 @@ def state_to_json(state: ChainState) -> dict[str, Any]:
                 ]
             result["energy_resources"].append(entry)
 
+    if state.arbitration_commit_opens:
+        result["arbitration_commit_opens"] = state.arbitration_commit_opens
+
+    if state.arbitration_commit_vote_requests:
+        result["arbitration_commit_vote_requests"] = state.arbitration_commit_vote_requests
+
+    if state.arbitration_commit_selections:
+        result["arbitration_commit_selections"] = state.arbitration_commit_selections
+
     return result
 
 

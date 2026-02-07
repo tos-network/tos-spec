@@ -57,12 +57,12 @@
         ],
         "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
         "reference_topoheight": 0,
-        "signature": "47c7af4d2fdbb5385d29a130d7d134630fc1632dcfccecb6e61969d2abf3f60c5521d3df22e5d8354759b6b366130b7a0cd04a2c357643bb8cf18410540f140f",
+        "signature": "b17568f92361572d24f6a01ea7a4967a6be2c5c37b75eadf738eedff4a08cc0a7bae8470e83e44ac113abe14eb954aaaf260ad7f50793b620552fb7b7f20ea0b",
         "wire_hex": ""
       },
       "expected": {
         "ok": false,
-        "error": "NOT_IMPLEMENTED",
+        "error": "INVALID_FORMAT",
         "post_state": {
           "network_chain_id": 3,
           "global_state": {
