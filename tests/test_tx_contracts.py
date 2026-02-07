@@ -249,6 +249,7 @@ def test_invoke_contract_insufficient_balance_for_gas(state_test_group) -> None:
 def test_invoke_contract_too_many_deposits(state_test_group) -> None:
     """Exceed MAX_DEPOSIT_PER_INVOKE_CALL."""
     state, contract_hash = _base_state_with_contract()
+    state.accounts[ALICE].balance = 10_000 * COIN_VALUE
     deposits = [{"asset": _hash(i % 256), "amount": 1} for i in range(MAX_DEPOSIT_PER_INVOKE_CALL + 1)]
     tx = Transaction(
         version=TxVersion.T1,
@@ -262,7 +263,7 @@ def test_invoke_contract_too_many_deposits(state_test_group) -> None:
             "max_gas": 100_000,
             "parameters": [],
         },
-        fee=100_000,
+        fee=COIN_VALUE,
         fee_type=FeeType.TOS,
         nonce=5,
         reference_hash=_hash(0),
@@ -330,7 +331,7 @@ def test_deploy_contract_short_module(state_test_group) -> None:
 def test_invoke_contract_max_deposits(state_test_group) -> None:
     """Invoke with exactly MAX_DEPOSIT_PER_INVOKE_CALL deposits (boundary: should pass)."""
     state, contract_hash = _base_state_with_contract()
-    state.accounts[ALICE].balance = 1000 * COIN_VALUE
+    state.accounts[ALICE].balance = 10_000 * COIN_VALUE
     deposits = [{"asset": _hash(i % 256), "amount": 1} for i in range(MAX_DEPOSIT_PER_INVOKE_CALL)]
     tx = Transaction(
         version=TxVersion.T1,
@@ -344,7 +345,7 @@ def test_invoke_contract_max_deposits(state_test_group) -> None:
             "max_gas": 100_000,
             "parameters": [],
         },
-        fee=100_000,
+        fee=COIN_VALUE,
         fee_type=FeeType.TOS,
         nonce=5,
         reference_hash=_hash(0),

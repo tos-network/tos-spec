@@ -9,7 +9,9 @@ from tos_spec.types import (
     AccountState,
     ChainState,
     EnergyPayload,
+    EnergyResource,
     FeeType,
+    FreezeRecord,
     FreezeDuration,
     Transaction,
     TransactionType,
@@ -37,8 +39,21 @@ def _base_state() -> ChainState:
 
 
 def test_transfer_energy_fee_zero(state_test_group) -> None:
-    """TRANSFERS with FeeType.ENERGY and fee=0 — should succeed."""
+    """TRANSFERS with FeeType.ENERGY and fee=0 — should succeed.
+
+    Daemon computes energy cost from wire size. Sender needs enough
+    frozen TOS to have sufficient energy for the transaction.
+    """
     state = _base_state()
+    # Give ALICE frozen TOS so she has energy for the tx
+    state.accounts[ALICE].frozen = 100 * COIN_VALUE
+    state.energy_resources[ALICE] = EnergyResource(
+        frozen_tos=100 * COIN_VALUE, energy=1_000_000,
+        freeze_records=[FreezeRecord(
+            amount=100 * COIN_VALUE, energy_gained=1_000_000,
+            freeze_height=0, unlock_height=99999,
+        )],
+    )
     tx = Transaction(
         version=TxVersion.T1,
         chain_id=CHAIN_ID_DEVNET,

@@ -365,9 +365,10 @@ def test_freeze_non_whole_tos(state_test_group) -> None:
 
 
 def test_freeze_max_records_exceeded(state_test_group) -> None:
-    """33 freeze records (max=32).
+    """33 freeze records — daemon does not enforce max records limit.
 
-    Pre-state has 32 existing freeze records; adding one more should fail.
+    Pre-state has 32 existing freeze records; adding one more succeeds
+    because the daemon does not check freeze record count at verify time.
     """
     state = ChainState(network_chain_id=CHAIN_ID_DEVNET)
     sender = ALICE

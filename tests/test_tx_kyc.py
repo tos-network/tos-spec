@@ -1699,8 +1699,9 @@ def test_bootstrap_committee_max_members(state_test_group) -> None:
     state = ChainState(network_chain_id=CHAIN_ID_DEVNET)
     sender = MINER
     state.accounts[sender] = AccountState(address=sender, balance=10_000_000, nonce=5)
+    # Use valid Ristretto keys (daemon decompresses member public keys)
     members = [
-        {"public_key": _addr(10 + i), "name": f"member_{i}", "role": 0}
+        {"public_key": bytes(tos_signer.get_public_key(10 + i)), "name": f"member_{i}", "role": 0}
         for i in range(MAX_COMMITTEE_MEMBERS)
     ]
     payload = {
@@ -1801,9 +1802,11 @@ def test_emergency_suspend_max_approvals(state_test_group) -> None:
     target = EVE
     state.accounts[target] = AccountState(address=target, balance=0, nonce=0)
 
-    # Build a committee with 15+ members to support MAX_APPROVALS signatures
+    # Use valid Ristretto keys for committee members (seed bytes 20..34)
+    member_seeds = list(range(20, 20 + MAX_APPROVALS))
+    member_keys = [bytes(tos_signer.get_public_key(s)) for s in member_seeds]
     committee_members = [
-        CommitteeMember(public_key=_addr(100 + i), name=f"mem_{i}", role=0)
+        CommitteeMember(public_key=member_keys[i], name=f"mem_{i}", role=0)
         for i in range(MAX_APPROVALS)
     ]
     state.committees[_hash(50)] = Committee(
@@ -1830,9 +1833,13 @@ def test_emergency_suspend_max_approvals(state_test_group) -> None:
     msg = _build_emergency_suspend_msg(
         committee_id, target, reason_hash, expires_at, ts,
     )
-    # Use dummy signatures for MAX_APPROVALS different member keys
+    # Use real cryptographic signatures from valid Ristretto keys
     approvals = [
-        {"member_pubkey": _addr(100 + i), "signature": _sig(100 + i), "timestamp": ts}
+        {
+            "member_pubkey": member_keys[i],
+            "signature": bytes(tos_signer.sign_data(msg, member_seeds[i])),
+            "timestamp": ts,
+        }
         for i in range(MAX_APPROVALS)
     ]
 

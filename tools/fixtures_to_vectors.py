@@ -34,9 +34,9 @@ MAPPING = {
 # mismatches or missing validation rules).  Marked non-runnable until the daemon
 # conformance endpoint is updated to match.
 DAEMON_MISMATCH_SKIP: set[str] = {
-    # overflow: frozen_tos stored in whole TOS in daemon, value too small to overflow
+    # Overflow: daemon stores frozen_tos in whole TOS, value too small to overflow
     "freeze_frozen_overflow",
-    # fee variants — daemon validates fee differently
+    # Fee variants: daemon computes energy cost from wire size / validates fee differently
     "transfer_energy_fee_zero",
     "transfer_insufficient_fee",
     # Privacy: UNO transfers — codec can't encode UNO wire format (empty wire_hex)
@@ -57,13 +57,13 @@ DAEMON_MISMATCH_SKIP: set[str] = {
     "invoke_contract_duplicate_deposit_assets",
     # Wire format: daemon rejects at deserialization level (INVALID_FORMAT) before business logic
     "create_escrow_task_id_max_length",
-    # Energy: daemon doesn't enforce max freeze records count
+    # Energy: daemon doesn't enforce max freeze records; post-state digest differs
     "freeze_max_records_exceeded",
-    # Capacity limits: daemon uses different max values
+    # Capacity: daemon rejects at different validation level
     "invoke_contract_max_deposits",
     "bootstrap_committee_max_members",
     "emergency_suspend_max_approvals",
-    # Encoding: large deposit list causes fee-per-byte rejection
+    # Encoding: large deposit list causes fee-per-byte rejection in daemon
     "invoke_contract_too_many_deposits",
     # Referral: daemon returns different error codes or unimplemented
     "batch_referral_reward_success",
