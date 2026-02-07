@@ -13,6 +13,7 @@ from tos_spec.types import (
     ChainState,
     Committee,
     CommitteeMember,
+    ContractState,
     DelegationEntry,
     DisputeInfo,
     EnergyPayload,
@@ -243,6 +244,15 @@ def state_to_json(state: ChainState) -> dict[str, Any]:
     if state.arbitration_commit_selections:
         result["arbitration_commit_selections"] = state.arbitration_commit_selections
 
+    if state.contracts:
+        result["contracts"] = [
+            {
+                "hash": _bytes_to_hex(h),
+                "module": _bytes_to_hex(c.module),
+            }
+            for h, c in state.contracts.items()
+        ]
+
     return result
 
 
@@ -412,6 +422,15 @@ def state_from_json(data: dict[str, Any]) -> ChainState:
             pending_unfreezes=pending_unfreezes,
         )
         state.energy_resources[addr] = resource
+
+    for c in data.get("contracts", []):
+        h = _hex_to_bytes(c["hash"])
+        module_bytes = _hex_to_bytes(c["module"])
+        state.contracts[h] = ContractState(
+            deployer=b"",
+            module_hash=h,
+            module=module_bytes,
+        )
 
     return state
 

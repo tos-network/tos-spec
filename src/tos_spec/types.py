@@ -317,6 +317,7 @@ class ReferralBinding:
 class ContractState:
     deployer: bytes
     module_hash: bytes
+    module: bytes = b""
     storage: dict[bytes, bytes] = field(default_factory=dict)
 
 

@@ -26,6 +26,7 @@ from tos_spec.test_accounts import (
     GRACE,
     HEIDI,
     IVAN,
+    MINER,
     SEED_MAP,
 )
 from tos_spec.types import (
@@ -285,8 +286,9 @@ def _mk_kyc_tx(
 
 
 def test_bootstrap_committee_success(state_test_group) -> None:
-    state = _base_state()
-    sender = ALICE
+    state = ChainState(network_chain_id=CHAIN_ID_DEVNET)
+    sender = MINER  # Devnet bootstrap address holder (seed 1)
+    state.accounts[sender] = AccountState(address=sender, balance=10_000_000, nonce=5)
     members = [
         {"public_key": _addr(10 + i), "name": f"member_{i}", "role": 0}
         for i in range(MIN_COMMITTEE_MEMBERS)

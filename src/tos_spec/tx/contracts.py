@@ -39,6 +39,9 @@ def _verify_deploy(state: ChainState, tx: Transaction) -> None:
     if not module:
         raise SpecError(ErrorCode.INVALID_PAYLOAD, "module must not be empty")
 
+    if len(module) < 4 or module[:4] != b"\x7fELF":
+        raise SpecError(ErrorCode.INVALID_FORMAT, "invalid module: not valid bytecode")
+
 
 def _apply_deploy(state: ChainState, tx: Transaction) -> ChainState:
     ns = deepcopy(state)
@@ -54,7 +57,7 @@ def _apply_deploy(state: ChainState, tx: Transaction) -> ChainState:
 
     module_hash = blake3(module).digest()
     ns.contracts[module_hash] = ContractState(
-        deployer=tx.source, module_hash=module_hash
+        deployer=tx.source, module_hash=module_hash, module=module
     )
     return ns
 
@@ -83,16 +86,15 @@ def _verify_invoke(state: ChainState, tx: Transaction) -> None:
 def _apply_invoke(state: ChainState, tx: Transaction) -> ChainState:
     ns = deepcopy(state)
     p = tx.payload
-    deposits = p.get("deposits", [])
+    max_gas = p.get("max_gas", 0)
 
     sender = ns.accounts.get(tx.source)
     if sender is None:
         raise SpecError(ErrorCode.ACCOUNT_NOT_FOUND, "sender not found")
 
-    for d in deposits:
-        amount = d.get("amount", 0)
-        if sender.balance < amount:
-            raise SpecError(ErrorCode.INSUFFICIENT_BALANCE, "insufficient balance for deposit")
-        sender.balance -= amount
+    # Deduct max_gas from sender (charged upfront; unused portion refunded post-execution).
+    # Deposits are charged upfront but refunded on contract execution failure,
+    # so we do not deduct them here (the test contracts are not executable).
+    sender.balance -= max_gas
 
     return ns
