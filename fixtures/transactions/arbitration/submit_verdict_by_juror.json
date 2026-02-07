@@ -83,13 +83,13 @@
           "signatures": [
             {
               "member_pubkey": "7ea555bf91bfb985561a91afcd669a79c0cc115ce03baf687cb8dd7e1e996e7b",
-              "signature": "44aa761515121ea1849b374bf77715dd9c16348c8ec6d0dd68d7e77d6376270010c34f94aad8850e8e595488de0fae239e131a7fe0987fb7a929e0ec97af1c0d",
-              "timestamp": 1770456070
+              "signature": "85a5cd2c7e78d5445209f17bdbd107dc8590405a323e5b7f07e1594fb70f240570fcce0f44a985063af7f493c254647a4ba9c6351f5dbcdea7f21fdc7aa4ea01",
+              "timestamp": 1770458633
             },
             {
               "member_pubkey": "ec9daff86b25275ef43d7dbd7e81f09b44e8d3805c6048b09b3e1034931c6077",
-              "signature": "1ab197bcd1565fc1589ac64e7d89fe2c872a522cdd7811cb710327f139ea160209f9db3b7698d4d2bfec171fef91f8a6e9722ab071c0e363f11468f3aed98202",
-              "timestamp": 1770456070
+              "signature": "dc599d57f743cd81c0a7ea7d21debc44a67f83d8a086bc3fcbd6c28676941700c96d3f66be72639160df569a978aceb4133d3b9963f4b876bfc3660d4f1a0f07",
+              "timestamp": 1770458633
             }
           ]
         },

@@ -128,7 +128,7 @@ def _verify_create(state: ChainState, tx: Transaction, p: dict) -> None:
 
     provider = _to_bytes(p.get("provider"))
     if provider == tx.source:
-        raise SpecError(ErrorCode.SELF_OPERATION, "payer cannot be provider")
+        raise SpecError(ErrorCode.UNAUTHORIZED, "payer cannot be provider")
 
     # Validate arbitration config if present
     arb_config = p.get("arbitration_config")
@@ -493,7 +493,7 @@ def _verify_submit_verdict(state: ChainState, tx: Transaction, p: dict) -> None:
     if escrow.status != EscrowStatus.CHALLENGED:
         raise SpecError(ErrorCode.ESCROW_WRONG_STATE, "escrow not in challenged state")
     if escrow.dispute is None:
-        raise SpecError(ErrorCode.ESCROW_WRONG_STATE, "dispute record required")
+        raise SpecError(ErrorCode.INVALID_PAYLOAD, "dispute record required")
     if escrow.arbitration_config is None:
         raise SpecError(ErrorCode.INVALID_PAYLOAD, "arbitration not configured")
     # Dispute ID must match if already set
@@ -510,7 +510,7 @@ def _verify_submit_verdict(state: ChainState, tx: Transaction, p: dict) -> None:
             raise SpecError(ErrorCode.INVALID_PAYLOAD, "first verdict round must be 0")
     # Verdict amounts must sum to escrow amount
     if payer_amount + payee_amount != escrow.amount:
-        raise SpecError(ErrorCode.INVALID_AMOUNT, "verdict amounts must equal escrow amount")
+        raise SpecError(ErrorCode.INVALID_PAYLOAD, "verdict amounts must equal escrow amount")
 
 
 def _apply_submit_verdict(state: ChainState, tx: Transaction, p: dict) -> ChainState:

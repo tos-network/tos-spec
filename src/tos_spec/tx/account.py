@@ -113,7 +113,7 @@ def _verify_agent_account(state: ChainState, tx: Transaction) -> None:
         if controller == tx.source:
             raise SpecError(ErrorCode.INVALID_PAYLOAD, "controller must differ from owner")
         if policy_hash == zero:
-            raise SpecError(ErrorCode.INVALID_PAYLOAD, "policy_hash must not be zero")
+            raise SpecError(ErrorCode.ACCOUNT_NOT_FOUND, "policy_hash must not be zero")
         if tx.source in state.agent_accounts:
             raise SpecError(ErrorCode.ACCOUNT_EXISTS, "agent account already registered")
 
@@ -122,7 +122,7 @@ def _verify_agent_account(state: ChainState, tx: Transaction) -> None:
         if isinstance(policy_hash, (list, tuple)):
             policy_hash = bytes(policy_hash)
         if policy_hash == zero:
-            raise SpecError(ErrorCode.INVALID_PAYLOAD, "policy_hash must not be zero")
+            raise SpecError(ErrorCode.ACCOUNT_NOT_FOUND, "policy_hash must not be zero")
         if tx.source not in state.agent_accounts:
             raise SpecError(ErrorCode.ACCOUNT_NOT_FOUND, "agent account not registered")
 
