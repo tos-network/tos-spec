@@ -44,7 +44,7 @@ Legend:  +++  strong coverage
 | Energy model       | n/a        | +          | -          | -          | n/a        | n/a        |
 | Account model      | n/a        | +          | -          | -          | n/a        | n/a        |
 
-**Reading this matrix:** L1 dominates as expected (267/267 conformance). L0 wire
+**Reading this matrix:** L1 dominates as expected (368/368 conformance). L0 wire
 format now covers all 45 TX types. The priority gaps are:
 - L0: negative wire format tests (malformed payloads) not yet started
 - L2: no executable block processing tests yet
@@ -56,21 +56,21 @@ Which fixture types apply to each domain.
 
 | Domain             | StateTest | BlockchainTest | TransactionTest | CodecTest | ContractTest | ConsensusTest | CryptoTest | RPCTest | EngineTest | FuzzCorpusTest |
 |--------------------|-----------|----------------|-----------------|-----------|--------------|---------------|------------|---------|------------|----------------|
-| Core (transfer)    | 14v       | planned        | 2v              | planned   | n/a          | n/a           | n/a        | planned | planned    | planned        |
+| Core (transfer)    | 28v       | planned        | 2v              | planned   | n/a          | n/a           | n/a        | planned | planned    | planned        |
 | Burn               | 4v        | planned        | 1v              | planned   | n/a          | n/a           | n/a        | planned | n/a        | planned        |
 | Multisig           | 7v        | planned        | 1v              | planned   | n/a          | n/a           | n/a        | planned | n/a        | planned        |
-| Energy / Freeze    | 13v       | planned        | 4v              | planned   | n/a          | n/a           | n/a        | planned | n/a        | planned        |
-| Energy / Delegate  | 5v        | planned        | 1v              | planned   | n/a          | n/a           | n/a        | planned | n/a        | planned        |
-| Escrow             | 57v       | planned        | 9v              | planned   | n/a          | n/a           | n/a        | planned | n/a        | planned        |
-| Arbitration        | 43v       | planned        | 10v             | planned   | n/a          | n/a           | n/a        | planned | n/a        | planned        |
-| KYC                | 16v       | planned        | 8v              | planned   | n/a          | n/a           | n/a        | planned | n/a        | planned        |
-| Committee          | 31v       | planned        | 4v              | planned   | n/a          | n/a           | n/a        | planned | n/a        | planned        |
-| Contracts          | 14v       | planned        | 2v              | planned   | planned      | n/a           | n/a        | planned | n/a        | planned        |
-| Privacy (UNO)      | 4v        | planned        | 1v              | planned   | n/a          | n/a           | n/a        | planned | n/a        | planned        |
-| Privacy (shield)   | 5v        | planned        | 2v              | planned   | n/a          | n/a           | n/a        | planned | n/a        | planned        |
-| TNS (names)        | 14v       | planned        | 2v              | planned   | n/a          | n/a           | n/a        | planned | n/a        | planned        |
-| Referral           | 8v        | planned        | 2v              | planned   | n/a          | n/a           | n/a        | planned | n/a        | planned        |
-| Account / Agent    | 22v       | planned        | 2v              | planned   | n/a          | n/a           | n/a        | planned | n/a        | planned        |
+| Energy / Freeze    | 20v       | planned        | 4v              | planned   | n/a          | n/a           | n/a        | planned | n/a        | planned        |
+| Energy / Delegate  | 20v       | planned        | 1v              | planned   | n/a          | n/a           | n/a        | planned | n/a        | planned        |
+| Escrow             | 104v      | planned        | 9v              | planned   | n/a          | n/a           | n/a        | planned | n/a        | planned        |
+| Arbitration        | 59v       | planned        | 10v             | planned   | n/a          | n/a           | n/a        | planned | n/a        | planned        |
+| KYC                | 18v       | planned        | 8v              | planned   | n/a          | n/a           | n/a        | planned | n/a        | planned        |
+| Committee          | 42v       | planned        | 4v              | planned   | n/a          | n/a           | n/a        | planned | n/a        | planned        |
+| Contracts          | 21v       | planned        | 2v              | planned   | planned      | n/a           | n/a        | planned | n/a        | planned        |
+| Privacy (UNO)      | 7v        | planned        | 1v              | planned   | n/a          | n/a           | n/a        | planned | n/a        | planned        |
+| Privacy (shield)   | 14v       | planned        | 2v              | planned   | n/a          | n/a           | n/a        | planned | n/a        | planned        |
+| TNS (names)        | 53v       | planned        | 2v              | planned   | n/a          | n/a           | n/a        | planned | n/a        | planned        |
+| Referral           | 14v       | planned        | 2v              | planned   | n/a          | n/a           | n/a        | planned | n/a        | planned        |
+| Account / Agent    | 36v       | planned        | 2v              | planned   | n/a          | n/a           | n/a        | planned | n/a        | planned        |
 | Consensus          | n/a       | planned        | n/a             | n/a       | n/a          | 6v            | n/a        | n/a     | planned    | planned        |
 | Cryptography       | n/a       | n/a            | n/a             | n/a       | n/a          | n/a           | partial    | n/a     | n/a        | planned        |
 | Security           | n/a       | n/a            | n/a             | n/a       | n/a          | n/a           | n/a        | n/a     | n/a        | planned        |
@@ -114,63 +114,65 @@ Detailed per-type coverage showing how many tests and vectors exist for each of 
 
 | # | Transaction Type          | Handler Module | Tests | Vectors | Neg Tests | Wire Tests |
 |---|---------------------------|----------------|-------|---------|-----------|------------|
-| 1 | transfers                 | core           | 29    | 29      | 24        | 2          |
-| 2 | burn                      | core           | 6     | 5       | 5         | 1          |
-| 3 | multisig                  | account        | 7     | 7       | 5         | 1          |
-| 4 | invoke_contract           | contracts      | 11    | 11      | 8         | 1          |
-| 5 | deploy_contract           | contracts      | 6     | 5       | 5         | 1          |
-| 6 | energy (freeze)           | energy         | 12    | 12      | 11        | 2          |
+| 1 | transfers                 | core           | 28    | 22      | 21        | 2          |
+| 2 | burn                      | core           | 4     | 3       | 3         | 1          |
+| 3 | multisig                  | account        | 7     | 6       | 4         | 1          |
+| 4 | invoke_contract           | contracts      | 12    | 7       | 6         | 1          |
+| 5 | deploy_contract           | contracts      | 9     | 6       | 6         | 1          |
+| 6 | energy (freeze)           | energy         | 14    | 11      | 10        | 2          |
 | 7 | energy (unfreeze)         | energy         | 6     | 6       | 5         | 1          |
-| 8 | energy (delegate)         | energy         | 11    | 11      | 10        | 1          |
-| 9 | energy (withdraw)         | energy         | 4     | 4       | 3         | 1          |
-|10 | bind_referrer             | referral       | 4     | 4       | 3         | 1          |
-|11 | batch_referral_reward     | referral       | 8     | 0\*     | 7         | 1          |
-|12 | set_kyc                   | kyc            | 10    | 10      | 9         | 1          |
+| 8 | energy (delegate)         | energy         | 16    | 15      | 15        | 1          |
+| 9 | energy (withdraw)         | energy         | 4     | 3       | 3         | 1          |
+|10 | bind_referrer             | referral       | 4     | 4       | 2         | 1          |
+|11 | batch_referral_reward     | referral       | 10    | 0\*     | 8         | 1          |
+|12 | set_kyc                   | kyc            | 11    | 11      | 7         | 1          |
 |13 | revoke_kyc                | kyc            | 6     | 6       | 5         | 1          |
 |14 | renew_kyc                 | kyc            | 6     | 6       | 5         | 1          |
 |15 | transfer_kyc              | kyc            | 7     | 7       | 6         | 1          |
 |16 | appeal_kyc                | kyc            | 8     | 8       | 7         | 1          |
-|17 | bootstrap_committee       | kyc            | 14    | 14      | 13        | 1          |
+|17 | bootstrap_committee       | kyc            | 15    | 14      | 12        | 1          |
 |18 | register_committee        | kyc            | 11    | 11      | 10        | 1          |
 |19 | update_committee          | kyc            | 8     | 8       | 7         | 1          |
-|20 | emergency_suspend         | kyc            | 8     | 8       | 7         | 1          |
-|21 | agent_account             | account        | 22    | 22      | 19        | 1          |
-|22 | uno_transfers             | privacy        | 9     | 9       | 8         | 1          |
-|23 | shield_transfers          | privacy        | 11    | 11      | 10        | 1          |
-|24 | unshield_transfers        | privacy        | 6     | 6       | 5         | 1          |
-|25 | register_name             | tns            | 26    | 26      | 24        | 1          |
-|26 | ephemeral_message         | tns            | 9     | 0\*     | 8         | 1          |
-|27 | create_escrow             | escrow         | 11    | 11      | 10        | 1          |
-|28 | deposit_escrow            | escrow         | 9     | 9       | 8         | 1          |
+|20 | emergency_suspend         | kyc            | 8     | 7       | 6         | 1          |
+|21 | agent_account             | account        | 29    | 28      | 18        | 1          |
+|22 | uno_transfers             | privacy        | 7     | 2       | 4         | 1          |
+|23 | shield_transfers          | privacy        | 9     | 2       | 7         | 1          |
+|24 | unshield_transfers        | privacy        | 5     | 2       | 3         | 1          |
+|25 | register_name             | tns            | 36    | 36      | 26        | 1          |
+|26 | ephemeral_message         | tns            | 17    | 0\*     | 8         | 1          |
+|27 | create_escrow             | escrow         | 25    | 12      | 18        | 1          |
+|28 | deposit_escrow            | escrow         | 9     | 7       | 8         | 1          |
 |29 | release_escrow            | escrow         | 9     | 9       | 8         | 1          |
-|30 | refund_escrow             | escrow         | 11    | 11      | 10        | 1          |
-|31 | challenge_escrow          | escrow         | 11    | 11      | 10        | 1          |
-|32 | dispute_escrow            | escrow         | 10    | 10      | 9         | 1          |
-|33 | appeal_escrow             | escrow         | 13    | 13      | 12        | 1          |
+|30 | refund_escrow             | escrow         | 13    | 9       | 9         | 1          |
+|31 | challenge_escrow          | escrow         | 12    | 11      | 10        | 1          |
+|32 | dispute_escrow            | escrow         | 10    | 10      | 7         | 1          |
+|33 | appeal_escrow             | escrow         | 14    | 13      | 12        | 1          |
 |34 | submit_verdict            | escrow         | 10    | 10      | 9         | 1          |
 |35 | submit_verdict_by_juror   | escrow         | 2     | 0\*     | 1         | 1          |
-|36 | commit_arbitration_open   | arbitration    | 3     | 3       | 2         | 1          |
-|37 | commit_vote_request       | arbitration    | 3     | 3       | 2         | 1          |
-|38 | commit_selection          | arbitration    | 3     | 3       | 2         | 1          |
-|39 | commit_juror_vote         | arbitration    | 3     | 3       | 2         | 1          |
-|40 | register_arbiter          | arbitration    | 12    | 12      | 11        | 1          |
-|41 | update_arbiter            | arbitration    | 9     | 9       | 8         | 1          |
-|42 | slash_arbiter             | arbitration    | 5     | 5       | 4         | 1          |
-|43 | request_arbiter_exit      | arbitration    | 7     | 7       | 6         | 1          |
-|44 | withdraw_arbiter_stake    | arbitration    | 7     | 7       | 6         | 1          |
-|45 | cancel_arbiter_exit       | arbitration    | 5     | 5       | 4         | 1          |
-|   | **Subtotal (per-type)**   |                |**493**|**467**  | **399**   | **45**     |
-|   | fee_variants (cross-type) | -              | 20    | 20      | 19        | -          |
-|   | **TOTAL**                 |                |**513**|**487**  | **418**   | **45**     |
+|36 | commit_arbitration_open   | arbitration    | 3     | 1       | 1         | 1          |
+|37 | commit_vote_request       | arbitration    | 3     | 1       | 1         | 1          |
+|38 | commit_selection          | arbitration    | 3     | 1       | 1         | 1          |
+|39 | commit_juror_vote         | arbitration    | 3     | 2       | 1         | 1          |
+|40 | register_arbiter          | arbitration    | 14    | 13      | 9         | 1          |
+|41 | update_arbiter            | arbitration    | 12    | 10      | 9         | 1          |
+|42 | slash_arbiter             | arbitration    | 5     | 5       | 3         | 1          |
+|43 | request_arbiter_exit      | arbitration    | 5     | 2       | 4         | 1          |
+|44 | withdraw_arbiter_stake    | arbitration    | 7     | 5       | 6         | 1          |
+|45 | cancel_arbiter_exit       | arbitration    | 4     | 2       | 3         | 1          |
+|   | **Subtotal (per-type)**   |                |**460**|**354**  | **339**   | **45**     |
+|   | fee_variants (cross-type) | -              | 20    | 6       | 18        | -          |
+|   | consensus / models / misc | -              | 35    | 8       | -         | -          |
+|   | wire_format (cross-type)  | -              | 45    | 0       | -         | 45         |
+|   | **TOTAL**                 |                |**560**|**368**  | **357**   | **45**     |
 
 `*` Vectors = 0 because the wire codec does not yet support this tx type;
 tests exist at spec level but are marked `runnable: false` in vector output.
 
-**Reading this matrix:** All 45 types now have at least 2 tests with comprehensive
-negative coverage. 319 state tests + 45 wire tests = 364 total. 253 negative tests.
-20 cross-type fee variant tests verify fee_type validation across 11 domains.
+**Reading this matrix:** All 45 types have at least 2 tests with comprehensive
+negative coverage. 560 pytest tests produce 699 total vectors; 368 are runnable
+(passing conformance), 331 non-runnable (67 daemon-mismatch skips + codec gaps).
 3 types lack runnable vectors pending codec support (batch_referral_reward,
-ephemeral_message, submit_verdict_by_juror). Wire format coverage is now complete
+ephemeral_message, submit_verdict_by_juror). Wire format coverage is complete
 (45/45 types).
 
 ## Matrix 5: Fixture Type x Verification Field
@@ -242,16 +244,16 @@ Aggregate coverage quality per handler module.
 
 | Module      | Types | Tests | Vectors | Neg | Wire | Boundary | Fee Var | Depth Score |
 |-------------|-------|-------|---------|-----|------|----------|---------|-------------|
-| core        | 2     | 20    | 19      | 16  | 3    | YES      | YES     | 5/5         |
-| energy      | 4     | 23    | 23      | 19  | 5    | YES      | YES     | 5/5         |
-| escrow      | 9     | 59    | 57      | 50  | 9    | YES      | YES     | 5/5         |
-| arbitration | 10    | 45    | 45      | 35  | 10   | YES      | YES     | 5/5         |
-| kyc         | 8     | 47    | 47      | 38  | 8    | YES      | YES     | 5/5         |
-| contracts   | 2     | 14    | 13      | 10  | 2    | YES      | YES     | 5/5         |
-| privacy     | 3     | 12    | 12      | 9   | 3    | YES      | YES     | 5/5         |
-| referral    | 2     | 8     | 3       | 6   | 2    | YES      | -       | 4/5         |
-| tns         | 2     | 14    | 5       | 11  | 2    | YES      | YES     | 5/5         |
-| account     | 2     | 22    | 22      | 17  | 2    | YES      | YES     | 5/5         |
+| core        | 2     | 32    | 25      | 24  | 3    | YES      | YES     | 5/5         |
+| energy      | 4     | 40    | 35      | 33  | 5    | YES      | YES     | 5/5         |
+| escrow      | 9     | 104   | 81      | 82  | 9    | YES      | YES     | 5/5         |
+| arbitration | 10    | 59    | 42      | 38  | 10   | YES      | YES     | 5/5         |
+| kyc         | 8     | 80    | 78      | 65  | 8    | YES      | YES     | 5/5         |
+| contracts   | 2     | 21    | 13      | 12  | 2    | YES      | YES     | 5/5         |
+| privacy     | 3     | 21    | 6       | 14  | 3    | YES      | YES     | 5/5         |
+| referral    | 2     | 14    | 4       | 10  | 2    | YES      | -       | 4/5         |
+| tns         | 2     | 53    | 36      | 34  | 2    | YES      | YES     | 5/5         |
+| account     | 2     | 36    | 34      | 22  | 2    | YES      | YES     | 5/5         |
 
 Depth score criteria (1 point each):
 1. All types have at least 1 vector
