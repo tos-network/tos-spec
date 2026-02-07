@@ -2,7 +2,12 @@
 
 from __future__ import annotations
 
-from tos_spec.config import CHAIN_ID_DEVNET, COIN_VALUE, MIN_SHIELD_TOS_AMOUNT
+from tos_spec.config import (
+    CHAIN_ID_DEVNET,
+    COIN_VALUE,
+    MAX_TRANSFER_COUNT,
+    MIN_SHIELD_TOS_AMOUNT,
+)
 from tos_spec.test_accounts import ALICE, BOB
 from tos_spec.types import (
     AccountState,
@@ -288,7 +293,7 @@ def test_shield_transfer_exact_minimum(state_test_group) -> None:
 
 
 def test_uno_transfer_zero_amount(state_test_group) -> None:
-    """UNO transfer with zero-valued commitment. Privacy stub returns INVALID_FORMAT."""
+    """UNO transfer with zero-valued commitment."""
     state = _base_state()
     state.accounts[BOB] = AccountState(address=BOB, balance=0, nonce=0)
     tx = Transaction(
@@ -320,6 +325,347 @@ def test_uno_transfer_zero_amount(state_test_group) -> None:
     state_test_group(
         "transactions/privacy/uno_transfers.json",
         "uno_transfer_zero_amount",
+        state,
+        tx,
+    )
+
+
+# ===================================================================
+# UNO transfer boundary tests
+# ===================================================================
+
+
+def test_uno_transfer_empty_list(state_test_group) -> None:
+    """UNO transfer with empty transfers list.
+
+    Rust: TransferCount error.
+    """
+    state = _base_state()
+    tx = Transaction(
+        version=TxVersion.T1,
+        chain_id=CHAIN_ID_DEVNET,
+        source=ALICE,
+        tx_type=TransactionType.UNO_TRANSFERS,
+        payload={"transfers": []},
+        fee=0,
+        fee_type=FeeType.UNO,
+        nonce=5,
+        source_commitments=[_hash(20)],
+        range_proof=bytes([0xBB]) * 64,
+        reference_hash=_hash(0),
+        reference_topoheight=0,
+        signature=bytes(64),
+    )
+    state_test_group(
+        "transactions/privacy/uno_transfers.json",
+        "uno_transfer_empty_list",
+        state,
+        tx,
+    )
+
+
+def test_uno_transfer_max_count_exceeded(state_test_group) -> None:
+    """UNO transfers exceeding MAX_TRANSFER_COUNT (500).
+
+    Rust: TransferCount error.
+    """
+    state = _base_state()
+    state.accounts[BOB] = AccountState(address=BOB, balance=0, nonce=0)
+    transfers = [
+        {
+            "asset": _hash(0),
+            "destination": BOB,
+            "commitment": _hash(10),
+            "sender_handle": _hash(11),
+            "receiver_handle": _hash(12),
+            "ct_validity_proof": bytes([0xAA]) * 160,
+        }
+        for _ in range(MAX_TRANSFER_COUNT + 1)
+    ]
+    tx = Transaction(
+        version=TxVersion.T1,
+        chain_id=CHAIN_ID_DEVNET,
+        source=ALICE,
+        tx_type=TransactionType.UNO_TRANSFERS,
+        payload={"transfers": transfers},
+        fee=0,
+        fee_type=FeeType.UNO,
+        nonce=5,
+        source_commitments=[_hash(20)],
+        range_proof=bytes([0xBB]) * 64,
+        reference_hash=_hash(0),
+        reference_topoheight=0,
+        signature=bytes(64),
+    )
+    state_test_group(
+        "transactions/privacy/uno_transfers.json",
+        "uno_transfer_max_count_exceeded",
+        state,
+        tx,
+    )
+
+
+# ===================================================================
+# Shield transfer boundary tests
+# ===================================================================
+
+
+def test_shield_transfer_empty_list(state_test_group) -> None:
+    """Shield transfers with empty list.
+
+    Rust: TransferCount error.
+    """
+    state = _base_state()
+    tx = Transaction(
+        version=TxVersion.T1,
+        chain_id=CHAIN_ID_DEVNET,
+        source=ALICE,
+        tx_type=TransactionType.SHIELD_TRANSFERS,
+        payload={"transfers": []},
+        fee=100_000,
+        fee_type=FeeType.TOS,
+        nonce=5,
+        reference_hash=_hash(0),
+        reference_topoheight=0,
+        signature=bytes(64),
+    )
+    state_test_group(
+        "transactions/privacy/shield_transfers.json",
+        "shield_transfer_empty_list",
+        state,
+        tx,
+    )
+
+
+def test_shield_transfer_max_count_exceeded(state_test_group) -> None:
+    """Shield transfers exceeding MAX_TRANSFER_COUNT (500).
+
+    Rust: TransferCount error.
+    """
+    state = _base_state()
+    state.accounts[BOB] = AccountState(address=BOB, balance=0, nonce=0)
+    transfers = [
+        {
+            "asset": _hash(0),
+            "destination": BOB,
+            "amount": MIN_SHIELD_TOS_AMOUNT,
+            "commitment": _hash(10),
+            "receiver_handle": _hash(12),
+            "proof": bytes([0xCC]) * 96,
+        }
+        for _ in range(MAX_TRANSFER_COUNT + 1)
+    ]
+    tx = Transaction(
+        version=TxVersion.T1,
+        chain_id=CHAIN_ID_DEVNET,
+        source=ALICE,
+        tx_type=TransactionType.SHIELD_TRANSFERS,
+        payload={"transfers": transfers},
+        fee=100_000,
+        fee_type=FeeType.TOS,
+        nonce=5,
+        reference_hash=_hash(0),
+        reference_topoheight=0,
+        signature=bytes(64),
+    )
+    state_test_group(
+        "transactions/privacy/shield_transfers.json",
+        "shield_transfer_max_count_exceeded",
+        state,
+        tx,
+    )
+
+
+def test_shield_transfer_non_tos_asset(state_test_group) -> None:
+    """Shield transfer with non-TOS asset.
+
+    Rust: "Shield transfers only support TOS asset".
+    """
+    state = _base_state()
+    state.accounts[BOB] = AccountState(address=BOB, balance=0, nonce=0)
+    tx = Transaction(
+        version=TxVersion.T1,
+        chain_id=CHAIN_ID_DEVNET,
+        source=ALICE,
+        tx_type=TransactionType.SHIELD_TRANSFERS,
+        payload={
+            "transfers": [
+                {
+                    "asset": _hash(1),  # Non-TOS asset
+                    "destination": BOB,
+                    "amount": MIN_SHIELD_TOS_AMOUNT,
+                    "commitment": _hash(10),
+                    "receiver_handle": _hash(12),
+                    "proof": bytes([0xCC]) * 96,
+                }
+            ]
+        },
+        fee=100_000,
+        fee_type=FeeType.TOS,
+        nonce=5,
+        reference_hash=_hash(0),
+        reference_topoheight=0,
+        signature=bytes(64),
+    )
+    state_test_group(
+        "transactions/privacy/shield_transfers.json",
+        "shield_transfer_non_tos_asset",
+        state,
+        tx,
+    )
+
+
+# ===================================================================
+# Unshield transfer boundary tests
+# ===================================================================
+
+
+def test_unshield_transfer_empty_list(state_test_group) -> None:
+    """Unshield transfers with empty list.
+
+    Rust: TransferCount error.
+    """
+    state = _base_state()
+    tx = Transaction(
+        version=TxVersion.T1,
+        chain_id=CHAIN_ID_DEVNET,
+        source=ALICE,
+        tx_type=TransactionType.UNSHIELD_TRANSFERS,
+        payload={"transfers": []},
+        fee=100_000,
+        fee_type=FeeType.TOS,
+        nonce=5,
+        reference_hash=_hash(0),
+        reference_topoheight=0,
+        signature=bytes(64),
+    )
+    state_test_group(
+        "transactions/privacy/unshield_transfers.json",
+        "unshield_transfer_empty_list",
+        state,
+        tx,
+    )
+
+
+def test_unshield_transfer_max_count_exceeded(state_test_group) -> None:
+    """Unshield transfers exceeding MAX_TRANSFER_COUNT (500).
+
+    Rust: TransferCount error.
+    """
+    state = _base_state()
+    state.accounts[BOB] = AccountState(address=BOB, balance=0, nonce=0)
+    transfers = [
+        {
+            "asset": _hash(0),
+            "destination": BOB,
+            "amount": 5 * COIN_VALUE,
+            "commitment": _hash(10),
+            "sender_handle": _hash(11),
+            "ct_validity_proof": bytes([0xDD]) * 160,
+        }
+        for _ in range(MAX_TRANSFER_COUNT + 1)
+    ]
+    tx = Transaction(
+        version=TxVersion.T1,
+        chain_id=CHAIN_ID_DEVNET,
+        source=ALICE,
+        tx_type=TransactionType.UNSHIELD_TRANSFERS,
+        payload={"transfers": transfers},
+        fee=100_000,
+        fee_type=FeeType.TOS,
+        nonce=5,
+        reference_hash=_hash(0),
+        reference_topoheight=0,
+        signature=bytes(64),
+    )
+    state_test_group(
+        "transactions/privacy/unshield_transfers.json",
+        "unshield_transfer_max_count_exceeded",
+        state,
+        tx,
+    )
+
+
+# ===================================================================
+# UNO fee type tests
+# ===================================================================
+
+
+def test_uno_fee_type_invalid_tx(state_test_group) -> None:
+    """UNO fee type on a non-UNO tx type.
+
+    Rust: InvalidFormat.
+    """
+    state = _base_state()
+    state.accounts[BOB] = AccountState(address=BOB, balance=0, nonce=0)
+    tx = Transaction(
+        version=TxVersion.T1,
+        chain_id=CHAIN_ID_DEVNET,
+        source=ALICE,
+        tx_type=TransactionType.SHIELD_TRANSFERS,
+        payload={
+            "transfers": [
+                {
+                    "asset": _hash(0),
+                    "destination": BOB,
+                    "amount": MIN_SHIELD_TOS_AMOUNT,
+                    "commitment": _hash(10),
+                    "receiver_handle": _hash(12),
+                    "proof": bytes([0xCC]) * 96,
+                }
+            ]
+        },
+        fee=0,
+        fee_type=FeeType.UNO,
+        nonce=5,
+        reference_hash=_hash(0),
+        reference_topoheight=0,
+        signature=bytes(64),
+    )
+    state_test_group(
+        "transactions/privacy/shield_transfers.json",
+        "uno_fee_type_invalid_tx",
+        state,
+        tx,
+    )
+
+
+def test_uno_fee_nonzero(state_test_group) -> None:
+    """UNO fee type with non-zero fee value.
+
+    Rust: InvalidFee(0, self.fee).
+    """
+    state = _base_state()
+    state.accounts[BOB] = AccountState(address=BOB, balance=0, nonce=0)
+    tx = Transaction(
+        version=TxVersion.T1,
+        chain_id=CHAIN_ID_DEVNET,
+        source=ALICE,
+        tx_type=TransactionType.UNO_TRANSFERS,
+        payload={
+            "transfers": [
+                {
+                    "asset": _hash(0),
+                    "destination": BOB,
+                    "commitment": _hash(10),
+                    "sender_handle": _hash(11),
+                    "receiver_handle": _hash(12),
+                    "ct_validity_proof": bytes([0xAA]) * 160,
+                }
+            ]
+        },
+        fee=1000,
+        fee_type=FeeType.UNO,
+        nonce=5,
+        source_commitments=[_hash(20)],
+        range_proof=bytes([0xBB]) * 64,
+        reference_hash=_hash(0),
+        reference_topoheight=0,
+        signature=bytes(64),
+    )
+    state_test_group(
+        "transactions/privacy/uno_transfers.json",
+        "uno_fee_nonzero",
         state,
         tx,
     )

@@ -537,3 +537,262 @@ def test_withdraw_balance_overflow(state_test_group) -> None:
         state,
         tx,
     )
+
+
+# ===================================================================
+# Energy fee=0 validation tests
+# Rust: "Energy transactions must have zero fee"
+# ===================================================================
+
+
+def test_freeze_tos_nonzero_fee(state_test_group) -> None:
+    """Freeze with fee != 0 should be rejected."""
+    state = _base_state()
+    tx = _mk_freeze_tos(ALICE, nonce=5, amount=COIN_VALUE, days=7, fee=100)
+    state_test_group(
+        "transactions/energy/freeze_tos.json", "freeze_tos_nonzero_fee", state, tx
+    )
+
+
+def test_freeze_delegate_nonzero_fee(state_test_group) -> None:
+    """Delegate with fee != 0 should be rejected."""
+    state = _base_state()
+    state.accounts[BOB] = AccountState(address=BOB, balance=0, nonce=0)
+    entries = [DelegationEntry(delegatee=BOB, amount=COIN_VALUE)]
+    tx = _mk_freeze_delegate(ALICE, nonce=5, delegatees=entries, days=7, fee=100)
+    state_test_group(
+        "transactions/energy/freeze_delegate.json",
+        "freeze_delegate_nonzero_fee",
+        state,
+        tx,
+    )
+
+
+def test_unfreeze_tos_nonzero_fee(state_test_group) -> None:
+    """Unfreeze with fee != 0 should be rejected."""
+    state = _base_state()
+    state.energy_resources[ALICE].freeze_records[0].unlock_height = 0
+    tx = _mk_unfreeze_tos(ALICE, nonce=5, amount=COIN_VALUE, from_delegation=False, fee=100)
+    state_test_group(
+        "transactions/energy/unfreeze_tos.json",
+        "unfreeze_tos_nonzero_fee",
+        state,
+        tx,
+    )
+
+
+def test_withdraw_unfrozen_nonzero_fee(state_test_group) -> None:
+    """Withdraw with fee != 0 should be rejected."""
+    state = _base_state()
+    state.energy_resources[ALICE].pending_unfreezes = [
+        PendingUnfreeze(amount=COIN_VALUE, expire_height=0),
+    ]
+    tx = _mk_withdraw_unfrozen(ALICE, nonce=5, fee=100)
+    state_test_group(
+        "transactions/energy/withdraw_unfrozen.json",
+        "withdraw_unfrozen_nonzero_fee",
+        state,
+        tx,
+    )
+
+
+# ===================================================================
+# Delegate validation tests
+# ===================================================================
+
+
+def test_freeze_delegate_duplicate_delegatees(state_test_group) -> None:
+    """Duplicate delegatee addresses should be rejected.
+
+    Rust: "Duplicate delegatee in list".
+    """
+    state = _base_state()
+    state.accounts[BOB] = AccountState(address=BOB, balance=0, nonce=0)
+    entries = [
+        DelegationEntry(delegatee=BOB, amount=COIN_VALUE),
+        DelegationEntry(delegatee=BOB, amount=COIN_VALUE),
+    ]
+    tx = _mk_freeze_delegate(ALICE, nonce=5, delegatees=entries, days=7, fee=0)
+    state_test_group(
+        "transactions/energy/freeze_delegate.json",
+        "freeze_delegate_duplicate_delegatees",
+        state,
+        tx,
+    )
+
+
+def test_freeze_delegate_not_found(state_test_group) -> None:
+    """Delegatee account does not exist.
+
+    Rust: "Delegatee account does not exist".
+    """
+    state = _base_state()
+    unknown = bytes([99]) * 32
+    entries = [DelegationEntry(delegatee=unknown, amount=COIN_VALUE)]
+    tx = _mk_freeze_delegate(ALICE, nonce=5, delegatees=entries, days=7, fee=0)
+    state_test_group(
+        "transactions/energy/freeze_delegate.json",
+        "freeze_delegate_not_found",
+        state,
+        tx,
+    )
+
+
+def test_freeze_delegate_zero_amount(state_test_group) -> None:
+    """Delegation amount = 0 per entry.
+
+    Rust: "Delegation amount must be greater than zero".
+    """
+    state = _base_state()
+    state.accounts[BOB] = AccountState(address=BOB, balance=0, nonce=0)
+    entries = [DelegationEntry(delegatee=BOB, amount=0)]
+    tx = _mk_freeze_delegate(ALICE, nonce=5, delegatees=entries, days=7, fee=0)
+    state_test_group(
+        "transactions/energy/freeze_delegate.json",
+        "freeze_delegate_zero_amount",
+        state,
+        tx,
+    )
+
+
+def test_freeze_delegate_non_whole_tos(state_test_group) -> None:
+    """Delegation amount not a multiple of COIN_VALUE.
+
+    Rust: "Delegation amount must be a whole number of TOS".
+    """
+    state = _base_state()
+    state.accounts[BOB] = AccountState(address=BOB, balance=0, nonce=0)
+    entries = [DelegationEntry(delegatee=BOB, amount=COIN_VALUE + COIN_VALUE // 2)]
+    tx = _mk_freeze_delegate(ALICE, nonce=5, delegatees=entries, days=7, fee=0)
+    state_test_group(
+        "transactions/energy/freeze_delegate.json",
+        "freeze_delegate_non_whole_tos",
+        state,
+        tx,
+    )
+
+
+def test_freeze_delegate_below_minimum(state_test_group) -> None:
+    """Delegation amount below MIN_FREEZE_TOS_AMOUNT.
+
+    Rust: "Delegation amount must be at least 1 TOS".
+    """
+    state = _base_state()
+    state.accounts[BOB] = AccountState(address=BOB, balance=0, nonce=0)
+    entries = [DelegationEntry(delegatee=BOB, amount=MIN_FREEZE_TOS_AMOUNT // 2)]
+    tx = _mk_freeze_delegate(ALICE, nonce=5, delegatees=entries, days=7, fee=0)
+    state_test_group(
+        "transactions/energy/freeze_delegate.json",
+        "freeze_delegate_below_minimum",
+        state,
+        tx,
+    )
+
+
+def test_freeze_delegate_insufficient_balance(state_test_group) -> None:
+    """Total delegation amount exceeds sender balance.
+
+    Rust: InsufficientFunds.
+    """
+    state = ChainState(network_chain_id=CHAIN_ID_DEVNET)
+    sender = ALICE
+    state.accounts[sender] = AccountState(
+        address=sender, balance=COIN_VALUE, nonce=5
+    )
+    state.accounts[BOB] = AccountState(address=BOB, balance=0, nonce=0)
+    state.accounts[CAROL] = AccountState(address=CAROL, balance=0, nonce=0)
+    entries = [
+        DelegationEntry(delegatee=BOB, amount=COIN_VALUE),
+        DelegationEntry(delegatee=CAROL, amount=COIN_VALUE),
+    ]
+    tx = _mk_freeze_delegate(sender, nonce=5, delegatees=entries, days=7, fee=0)
+    state_test_group(
+        "transactions/energy/freeze_delegate.json",
+        "freeze_delegate_insufficient_balance",
+        state,
+        tx,
+    )
+
+
+def test_freeze_delegate_duration_too_short(state_test_group) -> None:
+    """Delegation duration below minimum (2 days < 3)."""
+    state = _base_state()
+    state.accounts[BOB] = AccountState(address=BOB, balance=0, nonce=0)
+    entries = [DelegationEntry(delegatee=BOB, amount=COIN_VALUE)]
+    tx = _mk_freeze_delegate(ALICE, nonce=5, delegatees=entries, days=2, fee=0)
+    state_test_group(
+        "transactions/energy/freeze_delegate.json",
+        "freeze_delegate_duration_too_short",
+        state,
+        tx,
+    )
+
+
+def test_freeze_delegate_duration_too_long(state_test_group) -> None:
+    """Delegation duration above maximum (366 days > 365)."""
+    state = _base_state()
+    state.accounts[BOB] = AccountState(address=BOB, balance=0, nonce=0)
+    entries = [DelegationEntry(delegatee=BOB, amount=COIN_VALUE)]
+    tx = _mk_freeze_delegate(ALICE, nonce=5, delegatees=entries, days=366, fee=0)
+    state_test_group(
+        "transactions/energy/freeze_delegate.json",
+        "freeze_delegate_duration_too_long",
+        state,
+        tx,
+    )
+
+
+# ===================================================================
+# Unfreeze boundary tests
+# ===================================================================
+
+
+def test_unfreeze_non_whole_tos(state_test_group) -> None:
+    """Unfreeze amount not a multiple of COIN_VALUE.
+
+    Rust: "Unfreeze amount must be a whole number of TOS".
+    """
+    state = _base_state()
+    state.energy_resources[ALICE].freeze_records[0].unlock_height = 0
+    tx = _mk_unfreeze_tos(
+        ALICE, nonce=5, amount=COIN_VALUE + COIN_VALUE // 2,
+        from_delegation=False, fee=0,
+    )
+    state_test_group(
+        "transactions/energy/unfreeze_tos.json",
+        "unfreeze_non_whole_tos",
+        state,
+        tx,
+    )
+
+
+# ===================================================================
+# Freeze exact boundary (MIN/MAX) tests
+# ===================================================================
+
+
+def test_freeze_duration_exact_min(state_test_group) -> None:
+    """Freeze with exactly MIN_FREEZE_DURATION_DAYS (3). Should succeed."""
+    state = _base_state()
+    tx = _mk_freeze_tos(ALICE, nonce=5, amount=COIN_VALUE, days=3, fee=0)
+    state_test_group(
+        "transactions/energy/freeze_tos.json", "freeze_duration_exact_min", state, tx
+    )
+
+
+def test_freeze_duration_exact_max(state_test_group) -> None:
+    """Freeze with exactly MAX_FREEZE_DURATION_DAYS (365). Should succeed."""
+    state = _base_state()
+    tx = _mk_freeze_tos(ALICE, nonce=5, amount=COIN_VALUE, days=365, fee=0)
+    state_test_group(
+        "transactions/energy/freeze_tos.json", "freeze_duration_exact_max", state, tx
+    )
+
+
+def test_freeze_exact_minimum_amount(state_test_group) -> None:
+    """Freeze with exactly MIN_FREEZE_TOS_AMOUNT (1 TOS). Should succeed."""
+    state = _base_state()
+    tx = _mk_freeze_tos(ALICE, nonce=5, amount=MIN_FREEZE_TOS_AMOUNT, days=7, fee=0)
+    state_test_group(
+        "transactions/energy/freeze_tos.json", "freeze_exact_minimum_amount", state, tx
+    )

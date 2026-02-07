@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from tos_spec.config import CHAIN_ID_DEVNET, MAX_MULTISIG_PARTICIPANTS
-from tos_spec.test_accounts import ALICE, BOB, CAROL
+from tos_spec.test_accounts import ALICE, BOB, CAROL, DAVE
 from tos_spec.types import (
     AccountState,
     AgentAccountMeta,
@@ -425,6 +425,319 @@ def test_multisig_zero_participants_nonzero_threshold(state_test_group) -> None:
     state_test_group(
         "transactions/account/multisig.json",
         "multisig_zero_participants_nonzero_threshold",
+        state,
+        tx,
+    )
+
+
+# --- agent_account: rotate_controller same-as-current ---
+
+
+def test_agent_account_rotate_controller_same_as_current(state_test_group) -> None:
+    """Rotate controller to the same current controller should fail."""
+    state = _base_state()
+    state.agent_accounts[ALICE] = AgentAccountMeta(
+        owner=ALICE,
+        controller=BOB,
+        policy_hash=_hash(3),
+        status=0,
+    )
+    payload = {
+        "variant": "rotate_controller",
+        "new_controller": BOB,  # same as current controller
+    }
+    tx = _mk_agent_account(ALICE, nonce=5, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/account/agent_account.json",
+        "agent_account_rotate_controller_same_as_current",
+        state,
+        tx,
+    )
+
+
+# --- agent_account: set_status success ---
+
+
+def test_agent_account_set_status_zero(state_test_group) -> None:
+    """Set status to 0 (active) should succeed."""
+    state = _base_state()
+    state.agent_accounts[ALICE] = AgentAccountMeta(
+        owner=ALICE,
+        controller=BOB,
+        policy_hash=_hash(3),
+        status=1,
+    )
+    payload = {
+        "variant": "set_status",
+        "status": 0,
+    }
+    tx = _mk_agent_account(ALICE, nonce=5, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/account/agent_account.json",
+        "agent_account_set_status_zero",
+        state,
+        tx,
+    )
+
+
+def test_agent_account_set_status_one(state_test_group) -> None:
+    """Set status to 1 (disabled) should succeed."""
+    state = _base_state()
+    state.agent_accounts[ALICE] = AgentAccountMeta(
+        owner=ALICE,
+        controller=BOB,
+        policy_hash=_hash(3),
+        status=0,
+    )
+    payload = {
+        "variant": "set_status",
+        "status": 1,
+    }
+    tx = _mk_agent_account(ALICE, nonce=5, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/account/agent_account.json",
+        "agent_account_set_status_one",
+        state,
+        tx,
+    )
+
+
+def test_agent_account_set_status_two(state_test_group) -> None:
+    """Set status to 2 should fail (valid values are 0 and 1 only)."""
+    state = _base_state()
+    state.agent_accounts[ALICE] = AgentAccountMeta(
+        owner=ALICE,
+        controller=BOB,
+        policy_hash=_hash(3),
+        status=0,
+    )
+    payload = {
+        "variant": "set_status",
+        "status": 2,
+    }
+    tx = _mk_agent_account(ALICE, nonce=5, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/account/agent_account.json",
+        "agent_account_set_status_two",
+        state,
+        tx,
+    )
+
+
+# --- agent_account: set_energy_pool ---
+
+
+def test_agent_account_set_energy_pool_success(state_test_group) -> None:
+    """Set energy pool to owner address should succeed."""
+    state = _base_state()
+    state.agent_accounts[ALICE] = AgentAccountMeta(
+        owner=ALICE,
+        controller=BOB,
+        policy_hash=_hash(3),
+        status=0,
+    )
+    payload = {
+        "variant": "set_energy_pool",
+        "energy_pool": ALICE,  # owner
+    }
+    tx = _mk_agent_account(ALICE, nonce=5, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/account/agent_account.json",
+        "agent_account_set_energy_pool_success",
+        state,
+        tx,
+    )
+
+
+def test_agent_account_set_energy_pool_clear(state_test_group) -> None:
+    """Clear energy pool (set to None) should succeed."""
+    state = _base_state()
+    state.agent_accounts[ALICE] = AgentAccountMeta(
+        owner=ALICE,
+        controller=BOB,
+        policy_hash=_hash(3),
+        status=0,
+        energy_pool=ALICE,
+    )
+    payload = {
+        "variant": "set_energy_pool",
+        "energy_pool": None,
+    }
+    tx = _mk_agent_account(ALICE, nonce=5, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/account/agent_account.json",
+        "agent_account_set_energy_pool_clear",
+        state,
+        tx,
+    )
+
+
+def test_agent_account_set_energy_pool_not_registered(state_test_group) -> None:
+    """Set energy pool when not registered should fail."""
+    state = _base_state()
+    # No agent_accounts entry for ALICE
+    payload = {
+        "variant": "set_energy_pool",
+        "energy_pool": ALICE,
+    }
+    tx = _mk_agent_account(ALICE, nonce=5, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/account/agent_account.json",
+        "agent_account_set_energy_pool_not_registered",
+        state,
+        tx,
+    )
+
+
+# --- agent_account: set_session_key_root ---
+
+
+def test_agent_account_set_session_key_root_success(state_test_group) -> None:
+    """Set session key root to a non-zero hash should succeed."""
+    state = _base_state()
+    state.agent_accounts[ALICE] = AgentAccountMeta(
+        owner=ALICE,
+        controller=BOB,
+        policy_hash=_hash(3),
+        status=0,
+    )
+    payload = {
+        "variant": "set_session_key_root",
+        "session_key_root": _hash(9),
+    }
+    tx = _mk_agent_account(ALICE, nonce=5, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/account/agent_account.json",
+        "agent_account_set_session_key_root_success",
+        state,
+        tx,
+    )
+
+
+def test_agent_account_set_session_key_root_clear(state_test_group) -> None:
+    """Clear session key root (set to None) should succeed."""
+    state = _base_state()
+    state.agent_accounts[ALICE] = AgentAccountMeta(
+        owner=ALICE,
+        controller=BOB,
+        policy_hash=_hash(3),
+        status=0,
+        session_key_root=_hash(9),
+    )
+    payload = {
+        "variant": "set_session_key_root",
+        "session_key_root": None,
+    }
+    tx = _mk_agent_account(ALICE, nonce=5, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/account/agent_account.json",
+        "agent_account_set_session_key_root_clear",
+        state,
+        tx,
+    )
+
+
+def test_agent_account_set_session_key_root_not_registered(state_test_group) -> None:
+    """Set session key root when not registered should fail."""
+    state = _base_state()
+    # No agent_accounts entry for ALICE
+    payload = {
+        "variant": "set_session_key_root",
+        "session_key_root": _hash(9),
+    }
+    tx = _mk_agent_account(ALICE, nonce=5, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/account/agent_account.json",
+        "agent_account_set_session_key_root_not_registered",
+        state,
+        tx,
+    )
+
+
+# --- agent_account: register with energy_pool and session_key_root ---
+
+
+def test_agent_account_register_with_energy_pool(state_test_group) -> None:
+    """Register agent account with energy_pool set to owner."""
+    state = _base_state()
+    payload = {
+        "variant": "register",
+        "controller": BOB,
+        "policy_hash": _hash(3),
+        "energy_pool": ALICE,
+    }
+    tx = _mk_agent_account(ALICE, nonce=5, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/account/agent_account.json",
+        "agent_account_register_with_energy_pool",
+        state,
+        tx,
+    )
+
+
+def test_agent_account_register_with_session_key_root(state_test_group) -> None:
+    """Register agent account with session_key_root set."""
+    state = _base_state()
+    payload = {
+        "variant": "register",
+        "controller": BOB,
+        "policy_hash": _hash(3),
+        "session_key_root": _hash(9),
+    }
+    tx = _mk_agent_account(ALICE, nonce=5, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/account/agent_account.json",
+        "agent_account_register_with_session_key_root",
+        state,
+        tx,
+    )
+
+
+# --- agent_account: update_policy success ---
+
+
+def test_agent_account_update_policy_success(state_test_group) -> None:
+    """Update policy with non-zero hash when registered should succeed."""
+    state = _base_state()
+    state.agent_accounts[ALICE] = AgentAccountMeta(
+        owner=ALICE,
+        controller=BOB,
+        policy_hash=_hash(3),
+        status=0,
+    )
+    payload = {
+        "variant": "update_policy",
+        "policy_hash": _hash(4),
+    }
+    tx = _mk_agent_account(ALICE, nonce=5, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/account/agent_account.json",
+        "agent_account_update_policy_success",
+        state,
+        tx,
+    )
+
+
+# --- agent_account: rotate_controller success ---
+
+
+def test_agent_account_rotate_controller_success(state_test_group) -> None:
+    """Rotate controller to a new valid controller should succeed."""
+    state = _base_state()
+    state.agent_accounts[ALICE] = AgentAccountMeta(
+        owner=ALICE,
+        controller=BOB,
+        policy_hash=_hash(3),
+        status=0,
+    )
+    payload = {
+        "variant": "rotate_controller",
+        "new_controller": DAVE,  # new controller
+    }
+    tx = _mk_agent_account(ALICE, nonce=5, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/account/agent_account.json",
+        "agent_account_rotate_controller_success",
         state,
         tx,
     )

@@ -58,6 +58,13 @@ def _verify_batch_referral_reward(state: ChainState, tx: Transaction) -> None:
     if not isinstance(p, dict):
         raise SpecError(ErrorCode.INVALID_PAYLOAD, "batch_referral_reward payload must be dict")
 
+    # Authorization: sender must be the from_user (prevents abuse)
+    from_user = p.get("from_user")
+    if isinstance(from_user, (list, tuple)):
+        from_user = bytes(from_user)
+    if from_user != tx.source:
+        raise SpecError(ErrorCode.UNAUTHORIZED, "batch_referral_reward sender must be from_user")
+
     total_amount = p.get("total_amount", 0)
     if total_amount <= 0:
         raise SpecError(ErrorCode.INVALID_AMOUNT, "total_amount must be > 0")

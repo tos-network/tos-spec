@@ -199,6 +199,7 @@ class EscrowAccount:
     dispute: DisputeInfo | None = None
     dispute_id: bytes | None = None
     dispute_round: int | None = None
+    appeal: object | None = None
 
 
 # --- Arbiter domain state ---

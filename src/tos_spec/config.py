@@ -30,6 +30,29 @@ MAX_NAME_LENGTH = 64
 MIN_TTL = 100
 MAX_TTL = 86_400
 MAX_ENCRYPTED_SIZE = 188
+REGISTRATION_FEE = 10_000_000  # 0.1 TOS for name registration
+BASE_MESSAGE_FEE = 5000  # 0.00005 TOS base ephemeral message fee
+TTL_ONE_DAY = 28_800  # TTL threshold for fee tier 2
+
+# TNS reserved names (names that cannot be registered)
+RESERVED_NAMES = frozenset({
+    "admin", "administrator", "system", "root", "null", "undefined",
+    "tos", "tosnetwork", "test", "example", "localhost",
+    "postmaster", "webmaster", "hostmaster", "abuse", "support", "info", "contact",
+    "validator", "node", "daemon", "rpc", "api", "wallet", "bridge",
+    "oracle", "governance", "treasury", "foundation", "network",
+    "mainnet", "testnet", "devnet", "stagenet",
+    "block", "transaction", "tx", "hash", "address",
+    "security", "cert", "ssl", "tls", "www", "ftp", "mail",
+    "smtp", "imap", "pop", "dns", "ntp", "ssh", "telnet", "ldap",
+    "official", "verified", "authentic", "real", "true",
+    "team", "staff", "mod", "moderator", "developer", "dev",
+    "anonymous", "unknown", "nobody", "anyone", "everyone",
+    "all", "none", "default", "guest", "user",
+})
+
+# TNS phishing keywords
+PHISHING_KEYWORDS = ("official", "verified", "authentic", "support", "help")
 
 # Arbitration / Escrow / KYC
 MIN_ARBITER_STAKE = COIN_VALUE * 1000
@@ -59,6 +82,9 @@ MAX_MEMBER_NAME_LEN = 64
 VALID_KYC_LEVELS = [0, 7, 31, 63, 255, 2047, 8191, 16383, 32767]
 
 # Contract limits
+BURN_PER_CONTRACT = COIN_VALUE  # 1 TOS per contract deployed
+MAX_GAS_USAGE_PER_TX = COIN_VALUE * 10  # 10 TOS max gas per transaction
+TX_GAS_BURN_PERCENT = 30  # 30% of gas burned
 MAX_VALUE_CELL_DEPTH = 64
 MAX_ARRAY_SIZE = 10_000
 MAX_MAP_SIZE = 10_000

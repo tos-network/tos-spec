@@ -91,6 +91,25 @@ def _escrow_to_json(e: EscrowAccount) -> dict[str, Any]:
         d["dispute_id"] = _bytes_to_hex(e.dispute_id)
     if e.dispute_round is not None:
         d["dispute_round"] = e.dispute_round
+    if e.appeal is not None:
+        ap = e.appeal
+        if isinstance(ap, dict):
+            appeal_d: dict[str, Any] = {}
+            if "appellant" in ap:
+                appeal_d["appellant"] = _bytes_to_hex(ap["appellant"])
+            if "reason" in ap:
+                appeal_d["reason"] = ap["reason"]
+            if "new_evidence_hash" in ap:
+                appeal_d["new_evidence_hash"] = _bytes_to_hex(ap["new_evidence_hash"])
+            if "deposit" in ap:
+                appeal_d["deposit"] = ap["deposit"]
+            if "appealed_at" in ap:
+                appeal_d["appealed_at"] = ap["appealed_at"]
+            if "deadline" in ap:
+                appeal_d["deadline"] = ap["deadline"]
+            if "threshold" in ap:
+                appeal_d["threshold"] = ap["threshold"]
+            d["appeal"] = appeal_d
     return d
 
 

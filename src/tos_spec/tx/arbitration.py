@@ -162,6 +162,19 @@ def _verify_update_arbiter(state: ChainState, tx: Transaction, p: dict) -> None:
     if fee_bps is not None and (fee_bps < 0 or fee_bps > MAX_FEE_BPS):
         raise SpecError(ErrorCode.INVALID_PAYLOAD, "invalid fee basis points")
 
+    # Escrow range check (only when both are provided)
+    min_val = p.get("min_escrow_value")
+    max_val = p.get("max_escrow_value")
+    if min_val is not None and max_val is not None and min_val > max_val:
+        raise SpecError(ErrorCode.INVALID_PAYLOAD, "min_escrow_value > max_escrow_value")
+
+    # Deactivate + add_stake check: cannot add stake while deactivating
+    deactivate = p.get("deactivate", False)
+    if deactivate:
+        add_stake = p.get("add_stake")
+        if add_stake is not None and add_stake > 0:
+            raise SpecError(ErrorCode.INVALID_PAYLOAD, "cannot add stake while deactivating")
+
     if tx.source not in state.arbiters:
         raise SpecError(ErrorCode.ACCOUNT_NOT_FOUND, "arbiter not found")
 
@@ -263,24 +276,31 @@ def _verify_withdraw_stake(state: ChainState, tx: Transaction, p: dict) -> None:
     if tx.source not in state.arbiters:
         raise SpecError(ErrorCode.ACCOUNT_NOT_FOUND, "arbiter not found")
     arbiter = state.arbiters[tx.source]
+    # Check withdraw amount vs available stake first (daemon does checked_sub in apply,
+    # which triggers overflow before status checks)
+    requested = p.get("amount", 0)
+    withdraw_amount = arbiter.stake_amount if requested == 0 else requested
+    if withdraw_amount > arbiter.stake_amount:
+        raise SpecError(ErrorCode.OVERFLOW, "withdraw amount exceeds stake")
     if arbiter.status != ArbiterStatus.EXITING:
         raise SpecError(ErrorCode.INVALID_PAYLOAD, "arbiter must be in exiting state")
-    if arbiter.stake_amount <= 0:
-        raise SpecError(ErrorCode.INVALID_PAYLOAD, "no stake to withdraw")
 
 
 def _apply_withdraw_stake(state: ChainState, tx: Transaction, p: dict) -> ChainState:
     ns = deepcopy(state)
     arbiter = ns.arbiters[tx.source]
-    stake = arbiter.stake_amount
-    arbiter.stake_amount = 0
+    requested = p.get("amount", 0)
+    withdraw_amount = arbiter.stake_amount if requested == 0 else requested
+    if withdraw_amount > arbiter.stake_amount:
+        raise SpecError(ErrorCode.OVERFLOW, "withdraw amount exceeds stake")
+    arbiter.stake_amount -= withdraw_amount
     arbiter.status = ArbiterStatus.REMOVED
 
     sender = ns.accounts.get(tx.source)
     if sender is not None:
-        if sender.balance + stake > U64_MAX:
+        if sender.balance + withdraw_amount > U64_MAX:
             raise SpecError(ErrorCode.OVERFLOW, "sender balance overflow")
-        sender.balance += stake
+        sender.balance += withdraw_amount
 
     return ns
 

@@ -154,7 +154,7 @@ def _dispatch_apply(state: ChainState, tx: Transaction) -> ChainState:
 
 def _verify_common(state: ChainState, tx: Transaction) -> None:
     if tx.chain_id != state.network_chain_id:
-        raise SpecError(ErrorCode.INVALID_VERSION, "chain_id mismatch")
+        raise SpecError(ErrorCode.INVALID_TYPE, "chain_id mismatch")
 
     sender = state.accounts.get(tx.source)
     if sender is None:
@@ -164,8 +164,14 @@ def _verify_common(state: ChainState, tx: Transaction) -> None:
     if tx.fee < 0:
         raise SpecError(ErrorCode.INVALID_AMOUNT, "fee negative")
 
-    if tx.fee_type == FeeType.ENERGY and tx.tx_type != TransactionType.TRANSFERS:
-        raise SpecError(ErrorCode.INVALID_PAYLOAD, "energy fee only for transfers")
+    _ENERGY_FEE_ALLOWED = {
+        TransactionType.TRANSFERS,
+        TransactionType.UNO_TRANSFERS,
+        TransactionType.SHIELD_TRANSFERS,
+        TransactionType.UNSHIELD_TRANSFERS,
+    }
+    if tx.fee_type == FeeType.ENERGY and tx.tx_type not in _ENERGY_FEE_ALLOWED:
+        raise SpecError(ErrorCode.INVALID_FORMAT, "energy fee only for transfer-type transactions")
 
     if tx.fee_type == FeeType.ENERGY and tx.fee != 0:
         raise SpecError(ErrorCode.INVALID_PAYLOAD, "energy fee must be zero")

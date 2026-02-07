@@ -130,6 +130,41 @@ def _verify_create(state: ChainState, tx: Transaction, p: dict) -> None:
     if provider == tx.source:
         raise SpecError(ErrorCode.SELF_OPERATION, "payer cannot be provider")
 
+    # Validate arbitration config if present
+    arb_config = p.get("arbitration_config")
+    if arb_config is not None:
+        mode = arb_config.get("mode", "none")
+        arbiters = arb_config.get("arbiters", [])
+        threshold = arb_config.get("threshold")
+        if mode == "none":
+            raise SpecError(ErrorCode.INVALID_PAYLOAD, "arbitration mode cannot be none when config is present")
+        elif mode == "single":
+            if len(arbiters) != 1:
+                raise SpecError(ErrorCode.INVALID_PAYLOAD, "single mode requires exactly 1 arbiter")
+            if threshold is not None and threshold != 1:
+                raise SpecError(ErrorCode.INVALID_PAYLOAD, "single mode requires threshold=1")
+        elif mode == "committee":
+            if len(arbiters) == 0:
+                raise SpecError(ErrorCode.INVALID_PAYLOAD, "committee mode requires at least one arbiter")
+            t = threshold if threshold is not None else 1
+            if t == 0:
+                raise SpecError(ErrorCode.INVALID_PAYLOAD, "threshold cannot be zero")
+            if t > len(arbiters):
+                raise SpecError(ErrorCode.INVALID_PAYLOAD, "threshold exceeds arbiter count")
+        elif mode == "dao-governance":
+            if len(arbiters) == 0:
+                raise SpecError(ErrorCode.INVALID_PAYLOAD, "dao-governance mode requires at least one arbiter")
+            if threshold is not None:
+                if threshold == 0:
+                    raise SpecError(ErrorCode.INVALID_PAYLOAD, "threshold cannot be zero")
+                if threshold > len(arbiters):
+                    raise SpecError(ErrorCode.INVALID_PAYLOAD, "threshold exceeds arbiter count")
+
+    # Optimistic release requires arbitration config for challenges to work
+    optimistic = p.get("optimistic_release", False)
+    if optimistic and arb_config is None:
+        raise SpecError(ErrorCode.INVALID_PAYLOAD, "optimistic_release requires arbitration_config")
+
     sender = state.accounts.get(tx.source)
     if sender is None:
         raise SpecError(ErrorCode.ACCOUNT_NOT_FOUND, "sender not found")
@@ -294,7 +329,7 @@ def _apply_refund(state: ChainState, tx: Transaction, p: dict) -> ChainState:
 def _verify_challenge(state: ChainState, tx: Transaction, p: dict) -> None:
     reason = p.get("reason", "")
     if not reason or len(reason) > MAX_REASON_LEN:
-        raise SpecError(ErrorCode.INVALID_PAYLOAD, "invalid challenge reason")
+        raise SpecError(ErrorCode.INVALID_FORMAT, "invalid challenge reason")
 
     deposit = p.get("deposit", 0)
     if deposit <= 0:
@@ -313,6 +348,19 @@ def _verify_challenge(state: ChainState, tx: Transaction, p: dict) -> None:
         raise SpecError(ErrorCode.ESCROW_WRONG_STATE, "optimistic release not enabled")
     if escrow.arbitration_config is None:
         raise SpecError(ErrorCode.INVALID_PAYLOAD, "arbitration not configured")
+    # Challenge window check
+    release_at = escrow.release_requested_at
+    if release_at is not None:
+        height = state.global_state.block_height
+        window_end = release_at + escrow.challenge_window
+        if height > window_end:
+            raise SpecError(ErrorCode.INVALID_PAYLOAD, "challenge window expired")
+    # Minimum challenge deposit check based on pending release amount
+    pra = escrow.pending_release_amount
+    if pra is not None and pra > 0:
+        required = (pra * escrow.challenge_deposit_bps) // MAX_BPS
+        if deposit < required:
+            raise SpecError(ErrorCode.INVALID_AMOUNT, "challenge deposit too low")
 
 
 def _apply_challenge(state: ChainState, tx: Transaction, p: dict) -> ChainState:
@@ -343,7 +391,7 @@ def _apply_challenge(state: ChainState, tx: Transaction, p: dict) -> ChainState:
 def _verify_dispute(state: ChainState, tx: Transaction, p: dict) -> None:
     reason = p.get("reason", "")
     if not reason or len(reason) > MAX_REASON_LEN:
-        raise SpecError(ErrorCode.INVALID_PAYLOAD, "invalid dispute reason")
+        raise SpecError(ErrorCode.INVALID_FORMAT, "invalid dispute reason")
 
     eid = _to_bytes(p.get("escrow_id"))
     escrow = state.escrows.get(eid)
@@ -380,7 +428,7 @@ def _apply_dispute(state: ChainState, tx: Transaction, p: dict) -> ChainState:
 def _verify_appeal(state: ChainState, tx: Transaction, p: dict) -> None:
     reason = p.get("reason", "")
     if not reason or len(reason) > MAX_REASON_LEN:
-        raise SpecError(ErrorCode.INVALID_PAYLOAD, "invalid appeal reason")
+        raise SpecError(ErrorCode.INVALID_FORMAT, "invalid appeal reason")
 
     appeal_deposit = p.get("appeal_deposit", 0)
     if appeal_deposit <= 0:
@@ -397,9 +445,19 @@ def _verify_appeal(state: ChainState, tx: Transaction, p: dict) -> None:
         raise SpecError(ErrorCode.ESCROW_WRONG_STATE, "escrow not in resolved state")
     if escrow.dispute is None:
         raise SpecError(ErrorCode.ESCROW_WRONG_STATE, "no dispute record to appeal")
+    if escrow.appeal is not None:
+        raise SpecError(ErrorCode.ESCROW_WRONG_STATE, "appeal already exists")
     config = escrow.arbitration_config
     if config is None or not config.allow_appeal:
         raise SpecError(ErrorCode.INVALID_PAYLOAD, "appeal not allowed")
+    # Appeal window check: must be before timeout_at
+    height = state.global_state.block_height
+    if height >= escrow.timeout_at:
+        raise SpecError(ErrorCode.INVALID_PAYLOAD, "appeal window expired")
+    # Minimum appeal deposit check
+    required = (escrow.total_amount * MIN_APPEAL_DEPOSIT_BPS) // MAX_BPS
+    if appeal_deposit < required:
+        raise SpecError(ErrorCode.INVALID_AMOUNT, "appeal deposit too low")
 
 
 def _apply_appeal(state: ChainState, tx: Transaction, p: dict) -> ChainState:
@@ -438,6 +496,18 @@ def _verify_submit_verdict(state: ChainState, tx: Transaction, p: dict) -> None:
         raise SpecError(ErrorCode.ESCROW_WRONG_STATE, "dispute record required")
     if escrow.arbitration_config is None:
         raise SpecError(ErrorCode.INVALID_PAYLOAD, "arbitration not configured")
+    # Dispute ID must match if already set
+    dispute_id = _to_bytes(p.get("dispute_id"))
+    if escrow.dispute_id is not None and escrow.dispute_id != dispute_id:
+        raise SpecError(ErrorCode.INVALID_PAYLOAD, "dispute id mismatch")
+    # Round validation
+    rd = p.get("round", 0)
+    if escrow.dispute_round is not None:
+        if rd <= escrow.dispute_round:
+            raise SpecError(ErrorCode.INVALID_PAYLOAD, "verdict round must be greater than current dispute round")
+    else:
+        if rd != 0:
+            raise SpecError(ErrorCode.INVALID_PAYLOAD, "first verdict round must be 0")
     # Verdict amounts must sum to escrow amount
     if payer_amount + payee_amount != escrow.amount:
         raise SpecError(ErrorCode.INVALID_AMOUNT, "verdict amounts must equal escrow amount")

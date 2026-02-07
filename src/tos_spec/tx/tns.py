@@ -5,12 +5,57 @@ from __future__ import annotations
 import re
 from copy import deepcopy
 
-from ..config import MAX_ENCRYPTED_SIZE, MAX_NAME_LENGTH, MAX_TTL, MIN_NAME_LENGTH, MIN_TTL
+from ..config import (
+    BASE_MESSAGE_FEE,
+    MAX_ENCRYPTED_SIZE,
+    MAX_NAME_LENGTH,
+    MAX_TTL,
+    MIN_NAME_LENGTH,
+    MIN_TTL,
+    PHISHING_KEYWORDS,
+    REGISTRATION_FEE,
+    RESERVED_NAMES,
+    TTL_ONE_DAY,
+)
 from ..errors import ErrorCode, SpecError
 from ..types import ChainState, TnsRecord, Transaction, TransactionType
 
 _VALID_NAME_RE = re.compile(r"^[a-z][a-z0-9._-]*$")
 _CONSECUTIVE_SEPARATORS_RE = re.compile(r"[._-]{2}")
+
+
+def _is_confusing_name(name: str) -> bool:
+    """Check if a name is potentially confusing (phishing risk).
+
+    Mirrors Rust's is_confusing_name logic:
+    1. Looks like an address prefix (tos1, tst1, 0x)
+    2. Pure numeric (easily confused with ID)
+    3. Contains phishing keywords
+    """
+    if name.startswith("tos1") or name.startswith("tst1") or name.startswith("0x"):
+        return True
+    if name.isdigit():
+        return True
+    for keyword in PHISHING_KEYWORDS:
+        if keyword in name:
+            return True
+    return False
+
+
+def _calculate_message_fee(ttl_blocks: int) -> int:
+    """Calculate the fee for an ephemeral message based on TTL.
+
+    Mirrors Rust's calculate_message_fee logic:
+    - TTL <= 100 blocks: 1x base fee
+    - TTL <= 28,800 blocks: 2x base fee
+    - TTL > 28,800 blocks: 3x base fee
+    """
+    if ttl_blocks <= MIN_TTL:
+        return BASE_MESSAGE_FEE
+    elif ttl_blocks <= TTL_ONE_DAY:
+        return BASE_MESSAGE_FEE * 2
+    else:
+        return BASE_MESSAGE_FEE * 3
 
 
 def verify(state: ChainState, tx: Transaction) -> None:
@@ -59,6 +104,21 @@ def _verify_register_name(state: ChainState, tx: Transaction) -> None:
     if _CONSECUTIVE_SEPARATORS_RE.search(normalized):
         raise SpecError(ErrorCode.INVALID_PAYLOAD, "name has consecutive separators")
 
+    # Reserved name check (matches Rust is_reserved_name)
+    if normalized in RESERVED_NAMES:
+        raise SpecError(ErrorCode.INVALID_PAYLOAD, f"reserved name: {normalized}")
+
+    # Confusing name check (matches Rust is_confusing_name)
+    if _is_confusing_name(normalized):
+        raise SpecError(ErrorCode.INVALID_PAYLOAD, f"confusing name: {normalized}")
+
+    # Fee check: minimum registration fee required
+    if tx.fee < REGISTRATION_FEE:
+        raise SpecError(
+            ErrorCode.INSUFFICIENT_FEE,
+            f"registration fee too low (required {REGISTRATION_FEE}, got {tx.fee})",
+        )
+
     if normalized in state.tns_names:
         raise SpecError(ErrorCode.DOMAIN_EXISTS, "name already registered")
 
@@ -105,6 +165,14 @@ def _verify_ephemeral_message(state: ChainState, tx: Transaction) -> None:
         raise SpecError(ErrorCode.INVALID_PAYLOAD, "message content empty")
     if len(content) > MAX_ENCRYPTED_SIZE:
         raise SpecError(ErrorCode.INVALID_PAYLOAD, f"message too large (max {MAX_ENCRYPTED_SIZE})")
+
+    # Fee check: minimum message fee based on TTL tier
+    required_fee = _calculate_message_fee(ttl)
+    if tx.fee < required_fee:
+        raise SpecError(
+            ErrorCode.INSUFFICIENT_FEE,
+            f"message fee too low (required {required_fee}, got {tx.fee})",
+        )
 
 
 def _apply_ephemeral_message(state: ChainState, tx: Transaction) -> ChainState:

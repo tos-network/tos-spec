@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from tos_spec.config import (
+    BASE_MESSAGE_FEE,
     CHAIN_ID_DEVNET,
     COIN_VALUE,
     MAX_ENCRYPTED_SIZE,
@@ -10,12 +11,15 @@ from tos_spec.config import (
     MAX_TTL,
     MIN_NAME_LENGTH,
     MIN_TTL,
+    REGISTRATION_FEE,
+    TTL_ONE_DAY,
 )
 from tos_spec.test_accounts import ALICE, BOB
 from tos_spec.types import (
     AccountState,
     ChainState,
     FeeType,
+    TnsRecord,
     Transaction,
     TransactionType,
     TxVersion,
@@ -296,6 +300,569 @@ def test_ephemeral_message_content_exact_max(state_test_group) -> None:
     state_test_group(
         "transactions/tns/ephemeral_message.json",
         "ephemeral_message_content_exact_max",
+        state,
+        tx,
+    )
+
+
+# ===================================================================
+# TNS name character validation tests (from Rust verify_register_name_format)
+# ===================================================================
+
+
+def test_register_name_starts_with_digit(state_test_group) -> None:
+    """Name starting with digit must fail."""
+    state = _base_state()
+    tx = _mk_register_name(ALICE, nonce=5, name="1alice", fee=REGISTRATION_FEE)
+    state_test_group(
+        "transactions/tns/register_name.json",
+        "register_name_starts_with_digit",
+        state,
+        tx,
+    )
+
+
+def test_register_name_starts_with_dot(state_test_group) -> None:
+    """Name starting with dot must fail."""
+    state = _base_state()
+    tx = _mk_register_name(ALICE, nonce=5, name=".alice", fee=REGISTRATION_FEE)
+    state_test_group(
+        "transactions/tns/register_name.json",
+        "register_name_starts_with_dot",
+        state,
+        tx,
+    )
+
+
+def test_register_name_starts_with_underscore(state_test_group) -> None:
+    """Name starting with underscore must fail."""
+    state = _base_state()
+    tx = _mk_register_name(ALICE, nonce=5, name="_alice", fee=REGISTRATION_FEE)
+    state_test_group(
+        "transactions/tns/register_name.json",
+        "register_name_starts_with_underscore",
+        state,
+        tx,
+    )
+
+
+def test_register_name_starts_with_hyphen(state_test_group) -> None:
+    """Name starting with hyphen must fail."""
+    state = _base_state()
+    tx = _mk_register_name(ALICE, nonce=5, name="-alice", fee=REGISTRATION_FEE)
+    state_test_group(
+        "transactions/tns/register_name.json",
+        "register_name_starts_with_hyphen",
+        state,
+        tx,
+    )
+
+
+def test_register_name_ends_with_dot(state_test_group) -> None:
+    """Name ending with dot must fail."""
+    state = _base_state()
+    tx = _mk_register_name(ALICE, nonce=5, name="alice.", fee=REGISTRATION_FEE)
+    state_test_group(
+        "transactions/tns/register_name.json",
+        "register_name_ends_with_dot",
+        state,
+        tx,
+    )
+
+
+def test_register_name_ends_with_hyphen(state_test_group) -> None:
+    """Name ending with hyphen must fail."""
+    state = _base_state()
+    tx = _mk_register_name(ALICE, nonce=5, name="alice-", fee=REGISTRATION_FEE)
+    state_test_group(
+        "transactions/tns/register_name.json",
+        "register_name_ends_with_hyphen",
+        state,
+        tx,
+    )
+
+
+def test_register_name_ends_with_underscore(state_test_group) -> None:
+    """Name ending with underscore must fail."""
+    state = _base_state()
+    tx = _mk_register_name(ALICE, nonce=5, name="alice_", fee=REGISTRATION_FEE)
+    state_test_group(
+        "transactions/tns/register_name.json",
+        "register_name_ends_with_underscore",
+        state,
+        tx,
+    )
+
+
+def test_register_name_consecutive_dots(state_test_group) -> None:
+    """Name with consecutive dots must fail."""
+    state = _base_state()
+    tx = _mk_register_name(ALICE, nonce=5, name="alice..bob", fee=REGISTRATION_FEE)
+    state_test_group(
+        "transactions/tns/register_name.json",
+        "register_name_consecutive_dots",
+        state,
+        tx,
+    )
+
+
+def test_register_name_consecutive_mixed_separators(state_test_group) -> None:
+    """Name with consecutive mixed separators must fail."""
+    state = _base_state()
+    tx = _mk_register_name(ALICE, nonce=5, name="alice.-bob", fee=REGISTRATION_FEE)
+    state_test_group(
+        "transactions/tns/register_name.json",
+        "register_name_consecutive_mixed_separators",
+        state,
+        tx,
+    )
+
+
+def test_register_name_at_symbol(state_test_group) -> None:
+    """Name with @ symbol must fail."""
+    state = _base_state()
+    tx = _mk_register_name(ALICE, nonce=5, name="alice@bob", fee=REGISTRATION_FEE)
+    state_test_group(
+        "transactions/tns/register_name.json",
+        "register_name_at_symbol",
+        state,
+        tx,
+    )
+
+
+def test_register_name_space(state_test_group) -> None:
+    """Name with space must fail."""
+    state = _base_state()
+    tx = _mk_register_name(ALICE, nonce=5, name="alice bob", fee=REGISTRATION_FEE)
+    state_test_group(
+        "transactions/tns/register_name.json",
+        "register_name_space",
+        state,
+        tx,
+    )
+
+
+def test_register_name_uppercase(state_test_group) -> None:
+    """Name with uppercase is normalized to lowercase and should succeed."""
+    state = _base_state()
+    tx = _mk_register_name(ALICE, nonce=5, name="Alice", fee=REGISTRATION_FEE)
+    state_test_group(
+        "transactions/tns/register_name.json",
+        "register_name_uppercase",
+        state,
+        tx,
+    )
+
+
+# ===================================================================
+# TNS reserved name tests (from Rust is_reserved_name)
+# ===================================================================
+
+
+def test_register_name_reserved_admin(state_test_group) -> None:
+    """Reserved name 'admin' must fail."""
+    state = _base_state()
+    tx = _mk_register_name(ALICE, nonce=5, name="admin", fee=REGISTRATION_FEE)
+    state_test_group(
+        "transactions/tns/register_name.json",
+        "register_name_reserved_admin",
+        state,
+        tx,
+    )
+
+
+def test_register_name_reserved_system(state_test_group) -> None:
+    """Reserved name 'system' must fail."""
+    state = _base_state()
+    tx = _mk_register_name(ALICE, nonce=5, name="system", fee=REGISTRATION_FEE)
+    state_test_group(
+        "transactions/tns/register_name.json",
+        "register_name_reserved_system",
+        state,
+        tx,
+    )
+
+
+def test_register_name_reserved_validator(state_test_group) -> None:
+    """Reserved name 'validator' must fail."""
+    state = _base_state()
+    tx = _mk_register_name(ALICE, nonce=5, name="validator", fee=REGISTRATION_FEE)
+    state_test_group(
+        "transactions/tns/register_name.json",
+        "register_name_reserved_validator",
+        state,
+        tx,
+    )
+
+
+def test_register_name_reserved_wallet(state_test_group) -> None:
+    """Reserved name 'wallet' must fail."""
+    state = _base_state()
+    tx = _mk_register_name(ALICE, nonce=5, name="wallet", fee=REGISTRATION_FEE)
+    state_test_group(
+        "transactions/tns/register_name.json",
+        "register_name_reserved_wallet",
+        state,
+        tx,
+    )
+
+
+def test_register_name_reserved_tos(state_test_group) -> None:
+    """Reserved name 'tos' must fail."""
+    state = _base_state()
+    tx = _mk_register_name(ALICE, nonce=5, name="tos", fee=REGISTRATION_FEE)
+    state_test_group(
+        "transactions/tns/register_name.json",
+        "register_name_reserved_tos",
+        state,
+        tx,
+    )
+
+
+# ===================================================================
+# TNS confusing name tests (from Rust is_confusing_name)
+# ===================================================================
+
+
+def test_register_name_confusing_tos1_prefix(state_test_group) -> None:
+    """Name starting with 'tos1' (address prefix) must fail."""
+    state = _base_state()
+    tx = _mk_register_name(ALICE, nonce=5, name="tos1alice", fee=REGISTRATION_FEE)
+    state_test_group(
+        "transactions/tns/register_name.json",
+        "register_name_confusing_tos1_prefix",
+        state,
+        tx,
+    )
+
+
+def test_register_name_confusing_tst1_prefix(state_test_group) -> None:
+    """Name starting with 'tst1' (testnet prefix) must fail."""
+    state = _base_state()
+    tx = _mk_register_name(ALICE, nonce=5, name="tst1alice", fee=REGISTRATION_FEE)
+    state_test_group(
+        "transactions/tns/register_name.json",
+        "register_name_confusing_tst1_prefix",
+        state,
+        tx,
+    )
+
+
+def test_register_name_confusing_phishing_official(state_test_group) -> None:
+    """Name containing 'official' (phishing keyword) must fail."""
+    state = _base_state()
+    tx = _mk_register_name(ALICE, nonce=5, name="alice.official", fee=REGISTRATION_FEE)
+    state_test_group(
+        "transactions/tns/register_name.json",
+        "register_name_confusing_phishing_official",
+        state,
+        tx,
+    )
+
+
+def test_register_name_confusing_phishing_verified(state_test_group) -> None:
+    """Name containing 'verified' (phishing keyword) must fail."""
+    state = _base_state()
+    tx = _mk_register_name(ALICE, nonce=5, name="verified.alice", fee=REGISTRATION_FEE)
+    state_test_group(
+        "transactions/tns/register_name.json",
+        "register_name_confusing_phishing_verified",
+        state,
+        tx,
+    )
+
+
+def test_register_name_confusing_phishing_support(state_test_group) -> None:
+    """Name containing 'support' must fail (both reserved and confusing)."""
+    state = _base_state()
+    tx = _mk_register_name(ALICE, nonce=5, name="support", fee=REGISTRATION_FEE)
+    state_test_group(
+        "transactions/tns/register_name.json",
+        "register_name_confusing_phishing_support",
+        state,
+        tx,
+    )
+
+
+# ===================================================================
+# TNS fee validation tests (from Rust verify_register_name_fee)
+# ===================================================================
+
+
+def test_register_name_insufficient_fee(state_test_group) -> None:
+    """Registration fee below REGISTRATION_FEE must fail."""
+    state = _base_state()
+    tx = _mk_register_name(ALICE, nonce=5, name="alice", fee=REGISTRATION_FEE - 1)
+    state_test_group(
+        "transactions/tns/register_name.json",
+        "register_name_insufficient_fee",
+        state,
+        tx,
+    )
+
+
+def test_register_name_exact_fee(state_test_group) -> None:
+    """Registration fee exactly at REGISTRATION_FEE must succeed."""
+    state = _base_state()
+    tx = _mk_register_name(ALICE, nonce=5, name="alice", fee=REGISTRATION_FEE)
+    state_test_group(
+        "transactions/tns/register_name.json",
+        "register_name_exact_fee",
+        state,
+        tx,
+    )
+
+
+# ===================================================================
+# TNS duplicate registration tests (from Rust stateful checks)
+# ===================================================================
+
+
+def test_register_name_duplicate(state_test_group) -> None:
+    """Registering an already taken name must fail."""
+    from tos_spec.types import TnsRecord
+    state = _base_state()
+    state.tns_names["alice"] = TnsRecord(name="alice", owner=BOB, registered_at=1)
+    tx = _mk_register_name(ALICE, nonce=5, name="alice", fee=REGISTRATION_FEE)
+    state_test_group(
+        "transactions/tns/register_name.json",
+        "register_name_duplicate",
+        state,
+        tx,
+    )
+
+
+def test_register_name_account_already_has_name(state_test_group) -> None:
+    """Sender already has a registered name must fail."""
+    state = _base_state()
+    state.tns_names["existingname"] = TnsRecord(name="existingname", owner=ALICE)
+    state.tns_by_owner[ALICE] = "existingname"
+    tx = _mk_register_name(ALICE, nonce=5, name="newname", fee=REGISTRATION_FEE)
+    state_test_group(
+        "transactions/tns/register_name.json",
+        "register_name_account_already_has_name",
+        state,
+        tx,
+    )
+
+
+# ===================================================================
+# TNS valid name with separators (from Rust test_valid_name_*)
+# ===================================================================
+
+
+def test_register_name_with_dot(state_test_group) -> None:
+    """Name with valid dot separator must succeed."""
+    state = _base_state()
+    tx = _mk_register_name(ALICE, nonce=5, name="john.doe", fee=REGISTRATION_FEE)
+    state_test_group(
+        "transactions/tns/register_name.json",
+        "register_name_with_dot",
+        state,
+        tx,
+    )
+
+
+def test_register_name_with_hyphen(state_test_group) -> None:
+    """Name with valid hyphen separator must succeed."""
+    state = _base_state()
+    tx = _mk_register_name(ALICE, nonce=5, name="alice-wang", fee=REGISTRATION_FEE)
+    state_test_group(
+        "transactions/tns/register_name.json",
+        "register_name_with_hyphen",
+        state,
+        tx,
+    )
+
+
+def test_register_name_with_underscore(state_test_group) -> None:
+    """Name with valid underscore separator must succeed."""
+    state = _base_state()
+    tx = _mk_register_name(ALICE, nonce=5, name="user_name", fee=REGISTRATION_FEE)
+    state_test_group(
+        "transactions/tns/register_name.json",
+        "register_name_with_underscore",
+        state,
+        tx,
+    )
+
+
+def test_register_name_with_digits(state_test_group) -> None:
+    """Name with digits after initial letter must succeed."""
+    state = _base_state()
+    tx = _mk_register_name(ALICE, nonce=5, name="bob123", fee=REGISTRATION_FEE)
+    state_test_group(
+        "transactions/tns/register_name.json",
+        "register_name_with_digits",
+        state,
+        tx,
+    )
+
+
+def test_register_name_mixed_separators(state_test_group) -> None:
+    """Name with mixed (non-consecutive) separators must succeed."""
+    state = _base_state()
+    tx = _mk_register_name(ALICE, nonce=5, name="a.b-c_d", fee=REGISTRATION_FEE)
+    state_test_group(
+        "transactions/tns/register_name.json",
+        "register_name_mixed_separators",
+        state,
+        tx,
+    )
+
+
+# ===================================================================
+# Ephemeral message fee tier tests (from Rust verify_ephemeral_message_fee)
+# ===================================================================
+
+
+def test_ephemeral_message_fee_tier1(state_test_group) -> None:
+    """TTL at minimum (100 blocks): tier 1 fee = BASE_MESSAGE_FEE."""
+    state = _base_state()
+    tx = _mk_ephemeral_message(
+        ALICE, nonce=5,
+        sender_name_hash=_hash(10),
+        recipient_name_hash=_hash(11),
+        ttl_blocks=MIN_TTL,
+        encrypted_content=bytes([0xAA]) * 50,
+        fee=BASE_MESSAGE_FEE,
+    )
+    state_test_group(
+        "transactions/tns/ephemeral_message.json",
+        "ephemeral_message_fee_tier1",
+        state,
+        tx,
+    )
+
+
+def test_ephemeral_message_fee_tier1_insufficient(state_test_group) -> None:
+    """TTL at minimum but fee below BASE_MESSAGE_FEE must fail."""
+    state = _base_state()
+    tx = _mk_ephemeral_message(
+        ALICE, nonce=5,
+        sender_name_hash=_hash(10),
+        recipient_name_hash=_hash(11),
+        ttl_blocks=MIN_TTL,
+        encrypted_content=bytes([0xAA]) * 50,
+        fee=BASE_MESSAGE_FEE - 1,
+    )
+    state_test_group(
+        "transactions/tns/ephemeral_message.json",
+        "ephemeral_message_fee_tier1_insufficient",
+        state,
+        tx,
+    )
+
+
+def test_ephemeral_message_fee_tier2(state_test_group) -> None:
+    """TTL just above tier 1 boundary (101 blocks): tier 2 fee = 2x BASE_MESSAGE_FEE."""
+    state = _base_state()
+    tx = _mk_ephemeral_message(
+        ALICE, nonce=5,
+        sender_name_hash=_hash(10),
+        recipient_name_hash=_hash(11),
+        ttl_blocks=MIN_TTL + 1,
+        encrypted_content=bytes([0xAA]) * 50,
+        fee=BASE_MESSAGE_FEE * 2,
+    )
+    state_test_group(
+        "transactions/tns/ephemeral_message.json",
+        "ephemeral_message_fee_tier2",
+        state,
+        tx,
+    )
+
+
+def test_ephemeral_message_fee_tier2_insufficient(state_test_group) -> None:
+    """TTL 101 but fee below 2x BASE_MESSAGE_FEE must fail."""
+    state = _base_state()
+    tx = _mk_ephemeral_message(
+        ALICE, nonce=5,
+        sender_name_hash=_hash(10),
+        recipient_name_hash=_hash(11),
+        ttl_blocks=MIN_TTL + 1,
+        encrypted_content=bytes([0xAA]) * 50,
+        fee=BASE_MESSAGE_FEE * 2 - 1,
+    )
+    state_test_group(
+        "transactions/tns/ephemeral_message.json",
+        "ephemeral_message_fee_tier2_insufficient",
+        state,
+        tx,
+    )
+
+
+def test_ephemeral_message_fee_tier2_boundary(state_test_group) -> None:
+    """TTL at TTL_ONE_DAY (28800 blocks): still tier 2 fee."""
+    state = _base_state()
+    tx = _mk_ephemeral_message(
+        ALICE, nonce=5,
+        sender_name_hash=_hash(10),
+        recipient_name_hash=_hash(11),
+        ttl_blocks=TTL_ONE_DAY,
+        encrypted_content=bytes([0xAA]) * 50,
+        fee=BASE_MESSAGE_FEE * 2,
+    )
+    state_test_group(
+        "transactions/tns/ephemeral_message.json",
+        "ephemeral_message_fee_tier2_boundary",
+        state,
+        tx,
+    )
+
+
+def test_ephemeral_message_fee_tier3(state_test_group) -> None:
+    """TTL just above TTL_ONE_DAY (28801 blocks): tier 3 fee = 3x BASE_MESSAGE_FEE."""
+    state = _base_state()
+    tx = _mk_ephemeral_message(
+        ALICE, nonce=5,
+        sender_name_hash=_hash(10),
+        recipient_name_hash=_hash(11),
+        ttl_blocks=TTL_ONE_DAY + 1,
+        encrypted_content=bytes([0xAA]) * 50,
+        fee=BASE_MESSAGE_FEE * 3,
+    )
+    state_test_group(
+        "transactions/tns/ephemeral_message.json",
+        "ephemeral_message_fee_tier3",
+        state,
+        tx,
+    )
+
+
+def test_ephemeral_message_fee_tier3_insufficient(state_test_group) -> None:
+    """TTL 28801 but fee below 3x BASE_MESSAGE_FEE must fail."""
+    state = _base_state()
+    tx = _mk_ephemeral_message(
+        ALICE, nonce=5,
+        sender_name_hash=_hash(10),
+        recipient_name_hash=_hash(11),
+        ttl_blocks=TTL_ONE_DAY + 1,
+        encrypted_content=bytes([0xAA]) * 50,
+        fee=BASE_MESSAGE_FEE * 3 - 1,
+    )
+    state_test_group(
+        "transactions/tns/ephemeral_message.json",
+        "ephemeral_message_fee_tier3_insufficient",
+        state,
+        tx,
+    )
+
+
+def test_ephemeral_message_fee_max_ttl(state_test_group) -> None:
+    """TTL at MAX_TTL (86400 blocks): tier 3 fee."""
+    state = _base_state()
+    tx = _mk_ephemeral_message(
+        ALICE, nonce=5,
+        sender_name_hash=_hash(10),
+        recipient_name_hash=_hash(11),
+        ttl_blocks=MAX_TTL,
+        encrypted_content=bytes([0xAA]) * 50,
+        fee=BASE_MESSAGE_FEE * 3,
+    )
+    state_test_group(
+        "transactions/tns/ephemeral_message.json",
+        "ephemeral_message_fee_max_ttl",
         state,
         tx,
     )

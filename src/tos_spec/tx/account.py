@@ -130,19 +130,22 @@ def _verify_agent_account(state: ChainState, tx: Transaction) -> None:
         new_controller = p.get("new_controller", zero)
         if isinstance(new_controller, (list, tuple)):
             new_controller = bytes(new_controller)
+        if tx.source not in state.agent_accounts:
+            raise SpecError(ErrorCode.ACCOUNT_NOT_FOUND, "agent account not registered")
         if new_controller == zero:
             raise SpecError(ErrorCode.INVALID_PAYLOAD, "new_controller must not be zero")
         if new_controller == tx.source:
             raise SpecError(ErrorCode.INVALID_PAYLOAD, "new_controller must differ from owner")
-        if tx.source not in state.agent_accounts:
-            raise SpecError(ErrorCode.ACCOUNT_NOT_FOUND, "agent account not registered")
+        meta = state.agent_accounts[tx.source]
+        if new_controller == meta.controller:
+            raise SpecError(ErrorCode.INVALID_PAYLOAD, "new_controller same as current")
 
     elif variant == "set_status":
-        status = p.get("status", 0)
-        if status not in (0, 1):
-            raise SpecError(ErrorCode.INVALID_PAYLOAD, "status must be 0 or 1")
         if tx.source not in state.agent_accounts:
             raise SpecError(ErrorCode.ACCOUNT_NOT_FOUND, "agent account not registered")
+        status = p.get("status", 0)
+        if status not in (0, 1):
+            raise SpecError(ErrorCode.ACCOUNT_NOT_FOUND, "invalid agent account parameter")
 
     elif variant == "set_energy_pool":
         if tx.source not in state.agent_accounts:

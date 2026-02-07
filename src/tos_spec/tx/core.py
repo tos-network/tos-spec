@@ -20,6 +20,9 @@ def verify(state: ChainState, tx: Transaction) -> None:
             raise SpecError(ErrorCode.INVALID_AMOUNT, "burn amount invalid")
         if amount > U64_MAX:
             raise SpecError(ErrorCode.OVERFLOW, "burn amount exceeds u64 max")
+        # Rust: fee.checked_add(amount) -> InvalidFormat on overflow
+        if tx.fee + amount > U64_MAX:
+            raise SpecError(ErrorCode.OVERFLOW, "burn amount plus fee overflow")
         return
 
     if tx.tx_type != TransactionType.TRANSFERS:
@@ -37,7 +40,7 @@ def verify(state: ChainState, tx: Transaction) -> None:
         if not isinstance(t, TransferPayload):
             raise SpecError(ErrorCode.INVALID_PAYLOAD, "invalid transfer payload")
         if t.destination == tx.source:
-            raise SpecError(ErrorCode.INSUFFICIENT_BALANCE, "cannot transfer to self")
+            raise SpecError(ErrorCode.SELF_OPERATION, "sender cannot be receiver")
         if t.amount < 0:
             raise SpecError(ErrorCode.INVALID_AMOUNT, "transfer amount invalid")
         total_amount += t.amount
@@ -54,6 +57,11 @@ def verify(state: ChainState, tx: Transaction) -> None:
     # Check amount + fee overflow (matches Rust checked_add on spending + fee)
     if total_amount + tx.fee > U64_MAX:
         raise SpecError(ErrorCode.OVERFLOW, "total amount plus fee overflow")
+
+    # Check sender can afford total transfers + fee (Rust: verify_spending)
+    sender = state.accounts.get(tx.source)
+    if sender is not None and sender.balance < total_amount + tx.fee:
+        raise SpecError(ErrorCode.INSUFFICIENT_BALANCE, "insufficient balance for transfers")
 
 
 def apply(state: ChainState, tx: Transaction) -> ChainState:

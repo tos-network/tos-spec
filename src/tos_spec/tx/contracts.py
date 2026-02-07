@@ -6,7 +6,7 @@ from copy import deepcopy
 
 from blake3 import blake3
 
-from ..config import COIN_VALUE, MAX_DEPOSIT_PER_INVOKE_CALL
+from ..config import BURN_PER_CONTRACT, COIN_VALUE, MAX_DEPOSIT_PER_INVOKE_CALL, MAX_GAS_USAGE_PER_TX
 from ..errors import ErrorCode, SpecError
 from ..types import ChainState, ContractState, Transaction, TransactionType
 
@@ -42,6 +42,16 @@ def _verify_deploy(state: ChainState, tx: Transaction) -> None:
     if len(module) < 4 or module[:4] != b"\x7fELF":
         raise SpecError(ErrorCode.INVALID_FORMAT, "invalid module: not valid bytecode")
 
+    # Sender must have sufficient balance for BURN_PER_CONTRACT + fee
+    sender = state.accounts.get(tx.source)
+    if sender is not None:
+        required = BURN_PER_CONTRACT + tx.fee
+        if sender.balance < required:
+            raise SpecError(
+                ErrorCode.INSUFFICIENT_BALANCE,
+                "insufficient balance for contract deployment",
+            )
+
 
 def _apply_deploy(state: ChainState, tx: Transaction) -> ChainState:
     ns = deepcopy(state)
@@ -70,6 +80,9 @@ def _verify_invoke(state: ChainState, tx: Transaction) -> None:
     max_gas = p.get("max_gas", 0)
     if max_gas < 0:
         raise SpecError(ErrorCode.INVALID_PAYLOAD, "max_gas must be >= 0")
+
+    if max_gas > MAX_GAS_USAGE_PER_TX:
+        raise SpecError(ErrorCode.INVALID_PAYLOAD, "max_gas exceeds MAX_GAS_USAGE_PER_TX")
 
     deposits = p.get("deposits", [])
     if len(deposits) > MAX_DEPOSIT_PER_INVOKE_CALL:

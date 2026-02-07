@@ -2,7 +2,12 @@
 
 from __future__ import annotations
 
-from tos_spec.config import CHAIN_ID_DEVNET, MAX_NONCE_GAP, MAX_TRANSFER_COUNT
+from tos_spec.config import (
+    CHAIN_ID_DEVNET,
+    CHAIN_ID_TESTNET,
+    MAX_NONCE_GAP,
+    MAX_TRANSFER_COUNT,
+)
 from tos_spec.test_accounts import ALICE, BOB
 from tos_spec.types import (
     AccountState,
@@ -291,3 +296,223 @@ def test_burn_total_burned_overflow(state_test) -> None:
         signature=bytes(64),
     )
     state_test("burn_total_burned_overflow", state, tx)
+
+
+# ===================================================================
+# Chain ID validation tests
+# ===================================================================
+
+
+def test_chain_id_mismatch(state_test) -> None:
+    """Transaction chain_id does not match network chain_id.
+
+    Rust: VerificationError::InvalidChainId.
+    """
+    state = _base_state()
+    tx = Transaction(
+        version=TxVersion.T1,
+        chain_id=CHAIN_ID_TESTNET,  # Wrong: state uses DEVNET
+        source=ALICE,
+        tx_type=TransactionType.TRANSFERS,
+        payload=[TransferPayload(asset=_hash(0), destination=BOB, amount=100_000)],
+        fee=100_000,
+        fee_type=FeeType.TOS,
+        nonce=5,
+        reference_hash=_hash(0),
+        reference_topoheight=0,
+        signature=bytes(64),
+    )
+    state_test("chain_id_mismatch", state, tx)
+
+
+# ===================================================================
+# Nonce boundary tests
+# ===================================================================
+
+
+def test_nonce_exact_match(state_test) -> None:
+    """Nonce exactly matches sender nonce (happy path)."""
+    state = _base_state()
+    tx = _mk_tx(ALICE, BOB, nonce=5, amount=100_000, fee=100_000)
+    state_test("nonce_exact_match", state, tx)
+
+
+def test_nonce_gap_max(state_test) -> None:
+    """Nonce at exactly MAX_NONCE_GAP (64) above sender nonce.
+
+    nonce = 5 + 64 = 69. Should be rejected (strict nonce in apply_tx).
+    """
+    state = _base_state()
+    tx = _mk_tx(ALICE, BOB, nonce=5 + MAX_NONCE_GAP, amount=100_000, fee=100_000)
+    state_test("nonce_gap_max", state, tx)
+
+
+# ===================================================================
+# Fee validation tests
+# ===================================================================
+
+
+def test_insufficient_fee(state_test) -> None:
+    """Sender balance is less than the fee.
+
+    Rust: InsufficientFunds. Python: INSUFFICIENT_FEE pre-check.
+    """
+    state = ChainState(network_chain_id=CHAIN_ID_DEVNET)
+    state.accounts[ALICE] = AccountState(address=ALICE, balance=50, nonce=0)
+    state.accounts[BOB] = AccountState(address=BOB, balance=0, nonce=0)
+    tx = _mk_tx(ALICE, BOB, nonce=0, amount=10, fee=100)
+    state_test("insufficient_fee", state, tx)
+
+
+def test_fee_exact_balance(state_test) -> None:
+    """Sender has exactly enough for amount + fee (boundary success)."""
+    state = ChainState(network_chain_id=CHAIN_ID_DEVNET)
+    state.accounts[ALICE] = AccountState(address=ALICE, balance=200_000, nonce=0)
+    state.accounts[BOB] = AccountState(address=BOB, balance=0, nonce=0)
+    tx = _mk_tx(ALICE, BOB, nonce=0, amount=100_000, fee=100_000)
+    state_test("fee_exact_balance", state, tx)
+
+
+def test_fee_exceeds_balance_after_amount(state_test) -> None:
+    """Sender can pay amount but not amount + fee."""
+    state = ChainState(network_chain_id=CHAIN_ID_DEVNET)
+    state.accounts[ALICE] = AccountState(address=ALICE, balance=150_000, nonce=0)
+    state.accounts[BOB] = AccountState(address=BOB, balance=0, nonce=0)
+    tx = _mk_tx(ALICE, BOB, nonce=0, amount=100_000, fee=100_000)
+    state_test("fee_exceeds_balance_after_amount", state, tx)
+
+
+# ===================================================================
+# Sender not found
+# ===================================================================
+
+
+def test_sender_not_found(state_test) -> None:
+    """Sender address not in state."""
+    state = ChainState(network_chain_id=CHAIN_ID_DEVNET)
+    state.accounts[BOB] = AccountState(address=BOB, balance=0, nonce=0)
+    # ALICE not added to state
+    tx = _mk_tx(ALICE, BOB, nonce=0, amount=100, fee=100)
+    state_test("sender_not_found", state, tx)
+
+
+# ===================================================================
+# Burn boundary tests
+# ===================================================================
+
+
+def test_burn_amount_plus_fee_overflow(state_test) -> None:
+    """Burn amount + fee overflows u64.
+
+    Rust: fee.checked_add(amount) fails -> InvalidFormat.
+    """
+    state = _base_state()
+    state.accounts[ALICE] = AccountState(address=ALICE, balance=U64_MAX, nonce=5)
+    tx = Transaction(
+        version=TxVersion.T1,
+        chain_id=CHAIN_ID_DEVNET,
+        source=ALICE,
+        tx_type=TransactionType.BURN,
+        payload={"amount": U64_MAX, "asset": _hash(0)},
+        fee=100_000,
+        fee_type=FeeType.TOS,
+        nonce=5,
+        reference_hash=_hash(0),
+        reference_topoheight=0,
+        signature=bytes(64),
+    )
+    state_test("burn_amount_plus_fee_overflow", state, tx)
+
+
+def test_burn_success(state_test) -> None:
+    """Successful burn with sufficient balance."""
+    state = _base_state()
+    tx = Transaction(
+        version=TxVersion.T1,
+        chain_id=CHAIN_ID_DEVNET,
+        source=ALICE,
+        tx_type=TransactionType.BURN,
+        payload={"amount": 100_000, "asset": _hash(0)},
+        fee=100_000,
+        fee_type=FeeType.TOS,
+        nonce=5,
+        reference_hash=_hash(0),
+        reference_topoheight=0,
+        signature=bytes(64),
+    )
+    state_test("burn_success", state, tx)
+
+
+# ===================================================================
+# Energy fee type tests
+# ===================================================================
+
+
+def test_energy_fee_type_nonzero_fee(state_test) -> None:
+    """Energy fee type with non-zero fee value.
+
+    Rust: InvalidFee(0, self.fee).
+    """
+    state = _base_state()
+    tx = Transaction(
+        version=TxVersion.T1,
+        chain_id=CHAIN_ID_DEVNET,
+        source=ALICE,
+        tx_type=TransactionType.TRANSFERS,
+        payload=[TransferPayload(asset=_hash(0), destination=BOB, amount=100)],
+        fee=1000,
+        fee_type=FeeType.ENERGY,
+        nonce=5,
+        reference_hash=_hash(0),
+        reference_topoheight=0,
+        signature=bytes(64),
+    )
+    state_test("energy_fee_type_nonzero_fee", state, tx)
+
+
+def test_energy_fee_type_invalid_tx(state_test) -> None:
+    """Energy fee type on a non-transfer tx (burn).
+
+    Rust: InvalidFormat.
+    """
+    state = _base_state()
+    tx = Transaction(
+        version=TxVersion.T1,
+        chain_id=CHAIN_ID_DEVNET,
+        source=ALICE,
+        tx_type=TransactionType.BURN,
+        payload={"amount": 100_000, "asset": _hash(0)},
+        fee=0,
+        fee_type=FeeType.ENERGY,
+        nonce=5,
+        reference_hash=_hash(0),
+        reference_topoheight=0,
+        signature=bytes(64),
+    )
+    state_test("energy_fee_type_invalid_tx", state, tx)
+
+
+def test_transfer_max_count_exact(state_test) -> None:
+    """Exactly MAX_TRANSFER_COUNT (500) recipients: should succeed."""
+    state = _base_state()
+    state.accounts[ALICE] = AccountState(
+        address=ALICE, balance=1_000_000_000, nonce=5
+    )
+    transfers = [
+        TransferPayload(asset=_hash(0), destination=BOB, amount=1)
+        for _ in range(MAX_TRANSFER_COUNT)
+    ]
+    tx = Transaction(
+        version=TxVersion.T1,
+        chain_id=CHAIN_ID_DEVNET,
+        source=ALICE,
+        tx_type=TransactionType.TRANSFERS,
+        payload=transfers,
+        fee=3_000_000,
+        fee_type=FeeType.TOS,
+        nonce=5,
+        reference_hash=_hash(0),
+        reference_topoheight=0,
+        signature=bytes(64),
+    )
+    state_test("transfer_max_count_exact", state, tx)

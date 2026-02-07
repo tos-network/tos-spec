@@ -44,7 +44,7 @@ Legend:  +++  strong coverage
 | Energy model       | n/a        | +          | -          | -          | n/a        | n/a        |
 | Account model      | n/a        | +          | -          | -          | n/a        | n/a        |
 
-**Reading this matrix:** L1 dominates as expected (127/127 conformance). L0 wire
+**Reading this matrix:** L1 dominates as expected (267/267 conformance). L0 wire
 format now covers all 45 TX types. The priority gaps are:
 - L0: negative wire format tests (malformed payloads) not yet started
 - L2: no executable block processing tests yet
@@ -114,54 +114,54 @@ Detailed per-type coverage showing how many tests and vectors exist for each of 
 
 | # | Transaction Type          | Handler Module | Tests | Vectors | Neg Tests | Wire Tests |
 |---|---------------------------|----------------|-------|---------|-----------|------------|
-| 1 | transfers                 | core           | 15    | 15      | 12        | 2          |
-| 2 | burn                      | core           | 5     | 4       | 4         | 1          |
+| 1 | transfers                 | core           | 29    | 29      | 24        | 2          |
+| 2 | burn                      | core           | 6     | 5       | 5         | 1          |
 | 3 | multisig                  | account        | 7     | 7       | 5         | 1          |
-| 4 | invoke_contract           | contracts      | 9     | 9       | 6         | 1          |
-| 5 | deploy_contract           | contracts      | 5     | 4       | 4         | 1          |
-| 6 | energy (freeze)           | energy         | 10    | 10      | 9         | 2          |
-| 7 | energy (unfreeze)         | energy         | 4     | 4       | 3         | 1          |
-| 8 | energy (delegate)         | energy         | 6     | 6       | 5         | 1          |
-| 9 | energy (withdraw)         | energy         | 3     | 3       | 2         | 1          |
-|10 | bind_referrer             | referral       | 3     | 3       | 2         | 1          |
-|11 | batch_referral_reward     | referral       | 5     | 0\*     | 4         | 1          |
-|12 | set_kyc                   | kyc            | 5     | 5       | 4         | 1          |
-|13 | revoke_kyc                | kyc            | 4     | 4       | 3         | 1          |
-|14 | renew_kyc                 | kyc            | 2     | 2       | 1         | 1          |
-|15 | transfer_kyc              | kyc            | 5     | 5       | 4         | 1          |
-|16 | appeal_kyc                | kyc            | 6     | 6       | 5         | 1          |
-|17 | bootstrap_committee       | kyc            | 10    | 10      | 9         | 1          |
-|18 | register_committee        | kyc            | 5     | 5       | 4         | 1          |
-|19 | update_committee          | kyc            | 5     | 5       | 4         | 1          |
-|20 | emergency_suspend         | kyc            | 5     | 5       | 4         | 1          |
-|21 | agent_account             | account        | 15    | 15      | 12        | 1          |
-|22 | uno_transfers             | privacy        | 4     | 4       | 3         | 1          |
-|23 | shield_transfers          | privacy        | 5     | 5       | 4         | 1          |
-|24 | unshield_transfers        | privacy        | 3     | 3       | 2         | 1          |
-|25 | register_name             | tns            | 5     | 5       | 3         | 1          |
+| 4 | invoke_contract           | contracts      | 11    | 11      | 8         | 1          |
+| 5 | deploy_contract           | contracts      | 6     | 5       | 5         | 1          |
+| 6 | energy (freeze)           | energy         | 12    | 12      | 11        | 2          |
+| 7 | energy (unfreeze)         | energy         | 6     | 6       | 5         | 1          |
+| 8 | energy (delegate)         | energy         | 11    | 11      | 10        | 1          |
+| 9 | energy (withdraw)         | energy         | 4     | 4       | 3         | 1          |
+|10 | bind_referrer             | referral       | 4     | 4       | 3         | 1          |
+|11 | batch_referral_reward     | referral       | 8     | 0\*     | 7         | 1          |
+|12 | set_kyc                   | kyc            | 10    | 10      | 9         | 1          |
+|13 | revoke_kyc                | kyc            | 6     | 6       | 5         | 1          |
+|14 | renew_kyc                 | kyc            | 6     | 6       | 5         | 1          |
+|15 | transfer_kyc              | kyc            | 7     | 7       | 6         | 1          |
+|16 | appeal_kyc                | kyc            | 8     | 8       | 7         | 1          |
+|17 | bootstrap_committee       | kyc            | 14    | 14      | 13        | 1          |
+|18 | register_committee        | kyc            | 11    | 11      | 10        | 1          |
+|19 | update_committee          | kyc            | 8     | 8       | 7         | 1          |
+|20 | emergency_suspend         | kyc            | 8     | 8       | 7         | 1          |
+|21 | agent_account             | account        | 22    | 22      | 19        | 1          |
+|22 | uno_transfers             | privacy        | 9     | 9       | 8         | 1          |
+|23 | shield_transfers          | privacy        | 11    | 11      | 10        | 1          |
+|24 | unshield_transfers        | privacy        | 6     | 6       | 5         | 1          |
+|25 | register_name             | tns            | 26    | 26      | 24        | 1          |
 |26 | ephemeral_message         | tns            | 9     | 0\*     | 8         | 1          |
-|27 | create_escrow             | escrow         | 9     | 9       | 8         | 1          |
-|28 | deposit_escrow            | escrow         | 6     | 6       | 5         | 1          |
-|29 | release_escrow            | escrow         | 7     | 7       | 6         | 1          |
-|30 | refund_escrow             | escrow         | 7     | 7       | 6         | 1          |
-|31 | challenge_escrow          | escrow         | 6     | 6       | 5         | 1          |
-|32 | dispute_escrow            | escrow         | 7     | 7       | 6         | 1          |
-|33 | appeal_escrow             | escrow         | 8     | 8       | 7         | 1          |
-|34 | submit_verdict            | escrow         | 6     | 6       | 5         | 1          |
+|27 | create_escrow             | escrow         | 11    | 11      | 10        | 1          |
+|28 | deposit_escrow            | escrow         | 9     | 9       | 8         | 1          |
+|29 | release_escrow            | escrow         | 9     | 9       | 8         | 1          |
+|30 | refund_escrow             | escrow         | 11    | 11      | 10        | 1          |
+|31 | challenge_escrow          | escrow         | 11    | 11      | 10        | 1          |
+|32 | dispute_escrow            | escrow         | 10    | 10      | 9         | 1          |
+|33 | appeal_escrow             | escrow         | 13    | 13      | 12        | 1          |
+|34 | submit_verdict            | escrow         | 10    | 10      | 9         | 1          |
 |35 | submit_verdict_by_juror   | escrow         | 2     | 0\*     | 1         | 1          |
-|36 | commit_arbitration_open   | arbitration    | 2     | 2       | 1         | 1          |
-|37 | commit_vote_request       | arbitration    | 2     | 2       | 1         | 1          |
-|38 | commit_selection          | arbitration    | 2     | 2       | 1         | 1          |
-|39 | commit_juror_vote         | arbitration    | 2     | 2       | 1         | 1          |
+|36 | commit_arbitration_open   | arbitration    | 3     | 3       | 2         | 1          |
+|37 | commit_vote_request       | arbitration    | 3     | 3       | 2         | 1          |
+|38 | commit_selection          | arbitration    | 3     | 3       | 2         | 1          |
+|39 | commit_juror_vote         | arbitration    | 3     | 3       | 2         | 1          |
 |40 | register_arbiter          | arbitration    | 12    | 12      | 11        | 1          |
-|41 | update_arbiter            | arbitration    | 6     | 6       | 5         | 1          |
+|41 | update_arbiter            | arbitration    | 9     | 9       | 8         | 1          |
 |42 | slash_arbiter             | arbitration    | 5     | 5       | 4         | 1          |
-|43 | request_arbiter_exit      | arbitration    | 5     | 5       | 4         | 1          |
-|44 | withdraw_arbiter_stake    | arbitration    | 5     | 5       | 4         | 1          |
-|45 | cancel_arbiter_exit       | arbitration    | 3     | 3       | 2         | 1          |
-|   | **Subtotal (per-type)**   |                |**299**|**272**  | **234**   | **45**     |
+|43 | request_arbiter_exit      | arbitration    | 7     | 7       | 6         | 1          |
+|44 | withdraw_arbiter_stake    | arbitration    | 7     | 7       | 6         | 1          |
+|45 | cancel_arbiter_exit       | arbitration    | 5     | 5       | 4         | 1          |
+|   | **Subtotal (per-type)**   |                |**493**|**467**  | **399**   | **45**     |
 |   | fee_variants (cross-type) | -              | 20    | 20      | 19        | -          |
-|   | **TOTAL**                 |                |**319**|**292**  | **253**   | **45**     |
+|   | **TOTAL**                 |                |**513**|**487**  | **418**   | **45**     |
 
 `*` Vectors = 0 because the wire codec does not yet support this tx type;
 tests exist at spec level but are marked `runnable: false` in vector output.

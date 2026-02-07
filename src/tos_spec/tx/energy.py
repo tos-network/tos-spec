@@ -73,6 +73,9 @@ def apply(state: ChainState, tx: Transaction) -> ChainState:
 # --- freeze_tos ---
 
 def _verify_freeze_tos(state: ChainState, tx: Transaction, p: EnergyPayload) -> None:
+    if tx.fee != 0:
+        raise SpecError(ErrorCode.INVALID_PAYLOAD, "energy transactions must have zero fee")
+
     amount = p.amount or 0
     if amount <= 0:
         raise SpecError(ErrorCode.INVALID_AMOUNT, "freeze amount must be > 0")
@@ -149,6 +152,9 @@ def _apply_freeze_tos(state: ChainState, tx: Transaction, p: EnergyPayload) -> C
 # --- freeze_tos_delegate ---
 
 def _verify_freeze_delegate(state: ChainState, tx: Transaction, p: EnergyPayload) -> None:
+    if tx.fee != 0:
+        raise SpecError(ErrorCode.INVALID_PAYLOAD, "energy transactions must have zero fee")
+
     delegatees = p.delegatees or []
     if not delegatees:
         raise SpecError(ErrorCode.INVALID_PAYLOAD, "delegatees list empty")
@@ -249,11 +255,18 @@ def _apply_freeze_delegate(state: ChainState, tx: Transaction, p: EnergyPayload)
 # --- unfreeze_tos ---
 
 def _verify_unfreeze_tos(state: ChainState, tx: Transaction, p: EnergyPayload) -> None:
+    if tx.fee != 0:
+        raise SpecError(ErrorCode.INVALID_PAYLOAD, "energy transactions must have zero fee")
+
     amount = p.amount or 0
     if amount <= 0:
         raise SpecError(ErrorCode.INVALID_AMOUNT, "unfreeze amount must be > 0")
     if amount % COIN_VALUE != 0:
         raise SpecError(ErrorCode.INVALID_AMOUNT, "unfreeze amount must be whole TOS")
+
+    from_delegation = p.from_delegation or False
+    if not from_delegation and p.delegatee_address is not None:
+        raise SpecError(ErrorCode.INVALID_PAYLOAD, "invalid delegatee_address usage")
 
     sender = state.accounts.get(tx.source)
     if sender is None:
@@ -295,6 +308,9 @@ def _apply_unfreeze_tos(state: ChainState, tx: Transaction, p: EnergyPayload) ->
 # --- withdraw_unfrozen ---
 
 def _verify_withdraw_unfrozen(state: ChainState, tx: Transaction, p: EnergyPayload) -> None:
+    if tx.fee != 0:
+        raise SpecError(ErrorCode.INVALID_PAYLOAD, "energy transactions must have zero fee")
+
     er = state.energy_resources.get(tx.source)
     if er is None or not er.pending_unfreezes:
         sender = state.accounts.get(tx.source)

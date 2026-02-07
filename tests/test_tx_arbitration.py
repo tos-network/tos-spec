@@ -1299,3 +1299,328 @@ def test_withdraw_arbiter_balance_overflow(state_test_group) -> None:
         state,
         tx,
     )
+
+
+# ===================================================================
+# update_arbiter: escrow range, deactivate+stake, name, fee
+# (from Rust verify_update_arbiter)
+# ===================================================================
+
+
+def test_update_arbiter_name_too_long(state_test_group) -> None:
+    """Update arbiter with name exceeding MAX_ARBITER_NAME_LEN must fail."""
+    state = _base_state()
+    state.arbiters[ALICE] = _active_arbiter(ALICE)
+    payload = {
+        "name": "A" * (MAX_ARBITER_NAME_LEN + 1),
+        "deactivate": False,
+    }
+    tx = _mk_arb_tx(ALICE, nonce=5, tx_type=TransactionType.UPDATE_ARBITER, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/arbitration/update_arbiter.json",
+        "update_arbiter_name_too_long",
+        state,
+        tx,
+    )
+
+
+def test_update_arbiter_deactivate_with_stake(state_test_group) -> None:
+    """Update arbiter with deactivate=True and add_stake>0 must fail."""
+    state = _base_state()
+    state.arbiters[ALICE] = _active_arbiter(ALICE)
+    payload = {
+        "deactivate": True,
+        "add_stake": COIN_VALUE,
+    }
+    tx = _mk_arb_tx(ALICE, nonce=5, tx_type=TransactionType.UPDATE_ARBITER, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/arbitration/update_arbiter.json",
+        "update_arbiter_deactivate_with_stake",
+        state,
+        tx,
+    )
+
+
+def test_update_arbiter_min_exceeds_max_escrow(state_test_group) -> None:
+    """Update arbiter with min_escrow_value > max_escrow_value must fail."""
+    state = _base_state()
+    state.arbiters[ALICE] = _active_arbiter(ALICE)
+    payload = {
+        "min_escrow_value": 100 * COIN_VALUE,
+        "max_escrow_value": 10 * COIN_VALUE,
+        "deactivate": False,
+    }
+    tx = _mk_arb_tx(ALICE, nonce=5, tx_type=TransactionType.UPDATE_ARBITER, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/arbitration/update_arbiter.json",
+        "update_arbiter_min_exceeds_max_escrow",
+        state,
+        tx,
+    )
+
+
+def test_update_arbiter_add_stake_success(state_test_group) -> None:
+    """Update arbiter with additional stake should succeed."""
+    state = _base_state()
+    state.arbiters[ALICE] = _active_arbiter(ALICE)
+    payload = {
+        "add_stake": COIN_VALUE,
+        "deactivate": False,
+    }
+    tx = _mk_arb_tx(ALICE, nonce=5, tx_type=TransactionType.UPDATE_ARBITER, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/arbitration/update_arbiter.json",
+        "update_arbiter_add_stake_success",
+        state,
+        tx,
+    )
+
+
+def test_update_arbiter_deactivate_success(state_test_group) -> None:
+    """Deactivate an active arbiter (without add_stake) should succeed."""
+    state = _base_state()
+    state.arbiters[ALICE] = _active_arbiter(ALICE)
+    payload = {
+        "deactivate": True,
+    }
+    tx = _mk_arb_tx(ALICE, nonce=5, tx_type=TransactionType.UPDATE_ARBITER, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/arbitration/update_arbiter.json",
+        "update_arbiter_deactivate_success",
+        state,
+        tx,
+    )
+
+
+def test_update_arbiter_insufficient_balance_for_add_stake(state_test_group) -> None:
+    """Update arbiter with add_stake exceeding sender balance must fail."""
+    state = ChainState(network_chain_id=CHAIN_ID_DEVNET)
+    state.accounts[ALICE] = AccountState(address=ALICE, balance=COIN_VALUE, nonce=5)
+    state.arbiters[ALICE] = _active_arbiter(ALICE)
+    payload = {
+        "add_stake": 100 * COIN_VALUE,
+        "deactivate": False,
+    }
+    tx = _mk_arb_tx(ALICE, nonce=5, tx_type=TransactionType.UPDATE_ARBITER, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/arbitration/update_arbiter.json",
+        "update_arbiter_insufficient_balance_for_add_stake",
+        state,
+        tx,
+    )
+
+
+# ===================================================================
+# register_arbiter: fee boundary, exact max fee
+# ===================================================================
+
+
+def test_register_arbiter_fee_exact_max(state_test_group) -> None:
+    """Register arbiter with fee_basis_points exactly at MAX_FEE_BPS should succeed."""
+    state = _base_state()
+    payload = {
+        "name": "MaxFee",
+        "expertise": [1],
+        "stake_amount": MIN_ARBITER_STAKE,
+        "min_escrow_value": COIN_VALUE,
+        "max_escrow_value": 10 * COIN_VALUE,
+        "fee_basis_points": MAX_FEE_BPS,
+    }
+    tx = _mk_arb_tx(ALICE, nonce=5, tx_type=TransactionType.REGISTER_ARBITER, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/arbitration/register_arbiter.json",
+        "register_arbiter_fee_exact_max",
+        state,
+        tx,
+    )
+
+
+def test_register_arbiter_min_equals_max_escrow(state_test_group) -> None:
+    """Register arbiter with min_escrow_value == max_escrow_value should succeed."""
+    state = _base_state()
+    payload = {
+        "name": "EqualRange",
+        "expertise": [1],
+        "stake_amount": MIN_ARBITER_STAKE,
+        "min_escrow_value": 10 * COIN_VALUE,
+        "max_escrow_value": 10 * COIN_VALUE,
+        "fee_basis_points": 100,
+    }
+    tx = _mk_arb_tx(ALICE, nonce=5, tx_type=TransactionType.REGISTER_ARBITER, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/arbitration/register_arbiter.json",
+        "register_arbiter_min_equals_max_escrow",
+        state,
+        tx,
+    )
+
+
+# ===================================================================
+# request_arbiter_exit: suspended status
+# ===================================================================
+
+
+def test_request_arbiter_exit_suspended(state_test_group) -> None:
+    """Request exit when arbiter is suspended must fail (not active)."""
+    state = _base_state()
+    arbiter = _active_arbiter(ALICE)
+    arbiter.status = ArbiterStatus.SUSPENDED
+    state.arbiters[ALICE] = arbiter
+    payload = {}
+    tx = _mk_arb_tx(ALICE, nonce=5, tx_type=TransactionType.REQUEST_ARBITER_EXIT, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/arbitration/request_arbiter_exit.json",
+        "request_arbiter_exit_suspended",
+        state,
+        tx,
+    )
+
+
+# ===================================================================
+# cancel_arbiter_exit: removed status
+# ===================================================================
+
+
+def test_cancel_arbiter_exit_removed(state_test_group) -> None:
+    """Cancel exit when arbiter is removed must fail."""
+    state = _base_state()
+    arbiter = _active_arbiter(ALICE)
+    arbiter.status = ArbiterStatus.REMOVED
+    state.arbiters[ALICE] = arbiter
+    payload = {}
+    tx = _mk_arb_tx(ALICE, nonce=5, tx_type=TransactionType.CANCEL_ARBITER_EXIT, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/arbitration/cancel_arbiter_exit.json",
+        "cancel_arbiter_exit_removed",
+        state,
+        tx,
+    )
+
+
+# ===================================================================
+# withdraw_arbiter_stake: withdrawn amount > stake
+# ===================================================================
+
+
+def test_withdraw_arbiter_stake_amount_exceeds_stake(state_test_group) -> None:
+    """Withdraw more than available stake (handled in apply by clamping)."""
+    state = _base_state()
+    arbiter = _active_arbiter(ALICE)
+    arbiter.status = ArbiterStatus.EXITING
+    arbiter.stake_amount = COIN_VALUE
+    state.arbiters[ALICE] = arbiter
+    payload = {"amount": 100 * COIN_VALUE}
+    tx = _mk_arb_tx(ALICE, nonce=5, tx_type=TransactionType.WITHDRAW_ARBITER_STAKE, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/arbitration/withdraw_arbiter_stake.json",
+        "withdraw_arbiter_stake_amount_exceeds_stake",
+        state,
+        tx,
+    )
+
+
+# ===================================================================
+# commit types: exact boundary payload sizes
+# ===================================================================
+
+
+def test_commit_arbitration_open_exact_max_size(state_test_group) -> None:
+    """Commit arbitration open with payload exactly at max size should succeed format-wise."""
+    state = _base_state()
+    # Use exactly MAX_ARBITRATION_OPEN_BYTES - this will fail JSON parse but not size check
+    payload_data = b"X" * MAX_ARBITRATION_OPEN_BYTES
+    payload = {
+        "escrow_id": _hash(60),
+        "dispute_id": _hash(61),
+        "round": 1,
+        "request_id": _hash(62),
+        "arbitration_open_hash": _hash(63),
+        "opener_signature": bytes(64),
+        "arbitration_open_payload": payload_data,
+    }
+    tx = _mk_arb_tx(ALICE, nonce=5, tx_type=TransactionType.COMMIT_ARBITRATION_OPEN, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/arbitration/commit_arbitration_open.json",
+        "commit_arbitration_open_exact_max_size",
+        state,
+        tx,
+    )
+
+
+def test_commit_vote_request_exact_max_size(state_test_group) -> None:
+    """Commit vote request with payload exactly at max size."""
+    state = _base_state()
+    payload_data = b"X" * MAX_VOTE_REQUEST_BYTES
+    payload = {
+        "request_id": _hash(62),
+        "vote_request_hash": _hash(64),
+        "coordinator_signature": bytes(64),
+        "vote_request_payload": payload_data,
+    }
+    tx = _mk_arb_tx(ALICE, nonce=5, tx_type=TransactionType.COMMIT_VOTE_REQUEST, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/arbitration/commit_vote_request.json",
+        "commit_vote_request_exact_max_size",
+        state,
+        tx,
+    )
+
+
+def test_commit_selection_commitment_exact_max_size(state_test_group) -> None:
+    """Commit selection commitment with payload exactly at max size."""
+    state = _base_state()
+    payload_data = b"X" * MAX_SELECTION_COMMITMENT_BYTES
+    payload = {
+        "request_id": _hash(62),
+        "selection_commitment_id": _hash(75),
+        "selection_commitment_payload": payload_data,
+    }
+    tx = _mk_arb_tx(ALICE, nonce=5, tx_type=TransactionType.COMMIT_SELECTION_COMMITMENT, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/arbitration/commit_selection_commitment.json",
+        "commit_selection_commitment_exact_max_size",
+        state,
+        tx,
+    )
+
+
+def test_commit_juror_vote_exact_max_size(state_test_group) -> None:
+    """Commit juror vote with payload exactly at max size."""
+    state = _base_state()
+    payload_data = b"X" * MAX_JUROR_VOTE_BYTES
+    payload = {
+        "request_id": _hash(62),
+        "juror_pubkey": BOB,
+        "vote_hash": _hash(65),
+        "juror_signature": bytes(64),
+        "vote_payload": payload_data,
+    }
+    tx = _mk_arb_tx(ALICE, nonce=5, tx_type=TransactionType.COMMIT_JUROR_VOTE, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/arbitration/commit_juror_vote.json",
+        "commit_juror_vote_exact_max_size",
+        state,
+        tx,
+    )
+
+
+# ===================================================================
+# withdraw_arbiter_stake: removed status
+# ===================================================================
+
+
+def test_withdraw_arbiter_stake_removed(state_test_group) -> None:
+    """Withdraw stake when arbiter has been removed (not exiting) must fail."""
+    state = _base_state()
+    arbiter = _active_arbiter(ALICE)
+    arbiter.status = ArbiterStatus.REMOVED
+    arbiter.stake_amount = 0
+    state.arbiters[ALICE] = arbiter
+    payload = {"amount": COIN_VALUE}
+    tx = _mk_arb_tx(ALICE, nonce=5, tx_type=TransactionType.WITHDRAW_ARBITER_STAKE, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/arbitration/withdraw_arbiter_stake.json",
+        "withdraw_arbiter_stake_removed",
+        state,
+        tx,
+    )

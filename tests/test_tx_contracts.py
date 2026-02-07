@@ -4,7 +4,13 @@ from __future__ import annotations
 
 from blake3 import blake3
 
-from tos_spec.config import CHAIN_ID_DEVNET, COIN_VALUE, MAX_DEPOSIT_PER_INVOKE_CALL
+from tos_spec.config import (
+    BURN_PER_CONTRACT,
+    CHAIN_ID_DEVNET,
+    COIN_VALUE,
+    MAX_DEPOSIT_PER_INVOKE_CALL,
+    MAX_GAS_USAGE_PER_TX,
+)
 from tos_spec.test_accounts import ALICE, BOB
 from tos_spec.types import (
     AccountState,
@@ -390,6 +396,141 @@ def test_invoke_contract_negative_gas(state_test_group) -> None:
     state_test_group(
         "transactions/contracts/invoke_contract.json",
         "invoke_contract_negative_gas",
+        state,
+        tx,
+    )
+
+
+# ===================================================================
+# Gas limit / MAX_GAS_USAGE_PER_TX tests
+# ===================================================================
+
+
+def test_invoke_contract_max_gas_exceeded(state_test_group) -> None:
+    """Invoke with max_gas exceeding MAX_GAS_USAGE_PER_TX must fail."""
+    state, contract_hash = _base_state_with_contract()
+    state.accounts[ALICE].balance = 10_000 * COIN_VALUE
+    tx = _mk_invoke_contract(
+        ALICE, nonce=5, contract=contract_hash, entry_id=0,
+        max_gas=MAX_GAS_USAGE_PER_TX + 1, fee=100_000,
+    )
+    state_test_group(
+        "transactions/contracts/invoke_contract.json",
+        "invoke_contract_max_gas_exceeded",
+        state,
+        tx,
+    )
+
+
+def test_invoke_contract_max_gas_exact_limit(state_test_group) -> None:
+    """Invoke with max_gas exactly at MAX_GAS_USAGE_PER_TX should succeed."""
+    state, contract_hash = _base_state_with_contract()
+    state.accounts[ALICE].balance = 10_000 * COIN_VALUE
+    tx = _mk_invoke_contract(
+        ALICE, nonce=5, contract=contract_hash, entry_id=0,
+        max_gas=MAX_GAS_USAGE_PER_TX, fee=100_000,
+    )
+    state_test_group(
+        "transactions/contracts/invoke_contract.json",
+        "invoke_contract_max_gas_exact_limit",
+        state,
+        tx,
+    )
+
+
+# ===================================================================
+# Deploy contract balance / BURN_PER_CONTRACT tests
+# ===================================================================
+
+
+def test_deploy_contract_insufficient_balance(state_test_group) -> None:
+    """Deploy when sender cannot cover BURN_PER_CONTRACT + fee."""
+    state = ChainState(network_chain_id=CHAIN_ID_DEVNET)
+    # Balance covers fee but not the 1 TOS burn cost
+    state.accounts[ALICE] = AccountState(
+        address=ALICE, balance=BURN_PER_CONTRACT - 1, nonce=5
+    )
+    tx = _mk_deploy_contract(ALICE, nonce=5, module=_HELLO_ELF, fee=100_000)
+    state_test_group(
+        "transactions/contracts/deploy_contract.json",
+        "deploy_contract_insufficient_balance",
+        state,
+        tx,
+    )
+
+
+def test_deploy_contract_exact_balance(state_test_group) -> None:
+    """Deploy when sender has exactly BURN_PER_CONTRACT + fee should succeed."""
+    state = ChainState(network_chain_id=CHAIN_ID_DEVNET)
+    fee = 100_000
+    state.accounts[ALICE] = AccountState(
+        address=ALICE, balance=BURN_PER_CONTRACT + fee, nonce=5
+    )
+    tx = _mk_deploy_contract(ALICE, nonce=5, module=_HELLO_ELF, fee=fee)
+    state_test_group(
+        "transactions/contracts/deploy_contract.json",
+        "deploy_contract_exact_balance",
+        state,
+        tx,
+    )
+
+
+def test_deploy_contract_wrong_magic(state_test_group) -> None:
+    """Deploy with module that has wrong magic bytes (not ELF)."""
+    state = _base_state()
+    module = b"\x7fEXF" + b"\x00" * 100  # Wrong magic
+    tx = _mk_deploy_contract(ALICE, nonce=5, module=module, fee=100_000)
+    state_test_group(
+        "transactions/contracts/deploy_contract.json",
+        "deploy_contract_wrong_magic",
+        state,
+        tx,
+    )
+
+
+def test_deploy_contract_exactly_4_bytes_elf(state_test_group) -> None:
+    """Deploy with module that is exactly 4 bytes (minimal valid ELF header)."""
+    state = _base_state()
+    module = b"\x7fELF"
+    tx = _mk_deploy_contract(ALICE, nonce=5, module=module, fee=100_000)
+    state_test_group(
+        "transactions/contracts/deploy_contract.json",
+        "deploy_contract_exactly_4_bytes_elf",
+        state,
+        tx,
+    )
+
+
+def test_invoke_contract_duplicate_deposit_assets(state_test_group) -> None:
+    """Invoke with two deposits using the same asset hash."""
+    state, contract_hash = _base_state_with_contract()
+    state.accounts[ALICE].balance = 1000 * COIN_VALUE
+    same_asset = _hash(0)
+    tx = Transaction(
+        version=TxVersion.T1,
+        chain_id=CHAIN_ID_DEVNET,
+        source=ALICE,
+        tx_type=TransactionType.INVOKE_CONTRACT,
+        payload={
+            "contract": contract_hash,
+            "deposits": [
+                {"asset": same_asset, "amount": COIN_VALUE},
+                {"asset": same_asset, "amount": COIN_VALUE * 2},
+            ],
+            "entry_id": 0,
+            "max_gas": 100_000,
+            "parameters": [],
+        },
+        fee=100_000,
+        fee_type=FeeType.TOS,
+        nonce=5,
+        reference_hash=_hash(0),
+        reference_topoheight=0,
+        signature=bytes(64),
+    )
+    state_test_group(
+        "transactions/contracts/invoke_contract.json",
+        "invoke_contract_duplicate_deposit_assets",
         state,
         tx,
     )

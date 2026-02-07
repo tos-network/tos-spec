@@ -2,13 +2,17 @@
 
 from __future__ import annotations
 
+import time
 from copy import deepcopy
 
 from blake3 import blake3
 
 from ..config import (
+    APPROVAL_EXPIRY_SECONDS,
+    APPROVAL_FUTURE_TOLERANCE_SECONDS,
     CHAIN_ID_DEVNET,
     EMERGENCY_SUSPEND_MIN_APPROVALS,
+    EMERGENCY_SUSPEND_TIMEOUT,
     MAX_APPROVALS,
     MAX_COMMITTEE_MEMBERS,
     MAX_COMMITTEE_NAME_LEN,
@@ -102,6 +106,12 @@ def _to_bytes(v: object) -> bytes:
     return bytes(32)
 
 
+def _level_to_tier(level: int) -> int:
+    """Convert KYC level bitmask to tier number (0-8)."""
+    _tier_map = {0: 0, 7: 1, 31: 2, 63: 3, 255: 4, 2047: 5, 8191: 6, 16383: 7, 32767: 8}
+    return _tier_map.get(level, 0)
+
+
 def _validate_approvals(approvals: list) -> None:
     if len(approvals) > MAX_APPROVALS:
         raise SpecError(ErrorCode.INVALID_PAYLOAD, f"too many approvals (max {MAX_APPROVALS})")
@@ -151,6 +161,25 @@ def _verify_set_kyc(state: ChainState, tx: Transaction, p: dict) -> None:
     data_hash = _to_bytes(p.get("data_hash"))
     if data_hash == bytes(32):
         raise SpecError(ErrorCode.INVALID_PAYLOAD, "data_hash must not be zero")
+
+    # Committee max_kyc_level check
+    committee_id = _to_bytes(p.get("committee_id"))
+    committee = state.committees.get(committee_id)
+    if committee is not None and level > committee.max_kyc_level:
+        raise SpecError(
+            ErrorCode.INVALID_PAYLOAD,
+            f"level {level} exceeds committee max_kyc_level {committee.max_kyc_level}",
+        )
+
+    # Compute required threshold from committee
+    tier = _level_to_tier(level)
+    kyc_threshold = committee.kyc_threshold if committee is not None else 1
+    required = kyc_threshold + 1 if tier >= 5 else kyc_threshold
+    if len(approvals) < required:
+        raise SpecError(
+            ErrorCode.INVALID_PAYLOAD,
+            f"tier {tier} requires at least {required} approvals",
+        )
 
 
 def _apply_set_kyc(state: ChainState, tx: Transaction, p: dict) -> ChainState:
@@ -233,6 +262,15 @@ def _verify_transfer_kyc(state: ChainState, tx: Transaction, p: dict) -> None:
 
     src_approvals = p.get("source_approvals", [])
     dst_approvals = p.get("dest_approvals", [])
+
+    # Combined approval count must not exceed 2 * MAX_APPROVALS
+    combined_count = len(src_approvals) + len(dst_approvals)
+    if combined_count > MAX_APPROVALS * 2:
+        raise SpecError(
+            ErrorCode.INVALID_PAYLOAD,
+            f"combined approval count {combined_count} exceeds max {MAX_APPROVALS * 2}",
+        )
+
     if not src_approvals:
         raise SpecError(ErrorCode.INVALID_PAYLOAD, "source_approvals required")
     if not dst_approvals:
@@ -242,6 +280,16 @@ def _verify_transfer_kyc(state: ChainState, tx: Transaction, p: dict) -> None:
     new_data_hash = _to_bytes(p.get("new_data_hash"))
     if new_data_hash == bytes(32):
         raise SpecError(ErrorCode.INVALID_PAYLOAD, "new_data_hash must not be zero")
+
+    # Cross-committee duplicate check: same member cannot approve for both
+    src_pks = {_to_bytes(a.get("member_pubkey")) for a in src_approvals}
+    for a in dst_approvals:
+        pk = _to_bytes(a.get("member_pubkey"))
+        if pk in src_pks:
+            raise SpecError(
+                ErrorCode.INVALID_PAYLOAD,
+                "same member cannot approve for both source and dest",
+            )
 
     # State check: KYC record must exist for transfer
     account = _to_bytes(p.get("account"))
@@ -274,6 +322,14 @@ def _verify_appeal_kyc(state: ChainState, tx: Transaction, p: dict) -> None:
     docs_hash = _to_bytes(p.get("documents_hash"))
     if docs_hash == bytes(32):
         raise SpecError(ErrorCode.INVALID_PAYLOAD, "documents_hash must not be zero")
+
+    # submitted_at must be within 1-hour window of current time
+    submitted_at = p.get("submitted_at", 0)
+    now = int(time.time())
+    if submitted_at > now + APPROVAL_FUTURE_TOLERANCE_SECONDS:
+        raise SpecError(ErrorCode.INVALID_PAYLOAD, "submitted_at too far in the future")
+    if submitted_at < now - APPROVAL_FUTURE_TOLERANCE_SECONDS:
+        raise SpecError(ErrorCode.INVALID_PAYLOAD, "submitted_at too far in the past")
 
     # State check: KYC record must exist
     account = _to_bytes(p.get("account"))
@@ -399,8 +455,16 @@ def _verify_register_committee(state: ChainState, tx: Transaction, p: dict) -> N
 
     if threshold <= 0 or threshold > approver_count:
         raise SpecError(ErrorCode.INVALID_PAYLOAD, "invalid threshold")
+    if threshold > MAX_APPROVALS:
+        raise SpecError(ErrorCode.INVALID_PAYLOAD, "threshold exceeds max approvals")
     if kyc_threshold <= 0 or kyc_threshold > approver_count:
         raise SpecError(ErrorCode.INVALID_PAYLOAD, "invalid kyc_threshold")
+    if kyc_threshold > MAX_APPROVALS:
+        raise SpecError(ErrorCode.INVALID_PAYLOAD, "kyc_threshold exceeds max approvals")
+
+    max_kyc_level = p.get("max_kyc_level", -1)
+    if max_kyc_level not in VALID_KYC_LEVELS:
+        raise SpecError(ErrorCode.INVALID_PAYLOAD, "invalid max_kyc_level")
 
 
 def _apply_register_committee(state: ChainState, tx: Transaction, p: dict) -> ChainState:

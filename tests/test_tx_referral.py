@@ -183,3 +183,101 @@ def test_batch_referral_reward_max_ratio(state_test_group) -> None:
         state,
         tx,
     )
+
+
+# ===================================================================
+# Referral boundary tests
+# ===================================================================
+
+
+def test_bind_referrer_already_bound(state_test_group) -> None:
+    """Bind referrer when sender already has a referrer.
+
+    Rust: state check for existing referral.
+    """
+    state = _base_state()
+    state.accounts[CAROL] = AccountState(address=CAROL, balance=0, nonce=0)
+    state.referrals[ALICE] = BOB  # Already bound
+    tx = _mk_bind_referrer(ALICE, nonce=5, referrer=CAROL, fee=100_000)
+    state_test_group(
+        "transactions/referral/bind_referrer.json",
+        "bind_referrer_already_bound",
+        state,
+        tx,
+    )
+
+
+def test_batch_referral_reward_sender_not_from_user(state_test_group) -> None:
+    """BatchReferralReward sender must be from_user.
+
+    Rust: "BatchReferralReward sender must be the from_user".
+    """
+    state = _base_state()
+    state.accounts[CAROL] = AccountState(address=CAROL, balance=0, nonce=0)
+    state.referrals[BOB] = CAROL
+    tx = _mk_batch_referral_reward(
+        ALICE, nonce=5, total_amount=100_000, levels=1,
+        ratios=[5000], from_user=BOB, fee=100_000,  # from_user != sender
+    )
+    state_test_group(
+        "transactions/referral/batch_referral_reward.json",
+        "batch_referral_reward_sender_not_from_user",
+        state,
+        tx,
+    )
+
+
+def test_batch_referral_reward_sender_is_from_user(state_test_group) -> None:
+    """BatchReferralReward where sender == from_user (success case)."""
+    state = _base_state()
+    state.accounts[CAROL] = AccountState(address=CAROL, balance=0, nonce=0)
+    state.referrals[ALICE] = CAROL
+    tx = _mk_batch_referral_reward(
+        ALICE, nonce=5, total_amount=100_000, levels=1,
+        ratios=[5000], from_user=ALICE, fee=100_000,  # from_user == sender
+    )
+    state_test_group(
+        "transactions/referral/batch_referral_reward.json",
+        "batch_referral_reward_sender_is_from_user",
+        state,
+        tx,
+    )
+
+
+def test_batch_referral_reward_insufficient_balance(state_test_group) -> None:
+    """Batch referral reward exceeds sender balance."""
+    state = ChainState(network_chain_id=CHAIN_ID_DEVNET)
+    state.accounts[ALICE] = AccountState(address=ALICE, balance=50_000, nonce=5)
+    state.accounts[BOB] = AccountState(address=BOB, balance=0, nonce=0)
+    state.accounts[CAROL] = AccountState(address=CAROL, balance=0, nonce=0)
+    state.referrals[ALICE] = CAROL
+    tx = _mk_batch_referral_reward(
+        ALICE, nonce=5, total_amount=100_000, levels=1,
+        ratios=[5000], from_user=ALICE, fee=100_000,
+    )
+    state_test_group(
+        "transactions/referral/batch_referral_reward.json",
+        "batch_referral_reward_insufficient_balance",
+        state,
+        tx,
+    )
+
+
+def test_batch_referral_reward_zero_levels(state_test_group) -> None:
+    """Batch referral reward with levels=0 and empty ratios.
+
+    Should fail because total_amount > 0 but levels = 0 != len(ratios=0).
+    Actually len([]) == 0 so ratios match, but total_amount > 0 is valid.
+    This is a degenerate case where nobody gets rewards.
+    """
+    state = _base_state()
+    tx = _mk_batch_referral_reward(
+        ALICE, nonce=5, total_amount=100_000, levels=0,
+        ratios=[], from_user=ALICE, fee=100_000,
+    )
+    state_test_group(
+        "transactions/referral/batch_referral_reward.json",
+        "batch_referral_reward_zero_levels",
+        state,
+        tx,
+    )

@@ -45,8 +45,8 @@
         "nonce": 5,
         "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
         "reference_topoheight": 0,
-        "signature": "56fb27be4e5c052535673d2cab3b1269a95cba6dcc7ec25ded5bd3308ee1680c6648c9b875f742f98bd3c9d7767cf014cfde1b1875c4418490867a547d4d0c02",
-        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b24907c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e378240000000000000186a0000000000000000005000000000000000000000000000000000000000000000000000000000000000000000000000000000056fb27be4e5c052535673d2cab3b1269a95cba6dcc7ec25ded5bd3308ee1680c6648c9b875f742f98bd3c9d7767cf014cfde1b1875c4418490867a547d4d0c02"
+        "signature": "711c98138ecba0909f0acb9fd845202af18d8ffc0ee8431d3436c59f79695c0a9835bcae16f1ed7eb80b172b4df908d027251a2a1f255ba5699f3c8aa02f950e",
+        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b24907c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e378240000000000000186a00000000000000000050000000000000000000000000000000000000000000000000000000000000000000000000000000000711c98138ecba0909f0acb9fd845202af18d8ffc0ee8431d3436c59f79695c0a9835bcae16f1ed7eb80b172b4df908d027251a2a1f255ba5699f3c8aa02f950e"
       },
       "expected": {
         "ok": true,
@@ -134,8 +134,8 @@
         "nonce": 5,
         "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
         "reference_topoheight": 0,
-        "signature": "57ea20253680e56e5e9d8409d37adbf5775fd74980a7086147cc3ca52081240c6bb7222a0ddc1041acac3a8a30850ae2384006b51363a7c0deb9b286713aad0d",
-        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b24907f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b2490000000000000186a0000000000000000005000000000000000000000000000000000000000000000000000000000000000000000000000000000057ea20253680e56e5e9d8409d37adbf5775fd74980a7086147cc3ca52081240c6bb7222a0ddc1041acac3a8a30850ae2384006b51363a7c0deb9b286713aad0d"
+        "signature": "5693b2c98387d26012f8e88f67d3d83976aa4c616d0e9fa5f5606facd7b8390993f66837d2ccec20e307cdcd17b11e4f6ba689daa778f9fcb498d93ee28fc70f",
+        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b24907f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b2490000000000000186a000000000000000000500000000000000000000000000000000000000000000000000000000000000000000000000000000005693b2c98387d26012f8e88f67d3d83976aa4c616d0e9fa5f5606facd7b8390993f66837d2ccec20e307cdcd17b11e4f6ba689daa778f9fcb498d93ee28fc70f"
       },
       "expected": {
         "ok": false,
@@ -217,8 +217,8 @@
         "nonce": 5,
         "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
         "reference_topoheight": 0,
-        "signature": "bea80a31b7ad67ae4279da26fb3320395d24eb167d51d967b3e5f38024e9b802467249670ed613b2fa1f2cd369df94807a952c1ca71295544725c7398e88b105",
-        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b2490763636363636363636363636363636363636363636363636363636363636363630000000000000186a00000000000000000050000000000000000000000000000000000000000000000000000000000000000000000000000000000bea80a31b7ad67ae4279da26fb3320395d24eb167d51d967b3e5f38024e9b802467249670ed613b2fa1f2cd369df94807a952c1ca71295544725c7398e88b105"
+        "signature": "22aaee6de490b8c8d85b8a3f55849af00b9bb7d28f931d8f614b682034f73b076b4e88361a9d21f56aeec52b2096ad9af62e7050834cae04adaa85af8ffba506",
+        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b2490763636363636363636363636363636363636363636363636363636363636363630000000000000186a0000000000000000005000000000000000000000000000000000000000000000000000000000000000000000000000000000022aaee6de490b8c8d85b8a3f55849af00b9bb7d28f931d8f614b682034f73b076b4e88361a9d21f56aeec52b2096ad9af62e7050834cae04adaa85af8ffba506"
       },
       "expected": {
         "ok": true,
@@ -256,6 +256,119 @@
             {
               "user": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
               "referrer": "6363636363636363636363636363636363636363636363636363636363636363"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "bind_referrer_already_bound",
+      "pre_state": {
+        "network_chain_id": 3,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "balance": 1000000,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          },
+          {
+            "address": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824",
+            "balance": 0,
+            "nonce": 0,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          },
+          {
+            "address": "7ea555bf91bfb985561a91afcd669a79c0cc115ce03baf687cb8dd7e1e996e7b",
+            "balance": 0,
+            "nonce": 0,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ],
+        "referrals": [
+          {
+            "user": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "referrer": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824"
+          }
+        ]
+      },
+      "tx": {
+        "version": 1,
+        "chain_id": 3,
+        "source": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+        "tx_type": "bind_referrer",
+        "payload": {
+          "referrer": "7ea555bf91bfb985561a91afcd669a79c0cc115ce03baf687cb8dd7e1e996e7b"
+        },
+        "fee": 100000,
+        "fee_type": 0,
+        "nonce": 5,
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "2dbf4f663561a2b9b7c5295004fe837fc02ac174de9f38d70eaa26b5e152cf0461a04970700a19651bc739ae33599b044e73085066f304e386957999c6bc6c00",
+        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249077ea555bf91bfb985561a91afcd669a79c0cc115ce03baf687cb8dd7e1e996e7b0000000000000186a000000000000000000500000000000000000000000000000000000000000000000000000000000000000000000000000000002dbf4f663561a2b9b7c5295004fe837fc02ac174de9f38d70eaa26b5e152cf0461a04970700a19651bc739ae33599b044e73085066f304e386957999c6bc6c00"
+      },
+      "expected": {
+        "ok": false,
+        "error": "DELEGATION_EXISTS",
+        "post_state": {
+          "network_chain_id": 3,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+              "balance": 1000000,
+              "nonce": 5,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            },
+            {
+              "address": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824",
+              "balance": 0,
+              "nonce": 0,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            },
+            {
+              "address": "7ea555bf91bfb985561a91afcd669a79c0cc115ce03baf687cb8dd7e1e996e7b",
+              "balance": 0,
+              "nonce": 0,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ],
+          "referrals": [
+            {
+              "user": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+              "referrer": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824"
             }
           ]
         }
