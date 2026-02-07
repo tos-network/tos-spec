@@ -209,6 +209,114 @@ we use a fixed set of deterministic test accounts stored in `vectors/accounts.js
 - A harness runs the same fixtures across multiple clients.
 - Output mismatches are surfaced for triage and resolution.
 
+## Vector Schema (JSON)
+
+```json
+{
+  "name": "string",
+  "description": "string",
+  "pre_state": {
+    "network_chain_id": 0,
+    "global_state": {
+      "total_supply": 0,
+      "total_burned": 0,
+      "total_energy": 0,
+      "block_height": 0,
+      "timestamp": 0
+    },
+    "accounts": [
+      { "address": "hex", "balance": 0, "nonce": 0, "frozen": 0, "energy": 0, "flags": 0, "data": "" }
+    ],
+    "escrows": [],
+    "arbiters": [],
+    "kyc_data": [],
+    "committees": [],
+    "agent_accounts": [],
+    "tns_names": [],
+    "referrals": [],
+    "energy_resources": [],
+    "contracts": [],
+    "arbitration_commit_opens": [],
+    "arbitration_commit_vote_requests": [],
+    "arbitration_commit_selections": []
+  },
+  "input": {
+    "kind": "tx | block | rpc",
+    "wire_hex": "...",
+    "rpc": { "method": "...", "params": {} },
+    "tx": { }
+  },
+  "expected": {
+    "success": true,
+    "error_code": 0,
+    "state_digest": "hex32",
+    "post_state": {
+      "global_state": { },
+      "accounts": [ ]
+    }
+  }
+}
+```
+
+All `pre_state` domain fields (escrows, arbiters, etc.) are optional and default
+to empty lists when omitted. They provide the initial domain-specific state that
+certain transaction types require (e.g., escrow operations need an existing escrow
+in `escrows`, contract invocations need a deployed contract in `contracts`).
+
+## Simulator Behavior
+- **Single-client mode**:
+  - Execute scenario against one client.
+  - Compare `expected` directly (account-level, global state, error codes).
+- **Multi-client mode**:
+  - Execute scenario against all clients.
+  - Verify each client matches `expected`.
+  - Also check cross-client consistency.
+
+## Verification Strategy
+- **Required assertions**:
+  - `expected.success`
+  - `expected.error_code`
+- **Recommended assertions**:
+  - `expected.post_state` (account-level, field-by-field)
+  - `expected.global_state`
+  - `expected.state_digest`
+- **Optional assertions**:
+  - Events, receipts, or additional protocol-specific outputs.
+
+## State Digest
+
+The state digest must be deterministic across implementations. The canonical definition is
+implemented in `src/tos_spec/state_digest.py` and is derived from `post_state`.
+
+### State Digest v1 (Canonical)
+**Hash**: BLAKE3-256
+**Encoding**: binary, fixed-width numeric fields (u64 big-endian)
+
+**Inputs**
+- `post_state.global_state` fields:
+  - `total_supply`, `total_burned`, `total_energy`, `block_height`, `timestamp`
+- `post_state.accounts` list
+
+**Canonical ordering**
+1. Global state fields in the exact order listed above.
+2. Accounts sorted by `address` (32-byte value, ascending).
+
+**Account encoding (per account, in order)**
+1. `address` (32 bytes, hex -> bytes)
+2. `balance` (u64 BE)
+3. `nonce` (u64 BE)
+4. `frozen` (u64 BE)
+5. `energy` (u64 BE)
+6. `flags` (u64 BE)
+7. `data_len` (u64 BE)
+8. `data` bytes (hex -> bytes, length = `data_len`)
+
+**Global state encoding**
+Each field is encoded as a u64 BE in the order listed above.
+
+**Digest result**
+- `state_digest` is the hex-encoded 32-byte BLAKE3 output of the full canonical encoding.
+
 ## Key Components
 
 ### Wire Format
