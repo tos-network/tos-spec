@@ -30,6 +30,13 @@ MAPPING = {
     "transactions": "execution/transactions",
 }
 
+# Fixture categories that are spec-only and should not be published as runnable/skip vectors.
+# We keep these in fixtures/ for documentation/spec checks, but omit them from vectors/.
+EXCLUDE_TOP_LEVEL_FIXTURES: set[str] = {
+    "security",
+    "models",
+}
+
 # Tests where the daemon validates differently from the Python spec (error code
 # mismatches or missing validation rules).  Marked non-runnable until the daemon
 # conformance endpoint is updated to match.
@@ -50,13 +57,9 @@ DAEMON_MISMATCH_SKIP: set[str] = {
     "unshield_transfer_self",
     "unshield_transfer_zero_amount",
     # Encoding: wire encoding mismatch for large/complex payloads
-    "commit_arbitration_open_exact_max_size",
-    "commit_vote_request_exact_max_size",
-    "commit_selection_commitment_exact_max_size",
-    "commit_juror_vote_exact_max_size",
-    "invoke_contract_duplicate_deposit_assets",
-    # Wire format: daemon rejects at deserialization level (INVALID_FORMAT) before business logic
-    "create_escrow_task_id_max_length",
+    # (fixed) commit_*_exact_max_size now use valid canonical messages at the boundary.
+    # (fixed) invoke_contract_duplicate_deposit_assets no longer triggers codec/signing mismatch.
+    # (fixed) create_escrow_task_id_max_length uses a wire-encodable task_id length.
     # Energy: daemon doesn't enforce max freeze records; post-state digest differs
     "freeze_max_records_exceeded",
     # Capacity: daemon rejects at different validation level
@@ -185,6 +188,9 @@ def main() -> None:
         if path.suffix.lower() not in {".json"}:
             continue
         rel = path.relative_to(fixtures)
+        if rel.parts and rel.parts[0] in EXCLUDE_TOP_LEVEL_FIXTURES:
+            # Spec-only fixtures: do not emit vectors for these categories.
+            continue
         dest = vectors / map_dest(rel)
         dest.parent.mkdir(parents=True, exist_ok=True)
 
@@ -214,6 +220,10 @@ def main() -> None:
                 wire_hex = None
                 if "tx" in case:
                     wire_hex = case["tx"].get("wire_hex") or _encode_tx_if_possible(case["tx"])
+                    # If we cannot produce a wire payload, the vector cannot be consumed by
+                    # the daemon conformance endpoint. Drop it from vectors/ entirely.
+                    if not wire_hex:
+                        continue
                 vec_entry: dict = {
                         "name": case.get("name", ""),
                         "description": case.get("description", ""),
@@ -240,9 +250,10 @@ def main() -> None:
                 )
                 vectors_out.append(vec_entry)
             dest = dest.with_suffix(".json")
-            dest.write_text(json.dumps({"test_vectors": vectors_out}, indent=2))
-            written.add(dest.resolve())
-            count += 1
+            if vectors_out:
+                dest.write_text(json.dumps({"test_vectors": vectors_out}, indent=2))
+                written.add(dest.resolve())
+                count += 1
             continue
 
         shutil.copy2(path, dest)

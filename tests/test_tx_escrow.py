@@ -1342,10 +1342,11 @@ def test_create_escrow_timeout_over_max(state_test_group) -> None:
 
 
 def test_create_escrow_task_id_max_length(state_test_group) -> None:
-    """Create escrow with task_id at exactly MAX_TASK_ID_LEN (256 chars, should pass)."""
+    """Create escrow with task_id at the max wire-encodable length (255 bytes, should pass)."""
     state = _base_state()
     payload = {
-        "task_id": "t" * MAX_TASK_ID_LEN,
+        # Wire format uses u8 length prefix for strings, so 255 is the true max.
+        "task_id": "t" * 255,
         "provider": BOB,
         "amount": 5 * COIN_VALUE,
         "asset": _hash(0),

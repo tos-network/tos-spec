@@ -503,7 +503,7 @@ def test_deploy_contract_exactly_4_bytes_elf(state_test_group) -> None:
 
 
 def test_invoke_contract_duplicate_deposit_assets(state_test_group) -> None:
-    """Invoke with two deposits using the same asset hash."""
+    """Invoke with two deposits using the same asset hash (duplicates are canonicalized in encoding)."""
     state, contract_hash = _base_state_with_contract()
     state.accounts[ALICE].balance = 1000 * COIN_VALUE
     same_asset = _hash(0)

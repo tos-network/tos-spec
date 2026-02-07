@@ -747,13 +747,35 @@ def _encode_payload(w: Writer, tx: Transaction, current_time: Optional[int]) -> 
 
 
 def _write_contract_deposits(w: Writer, deposits: list) -> None:
-    if len(deposits) > 0xFF:
-        raise SpecError(ErrorCode.INVALID_PAYLOAD, "too many deposits")
-    w.write_u8(len(deposits))
+    # Canonicalize to unique assets (matches Rust wire encoding, which uses IndexMap<Hash, ...>).
+    # Duplicate assets are collapsed with "last value wins", while preserving first-seen order.
+    #
+    # This matters for signing-bytes and wire hex generation: if we encode duplicates as-is,
+    # the daemon will decode into a map (dropping duplicates) and signature verification
+    # will disagree.
+    if not isinstance(deposits, list):
+        raise SpecError(ErrorCode.INVALID_PAYLOAD, "deposits must be list")
+
+    dedup: dict[bytes, int] = {}
     for dep in deposits:
-        _write_hash(w, dep["asset"])
+        if not isinstance(dep, dict):
+            raise SpecError(ErrorCode.INVALID_PAYLOAD, "deposit must be dict")
+        asset = dep.get("asset", b"")
+        if isinstance(asset, (list, tuple)):
+            asset = bytes(asset)
+        if not isinstance(asset, (bytes, bytearray)):
+            raise SpecError(ErrorCode.INVALID_PAYLOAD, "deposit asset must be bytes")
+        amount = int(dep.get("amount", 0))
+        dedup[bytes(asset)] = amount
+
+    if len(dedup) > 0xFF:
+        raise SpecError(ErrorCode.INVALID_PAYLOAD, "too many deposits")
+
+    w.write_u8(len(dedup))
+    for asset, amount in dedup.items():
+        _write_hash(w, asset)
         w.write_u8(0)  # type tag: public
-        w.write_u64(int(dep["amount"]))
+        w.write_u64(amount)
 
 
 def _write_invoke_constructor(w: Writer, invoke: dict) -> None:

@@ -64,6 +64,30 @@ def _canonical_hash_without_sig(obj: dict) -> bytes:
     return hashlib.sha3_256(canonical).digest()
 
 
+def _pad_json_bytes_to_exact_len(obj: dict, *, pad_field: str, target_len: int) -> bytes:
+    """Pad a JSON string field with ASCII 'X' so json.dumps(obj) hits target_len bytes.
+
+    Notes:
+    - We use separators=(',', ':') to match canonical compact JSON.
+    - The caller must ensure pad_field is a plain string field and that padding
+      doesn't break semantic validation.
+    """
+    base = obj.get(pad_field, "")
+    if not isinstance(base, str):
+        raise TypeError(f"{pad_field} must be str to pad")
+
+    raw = json.dumps(obj, separators=(",", ":")).encode("utf-8")
+    delta = target_len - len(raw)
+    if delta < 0:
+        raise ValueError(f"object already exceeds target_len: {len(raw)} > {target_len}")
+
+    obj[pad_field] = base + ("X" * delta)
+    raw2 = json.dumps(obj, separators=(",", ":")).encode("utf-8")
+    if len(raw2) != target_len:
+        raise AssertionError(f"padding failed: got {len(raw2)} bytes, want {target_len}")
+    return raw2
+
+
 def _base_state() -> ChainState:
     state = ChainState(network_chain_id=CHAIN_ID_DEVNET)
     state.accounts[ALICE] = AccountState(
@@ -1559,20 +1583,89 @@ def test_withdraw_arbiter_stake_amount_exceeds_stake(state_test_group) -> None:
 
 
 def test_commit_arbitration_open_exact_max_size(state_test_group) -> None:
-    """Commit arbitration open with payload exactly at max size should succeed format-wise."""
+    """Commit arbitration open with payload exactly at max size should succeed."""
     state = _base_state()
-    # Use exactly MAX_ARBITRATION_OPEN_BYTES - this will fail JSON parse but not size check
-    payload_data = b"X" * MAX_ARBITRATION_OPEN_BYTES
-    payload = {
-        "escrow_id": _hash(60),
-        "dispute_id": _hash(61),
+    sender = ALICE
+
+    escrow_id = _hash(60)
+    dispute_id = _hash(61)
+    request_id = _hash(62)
+
+    # Escrow must exist with Committee arbitration mode
+    state.accounts[BOB] = AccountState(address=BOB, balance=0, nonce=0)
+    state.escrows[escrow_id] = EscrowAccount(
+        id=escrow_id,
+        task_id="test-task",
+        payer=ALICE,
+        payee=BOB,
+        amount=10 * COIN_VALUE,
+        total_amount=10 * COIN_VALUE,
+        status=EscrowStatus.CHALLENGED,
+        asset=_hash(0),
+        timeout_blocks=1000,
+        challenge_window=100,
+        arbitration_config=ArbitrationConfig(
+            mode="committee",
+            arbiters=[CAROL, DAVE, FRANK],
+            threshold=2,
+            fee_amount=COIN_VALUE,
+            allow_appeal=True,
+        ),
+        dispute=DisputeInfo(
+            initiator=ALICE,
+            reason="provider did not deliver",
+            disputed_at=1,
+            deadline=1000,
+        ),
+    )
+
+    arb_open = {
+        "type": "ArbitrationOpen",
+        "version": 1,
+        "chainId": CHAIN_ID_DEVNET,
+        "escrowId": escrow_id.hex(),
+        "escrowHash": _hash(70).hex(),
+        "disputeId": dispute_id.hex(),
         "round": 1,
-        "request_id": _hash(62),
-        "arbitration_open_hash": _hash(63),
-        "opener_signature": bytes(64),
-        "arbitration_open_payload": payload_data,
+        "disputeOpenHeight": 100,
+        "committeeId": _hash(71).hex(),
+        "committeePolicyHash": _hash(72).hex(),
+        "payer": "payer-account",
+        "payee": "payee-account",
+        "evidenceUri": "https://example.com/evidence",
+        "evidenceHash": _hash(73).hex(),
+        "evidenceManifestUri": "https://example.com/manifest",
+        "evidenceManifestHash": _hash(74).hex(),
+        "clientNonce": "test-nonce-123",
+        "issuedAt": 1700000000,
+        "expiresAt": 1700100000,
+        "coordinatorPubkey": list(ALICE),
+        "coordinatorAccount": "coordinator-account",
+        "requestId": request_id.hex(),
+        "openerPubkey": list(BOB),
+        "signature": "00" * 64,  # placeholder replaced below
     }
-    tx = _mk_arb_tx(ALICE, nonce=5, tx_type=TransactionType.COMMIT_ARBITRATION_OPEN, payload=payload, fee=10 * COIN_VALUE)
+
+    # Pad a harmless string field so the final canonical JSON bytes hit exactly the limit.
+    _pad_json_bytes_to_exact_len(arb_open, pad_field="evidenceUri", target_len=MAX_ARBITRATION_OPEN_BYTES)
+
+    arb_open_hash = _canonical_hash_without_sig(arb_open)
+    opener_sig = bytes(tos_signer.sign_data(arb_open_hash, 3))  # BOB = seed 3
+    arb_open["signature"] = opener_sig.hex()
+
+    arb_open_bytes = json.dumps(arb_open, separators=(",", ":")).encode("utf-8")
+    assert len(arb_open_bytes) == MAX_ARBITRATION_OPEN_BYTES
+
+    payload = {
+        "escrow_id": escrow_id,
+        "dispute_id": dispute_id,
+        "round": 1,
+        "request_id": request_id,
+        "arbitration_open_hash": arb_open_hash,
+        "opener_signature": opener_sig,
+        "arbitration_open_payload": arb_open_bytes,
+    }
+    tx = _mk_arb_tx(sender, nonce=5, tx_type=TransactionType.COMMIT_ARBITRATION_OPEN, payload=payload, fee=10 * COIN_VALUE)
     state_test_group(
         "transactions/arbitration/commit_arbitration_open.json",
         "commit_arbitration_open_exact_max_size",
@@ -1582,16 +1675,65 @@ def test_commit_arbitration_open_exact_max_size(state_test_group) -> None:
 
 
 def test_commit_vote_request_exact_max_size(state_test_group) -> None:
-    """Commit vote request with payload exactly at max size."""
+    """Commit vote request with payload exactly at max size should succeed."""
     state = _base_state()
-    payload_data = b"X" * MAX_VOTE_REQUEST_BYTES
-    payload = {
-        "request_id": _hash(62),
-        "vote_request_hash": _hash(64),
-        "coordinator_signature": bytes(64),
-        "vote_request_payload": payload_data,
+    sender = ALICE
+
+    request_id = _hash(62)
+
+    # Pre-load a CommitArbitrationOpen record so the daemon can find it
+    state.arbitration_commit_opens.append({
+        "escrow_id": _hash(60).hex(),
+        "dispute_id": _hash(61).hex(),
+        "round": 1,
+        "request_id": request_id.hex(),
+        "arbitration_open_hash": _hash(63).hex(),
+    })
+
+    vote_req = {
+        "type": "VoteRequest",
+        "version": 1,
+        "requestId": request_id.hex(),
+        "chainId": CHAIN_ID_DEVNET,
+        "escrowId": _hash(60).hex(),
+        "escrowHash": _hash(70).hex(),
+        "disputeId": _hash(61).hex(),
+        "round": 1,
+        "disputeOpenHeight": 100,
+        "committeeId": _hash(71).hex(),
+        "committeePolicyHash": _hash(72).hex(),
+        "selectionBlock": 200,
+        "selectionCommitmentId": _hash(75).hex(),
+        "arbitrationOpenHash": _hash(63).hex(),
+        "issuedAt": 1700000000,
+        "voteDeadline": 1700200000,
+        "selectedJurors": ["juror1", "juror2", "juror3"],
+        "selectedJurorsHash": _hash(76).hex(),
+        "evidenceHash": _hash(73).hex(),
+        "evidenceManifestHash": _hash(74).hex(),
+        "evidenceUri": "https://example.com/evidence",
+        "evidenceManifestUri": "https://example.com/manifest",
+        "coordinatorPubkey": list(ALICE),
+        "coordinatorAccount": "coordinator-account",
+        "signature": "00" * 64,  # placeholder replaced below
     }
-    tx = _mk_arb_tx(ALICE, nonce=5, tx_type=TransactionType.COMMIT_VOTE_REQUEST, payload=payload, fee=10 * COIN_VALUE)
+
+    _pad_json_bytes_to_exact_len(vote_req, pad_field="evidenceUri", target_len=MAX_VOTE_REQUEST_BYTES)
+
+    vote_req_hash = _canonical_hash_without_sig(vote_req)
+    coord_sig = bytes(tos_signer.sign_data(vote_req_hash, 2))  # ALICE = seed 2
+    vote_req["signature"] = coord_sig.hex()
+
+    vote_req_bytes = json.dumps(vote_req, separators=(",", ":")).encode("utf-8")
+    assert len(vote_req_bytes) == MAX_VOTE_REQUEST_BYTES
+
+    payload = {
+        "request_id": request_id,
+        "vote_request_hash": vote_req_hash,
+        "coordinator_signature": coord_sig,
+        "vote_request_payload": vote_req_bytes,
+    }
+    tx = _mk_arb_tx(sender, nonce=5, tx_type=TransactionType.COMMIT_VOTE_REQUEST, payload=payload, fee=10 * COIN_VALUE)
     state_test_group(
         "transactions/arbitration/commit_vote_request.json",
         "commit_vote_request_exact_max_size",
@@ -1601,15 +1743,28 @@ def test_commit_vote_request_exact_max_size(state_test_group) -> None:
 
 
 def test_commit_selection_commitment_exact_max_size(state_test_group) -> None:
-    """Commit selection commitment with payload exactly at max size."""
+    """Commit selection commitment with payload exactly at max size should succeed."""
     state = _base_state()
-    payload_data = b"X" * MAX_SELECTION_COMMITMENT_BYTES
+    sender = ALICE
+
+    # Pre-load a CommitArbitrationOpen record so the daemon can find it
+    state.arbitration_commit_opens.append({
+        "escrow_id": _hash(60).hex(),
+        "dispute_id": _hash(61).hex(),
+        "round": 1,
+        "request_id": _hash(62).hex(),
+        "arbitration_open_hash": _hash(63).hex(),
+    })
+
+    commitment_payload = b"X" * MAX_SELECTION_COMMITMENT_BYTES
+    commitment_id = hashlib.sha3_256(commitment_payload).digest()
+
     payload = {
         "request_id": _hash(62),
-        "selection_commitment_id": _hash(75),
-        "selection_commitment_payload": payload_data,
+        "selection_commitment_id": commitment_id,
+        "selection_commitment_payload": commitment_payload,
     }
-    tx = _mk_arb_tx(ALICE, nonce=5, tx_type=TransactionType.COMMIT_SELECTION_COMMITMENT, payload=payload, fee=10 * COIN_VALUE)
+    tx = _mk_arb_tx(sender, nonce=5, tx_type=TransactionType.COMMIT_SELECTION_COMMITMENT, payload=payload, fee=10 * COIN_VALUE)
     state_test_group(
         "transactions/arbitration/commit_selection_commitment.json",
         "commit_selection_commitment_exact_max_size",
@@ -1619,17 +1774,72 @@ def test_commit_selection_commitment_exact_max_size(state_test_group) -> None:
 
 
 def test_commit_juror_vote_exact_max_size(state_test_group) -> None:
-    """Commit juror vote with payload exactly at max size."""
+    """Commit juror vote with payload exactly at max size should succeed."""
     state = _base_state()
-    payload_data = b"X" * MAX_JUROR_VOTE_BYTES
-    payload = {
-        "request_id": _hash(62),
-        "juror_pubkey": BOB,
-        "vote_hash": _hash(65),
-        "juror_signature": bytes(64),
-        "vote_payload": payload_data,
+    sender = ALICE
+
+    request_id = _hash(62)
+
+    # Pre-load all three commit records needed for juror vote verification
+    state.arbitration_commit_opens.append({
+        "escrow_id": _hash(60).hex(),
+        "dispute_id": _hash(61).hex(),
+        "round": 1,
+        "request_id": request_id.hex(),
+        "arbitration_open_hash": _hash(63).hex(),
+    })
+    state.arbitration_commit_vote_requests.append({
+        "request_id": request_id.hex(),
+        "vote_request_hash": _hash(64).hex(),
+    })
+    state.arbitration_commit_selections.append({
+        "request_id": request_id.hex(),
+        "selection_commitment_id": _hash(75).hex(),
+    })
+
+    juror_vote = {
+        "type": "JurorVote",
+        "version": 1,
+        "requestId": request_id.hex(),
+        "chainId": CHAIN_ID_DEVNET,
+        "escrowId": _hash(60).hex(),
+        "escrowHash": _hash(70).hex(),
+        "disputeId": _hash(61).hex(),
+        "round": 1,
+        "disputeOpenHeight": 100,
+        "committeeId": _hash(71).hex(),
+        "selectionBlock": 200,
+        "selectionCommitmentId": _hash(75).hex(),
+        "arbitrationOpenHash": _hash(63).hex(),
+        "voteRequestHash": _hash(64).hex(),
+        "evidenceHash": _hash(73).hex(),
+        "evidenceManifestHash": _hash(74).hex(),
+        "selectedJurorsHash": _hash(76).hex(),
+        "committeePolicyHash": _hash(72).hex(),
+        "jurorPubkey": list(BOB),
+        "jurorAccount": "juror-account",
+        "vote": "pay",
+        "votedAt": 1700050000,
+        "signature": "00" * 64,  # placeholder replaced below
     }
-    tx = _mk_arb_tx(ALICE, nonce=5, tx_type=TransactionType.COMMIT_JUROR_VOTE, payload=payload, fee=10 * COIN_VALUE)
+
+    _pad_json_bytes_to_exact_len(juror_vote, pad_field="jurorAccount", target_len=MAX_JUROR_VOTE_BYTES)
+
+    vote_hash = _canonical_hash_without_sig(juror_vote)
+    juror_sig = bytes(tos_signer.sign_data(vote_hash, 3))  # BOB = seed 3
+    juror_vote["signature"] = juror_sig.hex()
+
+    vote_bytes = json.dumps(juror_vote, separators=(",", ":")).encode("utf-8")
+    assert len(vote_bytes) == MAX_JUROR_VOTE_BYTES
+
+    payload = {
+        "request_id": request_id,
+        "juror_pubkey": BOB,
+        "vote_hash": vote_hash,
+        "juror_signature": juror_sig,
+        "vote_payload": vote_bytes,
+    }
+    tx = _mk_arb_tx(sender, nonce=5, tx_type=TransactionType.COMMIT_JUROR_VOTE, payload=payload, fee=10 * COIN_VALUE)
     state_test_group(
         "transactions/arbitration/commit_juror_vote.json",
         "commit_juror_vote_exact_max_size",
