@@ -7,7 +7,15 @@ import time
 
 import tos_signer
 
-from tos_spec.config import CHAIN_ID_DEVNET, COIN_VALUE, MAX_REASON_LEN, MIN_TIMEOUT_BLOCKS, MAX_BPS
+from tos_spec.config import (
+    CHAIN_ID_DEVNET,
+    COIN_VALUE,
+    MAX_REASON_LEN,
+    MAX_TASK_ID_LEN,
+    MAX_TIMEOUT_BLOCKS,
+    MIN_TIMEOUT_BLOCKS,
+    MAX_BPS,
+)
 from tos_spec.test_accounts import ALICE, BOB, CAROL, DAVE
 from tos_spec.types import (
     AccountState,
@@ -1279,6 +1287,140 @@ def test_submit_verdict_not_found(state_test_group) -> None:
     state_test_group(
         "transactions/escrow/submit_verdict.json",
         "submit_verdict_not_found",
+        state,
+        tx,
+    )
+
+
+# ===================================================================
+# Additional boundary tests
+# ===================================================================
+
+
+def test_create_escrow_timeout_max(state_test_group) -> None:
+    """Create escrow with timeout_blocks at MAX_TIMEOUT_BLOCKS boundary (should pass)."""
+    state = _base_state()
+    payload = {
+        "task_id": "task_max_timeout",
+        "provider": BOB,
+        "amount": 5 * COIN_VALUE,
+        "asset": _hash(0),
+        "timeout_blocks": MAX_TIMEOUT_BLOCKS,
+        "challenge_window": 100,
+        "challenge_deposit_bps": 500,
+        "optimistic_release": False,
+    }
+    tx = _mk_escrow_tx(ALICE, nonce=5, tx_type=TransactionType.CREATE_ESCROW, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/escrow/create_escrow.json",
+        "create_escrow_timeout_max",
+        state,
+        tx,
+    )
+
+
+def test_create_escrow_timeout_over_max(state_test_group) -> None:
+    """Create escrow with timeout_blocks exceeding MAX_TIMEOUT_BLOCKS."""
+    state = _base_state()
+    payload = {
+        "task_id": "task_over_timeout",
+        "provider": BOB,
+        "amount": 5 * COIN_VALUE,
+        "asset": _hash(0),
+        "timeout_blocks": MAX_TIMEOUT_BLOCKS + 1,
+        "challenge_window": 100,
+        "challenge_deposit_bps": 500,
+        "optimistic_release": False,
+    }
+    tx = _mk_escrow_tx(ALICE, nonce=5, tx_type=TransactionType.CREATE_ESCROW, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/escrow/create_escrow.json",
+        "create_escrow_timeout_over_max",
+        state,
+        tx,
+    )
+
+
+def test_create_escrow_task_id_max_length(state_test_group) -> None:
+    """Create escrow with task_id at exactly MAX_TASK_ID_LEN (256 chars, should pass)."""
+    state = _base_state()
+    payload = {
+        "task_id": "t" * MAX_TASK_ID_LEN,
+        "provider": BOB,
+        "amount": 5 * COIN_VALUE,
+        "asset": _hash(0),
+        "timeout_blocks": MIN_TIMEOUT_BLOCKS * 10,
+        "challenge_window": 100,
+        "challenge_deposit_bps": 500,
+        "optimistic_release": False,
+    }
+    tx = _mk_escrow_tx(ALICE, nonce=5, tx_type=TransactionType.CREATE_ESCROW, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/escrow/create_escrow.json",
+        "create_escrow_task_id_max_length",
+        state,
+        tx,
+    )
+
+
+def test_create_escrow_task_id_too_long(state_test_group) -> None:
+    """Create escrow with task_id exceeding MAX_TASK_ID_LEN (257 chars)."""
+    state = _base_state()
+    payload = {
+        "task_id": "t" * (MAX_TASK_ID_LEN + 1),
+        "provider": BOB,
+        "amount": 5 * COIN_VALUE,
+        "asset": _hash(0),
+        "timeout_blocks": MIN_TIMEOUT_BLOCKS * 10,
+        "challenge_window": 100,
+        "challenge_deposit_bps": 500,
+        "optimistic_release": False,
+    }
+    tx = _mk_escrow_tx(ALICE, nonce=5, tx_type=TransactionType.CREATE_ESCROW, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/escrow/create_escrow.json",
+        "create_escrow_task_id_too_long",
+        state,
+        tx,
+    )
+
+
+def test_deposit_escrow_amount_overflow(state_test_group) -> None:
+    """Deposit amount so large that escrow balance would overflow u64.
+
+    Pre-state escrow has amount near u64 max; depositing more overflows.
+    """
+    U64_MAX = (1 << 64) - 1
+    state = _base_state()
+    state.accounts[ALICE] = AccountState(address=ALICE, balance=U64_MAX, nonce=5)
+    escrow_id = _hash(60)
+    escrow = _funded_escrow(escrow_id, ALICE, BOB, U64_MAX - 1)
+    escrow.status = EscrowStatus.CREATED
+    state.escrows[escrow_id] = escrow
+    payload = {
+        "escrow_id": escrow_id,
+        "amount": U64_MAX,
+    }
+    tx = _mk_escrow_tx(ALICE, nonce=5, tx_type=TransactionType.DEPOSIT_ESCROW, payload=payload, fee=0)
+    state_test_group(
+        "transactions/escrow/deposit_escrow.json",
+        "deposit_escrow_amount_overflow",
+        state,
+        tx,
+    )
+
+
+def test_refund_escrow_amount_exceeds_balance(state_test_group) -> None:
+    """Refund amount exceeds escrow balance (duplicate coverage check)."""
+    state = _base_state()
+    state.accounts[BOB] = AccountState(address=BOB, balance=COIN_VALUE, nonce=0)
+    escrow_id = _hash(60)
+    state.escrows[escrow_id] = _funded_escrow(escrow_id, ALICE, BOB, 3 * COIN_VALUE)
+    payload = {"escrow_id": escrow_id, "amount": 10 * COIN_VALUE, "reason": "over-refund"}
+    tx = _mk_escrow_tx(BOB, nonce=0, tx_type=TransactionType.REFUND_ESCROW, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/escrow/refund_escrow.json",
+        "refund_escrow_amount_exceeds_balance_boundary",
         state,
         tx,
     )

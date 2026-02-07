@@ -8,6 +8,8 @@ from ..config import EXTRA_DATA_LIMIT_SIZE, EXTRA_DATA_LIMIT_SUM_SIZE, MAX_TRANS
 from ..errors import ErrorCode, SpecError
 from ..types import AccountState, ChainState, Transaction, TransactionType, TransferPayload
 
+U64_MAX = (1 << 64) - 1
+
 
 def verify(state: ChainState, tx: Transaction) -> None:
     if tx.tx_type == TransactionType.BURN:
@@ -16,6 +18,8 @@ def verify(state: ChainState, tx: Transaction) -> None:
         amount = int(tx.payload.get("amount", 0))
         if amount <= 0:
             raise SpecError(ErrorCode.INVALID_AMOUNT, "burn amount invalid")
+        if amount > U64_MAX:
+            raise SpecError(ErrorCode.OVERFLOW, "burn amount exceeds u64 max")
         return
 
     if tx.tx_type != TransactionType.TRANSFERS:
@@ -28,6 +32,7 @@ def verify(state: ChainState, tx: Transaction) -> None:
         raise SpecError(ErrorCode.INVALID_FORMAT, "too many transfers")
 
     total_extra = 0
+    total_amount = 0
     for t in tx.payload:
         if not isinstance(t, TransferPayload):
             raise SpecError(ErrorCode.INVALID_PAYLOAD, "invalid transfer payload")
@@ -35,6 +40,9 @@ def verify(state: ChainState, tx: Transaction) -> None:
             raise SpecError(ErrorCode.INSUFFICIENT_BALANCE, "cannot transfer to self")
         if t.amount < 0:
             raise SpecError(ErrorCode.INVALID_AMOUNT, "transfer amount invalid")
+        total_amount += t.amount
+        if total_amount > U64_MAX:
+            raise SpecError(ErrorCode.OVERFLOW, "total transfer amount overflow")
         if t.extra_data is not None:
             if len(t.extra_data) > EXTRA_DATA_LIMIT_SIZE:
                 raise SpecError(ErrorCode.INVALID_PAYLOAD, "extra_data too large")
@@ -42,6 +50,10 @@ def verify(state: ChainState, tx: Transaction) -> None:
 
     if total_extra > EXTRA_DATA_LIMIT_SUM_SIZE:
         raise SpecError(ErrorCode.INVALID_PAYLOAD, "total extra_data too large")
+
+    # Check amount + fee overflow (matches Rust checked_add on spending + fee)
+    if total_amount + tx.fee > U64_MAX:
+        raise SpecError(ErrorCode.OVERFLOW, "total amount plus fee overflow")
 
 
 def apply(state: ChainState, tx: Transaction) -> ChainState:

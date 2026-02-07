@@ -1122,3 +1122,134 @@ def test_submit_verdict_by_juror_no_signatures(state_test_group) -> None:
         state,
         tx,
     )
+
+
+# --- boundary value tests ---
+
+
+def test_register_arbiter_stake_below_minimum(state_test_group) -> None:
+    """Register arbiter with stake one below MIN_ARBITER_STAKE must fail."""
+    state = _base_state()
+    payload = {
+        "name": "AlmostEnough",
+        "expertise": [1],
+        "stake_amount": MIN_ARBITER_STAKE - 1,
+        "min_escrow_value": COIN_VALUE,
+        "max_escrow_value": 10 * COIN_VALUE,
+        "fee_basis_points": 100,
+    }
+    tx = _mk_arb_tx(ALICE, nonce=5, tx_type=TransactionType.REGISTER_ARBITER, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/arbitration/register_arbiter.json",
+        "register_arbiter_stake_below_minimum",
+        state,
+        tx,
+    )
+
+
+def test_register_arbiter_stake_exact_minimum(state_test_group) -> None:
+    """Register arbiter with stake exactly at MIN_ARBITER_STAKE must succeed."""
+    state = _base_state()
+    payload = {
+        "name": "ExactMinStake",
+        "expertise": [1, 2],
+        "stake_amount": MIN_ARBITER_STAKE,
+        "min_escrow_value": COIN_VALUE,
+        "max_escrow_value": 100 * COIN_VALUE,
+        "fee_basis_points": 200,
+    }
+    tx = _mk_arb_tx(ALICE, nonce=5, tx_type=TransactionType.REGISTER_ARBITER, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/arbitration/register_arbiter.json",
+        "register_arbiter_stake_exact_minimum",
+        state,
+        tx,
+    )
+
+
+def test_register_arbiter_name_max_length(state_test_group) -> None:
+    """Register arbiter with name exactly at MAX_ARBITER_NAME_LEN must succeed."""
+    state = _base_state()
+    payload = {
+        "name": "A" * MAX_ARBITER_NAME_LEN,
+        "expertise": [1],
+        "stake_amount": MIN_ARBITER_STAKE,
+        "min_escrow_value": COIN_VALUE,
+        "max_escrow_value": 10 * COIN_VALUE,
+        "fee_basis_points": 100,
+    }
+    tx = _mk_arb_tx(ALICE, nonce=5, tx_type=TransactionType.REGISTER_ARBITER, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/arbitration/register_arbiter.json",
+        "register_arbiter_name_max_length",
+        state,
+        tx,
+    )
+
+
+def test_slash_arbiter_amount_exceeds_stake(state_test_group) -> None:
+    """Slash arbiter with amount exceeding their staked amount."""
+    state = _base_state()
+    arbiter_key = BOB
+    state.arbiters[arbiter_key] = ArbiterAccount(
+        public_key=arbiter_key,
+        name="SlashTarget",
+        status=ArbiterStatus.ACTIVE,
+        stake_amount=MIN_ARBITER_STAKE,
+    )
+    state.accounts[arbiter_key] = AccountState(address=arbiter_key, balance=0, nonce=0)
+    committee_id = _hash(50)
+    state.committees[committee_id] = Committee(
+        id=committee_id,
+        name="GlobalCommittee",
+        members=[
+            CommitteeMember(public_key=CAROL, name="member_0", role=0),
+            CommitteeMember(public_key=DAVE, name="member_1", role=0),
+            CommitteeMember(public_key=FRANK, name="member_2", role=0),
+        ],
+        threshold=2,
+        kyc_threshold=2,
+        max_kyc_level=255,
+    )
+    now = int(time.time())
+    # Slash amount exceeds the arbiter's total stake
+    amount = MIN_ARBITER_STAKE * 2
+    reason_hash = _hash(70)
+    msg = _build_slash_arbiter_msg(committee_id, arbiter_key, amount, reason_hash, now)
+    payload = {
+        "committee_id": committee_id,
+        "arbiter_pubkey": arbiter_key,
+        "amount": amount,
+        "reason_hash": reason_hash,
+        "approvals": [
+            _sign_arb_approval(CAROL, msg, now),
+            _sign_arb_approval(DAVE, msg, now),
+        ],
+    }
+    tx = _mk_arb_tx(ALICE, nonce=5, tx_type=TransactionType.SLASH_ARBITER, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/arbitration/slash_arbiter.json",
+        "slash_arbiter_amount_exceeds_stake",
+        state,
+        tx,
+    )
+
+
+def test_register_arbiter_zero_stake(state_test_group) -> None:
+    """Register arbiter with stake = 0 must fail."""
+    state = _base_state()
+    payload = {
+        "name": "ZeroStake",
+        "expertise": [1],
+        "stake_amount": 0,
+        "min_escrow_value": COIN_VALUE,
+        "max_escrow_value": 10 * COIN_VALUE,
+        "fee_basis_points": 100,
+    }
+    tx = _mk_arb_tx(ALICE, nonce=5, tx_type=TransactionType.REGISTER_ARBITER, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/arbitration/register_arbiter.json",
+        "register_arbiter_zero_stake",
+        state,
+        tx,
+    )

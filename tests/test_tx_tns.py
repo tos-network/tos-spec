@@ -224,3 +224,78 @@ def test_ephemeral_message_self_send(state_test_group) -> None:
         state,
         tx,
     )
+
+
+# --- boundary value tests ---
+
+
+def test_register_name_exact_max_length(state_test_group) -> None:
+    """Register name exactly at MAX_NAME_LENGTH (64) must succeed."""
+    state = _base_state()
+    sender = ALICE
+    # Build a valid name: start with letter, then fill with lowercase alphanums
+    name = "a" * MAX_NAME_LENGTH
+    tx = _mk_register_name(sender, nonce=5, name=name, fee=10_000_000)
+    state_test_group(
+        "transactions/tns/register_name.json",
+        "register_name_exact_max_length",
+        state,
+        tx,
+    )
+
+
+def test_ephemeral_message_ttl_exact_min(state_test_group) -> None:
+    """Ephemeral message with ttl exactly at MIN_TTL (100) must succeed."""
+    state = _base_state()
+    tx = _mk_ephemeral_message(
+        ALICE, nonce=5,
+        sender_name_hash=_hash(10),
+        recipient_name_hash=_hash(11),
+        ttl_blocks=MIN_TTL,
+        encrypted_content=bytes([0xBB]) * 50,
+        fee=100_000,
+    )
+    state_test_group(
+        "transactions/tns/ephemeral_message.json",
+        "ephemeral_message_ttl_exact_min",
+        state,
+        tx,
+    )
+
+
+def test_ephemeral_message_ttl_exact_max(state_test_group) -> None:
+    """Ephemeral message with ttl exactly at MAX_TTL (86400) must succeed."""
+    state = _base_state()
+    tx = _mk_ephemeral_message(
+        ALICE, nonce=5,
+        sender_name_hash=_hash(10),
+        recipient_name_hash=_hash(11),
+        ttl_blocks=MAX_TTL,
+        encrypted_content=bytes([0xBB]) * 50,
+        fee=100_000,
+    )
+    state_test_group(
+        "transactions/tns/ephemeral_message.json",
+        "ephemeral_message_ttl_exact_max",
+        state,
+        tx,
+    )
+
+
+def test_ephemeral_message_content_exact_max(state_test_group) -> None:
+    """Ephemeral message with content exactly at MAX_ENCRYPTED_SIZE (188 bytes) must succeed."""
+    state = _base_state()
+    tx = _mk_ephemeral_message(
+        ALICE, nonce=5,
+        sender_name_hash=_hash(10),
+        recipient_name_hash=_hash(11),
+        ttl_blocks=MIN_TTL,
+        encrypted_content=bytes([0xCC]) * MAX_ENCRYPTED_SIZE,
+        fee=100_000,
+    )
+    state_test_group(
+        "transactions/tns/ephemeral_message.json",
+        "ephemeral_message_content_exact_max",
+        state,
+        tx,
+    )

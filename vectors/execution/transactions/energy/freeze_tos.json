@@ -41,7 +41,7 @@
       },
       "input": {
         "kind": "tx",
-        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b24905000000000005f5e1000000000700000000000000000000000000000000050000000000000000000000000000000000000000000000000000000000000000000000000000000000d226aeb4eaf75953d25060d99b080ea2350bef83f26dc58ee41ebc212a1b7d068df23f451f642bba72e0e15f3c0fb4fe60bdb171c53914b56be03be0959f2a0b",
+        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b24905000000000005f5e1000000000700000000000000000000000000000000050000000000000000000000000000000000000000000000000000000000000000000000000000000000be0e1dfb9d077294c31eacb852ba4100ce053e778450e4332382e7fcb73c980bf1db07eff8a7ed36d086ba7481e45dfd71526c069d841969e3695c25e7c8ca03",
         "tx": {
           "version": 1,
           "chain_id": 3,
@@ -61,8 +61,8 @@
           "nonce": 5,
           "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
           "reference_topoheight": 0,
-          "signature": "d226aeb4eaf75953d25060d99b080ea2350bef83f26dc58ee41ebc212a1b7d068df23f451f642bba72e0e15f3c0fb4fe60bdb171c53914b56be03be0959f2a0b",
-          "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b24905000000000005f5e1000000000700000000000000000000000000000000050000000000000000000000000000000000000000000000000000000000000000000000000000000000d226aeb4eaf75953d25060d99b080ea2350bef83f26dc58ee41ebc212a1b7d068df23f451f642bba72e0e15f3c0fb4fe60bdb171c53914b56be03be0959f2a0b"
+          "signature": "be0e1dfb9d077294c31eacb852ba4100ce053e778450e4332382e7fcb73c980bf1db07eff8a7ed36d086ba7481e45dfd71526c069d841969e3695c25e7c8ca03",
+          "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b24905000000000005f5e1000000000700000000000000000000000000000000050000000000000000000000000000000000000000000000000000000000000000000000000000000000be0e1dfb9d077294c31eacb852ba4100ce053e778450e4332382e7fcb73c980bf1db07eff8a7ed36d086ba7481e45dfd71526c069d841969e3695c25e7c8ca03"
         }
       },
       "expected": {
@@ -154,7 +154,7 @@
       },
       "input": {
         "kind": "tx",
-        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249050000000004a817c80000000007000000000000000000000000000000000500000000000000000000000000000000000000000000000000000000000000000000000000000000004f88789d8317090ab56b9bd4830144847c942ee6c1bec390b59d170920f6410baaf389590e2ac0ef670cc7a73255b6ecc5deeaf595689149bd72649daaf49a0b",
+        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249050000000004a817c800000000070000000000000000000000000000000005000000000000000000000000000000000000000000000000000000000000000000000000000000000032273196bad402b53b29fb5080a7c224ee21ca5245e3a14410d96eb9cc26aa08107bfe8e8f2ff82dbe1bcd34ac74b54d80bb1e6e712f7c5899f001fdbc2a420b",
         "tx": {
           "version": 1,
           "chain_id": 3,
@@ -174,8 +174,8 @@
           "nonce": 5,
           "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
           "reference_topoheight": 0,
-          "signature": "4f88789d8317090ab56b9bd4830144847c942ee6c1bec390b59d170920f6410baaf389590e2ac0ef670cc7a73255b6ecc5deeaf595689149bd72649daaf49a0b",
-          "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249050000000004a817c80000000007000000000000000000000000000000000500000000000000000000000000000000000000000000000000000000000000000000000000000000004f88789d8317090ab56b9bd4830144847c942ee6c1bec390b59d170920f6410baaf389590e2ac0ef670cc7a73255b6ecc5deeaf595689149bd72649daaf49a0b"
+          "signature": "32273196bad402b53b29fb5080a7c224ee21ca5245e3a14410d96eb9cc26aa08107bfe8e8f2ff82dbe1bcd34ac74b54d80bb1e6e712f7c5899f001fdbc2a420b",
+          "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249050000000004a817c800000000070000000000000000000000000000000005000000000000000000000000000000000000000000000000000000000000000000000000000000000032273196bad402b53b29fb5080a7c224ee21ca5245e3a14410d96eb9cc26aa08107bfe8e8f2ff82dbe1bcd34ac74b54d80bb1e6e712f7c5899f001fdbc2a420b"
         }
       },
       "expected": {
@@ -261,7 +261,7 @@
       },
       "input": {
         "kind": "tx",
-        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249050000000000000000000000000700000000000000000000000000000000050000000000000000000000000000000000000000000000000000000000000000000000000000000000efe34326790b1058c1a0625ae5aeef18e1f53f53ca2b997de1df707c9e3f7108e40e24b3b42c08a17172c8c772edb0068a21b7384a261ac6c6e108816936680b",
+        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249050000000000000000000000000700000000000000000000000000000000050000000000000000000000000000000000000000000000000000000000000000000000000000000000db00db729f24825b26d06d0c562f41a978ab64a245356b1f11e1a29cea7b4a03019bba1628f63b8b252953779913820e56ca2f4116c5e9f12e50d35b28a70402",
         "tx": {
           "version": 1,
           "chain_id": 3,
@@ -281,8 +281,8 @@
           "nonce": 5,
           "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
           "reference_topoheight": 0,
-          "signature": "efe34326790b1058c1a0625ae5aeef18e1f53f53ca2b997de1df707c9e3f7108e40e24b3b42c08a17172c8c772edb0068a21b7384a261ac6c6e108816936680b",
-          "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249050000000000000000000000000700000000000000000000000000000000050000000000000000000000000000000000000000000000000000000000000000000000000000000000efe34326790b1058c1a0625ae5aeef18e1f53f53ca2b997de1df707c9e3f7108e40e24b3b42c08a17172c8c772edb0068a21b7384a261ac6c6e108816936680b"
+          "signature": "db00db729f24825b26d06d0c562f41a978ab64a245356b1f11e1a29cea7b4a03019bba1628f63b8b252953779913820e56ca2f4116c5e9f12e50d35b28a70402",
+          "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249050000000000000000000000000700000000000000000000000000000000050000000000000000000000000000000000000000000000000000000000000000000000000000000000db00db729f24825b26d06d0c562f41a978ab64a245356b1f11e1a29cea7b4a03019bba1628f63b8b252953779913820e56ca2f4116c5e9f12e50d35b28a70402"
         }
       },
       "expected": {
@@ -368,7 +368,7 @@
       },
       "input": {
         "kind": "tx",
-        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b24905000000000005f5e10000000002000000000000000000000000000000000500000000000000000000000000000000000000000000000000000000000000000000000000000000002b933f5522f9a9be6a2b1a207799bc9758fd8f78420375f6e4747f77c547e30092904fc0e3c715b5fbfdfef73d0c223eecfa3c7498f2108cc5e2f6ae43bf5500",
+        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b24905000000000005f5e1000000000200000000000000000000000000000000050000000000000000000000000000000000000000000000000000000000000000000000000000000000f69fb86f18c79080268408f20b206eaee098cba55b7cb81f02eb808abcbe4d02938a73e5f3b624a69433c7d43a5346142ab89b92eeb964afa2e5f34b27fecc09",
         "tx": {
           "version": 1,
           "chain_id": 3,
@@ -388,8 +388,8 @@
           "nonce": 5,
           "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
           "reference_topoheight": 0,
-          "signature": "2b933f5522f9a9be6a2b1a207799bc9758fd8f78420375f6e4747f77c547e30092904fc0e3c715b5fbfdfef73d0c223eecfa3c7498f2108cc5e2f6ae43bf5500",
-          "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b24905000000000005f5e10000000002000000000000000000000000000000000500000000000000000000000000000000000000000000000000000000000000000000000000000000002b933f5522f9a9be6a2b1a207799bc9758fd8f78420375f6e4747f77c547e30092904fc0e3c715b5fbfdfef73d0c223eecfa3c7498f2108cc5e2f6ae43bf5500"
+          "signature": "f69fb86f18c79080268408f20b206eaee098cba55b7cb81f02eb808abcbe4d02938a73e5f3b624a69433c7d43a5346142ab89b92eeb964afa2e5f34b27fecc09",
+          "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b24905000000000005f5e1000000000200000000000000000000000000000000050000000000000000000000000000000000000000000000000000000000000000000000000000000000f69fb86f18c79080268408f20b206eaee098cba55b7cb81f02eb808abcbe4d02938a73e5f3b624a69433c7d43a5346142ab89b92eeb964afa2e5f34b27fecc09"
         }
       },
       "expected": {
@@ -475,7 +475,7 @@
       },
       "input": {
         "kind": "tx",
-        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b24905000000000005f5e1000000016e00000000000000000000000000000000050000000000000000000000000000000000000000000000000000000000000000000000000000000000f5b0d0cb7f196e6622670a5f0e0ac06fe985cc51f1468d2c6897e500de12cb0a0545e674d0de8b9c46e90556d6c43541350abe0dbe291d95eca17a8cb0c5dc0d",
+        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b24905000000000005f5e1000000016e0000000000000000000000000000000005000000000000000000000000000000000000000000000000000000000000000000000000000000000073190c0ab238bd5c86489f45d859bb14f5bae93bb042784528350f47d8ee9f08250b1fcfe7275426f13105de3e5731fb88d9d22ed0f01decc29548cd21d1f105",
         "tx": {
           "version": 1,
           "chain_id": 3,
@@ -495,8 +495,8 @@
           "nonce": 5,
           "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
           "reference_topoheight": 0,
-          "signature": "f5b0d0cb7f196e6622670a5f0e0ac06fe985cc51f1468d2c6897e500de12cb0a0545e674d0de8b9c46e90556d6c43541350abe0dbe291d95eca17a8cb0c5dc0d",
-          "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b24905000000000005f5e1000000016e00000000000000000000000000000000050000000000000000000000000000000000000000000000000000000000000000000000000000000000f5b0d0cb7f196e6622670a5f0e0ac06fe985cc51f1468d2c6897e500de12cb0a0545e674d0de8b9c46e90556d6c43541350abe0dbe291d95eca17a8cb0c5dc0d"
+          "signature": "73190c0ab238bd5c86489f45d859bb14f5bae93bb042784528350f47d8ee9f08250b1fcfe7275426f13105de3e5731fb88d9d22ed0f01decc29548cd21d1f105",
+          "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b24905000000000005f5e1000000016e0000000000000000000000000000000005000000000000000000000000000000000000000000000000000000000000000000000000000000000073190c0ab238bd5c86489f45d859bb14f5bae93bb042784528350f47d8ee9f08250b1fcfe7275426f13105de3e5731fb88d9d22ed0f01decc29548cd21d1f105"
         }
       },
       "expected": {
@@ -532,6 +532,702 @@
                 {
                   "amount": 1000000000,
                   "energy_gained": 0,
+                  "freeze_height": 0,
+                  "unlock_height": 99999
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "freeze_below_minimum",
+      "description": "",
+      "pre_state": {
+        "network_chain_id": 3,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "balance": 10000000000,
+            "nonce": 5,
+            "frozen": 1000000000,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ],
+        "energy_resources": [
+          {
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "energy": 0,
+            "frozen_tos": 1000000000,
+            "freeze_records": [
+              {
+                "amount": 1000000000,
+                "energy_gained": 0,
+                "freeze_height": 0,
+                "unlock_height": 99999
+              }
+            ]
+          }
+        ]
+      },
+      "runnable": false,
+      "input": {
+        "kind": "tx",
+        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b24905000000000002faf08000000007000000000000000000000000000000000500000000000000000000000000000000000000000000000000000000000000000000000000000000002ba4677fa68bea1984a933bdd5429a1f90930a342296ea1aa0d1f03bf0e81e008c64e7294144bdbaf8cc384f8d6871bb82bfc1ce1ca75b1dd0a783e5c952280d",
+        "tx": {
+          "version": 1,
+          "chain_id": 3,
+          "source": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+          "tx_type": "energy",
+          "payload": {
+            "variant": "freeze_tos",
+            "amount": 50000000,
+            "duration_days": 7,
+            "delegatees": [],
+            "from_delegation": null,
+            "record_index": null,
+            "delegatee_address": null
+          },
+          "fee": 0,
+          "fee_type": 0,
+          "nonce": 5,
+          "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+          "reference_topoheight": 0,
+          "signature": "2ba4677fa68bea1984a933bdd5429a1f90930a342296ea1aa0d1f03bf0e81e008c64e7294144bdbaf8cc384f8d6871bb82bfc1ce1ca75b1dd0a783e5c952280d",
+          "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b24905000000000002faf08000000007000000000000000000000000000000000500000000000000000000000000000000000000000000000000000000000000000000000000000000002ba4677fa68bea1984a933bdd5429a1f90930a342296ea1aa0d1f03bf0e81e008c64e7294144bdbaf8cc384f8d6871bb82bfc1ce1ca75b1dd0a783e5c952280d"
+        }
+      },
+      "expected": {
+        "success": false,
+        "error_code": 261,
+        "state_digest": "4df2ac2f0daa5b915b9972154a04f26a67e1eb46437d28b3cd7c3a5267df9633",
+        "post_state": {
+          "network_chain_id": 3,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+              "balance": 10000000000,
+              "nonce": 5,
+              "frozen": 1000000000,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ],
+          "energy_resources": [
+            {
+              "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+              "energy": 0,
+              "frozen_tos": 1000000000,
+              "freeze_records": [
+                {
+                  "amount": 1000000000,
+                  "energy_gained": 0,
+                  "freeze_height": 0,
+                  "unlock_height": 99999
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "freeze_non_whole_tos",
+      "description": "",
+      "pre_state": {
+        "network_chain_id": 3,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "balance": 10000000000,
+            "nonce": 5,
+            "frozen": 1000000000,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ],
+        "energy_resources": [
+          {
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "energy": 0,
+            "frozen_tos": 1000000000,
+            "freeze_records": [
+              {
+                "amount": 1000000000,
+                "energy_gained": 0,
+                "freeze_height": 0,
+                "unlock_height": 99999
+              }
+            ]
+          }
+        ]
+      },
+      "runnable": false,
+      "input": {
+        "kind": "tx",
+        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b24905000000000008f0d18000000007000000000000000000000000000000000500000000000000000000000000000000000000000000000000000000000000000000000000000000001b5a802b84c85277b0816dc8cc78d7f1c0ca67ccf8a8311e5645214a2c7468090a28a55ba893199035aa0fcbf0a6f6398cc2bcaa09172079ce8e4c7b7d688409",
+        "tx": {
+          "version": 1,
+          "chain_id": 3,
+          "source": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+          "tx_type": "energy",
+          "payload": {
+            "variant": "freeze_tos",
+            "amount": 150000000,
+            "duration_days": 7,
+            "delegatees": [],
+            "from_delegation": null,
+            "record_index": null,
+            "delegatee_address": null
+          },
+          "fee": 0,
+          "fee_type": 0,
+          "nonce": 5,
+          "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+          "reference_topoheight": 0,
+          "signature": "1b5a802b84c85277b0816dc8cc78d7f1c0ca67ccf8a8311e5645214a2c7468090a28a55ba893199035aa0fcbf0a6f6398cc2bcaa09172079ce8e4c7b7d688409",
+          "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b24905000000000008f0d18000000007000000000000000000000000000000000500000000000000000000000000000000000000000000000000000000000000000000000000000000001b5a802b84c85277b0816dc8cc78d7f1c0ca67ccf8a8311e5645214a2c7468090a28a55ba893199035aa0fcbf0a6f6398cc2bcaa09172079ce8e4c7b7d688409"
+        }
+      },
+      "expected": {
+        "success": false,
+        "error_code": 261,
+        "state_digest": "4df2ac2f0daa5b915b9972154a04f26a67e1eb46437d28b3cd7c3a5267df9633",
+        "post_state": {
+          "network_chain_id": 3,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+              "balance": 10000000000,
+              "nonce": 5,
+              "frozen": 1000000000,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ],
+          "energy_resources": [
+            {
+              "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+              "energy": 0,
+              "frozen_tos": 1000000000,
+              "freeze_records": [
+                {
+                  "amount": 1000000000,
+                  "energy_gained": 0,
+                  "freeze_height": 0,
+                  "unlock_height": 99999
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "freeze_max_records_exceeded",
+      "description": "",
+      "pre_state": {
+        "network_chain_id": 3,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "balance": 10000000000,
+            "nonce": 5,
+            "frozen": 3200000000,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ],
+        "energy_resources": [
+          {
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "energy": 448,
+            "frozen_tos": 3200000000,
+            "freeze_records": [
+              {
+                "amount": 100000000,
+                "energy_gained": 14,
+                "freeze_height": 0,
+                "unlock_height": 99999
+              },
+              {
+                "amount": 100000000,
+                "energy_gained": 14,
+                "freeze_height": 0,
+                "unlock_height": 99999
+              },
+              {
+                "amount": 100000000,
+                "energy_gained": 14,
+                "freeze_height": 0,
+                "unlock_height": 99999
+              },
+              {
+                "amount": 100000000,
+                "energy_gained": 14,
+                "freeze_height": 0,
+                "unlock_height": 99999
+              },
+              {
+                "amount": 100000000,
+                "energy_gained": 14,
+                "freeze_height": 0,
+                "unlock_height": 99999
+              },
+              {
+                "amount": 100000000,
+                "energy_gained": 14,
+                "freeze_height": 0,
+                "unlock_height": 99999
+              },
+              {
+                "amount": 100000000,
+                "energy_gained": 14,
+                "freeze_height": 0,
+                "unlock_height": 99999
+              },
+              {
+                "amount": 100000000,
+                "energy_gained": 14,
+                "freeze_height": 0,
+                "unlock_height": 99999
+              },
+              {
+                "amount": 100000000,
+                "energy_gained": 14,
+                "freeze_height": 0,
+                "unlock_height": 99999
+              },
+              {
+                "amount": 100000000,
+                "energy_gained": 14,
+                "freeze_height": 0,
+                "unlock_height": 99999
+              },
+              {
+                "amount": 100000000,
+                "energy_gained": 14,
+                "freeze_height": 0,
+                "unlock_height": 99999
+              },
+              {
+                "amount": 100000000,
+                "energy_gained": 14,
+                "freeze_height": 0,
+                "unlock_height": 99999
+              },
+              {
+                "amount": 100000000,
+                "energy_gained": 14,
+                "freeze_height": 0,
+                "unlock_height": 99999
+              },
+              {
+                "amount": 100000000,
+                "energy_gained": 14,
+                "freeze_height": 0,
+                "unlock_height": 99999
+              },
+              {
+                "amount": 100000000,
+                "energy_gained": 14,
+                "freeze_height": 0,
+                "unlock_height": 99999
+              },
+              {
+                "amount": 100000000,
+                "energy_gained": 14,
+                "freeze_height": 0,
+                "unlock_height": 99999
+              },
+              {
+                "amount": 100000000,
+                "energy_gained": 14,
+                "freeze_height": 0,
+                "unlock_height": 99999
+              },
+              {
+                "amount": 100000000,
+                "energy_gained": 14,
+                "freeze_height": 0,
+                "unlock_height": 99999
+              },
+              {
+                "amount": 100000000,
+                "energy_gained": 14,
+                "freeze_height": 0,
+                "unlock_height": 99999
+              },
+              {
+                "amount": 100000000,
+                "energy_gained": 14,
+                "freeze_height": 0,
+                "unlock_height": 99999
+              },
+              {
+                "amount": 100000000,
+                "energy_gained": 14,
+                "freeze_height": 0,
+                "unlock_height": 99999
+              },
+              {
+                "amount": 100000000,
+                "energy_gained": 14,
+                "freeze_height": 0,
+                "unlock_height": 99999
+              },
+              {
+                "amount": 100000000,
+                "energy_gained": 14,
+                "freeze_height": 0,
+                "unlock_height": 99999
+              },
+              {
+                "amount": 100000000,
+                "energy_gained": 14,
+                "freeze_height": 0,
+                "unlock_height": 99999
+              },
+              {
+                "amount": 100000000,
+                "energy_gained": 14,
+                "freeze_height": 0,
+                "unlock_height": 99999
+              },
+              {
+                "amount": 100000000,
+                "energy_gained": 14,
+                "freeze_height": 0,
+                "unlock_height": 99999
+              },
+              {
+                "amount": 100000000,
+                "energy_gained": 14,
+                "freeze_height": 0,
+                "unlock_height": 99999
+              },
+              {
+                "amount": 100000000,
+                "energy_gained": 14,
+                "freeze_height": 0,
+                "unlock_height": 99999
+              },
+              {
+                "amount": 100000000,
+                "energy_gained": 14,
+                "freeze_height": 0,
+                "unlock_height": 99999
+              },
+              {
+                "amount": 100000000,
+                "energy_gained": 14,
+                "freeze_height": 0,
+                "unlock_height": 99999
+              },
+              {
+                "amount": 100000000,
+                "energy_gained": 14,
+                "freeze_height": 0,
+                "unlock_height": 99999
+              },
+              {
+                "amount": 100000000,
+                "energy_gained": 14,
+                "freeze_height": 0,
+                "unlock_height": 99999
+              }
+            ]
+          }
+        ]
+      },
+      "runnable": false,
+      "input": {
+        "kind": "tx",
+        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b24905000000000005f5e1000000000700000000000000000000000000000000050000000000000000000000000000000000000000000000000000000000000000000000000000000000898f51c8989ea8ca81019c26a7a3aa3321f61c7375d64121b9f8c57cb7bd50040474725e5bb589e389dcfc9c9a74fa5177a852afab812b291bf1e27ac929b40e",
+        "tx": {
+          "version": 1,
+          "chain_id": 3,
+          "source": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+          "tx_type": "energy",
+          "payload": {
+            "variant": "freeze_tos",
+            "amount": 100000000,
+            "duration_days": 7,
+            "delegatees": [],
+            "from_delegation": null,
+            "record_index": null,
+            "delegatee_address": null
+          },
+          "fee": 0,
+          "fee_type": 0,
+          "nonce": 5,
+          "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+          "reference_topoheight": 0,
+          "signature": "898f51c8989ea8ca81019c26a7a3aa3321f61c7375d64121b9f8c57cb7bd50040474725e5bb589e389dcfc9c9a74fa5177a852afab812b291bf1e27ac929b40e",
+          "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b24905000000000005f5e1000000000700000000000000000000000000000000050000000000000000000000000000000000000000000000000000000000000000000000000000000000898f51c8989ea8ca81019c26a7a3aa3321f61c7375d64121b9f8c57cb7bd50040474725e5bb589e389dcfc9c9a74fa5177a852afab812b291bf1e27ac929b40e"
+        }
+      },
+      "expected": {
+        "success": false,
+        "error_code": 263,
+        "state_digest": "d8d52414fe01e1f6c5377a514b1a0316759e2b487886fef8c2f12f549acb4e74",
+        "post_state": {
+          "network_chain_id": 3,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+              "balance": 10000000000,
+              "nonce": 5,
+              "frozen": 3200000000,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ],
+          "energy_resources": [
+            {
+              "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+              "energy": 448,
+              "frozen_tos": 3200000000,
+              "freeze_records": [
+                {
+                  "amount": 100000000,
+                  "energy_gained": 14,
+                  "freeze_height": 0,
+                  "unlock_height": 99999
+                },
+                {
+                  "amount": 100000000,
+                  "energy_gained": 14,
+                  "freeze_height": 0,
+                  "unlock_height": 99999
+                },
+                {
+                  "amount": 100000000,
+                  "energy_gained": 14,
+                  "freeze_height": 0,
+                  "unlock_height": 99999
+                },
+                {
+                  "amount": 100000000,
+                  "energy_gained": 14,
+                  "freeze_height": 0,
+                  "unlock_height": 99999
+                },
+                {
+                  "amount": 100000000,
+                  "energy_gained": 14,
+                  "freeze_height": 0,
+                  "unlock_height": 99999
+                },
+                {
+                  "amount": 100000000,
+                  "energy_gained": 14,
+                  "freeze_height": 0,
+                  "unlock_height": 99999
+                },
+                {
+                  "amount": 100000000,
+                  "energy_gained": 14,
+                  "freeze_height": 0,
+                  "unlock_height": 99999
+                },
+                {
+                  "amount": 100000000,
+                  "energy_gained": 14,
+                  "freeze_height": 0,
+                  "unlock_height": 99999
+                },
+                {
+                  "amount": 100000000,
+                  "energy_gained": 14,
+                  "freeze_height": 0,
+                  "unlock_height": 99999
+                },
+                {
+                  "amount": 100000000,
+                  "energy_gained": 14,
+                  "freeze_height": 0,
+                  "unlock_height": 99999
+                },
+                {
+                  "amount": 100000000,
+                  "energy_gained": 14,
+                  "freeze_height": 0,
+                  "unlock_height": 99999
+                },
+                {
+                  "amount": 100000000,
+                  "energy_gained": 14,
+                  "freeze_height": 0,
+                  "unlock_height": 99999
+                },
+                {
+                  "amount": 100000000,
+                  "energy_gained": 14,
+                  "freeze_height": 0,
+                  "unlock_height": 99999
+                },
+                {
+                  "amount": 100000000,
+                  "energy_gained": 14,
+                  "freeze_height": 0,
+                  "unlock_height": 99999
+                },
+                {
+                  "amount": 100000000,
+                  "energy_gained": 14,
+                  "freeze_height": 0,
+                  "unlock_height": 99999
+                },
+                {
+                  "amount": 100000000,
+                  "energy_gained": 14,
+                  "freeze_height": 0,
+                  "unlock_height": 99999
+                },
+                {
+                  "amount": 100000000,
+                  "energy_gained": 14,
+                  "freeze_height": 0,
+                  "unlock_height": 99999
+                },
+                {
+                  "amount": 100000000,
+                  "energy_gained": 14,
+                  "freeze_height": 0,
+                  "unlock_height": 99999
+                },
+                {
+                  "amount": 100000000,
+                  "energy_gained": 14,
+                  "freeze_height": 0,
+                  "unlock_height": 99999
+                },
+                {
+                  "amount": 100000000,
+                  "energy_gained": 14,
+                  "freeze_height": 0,
+                  "unlock_height": 99999
+                },
+                {
+                  "amount": 100000000,
+                  "energy_gained": 14,
+                  "freeze_height": 0,
+                  "unlock_height": 99999
+                },
+                {
+                  "amount": 100000000,
+                  "energy_gained": 14,
+                  "freeze_height": 0,
+                  "unlock_height": 99999
+                },
+                {
+                  "amount": 100000000,
+                  "energy_gained": 14,
+                  "freeze_height": 0,
+                  "unlock_height": 99999
+                },
+                {
+                  "amount": 100000000,
+                  "energy_gained": 14,
+                  "freeze_height": 0,
+                  "unlock_height": 99999
+                },
+                {
+                  "amount": 100000000,
+                  "energy_gained": 14,
+                  "freeze_height": 0,
+                  "unlock_height": 99999
+                },
+                {
+                  "amount": 100000000,
+                  "energy_gained": 14,
+                  "freeze_height": 0,
+                  "unlock_height": 99999
+                },
+                {
+                  "amount": 100000000,
+                  "energy_gained": 14,
+                  "freeze_height": 0,
+                  "unlock_height": 99999
+                },
+                {
+                  "amount": 100000000,
+                  "energy_gained": 14,
+                  "freeze_height": 0,
+                  "unlock_height": 99999
+                },
+                {
+                  "amount": 100000000,
+                  "energy_gained": 14,
+                  "freeze_height": 0,
+                  "unlock_height": 99999
+                },
+                {
+                  "amount": 100000000,
+                  "energy_gained": 14,
+                  "freeze_height": 0,
+                  "unlock_height": 99999
+                },
+                {
+                  "amount": 100000000,
+                  "energy_gained": 14,
+                  "freeze_height": 0,
+                  "unlock_height": 99999
+                },
+                {
+                  "amount": 100000000,
+                  "energy_gained": 14,
                   "freeze_height": 0,
                   "unlock_height": 99999
                 }

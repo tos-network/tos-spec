@@ -333,3 +333,96 @@ def test_freeze_delegate_max_delegatees_exceeded(state_test_group) -> None:
         state,
         tx,
     )
+
+
+# ===================================================================
+# Additional boundary tests
+# ===================================================================
+
+
+def test_freeze_below_minimum(state_test_group) -> None:
+    """Freeze with amount < MIN_FREEZE_TOS_AMOUNT (half a TOS).
+
+    Amount 50_000_000 is below minimum 1 TOS and also not a whole TOS.
+    """
+    state = _base_state()
+    tx = _mk_freeze_tos(ALICE, nonce=5, amount=MIN_FREEZE_TOS_AMOUNT // 2, days=7, fee=0)
+    state_test_group(
+        "transactions/energy/freeze_tos.json", "freeze_below_minimum", state, tx
+    )
+
+
+def test_freeze_non_whole_tos(state_test_group) -> None:
+    """Freeze with amount that is not a multiple of COIN_VALUE.
+
+    Amount 150_000_000 (1.5 TOS) is above minimum but not a whole TOS.
+    """
+    state = _base_state()
+    tx = _mk_freeze_tos(ALICE, nonce=5, amount=COIN_VALUE + COIN_VALUE // 2, days=7, fee=0)
+    state_test_group(
+        "transactions/energy/freeze_tos.json", "freeze_non_whole_tos", state, tx
+    )
+
+
+def test_freeze_max_records_exceeded(state_test_group) -> None:
+    """33 freeze records (max=32).
+
+    Pre-state has 32 existing freeze records; adding one more should fail.
+    """
+    state = ChainState(network_chain_id=CHAIN_ID_DEVNET)
+    sender = ALICE
+    state.accounts[sender] = AccountState(
+        address=sender, balance=100 * COIN_VALUE, nonce=5, frozen=32 * COIN_VALUE
+    )
+    # Pre-populate 32 freeze records (the maximum)
+    records = [
+        FreezeRecord(
+            amount=COIN_VALUE,
+            energy_gained=14,
+            freeze_height=0,
+            unlock_height=99999,
+        )
+        for _ in range(32)
+    ]
+    state.energy_resources[sender] = EnergyResource(
+        frozen_tos=32 * COIN_VALUE,
+        energy=32 * 14,
+        freeze_records=records,
+    )
+    tx = _mk_freeze_tos(sender, nonce=5, amount=COIN_VALUE, days=7, fee=0)
+    state_test_group(
+        "transactions/energy/freeze_tos.json", "freeze_max_records_exceeded", state, tx
+    )
+
+
+def test_unfreeze_amount_zero(state_test_group) -> None:
+    """Unfreeze with amount=0 should be rejected.
+
+    This is an alias test; the existing test_unfreeze_tos_zero_amount covers
+    this case but uses the state_test_group fixture under the standard path.
+    """
+    state = _base_state()
+    tx = _mk_unfreeze_tos(ALICE, nonce=5, amount=0, from_delegation=False, fee=0)
+    state_test_group(
+        "transactions/energy/unfreeze_tos.json",
+        "unfreeze_amount_zero",
+        state,
+        tx,
+    )
+
+
+def test_delegate_self(state_test_group) -> None:
+    """Delegate to self (sender == delegatee) should be rejected.
+
+    This is tested via freeze_delegate_self; here we confirm the error
+    under the standard freeze_delegate path.
+    """
+    state = _base_state()
+    entries = [DelegationEntry(delegatee=ALICE, amount=COIN_VALUE)]
+    tx = _mk_freeze_delegate(ALICE, nonce=5, delegatees=entries, days=7, fee=0)
+    state_test_group(
+        "transactions/energy/freeze_delegate.json",
+        "delegate_self",
+        state,
+        tx,
+    )

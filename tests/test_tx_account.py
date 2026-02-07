@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from tos_spec.config import CHAIN_ID_DEVNET
+from tos_spec.config import CHAIN_ID_DEVNET, MAX_MULTISIG_PARTICIPANTS
 from tos_spec.test_accounts import ALICE, BOB, CAROL
 from tos_spec.types import (
     AccountState,
@@ -383,6 +383,48 @@ def test_agent_account_unknown_variant(state_test_group) -> None:
     state_test_group(
         "transactions/account/agent_account.json",
         "agent_account_unknown_variant",
+        state,
+        tx,
+    )
+
+
+# --- multisig boundary value tests ---
+
+
+def test_multisig_threshold_exceeds_participants(state_test_group) -> None:
+    """Multisig with threshold > len(participants) must fail."""
+    state = _base_state()
+    participants = [BOB, CAROL]
+    tx = _mk_multisig(ALICE, nonce=5, threshold=5, participants=participants, fee=100_000)
+    state_test_group(
+        "transactions/account/multisig.json",
+        "multisig_threshold_exceeds_participants",
+        state,
+        tx,
+    )
+
+
+def test_multisig_max_participants(state_test_group) -> None:
+    """Multisig with exactly MAX_MULTISIG_PARTICIPANTS (255) must succeed."""
+    state = _base_state()
+    # Generate 255 distinct participant keys
+    participants = [bytes([i]) + bytes(31) for i in range(MAX_MULTISIG_PARTICIPANTS)]
+    tx = _mk_multisig(ALICE, nonce=5, threshold=1, participants=participants, fee=100_000)
+    state_test_group(
+        "transactions/account/multisig.json",
+        "multisig_max_participants",
+        state,
+        tx,
+    )
+
+
+def test_multisig_zero_participants_nonzero_threshold(state_test_group) -> None:
+    """Multisig with threshold=1 but empty participants list must fail."""
+    state = _base_state()
+    tx = _mk_multisig(ALICE, nonce=5, threshold=1, participants=[], fee=100_000)
+    state_test_group(
+        "transactions/account/multisig.json",
+        "multisig_zero_participants_nonzero_threshold",
         state,
         tx,
     )

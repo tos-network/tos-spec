@@ -314,3 +314,82 @@ def test_deploy_contract_short_module(state_test_group) -> None:
         state,
         tx,
     )
+
+
+# ===================================================================
+# Additional boundary tests
+# ===================================================================
+
+
+def test_invoke_contract_max_deposits(state_test_group) -> None:
+    """Invoke with exactly MAX_DEPOSIT_PER_INVOKE_CALL deposits (boundary: should pass)."""
+    state, contract_hash = _base_state_with_contract()
+    state.accounts[ALICE].balance = 1000 * COIN_VALUE
+    deposits = [{"asset": _hash(i % 256), "amount": 1} for i in range(MAX_DEPOSIT_PER_INVOKE_CALL)]
+    tx = Transaction(
+        version=TxVersion.T1,
+        chain_id=CHAIN_ID_DEVNET,
+        source=ALICE,
+        tx_type=TransactionType.INVOKE_CONTRACT,
+        payload={
+            "contract": contract_hash,
+            "deposits": deposits,
+            "entry_id": 0,
+            "max_gas": 100_000,
+            "parameters": [],
+        },
+        fee=100_000,
+        fee_type=FeeType.TOS,
+        nonce=5,
+        reference_hash=_hash(0),
+        reference_topoheight=0,
+        signature=bytes(64),
+    )
+    state_test_group(
+        "transactions/contracts/invoke_contract.json",
+        "invoke_contract_max_deposits",
+        state,
+        tx,
+    )
+
+
+def test_deploy_contract_empty_module(state_test_group) -> None:
+    """Deploy with empty module bytes should fail."""
+    state = _base_state()
+    tx = _mk_deploy_contract(ALICE, nonce=5, module=b"", fee=100_000)
+    state_test_group(
+        "transactions/contracts/deploy_contract.json",
+        "deploy_contract_empty_module",
+        state,
+        tx,
+    )
+
+
+def test_invoke_contract_negative_gas(state_test_group) -> None:
+    """Invoke with max_gas < 0 should be rejected."""
+    state, contract_hash = _base_state_with_contract()
+    tx = Transaction(
+        version=TxVersion.T1,
+        chain_id=CHAIN_ID_DEVNET,
+        source=ALICE,
+        tx_type=TransactionType.INVOKE_CONTRACT,
+        payload={
+            "contract": contract_hash,
+            "deposits": [],
+            "entry_id": 0,
+            "max_gas": -1,
+            "parameters": [],
+        },
+        fee=100_000,
+        fee_type=FeeType.TOS,
+        nonce=5,
+        reference_hash=_hash(0),
+        reference_topoheight=0,
+        signature=bytes(64),
+    )
+    state_test_group(
+        "transactions/contracts/invoke_contract.json",
+        "invoke_contract_negative_gas",
+        state,
+        tx,
+    )

@@ -112,6 +112,10 @@ def _apply_freeze_tos(state: ChainState, tx: Transaction, p: EnergyPayload) -> C
         er = EnergyResource()
         ns.energy_resources[tx.source] = er
 
+    total_records = len(er.freeze_records) + len(er.delegated_records)
+    if total_records >= MAX_FREEZE_RECORDS:
+        raise SpecError(ErrorCode.INVALID_PAYLOAD, "maximum freeze records reached")
+
     er.freeze_records.append(FreezeRecord(
         amount=amount,
         energy_gained=energy_gained,

@@ -26,7 +26,7 @@
       },
       "input": {
         "kind": "tx",
-        "wire_hex": "01038c9240b456a9e6dc65c377a1048d745f94a08cdb7f44cbcd7b46f340488711340c0f476c6f62616c436f6d6d6974746565030a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a01086d656d6265725f30000b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b01086d656d6265725f31000c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c01086d656d6265725f3200020200ff00000000000186a00000000000000000050000000000000000000000000000000000000000000000000000000000000000000000000000000000eaec36f97f8ea0843da33bd4a1c2a14d7c9d8ea86a1886b9cc24b3d39bcf2f0f20b5bd7f14557cb1574ddc742cf85df7222c9a6f68aaf1a62edb592f2a91e700",
+        "wire_hex": "01038c9240b456a9e6dc65c377a1048d745f94a08cdb7f44cbcd7b46f340488711340c0f476c6f62616c436f6d6d6974746565030a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a01086d656d6265725f30000b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b01086d656d6265725f31000c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c01086d656d6265725f3200020200ff00000000000186a00000000000000000050000000000000000000000000000000000000000000000000000000000000000000000000000000000edb772606ec17927c9d57f244bc59d95c05b4105d27c0c0ebe9c99c17bdd2f0170b2d0c237ff738f1beb319147bbdb0d0b4b4d0d6474c15a04612d3c2a19a407",
         "tx": {
           "version": 1,
           "chain_id": 3,
@@ -60,8 +60,8 @@
           "nonce": 5,
           "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
           "reference_topoheight": 0,
-          "signature": "eaec36f97f8ea0843da33bd4a1c2a14d7c9d8ea86a1886b9cc24b3d39bcf2f0f20b5bd7f14557cb1574ddc742cf85df7222c9a6f68aaf1a62edb592f2a91e700",
-          "wire_hex": "01038c9240b456a9e6dc65c377a1048d745f94a08cdb7f44cbcd7b46f340488711340c0f476c6f62616c436f6d6d6974746565030a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a01086d656d6265725f30000b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b01086d656d6265725f31000c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c01086d656d6265725f3200020200ff00000000000186a00000000000000000050000000000000000000000000000000000000000000000000000000000000000000000000000000000eaec36f97f8ea0843da33bd4a1c2a14d7c9d8ea86a1886b9cc24b3d39bcf2f0f20b5bd7f14557cb1574ddc742cf85df7222c9a6f68aaf1a62edb592f2a91e700"
+          "signature": "edb772606ec17927c9d57f244bc59d95c05b4105d27c0c0ebe9c99c17bdd2f0170b2d0c237ff738f1beb319147bbdb0d0b4b4d0d6474c15a04612d3c2a19a407",
+          "wire_hex": "01038c9240b456a9e6dc65c377a1048d745f94a08cdb7f44cbcd7b46f340488711340c0f476c6f62616c436f6d6d6974746565030a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a01086d656d6265725f30000b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b01086d656d6265725f31000c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c01086d656d6265725f3200020200ff00000000000186a00000000000000000050000000000000000000000000000000000000000000000000000000000000000000000000000000000edb772606ec17927c9d57f244bc59d95c05b4105d27c0c0ebe9c99c17bdd2f0170b2d0c237ff738f1beb319147bbdb0d0b4b4d0d6474c15a04612d3c2a19a407"
         }
       },
       "expected": {
@@ -145,7 +145,7 @@
       "runnable": false,
       "input": {
         "kind": "tx",
-        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b2490c0f476c6f62616c436f6d6d6974746565030a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a01086d656d6265725f30000b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b01086d656d6265725f31000c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c01086d656d6265725f3200020200ff00000000000186a0000000000000000005000000000000000000000000000000000000000000000000000000000000000000000000000000000096a85d99305bccddf29d07b5db52a9d0dc560324d56479f1dbdfae4d99e3eb093cf6f8d04ae05192999cb992e4619698752263199371147f2a89ad720762bb0a",
+        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b2490c0f476c6f62616c436f6d6d6974746565030a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a01086d656d6265725f30000b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b01086d656d6265725f31000c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c01086d656d6265725f3200020200ff00000000000186a000000000000000000500000000000000000000000000000000000000000000000000000000000000000000000000000000004477e9e93181ad52b7626d37ba22dd2edec244941f4ab580df3b09280038d10d13a4071ba9eff75d7929342b8a4046f8cc8c7c1556560c596028e7ecd9b9ed0e",
         "tx": {
           "version": 1,
           "chain_id": 3,
@@ -179,8 +179,8 @@
           "nonce": 5,
           "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
           "reference_topoheight": 0,
-          "signature": "96a85d99305bccddf29d07b5db52a9d0dc560324d56479f1dbdfae4d99e3eb093cf6f8d04ae05192999cb992e4619698752263199371147f2a89ad720762bb0a",
-          "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b2490c0f476c6f62616c436f6d6d6974746565030a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a01086d656d6265725f30000b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b01086d656d6265725f31000c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c01086d656d6265725f3200020200ff00000000000186a0000000000000000005000000000000000000000000000000000000000000000000000000000000000000000000000000000096a85d99305bccddf29d07b5db52a9d0dc560324d56479f1dbdfae4d99e3eb093cf6f8d04ae05192999cb992e4619698752263199371147f2a89ad720762bb0a"
+          "signature": "4477e9e93181ad52b7626d37ba22dd2edec244941f4ab580df3b09280038d10d13a4071ba9eff75d7929342b8a4046f8cc8c7c1556560c596028e7ecd9b9ed0e",
+          "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b2490c0f476c6f62616c436f6d6d6974746565030a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a01086d656d6265725f30000b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b01086d656d6265725f31000c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c01086d656d6265725f3200020200ff00000000000186a000000000000000000500000000000000000000000000000000000000000000000000000000000000000000000000000000004477e9e93181ad52b7626d37ba22dd2edec244941f4ab580df3b09280038d10d13a4071ba9eff75d7929342b8a4046f8cc8c7c1556560c596028e7ecd9b9ed0e"
         }
       },
       "expected": {
@@ -636,6 +636,702 @@
           "reference_topoheight": 0,
           "signature": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
           "wire_hex": "01038c9240b456a9e6dc65c377a1048d745f94a08cdb7f44cbcd7b46f340488711340c084261644c6576656c030a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a01086d656d6265725f30000b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b01086d656d6265725f31000c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c01086d656d6265725f3200020203e700000000000186a0000000000000000005000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+        }
+      },
+      "expected": {
+        "success": false,
+        "error_code": 263,
+        "state_digest": "30045dc045ee1c1f094221624a6cb8cacdfc3c4f99c989a67c51c6c1b662c9f1",
+        "post_state": {
+          "network_chain_id": 3,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "8c9240b456a9e6dc65c377a1048d745f94a08cdb7f44cbcd7b46f34048871134",
+              "balance": 10000000,
+              "nonce": 5,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "bootstrap_committee_max_members",
+      "description": "",
+      "pre_state": {
+        "network_chain_id": 3,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "8c9240b456a9e6dc65c377a1048d745f94a08cdb7f44cbcd7b46f34048871134",
+            "balance": 10000000,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
+      },
+      "runnable": false,
+      "input": {
+        "kind": "tx",
+        "wire_hex": "01038c9240b456a9e6dc65c377a1048d745f94a08cdb7f44cbcd7b46f340488711340c134d61784d656d62657273436f6d6d6974746565150a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a01086d656d6265725f30000b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b01086d656d6265725f31000c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c01086d656d6265725f32000d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d01086d656d6265725f33000e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e01086d656d6265725f34000f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f01086d656d6265725f3500101010101010101010101010101010101010101010101010101010101010101001086d656d6265725f3600111111111111111111111111111111111111111111111111111111111111111101086d656d6265725f3700121212121212121212121212121212121212121212121212121212121212121201086d656d6265725f3800131313131313131313131313131313131313131313131313131313131313131301086d656d6265725f3900141414141414141414141414141414141414141414141414141414141414141401096d656d6265725f313000151515151515151515151515151515151515151515151515151515151515151501096d656d6265725f313100161616161616161616161616161616161616161616161616161616161616161601096d656d6265725f313200171717171717171717171717171717171717171717171717171717171717171701096d656d6265725f313300181818181818181818181818181818181818181818181818181818181818181801096d656d6265725f313400191919191919191919191919191919191919191919191919191919191919191901096d656d6265725f3135001a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a01096d656d6265725f3136001b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b01096d656d6265725f3137001c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c01096d656d6265725f3138001d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d01096d656d6265725f3139001e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e01096d656d6265725f323000020200ff00000000000186a000000000000000000500000000000000000000000000000000000000000000000000000000000000000000000000000000001c6c78450a750db1de81c76c5abf61aa8f4211b1188be026e524d3e74e01df08ea397b54d443614001a4ef9a060971e3622d9fedf29ffee8cd7d152bb79a0c0e",
+        "tx": {
+          "version": 1,
+          "chain_id": 3,
+          "source": "8c9240b456a9e6dc65c377a1048d745f94a08cdb7f44cbcd7b46f34048871134",
+          "tx_type": "bootstrap_committee",
+          "payload": {
+            "name": "MaxMembersCommittee",
+            "members": [
+              {
+                "public_key": "0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a",
+                "name": "member_0",
+                "role": 0
+              },
+              {
+                "public_key": "0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b",
+                "name": "member_1",
+                "role": 0
+              },
+              {
+                "public_key": "0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c",
+                "name": "member_2",
+                "role": 0
+              },
+              {
+                "public_key": "0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d",
+                "name": "member_3",
+                "role": 0
+              },
+              {
+                "public_key": "0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e",
+                "name": "member_4",
+                "role": 0
+              },
+              {
+                "public_key": "0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f",
+                "name": "member_5",
+                "role": 0
+              },
+              {
+                "public_key": "1010101010101010101010101010101010101010101010101010101010101010",
+                "name": "member_6",
+                "role": 0
+              },
+              {
+                "public_key": "1111111111111111111111111111111111111111111111111111111111111111",
+                "name": "member_7",
+                "role": 0
+              },
+              {
+                "public_key": "1212121212121212121212121212121212121212121212121212121212121212",
+                "name": "member_8",
+                "role": 0
+              },
+              {
+                "public_key": "1313131313131313131313131313131313131313131313131313131313131313",
+                "name": "member_9",
+                "role": 0
+              },
+              {
+                "public_key": "1414141414141414141414141414141414141414141414141414141414141414",
+                "name": "member_10",
+                "role": 0
+              },
+              {
+                "public_key": "1515151515151515151515151515151515151515151515151515151515151515",
+                "name": "member_11",
+                "role": 0
+              },
+              {
+                "public_key": "1616161616161616161616161616161616161616161616161616161616161616",
+                "name": "member_12",
+                "role": 0
+              },
+              {
+                "public_key": "1717171717171717171717171717171717171717171717171717171717171717",
+                "name": "member_13",
+                "role": 0
+              },
+              {
+                "public_key": "1818181818181818181818181818181818181818181818181818181818181818",
+                "name": "member_14",
+                "role": 0
+              },
+              {
+                "public_key": "1919191919191919191919191919191919191919191919191919191919191919",
+                "name": "member_15",
+                "role": 0
+              },
+              {
+                "public_key": "1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a",
+                "name": "member_16",
+                "role": 0
+              },
+              {
+                "public_key": "1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b",
+                "name": "member_17",
+                "role": 0
+              },
+              {
+                "public_key": "1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c",
+                "name": "member_18",
+                "role": 0
+              },
+              {
+                "public_key": "1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d",
+                "name": "member_19",
+                "role": 0
+              },
+              {
+                "public_key": "1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e",
+                "name": "member_20",
+                "role": 0
+              }
+            ],
+            "threshold": 2,
+            "kyc_threshold": 2,
+            "max_kyc_level": 255
+          },
+          "fee": 100000,
+          "fee_type": 0,
+          "nonce": 5,
+          "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+          "reference_topoheight": 0,
+          "signature": "1c6c78450a750db1de81c76c5abf61aa8f4211b1188be026e524d3e74e01df08ea397b54d443614001a4ef9a060971e3622d9fedf29ffee8cd7d152bb79a0c0e",
+          "wire_hex": "01038c9240b456a9e6dc65c377a1048d745f94a08cdb7f44cbcd7b46f340488711340c134d61784d656d62657273436f6d6d6974746565150a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a01086d656d6265725f30000b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b01086d656d6265725f31000c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c01086d656d6265725f32000d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d01086d656d6265725f33000e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e01086d656d6265725f34000f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f01086d656d6265725f3500101010101010101010101010101010101010101010101010101010101010101001086d656d6265725f3600111111111111111111111111111111111111111111111111111111111111111101086d656d6265725f3700121212121212121212121212121212121212121212121212121212121212121201086d656d6265725f3800131313131313131313131313131313131313131313131313131313131313131301086d656d6265725f3900141414141414141414141414141414141414141414141414141414141414141401096d656d6265725f313000151515151515151515151515151515151515151515151515151515151515151501096d656d6265725f313100161616161616161616161616161616161616161616161616161616161616161601096d656d6265725f313200171717171717171717171717171717171717171717171717171717171717171701096d656d6265725f313300181818181818181818181818181818181818181818181818181818181818181801096d656d6265725f313400191919191919191919191919191919191919191919191919191919191919191901096d656d6265725f3135001a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a01096d656d6265725f3136001b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b01096d656d6265725f3137001c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c01096d656d6265725f3138001d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d01096d656d6265725f3139001e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e01096d656d6265725f323000020200ff00000000000186a000000000000000000500000000000000000000000000000000000000000000000000000000000000000000000000000000001c6c78450a750db1de81c76c5abf61aa8f4211b1188be026e524d3e74e01df08ea397b54d443614001a4ef9a060971e3622d9fedf29ffee8cd7d152bb79a0c0e"
+        }
+      },
+      "expected": {
+        "success": true,
+        "error_code": 0,
+        "state_digest": "d5450212d82729be796ea3147ffe5ea56d707dfa9022f582682c25b0481dd212",
+        "post_state": {
+          "network_chain_id": 3,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "8c9240b456a9e6dc65c377a1048d745f94a08cdb7f44cbcd7b46f34048871134",
+              "balance": 9900000,
+              "nonce": 6,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ],
+          "committees": [
+            {
+              "id": "e4622c949beb12d29e112a46362f843ebf6722f75ae5e72845abd30d77efb3b4",
+              "name": "MaxMembersCommittee",
+              "region": 0,
+              "members": [
+                {
+                  "public_key": "0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a",
+                  "name": "member_0",
+                  "role": 0
+                },
+                {
+                  "public_key": "0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b",
+                  "name": "member_1",
+                  "role": 0
+                },
+                {
+                  "public_key": "0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c",
+                  "name": "member_2",
+                  "role": 0
+                },
+                {
+                  "public_key": "0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d",
+                  "name": "member_3",
+                  "role": 0
+                },
+                {
+                  "public_key": "0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e",
+                  "name": "member_4",
+                  "role": 0
+                },
+                {
+                  "public_key": "0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f",
+                  "name": "member_5",
+                  "role": 0
+                },
+                {
+                  "public_key": "1010101010101010101010101010101010101010101010101010101010101010",
+                  "name": "member_6",
+                  "role": 0
+                },
+                {
+                  "public_key": "1111111111111111111111111111111111111111111111111111111111111111",
+                  "name": "member_7",
+                  "role": 0
+                },
+                {
+                  "public_key": "1212121212121212121212121212121212121212121212121212121212121212",
+                  "name": "member_8",
+                  "role": 0
+                },
+                {
+                  "public_key": "1313131313131313131313131313131313131313131313131313131313131313",
+                  "name": "member_9",
+                  "role": 0
+                },
+                {
+                  "public_key": "1414141414141414141414141414141414141414141414141414141414141414",
+                  "name": "member_10",
+                  "role": 0
+                },
+                {
+                  "public_key": "1515151515151515151515151515151515151515151515151515151515151515",
+                  "name": "member_11",
+                  "role": 0
+                },
+                {
+                  "public_key": "1616161616161616161616161616161616161616161616161616161616161616",
+                  "name": "member_12",
+                  "role": 0
+                },
+                {
+                  "public_key": "1717171717171717171717171717171717171717171717171717171717171717",
+                  "name": "member_13",
+                  "role": 0
+                },
+                {
+                  "public_key": "1818181818181818181818181818181818181818181818181818181818181818",
+                  "name": "member_14",
+                  "role": 0
+                },
+                {
+                  "public_key": "1919191919191919191919191919191919191919191919191919191919191919",
+                  "name": "member_15",
+                  "role": 0
+                },
+                {
+                  "public_key": "1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a",
+                  "name": "member_16",
+                  "role": 0
+                },
+                {
+                  "public_key": "1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b",
+                  "name": "member_17",
+                  "role": 0
+                },
+                {
+                  "public_key": "1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c",
+                  "name": "member_18",
+                  "role": 0
+                },
+                {
+                  "public_key": "1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d",
+                  "name": "member_19",
+                  "role": 0
+                },
+                {
+                  "public_key": "1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e",
+                  "name": "member_20",
+                  "role": 0
+                }
+              ],
+              "threshold": 2,
+              "kyc_threshold": 2,
+              "max_kyc_level": 255
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "bootstrap_committee_too_many_members",
+      "description": "",
+      "pre_state": {
+        "network_chain_id": 3,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "8c9240b456a9e6dc65c377a1048d745f94a08cdb7f44cbcd7b46f34048871134",
+            "balance": 10000000,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
+      },
+      "runnable": false,
+      "input": {
+        "kind": "tx",
+        "wire_hex": "01038c9240b456a9e6dc65c377a1048d745f94a08cdb7f44cbcd7b46f340488711340c10546f6f4d616e79436f6d6d6974746565160a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a01086d656d6265725f30000b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b01086d656d6265725f31000c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c01086d656d6265725f32000d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d01086d656d6265725f33000e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e01086d656d6265725f34000f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f01086d656d6265725f3500101010101010101010101010101010101010101010101010101010101010101001086d656d6265725f3600111111111111111111111111111111111111111111111111111111111111111101086d656d6265725f3700121212121212121212121212121212121212121212121212121212121212121201086d656d6265725f3800131313131313131313131313131313131313131313131313131313131313131301086d656d6265725f3900141414141414141414141414141414141414141414141414141414141414141401096d656d6265725f313000151515151515151515151515151515151515151515151515151515151515151501096d656d6265725f313100161616161616161616161616161616161616161616161616161616161616161601096d656d6265725f313200171717171717171717171717171717171717171717171717171717171717171701096d656d6265725f313300181818181818181818181818181818181818181818181818181818181818181801096d656d6265725f313400191919191919191919191919191919191919191919191919191919191919191901096d656d6265725f3135001a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a01096d656d6265725f3136001b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b01096d656d6265725f3137001c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c01096d656d6265725f3138001d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d01096d656d6265725f3139001e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e01096d656d6265725f3230001f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f01096d656d6265725f323100020200ff00000000000186a0000000000000000005000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "tx": {
+          "version": 1,
+          "chain_id": 3,
+          "source": "8c9240b456a9e6dc65c377a1048d745f94a08cdb7f44cbcd7b46f34048871134",
+          "tx_type": "bootstrap_committee",
+          "payload": {
+            "name": "TooManyCommittee",
+            "members": [
+              {
+                "public_key": "0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a",
+                "name": "member_0",
+                "role": 0
+              },
+              {
+                "public_key": "0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b",
+                "name": "member_1",
+                "role": 0
+              },
+              {
+                "public_key": "0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c",
+                "name": "member_2",
+                "role": 0
+              },
+              {
+                "public_key": "0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d",
+                "name": "member_3",
+                "role": 0
+              },
+              {
+                "public_key": "0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e",
+                "name": "member_4",
+                "role": 0
+              },
+              {
+                "public_key": "0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f",
+                "name": "member_5",
+                "role": 0
+              },
+              {
+                "public_key": "1010101010101010101010101010101010101010101010101010101010101010",
+                "name": "member_6",
+                "role": 0
+              },
+              {
+                "public_key": "1111111111111111111111111111111111111111111111111111111111111111",
+                "name": "member_7",
+                "role": 0
+              },
+              {
+                "public_key": "1212121212121212121212121212121212121212121212121212121212121212",
+                "name": "member_8",
+                "role": 0
+              },
+              {
+                "public_key": "1313131313131313131313131313131313131313131313131313131313131313",
+                "name": "member_9",
+                "role": 0
+              },
+              {
+                "public_key": "1414141414141414141414141414141414141414141414141414141414141414",
+                "name": "member_10",
+                "role": 0
+              },
+              {
+                "public_key": "1515151515151515151515151515151515151515151515151515151515151515",
+                "name": "member_11",
+                "role": 0
+              },
+              {
+                "public_key": "1616161616161616161616161616161616161616161616161616161616161616",
+                "name": "member_12",
+                "role": 0
+              },
+              {
+                "public_key": "1717171717171717171717171717171717171717171717171717171717171717",
+                "name": "member_13",
+                "role": 0
+              },
+              {
+                "public_key": "1818181818181818181818181818181818181818181818181818181818181818",
+                "name": "member_14",
+                "role": 0
+              },
+              {
+                "public_key": "1919191919191919191919191919191919191919191919191919191919191919",
+                "name": "member_15",
+                "role": 0
+              },
+              {
+                "public_key": "1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a",
+                "name": "member_16",
+                "role": 0
+              },
+              {
+                "public_key": "1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b",
+                "name": "member_17",
+                "role": 0
+              },
+              {
+                "public_key": "1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c",
+                "name": "member_18",
+                "role": 0
+              },
+              {
+                "public_key": "1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d",
+                "name": "member_19",
+                "role": 0
+              },
+              {
+                "public_key": "1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e",
+                "name": "member_20",
+                "role": 0
+              },
+              {
+                "public_key": "1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f",
+                "name": "member_21",
+                "role": 0
+              }
+            ],
+            "threshold": 2,
+            "kyc_threshold": 2,
+            "max_kyc_level": 255
+          },
+          "fee": 100000,
+          "fee_type": 0,
+          "nonce": 5,
+          "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+          "reference_topoheight": 0,
+          "signature": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "wire_hex": "01038c9240b456a9e6dc65c377a1048d745f94a08cdb7f44cbcd7b46f340488711340c10546f6f4d616e79436f6d6d6974746565160a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a01086d656d6265725f30000b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b01086d656d6265725f31000c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c01086d656d6265725f32000d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d01086d656d6265725f33000e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e01086d656d6265725f34000f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f0f01086d656d6265725f3500101010101010101010101010101010101010101010101010101010101010101001086d656d6265725f3600111111111111111111111111111111111111111111111111111111111111111101086d656d6265725f3700121212121212121212121212121212121212121212121212121212121212121201086d656d6265725f3800131313131313131313131313131313131313131313131313131313131313131301086d656d6265725f3900141414141414141414141414141414141414141414141414141414141414141401096d656d6265725f313000151515151515151515151515151515151515151515151515151515151515151501096d656d6265725f313100161616161616161616161616161616161616161616161616161616161616161601096d656d6265725f313200171717171717171717171717171717171717171717171717171717171717171701096d656d6265725f313300181818181818181818181818181818181818181818181818181818181818181801096d656d6265725f313400191919191919191919191919191919191919191919191919191919191919191901096d656d6265725f3135001a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a1a01096d656d6265725f3136001b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b01096d656d6265725f3137001c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c1c01096d656d6265725f3138001d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d01096d656d6265725f3139001e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e1e01096d656d6265725f3230001f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f1f01096d656d6265725f323100020200ff00000000000186a0000000000000000005000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+        }
+      },
+      "expected": {
+        "success": false,
+        "error_code": 263,
+        "state_digest": "30045dc045ee1c1f094221624a6cb8cacdfc3c4f99c989a67c51c6c1b662c9f1",
+        "post_state": {
+          "network_chain_id": 3,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "8c9240b456a9e6dc65c377a1048d745f94a08cdb7f44cbcd7b46f34048871134",
+              "balance": 10000000,
+              "nonce": 5,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "bootstrap_committee_max_name_length",
+      "description": "",
+      "pre_state": {
+        "network_chain_id": 3,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "8c9240b456a9e6dc65c377a1048d745f94a08cdb7f44cbcd7b46f34048871134",
+            "balance": 10000000,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
+      },
+      "input": {
+        "kind": "tx",
+        "wire_hex": "01038c9240b456a9e6dc65c377a1048d745f94a08cdb7f44cbcd7b46f340488711340c804141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141030a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a01086d656d6265725f30000b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b01086d656d6265725f31000c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c01086d656d6265725f3200020200ff00000000000186a0000000000000000005000000000000000000000000000000000000000000000000000000000000000000000000000000000028b63d653e508d50274e7d749891954d6a102ce7d929812b7759b0fa2b494f05ae9a886ff5cc9793ebf7c46b51c4906fd894da9854284d80eccbe515dbe0640f",
+        "tx": {
+          "version": 1,
+          "chain_id": 3,
+          "source": "8c9240b456a9e6dc65c377a1048d745f94a08cdb7f44cbcd7b46f34048871134",
+          "tx_type": "bootstrap_committee",
+          "payload": {
+            "name": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+            "members": [
+              {
+                "public_key": "0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a",
+                "name": "member_0",
+                "role": 0
+              },
+              {
+                "public_key": "0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b",
+                "name": "member_1",
+                "role": 0
+              },
+              {
+                "public_key": "0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c",
+                "name": "member_2",
+                "role": 0
+              }
+            ],
+            "threshold": 2,
+            "kyc_threshold": 2,
+            "max_kyc_level": 255
+          },
+          "fee": 100000,
+          "fee_type": 0,
+          "nonce": 5,
+          "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+          "reference_topoheight": 0,
+          "signature": "28b63d653e508d50274e7d749891954d6a102ce7d929812b7759b0fa2b494f05ae9a886ff5cc9793ebf7c46b51c4906fd894da9854284d80eccbe515dbe0640f",
+          "wire_hex": "01038c9240b456a9e6dc65c377a1048d745f94a08cdb7f44cbcd7b46f340488711340c804141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141030a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a01086d656d6265725f30000b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b01086d656d6265725f31000c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c01086d656d6265725f3200020200ff00000000000186a0000000000000000005000000000000000000000000000000000000000000000000000000000000000000000000000000000028b63d653e508d50274e7d749891954d6a102ce7d929812b7759b0fa2b494f05ae9a886ff5cc9793ebf7c46b51c4906fd894da9854284d80eccbe515dbe0640f"
+        }
+      },
+      "expected": {
+        "success": true,
+        "error_code": 0,
+        "state_digest": "d5450212d82729be796ea3147ffe5ea56d707dfa9022f582682c25b0481dd212",
+        "post_state": {
+          "network_chain_id": 3,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "8c9240b456a9e6dc65c377a1048d745f94a08cdb7f44cbcd7b46f34048871134",
+              "balance": 9900000,
+              "nonce": 6,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ],
+          "committees": [
+            {
+              "id": "3201b314d2e65be2ad863c545172dcab4f5c55d2705b901cea784670bcb12896",
+              "name": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "region": 0,
+              "members": [
+                {
+                  "public_key": "0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a",
+                  "name": "member_0",
+                  "role": 0
+                },
+                {
+                  "public_key": "0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b",
+                  "name": "member_1",
+                  "role": 0
+                },
+                {
+                  "public_key": "0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c",
+                  "name": "member_2",
+                  "role": 0
+                }
+              ],
+              "threshold": 2,
+              "kyc_threshold": 2,
+              "max_kyc_level": 255
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "bootstrap_committee_name_too_long",
+      "description": "",
+      "pre_state": {
+        "network_chain_id": 3,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "8c9240b456a9e6dc65c377a1048d745f94a08cdb7f44cbcd7b46f34048871134",
+            "balance": 10000000,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
+      },
+      "runnable": false,
+      "input": {
+        "kind": "tx",
+        "wire_hex": "01038c9240b456a9e6dc65c377a1048d745f94a08cdb7f44cbcd7b46f340488711340c81414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141030a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a01086d656d6265725f30000b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b01086d656d6265725f31000c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c01086d656d6265725f3200020200ff00000000000186a0000000000000000005000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "tx": {
+          "version": 1,
+          "chain_id": 3,
+          "source": "8c9240b456a9e6dc65c377a1048d745f94a08cdb7f44cbcd7b46f34048871134",
+          "tx_type": "bootstrap_committee",
+          "payload": {
+            "name": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+            "members": [
+              {
+                "public_key": "0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a",
+                "name": "member_0",
+                "role": 0
+              },
+              {
+                "public_key": "0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b",
+                "name": "member_1",
+                "role": 0
+              },
+              {
+                "public_key": "0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c",
+                "name": "member_2",
+                "role": 0
+              }
+            ],
+            "threshold": 2,
+            "kyc_threshold": 2,
+            "max_kyc_level": 255
+          },
+          "fee": 100000,
+          "fee_type": 0,
+          "nonce": 5,
+          "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+          "reference_topoheight": 0,
+          "signature": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+          "wire_hex": "01038c9240b456a9e6dc65c377a1048d745f94a08cdb7f44cbcd7b46f340488711340c81414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141414141030a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a01086d656d6265725f30000b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b01086d656d6265725f31000c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c01086d656d6265725f3200020200ff00000000000186a0000000000000000005000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
         }
       },
       "expected": {

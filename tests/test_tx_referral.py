@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from tos_spec.config import CHAIN_ID_DEVNET
+from tos_spec.config import CHAIN_ID_DEVNET, MAX_BPS
 from tos_spec.test_accounts import ALICE, BOB, CAROL
 from tos_spec.types import (
     AccountState,
@@ -160,6 +160,26 @@ def test_batch_referral_reward_levels_mismatch(state_test_group) -> None:
     state_test_group(
         "transactions/referral/batch_referral_reward.json",
         "batch_referral_reward_levels_mismatch",
+        state,
+        tx,
+    )
+
+
+# --- boundary value tests ---
+
+
+def test_batch_referral_reward_max_ratio(state_test_group) -> None:
+    """Batch referral reward with ratio exactly at MAX_BPS (10000) must succeed."""
+    state = _base_state()
+    state.accounts[CAROL] = AccountState(address=CAROL, balance=0, nonce=0)
+    state.referrals[BOB] = CAROL
+    tx = _mk_batch_referral_reward(
+        ALICE, nonce=5, total_amount=100_000, levels=1,
+        ratios=[MAX_BPS], from_user=BOB, fee=100_000,
+    )
+    state_test_group(
+        "transactions/referral/batch_referral_reward.json",
+        "batch_referral_reward_max_ratio",
         state,
         tx,
     )

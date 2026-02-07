@@ -12,6 +12,8 @@ from tos_spec.config import (
     APPROVAL_EXPIRY_SECONDS,
     CHAIN_ID_DEVNET,
     EMERGENCY_SUSPEND_TIMEOUT,
+    MAX_APPROVALS,
+    MAX_COMMITTEE_MEMBERS,
     MAX_COMMITTEE_NAME_LEN,
     MIN_COMMITTEE_MEMBERS,
     VALID_KYC_LEVELS,
@@ -1684,6 +1686,213 @@ def test_emergency_suspend_insufficient_approvals(state_test_group) -> None:
     state_test_group(
         "transactions/kyc/emergency_suspend.json",
         "emergency_suspend_insufficient_approvals",
+        state,
+        tx,
+    )
+
+
+# --- boundary value tests ---
+
+
+def test_bootstrap_committee_max_members(state_test_group) -> None:
+    """Bootstrap committee with exactly MAX_COMMITTEE_MEMBERS (21) must succeed."""
+    state = ChainState(network_chain_id=CHAIN_ID_DEVNET)
+    sender = MINER
+    state.accounts[sender] = AccountState(address=sender, balance=10_000_000, nonce=5)
+    members = [
+        {"public_key": _addr(10 + i), "name": f"member_{i}", "role": 0}
+        for i in range(MAX_COMMITTEE_MEMBERS)
+    ]
+    payload = {
+        "name": "MaxMembersCommittee",
+        "members": members,
+        "threshold": 2,
+        "kyc_threshold": 2,
+        "max_kyc_level": VALID_KYC_LEVELS[4],
+    }
+    tx = _mk_kyc_tx(sender, nonce=5, tx_type=TransactionType.BOOTSTRAP_COMMITTEE, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/kyc/bootstrap_committee.json",
+        "bootstrap_committee_max_members",
+        state,
+        tx,
+    )
+
+
+def test_bootstrap_committee_too_many_members(state_test_group) -> None:
+    """Bootstrap committee with MAX_COMMITTEE_MEMBERS + 1 must fail."""
+    state = ChainState(network_chain_id=CHAIN_ID_DEVNET)
+    sender = MINER
+    state.accounts[sender] = AccountState(address=sender, balance=10_000_000, nonce=5)
+    members = [
+        {"public_key": _addr(10 + i), "name": f"member_{i}", "role": 0}
+        for i in range(MAX_COMMITTEE_MEMBERS + 1)
+    ]
+    payload = {
+        "name": "TooManyCommittee",
+        "members": members,
+        "threshold": 2,
+        "kyc_threshold": 2,
+        "max_kyc_level": VALID_KYC_LEVELS[4],
+    }
+    tx = _mk_kyc_tx(sender, nonce=5, tx_type=TransactionType.BOOTSTRAP_COMMITTEE, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/kyc/bootstrap_committee.json",
+        "bootstrap_committee_too_many_members",
+        state,
+        tx,
+    )
+
+
+def test_bootstrap_committee_max_name_length(state_test_group) -> None:
+    """Bootstrap committee with name exactly at MAX_COMMITTEE_NAME_LEN (128) must succeed."""
+    state = ChainState(network_chain_id=CHAIN_ID_DEVNET)
+    sender = MINER
+    state.accounts[sender] = AccountState(address=sender, balance=10_000_000, nonce=5)
+    members = [
+        {"public_key": _addr(10 + i), "name": f"member_{i}", "role": 0}
+        for i in range(MIN_COMMITTEE_MEMBERS)
+    ]
+    payload = {
+        "name": "A" * MAX_COMMITTEE_NAME_LEN,
+        "members": members,
+        "threshold": 2,
+        "kyc_threshold": 2,
+        "max_kyc_level": VALID_KYC_LEVELS[4],
+    }
+    tx = _mk_kyc_tx(sender, nonce=5, tx_type=TransactionType.BOOTSTRAP_COMMITTEE, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/kyc/bootstrap_committee.json",
+        "bootstrap_committee_max_name_length",
+        state,
+        tx,
+    )
+
+
+def test_bootstrap_committee_name_too_long(state_test_group) -> None:
+    """Bootstrap committee with name exceeding MAX_COMMITTEE_NAME_LEN must fail."""
+    state = ChainState(network_chain_id=CHAIN_ID_DEVNET)
+    sender = MINER
+    state.accounts[sender] = AccountState(address=sender, balance=10_000_000, nonce=5)
+    members = [
+        {"public_key": _addr(10 + i), "name": f"member_{i}", "role": 0}
+        for i in range(MIN_COMMITTEE_MEMBERS)
+    ]
+    payload = {
+        "name": "A" * (MAX_COMMITTEE_NAME_LEN + 1),
+        "members": members,
+        "threshold": 2,
+        "kyc_threshold": 2,
+        "max_kyc_level": VALID_KYC_LEVELS[4],
+    }
+    tx = _mk_kyc_tx(sender, nonce=5, tx_type=TransactionType.BOOTSTRAP_COMMITTEE, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/kyc/bootstrap_committee.json",
+        "bootstrap_committee_name_too_long",
+        state,
+        tx,
+    )
+
+
+def test_emergency_suspend_max_approvals(state_test_group) -> None:
+    """Emergency suspend with exactly MAX_APPROVALS (15) must succeed."""
+    state = _base_state()
+    sender = ALICE
+    target = EVE
+    state.accounts[target] = AccountState(address=target, balance=0, nonce=0)
+
+    # Build a committee with 15+ members to support MAX_APPROVALS signatures
+    committee_members = [
+        CommitteeMember(public_key=_addr(100 + i), name=f"mem_{i}", role=0)
+        for i in range(MAX_APPROVALS)
+    ]
+    state.committees[_hash(50)] = Committee(
+        id=_hash(50),
+        name="LargeCommittee",
+        members=committee_members,
+        threshold=2,
+        kyc_threshold=2,
+        max_kyc_level=VALID_KYC_LEVELS[4],
+    )
+    state.kyc_data[target] = KycData(
+        level=VALID_KYC_LEVELS[1],
+        status=KycStatus.ACTIVE,
+        verified_at=_CURRENT_TIME - 1000,
+        data_hash=_hash(40),
+        committee_id=_hash(50),
+    )
+
+    committee_id = _hash(50)
+    reason_hash = _hash(45)
+    expires_at = _CURRENT_TIME + EMERGENCY_SUSPEND_TIMEOUT
+    ts = _CURRENT_TIME
+
+    msg = _build_emergency_suspend_msg(
+        committee_id, target, reason_hash, expires_at, ts,
+    )
+    # Use dummy signatures for MAX_APPROVALS different member keys
+    approvals = [
+        {"member_pubkey": _addr(100 + i), "signature": _sig(100 + i), "timestamp": ts}
+        for i in range(MAX_APPROVALS)
+    ]
+
+    payload = {
+        "account": target,
+        "reason_hash": reason_hash,
+        "committee_id": committee_id,
+        "approvals": approvals,
+        "expires_at": expires_at,
+    }
+    tx = _mk_kyc_tx(sender, nonce=5, tx_type=TransactionType.EMERGENCY_SUSPEND, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/kyc/emergency_suspend.json",
+        "emergency_suspend_max_approvals",
+        state,
+        tx,
+    )
+
+
+def test_register_committee_duplicate_member(state_test_group) -> None:
+    """Register committee with duplicate public key in members list must fail."""
+    state = _base_state()
+    sender = ALICE
+    state.committees[_hash(50)] = _global_committee()
+    ts = _CURRENT_TIME
+
+    # Use duplicate key: GRACE appears twice
+    new_members = [
+        (GRACE, "rmember_0", 0),
+        (GRACE, "rmember_1", 0),  # duplicate
+        (IVAN, "rmember_2", 0),
+    ]
+    config_hash = _compute_register_config_hash(
+        new_members, 2, 2, VALID_KYC_LEVELS[3],
+    )
+    msg = _build_register_committee_msg(
+        _hash(50), "DupMemberRegional", 1, config_hash, ts,
+    )
+    approvals = [
+        _sign_approval(CAROL, msg, ts),
+        _sign_approval(DAVE, msg, ts),
+    ]
+    members_payload = [
+        {"public_key": pk, "name": name, "role": role}
+        for pk, name, role in new_members
+    ]
+    payload = {
+        "name": "DupMemberRegional",
+        "region": 1,
+        "members": members_payload,
+        "threshold": 2,
+        "kyc_threshold": 2,
+        "max_kyc_level": VALID_KYC_LEVELS[3],
+        "parent_id": _hash(50),
+        "approvals": approvals,
+    }
+    tx = _mk_kyc_tx(sender, nonce=5, tx_type=TransactionType.REGISTER_COMMITTEE, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/kyc/register_committee.json",
+        "register_committee_duplicate_member",
         state,
         tx,
     )

@@ -267,3 +267,59 @@ def test_shield_transfer_insufficient_balance(state_test_group) -> None:
         state,
         tx,
     )
+
+
+# --- boundary value tests ---
+
+
+def test_shield_transfer_exact_minimum(state_test_group) -> None:
+    """Shield exactly MIN_SHIELD_TOS_AMOUNT (100 TOS). Privacy stub returns INVALID_FORMAT."""
+    state = _base_state()
+    state.accounts[BOB] = AccountState(address=BOB, balance=0, nonce=0)
+    tx = _mk_shield_transfer(
+        ALICE, nonce=5, destination=BOB, amount=MIN_SHIELD_TOS_AMOUNT, fee=100_000
+    )
+    state_test_group(
+        "transactions/privacy/shield_transfers.json",
+        "shield_transfer_exact_minimum",
+        state,
+        tx,
+    )
+
+
+def test_uno_transfer_zero_amount(state_test_group) -> None:
+    """UNO transfer with zero-valued commitment. Privacy stub returns INVALID_FORMAT."""
+    state = _base_state()
+    state.accounts[BOB] = AccountState(address=BOB, balance=0, nonce=0)
+    tx = Transaction(
+        version=TxVersion.T1,
+        chain_id=CHAIN_ID_DEVNET,
+        source=ALICE,
+        tx_type=TransactionType.UNO_TRANSFERS,
+        payload={
+            "transfers": [
+                {
+                    "asset": _hash(0),
+                    "destination": BOB,
+                    "commitment": bytes(32),  # zero commitment
+                    "sender_handle": _hash(11),
+                    "receiver_handle": _hash(12),
+                    "ct_validity_proof": bytes([0xAA]) * 160,
+                }
+            ]
+        },
+        fee=0,
+        fee_type=FeeType.UNO,
+        nonce=5,
+        source_commitments=[_hash(20)],
+        range_proof=bytes([0xBB]) * 64,
+        reference_hash=_hash(0),
+        reference_topoheight=0,
+        signature=bytes(64),
+    )
+    state_test_group(
+        "transactions/privacy/uno_transfers.json",
+        "uno_transfer_zero_amount",
+        state,
+        tx,
+    )
