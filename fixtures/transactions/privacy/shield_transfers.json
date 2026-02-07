@@ -57,7 +57,7 @@
         ],
         "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
         "reference_topoheight": 0,
-        "signature": "7bb52fb06a53f6e1e0ab7065dbcfa99d641ae812e392613a7d6fe3e6b2115907a51df5ac9ca0b48e1bb075c644dca90547f5028f70cdc9ac987e83d1b5af980f",
+        "signature": "e628e3c3b8e835b6906062c9902993971ae1987026b4ca81ca94c877ef10a50106aeb86762900ed8b6f00b1d2b6edb9041b60346b2c62932a9db0de4e6e0d003",
         "wire_hex": ""
       },
       "expected": {
@@ -152,7 +152,7 @@
         ],
         "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
         "reference_topoheight": 0,
-        "signature": "112c0bee2c0d0c30293eaa83491e528435f5a8eae9ea607b333460be0f34cd0071b739ce6833b613160969cb996ce8ff0fc6b3de1eef87e7f05d30f105f89b0b",
+        "signature": "24c1568c465443472a36b3b02b974c7e4701a5b7ac0c41d900e11abf1f642504645b3680db8660349f1d74fabb30c510a01965c7d19ea87d700bf32fc3a54a09",
         "wire_hex": ""
       },
       "expected": {
@@ -247,7 +247,7 @@
         ],
         "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
         "reference_topoheight": 0,
-        "signature": "2cd4b99db10ab1fcf930141be31b20cc551903ba304a8a9768ae54d1dafb3f04a9f9210e4aa4982acde5dd91cff6f9036047f69e1e591bec258d2844c00fef0f",
+        "signature": "d0995f050422433353d27f6bfc84126709202c8d2fc5cf147eeaeb9182cd3002dc3ac1b52857c289eb18ae80532b0ce3f5e498756feb78f306f163d7f6d8820a",
         "wire_hex": ""
       },
       "expected": {
@@ -342,7 +342,7 @@
         ],
         "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
         "reference_topoheight": 0,
-        "signature": "221499afa8fdfe78a0d16e2973d83b3b581bd0f9d317fee1497e1e0965b47605c5dfe459ab6097699507d8d0d5401000c63a98d2dabd2e6124c52b436f1cb608",
+        "signature": "3e605fbccfffb7981a6166129d0a0df198c57c587944fef9a934ee30414b480c395b42fd8fc48d641c246c87fbb11b39ad2e8e46ecc3662b0d91e408b8442c07",
         "wire_hex": ""
       },
       "expected": {
@@ -437,7 +437,7 @@
         ],
         "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
         "reference_topoheight": 0,
-        "signature": "a91b682c6ae8c4d4f0c82d5114732d64d1ee028af186a01b5c02454223fb2a0ce963da73fbb1aba56ab54ed5d187b6ae23d94eb2c1fc00bed7240ee87df53a02",
+        "signature": "e22597de1555fa3ef90ab50c690c3f7ce8b246262e9b45a5fb13e69e2adf910c763510c431010b353cebff31f4ba0a94582df8bc1a3a0d690416abdeb9d80901",
         "wire_hex": ""
       },
       "expected": {
@@ -511,7 +511,7 @@
         "nonce": 5,
         "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
         "reference_topoheight": 0,
-        "signature": "82eae5fbb3bcb80d2e945f22b078cb64a7a5aecdbf7376c7dd79477bcc3bca00a65a8cab491799f51e8aaec30a3215e3a69e2e70197cfbc44fee70a802e28909",
+        "signature": "66d496e222b9726c33915c8aad5096f67fc84b04cde60006585f1b3ef985d40350df6782c1361243354075dff5802c0f255782e9a3d1a4f63861d7c4b86fe804",
         "wire_hex": ""
       },
       "expected": {
@@ -4594,7 +4594,7 @@
         "nonce": 5,
         "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
         "reference_topoheight": 0,
-        "signature": "666e2cdd78eee808e8c3625acc70b76ab7c941bc6c0d2622dc7f9b8e4cd14a0d9ca49a023b2818f4f176473a1a1aa084ef131c74abbb53964a957814b89ab508",
+        "signature": "96540cbca928504c90f42212fa48c56ce41740e1692f41642db160fcfcf2aa0a20b55b55e354e30fe6d4261dc7b284fa8ce58b43817161282d28f9116bee290a",
         "wire_hex": ""
       },
       "expected": {
@@ -4686,7 +4686,7 @@
         "nonce": 5,
         "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
         "reference_topoheight": 0,
-        "signature": "caecb0d60756258554540644c9c60fc90552b91092cb61d13d1eecde3009af0ab47844765405d487c92d6b401a9e433b33ed8ac584cdf5ad234fcac46dfc3005",
+        "signature": "d9889827ffb5bc8f07561de5652b3870b6a4c90a8f76586b8d67a32b4fc0f60e3b6cb346da2a22868baf7a95ca88f6e77839ccab0c0993e1bcc6753ff4b4ac05",
         "wire_hex": ""
       },
       "expected": {
@@ -4778,7 +4778,7 @@
         "nonce": 5,
         "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
         "reference_topoheight": 0,
-        "signature": "5b95d05b75263c7a1b04bc9e2797a54570baf6f478b7698bd0d9a7bfc018430afb494ef6bcdda0d14bbb2f8e6e55f7dc7ce0a40e77029dcd67620d424c08c608",
+        "signature": "2608700ee7dfa8d5f068bf5504846e072828501d14730d3bac5965c0672aa3098b3f394d8322ef951be0b3d4771ef7ccab71239208dbb8a576d4c1b4223ca208",
         "wire_hex": ""
       },
       "expected": {

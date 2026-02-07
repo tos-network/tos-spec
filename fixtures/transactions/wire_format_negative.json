@@ -1,0 +1,230 @@
+{
+  "test_vectors": [
+    {
+      "name": "wire_single_byte",
+      "description": "1 byte input cannot form a valid transaction",
+      "pre_state": null,
+      "input": {
+        "kind": "tx",
+        "wire_hex": "00"
+      },
+      "expected": {
+        "success": false,
+        "error_code": 256,
+        "state_digest": "",
+        "post_state": null
+      }
+    },
+    {
+      "name": "wire_truncated_header",
+      "description": "10 bytes is shorter than the minimum header",
+      "pre_state": null,
+      "input": {
+        "kind": "tx",
+        "wire_hex": "01000000000000000000"
+      },
+      "expected": {
+        "success": false,
+        "error_code": 256,
+        "state_digest": "",
+        "post_state": null
+      }
+    },
+    {
+      "name": "wire_truncated_mid_payload",
+      "description": "Transaction truncated in the middle of the payload",
+      "pre_state": null,
+      "input": {
+        "kind": "tx",
+        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b24900000000000000000000000000000000"
+      },
+      "expected": {
+        "success": false,
+        "error_code": 256,
+        "state_digest": "",
+        "post_state": null
+      }
+    },
+    {
+      "name": "wire_truncated_before_signature",
+      "description": "Transaction missing the last 32 bytes of signature",
+      "pre_state": null,
+      "input": {
+        "kind": "tx",
+        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b24900000000000000000000000000000000000000000000000000000000000000000000000000000003e800000000000186a00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000474b05aba03c762e203e46883427bf4928f3f376defac48a0bcd9d58af285e00"
+      },
+      "expected": {
+        "success": false,
+        "error_code": 256,
+        "state_digest": "",
+        "post_state": null
+      }
+    },
+    {
+      "name": "wire_invalid_version",
+      "description": "Version 0xFF is unsupported",
+      "pre_state": null,
+      "input": {
+        "kind": "tx",
+        "wire_hex": "ff03f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b24900000000000000000000000000000000000000000000000000000000000000000000000000000003e800000000000186a0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000086b8d36cd2a562ce204ee0353ed207325bc0c90e758b852ef304c401bd27bb0707ec1d74369932a7cc00fe13165d052d28dac811ae0166258d0f40218c1da909"
+      },
+      "expected": {
+        "success": false,
+        "error_code": 256,
+        "state_digest": "",
+        "post_state": null
+      }
+    },
+    {
+      "name": "wire_version_zero",
+      "description": "Version 0x00 is not a valid transaction version",
+      "pre_state": null,
+      "input": {
+        "kind": "tx",
+        "wire_hex": "0003f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b24900000000000000000000000000000000000000000000000000000000000000000000000000000003e800000000000186a000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000009ce1db5ff42c74dfc602455cfb457e9167a746f29717aef5e5b249797ba10000d5659ab5ce7fb0fa1196efc6fb8fad80ae58d11223a9962d729118a9e6f85802"
+      },
+      "expected": {
+        "success": false,
+        "error_code": 256,
+        "state_digest": "",
+        "post_state": null
+      }
+    },
+    {
+      "name": "wire_invalid_tx_type",
+      "description": "Transaction type discriminant 6 is not assigned",
+      "pre_state": null,
+      "input": {
+        "kind": "tx",
+        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b24906000000000000000000000000000000000000000000000000000000000000000000000000000003e800000000000186a000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000009417b13c86621faecc219f979fbcd5fa2e9a5e6c149e218276670e42fffd460ead179a714f88618a8390c23e9abb1145bb86771e39883a03c5fa2ea9a207d802"
+      },
+      "expected": {
+        "success": false,
+        "error_code": 256,
+        "state_digest": "",
+        "post_state": null
+      }
+    },
+    {
+      "name": "wire_tx_type_high",
+      "description": "Transaction type discriminant 255 is invalid",
+      "pre_state": null,
+      "input": {
+        "kind": "tx",
+        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249ff000000000000000000000000000000000000000000000000000000000000000000000000000003e800000000000186a000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000006bc450de299054c6e502b43ae51cdcbec18bb74c383af73608c79c40b5cd070cb17000860654e9d83eb0b27b6addc1377c980ef11ff65f9d8f9a066660c1bf09"
+      },
+      "expected": {
+        "success": false,
+        "error_code": 256,
+        "state_digest": "",
+        "post_state": null
+      }
+    },
+    {
+      "name": "wire_invalid_fee_type",
+      "description": "Fee type 5 is not a valid enum variant",
+      "pre_state": null,
+      "input": {
+        "kind": "tx",
+        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b24900000000000000000000000000000000000000000000000000000000000000000000000000000003e800000000000186a0050000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000014dfca7d220a7720524257becfa071b98e39214bd05d08122b2d1c70e928f90e25c60cf1a87da7ada363d29c4b6c022d03a97e84d4ba208ff8b6b725bca89b0a"
+      },
+      "expected": {
+        "success": false,
+        "error_code": 256,
+        "state_digest": "",
+        "post_state": null
+      }
+    },
+    {
+      "name": "wire_extra_trailing_bytes",
+      "description": "Trailing bytes after a complete transaction are rejected",
+      "pre_state": null,
+      "input": {
+        "kind": "tx",
+        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b24900000000000000000000000000000000000000000000000000000000000000000000000000000003e800000000000186a000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000008a93b61d773539a81456ad63134f532feb48530894c795de10b37fb820d9ae06aa7091759d51afec02071f16c2673a970559a9110ded46b591cd36db5bc99408deadbeefdeadbeefdeadbeefdeadbeef"
+      },
+      "expected": {
+        "success": false,
+        "error_code": 256,
+        "state_digest": "",
+        "post_state": null
+      },
+      "runnable": false
+    },
+    {
+      "name": "wire_all_zeros",
+      "description": "100 bytes of zeros is not a valid transaction",
+      "pre_state": null,
+      "input": {
+        "kind": "tx",
+        "wire_hex": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expected": {
+        "success": false,
+        "error_code": 256,
+        "state_digest": "",
+        "post_state": null
+      }
+    },
+    {
+      "name": "wire_all_ones",
+      "description": "100 bytes of 0xFF is not a valid transaction",
+      "pre_state": null,
+      "input": {
+        "kind": "tx",
+        "wire_hex": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+      },
+      "expected": {
+        "success": false,
+        "error_code": 256,
+        "state_digest": "",
+        "post_state": null
+      }
+    },
+    {
+      "name": "wire_transfer_zero_count",
+      "description": "Transfer with 0 recipients is invalid at wire level",
+      "pre_state": null,
+      "input": {
+        "kind": "tx",
+        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b2490100000000000000000000000000000000000000000000000000000000000000000000c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e3782400000000000003e80000000000000186a0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000034b063596819d5a74d800439e823976c7634a460f1506ac50d4c72841f8ec90aee4322c3bb17c5b72f5a81a9b574f50849d0d03ecac392ec97432cc6ebf6370d"
+      },
+      "expected": {
+        "success": false,
+        "error_code": 256,
+        "state_digest": "",
+        "post_state": null
+      }
+    },
+    {
+      "name": "wire_transfer_count_overflow",
+      "description": "Transfer count 501 exceeds MAX_TRANSFER_COUNT (500)",
+      "pre_state": null,
+      "input": {
+        "kind": "tx",
+        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b2490101f50000000000000000000000000000000000000000000000000000000000000000c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e3782400000000000003e80000000000000186a000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000005703090c2fb3915eeac1a8cf0253dce2829c6b98e8423d6d3a9f3fedc9fddb071e5d089408bea5f4e663b75f905ad4eedf28dc790f47f30d8ab9b4845f643707"
+      },
+      "expected": {
+        "success": false,
+        "error_code": 256,
+        "state_digest": "",
+        "post_state": null
+      }
+    },
+    {
+      "name": "wire_transfer_count_mismatch",
+      "description": "Transfer count says 5 but data only contains 1 entry",
+      "pre_state": null,
+      "input": {
+        "kind": "tx",
+        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b2490100050000000000000000000000000000000000000000000000000000000000000000c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e3782400000000000003e80000000000000186a0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000044c82c8004f486624e26bc1715ebaebae7d86bd185bf36caf772bdc3a2d8e70c5ea50ac0d9a3cdcc9ad9e3770e2d411041cfe4c00d62ab004e92f2b44c171b0e"
+      },
+      "expected": {
+        "success": false,
+        "error_code": 256,
+        "state_digest": "",
+        "post_state": null
+      }
+    }
+  ]
+}

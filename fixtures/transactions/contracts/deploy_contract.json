@@ -36,7 +36,7 @@
         "nonce": 5,
         "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
         "reference_topoheight": 0,
-        "signature": "e88cd6a799c0a621a1a4cf5e1846c7b9494e5802977cd46cf53b28e7091c4c095c8154cd6a1c4e07e5bcc0b36bbcd8d2724c386ece46ddc494242a6c04372f0b",
+        "signature": "fc329a5d5ee64f398a18a00b9dc9e7f604d03184954e54f86da538bc7cdf180b325a27c12e1f5d80c2ee82a4fb11918cc0876aae0db824c5b4a4940147375203",
         "wire_hex": ""
       },
       "expected": {
@@ -367,7 +367,7 @@
         "nonce": 5,
         "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
         "reference_topoheight": 0,
-        "signature": "00ecf26c16e26db43714fb504aafa949c046fdda45d6fce8610d1e68803e1a0f2c9ef54f3ff0af5589b26807587880e18363978f07ed1d5e03422bcd821fc90d",
+        "signature": "c55778bae9e9ee0f18840eb9cda8c98d62f540174c0e53973c2ae67bd6330c04b0171fca23b65e6d0d48590eeb3582df473cb660ad65a0c00f155b20228d1701",
         "wire_hex": ""
       },
       "expected": {
@@ -432,7 +432,7 @@
         "nonce": 5,
         "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
         "reference_topoheight": 0,
-        "signature": "1f0261d9caaac802e04d28cfaa1ac82d50f3b29640a4124dbedfc5690248c007f4e7a5f4997c69e8387b7ec05b871c445a47767a3a81a6e7e056bb6c1642e20b",
+        "signature": "ed9a12300057396d02ea323883d2b3a0ebb29a103bfdf6de2c19f298f7d54f0cdfd50923e44037b204909ea9c7e30953556b1b8bd2189b36419724403a97990b",
         "wire_hex": ""
       },
       "expected": {
@@ -568,7 +568,7 @@
         "nonce": 5,
         "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
         "reference_topoheight": 0,
-        "signature": "805f0cd5576a153e411b68b65c5d3b710b4281be09a08df8905f50d741375b07bfd3b27504f8afb62482546aa331bf2fb3ad404e2dc910680ba1e8e8d608de0f",
+        "signature": "10b2806f83176ce3cf13711c8d43007c9c50f9eaf80c8b3d4448f6d00f5c030c3d0a07349b646abe695beed1477406eaa82f0b3e4df78269471a5f13aea94303",
         "wire_hex": ""
       },
       "expected": {
