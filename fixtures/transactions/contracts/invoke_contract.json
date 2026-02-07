@@ -46,7 +46,7 @@
         "nonce": 5,
         "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
         "reference_topoheight": 0,
-        "signature": "16b7160529648f597d747731e3f4be145dc20b93388ffce78abe064c0828360cb77e1e9cc826f2443dca2d588224c3ca103a95d997f0945e2c61f65c55accd0a",
+        "signature": "d95d6bc298d79e0ebb8eb74ac4a802004dbeedf4b2a6ae15f1d6546ce6e5c20b895cc8076b8a704f22301a2f5a208bd8051f3b8ccd39ab164847b9d7f3998e0f",
         "wire_hex": ""
       },
       "expected": {
@@ -132,7 +132,7 @@
         "nonce": 5,
         "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
         "reference_topoheight": 0,
-        "signature": "9145b9fed55ccfd635a6237e8c3487c1cd918ca0a482330caf7c80f6ea4abb007f31622b99217674c3305a862ea859a021607bc7febf332940d305996f16250d",
+        "signature": "9878e6203bf55abef09e9b9251319c93fe55d789ec51a7a496c2e6f852b2570b290e22f527a7c1c769bcfc00a04fb724a4296e5db044cfc9f35c02ac5baa9005",
         "wire_hex": ""
       },
       "expected": {
@@ -151,6 +151,87 @@
             {
               "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
               "balance": 9999700000,
+              "nonce": 6,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ],
+          "contracts": [
+            {
+              "hash": "b5dfd5eefeb2e79744417c1a8c752332f99e8da93ee99a16f4ffcadd3ca51449",
+              "module": "7f454c4600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "invoke_contract_zero_gas",
+      "pre_state": {
+        "network_chain_id": 3,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "balance": 10000000000,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ],
+        "contracts": [
+          {
+            "hash": "b5dfd5eefeb2e79744417c1a8c752332f99e8da93ee99a16f4ffcadd3ca51449",
+            "module": "7f454c4600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+          }
+        ]
+      },
+      "tx": {
+        "version": 1,
+        "chain_id": 3,
+        "source": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+        "tx_type": "invoke_contract",
+        "payload": {
+          "contract": "b5dfd5eefeb2e79744417c1a8c752332f99e8da93ee99a16f4ffcadd3ca51449",
+          "deposits": [],
+          "entry_id": 0,
+          "max_gas": 0,
+          "parameters": []
+        },
+        "fee": 100000,
+        "fee_type": 0,
+        "nonce": 5,
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "22ea3cd7bcbf1f6a3f17136b04fca137317b8c3a64d641949c79e654c0137d0af0daa4f1c8d5fda7ff8cc2691da0f2c286dc3a165d47138a6fe4a83d1310e203",
+        "wire_hex": ""
+      },
+      "expected": {
+        "ok": true,
+        "error": null,
+        "post_state": {
+          "network_chain_id": 3,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+              "balance": 9999900000,
               "nonce": 6,
               "frozen": 0,
               "energy": 0,

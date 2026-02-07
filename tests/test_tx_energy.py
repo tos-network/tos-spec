@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 
-from tos_spec.config import CHAIN_ID_DEVNET, COIN_VALUE, MIN_FREEZE_TOS_AMOUNT, MIN_UNFREEZE_TOS_AMOUNT
-from tos_spec.test_accounts import ALICE, BOB
+from tos_spec.config import CHAIN_ID_DEVNET, COIN_VALUE, MAX_DELEGATEES, MIN_FREEZE_TOS_AMOUNT, MIN_UNFREEZE_TOS_AMOUNT
+from tos_spec.test_accounts import ALICE, BOB, CAROL
 from tos_spec.types import (
     AccountState,
     ChainState,
@@ -284,6 +284,52 @@ def test_withdraw_unfrozen_nothing_pending(state_test_group) -> None:
     state_test_group(
         "transactions/energy/withdraw_unfrozen.json",
         "withdraw_unfrozen_nothing_pending",
+        state,
+        tx,
+    )
+
+
+# --- freeze_tos boundary tests ---
+
+
+def test_freeze_duration_too_short(state_test_group) -> None:
+    """Duration below minimum (3 days)."""
+    state = _base_state()
+    tx = _mk_freeze_tos(ALICE, nonce=5, amount=COIN_VALUE, days=2, fee=0)
+    state_test_group(
+        "transactions/energy/freeze_tos.json", "freeze_duration_too_short", state, tx
+    )
+
+
+def test_freeze_duration_too_long(state_test_group) -> None:
+    """Duration above maximum (365 days)."""
+    state = _base_state()
+    tx = _mk_freeze_tos(ALICE, nonce=5, amount=COIN_VALUE, days=366, fee=0)
+    state_test_group(
+        "transactions/energy/freeze_tos.json", "freeze_duration_too_long", state, tx
+    )
+
+
+# --- freeze_delegate boundary tests ---
+
+
+def test_freeze_delegate_max_delegatees_exceeded(state_test_group) -> None:
+    """501 delegatees (max=500)."""
+    state = _base_state()
+    sender = ALICE
+    state.accounts[sender] = AccountState(
+        address=sender, balance=1000 * COIN_VALUE, nonce=5, frozen=10 * COIN_VALUE
+    )
+    # Create distinct delegatee accounts
+    delegatees = []
+    for i in range(MAX_DELEGATEES + 1):
+        addr = bytes([i % 256, (i >> 8) % 256]) + bytes(30)
+        state.accounts[addr] = AccountState(address=addr, balance=0, nonce=0)
+        delegatees.append(DelegationEntry(delegatee=addr, amount=COIN_VALUE))
+    tx = _mk_freeze_delegate(sender, nonce=5, delegatees=delegatees, days=7, fee=0)
+    state_test_group(
+        "transactions/energy/freeze_delegate.json",
+        "freeze_delegate_max_delegatees_exceeded",
         state,
         tx,
     )

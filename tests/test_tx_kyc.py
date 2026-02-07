@@ -644,3 +644,61 @@ def test_emergency_suspend_success(state_test_group) -> None:
         state,
         tx,
     )
+
+
+# --- renew_kyc specs ---
+
+
+def _build_renew_kyc_msg(
+    committee_id: bytes, account: bytes, data_hash: bytes,
+    verified_at: int, timestamp: int,
+) -> bytes:
+    msg = b"TOS_KYC_RENEW"
+    msg += struct.pack("<Q", CHAIN_ID_DEVNET)
+    msg += committee_id
+    msg += account
+    msg += data_hash
+    msg += struct.pack("<Q", verified_at)
+    msg += struct.pack("<Q", timestamp)
+    return msg
+
+
+def test_renew_kyc_success(state_test_group) -> None:
+    """Valid renewal with data_hash and approvals."""
+    state = _base_state()
+    sender = ALICE
+    target = EVE
+    state.accounts[target] = AccountState(address=target, balance=0, nonce=0)
+    state.committees[_hash(50)] = _global_committee()
+    state.kyc_data[target] = KycData(
+        level=VALID_KYC_LEVELS[1],
+        status=KycStatus.ACTIVE,
+        verified_at=_CURRENT_TIME - 10000,
+        data_hash=_hash(40),
+        committee_id=_hash(50),
+    )
+
+    committee_id = _hash(50)
+    new_data_hash = _hash(41)
+    verified_at = _CURRENT_TIME
+    ts = _CURRENT_TIME
+
+    msg = _build_renew_kyc_msg(committee_id, target, new_data_hash, verified_at, ts)
+    approvals = [
+        _sign_approval(CAROL, msg, ts),
+        _sign_approval(DAVE, msg, ts),
+    ]
+
+    payload = {
+        "account": target,
+        "data_hash": new_data_hash,
+        "verified_at": verified_at,
+        "committee_id": committee_id,
+        "approvals": approvals,
+    }
+    tx = _mk_kyc_tx(sender, nonce=5, tx_type=TransactionType.RENEW_KYC, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/kyc/renew_kyc.json", "renew_kyc_success", state, tx
+    )
+
+

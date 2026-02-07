@@ -41,7 +41,7 @@
       },
       "input": {
         "kind": "tx",
-        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b24905000000000005f5e10000000007000000000000000000000000000000000500000000000000000000000000000000000000000000000000000000000000000000000000000000003242086e3507443f96e431a91cf654900e1bd2987eeb69b55bd3ed572ef888043c7e60a138b587bffbfa9067b404df8f3a6c95aa1293f0ef398396ef5d73a50b",
+        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b24905000000000005f5e10000000007000000000000000000000000000000000500000000000000000000000000000000000000000000000000000000000000000000000000000000009a3e4d1d42f61a50233c13856bbad750da98da0fccbb0967e34bf37c9ef32501aaecc7615441ac6f751f1e3de6b580b8786d1278d50ef45ef423638315384003",
         "tx": {
           "version": 1,
           "chain_id": 3,
@@ -61,8 +61,8 @@
           "nonce": 5,
           "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
           "reference_topoheight": 0,
-          "signature": "3242086e3507443f96e431a91cf654900e1bd2987eeb69b55bd3ed572ef888043c7e60a138b587bffbfa9067b404df8f3a6c95aa1293f0ef398396ef5d73a50b",
-          "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b24905000000000005f5e10000000007000000000000000000000000000000000500000000000000000000000000000000000000000000000000000000000000000000000000000000003242086e3507443f96e431a91cf654900e1bd2987eeb69b55bd3ed572ef888043c7e60a138b587bffbfa9067b404df8f3a6c95aa1293f0ef398396ef5d73a50b"
+          "signature": "9a3e4d1d42f61a50233c13856bbad750da98da0fccbb0967e34bf37c9ef32501aaecc7615441ac6f751f1e3de6b580b8786d1278d50ef45ef423638315384003",
+          "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b24905000000000005f5e10000000007000000000000000000000000000000000500000000000000000000000000000000000000000000000000000000000000000000000000000000009a3e4d1d42f61a50233c13856bbad750da98da0fccbb0967e34bf37c9ef32501aaecc7615441ac6f751f1e3de6b580b8786d1278d50ef45ef423638315384003"
         }
       },
       "expected": {
@@ -154,7 +154,7 @@
       },
       "input": {
         "kind": "tx",
-        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249050000000004a817c80000000007000000000000000000000000000000000500000000000000000000000000000000000000000000000000000000000000000000000000000000003e87fe497d550b7137f6699238e608821bca0951c5ed326c3728c3568ed72e084e94d86d0240299c256b69d99d3cac9f4cbebc2b3bac7d6b9c4563acdb268c03",
+        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249050000000004a817c8000000000700000000000000000000000000000000050000000000000000000000000000000000000000000000000000000000000000000000000000000000eec21e35669447ea52a2ee3c8f008d09f9eba6ebf97521d619e5116ae3d4b504c77b8e099c7ea5d7d9d2991284ed30adccef19b0465fa842b037e54563e8e204",
         "tx": {
           "version": 1,
           "chain_id": 3,
@@ -174,8 +174,8 @@
           "nonce": 5,
           "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
           "reference_topoheight": 0,
-          "signature": "3e87fe497d550b7137f6699238e608821bca0951c5ed326c3728c3568ed72e084e94d86d0240299c256b69d99d3cac9f4cbebc2b3bac7d6b9c4563acdb268c03",
-          "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249050000000004a817c80000000007000000000000000000000000000000000500000000000000000000000000000000000000000000000000000000000000000000000000000000003e87fe497d550b7137f6699238e608821bca0951c5ed326c3728c3568ed72e084e94d86d0240299c256b69d99d3cac9f4cbebc2b3bac7d6b9c4563acdb268c03"
+          "signature": "eec21e35669447ea52a2ee3c8f008d09f9eba6ebf97521d619e5116ae3d4b504c77b8e099c7ea5d7d9d2991284ed30adccef19b0465fa842b037e54563e8e204",
+          "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249050000000004a817c8000000000700000000000000000000000000000000050000000000000000000000000000000000000000000000000000000000000000000000000000000000eec21e35669447ea52a2ee3c8f008d09f9eba6ebf97521d619e5116ae3d4b504c77b8e099c7ea5d7d9d2991284ed30adccef19b0465fa842b037e54563e8e204"
         }
       },
       "expected": {
@@ -261,7 +261,7 @@
       },
       "input": {
         "kind": "tx",
-        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b24905000000000000000000000000070000000000000000000000000000000005000000000000000000000000000000000000000000000000000000000000000000000000000000000048eb9c4dc301fb68b5a428503f206f9d4caf5f18f6ae967d8ed640d02306d307dd30fe4a411ec5fc440fbe0394e994dcfbae2e7f5b41ba4331577fd43e594f03",
+        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b24905000000000000000000000000070000000000000000000000000000000005000000000000000000000000000000000000000000000000000000000000000000000000000000000060ee800cde88e58e50bab80bd7ef97311581c061116e1214c470e1b62a03b40bb3c357498fe998e6850d376a37271cc2e42f57f186b76fd3dcb02f6519e0f501",
         "tx": {
           "version": 1,
           "chain_id": 3,
@@ -281,13 +281,227 @@
           "nonce": 5,
           "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
           "reference_topoheight": 0,
-          "signature": "48eb9c4dc301fb68b5a428503f206f9d4caf5f18f6ae967d8ed640d02306d307dd30fe4a411ec5fc440fbe0394e994dcfbae2e7f5b41ba4331577fd43e594f03",
-          "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b24905000000000000000000000000070000000000000000000000000000000005000000000000000000000000000000000000000000000000000000000000000000000000000000000048eb9c4dc301fb68b5a428503f206f9d4caf5f18f6ae967d8ed640d02306d307dd30fe4a411ec5fc440fbe0394e994dcfbae2e7f5b41ba4331577fd43e594f03"
+          "signature": "60ee800cde88e58e50bab80bd7ef97311581c061116e1214c470e1b62a03b40bb3c357498fe998e6850d376a37271cc2e42f57f186b76fd3dcb02f6519e0f501",
+          "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b24905000000000000000000000000070000000000000000000000000000000005000000000000000000000000000000000000000000000000000000000000000000000000000000000060ee800cde88e58e50bab80bd7ef97311581c061116e1214c470e1b62a03b40bb3c357498fe998e6850d376a37271cc2e42f57f186b76fd3dcb02f6519e0f501"
         }
       },
       "expected": {
         "success": false,
         "error_code": 261,
+        "state_digest": "4df2ac2f0daa5b915b9972154a04f26a67e1eb46437d28b3cd7c3a5267df9633",
+        "post_state": {
+          "network_chain_id": 3,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+              "balance": 10000000000,
+              "nonce": 5,
+              "frozen": 1000000000,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ],
+          "energy_resources": [
+            {
+              "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+              "energy": 0,
+              "frozen_tos": 1000000000,
+              "freeze_records": [
+                {
+                  "amount": 1000000000,
+                  "energy_gained": 0,
+                  "freeze_height": 0,
+                  "unlock_height": 99999
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "freeze_duration_too_short",
+      "description": "",
+      "pre_state": {
+        "network_chain_id": 3,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "balance": 10000000000,
+            "nonce": 5,
+            "frozen": 1000000000,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ],
+        "energy_resources": [
+          {
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "energy": 0,
+            "frozen_tos": 1000000000,
+            "freeze_records": [
+              {
+                "amount": 1000000000,
+                "energy_gained": 0,
+                "freeze_height": 0,
+                "unlock_height": 99999
+              }
+            ]
+          }
+        ]
+      },
+      "input": {
+        "kind": "tx",
+        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b24905000000000005f5e10000000002000000000000000000000000000000000500000000000000000000000000000000000000000000000000000000000000000000000000000000001942b4f952f02de5d621fd66ca0dd6e3315f1f5fcb2179aa8a661e441499190d21c6f4243ad7a8e28481fba322b821f074972a8e046988183fe0ecfaa97b4602",
+        "tx": {
+          "version": 1,
+          "chain_id": 3,
+          "source": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+          "tx_type": "energy",
+          "payload": {
+            "variant": "freeze_tos",
+            "amount": 100000000,
+            "duration_days": 2,
+            "delegatees": [],
+            "from_delegation": null,
+            "record_index": null,
+            "delegatee_address": null
+          },
+          "fee": 0,
+          "fee_type": 0,
+          "nonce": 5,
+          "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+          "reference_topoheight": 0,
+          "signature": "1942b4f952f02de5d621fd66ca0dd6e3315f1f5fcb2179aa8a661e441499190d21c6f4243ad7a8e28481fba322b821f074972a8e046988183fe0ecfaa97b4602",
+          "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b24905000000000005f5e10000000002000000000000000000000000000000000500000000000000000000000000000000000000000000000000000000000000000000000000000000001942b4f952f02de5d621fd66ca0dd6e3315f1f5fcb2179aa8a661e441499190d21c6f4243ad7a8e28481fba322b821f074972a8e046988183fe0ecfaa97b4602"
+        }
+      },
+      "expected": {
+        "success": false,
+        "error_code": 256,
+        "state_digest": "4df2ac2f0daa5b915b9972154a04f26a67e1eb46437d28b3cd7c3a5267df9633",
+        "post_state": {
+          "network_chain_id": 3,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+              "balance": 10000000000,
+              "nonce": 5,
+              "frozen": 1000000000,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ],
+          "energy_resources": [
+            {
+              "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+              "energy": 0,
+              "frozen_tos": 1000000000,
+              "freeze_records": [
+                {
+                  "amount": 1000000000,
+                  "energy_gained": 0,
+                  "freeze_height": 0,
+                  "unlock_height": 99999
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "freeze_duration_too_long",
+      "description": "",
+      "pre_state": {
+        "network_chain_id": 3,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "balance": 10000000000,
+            "nonce": 5,
+            "frozen": 1000000000,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ],
+        "energy_resources": [
+          {
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "energy": 0,
+            "frozen_tos": 1000000000,
+            "freeze_records": [
+              {
+                "amount": 1000000000,
+                "energy_gained": 0,
+                "freeze_height": 0,
+                "unlock_height": 99999
+              }
+            ]
+          }
+        ]
+      },
+      "input": {
+        "kind": "tx",
+        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b24905000000000005f5e1000000016e00000000000000000000000000000000050000000000000000000000000000000000000000000000000000000000000000000000000000000000924d4b9250dc4361015c2d485cb7e7f36e07f8babbe378b70bec49b359c7aa0c2e0539760c7277f71abb1d7fe2441429f46ed5351f83242f5348073fe61b1308",
+        "tx": {
+          "version": 1,
+          "chain_id": 3,
+          "source": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+          "tx_type": "energy",
+          "payload": {
+            "variant": "freeze_tos",
+            "amount": 100000000,
+            "duration_days": 366,
+            "delegatees": [],
+            "from_delegation": null,
+            "record_index": null,
+            "delegatee_address": null
+          },
+          "fee": 0,
+          "fee_type": 0,
+          "nonce": 5,
+          "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+          "reference_topoheight": 0,
+          "signature": "924d4b9250dc4361015c2d485cb7e7f36e07f8babbe378b70bec49b359c7aa0c2e0539760c7277f71abb1d7fe2441429f46ed5351f83242f5348073fe61b1308",
+          "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b24905000000000005f5e1000000016e00000000000000000000000000000000050000000000000000000000000000000000000000000000000000000000000000000000000000000000924d4b9250dc4361015c2d485cb7e7f36e07f8babbe378b70bec49b359c7aa0c2e0539760c7277f71abb1d7fe2441429f46ed5351f83242f5348073fe61b1308"
+        }
+      },
+      "expected": {
+        "success": false,
+        "error_code": 256,
         "state_digest": "4df2ac2f0daa5b915b9972154a04f26a67e1eb46437d28b3cd7c3a5267df9633",
         "post_state": {
           "network_chain_id": 3,

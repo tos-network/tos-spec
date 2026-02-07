@@ -3,9 +3,10 @@
 from __future__ import annotations
 
 from tos_spec.config import CHAIN_ID_DEVNET
-from tos_spec.test_accounts import ALICE, BOB
+from tos_spec.test_accounts import ALICE, BOB, CAROL
 from tos_spec.types import (
     AccountState,
+    AgentAccountMeta,
     ChainState,
     FeeType,
     Transaction,
@@ -135,6 +136,22 @@ def test_agent_account_rotate_controller(state_test_group) -> None:
     state_test_group(
         "transactions/account/agent_account.json",
         "agent_account_rotate_controller",
+        state,
+        tx,
+    )
+
+
+# --- multisig boundary tests ---
+
+
+def test_multisig_duplicate_participants(state_test_group) -> None:
+    """Duplicate keys in participant list."""
+    state = _base_state()
+    participants = [BOB, BOB, CAROL]
+    tx = _mk_multisig(ALICE, nonce=5, threshold=2, participants=participants, fee=100_000)
+    state_test_group(
+        "transactions/account/multisig.json",
+        "multisig_duplicate_participants",
         state,
         tx,
     )

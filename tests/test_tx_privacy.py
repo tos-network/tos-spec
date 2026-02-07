@@ -189,3 +189,32 @@ def test_unshield_transfer_success(state_test_group) -> None:
         state,
         tx,
     )
+
+
+def test_shield_transfer_zero_amount(state_test_group) -> None:
+    """Shield 0 TOS."""
+    state = _base_state()
+    state.accounts[BOB] = AccountState(address=BOB, balance=0, nonce=0)
+    tx = _mk_shield_transfer(
+        ALICE, nonce=5, destination=BOB, amount=0, fee=100_000
+    )
+    state_test_group(
+        "transactions/privacy/shield_transfers.json",
+        "shield_transfer_zero_amount",
+        state,
+        tx,
+    )
+
+
+def test_unshield_transfer_self(state_test_group) -> None:
+    """Unshield to self."""
+    state = _base_state()
+    tx = _mk_unshield_transfer(
+        ALICE, nonce=5, destination=ALICE, amount=5 * COIN_VALUE, fee=100_000
+    )
+    state_test_group(
+        "transactions/privacy/unshield_transfers.json",
+        "unshield_transfer_self",
+        state,
+        tx,
+    )

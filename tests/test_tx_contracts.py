@@ -171,3 +171,31 @@ def test_invoke_contract_with_deposits(state_test_group) -> None:
         state,
         tx,
     )
+
+
+def test_invoke_contract_zero_gas(state_test_group) -> None:
+    """Invoke with max_gas=0."""
+    state, contract_hash = _base_state_with_contract()
+    sender = ALICE
+    tx = _mk_invoke_contract(
+        sender, nonce=5, contract=contract_hash, entry_id=0, max_gas=0, fee=100_000
+    )
+    state_test_group(
+        "transactions/contracts/invoke_contract.json",
+        "invoke_contract_zero_gas",
+        state,
+        tx,
+    )
+
+
+def test_deploy_contract_empty_code(state_test_group) -> None:
+    """Deploy with empty bytecode."""
+    state = _base_state()
+    sender = ALICE
+    tx = _mk_deploy_contract(sender, nonce=5, module=b"", fee=100_000)
+    state_test_group(
+        "transactions/contracts/deploy_contract.json",
+        "deploy_contract_empty_code",
+        state,
+        tx,
+    )

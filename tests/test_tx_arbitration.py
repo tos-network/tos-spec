@@ -553,3 +553,112 @@ def test_commit_juror_vote(state_test_group) -> None:
         state,
         tx,
     )
+
+
+# --- submit_verdict_by_juror specs ---
+
+
+def _escrow_with_dispute() -> tuple[ChainState, bytes]:
+    """Create state with a challenged escrow that has a dispute."""
+    state = ChainState(network_chain_id=CHAIN_ID_DEVNET)
+    state.accounts[ALICE] = AccountState(
+        address=ALICE, balance=10_000 * COIN_VALUE, nonce=5
+    )
+    state.accounts[BOB] = AccountState(address=BOB, balance=0, nonce=0)
+
+    escrow_id = _hash(60)
+    state.escrows[escrow_id] = EscrowAccount(
+        id=escrow_id,
+        task_id="test-task",
+        payer=ALICE,
+        payee=BOB,
+        amount=10 * COIN_VALUE,
+        total_amount=10 * COIN_VALUE,
+        status=EscrowStatus.CHALLENGED,
+        asset=_hash(0),
+        timeout_blocks=1000,
+        challenge_window=100,
+        arbitration_config=ArbitrationConfig(
+            mode="committee",
+            arbiters=[CAROL, DAVE, FRANK],
+            threshold=2,
+            fee_amount=COIN_VALUE,
+            allow_appeal=True,
+        ),
+        dispute=DisputeInfo(
+            initiator=ALICE,
+            reason="provider did not deliver",
+            disputed_at=1,
+            deadline=1000,
+        ),
+    )
+    return state, escrow_id
+
+
+def _build_verdict_msg(
+    escrow_id: bytes, payer_amount: int, payee_amount: int, timestamp: int,
+) -> bytes:
+    msg = b"TOS_VERDICT_V1"
+    msg += struct.pack("<Q", CHAIN_ID_DEVNET)
+    msg += escrow_id
+    msg += struct.pack("<Q", payer_amount)
+    msg += struct.pack("<Q", payee_amount)
+    msg += struct.pack("<Q", timestamp)
+    return msg
+
+
+def test_submit_verdict_by_juror_success(state_test_group) -> None:
+    """Juror submits verdict on active dispute."""
+    state, escrow_id = _escrow_with_dispute()
+    sender = ALICE
+    now = int(time.time())
+    payer_amount = 6 * COIN_VALUE
+    payee_amount = 4 * COIN_VALUE
+
+    msg = _build_verdict_msg(escrow_id, payer_amount, payee_amount, now)
+    sigs = [
+        _sign_arb_approval(CAROL, msg, now),
+        _sign_arb_approval(DAVE, msg, now),
+    ]
+
+    payload = {
+        "escrow_id": escrow_id,
+        "payer_amount": payer_amount,
+        "payee_amount": payee_amount,
+        "signatures": sigs,
+    }
+    tx = _mk_arb_tx(
+        sender, nonce=5,
+        tx_type=TransactionType.SUBMIT_VERDICT_BY_JUROR,
+        payload=payload, fee=100_000,
+    )
+    state_test_group(
+        "transactions/arbitration/submit_verdict_by_juror.json",
+        "submit_verdict_by_juror_success",
+        state,
+        tx,
+    )
+
+
+def test_submit_verdict_by_juror_no_signatures(state_test_group) -> None:
+    """Juror verdict with empty signatures list."""
+    state, escrow_id = _escrow_with_dispute()
+    sender = ALICE
+
+    payload = {
+        "escrow_id": escrow_id,
+        "payer_amount": 5 * COIN_VALUE,
+        "payee_amount": 5 * COIN_VALUE,
+        "signatures": [],
+    }
+    tx = _mk_arb_tx(
+        sender, nonce=5,
+        tx_type=TransactionType.SUBMIT_VERDICT_BY_JUROR,
+        payload=payload, fee=100_000,
+    )
+    state_test_group(
+        "transactions/arbitration/submit_verdict_by_juror.json",
+        "submit_verdict_by_juror_no_signatures",
+        state,
+        tx,
+    )

@@ -37,7 +37,7 @@ def _verify_deploy(state: ChainState, tx: Transaction) -> None:
     if isinstance(module, (list, tuple)):
         module = bytes(module)
     if not module:
-        raise SpecError(ErrorCode.INVALID_PAYLOAD, "module must not be empty")
+        raise SpecError(ErrorCode.INVALID_FORMAT, "module must not be empty")
 
     if len(module) < 4 or module[:4] != b"\x7fELF":
         raise SpecError(ErrorCode.INVALID_FORMAT, "invalid module: not valid bytecode")
@@ -68,8 +68,8 @@ def _verify_invoke(state: ChainState, tx: Transaction) -> None:
         raise SpecError(ErrorCode.INVALID_PAYLOAD, "invoke_contract payload must be dict")
 
     max_gas = p.get("max_gas", 0)
-    if max_gas <= 0:
-        raise SpecError(ErrorCode.INVALID_PAYLOAD, "max_gas must be > 0")
+    if max_gas < 0:
+        raise SpecError(ErrorCode.INVALID_PAYLOAD, "max_gas must be >= 0")
 
     deposits = p.get("deposits", [])
     if len(deposits) > MAX_DEPOSIT_PER_INVOKE_CALL:

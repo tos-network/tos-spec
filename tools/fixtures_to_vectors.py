@@ -171,7 +171,7 @@ def main() -> None:
                         "description": case.get("description", ""),
                         "pre_state": case.get("pre_state"),
                 }
-                if case.get("runnable") is False:
+                if case.get("runnable") is False or (not wire_hex and "tx" in case):
                     vec_entry["runnable"] = False
                 vec_entry.update({
                         "input": {

@@ -22,16 +22,18 @@ def verify(state: ChainState, tx: Transaction) -> None:
         raise SpecError(ErrorCode.INVALID_TYPE, "unsupported core tx type")
 
     if not isinstance(tx.payload, list) or not tx.payload:
-        raise SpecError(ErrorCode.INVALID_PAYLOAD, "transfers list empty")
+        raise SpecError(ErrorCode.INVALID_FORMAT, "transfers list empty")
 
     if len(tx.payload) > MAX_TRANSFER_COUNT:
-        raise SpecError(ErrorCode.INVALID_PAYLOAD, "too many transfers")
+        raise SpecError(ErrorCode.INVALID_FORMAT, "too many transfers")
 
     total_extra = 0
     for t in tx.payload:
         if not isinstance(t, TransferPayload):
             raise SpecError(ErrorCode.INVALID_PAYLOAD, "invalid transfer payload")
-        if t.amount <= 0:
+        if t.destination == tx.source:
+            raise SpecError(ErrorCode.INSUFFICIENT_BALANCE, "cannot transfer to self")
+        if t.amount < 0:
             raise SpecError(ErrorCode.INVALID_AMOUNT, "transfer amount invalid")
         if t.extra_data is not None:
             if len(t.extra_data) > EXTRA_DATA_LIMIT_SIZE:

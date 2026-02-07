@@ -56,3 +56,10 @@ def test_burn_invalid_amount(state_test_group) -> None:
     state = _base_state()
     tx = _mk_burn(ALICE, nonce=5, amount=0, fee=100_000)
     state_test_group("transactions/core/burn.json", "burn_invalid_amount", state, tx)
+
+
+def test_burn_negative_amount(state_test_group) -> None:
+    """Burn with negative amount."""
+    state = _base_state()
+    tx = _mk_burn(ALICE, nonce=5, amount=-1, fee=100_000)
+    state_test_group("transactions/core/burn.json", "burn_negative_amount", state, tx)

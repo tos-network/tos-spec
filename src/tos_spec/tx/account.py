@@ -57,6 +57,13 @@ def _verify_multisig(state: ChainState, tx: Transaction) -> None:
     if len(participants) > MAX_MULTISIG_PARTICIPANTS:
         raise SpecError(ErrorCode.INVALID_PAYLOAD, "too many multisig participants")
 
+    seen: set[bytes] = set()
+    for pk in participants:
+        pk_bytes = bytes(pk) if not isinstance(pk, bytes) else pk
+        if pk_bytes in seen:
+            raise SpecError(ErrorCode.INVALID_SIGNATURE, "duplicate participant")
+        seen.add(pk_bytes)
+
     if threshold > len(participants):
         raise SpecError(ErrorCode.INVALID_PAYLOAD, "threshold exceeds participant count")
 

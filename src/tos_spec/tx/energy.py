@@ -83,19 +83,13 @@ def _verify_freeze_tos(state: ChainState, tx: Transaction, p: EnergyPayload) -> 
         raise SpecError(ErrorCode.INVALID_PAYLOAD, "duration required")
     days = p.duration.days
     if days < MIN_FREEZE_DURATION_DAYS or days > MAX_FREEZE_DURATION_DAYS:
-        raise SpecError(ErrorCode.INVALID_PAYLOAD, f"duration must be {MIN_FREEZE_DURATION_DAYS}-{MAX_FREEZE_DURATION_DAYS} days")
+        raise SpecError(ErrorCode.INVALID_FORMAT, f"duration must be {MIN_FREEZE_DURATION_DAYS}-{MAX_FREEZE_DURATION_DAYS} days")
 
     sender = state.accounts.get(tx.source)
     if sender is None:
         raise SpecError(ErrorCode.ACCOUNT_NOT_FOUND, "sender not found")
     if sender.balance < amount:
         raise SpecError(ErrorCode.INSUFFICIENT_BALANCE, "insufficient balance for freeze")
-
-    er = state.energy_resources.get(tx.source)
-    if er is not None:
-        total_records = len(er.freeze_records) + len(er.delegated_records)
-        if total_records >= MAX_FREEZE_RECORDS:
-            raise SpecError(ErrorCode.INVALID_PAYLOAD, "maximum freeze records reached")
 
 
 def _apply_freeze_tos(state: ChainState, tx: Transaction, p: EnergyPayload) -> ChainState:
@@ -139,13 +133,13 @@ def _verify_freeze_delegate(state: ChainState, tx: Transaction, p: EnergyPayload
     if not delegatees:
         raise SpecError(ErrorCode.INVALID_PAYLOAD, "delegatees list empty")
     if len(delegatees) > MAX_DELEGATEES:
-        raise SpecError(ErrorCode.INVALID_PAYLOAD, "too many delegatees")
+        raise SpecError(ErrorCode.INVALID_FORMAT, "too many delegatees")
 
     if p.duration is None:
         raise SpecError(ErrorCode.INVALID_PAYLOAD, "duration required")
     days = p.duration.days
     if days < MIN_FREEZE_DURATION_DAYS or days > MAX_FREEZE_DURATION_DAYS:
-        raise SpecError(ErrorCode.INVALID_PAYLOAD, f"duration must be {MIN_FREEZE_DURATION_DAYS}-{MAX_FREEZE_DURATION_DAYS} days")
+        raise SpecError(ErrorCode.INVALID_FORMAT, f"duration must be {MIN_FREEZE_DURATION_DAYS}-{MAX_FREEZE_DURATION_DAYS} days")
 
     seen: set[bytes] = set()
     total = 0
