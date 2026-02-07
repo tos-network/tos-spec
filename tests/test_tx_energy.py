@@ -428,6 +428,27 @@ def test_delegate_self(state_test_group) -> None:
     )
 
 
+def test_delegate_max_delegatees_exceeded(state_test_group) -> None:
+    """501 delegatees (max=500) should be rejected.
+
+    Rust: "Too many delegatees (max 500)"
+    """
+    state = _base_state()
+    # Create 501 unique delegatees
+    delegatees = []
+    for i in range(MAX_DELEGATEES + 1):
+        addr = bytes([i % 256]) + bytes([(i >> 8) % 256]) + bytes(30)
+        state.accounts[addr] = AccountState(address=addr, balance=0, nonce=0)
+        delegatees.append(DelegationEntry(delegatee=addr, amount=COIN_VALUE))
+    tx = _mk_freeze_delegate(ALICE, nonce=5, delegatees=delegatees, days=7, fee=0)
+    state_test_group(
+        "transactions/energy/freeze_delegate.json",
+        "delegate_max_delegatees_exceeded",
+        state,
+        tx,
+    )
+
+
 # ===================================================================
 # Overflow tests (u64 boundary)
 # ===================================================================

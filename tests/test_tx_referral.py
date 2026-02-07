@@ -135,6 +135,21 @@ def test_batch_referral_reward_zero_amount(state_test_group) -> None:
     )
 
 
+def test_batch_referral_reward_empty_levels(state_test_group) -> None:
+    """Empty ratios list with levels=0."""
+    state = _base_state()
+    tx = _mk_batch_referral_reward(
+        ALICE, nonce=5, total_amount=100_000, levels=0,
+        ratios=[], from_user=BOB, fee=100_000,
+    )
+    state_test_group(
+        "transactions/referral/batch_referral_reward.json",
+        "batch_referral_reward_empty_levels",
+        state,
+        tx,
+    )
+
+
 def test_batch_referral_reward_ratio_exceeds_max(state_test_group) -> None:
     """Sum of ratios > 10000 BPS."""
     state = _base_state()
