@@ -515,6 +515,104 @@
       }
     },
     {
+      "name": "chain_two_side_blocks_same_height_rewards",
+      "description": "Import b2/b3/b4 all at height 2 from b1 then merge with b5; side blocks receive reduced rewards (30% then 15%).",
+      "pre_state": {
+        "network_chain_id": 3,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "8c9240b456a9e6dc65c377a1048d745f94a08cdb7f44cbcd7b46f34048871134",
+            "balance": 0,
+            "nonce": 0,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
+      },
+      "input": {
+        "kind": "chain",
+        "blocks": [
+          {
+            "id": "b1",
+            "parents": [
+              "genesis"
+            ],
+            "height": 1,
+            "txs": []
+          },
+          {
+            "id": "b2",
+            "parents": [
+              "b1"
+            ],
+            "height": 2,
+            "txs": []
+          },
+          {
+            "id": "b3",
+            "parents": [
+              "b1"
+            ],
+            "height": 2,
+            "txs": []
+          },
+          {
+            "id": "b4",
+            "parents": [
+              "b1"
+            ],
+            "height": 2,
+            "txs": []
+          },
+          {
+            "id": "b5",
+            "parents": [
+              "b2",
+              "b3",
+              "b4"
+            ],
+            "height": 3,
+            "txs": []
+          }
+        ]
+      },
+      "expected": {
+        "success": true,
+        "error_code": 0,
+        "state_digest": "bd3356db0e24acfe2ada1bff4db5e0d40a795c3e0deddf1b81ac6f4cf4aebef4",
+        "post_state": {
+          "network_chain_id": 3,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 5,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "8c9240b456a9e6dc65c377a1048d745f94a08cdb7f44cbcd7b46f34048871134",
+              "balance": 302696224,
+              "nonce": 0,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ]
+        }
+      }
+    },
+    {
       "name": "chain_invalid_tips_count_zero",
       "description": "Reject a non-genesis block with zero parents/tips.",
       "pre_state": {

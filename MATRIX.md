@@ -6,9 +6,9 @@ coverage gaps and prioritization targets.
 
 ## Current Published Status (2026-02-08)
 
-- `vectors/` contains **687** runnable execution vectors in the `test_vectors` schema.
+- `vectors/` contains **688** runnable execution vectors in the `test_vectors` schema.
 - The published suite has **no** `runnable: false` vectors.
-- Composition: **635** L1 state-transition vectors (`input.tx` present) + **15** L0 negative wire-decoding vectors + **25** L2 block vectors (`input.kind="block"`) + **12** L2 chain-import vectors (`input.kind="chain"`).
+- Composition: **635** L1 state-transition vectors (`input.tx` present) + **15** L0 negative wire-decoding vectors + **25** L2 block vectors (`input.kind="block"`) + **13** L2 chain-import vectors (`input.kind="chain"`).
 - Covered transaction types: **42** distinct `tx_type` values in published vectors.
 - Spec-only fixtures under `fixtures/{security,models,syscalls,api,consensus}/` are intentionally not published to `vectors/` yet.
 - Codec corpus: `fixtures/wire_format.json` contains 45 golden wire-encoding vectors but is not published to `vectors/` yet. The same corpus is mirrored into `~/tos/common/tests/wire_format.json` (with `wire_format_negative.json`) and validated by Rust internal tests: `cargo test -p tos_common --test spec_wire_format_vectors`.
@@ -66,10 +66,10 @@ Legend:  +++  strong coverage
 | Account model      | n/a        | +          | -          | -          | n/a        | n/a        |
 
 **Reading this matrix:** The published conformance suite is currently L1-heavy:
-635/687 vectors are L1 state transitions. L0 wire-format coverage in published
+635/688 vectors are L1 state transitions. L0 wire-format coverage in published
 vectors is currently negative-only (15 malformed `wire_hex` vectors). The
 priority gaps are:
-- L2: basic executable block processing tests (37 vectors: 25 `block` + 12 `chain`)
+- L2: basic executable block processing tests (38 vectors: 25 `block` + 13 `chain`)
 - L3-L5: not published yet (API/P2P/interop vectors remain spec-only)
 Note: positive wire-format vectors exist as a spec codec corpus (45 entries) but are currently consumed via Rust internal tests rather than the published conformance runner.
 
@@ -84,7 +84,7 @@ lists the published `vectors/execution/transactions/**` groups and vector counts
 | kyc | `execution/transactions/kyc/` | 107 | L1 state transitions |
 | arbitration | `execution/transactions/arbitration/` | 103 | L1 state transitions |
 | block | `execution/transactions/block/` | 25 | L2 block processing (multi-tx, atomic rejection) |
-| blockchain | `execution/transactions/blockchain/` | 12 | L2 chain import (rewards + invalid tips) |
+| blockchain | `execution/transactions/blockchain/` | 13 | L2 chain import (rewards + invalid tips) |
 | tns | `execution/transactions/tns/` | 61 | L1 state transitions |
 | energy | `execution/transactions/energy/` | 46 | L1 state transitions |
 | account | `execution/transactions/account/` | 43 | L1 state transitions |
@@ -132,11 +132,11 @@ Param testing (not yet applicable).
 Per-type coverage is tracked from the published conformance suite under `vectors/`.
 As of 2026-02-08:
 
-- Total published vectors: **687**
+- Total published vectors: **688**
 - L1 state-transition vectors: **635** (`input.tx` present)
 - L0 negative wire-decoding vectors: **15** (`wire_format_negative`)
 - L2 block vectors: **25** (`input.kind="block"`)
-- L2 chain-import vectors: **12** (`input.kind="chain"`)
+- L2 chain-import vectors: **13** (`input.kind="chain"`)
 - Distinct `tx_type` values covered in published vectors: **42**
 
 To list covered `tx_type` values from `vectors/`:

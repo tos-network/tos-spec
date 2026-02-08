@@ -337,6 +337,62 @@ def test_chain_fork_then_merge_rewards(vector_test_group) -> None:
     )
 
 
+def test_chain_two_side_blocks_same_height_rewards(vector_test_group) -> None:
+    """Import 3 competing blocks at the same height then merge; side blocks get reduced rewards."""
+    pre = _base_state(include_miner=True)
+    pre_json = state_to_json(pre)
+
+    emitted = 0
+    s1, r1 = apply_empty_block_with_rewards(pre, height=1, emitted_supply=emitted)  # b1
+    emitted += r1
+    s2, r2 = apply_empty_block_with_rewards(s1, height=2, emitted_supply=emitted)  # b2 (main)
+    emitted += r2
+    s3, r3 = apply_empty_block_with_rewards(
+        s2,
+        height=2,
+        emitted_supply=emitted,
+        side_reward_percent=SIDE_BLOCK_REWARD_PERCENT,
+    )  # b3 (side #1 => 30%)
+    emitted += r3
+    # Ordering nuance: the DAG can order the merge before all side blocks are ordered.
+    s4, r4 = apply_empty_block_with_rewards(s3, height=3, emitted_supply=emitted)  # b5 (merge)
+    emitted += r4
+    post, r5 = apply_empty_block_with_rewards(
+        s4,
+        height=2,
+        emitted_supply=emitted,
+        side_reward_percent=SIDE_BLOCK_REWARD_PERCENT // 2,
+    )  # b4 (side #2 => 15%)
+    emitted += r5
+    _ = emitted
+
+    post_json = state_to_json(post)
+    vector_test_group(
+        "transactions/blockchain/chain_import.json",
+        {
+            "name": "chain_two_side_blocks_same_height_rewards",
+            "description": "Import b2/b3/b4 all at height 2 from b1 then merge with b5; side blocks receive reduced rewards (30% then 15%).",
+            "pre_state": pre_json,
+            "input": {
+                "kind": "chain",
+                "blocks": [
+                    {"id": "b1", "parents": ["genesis"], "height": 1, "txs": []},
+                    {"id": "b2", "parents": ["b1"], "height": 2, "txs": []},
+                    {"id": "b3", "parents": ["b1"], "height": 2, "txs": []},
+                    {"id": "b4", "parents": ["b1"], "height": 2, "txs": []},
+                    {"id": "b5", "parents": ["b2", "b3", "b4"], "height": 3, "txs": []},
+                ],
+            },
+            "expected": {
+                "success": True,
+                "error_code": int(ErrorCode.SUCCESS),
+                "state_digest": compute_state_digest(post_json),
+                "post_state": post_json,
+            },
+        },
+    )
+
+
 def test_chain_invalid_tips_count_zero(vector_test_group) -> None:
     """Block with zero tips is rejected (requires at least one parent/tip)."""
     pre = _base_state(include_miner=True)
