@@ -502,6 +502,30 @@ def test_deploy_contract_exactly_4_bytes_elf(state_test_group) -> None:
     )
 
 
+def test_deploy_contract_nonce_too_low(state_test_group) -> None:
+    """Deploy with nonce below sender.nonce must fail."""
+    state = _base_state()
+    tx = _mk_deploy_contract(ALICE, nonce=4, module=_HELLO_ELF, fee=100_000)
+    state_test_group(
+        "transactions/contracts/deploy_contract.json",
+        "deploy_contract_nonce_too_low",
+        state,
+        tx,
+    )
+
+
+def test_deploy_contract_nonce_too_high_strict(state_test_group) -> None:
+    """Deploy with nonce above sender.nonce must fail (strict nonce)."""
+    state = _base_state()
+    tx = _mk_deploy_contract(ALICE, nonce=6, module=_HELLO_ELF, fee=100_000)
+    state_test_group(
+        "transactions/contracts/deploy_contract.json",
+        "deploy_contract_nonce_too_high_strict",
+        state,
+        tx,
+    )
+
+
 def test_invoke_contract_duplicate_deposit_assets(state_test_group) -> None:
     """Invoke with two deposits using the same asset hash (duplicates are canonicalized in encoding)."""
     state, contract_hash = _base_state_with_contract()

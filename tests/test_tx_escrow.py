@@ -237,6 +237,42 @@ def test_challenge_escrow_success(state_test_group) -> None:
     )
 
 
+def test_challenge_escrow_insufficient_balance_for_deposit(state_test_group) -> None:
+    """Challenge should fail if payer cannot cover the challenge deposit."""
+    state = _base_state()
+    escrow_id = _hash(60)
+    escrow = _funded_escrow(escrow_id, ALICE, BOB, 10 * COIN_VALUE)
+    escrow.status = EscrowStatus.PENDING_RELEASE
+    escrow.optimistic_release = True
+    escrow.arbitration_config = ArbitrationConfig(
+        mode="single",
+        arbiters=[CAROL],
+        threshold=1,
+        fee_amount=COIN_VALUE,
+        allow_appeal=False,
+    )
+    escrow.release_requested_at = 1
+    escrow.pending_release_amount = 5 * COIN_VALUE
+    state.escrows[escrow_id] = escrow
+
+    deposit = COIN_VALUE
+    # Enough to pay fee, but not enough to cover deposit.
+    state.accounts[ALICE].balance = deposit - 1
+
+    payload = {
+        "escrow_id": escrow_id,
+        "reason": "deliverable does not match specs",
+        "deposit": deposit,
+    }
+    tx = _mk_escrow_tx(ALICE, nonce=5, tx_type=TransactionType.CHALLENGE_ESCROW, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/escrow/challenge_escrow.json",
+        "challenge_escrow_insufficient_balance_for_deposit",
+        state,
+        tx,
+    )
+
+
 # --- dispute_escrow specs ---
 
 
@@ -303,6 +339,49 @@ def test_appeal_escrow_success(state_test_group) -> None:
     state_test_group(
         "transactions/escrow/appeal_escrow.json",
         "appeal_escrow_success",
+        state,
+        tx,
+    )
+
+
+def test_appeal_escrow_insufficient_balance_for_deposit(state_test_group) -> None:
+    """Appeal should fail if appellant cannot cover the appeal deposit."""
+    state = _base_state()
+    escrow_id = _hash(60)
+    escrow = _funded_escrow(escrow_id, ALICE, BOB, 10 * COIN_VALUE)
+    escrow.status = EscrowStatus.RESOLVED
+    escrow.timeout_at = 99999
+    escrow.arbitration_config = ArbitrationConfig(
+        mode="single",
+        arbiters=[CAROL],
+        threshold=1,
+        fee_amount=COIN_VALUE,
+        allow_appeal=True,
+    )
+    escrow.dispute = DisputeInfo(
+        initiator=ALICE,
+        reason="provider did not deliver",
+        disputed_at=1,
+        deadline=1000,
+    )
+    escrow.dispute_id = _hash(61)
+    escrow.dispute_round = 1
+    state.escrows[escrow_id] = escrow
+
+    appeal_deposit = 2 * COIN_VALUE
+    # Enough to pay fee, but not enough to cover appeal deposit.
+    state.accounts[ALICE].balance = appeal_deposit - 1
+
+    payload = {
+        "escrow_id": escrow_id,
+        "reason": "verdict was unfair",
+        "appeal_deposit": appeal_deposit,
+        "appeal_mode": 1,
+    }
+    tx = _mk_escrow_tx(ALICE, nonce=5, tx_type=TransactionType.APPEAL_ESCROW, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/escrow/appeal_escrow.json",
+        "appeal_escrow_insufficient_balance_for_deposit",
         state,
         tx,
     )
@@ -554,6 +633,26 @@ def test_deposit_escrow_wrong_state(state_test_group) -> None:
     state_test_group(
         "transactions/escrow/deposit_escrow.json",
         "deposit_escrow_wrong_state",
+        state,
+        tx,
+    )
+
+
+def test_deposit_escrow_insufficient_balance(state_test_group) -> None:
+    """Deposit should fail if sender balance is less than deposit amount."""
+    state = _base_state()
+    escrow_id = _hash(60)
+    state.escrows[escrow_id] = _funded_escrow(escrow_id, ALICE, BOB, 10 * COIN_VALUE)
+    state.escrows[escrow_id].status = EscrowStatus.CREATED
+
+    # Enough to pay fee, but not enough to cover the deposit amount.
+    state.accounts[ALICE].balance = (5 * COIN_VALUE) - 1
+
+    payload = {"escrow_id": escrow_id, "amount": 5 * COIN_VALUE}
+    tx = _mk_escrow_tx(ALICE, nonce=5, tx_type=TransactionType.DEPOSIT_ESCROW, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/escrow/deposit_escrow.json",
+        "deposit_escrow_insufficient_balance",
         state,
         tx,
     )

@@ -36,7 +36,7 @@
         "nonce": 5,
         "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
         "reference_topoheight": 0,
-        "signature": "940624d04d8aa881d2390e53a3e830f3cf1b24a14e7e8ae7425838599208e5038180070f64c3fe98d082fd1afbe5a047ab9615cf7f5226ff7aebe8d1b1d5f000",
+        "signature": "5fbe727c35b9b6a85b294fa3c2baca6a461fe69d84cf19b6c790db13567cef03e4e6a6c7ffed20fc25175fad57e7a69bfcd8789ffe7b69279e3ec1b1a9cdba08",
         "wire_hex": ""
       },
       "expected": {
@@ -367,7 +367,7 @@
         "nonce": 5,
         "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
         "reference_topoheight": 0,
-        "signature": "6ec919d7bb60da97170bd052a4d228bb32905545b24f1553b72cb8d9010d3200d723287f94c1f69a0c266f033799e6aeb5a38c0578fa5886867709df4bebbd04",
+        "signature": "fa67bb0e709ada8a289f7e1afdcddfe9b27a8f77d6d4c635055196c593d5330cfbf04d74a5edd847db1a2cdb90e838a3a672c27e03cae45133a1736a5dff070f",
         "wire_hex": ""
       },
       "expected": {
@@ -432,7 +432,7 @@
         "nonce": 5,
         "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
         "reference_topoheight": 0,
-        "signature": "c0cf333330dff52f78f393427bb3a6a92b10f57e51d50c2a86b3b13f2c2c3b054cabe2f5a8f660a05325160ddb6aca7334428f40d95920f30e9f4844130d6d01",
+        "signature": "d44891f308425c8dd9de64ed0baa64f28b58518d55cf94a69af9e317c4eadd05af16e30895c62fe4413735adaf2bb6cc1b2fb697116164ab0b502d7475d48c00",
         "wire_hex": ""
       },
       "expected": {
@@ -568,7 +568,7 @@
         "nonce": 5,
         "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
         "reference_topoheight": 0,
-        "signature": "887de1b68f4d20af13bfd550e5dfec05c425bad77aa8b505cf6053496c12a20f3b79cf06cf9749dbc759118127f72804d3b5c33db5d6eab1544cab42f48c2f0e",
+        "signature": "986e5b404e51259d67a85502f8fa03f0d2346c54388bceeda7b6cb6aab075b087fc8ad1c644050a3456732208622790693127116d4f323b40af96978b099670e",
         "wire_hex": ""
       },
       "expected": {
@@ -598,6 +598,136 @@
             {
               "hash": "00a0cf9af76f7e29417c67eaffca7443e4df433baa8e33882d4d24e3a6675c38",
               "module": "7f454c46"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "deploy_contract_nonce_too_low",
+      "pre_state": {
+        "network_chain_id": 3,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "balance": 10000000000,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
+      },
+      "tx": {
+        "version": 1,
+        "chain_id": 3,
+        "source": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+        "tx_type": "deploy_contract",
+        "payload": {
+          "module": "7f454c4600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+        },
+        "fee": 100000,
+        "fee_type": 0,
+        "nonce": 4,
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "b58a541b776bf25b00fb67e116e4617295ac7116e444c7cffed777714d940e07cfb2e314f461a3ed2ca2d93b3b9ce50c7b68ba72f8375869306c0481f5a1280f",
+        "wire_hex": ""
+      },
+      "expected": {
+        "ok": false,
+        "error": "NONCE_TOO_LOW",
+        "post_state": {
+          "network_chain_id": 3,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+              "balance": 10000000000,
+              "nonce": 5,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "deploy_contract_nonce_too_high_strict",
+      "pre_state": {
+        "network_chain_id": 3,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "balance": 10000000000,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
+      },
+      "tx": {
+        "version": 1,
+        "chain_id": 3,
+        "source": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+        "tx_type": "deploy_contract",
+        "payload": {
+          "module": "7f454c4600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+        },
+        "fee": 100000,
+        "fee_type": 0,
+        "nonce": 6,
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "79531c993066086c38c0cc85d8b9df1d58a0bb44f04bf84ec87e6cf7e49a9d08f7c4e7c22885a880722abba9318dc0696b19f8897d27f3831f9a4a619031320e",
+        "wire_hex": ""
+      },
+      "expected": {
+        "ok": false,
+        "error": "NONCE_TOO_HIGH",
+        "post_state": {
+          "network_chain_id": 3,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+              "balance": 10000000000,
+              "nonce": 5,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
             }
           ]
         }

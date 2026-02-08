@@ -6,9 +6,9 @@ coverage gaps and prioritization targets.
 
 ## Current Published Status (2026-02-08)
 
-- `vectors/` contains **475** runnable execution vectors in the `test_vectors` schema.
+- `vectors/` contains **484** runnable execution vectors in the `test_vectors` schema.
 - The published suite has **no** `runnable: false` vectors.
-- Composition: **460** L1 state-transition vectors (`input.tx` present) + **15** L0 negative wire-decoding vectors.
+- Composition: **469** L1 state-transition vectors (`input.tx` present) + **15** L0 negative wire-decoding vectors.
 - Covered transaction types: **41** distinct `tx_type` values in published vectors.
 - Spec-only fixtures under `fixtures/{security,models,syscalls,api,consensus}/` are intentionally not published to `vectors/` yet.
 - Codec corpus: `fixtures/wire_format.json` contains 45 golden wire-encoding vectors but is not published to `vectors/` yet.
@@ -66,7 +66,7 @@ Legend:  +++  strong coverage
 | Account model      | n/a        | +          | -          | -          | n/a        | n/a        |
 
 **Reading this matrix:** The published conformance suite is currently L1-heavy:
-460/475 vectors are L1 state transitions. L0 wire-format coverage in published
+469/484 vectors are L1 state transitions. L0 wire-format coverage in published
 vectors is currently negative-only (15 malformed `wire_hex` vectors). The
 priority gaps are:
 - L2: no executable block processing tests yet
@@ -129,8 +129,8 @@ Param testing (not yet applicable).
 Per-type coverage is tracked from the published conformance suite under `vectors/`.
 As of 2026-02-08:
 
-- Total published vectors: **475**
-- L1 state-transition vectors: **460** (`input.tx` present)
+- Total published vectors: **484**
+- L1 state-transition vectors: **469** (`input.tx` present)
 - L0 negative wire-decoding vectors: **15** (`wire_format_negative`)
 - Distinct `tx_type` values covered in published vectors: **41**
 
