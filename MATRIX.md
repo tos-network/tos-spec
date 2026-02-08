@@ -6,9 +6,9 @@ coverage gaps and prioritization targets.
 
 ## Current Published Status (2026-02-08)
 
-- `vectors/` contains **688** runnable execution vectors in the `test_vectors` schema.
+- `vectors/` contains **706** runnable execution vectors in the `test_vectors` schema.
 - The published suite has **no** `runnable: false` vectors.
-- Composition: **635** L1 state-transition vectors (`input.tx` present) + **15** L0 negative wire-decoding vectors + **25** L2 block vectors (`input.kind="block"`) + **13** L2 chain-import vectors (`input.kind="chain"`).
+- Composition: **653** L1 state-transition vectors (`input.tx` present) + **15** L0 negative wire-decoding vectors + **25** L2 block vectors (`input.kind="block"`) + **13** L2 chain-import vectors (`input.kind="chain"`).
 - Covered transaction types: **42** distinct `tx_type` values in published vectors.
 - Spec-only fixtures under `fixtures/{security,models,syscalls,api,consensus}/` are intentionally not published to `vectors/` yet.
 - Codec corpus: `fixtures/wire_format.json` contains 45 golden wire-encoding vectors but is not published to `vectors/` yet. The same corpus is mirrored into `~/tos/common/tests/wire_format.json` (with `wire_format_negative.json`) and validated by Rust internal tests: `cargo test -p tos_common --test spec_wire_format_vectors`.
@@ -66,7 +66,7 @@ Legend:  +++  strong coverage
 | Account model      | n/a        | +          | -          | -          | n/a        | n/a        |
 
 **Reading this matrix:** The published conformance suite is currently L1-heavy:
-635/688 vectors are L1 state transitions. L0 wire-format coverage in published
+653/706 vectors are L1 state transitions. L0 wire-format coverage in published
 vectors is currently negative-only (15 malformed `wire_hex` vectors). The
 priority gaps are:
 - L2: basic executable block processing tests (38 vectors: 25 `block` + 13 `chain`)
@@ -75,13 +75,13 @@ Note: positive wire-format vectors exist as a spec codec corpus (45 entries) but
 
 ## Matrix 2: Domain x Fixture Type
 
-Published conformance vectors are currently execution-only (`input.kind=tx`). The table below
+Published conformance vectors are currently execution-only (`input.kind` in `{tx, block, chain}`). The table below
 lists the published `vectors/execution/transactions/**` groups and vector counts.
 
 | Group | Path Prefix | Vectors | Notes |
 |------:|------------|--------:|-------|
 | escrow | `execution/transactions/escrow/` | 137 | L1 state transitions |
-| kyc | `execution/transactions/kyc/` | 107 | L1 state transitions |
+| kyc | `execution/transactions/kyc/` | 125 | L1 state transitions |
 | arbitration | `execution/transactions/arbitration/` | 103 | L1 state transitions |
 | block | `execution/transactions/block/` | 25 | L2 block processing (multi-tx, atomic rejection) |
 | blockchain | `execution/transactions/blockchain/` | 13 | L2 chain import (rewards + invalid tips) |
@@ -132,8 +132,8 @@ Param testing (not yet applicable).
 Per-type coverage is tracked from the published conformance suite under `vectors/`.
 As of 2026-02-08:
 
-- Total published vectors: **688**
-- L1 state-transition vectors: **635** (`input.tx` present)
+- Total published vectors: **706**
+- L1 state-transition vectors: **653** (`input.tx` present)
 - L0 negative wire-decoding vectors: **15** (`wire_format_negative`)
 - L2 block vectors: **25** (`input.kind="block"`)
 - L2 chain-import vectors: **13** (`input.kind="chain"`)
@@ -236,12 +236,12 @@ Fee types: `TOS=0`, `ENERGY=1`, `UNO=2`.
 | core        | 2 / 2                  | 47      | 34       | 0, 1, 2        | transfers + burn |
 | energy      | 1 / 1                  | 49      | 38       | 0, 1, 2        | freeze/unfreeze/delegate share `tx_type=energy` |
 | escrow      | 9 / 9                  | 144     | 118      | 0              | escrow lifecycle + verdict |
-| kyc         | 9 / 9                  | 107     | 92       | 0              | committee + kyc |
+| kyc         | 9 / 9                  | 125     | 101      | 0              | committee + kyc |
 | privacy     | 3 / 3                  | 39      | 24       | 0, 1, 2        | includes `uno_transfers` (tx-json-only) |
 | referral    | 2 / 2                  | 22      | 16       | 0              | bind + batch reward |
 | tns         | 2 / 2                  | 62      | 41       | 0, 1           | names + ephemeral messages |
 
-This table covers the **635** published L1 vectors. The **15** L0 negative wire-decoding
+This table covers the **653** published L1 vectors. The **15** L0 negative wire-decoding
 vectors (`wire_format_negative`) are not included in handler-module stats.
 
 ## Summary: Coverage Heat Map

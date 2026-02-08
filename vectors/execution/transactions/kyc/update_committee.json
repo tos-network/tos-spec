@@ -292,6 +292,297 @@
       }
     },
     {
+      "name": "update_committee_exact_balance_for_fee",
+      "description": "",
+      "pre_state": {
+        "network_chain_id": 3,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 1700000000
+        },
+        "accounts": [
+          {
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "balance": 100000,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ],
+        "committees": [
+          {
+            "id": "3232323232323232323232323232323232323232323232323232323232323232",
+            "name": "GlobalCommittee",
+            "region": 255,
+            "members": [
+              {
+                "public_key": "7ea555bf91bfb985561a91afcd669a79c0cc115ce03baf687cb8dd7e1e996e7b",
+                "name": "member_0",
+                "role": 0
+              },
+              {
+                "public_key": "ec9daff86b25275ef43d7dbd7e81f09b44e8d3805c6048b09b3e1034931c6077",
+                "name": "member_1",
+                "role": 0
+              },
+              {
+                "public_key": "c236d1e09a12adc6dc4b857420e7dbef41e4553cc06168495b941398bee59531",
+                "name": "member_2",
+                "role": 0
+              }
+            ],
+            "threshold": 2,
+            "kyc_threshold": 2,
+            "max_kyc_level": 255
+          }
+        ]
+      },
+      "input": {
+        "kind": "tx",
+        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b2490e323232323232323232323232323232323232323232323232323232323232323200c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824010a6e65775f6d656d62657203027ea555bf91bfb985561a91afcd669a79c0cc115ce03baf687cb8dd7e1e996e7b6e2629e1b7e84f57dac0e90142dfc1dd0da59f44ac349ad75cbcad2fec42280def47c5c4fefd9ef707eda29e20b0c3a3610d0677c4bd4028d770fd754c8cc201000000006553f100ec9daff86b25275ef43d7dbd7e81f09b44e8d3805c6048b09b3e1034931c6077a119f990188a5af51c5c3b6ce7380107931b3ff45eedc03d17985ee9ec4f1002fc41c2cac02a864d08e4d08b679b0dcf9abdf0ce76d7326b3e9528a56959070c000000006553f10000000000000186a00000000000000000050000000000000000000000000000000000000000000000000000000000000000000000000000000000ca149ee51f451c0d9ae8ed773b5544d57105f9865abd33b39e11cfa85efcd805071a28c246c8525ca8fc7cb8a8e650bcfdf4292f96e58950cb530b088fc4670f",
+        "tx": {
+          "version": 1,
+          "chain_id": 3,
+          "source": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+          "tx_type": "update_committee",
+          "payload": {
+            "committee_id": "3232323232323232323232323232323232323232323232323232323232323232",
+            "update": {
+              "type": "add_member",
+              "public_key": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824",
+              "name": "new_member",
+              "role": 3
+            },
+            "approvals": [
+              {
+                "member_pubkey": "7ea555bf91bfb985561a91afcd669a79c0cc115ce03baf687cb8dd7e1e996e7b",
+                "signature": "6e2629e1b7e84f57dac0e90142dfc1dd0da59f44ac349ad75cbcad2fec42280def47c5c4fefd9ef707eda29e20b0c3a3610d0677c4bd4028d770fd754c8cc201",
+                "timestamp": 1700000000
+              },
+              {
+                "member_pubkey": "ec9daff86b25275ef43d7dbd7e81f09b44e8d3805c6048b09b3e1034931c6077",
+                "signature": "a119f990188a5af51c5c3b6ce7380107931b3ff45eedc03d17985ee9ec4f1002fc41c2cac02a864d08e4d08b679b0dcf9abdf0ce76d7326b3e9528a56959070c",
+                "timestamp": 1700000000
+              }
+            ]
+          },
+          "fee": 100000,
+          "fee_type": 0,
+          "nonce": 5,
+          "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+          "reference_topoheight": 0,
+          "signature": "ca149ee51f451c0d9ae8ed773b5544d57105f9865abd33b39e11cfa85efcd805071a28c246c8525ca8fc7cb8a8e650bcfdf4292f96e58950cb530b088fc4670f",
+          "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b2490e323232323232323232323232323232323232323232323232323232323232323200c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824010a6e65775f6d656d62657203027ea555bf91bfb985561a91afcd669a79c0cc115ce03baf687cb8dd7e1e996e7b6e2629e1b7e84f57dac0e90142dfc1dd0da59f44ac349ad75cbcad2fec42280def47c5c4fefd9ef707eda29e20b0c3a3610d0677c4bd4028d770fd754c8cc201000000006553f100ec9daff86b25275ef43d7dbd7e81f09b44e8d3805c6048b09b3e1034931c6077a119f990188a5af51c5c3b6ce7380107931b3ff45eedc03d17985ee9ec4f1002fc41c2cac02a864d08e4d08b679b0dcf9abdf0ce76d7326b3e9528a56959070c000000006553f10000000000000186a00000000000000000050000000000000000000000000000000000000000000000000000000000000000000000000000000000ca149ee51f451c0d9ae8ed773b5544d57105f9865abd33b39e11cfa85efcd805071a28c246c8525ca8fc7cb8a8e650bcfdf4292f96e58950cb530b088fc4670f"
+        }
+      },
+      "expected": {
+        "success": true,
+        "error_code": 0,
+        "state_digest": "382826f0c060d102b61891bebdcae4bc0b24707da1691a1358d13d6e29e8cfb9",
+        "post_state": {
+          "network_chain_id": 3,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 1700000000
+          },
+          "accounts": [
+            {
+              "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+              "balance": 0,
+              "nonce": 6,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ],
+          "committees": [
+            {
+              "id": "3232323232323232323232323232323232323232323232323232323232323232",
+              "name": "GlobalCommittee",
+              "region": 255,
+              "members": [
+                {
+                  "public_key": "7ea555bf91bfb985561a91afcd669a79c0cc115ce03baf687cb8dd7e1e996e7b",
+                  "name": "member_0",
+                  "role": 0
+                },
+                {
+                  "public_key": "ec9daff86b25275ef43d7dbd7e81f09b44e8d3805c6048b09b3e1034931c6077",
+                  "name": "member_1",
+                  "role": 0
+                },
+                {
+                  "public_key": "c236d1e09a12adc6dc4b857420e7dbef41e4553cc06168495b941398bee59531",
+                  "name": "member_2",
+                  "role": 0
+                },
+                {
+                  "public_key": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824",
+                  "name": "new_member",
+                  "role": 3
+                }
+              ],
+              "threshold": 2,
+              "kyc_threshold": 2,
+              "max_kyc_level": 255
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "update_committee_fee_zero",
+      "description": "",
+      "pre_state": {
+        "network_chain_id": 3,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 1700000000
+        },
+        "accounts": [
+          {
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "balance": 10000000,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ],
+        "committees": [
+          {
+            "id": "3232323232323232323232323232323232323232323232323232323232323232",
+            "name": "GlobalCommittee",
+            "region": 255,
+            "members": [
+              {
+                "public_key": "7ea555bf91bfb985561a91afcd669a79c0cc115ce03baf687cb8dd7e1e996e7b",
+                "name": "member_0",
+                "role": 0
+              },
+              {
+                "public_key": "ec9daff86b25275ef43d7dbd7e81f09b44e8d3805c6048b09b3e1034931c6077",
+                "name": "member_1",
+                "role": 0
+              },
+              {
+                "public_key": "c236d1e09a12adc6dc4b857420e7dbef41e4553cc06168495b941398bee59531",
+                "name": "member_2",
+                "role": 0
+              }
+            ],
+            "threshold": 2,
+            "kyc_threshold": 2,
+            "max_kyc_level": 255
+          }
+        ]
+      },
+      "input": {
+        "kind": "tx",
+        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b2490e323232323232323232323232323232323232323232323232323232323232323200c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824010a6e65775f6d656d62657203027ea555bf91bfb985561a91afcd669a79c0cc115ce03baf687cb8dd7e1e996e7b6e2629e1b7e84f57dac0e90142dfc1dd0da59f44ac349ad75cbcad2fec42280def47c5c4fefd9ef707eda29e20b0c3a3610d0677c4bd4028d770fd754c8cc201000000006553f100ec9daff86b25275ef43d7dbd7e81f09b44e8d3805c6048b09b3e1034931c6077a119f990188a5af51c5c3b6ce7380107931b3ff45eedc03d17985ee9ec4f1002fc41c2cac02a864d08e4d08b679b0dcf9abdf0ce76d7326b3e9528a56959070c000000006553f100000000000000000000000000000000000500000000000000000000000000000000000000000000000000000000000000000000000000000000004ad0f3c359670de88018ca034d65a26a351673728477527699bb524427ee910ee73171842827a13323bc719973233c325543a822ed1b8cbe5deee1b12f7bf502",
+        "tx": {
+          "version": 1,
+          "chain_id": 3,
+          "source": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+          "tx_type": "update_committee",
+          "payload": {
+            "committee_id": "3232323232323232323232323232323232323232323232323232323232323232",
+            "update": {
+              "type": "add_member",
+              "public_key": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824",
+              "name": "new_member",
+              "role": 3
+            },
+            "approvals": [
+              {
+                "member_pubkey": "7ea555bf91bfb985561a91afcd669a79c0cc115ce03baf687cb8dd7e1e996e7b",
+                "signature": "6e2629e1b7e84f57dac0e90142dfc1dd0da59f44ac349ad75cbcad2fec42280def47c5c4fefd9ef707eda29e20b0c3a3610d0677c4bd4028d770fd754c8cc201",
+                "timestamp": 1700000000
+              },
+              {
+                "member_pubkey": "ec9daff86b25275ef43d7dbd7e81f09b44e8d3805c6048b09b3e1034931c6077",
+                "signature": "a119f990188a5af51c5c3b6ce7380107931b3ff45eedc03d17985ee9ec4f1002fc41c2cac02a864d08e4d08b679b0dcf9abdf0ce76d7326b3e9528a56959070c",
+                "timestamp": 1700000000
+              }
+            ]
+          },
+          "fee": 0,
+          "fee_type": 0,
+          "nonce": 5,
+          "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+          "reference_topoheight": 0,
+          "signature": "4ad0f3c359670de88018ca034d65a26a351673728477527699bb524427ee910ee73171842827a13323bc719973233c325543a822ed1b8cbe5deee1b12f7bf502",
+          "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b2490e323232323232323232323232323232323232323232323232323232323232323200c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824010a6e65775f6d656d62657203027ea555bf91bfb985561a91afcd669a79c0cc115ce03baf687cb8dd7e1e996e7b6e2629e1b7e84f57dac0e90142dfc1dd0da59f44ac349ad75cbcad2fec42280def47c5c4fefd9ef707eda29e20b0c3a3610d0677c4bd4028d770fd754c8cc201000000006553f100ec9daff86b25275ef43d7dbd7e81f09b44e8d3805c6048b09b3e1034931c6077a119f990188a5af51c5c3b6ce7380107931b3ff45eedc03d17985ee9ec4f1002fc41c2cac02a864d08e4d08b679b0dcf9abdf0ce76d7326b3e9528a56959070c000000006553f100000000000000000000000000000000000500000000000000000000000000000000000000000000000000000000000000000000000000000000004ad0f3c359670de88018ca034d65a26a351673728477527699bb524427ee910ee73171842827a13323bc719973233c325543a822ed1b8cbe5deee1b12f7bf502"
+        }
+      },
+      "expected": {
+        "success": false,
+        "error_code": 769,
+        "state_digest": "2fae245975db17f67702b493cc9b079107ce0ef0b9d6fa2e75efc15203faa9ff",
+        "post_state": {
+          "network_chain_id": 3,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 1700000000
+          },
+          "accounts": [
+            {
+              "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+              "balance": 10000000,
+              "nonce": 5,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ],
+          "committees": [
+            {
+              "id": "3232323232323232323232323232323232323232323232323232323232323232",
+              "name": "GlobalCommittee",
+              "region": 255,
+              "members": [
+                {
+                  "public_key": "7ea555bf91bfb985561a91afcd669a79c0cc115ce03baf687cb8dd7e1e996e7b",
+                  "name": "member_0",
+                  "role": 0
+                },
+                {
+                  "public_key": "ec9daff86b25275ef43d7dbd7e81f09b44e8d3805c6048b09b3e1034931c6077",
+                  "name": "member_1",
+                  "role": 0
+                },
+                {
+                  "public_key": "c236d1e09a12adc6dc4b857420e7dbef41e4553cc06168495b941398bee59531",
+                  "name": "member_2",
+                  "role": 0
+                }
+              ],
+              "threshold": 2,
+              "kyc_threshold": 2,
+              "max_kyc_level": 255
+            }
+          ]
+        }
+      }
+    },
+    {
       "name": "update_committee_nonce_too_low",
       "description": "",
       "pre_state": {
