@@ -134,6 +134,387 @@
       }
     },
     {
+      "name": "chain_explicit_height_two_blocks",
+      "description": "Import two empty blocks with explicit height fields (1 then 2).",
+      "pre_state": {
+        "network_chain_id": 3,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "8c9240b456a9e6dc65c377a1048d745f94a08cdb7f44cbcd7b46f34048871134",
+            "balance": 0,
+            "nonce": 0,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
+      },
+      "input": {
+        "kind": "chain",
+        "blocks": [
+          {
+            "id": "b1",
+            "parents": [
+              "genesis"
+            ],
+            "height": 1,
+            "txs": []
+          },
+          {
+            "id": "b2",
+            "parents": [
+              "b1"
+            ],
+            "height": 2,
+            "txs": []
+          }
+        ]
+      },
+      "expected": {
+        "success": true,
+        "error_code": 0,
+        "state_digest": "4abb81c3ebf7a2417a4e17db3e7411af492d0306b98a1a9ed68c079086674069",
+        "post_state": {
+          "network_chain_id": 3,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 2,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "8c9240b456a9e6dc65c377a1048d745f94a08cdb7f44cbcd7b46f34048871134",
+              "balance": 175476073,
+              "nonce": 0,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "chain_invalid_reachability_ancestor_parent",
+      "description": "Reject a block that references parents where one is an ancestor of the other.",
+      "pre_state": {
+        "network_chain_id": 3,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "8c9240b456a9e6dc65c377a1048d745f94a08cdb7f44cbcd7b46f34048871134",
+            "balance": 0,
+            "nonce": 0,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
+      },
+      "input": {
+        "kind": "chain",
+        "blocks": [
+          {
+            "id": "b1",
+            "parents": [
+              "genesis"
+            ],
+            "txs": []
+          },
+          {
+            "id": "b2",
+            "parents": [
+              "b1"
+            ],
+            "txs": []
+          },
+          {
+            "id": "bad",
+            "parents": [
+              "b1",
+              "b2"
+            ],
+            "txs": []
+          }
+        ]
+      },
+      "expected": {
+        "success": false,
+        "error_code": 1546,
+        "state_digest": "4abb81c3ebf7a2417a4e17db3e7411af492d0306b98a1a9ed68c079086674069",
+        "post_state": {
+          "network_chain_id": 3,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 2,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "8c9240b456a9e6dc65c377a1048d745f94a08cdb7f44cbcd7b46f34048871134",
+              "balance": 175476073,
+              "nonce": 0,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "chain_invalid_timestamp_too_old",
+      "description": "Reject a block with timestamp_ms less than its parent timestamp.",
+      "pre_state": {
+        "network_chain_id": 3,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "8c9240b456a9e6dc65c377a1048d745f94a08cdb7f44cbcd7b46f34048871134",
+            "balance": 0,
+            "nonce": 0,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
+      },
+      "input": {
+        "kind": "chain",
+        "blocks": [
+          {
+            "id": "b1",
+            "parents": [
+              "genesis"
+            ],
+            "txs": []
+          },
+          {
+            "id": "bad",
+            "parents": [
+              "b1"
+            ],
+            "timestamp_ms": 0,
+            "txs": []
+          }
+        ]
+      },
+      "expected": {
+        "success": false,
+        "error_code": 1540,
+        "state_digest": "ba5a96f9244f6577a698e3eae5f557e40fd3204409213f5815da4f3dd80a63d2",
+        "post_state": {
+          "network_chain_id": 3,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 1,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "8c9240b456a9e6dc65c377a1048d745f94a08cdb7f44cbcd7b46f34048871134",
+              "balance": 87738037,
+              "nonce": 0,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "chain_invalid_timestamp_too_new",
+      "description": "Reject a block with timestamp_ms far in the future.",
+      "pre_state": {
+        "network_chain_id": 3,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "8c9240b456a9e6dc65c377a1048d745f94a08cdb7f44cbcd7b46f34048871134",
+            "balance": 0,
+            "nonce": 0,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
+      },
+      "input": {
+        "kind": "chain",
+        "blocks": [
+          {
+            "id": "b1",
+            "parents": [
+              "genesis"
+            ],
+            "txs": []
+          },
+          {
+            "id": "bad",
+            "parents": [
+              "b1"
+            ],
+            "timestamp_ms": 18446744073709551615,
+            "txs": []
+          }
+        ]
+      },
+      "expected": {
+        "success": false,
+        "error_code": 1541,
+        "state_digest": "ba5a96f9244f6577a698e3eae5f557e40fd3204409213f5815da4f3dd80a63d2",
+        "post_state": {
+          "network_chain_id": 3,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 1,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "8c9240b456a9e6dc65c377a1048d745f94a08cdb7f44cbcd7b46f34048871134",
+              "balance": 87738037,
+              "nonce": 0,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "chain_fork_then_merge_rewards",
+      "description": "Import a fork (b2 and b3) then a merge (b4 with two parents); miner reward accumulates for all imported blocks.",
+      "pre_state": {
+        "network_chain_id": 3,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "8c9240b456a9e6dc65c377a1048d745f94a08cdb7f44cbcd7b46f34048871134",
+            "balance": 0,
+            "nonce": 0,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
+      },
+      "input": {
+        "kind": "chain",
+        "blocks": [
+          {
+            "id": "b1",
+            "parents": [
+              "genesis"
+            ],
+            "height": 1,
+            "txs": []
+          },
+          {
+            "id": "b2",
+            "parents": [
+              "b1"
+            ],
+            "height": 2,
+            "txs": []
+          },
+          {
+            "id": "b3",
+            "parents": [
+              "b1"
+            ],
+            "height": 2,
+            "txs": []
+          },
+          {
+            "id": "b4",
+            "parents": [
+              "b2",
+              "b3"
+            ],
+            "height": 3,
+            "txs": []
+          }
+        ]
+      },
+      "expected": {
+        "success": true,
+        "error_code": 0,
+        "state_digest": "7e37538d0745f50d768a31713f50cd3f4b4a43768fd2aad2f854a35bcb1de9af",
+        "post_state": {
+          "network_chain_id": 3,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 4,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "8c9240b456a9e6dc65c377a1048d745f94a08cdb7f44cbcd7b46f34048871134",
+              "balance": 289535519,
+              "nonce": 0,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ]
+        }
+      }
+    },
+    {
       "name": "chain_invalid_tips_count_zero",
       "description": "Reject a non-genesis block with zero parents/tips.",
       "pre_state": {

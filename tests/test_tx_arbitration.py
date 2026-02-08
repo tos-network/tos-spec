@@ -566,6 +566,36 @@ def test_request_arbiter_exit_insufficient_fee(state_test_group) -> None:
     )
 
 
+def test_request_arbiter_exit_exact_balance_for_fee(state_test_group) -> None:
+    """request_arbiter_exit with balance exactly equal to fee should succeed."""
+    state = _base_state()
+    sender = ALICE
+    state.accounts[sender].balance = 100_000
+    state.arbiters[ALICE] = _active_arbiter(ALICE)
+    payload = {}
+    tx = _mk_arb_tx(sender, nonce=5, tx_type=TransactionType.REQUEST_ARBITER_EXIT, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/arbitration/request_arbiter_exit.json",
+        "request_arbiter_exit_exact_balance_for_fee",
+        state,
+        tx,
+    )
+
+
+def test_request_arbiter_exit_fee_zero(state_test_group) -> None:
+    """request_arbiter_exit with fee=0 should fail min-fee validation."""
+    state = _base_state()
+    state.arbiters[ALICE] = _active_arbiter(ALICE)
+    payload = {}
+    tx = _mk_arb_tx(ALICE, nonce=5, tx_type=TransactionType.REQUEST_ARBITER_EXIT, payload=payload, fee=0)
+    state_test_group(
+        "transactions/arbitration/request_arbiter_exit.json",
+        "request_arbiter_exit_fee_zero",
+        state,
+        tx,
+    )
+
+
 def test_request_arbiter_exit_nonce_too_low(state_test_group) -> None:
     state = _base_state()
     sender = ALICE
@@ -784,6 +814,40 @@ def test_cancel_arbiter_exit_insufficient_fee(state_test_group) -> None:
     state_test_group(
         "transactions/arbitration/cancel_arbiter_exit.json",
         "cancel_arbiter_exit_insufficient_fee",
+        state,
+        tx,
+    )
+
+
+def test_cancel_arbiter_exit_exact_balance_for_fee(state_test_group) -> None:
+    """cancel_arbiter_exit with balance exactly equal to fee should succeed."""
+    state = _base_state()
+    sender = ALICE
+    state.accounts[sender].balance = 100_000
+    arbiter = _active_arbiter(ALICE)
+    arbiter.status = ArbiterStatus.EXITING
+    state.arbiters[ALICE] = arbiter
+    payload = {}
+    tx = _mk_arb_tx(sender, nonce=5, tx_type=TransactionType.CANCEL_ARBITER_EXIT, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/arbitration/cancel_arbiter_exit.json",
+        "cancel_arbiter_exit_exact_balance_for_fee",
+        state,
+        tx,
+    )
+
+
+def test_cancel_arbiter_exit_fee_zero(state_test_group) -> None:
+    """cancel_arbiter_exit with fee=0 should fail min-fee validation."""
+    state = _base_state()
+    arbiter = _active_arbiter(ALICE)
+    arbiter.status = ArbiterStatus.EXITING
+    state.arbiters[ALICE] = arbiter
+    payload = {}
+    tx = _mk_arb_tx(ALICE, nonce=5, tx_type=TransactionType.CANCEL_ARBITER_EXIT, payload=payload, fee=0)
+    state_test_group(
+        "transactions/arbitration/cancel_arbiter_exit.json",
+        "cancel_arbiter_exit_fee_zero",
         state,
         tx,
     )
@@ -2373,6 +2437,108 @@ def test_submit_verdict_by_juror_insufficient_fee(state_test_group) -> None:
     state_test_group(
         "transactions/arbitration/submit_verdict_by_juror.json",
         "submit_verdict_by_juror_insufficient_fee",
+        state,
+        tx,
+    )
+
+
+def test_submit_verdict_by_juror_exact_balance_for_fee(state_test_group) -> None:
+    """submit_verdict_by_juror with balance exactly equal to fee should succeed."""
+    state, escrow_id = _escrow_with_dispute()
+    sender = CAROL
+    state.accounts[CAROL] = AccountState(
+        address=CAROL, balance=100_000, nonce=5
+    )
+    state.arbiters[CAROL] = ArbiterAccount(
+        public_key=CAROL, name="carol-arb",
+        status=ArbiterStatus.ACTIVE, stake_amount=MIN_ARBITER_STAKE,
+    )
+    state.arbiters[DAVE] = ArbiterAccount(
+        public_key=DAVE, name="dave-arb",
+        status=ArbiterStatus.ACTIVE, stake_amount=MIN_ARBITER_STAKE,
+    )
+    state.global_state.block_height = 1500
+    dispute_id = escrow_id
+    dispute_round = 0
+
+    payer_amount = 6 * COIN_VALUE
+    payee_amount = 4 * COIN_VALUE
+    now = _NOW
+
+    msg = _build_verdict_msg(escrow_id, dispute_id, dispute_round,
+                             payer_amount, payee_amount)
+    sigs = [
+        _sign_arb_approval(CAROL, msg, now),
+        _sign_arb_approval(DAVE, msg, now),
+    ]
+
+    payload = {
+        "escrow_id": escrow_id,
+        "dispute_id": dispute_id,
+        "round": dispute_round,
+        "payer_amount": payer_amount,
+        "payee_amount": payee_amount,
+        "signatures": sigs,
+    }
+    tx = _mk_arb_tx(
+        sender, nonce=5,
+        tx_type=TransactionType.SUBMIT_VERDICT_BY_JUROR,
+        payload=payload, fee=100_000,
+    )
+    state_test_group(
+        "transactions/arbitration/submit_verdict_by_juror.json",
+        "submit_verdict_by_juror_exact_balance_for_fee",
+        state,
+        tx,
+    )
+
+
+def test_submit_verdict_by_juror_fee_zero(state_test_group) -> None:
+    """submit_verdict_by_juror with fee=0 should fail min-fee validation."""
+    state, escrow_id = _escrow_with_dispute()
+    sender = CAROL
+    state.accounts[CAROL] = AccountState(
+        address=CAROL, balance=10_000 * COIN_VALUE, nonce=5
+    )
+    state.arbiters[CAROL] = ArbiterAccount(
+        public_key=CAROL, name="carol-arb",
+        status=ArbiterStatus.ACTIVE, stake_amount=MIN_ARBITER_STAKE,
+    )
+    state.arbiters[DAVE] = ArbiterAccount(
+        public_key=DAVE, name="dave-arb",
+        status=ArbiterStatus.ACTIVE, stake_amount=MIN_ARBITER_STAKE,
+    )
+    state.global_state.block_height = 1500
+    dispute_id = escrow_id
+    dispute_round = 0
+
+    payer_amount = 6 * COIN_VALUE
+    payee_amount = 4 * COIN_VALUE
+    now = _NOW
+
+    msg = _build_verdict_msg(escrow_id, dispute_id, dispute_round,
+                             payer_amount, payee_amount)
+    sigs = [
+        _sign_arb_approval(CAROL, msg, now),
+        _sign_arb_approval(DAVE, msg, now),
+    ]
+
+    payload = {
+        "escrow_id": escrow_id,
+        "dispute_id": dispute_id,
+        "round": dispute_round,
+        "payer_amount": payer_amount,
+        "payee_amount": payee_amount,
+        "signatures": sigs,
+    }
+    tx = _mk_arb_tx(
+        sender, nonce=5,
+        tx_type=TransactionType.SUBMIT_VERDICT_BY_JUROR,
+        payload=payload, fee=0,
+    )
+    state_test_group(
+        "transactions/arbitration/submit_verdict_by_juror.json",
+        "submit_verdict_by_juror_fee_zero",
         state,
         tx,
     )

@@ -65,6 +65,31 @@ def test_bind_referrer_insufficient_fee(state_test_group) -> None:
     )
 
 
+def test_bind_referrer_exact_balance_for_fee(state_test_group) -> None:
+    """bind_referrer with balance exactly equal to fee should succeed."""
+    state = _base_state()
+    state.accounts[ALICE].balance = 100_000
+    tx = _mk_bind_referrer(ALICE, nonce=5, referrer=BOB, fee=100_000)
+    state_test_group(
+        "transactions/referral/bind_referrer.json",
+        "bind_referrer_exact_balance_for_fee",
+        state,
+        tx,
+    )
+
+
+def test_bind_referrer_fee_zero(state_test_group) -> None:
+    """bind_referrer with fee=0 should fail min-fee validation."""
+    state = _base_state()
+    tx = _mk_bind_referrer(ALICE, nonce=5, referrer=BOB, fee=0)
+    state_test_group(
+        "transactions/referral/bind_referrer.json",
+        "bind_referrer_fee_zero",
+        state,
+        tx,
+    )
+
+
 def test_bind_referrer_nonce_too_low(state_test_group) -> None:
     """Strict nonce: tx.nonce < sender.nonce."""
     state = _base_state()

@@ -164,6 +164,12 @@ def _verify_common(state: ChainState, tx: Transaction) -> None:
     if tx.fee < 0:
         raise SpecError(ErrorCode.INVALID_AMOUNT, "fee negative")
 
+    # Minimum fee surface: for non-energy transactions that pay TOS fees, a zero fee is rejected.
+    # This is a coarse rule (not a full size-based fee model) but matches daemon behavior for
+    # fee=0 boundary vectors.
+    if tx.fee_type == FeeType.TOS and tx.tx_type != TransactionType.ENERGY and tx.fee == 0:
+        raise SpecError(ErrorCode.INSUFFICIENT_FEE, "fee too low")
+
     _ENERGY_FEE_ALLOWED = {
         TransactionType.TRANSFERS,
         TransactionType.UNO_TRANSFERS,
