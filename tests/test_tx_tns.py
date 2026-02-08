@@ -750,6 +750,18 @@ def test_register_name_exact_fee(state_test_group) -> None:
     )
 
 
+def test_register_name_fee_zero(state_test_group) -> None:
+    """register_name with fee=0 should fail min-fee validation."""
+    state = _base_state()
+    tx = _mk_register_name(ALICE, nonce=5, name="alice", fee=0)
+    state_test_group(
+        "transactions/tns/register_name.json",
+        "register_name_fee_zero",
+        state,
+        tx,
+    )
+
+
 def test_register_name_exact_balance_for_fee(state_test_group) -> None:
     """Sender balance exactly equals the registration fee."""
     state = _base_state()
@@ -912,6 +924,25 @@ def test_ephemeral_message_fee_tier1_insufficient(state_test_group) -> None:
     state_test_group(
         "transactions/tns/ephemeral_message.json",
         "ephemeral_message_fee_tier1_insufficient",
+        state,
+        tx,
+    )
+
+
+def test_ephemeral_message_fee_zero(state_test_group) -> None:
+    """ephemeral_message with fee=0 should fail min-fee validation."""
+    state = _msg_state()
+    tx = _mk_ephemeral_message(
+        ALICE, nonce=5,
+        sender_name_hash=_SENDER_NAME_HASH,
+        recipient_name_hash=_RECIPIENT_NAME_HASH,
+        ttl_blocks=MIN_TTL,
+        encrypted_content=bytes([0xAA]) * 50,
+        fee=0,
+    )
+    state_test_group(
+        "transactions/tns/ephemeral_message.json",
+        "ephemeral_message_fee_zero",
         state,
         tx,
     )

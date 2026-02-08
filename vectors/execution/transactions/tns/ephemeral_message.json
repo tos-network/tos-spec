@@ -1711,6 +1711,120 @@
       }
     },
     {
+      "name": "ephemeral_message_fee_zero",
+      "description": "",
+      "pre_state": {
+        "network_chain_id": 3,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "balance": 100000000,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          },
+          {
+            "address": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824",
+            "balance": 100000000,
+            "nonce": 0,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ],
+        "tns_names": [
+          {
+            "name": "alice",
+            "owner": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249"
+          },
+          {
+            "name": "bob.wallet",
+            "owner": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824"
+          }
+        ]
+      },
+      "input": {
+        "kind": "tx",
+        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b2491671b278f3dc434447fc620500e47b6a80b0cb0df76a1051119fe19ed4953242dfec7a3ac4e33002e8327b7daae1c5c70ba01f2ad4db0b6d7d5c424db97d5154eb0000000000000005000000640032aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaae2f2ae0a6abc4e71a884a961c500515f58e30b6aa582dd8db6a65945e08d2d7600000000000000000000000000000000050000000000000000000000000000000000000000000000000000000000000000000000000000000000a6d47f6a7d1de991b953891c1691221c46e1b4aa4f03398af928a7f8f237c80605cd0961723c005a15d1eaddd266ed95ad4ed7087fab47fa2bbc5907d1320605",
+        "tx": {
+          "version": 1,
+          "chain_id": 3,
+          "source": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+          "tx_type": "ephemeral_message",
+          "payload": {
+            "sender_name_hash": "71b278f3dc434447fc620500e47b6a80b0cb0df76a1051119fe19ed4953242df",
+            "recipient_name_hash": "ec7a3ac4e33002e8327b7daae1c5c70ba01f2ad4db0b6d7d5c424db97d5154eb",
+            "message_nonce": 5,
+            "ttl_blocks": 100,
+            "encrypted_content": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "receiver_handle": "e2f2ae0a6abc4e71a884a961c500515f58e30b6aa582dd8db6a65945e08d2d76"
+          },
+          "fee": 0,
+          "fee_type": 0,
+          "nonce": 5,
+          "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+          "reference_topoheight": 0,
+          "signature": "a6d47f6a7d1de991b953891c1691221c46e1b4aa4f03398af928a7f8f237c80605cd0961723c005a15d1eaddd266ed95ad4ed7087fab47fa2bbc5907d1320605",
+          "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b2491671b278f3dc434447fc620500e47b6a80b0cb0df76a1051119fe19ed4953242dfec7a3ac4e33002e8327b7daae1c5c70ba01f2ad4db0b6d7d5c424db97d5154eb0000000000000005000000640032aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaae2f2ae0a6abc4e71a884a961c500515f58e30b6aa582dd8db6a65945e08d2d7600000000000000000000000000000000050000000000000000000000000000000000000000000000000000000000000000000000000000000000a6d47f6a7d1de991b953891c1691221c46e1b4aa4f03398af928a7f8f237c80605cd0961723c005a15d1eaddd266ed95ad4ed7087fab47fa2bbc5907d1320605"
+        }
+      },
+      "expected": {
+        "success": false,
+        "error_code": 769,
+        "state_digest": "a8cd0b86d3f5ce0c7abf43ca9dbfb61cb2cc24846d4d77960c2eeeda8b1bfa18",
+        "post_state": {
+          "network_chain_id": 3,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+              "balance": 100000000,
+              "nonce": 5,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            },
+            {
+              "address": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824",
+              "balance": 100000000,
+              "nonce": 0,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ],
+          "tns_names": [
+            {
+              "name": "alice",
+              "owner": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249"
+            },
+            {
+              "name": "bob.wallet",
+              "owner": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824"
+            }
+          ]
+        }
+      }
+    },
+    {
       "name": "ephemeral_message_fee_tier2",
       "description": "",
       "pre_state": {

@@ -101,6 +101,19 @@ def test_multisig_exact_balance_for_fee(state_test_group) -> None:
     )
 
 
+def test_multisig_fee_zero(state_test_group) -> None:
+    """multisig with fee=0 should fail min-fee validation."""
+    state = _base_state()
+    participants = [BOB, bytes([3]) * 32, bytes([4]) * 32]
+    tx = _mk_multisig(ALICE, nonce=5, threshold=2, participants=participants, fee=0)
+    state_test_group(
+        "transactions/account/multisig.json",
+        "multisig_fee_zero",
+        state,
+        tx,
+    )
+
+
 def test_multisig_threshold_zero(state_test_group) -> None:
     state = _base_state()
     tx = _mk_multisig(ALICE, nonce=5, threshold=0, participants=[], fee=100_000)
@@ -194,6 +207,23 @@ def test_agent_account_register_exact_balance_for_fee(state_test_group) -> None:
     state_test_group(
         "transactions/account/agent_account.json",
         "agent_account_register_exact_balance_for_fee",
+        state,
+        tx,
+    )
+
+
+def test_agent_account_register_fee_zero(state_test_group) -> None:
+    """agent_account.register with fee=0 should fail min-fee validation."""
+    state = _base_state()
+    payload = {
+        "variant": "register",
+        "controller": BOB,
+        "policy_hash": _hash(3),
+    }
+    tx = _mk_agent_account(ALICE, nonce=5, payload=payload, fee=0)
+    state_test_group(
+        "transactions/account/agent_account.json",
+        "agent_account_register_fee_zero",
         state,
         tx,
     )
