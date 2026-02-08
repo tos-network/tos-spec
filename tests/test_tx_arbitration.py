@@ -361,6 +361,42 @@ def test_update_arbiter_success(state_test_group) -> None:
     )
 
 
+def test_update_arbiter_nonce_too_low(state_test_group) -> None:
+    state = _base_state()
+    sender = ALICE
+    state.arbiters[ALICE] = _active_arbiter(ALICE)
+    payload = {
+        "name": "ArbiterAliceUpdated",
+        "fee_basis_points": 300,
+        "deactivate": False,
+    }
+    tx = _mk_arb_tx(sender, nonce=4, tx_type=TransactionType.UPDATE_ARBITER, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/arbitration/update_arbiter.json",
+        "update_arbiter_nonce_too_low",
+        state,
+        tx,
+    )
+
+
+def test_update_arbiter_nonce_too_high_strict(state_test_group) -> None:
+    state = _base_state()
+    sender = ALICE
+    state.arbiters[ALICE] = _active_arbiter(ALICE)
+    payload = {
+        "name": "ArbiterAliceUpdated",
+        "fee_basis_points": 300,
+        "deactivate": False,
+    }
+    tx = _mk_arb_tx(sender, nonce=6, tx_type=TransactionType.UPDATE_ARBITER, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/arbitration/update_arbiter.json",
+        "update_arbiter_nonce_too_high_strict",
+        state,
+        tx,
+    )
+
+
 def test_update_arbiter_not_registered(state_test_group) -> None:
     """Update arbiter that is not registered must fail."""
     state = _base_state()

@@ -41,6 +41,15 @@ EXCLUDE_TOP_LEVEL_FIXTURES: set[str] = {
     "consensus",
 }
 
+# Tx types that are runnable through the conformance endpoint using structured `input.tx`
+# only (no strict wire encoding). These are published with `input.wire_hex=""`.
+#
+# Rationale: some tx types require proofs or auxiliary state not represented in the exported
+# pre_state surface yet, so we use the JSON fallback path to keep incremental coverage.
+TX_JSON_ONLY: set[str] = {
+    "uno_transfers",
+}
+
 # Tests where the daemon validates differently from the Python spec (error code
 # mismatches or missing validation rules).  Marked non-runnable until the daemon
 # conformance endpoint is updated to match.
@@ -191,19 +200,25 @@ def main() -> None:
                 error_code = _map_error_code(expected.get("error"))
                 wire_hex = None
                 if "tx" in case:
-                    wire_hex = case["tx"].get("wire_hex") or _encode_tx_if_possible(case["tx"])
-                    # If we cannot produce a wire payload, the vector cannot be consumed by
-                    # the daemon conformance endpoint. Drop it from vectors/ entirely.
-                    if not wire_hex:
-                        continue
+                    tx_type = case.get("tx", {}).get("tx_type")
+                    # Some vectors are intentionally tx-json-only: do not synthesize wire_hex.
+                    if tx_type in TX_JSON_ONLY:
+                        wire_hex = case["tx"].get("wire_hex") or ""
+                    else:
+                        wire_hex = case["tx"].get("wire_hex") or _encode_tx_if_possible(case["tx"])
+                        # If we cannot produce a wire payload for a non-json-only tx, the vector
+                        # cannot be consumed by the daemon conformance endpoint. Drop it.
+                        if not wire_hex:
+                            continue
                 vec_entry: dict = {
                         "name": case.get("name", ""),
                         "description": case.get("description", ""),
                         "pre_state": case.get("pre_state"),
                 }
                 case_name = case.get("name", "")
+                tx_type = case.get("tx", {}).get("tx_type") if "tx" in case else None
                 if (case.get("runnable") is False
-                        or (not wire_hex and "tx" in case)
+                        or ((not wire_hex) and ("tx" in case) and (tx_type not in TX_JSON_ONLY))
                         or case_name in DAEMON_MISMATCH_SKIP):
                     vec_entry["runnable"] = False
                 vec_entry.update({

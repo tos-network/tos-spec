@@ -88,7 +88,7 @@ hashing, and cryptographic primitives produce correct outputs.
 The current primary focus. Each test provides a pre-state (account balances, energy
 resources, domain data), a single transaction, and the expected post-state or error code.
 
-- Published execution vectors currently cover 41 distinct tx types across 11 handler modules
+- Published execution vectors currently cover 42 distinct tx types across 11 handler modules
   (more are defined in the spec but are not yet published to `vectors/`).
 - Covers success paths, error paths, and edge cases
 - Verifies balance changes, nonce advancement, state digest
@@ -212,10 +212,11 @@ layer in the testing pyramid.
 
 As of **2026-02-08**:
 
-- Published conformance suite: `vectors/` contains **505 runnable** execution vectors in the `test_vectors` schema.
+- Published conformance suite: `vectors/` contains **533 runnable** execution vectors in the `test_vectors` schema.
 - Runner status: `python3 ~/labu/tools/local_execution_runner.py --vectors ~/tos-spec/vectors` reports `all ok` against the `tos` conformance server.
-- Composition: **490** L1 state-transition vectors (`input.tx` present) + **15** L0 negative wire-decoding vectors (malformed `wire_hex` rejected by decode).
-- Covered transaction types: **41** distinct `tx_type` values in published vectors.
+- Composition: **518** L1 state-transition vectors (`input.tx` present) + **15** L0 negative wire-decoding vectors (malformed `wire_hex` rejected by decode).
+- Covered transaction types: **42** distinct `tx_type` values in published vectors.
+- Note: `uno_transfers` vectors are currently **tx-json-only** (`input.wire_hex=""`) until wire/proof generation and encrypted pre-state are represented in the exported conformance surface.
 - Spec-only: fixtures under `fixtures/{security,models,syscalls,api,consensus}/` are not published to `vectors/` yet.
 - Codec corpus: `fixtures/wire_format.json` contains golden wire hex vectors (45 entries) but is not published to `vectors/` yet.
 
@@ -225,15 +226,15 @@ Counts below are for the published conformance suite under `vectors/execution/tr
 
 | Group | Vectors |
 |------:|--------:|
-| escrow | 107 |
-| kyc | 82 |
-| arbitration | 63 |
-| (root) | 59 |
+| escrow | 113 |
+| kyc | 84 |
+| arbitration | 65 |
+| (root) | 62 |
 | tns | 57 |
-| energy | 42 |
-| account | 35 |
+| energy | 44 |
+| account | 39 |
 | contracts | 21 |
-| privacy | 14 |
+| privacy | 23 |
 | referral | 18 |
 | core | 5 |
 | template | 2 |
@@ -243,7 +244,7 @@ Counts below are for the published conformance suite under `vectors/execution/tr
 | Layer | Current Vectors | Target | Coverage |
 |-------|-----------------|--------|----------|
 | L0    | 15 (wire negative) | ~50 | Partial  |
-| L1    | 490 (tx state transition) | ~200 | Good |
+| L1    | 518 (tx state transition) | ~200 | Good |
 | L2    | 0 | ~50 | None |
 | L3    | 0 | ~80 | None |
 | L4    | 0 | ~30 | None |
@@ -269,8 +270,8 @@ Counts below are for the published conformance suite under `vectors/execution/tr
 
 ### Layer 1 — Single Transaction State Transition
 
-**Current (published)**: 477 L1 state-transition vectors (`input.tx` present) covering 41 distinct `tx_type` values.
-All published vectors pass in the Rust daemon conformance runner (overall 492/492 including L0 negatives).
+**Current (published)**: 518 L1 state-transition vectors (`input.tx` present) covering 42 distinct `tx_type` values.
+All published vectors pass in the Rust daemon conformance runner (overall 533/533 including L0 negatives).
 
 **Gaps**:
 - Multiple tests per transaction type (currently ~1 per type on average)

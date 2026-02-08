@@ -166,6 +166,32 @@ def test_uno_transfer_self(state_test_group) -> None:
     )
 
 
+def test_uno_transfer_nonce_too_low(state_test_group) -> None:
+    """UNO transfer with nonce below sender.nonce must fail."""
+    state = _base_state()
+    state.accounts[BOB] = AccountState(address=BOB, balance=0, nonce=0)
+    tx = _mk_uno_transfer(ALICE, nonce=4, destination=BOB, fee=0)
+    state_test_group(
+        "transactions/privacy/uno_transfers.json",
+        "uno_transfer_nonce_too_low",
+        state,
+        tx,
+    )
+
+
+def test_uno_transfer_nonce_too_high_strict(state_test_group) -> None:
+    """UNO transfer with nonce above sender.nonce must fail (strict nonce)."""
+    state = _base_state()
+    state.accounts[BOB] = AccountState(address=BOB, balance=0, nonce=0)
+    tx = _mk_uno_transfer(ALICE, nonce=6, destination=BOB, fee=0)
+    state_test_group(
+        "transactions/privacy/uno_transfers.json",
+        "uno_transfer_nonce_too_high_strict",
+        state,
+        tx,
+    )
+
+
 # --- shield_transfers specs ---
 
 

@@ -248,6 +248,38 @@ def test_unfreeze_tos_success(state_test_group) -> None:
     )
 
 
+def test_unfreeze_tos_nonce_too_low(state_test_group) -> None:
+    state = _base_state()
+    sender = ALICE
+    # Override unlock_height to 0 so the record is unlockable at topoheight=0
+    state.energy_resources[sender].freeze_records[0].unlock_height = 0
+    tx = _mk_unfreeze_tos(
+        sender, nonce=4, amount=MIN_UNFREEZE_TOS_AMOUNT, from_delegation=False, fee=0
+    )
+    state_test_group(
+        "transactions/energy/unfreeze_tos.json",
+        "unfreeze_tos_nonce_too_low",
+        state,
+        tx,
+    )
+
+
+def test_unfreeze_tos_nonce_too_high_strict(state_test_group) -> None:
+    state = _base_state()
+    sender = ALICE
+    # Override unlock_height to 0 so the record is unlockable at topoheight=0
+    state.energy_resources[sender].freeze_records[0].unlock_height = 0
+    tx = _mk_unfreeze_tos(
+        sender, nonce=6, amount=MIN_UNFREEZE_TOS_AMOUNT, from_delegation=False, fee=0
+    )
+    state_test_group(
+        "transactions/energy/unfreeze_tos.json",
+        "unfreeze_tos_nonce_too_high_strict",
+        state,
+        tx,
+    )
+
+
 def test_unfreeze_tos_insufficient_frozen(state_test_group) -> None:
     state = _base_state()
     sender = ALICE

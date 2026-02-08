@@ -92,6 +92,30 @@ def test_multisig_single_participant(state_test_group) -> None:
     )
 
 
+def test_multisig_nonce_too_low(state_test_group) -> None:
+    """Multisig with nonce below sender.nonce must fail."""
+    state = _base_state()
+    tx = _mk_multisig(ALICE, nonce=4, threshold=1, participants=[BOB], fee=100_000)
+    state_test_group(
+        "transactions/account/multisig.json",
+        "multisig_nonce_too_low",
+        state,
+        tx,
+    )
+
+
+def test_multisig_nonce_too_high_strict(state_test_group) -> None:
+    """Multisig with nonce above sender.nonce must fail (strict nonce)."""
+    state = _base_state()
+    tx = _mk_multisig(ALICE, nonce=6, threshold=1, participants=[BOB], fee=100_000)
+    state_test_group(
+        "transactions/account/multisig.json",
+        "multisig_nonce_too_high_strict",
+        state,
+        tx,
+    )
+
+
 # --- agent_account specs ---
 
 
@@ -106,6 +130,40 @@ def test_agent_account_register(state_test_group) -> None:
     state_test_group(
         "transactions/account/agent_account.json",
         "agent_account_register",
+        state,
+        tx,
+    )
+
+
+def test_agent_account_register_nonce_too_low(state_test_group) -> None:
+    """Agent account register with nonce below sender.nonce must fail."""
+    state = _base_state()
+    payload = {
+        "variant": "register",
+        "controller": BOB,
+        "policy_hash": _hash(3),
+    }
+    tx = _mk_agent_account(ALICE, nonce=4, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/account/agent_account.json",
+        "agent_account_register_nonce_too_low",
+        state,
+        tx,
+    )
+
+
+def test_agent_account_register_nonce_too_high_strict(state_test_group) -> None:
+    """Agent account register with nonce above sender.nonce must fail (strict nonce)."""
+    state = _base_state()
+    payload = {
+        "variant": "register",
+        "controller": BOB,
+        "policy_hash": _hash(3),
+    }
+    tx = _mk_agent_account(ALICE, nonce=6, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/account/agent_account.json",
+        "agent_account_register_nonce_too_high_strict",
         state,
         tx,
     )

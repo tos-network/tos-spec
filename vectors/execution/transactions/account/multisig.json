@@ -223,6 +223,154 @@
       }
     },
     {
+      "name": "multisig_nonce_too_low",
+      "description": "",
+      "pre_state": {
+        "network_chain_id": 3,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "balance": 1000000,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
+      },
+      "input": {
+        "kind": "tx",
+        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249020101c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e3782400000000000186a00000000000000000040000000000000000000000000000000000000000000000000000000000000000000000000000000000ff0d511d5de96bad882b5cc3f810b56fb1d6ff4909767c300480bd717112d90e736f03a3d256e82cee667815e098091db3026a1c9b88685361267b3dc3865903",
+        "tx": {
+          "version": 1,
+          "chain_id": 3,
+          "source": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+          "tx_type": "multisig",
+          "payload": {
+            "threshold": 1,
+            "participants": [
+              "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824"
+            ]
+          },
+          "fee": 100000,
+          "fee_type": 0,
+          "nonce": 4,
+          "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+          "reference_topoheight": 0,
+          "signature": "ff0d511d5de96bad882b5cc3f810b56fb1d6ff4909767c300480bd717112d90e736f03a3d256e82cee667815e098091db3026a1c9b88685361267b3dc3865903",
+          "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249020101c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e3782400000000000186a00000000000000000040000000000000000000000000000000000000000000000000000000000000000000000000000000000ff0d511d5de96bad882b5cc3f810b56fb1d6ff4909767c300480bd717112d90e736f03a3d256e82cee667815e098091db3026a1c9b88685361267b3dc3865903"
+        }
+      },
+      "expected": {
+        "success": false,
+        "error_code": 272,
+        "state_digest": "fd42f282c2cef9f9423c698bca870f3514b545f6682b0f41cd201cf819aa8b21",
+        "post_state": {
+          "network_chain_id": 3,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+              "balance": 1000000,
+              "nonce": 5,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "multisig_nonce_too_high_strict",
+      "description": "",
+      "pre_state": {
+        "network_chain_id": 3,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "balance": 1000000,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
+      },
+      "input": {
+        "kind": "tx",
+        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249020101c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e3782400000000000186a00000000000000000060000000000000000000000000000000000000000000000000000000000000000000000000000000000ff769aab6aac6886131e7d916deb00adca057e41917213ec6a9166d79ebd0606f947cebcd3e99ec8fb0ce163d5956ee9e0098679ea85c5e98c6b89e0992d500a",
+        "tx": {
+          "version": 1,
+          "chain_id": 3,
+          "source": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+          "tx_type": "multisig",
+          "payload": {
+            "threshold": 1,
+            "participants": [
+              "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824"
+            ]
+          },
+          "fee": 100000,
+          "fee_type": 0,
+          "nonce": 6,
+          "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+          "reference_topoheight": 0,
+          "signature": "ff769aab6aac6886131e7d916deb00adca057e41917213ec6a9166d79ebd0606f947cebcd3e99ec8fb0ce163d5956ee9e0098679ea85c5e98c6b89e0992d500a",
+          "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249020101c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e3782400000000000186a00000000000000000060000000000000000000000000000000000000000000000000000000000000000000000000000000000ff769aab6aac6886131e7d916deb00adca057e41917213ec6a9166d79ebd0606f947cebcd3e99ec8fb0ce163d5956ee9e0098679ea85c5e98c6b89e0992d500a"
+        }
+      },
+      "expected": {
+        "success": false,
+        "error_code": 273,
+        "state_digest": "fd42f282c2cef9f9423c698bca870f3514b545f6682b0f41cd201cf819aa8b21",
+        "post_state": {
+          "network_chain_id": 3,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+              "balance": 1000000,
+              "nonce": 5,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ]
+        }
+      }
+    },
+    {
       "name": "multisig_duplicate_participants",
       "description": "",
       "pre_state": {

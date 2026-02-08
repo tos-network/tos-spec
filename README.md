@@ -13,9 +13,11 @@ machine-readable, testable, and capable of producing deterministic fixtures.
 
 ## Current Test Status (2026-02-08)
 
-- Published conformance suite: `vectors/` contains **505 runnable** execution vectors in the `test_vectors` schema.
+- Published conformance suite: `vectors/` contains **533 runnable** execution vectors in the `test_vectors` schema.
+- Composition: **518** L1 state-transition vectors (`input.tx` present) + **15** L0 negative wire-decoding vectors.
 - Runner status: `python3 ~/labu/tools/local_execution_runner.py --vectors ~/tos-spec/vectors` reports `all ok` against the `tos` conformance server.
 - Skips: there are **no** `runnable: false` vectors under `vectors/`.
+- Note: `uno_transfers` vectors are currently **tx-json-only** (`input.wire_hex=""`) until wire/proof generation is represented in the exported pre-state surface.
 - Spec-only fixtures: `fixtures/{security,models,syscalls,api,consensus}/` are kept for documentation/spec checks and are intentionally not published to `vectors/` until a consumer exists.
 - Codec corpus: `fixtures/wire_format.json` (golden wire hex) is spec-owned and is not published to `vectors/` yet.
 

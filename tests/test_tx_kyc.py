@@ -312,6 +312,54 @@ def test_bootstrap_committee_success(state_test_group) -> None:
     )
 
 
+def test_bootstrap_committee_nonce_too_low(state_test_group) -> None:
+    state = ChainState(network_chain_id=CHAIN_ID_DEVNET)
+    sender = MINER  # Devnet bootstrap address holder (seed 1)
+    state.accounts[sender] = AccountState(address=sender, balance=10_000_000, nonce=5)
+    members = [
+        {"public_key": _addr(10 + i), "name": f"member_{i}", "role": 0}
+        for i in range(MIN_COMMITTEE_MEMBERS)
+    ]
+    payload = {
+        "name": "GlobalCommittee",
+        "members": members,
+        "threshold": 2,
+        "kyc_threshold": 2,
+        "max_kyc_level": VALID_KYC_LEVELS[4],
+    }
+    tx = _mk_kyc_tx(sender, nonce=4, tx_type=TransactionType.BOOTSTRAP_COMMITTEE, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/kyc/bootstrap_committee.json",
+        "bootstrap_committee_nonce_too_low",
+        state,
+        tx,
+    )
+
+
+def test_bootstrap_committee_nonce_too_high_strict(state_test_group) -> None:
+    state = ChainState(network_chain_id=CHAIN_ID_DEVNET)
+    sender = MINER  # Devnet bootstrap address holder (seed 1)
+    state.accounts[sender] = AccountState(address=sender, balance=10_000_000, nonce=5)
+    members = [
+        {"public_key": _addr(10 + i), "name": f"member_{i}", "role": 0}
+        for i in range(MIN_COMMITTEE_MEMBERS)
+    ]
+    payload = {
+        "name": "GlobalCommittee",
+        "members": members,
+        "threshold": 2,
+        "kyc_threshold": 2,
+        "max_kyc_level": VALID_KYC_LEVELS[4],
+    }
+    tx = _mk_kyc_tx(sender, nonce=6, tx_type=TransactionType.BOOTSTRAP_COMMITTEE, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/kyc/bootstrap_committee.json",
+        "bootstrap_committee_nonce_too_high_strict",
+        state,
+        tx,
+    )
+
+
 # --- register_committee specs ---
 
 
