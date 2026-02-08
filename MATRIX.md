@@ -4,6 +4,27 @@ This document provides a grid-based view of test coverage across all dimensions
 defined in [VISION.md](VISION.md). Each matrix crosses two dimensions to reveal
 coverage gaps and prioritization targets.
 
+## Current Published Status (2026-02-08)
+
+- `vectors/` contains **475** runnable execution vectors in the `test_vectors` schema.
+- The published suite has **no** `runnable: false` vectors.
+- Composition: **460** L1 state-transition vectors (`input.tx` present) + **15** L0 negative wire-decoding vectors.
+- Covered transaction types: **41** distinct `tx_type` values in published vectors.
+- Spec-only fixtures under `fixtures/{security,models,syscalls,api,consensus}/` are intentionally not published to `vectors/` yet.
+- Codec corpus: `fixtures/wire_format.json` contains 45 golden wire-encoding vectors but is not published to `vectors/` yet.
+
+Reproduce (local):
+
+```bash
+# terminal A
+cd ~/tos
+rm -rf /tmp/conformance_state
+LABU_STATE_DIR=/tmp/conformance_state ./target/release/conformance
+
+# terminal B
+python3 ~/labu/tools/local_execution_runner.py --vectors ~/tos-spec/vectors
+```
+
 ## Matrix 1: Domain x Layer
 
 Which domains are tested at which layers. Each cell shows the current status.
@@ -44,39 +65,35 @@ Legend:  +++  strong coverage
 | Energy model       | n/a        | +          | -          | -          | n/a        | n/a        |
 | Account model      | n/a        | +          | -          | -          | n/a        | n/a        |
 
-**Reading this matrix:** L1 dominates as expected (382/382 conformance). L0 wire
-format covers all 45 TX types plus 15 negative (malformed) wire tests. The
+**Reading this matrix:** The published conformance suite is currently L1-heavy:
+460/475 vectors are L1 state transitions. L0 wire-format coverage in published
+vectors is currently negative-only (15 malformed `wire_hex` vectors). The
 priority gaps are:
 - L2: no executable block processing tests yet
-- L3-L5: entirely unimplemented
+- L3-L5: not published yet (API/P2P/interop vectors remain spec-only)
 
 ## Matrix 2: Domain x Fixture Type
 
-Which fixture types apply to each domain.
+Published conformance vectors are currently execution-only (`input.kind=tx`). The table below
+lists the published `vectors/execution/transactions/**` groups and vector counts.
 
-| Domain             | StateTest | BlockchainTest | TransactionTest | CodecTest | ContractTest | ConsensusTest | CryptoTest | RPCTest | EngineTest | FuzzCorpusTest |
-|--------------------|-----------|----------------|-----------------|-----------|--------------|---------------|------------|---------|------------|----------------|
-| Core (transfer)    | 28v       | planned        | 2v              | planned   | n/a          | n/a           | n/a        | planned | planned    | planned        |
-| Burn               | 4v        | planned        | 1v              | planned   | n/a          | n/a           | n/a        | planned | n/a        | planned        |
-| Multisig           | 7v        | planned        | 1v              | planned   | n/a          | n/a           | n/a        | planned | n/a        | planned        |
-| Energy / Freeze    | 20v       | planned        | 4v              | planned   | n/a          | n/a           | n/a        | planned | n/a        | planned        |
-| Energy / Delegate  | 20v       | planned        | 1v              | planned   | n/a          | n/a           | n/a        | planned | n/a        | planned        |
-| Escrow             | 104v      | planned        | 9v              | planned   | n/a          | n/a           | n/a        | planned | n/a        | planned        |
-| Arbitration        | 59v       | planned        | 10v             | planned   | n/a          | n/a           | n/a        | planned | n/a        | planned        |
-| KYC                | 18v       | planned        | 8v              | planned   | n/a          | n/a           | n/a        | planned | n/a        | planned        |
-| Committee          | 42v       | planned        | 4v              | planned   | n/a          | n/a           | n/a        | planned | n/a        | planned        |
-| Contracts          | 21v       | planned        | 2v              | planned   | planned      | n/a           | n/a        | planned | n/a        | planned        |
-| Privacy (UNO)      | 7v        | planned        | 1v              | planned   | n/a          | n/a           | n/a        | planned | n/a        | planned        |
-| Privacy (shield)   | 14v       | planned        | 2v              | planned   | n/a          | n/a           | n/a        | planned | n/a        | planned        |
-| TNS (names)        | 53v       | planned        | 2v              | planned   | n/a          | n/a           | n/a        | planned | n/a        | planned        |
-| Referral           | 14v       | planned        | 2v              | planned   | n/a          | n/a           | n/a        | planned | n/a        | planned        |
-| Account / Agent    | 36v       | planned        | 2v              | planned   | n/a          | n/a           | n/a        | planned | n/a        | planned        |
-| Consensus          | n/a       | planned        | n/a             | n/a       | n/a          | 6v            | n/a        | n/a     | planned    | planned        |
-| Cryptography       | n/a       | n/a            | n/a             | n/a       | n/a          | n/a           | partial    | n/a     | n/a        | planned        |
-| Security           | n/a       | n/a            | n/a             | n/a       | n/a          | n/a           | n/a        | n/a     | n/a        | planned        |
-| System Models      | n/a       | n/a            | n/a             | n/a       | n/a          | n/a           | n/a        | n/a     | n/a        | n/a            |
+| Group | Path Prefix | Vectors | Notes |
+|------:|------------|--------:|-------|
+| escrow | `execution/transactions/escrow/` | 102 | L1 state transitions |
+| kyc | `execution/transactions/kyc/` | 80 | L1 state transitions |
+| arbitration | `execution/transactions/arbitration/` | 61 | L1 state transitions |
+| tns | `execution/transactions/tns/` | 53 | L1 state transitions |
+| energy | `execution/transactions/energy/` | 40 | L1 state transitions |
+| account | `execution/transactions/account/` | 35 | L1 state transitions |
+| contracts | `execution/transactions/contracts/` | 17 | L1 state transitions |
+| privacy | `execution/transactions/privacy/` | 14 | L1 state transitions |
+| referral | `execution/transactions/referral/` | 14 | L1 state transitions |
+| core | `execution/transactions/core/` | 3 | L1 state transitions |
+| root | `execution/transactions/*.json` | 54 | Includes `tx_core` (28), `fee_variants` (11), `wire_format_negative` (15) |
+| template | `execution/transactions/template/` | 2 | Example vectors |
 
-`Nv` = N vectors exist. `planned` = applicable but not yet implemented. `partial` = spec-level coverage exists.
+Spec-only fixture categories (`fixtures/{security,models,syscalls,api,consensus}/`) are omitted
+from `vectors/` until a consumer exists for them.
 
 ## Matrix 3: Domain x Test Aspect
 
@@ -107,73 +124,33 @@ Energy/Delegate, Escrow, Arbitration). Fee variant testing covers 11 domains. Au
 testing covers 4 domains (KYC, Committee, Escrow, Energy). The remaining gap is Fork
 Param testing (not yet applicable).
 
-## Matrix 4: Transaction Type x Test Count
+## Matrix 4: Transaction Type Coverage (Published)
 
-Detailed per-type coverage showing how many tests and vectors exist for each of the
-43 transaction types.
+Per-type coverage is tracked from the published conformance suite under `vectors/`.
+As of 2026-02-08:
 
-| # | Transaction Type          | Handler Module | Tests | Vectors | Neg Tests | Wire Tests |
-|---|---------------------------|----------------|-------|---------|-----------|------------|
-| 1 | transfers                 | core           | 28    | 22      | 21        | 2          |
-| 2 | burn                      | core           | 4     | 3       | 3         | 1          |
-| 3 | multisig                  | account        | 7     | 6       | 4         | 1          |
-| 4 | invoke_contract           | contracts      | 12    | 7       | 6         | 1          |
-| 5 | deploy_contract           | contracts      | 9     | 6       | 6         | 1          |
-| 6 | energy (freeze)           | energy         | 14    | 11      | 10        | 2          |
-| 7 | energy (unfreeze)         | energy         | 6     | 6       | 5         | 1          |
-| 8 | energy (delegate)         | energy         | 16    | 15      | 15        | 1          |
-| 9 | energy (withdraw)         | energy         | 4     | 3       | 3         | 1          |
-|10 | bind_referrer             | referral       | 4     | 4       | 2         | 1          |
-|11 | batch_referral_reward     | referral       | 10    | 0\*     | 8         | 1          |
-|12 | set_kyc                   | kyc            | 11    | 11      | 7         | 1          |
-|13 | revoke_kyc                | kyc            | 6     | 6       | 5         | 1          |
-|14 | renew_kyc                 | kyc            | 6     | 6       | 5         | 1          |
-|15 | transfer_kyc              | kyc            | 7     | 7       | 6         | 1          |
-|16 | appeal_kyc                | kyc            | 8     | 8       | 7         | 1          |
-|17 | bootstrap_committee       | kyc            | 15    | 14      | 12        | 1          |
-|18 | register_committee        | kyc            | 11    | 11      | 10        | 1          |
-|19 | update_committee          | kyc            | 8     | 8       | 7         | 1          |
-|20 | emergency_suspend         | kyc            | 8     | 7       | 6         | 1          |
-|21 | agent_account             | account        | 29    | 28      | 18        | 1          |
-|22 | uno_transfers             | privacy        | 7     | 2       | 4         | 1          |
-|23 | shield_transfers          | privacy        | 9     | 2       | 7         | 1          |
-|24 | unshield_transfers        | privacy        | 5     | 2       | 3         | 1          |
-|25 | register_name             | tns            | 36    | 36      | 26        | 1          |
-|26 | ephemeral_message         | tns            | 17    | 0\*     | 8         | 1          |
-|27 | create_escrow             | escrow         | 25    | 12      | 18        | 1          |
-|28 | deposit_escrow            | escrow         | 9     | 7       | 8         | 1          |
-|29 | release_escrow            | escrow         | 9     | 9       | 8         | 1          |
-|30 | refund_escrow             | escrow         | 13    | 9       | 9         | 1          |
-|31 | challenge_escrow          | escrow         | 12    | 11      | 10        | 1          |
-|32 | dispute_escrow            | escrow         | 10    | 10      | 7         | 1          |
-|33 | appeal_escrow             | escrow         | 14    | 13      | 12        | 1          |
-|34 | submit_verdict            | escrow         | 10    | 10      | 9         | 1          |
-|35 | submit_verdict_by_juror   | escrow         | 2     | 0\*     | 1         | 1          |
-|36 | commit_arbitration_open   | arbitration    | 3     | 1       | 1         | 1          |
-|37 | commit_vote_request       | arbitration    | 3     | 1       | 1         | 1          |
-|38 | commit_selection          | arbitration    | 3     | 1       | 1         | 1          |
-|39 | commit_juror_vote         | arbitration    | 3     | 2       | 1         | 1          |
-|40 | register_arbiter          | arbitration    | 14    | 13      | 9         | 1          |
-|41 | update_arbiter            | arbitration    | 12    | 10      | 9         | 1          |
-|42 | slash_arbiter             | arbitration    | 5     | 5       | 3         | 1          |
-|43 | request_arbiter_exit      | arbitration    | 5     | 2       | 4         | 1          |
-|44 | withdraw_arbiter_stake    | arbitration    | 7     | 5       | 6         | 1          |
-|45 | cancel_arbiter_exit       | arbitration    | 4     | 2       | 3         | 1          |
-|   | **Subtotal (per-type)**   |                |**460**|**354**  | **339**   | **45**     |
-|   | fee_variants (cross-type) | -              | 20    | 6       | 18        | -          |
-|   | consensus / models / misc | -              | 35    | 8       | -         | -          |
-|   | wire_format (cross-type)  | -              | 45    | 0       | -         | 45         |
-|   | **TOTAL**                 |                |**560**|**368**  | **357**   | **45**     |
+- Total published vectors: **475**
+- L1 state-transition vectors: **460** (`input.tx` present)
+- L0 negative wire-decoding vectors: **15** (`wire_format_negative`)
+- Distinct `tx_type` values covered in published vectors: **41**
 
-`*` Vectors = 0 because the wire codec does not yet support this tx type;
-tests exist at spec level but are marked `runnable: false` in vector output.
+To list covered `tx_type` values from `vectors/`:
 
-**Reading this matrix:** All 45 types have at least 2 tests with comprehensive
-negative coverage. 560 pytest tests produce 699 total vectors; 368 are runnable
-(passing conformance), 331 non-runnable (67 daemon-mismatch skips + codec gaps).
-3 types lack runnable vectors pending codec support (batch_referral_reward,
-ephemeral_message, submit_verdict_by_juror). Wire format coverage is complete
-(45/45 types).
+```bash
+python3 - <<'PY'
+import json
+from pathlib import Path
+tx_types=set()
+for p in Path('vectors').rglob('*.json'):
+    d=json.loads(p.read_text())
+    for v in d.get('test_vectors', []):
+        tx=(v.get('input') or {}).get('tx')
+        if isinstance(tx, dict) and 'tx_type' in tx:
+            tx_types.add(tx['tx_type'])
+print(len(tx_types))
+print('\\n'.join(sorted(tx_types)))
+PY
+```
 
 ## Matrix 5: Fixture Type x Verification Field
 

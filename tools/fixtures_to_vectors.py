@@ -155,6 +155,11 @@ def main() -> None:
         if path.suffix.lower() not in {".json"}:
             continue
         rel = path.relative_to(fixtures)
+        # `fixtures/wire_format.json` is a spec-owned codec corpus (golden hex) emitted by
+        # pytest. It is not in the conformance `test_vectors` schema and is not currently
+        # consumable by the daemon conformance runner. Keep it in fixtures/ only.
+        if rel == Path("wire_format.json"):
+            continue
         if rel.parts and rel.parts[0] in EXCLUDE_TOP_LEVEL_FIXTURES:
             # Spec-only fixtures: do not emit vectors for these categories.
             continue

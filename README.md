@@ -11,6 +11,14 @@ machine-readable, testable, and capable of producing deterministic fixtures.
 - **Layered coverage**: wire format, transaction validation, and state transitions are all verified.
 - **Scenario/expected comparison**: fixtures define scenarios and expected results; vectors are the runnable form consumed by Labu.
 
+## Current Test Status (2026-02-08)
+
+- Published conformance suite: `vectors/` contains **475 runnable** execution vectors in the `test_vectors` schema.
+- Runner status: `python3 ~/labu/tools/local_execution_runner.py --vectors ~/tos-spec/vectors` reports `all ok` against the `tos` conformance server.
+- Skips: there are **no** `runnable: false` vectors under `vectors/`.
+- Spec-only fixtures: `fixtures/{security,models,syscalls,api,consensus}/` are kept for documentation/spec checks and are intentionally not published to `vectors/` until a consumer exists.
+- Codec corpus: `fixtures/wire_format.json` (golden wire hex) is spec-owned and is not published to `vectors/` yet.
+
 ## Scenario/Expected Comparison Model
 
 This repo defines the authoritative **scenario + expected** contracts. The runtime behavior is:
@@ -199,7 +207,7 @@ we use a fixed set of deterministic test accounts stored in `vectors/accounts.js
 **Fixture formats by layer**
 - Execution-layer fixtures: JSON (pytest-generated transactions, state transitions, wire-format).
 - YAML specs are documentation only; pytest generates JSON fixtures from executable tests.
-- YAML specs are mirrored into JSON as non-runnable `test_vectors` for unified consumption.
+- Spec-only fixtures remain in `fixtures/`; `vectors/` contains only client-consumable conformance inputs.
 
 ### 2) Fixtures → Clients
 - Clients consume fixtures, execute them, and compare outputs to expected results.

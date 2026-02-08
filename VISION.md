@@ -88,7 +88,8 @@ hashing, and cryptographic primitives produce correct outputs.
 The current primary focus. Each test provides a pre-state (account balances, energy
 resources, domain data), a single transaction, and the expected post-state or error code.
 
-- 43 transaction types across 11 handler modules
+- Published execution vectors currently cover 41 distinct tx types across 11 handler modules
+  (more are defined in the spec but are not yet published to `vectors/`).
 - Covers success paths, error paths, and edge cases
 - Verifies balance changes, nonce advancement, state digest
 
@@ -209,51 +210,57 @@ layer in the testing pyramid.
 
 ## Current Coverage
 
-As of the latest run: **105 pytest tests, 71 conformance vectors**.
+As of **2026-02-08**:
 
-### By Domain
+- Published conformance suite: `vectors/` contains **475 runnable** execution vectors in the `test_vectors` schema.
+- Runner status: `python3 ~/labu/tools/local_execution_runner.py --vectors ~/tos-spec/vectors` reports `all ok` against the `tos` conformance server.
+- Composition: **460** L1 state-transition vectors (`input.tx` present) + **15** L0 negative wire-decoding vectors (malformed `wire_hex` rejected by decode).
+- Covered transaction types: **41** distinct `tx_type` values in published vectors.
+- Spec-only: fixtures under `fixtures/{security,models,syscalls,api,consensus}/` are not published to `vectors/` yet.
+- Codec corpus: `fixtures/wire_format.json` contains golden wire hex vectors (45 entries) but is not published to `vectors/` yet.
 
-| Domain                    | Tests | Vectors | Notes                            |
-|---------------------------|-------|---------|----------------------------------|
-| Core (transfers, burn)    | 3     | 2       | Basic value transfer             |
-| Energy (freeze/delegate)  | 11    | 4       | Freeze, unfreeze, delegate       |
-| Escrow                    | 9     | 8       | Full escrow lifecycle            |
-| Arbitration               | 11    | 10      | Arbiter management, commit flow  |
-| KYC / Committee           | 9     | 8       | KYC issuance, committee ops      |
-| Contracts                 | 4     | 2       | Deploy and invoke                |
-| Privacy                   | 5     | 3       | Shield, unshield, UNO            |
-| Referral                  | 3     | 1       | Bind referrer                    |
-| Name Service (TNS)        | 4     | 1       | Register name                    |
-| Account                   | 6     | 2       | Address registration             |
-| Wire Format               | 2     | --      | Encoding round-trip              |
-| Consensus                 | 22    | 6       | Block structure, ordering, PoW   |
-| Models                    | 10    | --      | Constants, balance, energy       |
-| Security                  | --    | 4       | Overflow, DoS, access, reentrancy|
-| RPC                       | --    | 2       | Method listing, WebSocket        |
-| State Models              | --    | 4       | Account, fee, energy, block      |
-| Template                  | 2     | --      | Example for new test authors     |
+### Published Vector Groups
 
-### By Layer
+Counts below are for the published conformance suite under `vectors/execution/transactions/`.
+
+| Group | Vectors |
+|------:|--------:|
+| escrow | 102 |
+| kyc | 80 |
+| arbitration | 61 |
+| (root) | 54 |
+| tns | 53 |
+| energy | 40 |
+| account | 35 |
+| contracts | 17 |
+| privacy | 14 |
+| referral | 14 |
+| core | 3 |
+| template | 2 |
+
+### By Layer (Published)
 
 | Layer | Current Vectors | Target | Coverage |
 |-------|-----------------|--------|----------|
-| L0    | 2 (wire format) | ~50    | Minimal  |
-| L1    | 44 (tx)         | ~200   | Good     |
-| L2    | 6 (consensus)   | ~50    | Partial  |
-| L3    | 2 (RPC)         | ~80    | Minimal  |
-| L4    | 0               | ~30    | None     |
-| L5    | 0               | ~10    | None     |
+| L0    | 15 (wire negative) | ~50 | Partial  |
+| L1    | 460 (tx state transition) | ~200 | Good |
+| L2    | 0 | ~50 | None |
+| L3    | 0 | ~80 | None |
+| L4    | 0 | ~30 | None |
+| L5    | 0 | ~10 | None |
 
 ## Coverage Gap Analysis
 
 ### Layer 0 — Pure Computation
 
-**Current**: 2 wire format tests (transfer, energy freeze).
+**Current (published)**: 15 negative wire-format vectors (malformed `wire_hex` rejected by decode).
+
+**Current (fixtures only)**: `fixtures/wire_format.json` contains 45 golden wire-encoding vectors
+(`expected_hex`) but is not published to `vectors/` yet.
 
 **Gaps**:
 - CodecTest fixtures: raw encoding/decoding round-trip for all field types
-- Wire format tests for all 43 transaction types
-- Negative wire format tests (truncated, oversized, invalid type codes)
+- Positive wire format tests for all tx types (encode and/or decode acceptance)
 - BLAKE3 hash test vectors (cross-implementation)
 - HMAC test vectors
 - Ristretto255 point encoding/decoding vectors
@@ -262,7 +269,8 @@ As of the latest run: **105 pytest tests, 71 conformance vectors**.
 
 ### Layer 1 — Single Transaction State Transition
 
-**Current**: 44 transaction vectors covering all 43 types. 76/76 conformance pass rate.
+**Current (published)**: 460 L1 state-transition vectors (`input.tx` present) covering 41 distinct `tx_type` values.
+All published vectors pass in the Rust daemon conformance runner (overall 475/475 including L0 negatives).
 
 **Gaps**:
 - Multiple tests per transaction type (currently ~1 per type on average)
@@ -275,7 +283,9 @@ As of the latest run: **105 pytest tests, 71 conformance vectors**.
 
 ### Layer 2 — Block Processing
 
-**Current**: 6 consensus vectors covering block structure, ordering, and PoW rules.
+**Current (published)**: no block-processing vectors yet.
+
+**Current (fixtures only)**: consensus/model fixtures exist under `fixtures/consensus/` but are not published to `vectors/` yet.
 
 **Gaps**:
 - BlockchainTest fixtures: multi-block chain import with reorgs and invalid blocks
@@ -288,7 +298,9 @@ As of the latest run: **105 pytest tests, 71 conformance vectors**.
 
 ### Layer 3 — API Boundary
 
-**Current**: 2 vectors (RPC method listing, WebSocket). Specs defined in YAML only.
+**Current (published)**: no API vectors yet.
+
+**Current (fixtures only)**: API/syscall fixtures exist under `fixtures/api/` and `fixtures/syscalls/` but are not published to `vectors/` yet.
 
 **Gaps**:
 - Executable RPC conformance tests (currently spec-only, not runnable)
