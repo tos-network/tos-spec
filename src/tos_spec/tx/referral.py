@@ -81,6 +81,8 @@ def _verify_batch_referral_reward(state: ChainState, tx: Transaction) -> None:
     sender = state.accounts.get(tx.source)
     if sender is None:
         raise SpecError(ErrorCode.ACCOUNT_NOT_FOUND, "sender not found")
+    # Note: daemon verifies `total_amount` spending separately from the fee check.
+    # Fee availability is validated in the shared state_transition layer.
     if sender.balance < total_amount:
         raise SpecError(ErrorCode.INSUFFICIENT_BALANCE, "insufficient balance for reward")
 

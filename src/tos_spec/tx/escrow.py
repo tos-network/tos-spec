@@ -168,7 +168,8 @@ def _verify_create(state: ChainState, tx: Transaction, p: dict) -> None:
     sender = state.accounts.get(tx.source)
     if sender is None:
         raise SpecError(ErrorCode.ACCOUNT_NOT_FOUND, "sender not found")
-    if sender.balance < amount:
+    # Sender must have enough for escrow amount + fee (fee is deducted on success).
+    if sender.balance < amount + tx.fee:
         raise SpecError(ErrorCode.INSUFFICIENT_BALANCE, "insufficient balance")
 
 
@@ -214,6 +215,13 @@ def _verify_deposit(state: ChainState, tx: Transaction, p: dict) -> None:
         raise SpecError(ErrorCode.ESCROW_NOT_FOUND, "escrow not found")
     if escrow.status not in (EscrowStatus.CREATED, EscrowStatus.FUNDED):
         raise SpecError(ErrorCode.ESCROW_WRONG_STATE, "escrow not in depositable state")
+
+    sender = state.accounts.get(tx.source)
+    if sender is None:
+        raise SpecError(ErrorCode.ACCOUNT_NOT_FOUND, "sender not found")
+    # Sender must have enough for deposit + fee.
+    if sender.balance < amount + tx.fee:
+        raise SpecError(ErrorCode.INSUFFICIENT_BALANCE, "insufficient balance")
 
 
 def _apply_deposit(state: ChainState, tx: Transaction, p: dict) -> ChainState:
@@ -373,6 +381,13 @@ def _verify_challenge(state: ChainState, tx: Transaction, p: dict) -> None:
         if deposit < required:
             raise SpecError(ErrorCode.INVALID_AMOUNT, "challenge deposit too low")
 
+    sender = state.accounts.get(tx.source)
+    if sender is None:
+        raise SpecError(ErrorCode.ACCOUNT_NOT_FOUND, "sender not found")
+    # Sender must have enough for deposit + fee.
+    if sender.balance < deposit + tx.fee:
+        raise SpecError(ErrorCode.INSUFFICIENT_BALANCE, "insufficient balance for deposit")
+
 
 def _apply_challenge(state: ChainState, tx: Transaction, p: dict) -> ChainState:
     ns = deepcopy(state)
@@ -469,6 +484,13 @@ def _verify_appeal(state: ChainState, tx: Transaction, p: dict) -> None:
     required = (escrow.total_amount * MIN_APPEAL_DEPOSIT_BPS) // MAX_BPS
     if appeal_deposit < required:
         raise SpecError(ErrorCode.INVALID_AMOUNT, "appeal deposit too low")
+
+    sender = state.accounts.get(tx.source)
+    if sender is None:
+        raise SpecError(ErrorCode.ACCOUNT_NOT_FOUND, "sender not found")
+    # Sender must have enough for appeal_deposit + fee.
+    if sender.balance < appeal_deposit + tx.fee:
+        raise SpecError(ErrorCode.INSUFFICIENT_BALANCE, "insufficient balance for appeal")
 
 
 def _apply_appeal(state: ChainState, tx: Transaction, p: dict) -> ChainState:

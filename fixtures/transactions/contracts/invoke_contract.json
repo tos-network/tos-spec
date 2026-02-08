@@ -561,6 +561,168 @@
       }
     },
     {
+      "name": "invoke_contract_exact_balance",
+      "pre_state": {
+        "network_chain_id": 3,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "balance": 600000,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ],
+        "contracts": [
+          {
+            "hash": "b5dfd5eefeb2e79744417c1a8c752332f99e8da93ee99a16f4ffcadd3ca51449",
+            "module": "7f454c4600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+          }
+        ]
+      },
+      "tx": {
+        "version": 1,
+        "chain_id": 3,
+        "source": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+        "tx_type": "invoke_contract",
+        "payload": {
+          "contract": "b5dfd5eefeb2e79744417c1a8c752332f99e8da93ee99a16f4ffcadd3ca51449",
+          "deposits": [],
+          "entry_id": 0,
+          "max_gas": 500000,
+          "parameters": []
+        },
+        "fee": 100000,
+        "fee_type": 0,
+        "nonce": 5,
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "2398457ab81f10f49340a375565c04762df9b8873cd876a6a37a173ec3215e079b950b33690a43137d08dd945334d0140b7e62769a4d3aae5a034f90706ddf0a",
+        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b24903b5dfd5eefeb2e79744417c1a8c752332f99e8da93ee99a16f4ffcadd3ca51449000000000000000007a1200000000000000186a000000000000000000500000000000000000000000000000000000000000000000000000000000000000000000000000000002398457ab81f10f49340a375565c04762df9b8873cd876a6a37a173ec3215e079b950b33690a43137d08dd945334d0140b7e62769a4d3aae5a034f90706ddf0a"
+      },
+      "expected": {
+        "ok": true,
+        "error": null,
+        "post_state": {
+          "network_chain_id": 3,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+              "balance": 0,
+              "nonce": 6,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ],
+          "contracts": [
+            {
+              "hash": "b5dfd5eefeb2e79744417c1a8c752332f99e8da93ee99a16f4ffcadd3ca51449",
+              "module": "7f454c4600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "invoke_contract_insufficient_balance_after_fee",
+      "pre_state": {
+        "network_chain_id": 3,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "balance": 599999,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ],
+        "contracts": [
+          {
+            "hash": "b5dfd5eefeb2e79744417c1a8c752332f99e8da93ee99a16f4ffcadd3ca51449",
+            "module": "7f454c4600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+          }
+        ]
+      },
+      "tx": {
+        "version": 1,
+        "chain_id": 3,
+        "source": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+        "tx_type": "invoke_contract",
+        "payload": {
+          "contract": "b5dfd5eefeb2e79744417c1a8c752332f99e8da93ee99a16f4ffcadd3ca51449",
+          "deposits": [],
+          "entry_id": 0,
+          "max_gas": 500000,
+          "parameters": []
+        },
+        "fee": 100000,
+        "fee_type": 0,
+        "nonce": 5,
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "2398457ab81f10f49340a375565c04762df9b8873cd876a6a37a173ec3215e079b950b33690a43137d08dd945334d0140b7e62769a4d3aae5a034f90706ddf0a",
+        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b24903b5dfd5eefeb2e79744417c1a8c752332f99e8da93ee99a16f4ffcadd3ca51449000000000000000007a1200000000000000186a000000000000000000500000000000000000000000000000000000000000000000000000000000000000000000000000000002398457ab81f10f49340a375565c04762df9b8873cd876a6a37a173ec3215e079b950b33690a43137d08dd945334d0140b7e62769a4d3aae5a034f90706ddf0a"
+      },
+      "expected": {
+        "ok": false,
+        "error": "INSUFFICIENT_BALANCE",
+        "post_state": {
+          "network_chain_id": 3,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+              "balance": 599999,
+              "nonce": 5,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ],
+          "contracts": [
+            {
+              "hash": "b5dfd5eefeb2e79744417c1a8c752332f99e8da93ee99a16f4ffcadd3ca51449",
+              "module": "7f454c4600000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+            }
+          ]
+        }
+      }
+    },
+    {
       "name": "invoke_contract_too_many_deposits",
       "pre_state": {
         "network_chain_id": 3,

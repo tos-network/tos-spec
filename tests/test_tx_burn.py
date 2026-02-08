@@ -68,6 +68,26 @@ def test_burn_insufficient_balance(state_test_group) -> None:
     state_test_group("transactions/core/burn.json", "burn_insufficient_balance", state, tx)
 
 
+def test_burn_exact_balance(state_test_group) -> None:
+    """Boundary: sender balance exactly equals burn amount + fee (should succeed)."""
+    state = ChainState(network_chain_id=CHAIN_ID_DEVNET)
+    fee = 100_000
+    amount = 100_000
+    state.accounts[ALICE] = AccountState(address=ALICE, balance=amount + fee, nonce=5)
+    tx = _mk_burn(ALICE, nonce=5, amount=amount, fee=fee)
+    state_test_group("transactions/core/burn.json", "burn_exact_balance", state, tx)
+
+
+def test_burn_insufficient_balance_after_fee(state_test_group) -> None:
+    """Boundary: can pay fee and amount individually, but not amount + fee."""
+    state = ChainState(network_chain_id=CHAIN_ID_DEVNET)
+    fee = 100_000
+    amount = 100_000
+    state.accounts[ALICE] = AccountState(address=ALICE, balance=amount + fee - 1, nonce=5)
+    tx = _mk_burn(ALICE, nonce=5, amount=amount, fee=fee)
+    state_test_group("transactions/core/burn.json", "burn_insufficient_balance_after_fee", state, tx)
+
+
 def test_burn_invalid_amount(state_test_group) -> None:
     state = _base_state()
     tx = _mk_burn(ALICE, nonce=5, amount=0, fee=100_000)

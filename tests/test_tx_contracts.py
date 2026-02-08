@@ -274,6 +274,40 @@ def test_invoke_contract_insufficient_balance_for_gas(state_test_group) -> None:
     )
 
 
+def test_invoke_contract_exact_balance(state_test_group) -> None:
+    """Sender has exactly max_gas + fee."""
+    state, contract_hash = _base_state_with_contract()
+    max_gas = 500_000
+    fee = 100_000
+    state.accounts[ALICE].balance = max_gas + fee
+    tx = _mk_invoke_contract(
+        ALICE, nonce=5, contract=contract_hash, entry_id=0, max_gas=max_gas, fee=fee
+    )
+    state_test_group(
+        "transactions/contracts/invoke_contract.json",
+        "invoke_contract_exact_balance",
+        state,
+        tx,
+    )
+
+
+def test_invoke_contract_insufficient_balance_after_fee(state_test_group) -> None:
+    """Sender covers max_gas but not (max_gas + fee)."""
+    state, contract_hash = _base_state_with_contract()
+    max_gas = 500_000
+    fee = 100_000
+    state.accounts[ALICE].balance = max_gas + fee - 1
+    tx = _mk_invoke_contract(
+        ALICE, nonce=5, contract=contract_hash, entry_id=0, max_gas=max_gas, fee=fee
+    )
+    state_test_group(
+        "transactions/contracts/invoke_contract.json",
+        "invoke_contract_insufficient_balance_after_fee",
+        state,
+        tx,
+    )
+
+
 def test_invoke_contract_too_many_deposits(state_test_group) -> None:
     """Exceed MAX_DEPOSIT_PER_INVOKE_CALL."""
     state, contract_hash = _base_state_with_contract()
@@ -499,6 +533,22 @@ def test_deploy_contract_exact_balance(state_test_group) -> None:
     state_test_group(
         "transactions/contracts/deploy_contract.json",
         "deploy_contract_exact_balance",
+        state,
+        tx,
+    )
+
+
+def test_deploy_contract_insufficient_balance_after_fee(state_test_group) -> None:
+    """Deploy when sender has (BURN_PER_CONTRACT + fee - 1) should fail."""
+    state = ChainState(network_chain_id=CHAIN_ID_DEVNET)
+    fee = 100_000
+    state.accounts[ALICE] = AccountState(
+        address=ALICE, balance=BURN_PER_CONTRACT + fee - 1, nonce=5
+    )
+    tx = _mk_deploy_contract(ALICE, nonce=5, module=_HELLO_ELF, fee=fee)
+    state_test_group(
+        "transactions/contracts/deploy_contract.json",
+        "deploy_contract_insufficient_balance_after_fee",
         state,
         tx,
     )

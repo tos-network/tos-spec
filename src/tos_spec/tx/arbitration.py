@@ -126,7 +126,8 @@ def _verify_register_arbiter(state: ChainState, tx: Transaction, p: dict) -> Non
     sender = state.accounts.get(tx.source)
     if sender is None:
         raise SpecError(ErrorCode.ACCOUNT_NOT_FOUND, "sender not found")
-    if sender.balance < stake:
+    # Sender must have enough for stake + fee (fee is deducted on success).
+    if sender.balance < stake + tx.fee:
         raise SpecError(ErrorCode.INSUFFICIENT_BALANCE, "insufficient balance for stake")
 
 
@@ -181,6 +182,15 @@ def _verify_update_arbiter(state: ChainState, tx: Transaction, p: dict) -> None:
     arbiter = state.arbiters[tx.source]
     if arbiter.status == ArbiterStatus.REMOVED:
         raise SpecError(ErrorCode.INVALID_PAYLOAD, "arbiter already removed")
+
+    add_stake = p.get("add_stake")
+    if add_stake is not None and add_stake > 0:
+        sender = state.accounts.get(tx.source)
+        if sender is None:
+            raise SpecError(ErrorCode.ACCOUNT_NOT_FOUND, "sender not found")
+        # Sender must have enough for add_stake + fee.
+        if sender.balance < add_stake + tx.fee:
+            raise SpecError(ErrorCode.INSUFFICIENT_BALANCE, "insufficient balance for stake")
 
 
 def _apply_update_arbiter(state: ChainState, tx: Transaction, p: dict) -> ChainState:

@@ -13,8 +13,8 @@ machine-readable, testable, and capable of producing deterministic fixtures.
 
 ## Current Test Status (2026-02-08)
 
-- Published conformance suite: `vectors/` contains **613 runnable** execution vectors in the `test_vectors` schema.
-- Composition: **598** L1 state-transition vectors (`input.tx` present) + **15** L0 negative wire-decoding vectors.
+- Published conformance suite: `vectors/` contains **635 runnable** execution vectors in the `test_vectors` schema.
+- Composition: **620** L1 state-transition vectors (`input.tx` present) + **15** L0 negative wire-decoding vectors.
 - Runner status: `python3 ~/labu/tools/local_execution_runner.py --vectors ~/tos-spec/vectors` reports `all ok` against the `tos` conformance server.
 - Skips: there are **no** `runnable: false` vectors under `vectors/`.
 - Note: `uno_transfers` vectors are currently **tx-json-only** (`input.wire_hex=""`) until wire/proof generation is represented in the exported pre-state surface.

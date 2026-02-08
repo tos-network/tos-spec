@@ -53,6 +53,26 @@ def test_transfer_success(state_test) -> None:
     state_test("transfer_success", state, tx)
 
 
+def test_transfer_exact_balance(state_test) -> None:
+    """Sender balance equals (sum(outputs) + fee)."""
+    state = _base_state()
+    amount = 900_000
+    fee = 100_000
+    state.accounts[ALICE].balance = amount + fee
+    tx = _mk_tx(ALICE, BOB, nonce=5, amount=amount, fee=fee)
+    state_test("transfer_exact_balance", state, tx)
+
+
+def test_transfer_insufficient_balance_after_fee(state_test) -> None:
+    """Sender balance covers outputs but not (outputs + fee)."""
+    state = _base_state()
+    amount = 900_000
+    fee = 100_000
+    state.accounts[ALICE].balance = amount + fee - 1
+    tx = _mk_tx(ALICE, BOB, nonce=5, amount=amount, fee=fee)
+    state_test("transfer_insufficient_balance_after_fee", state, tx)
+
+
 def test_nonce_too_high(state_test) -> None:
     state = _base_state()
     tx = _mk_tx(ALICE, BOB, nonce=100, amount=100_000, fee=100_000)

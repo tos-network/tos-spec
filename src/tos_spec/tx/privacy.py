@@ -128,7 +128,7 @@ def _verify_shield_transfers(state: ChainState, tx: Transaction) -> None:
     sender = state.accounts.get(tx.source)
     if sender is None:
         raise SpecError(ErrorCode.ACCOUNT_NOT_FOUND, "sender not found")
-    if sender.balance < total_amount:
+    if sender.balance < total_amount + tx.fee:
         raise SpecError(ErrorCode.INSUFFICIENT_BALANCE, "insufficient balance for shield")
 
 

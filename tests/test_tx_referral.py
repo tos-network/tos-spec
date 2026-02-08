@@ -357,6 +357,27 @@ def test_batch_referral_reward_insufficient_balance(state_test_group) -> None:
     )
 
 
+def test_batch_referral_reward_exact_balance(state_test_group) -> None:
+    """Boundary: sender balance exactly equals total_amount + fee (should succeed)."""
+    state = ChainState(network_chain_id=CHAIN_ID_DEVNET)
+    fee = 100_000
+    total_amount = 100_000
+    state.accounts[ALICE] = AccountState(address=ALICE, balance=total_amount + fee, nonce=5)
+    state.accounts[BOB] = AccountState(address=BOB, balance=0, nonce=0)
+    state.accounts[CAROL] = AccountState(address=CAROL, balance=0, nonce=0)
+    state.referrals[ALICE] = CAROL
+    tx = _mk_batch_referral_reward(
+        ALICE, nonce=5, total_amount=total_amount, levels=1,
+        ratios=[5000], from_user=ALICE, fee=fee,
+    )
+    state_test_group(
+        "transactions/referral/batch_referral_reward.json",
+        "batch_referral_reward_exact_balance",
+        state,
+        tx,
+    )
+
+
 def test_batch_referral_reward_zero_levels(state_test_group) -> None:
     """Batch referral reward with levels=0 and empty ratios.
 

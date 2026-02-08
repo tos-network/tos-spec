@@ -289,6 +289,150 @@
       }
     },
     {
+      "name": "burn_exact_balance",
+      "description": "",
+      "pre_state": {
+        "network_chain_id": 3,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "balance": 200000,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
+      },
+      "input": {
+        "kind": "tx",
+        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b24900000000000000000000000000000000000000000000000000000000000000000000000000000186a000000000000186a000000000000000000500000000000000000000000000000000000000000000000000000000000000000000000000000000001660334f0658389559187fe9d46710fc6792977769aa8f791153701acf6ab40a0703e10c8e91df676529478c261d563a76fdb6d66839493ec3b24eca39ff650c",
+        "tx": {
+          "version": 1,
+          "chain_id": 3,
+          "source": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+          "tx_type": "burn",
+          "payload": {
+            "asset": "0000000000000000000000000000000000000000000000000000000000000000",
+            "amount": 100000
+          },
+          "fee": 100000,
+          "fee_type": 0,
+          "nonce": 5,
+          "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+          "reference_topoheight": 0,
+          "signature": "1660334f0658389559187fe9d46710fc6792977769aa8f791153701acf6ab40a0703e10c8e91df676529478c261d563a76fdb6d66839493ec3b24eca39ff650c",
+          "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b24900000000000000000000000000000000000000000000000000000000000000000000000000000186a000000000000186a000000000000000000500000000000000000000000000000000000000000000000000000000000000000000000000000000001660334f0658389559187fe9d46710fc6792977769aa8f791153701acf6ab40a0703e10c8e91df676529478c261d563a76fdb6d66839493ec3b24eca39ff650c"
+        }
+      },
+      "expected": {
+        "success": true,
+        "error_code": 0,
+        "state_digest": "3170c4266f85e8e98d77395f7ccbf6a272f3d759ab6f049f3a125f59746058ee",
+        "post_state": {
+          "network_chain_id": 3,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 100000,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+              "balance": 0,
+              "nonce": 6,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "burn_insufficient_balance_after_fee",
+      "description": "",
+      "pre_state": {
+        "network_chain_id": 3,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "balance": 199999,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
+      },
+      "input": {
+        "kind": "tx",
+        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b24900000000000000000000000000000000000000000000000000000000000000000000000000000186a000000000000186a000000000000000000500000000000000000000000000000000000000000000000000000000000000000000000000000000001660334f0658389559187fe9d46710fc6792977769aa8f791153701acf6ab40a0703e10c8e91df676529478c261d563a76fdb6d66839493ec3b24eca39ff650c",
+        "tx": {
+          "version": 1,
+          "chain_id": 3,
+          "source": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+          "tx_type": "burn",
+          "payload": {
+            "asset": "0000000000000000000000000000000000000000000000000000000000000000",
+            "amount": 100000
+          },
+          "fee": 100000,
+          "fee_type": 0,
+          "nonce": 5,
+          "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+          "reference_topoheight": 0,
+          "signature": "1660334f0658389559187fe9d46710fc6792977769aa8f791153701acf6ab40a0703e10c8e91df676529478c261d563a76fdb6d66839493ec3b24eca39ff650c",
+          "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b24900000000000000000000000000000000000000000000000000000000000000000000000000000186a000000000000186a000000000000000000500000000000000000000000000000000000000000000000000000000000000000000000000000000001660334f0658389559187fe9d46710fc6792977769aa8f791153701acf6ab40a0703e10c8e91df676529478c261d563a76fdb6d66839493ec3b24eca39ff650c"
+        }
+      },
+      "expected": {
+        "success": false,
+        "error_code": 768,
+        "state_digest": "96e8a59cef0c55a3f23a92b9b2d945f972bf2cbddf684d5688a65597529b3603",
+        "post_state": {
+          "network_chain_id": 3,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+              "balance": 199999,
+              "nonce": 5,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ]
+        }
+      }
+    },
+    {
       "name": "burn_invalid_amount",
       "description": "",
       "pre_state": {

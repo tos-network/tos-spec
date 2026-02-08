@@ -326,6 +326,52 @@ def test_register_arbiter_insufficient_balance(state_test_group) -> None:
     )
 
 
+def test_register_arbiter_exact_balance(state_test_group) -> None:
+    """Boundary: sender balance exactly equals stake_amount + fee (should succeed)."""
+    state = ChainState(network_chain_id=CHAIN_ID_DEVNET)
+    fee = 100_000
+    stake = MIN_ARBITER_STAKE
+    state.accounts[ALICE] = AccountState(address=ALICE, balance=stake + fee, nonce=5)
+    payload = {
+        "name": "ExactBalance",
+        "expertise": [1],
+        "stake_amount": stake,
+        "min_escrow_value": COIN_VALUE,
+        "max_escrow_value": 10 * COIN_VALUE,
+        "fee_basis_points": 100,
+    }
+    tx = _mk_arb_tx(ALICE, nonce=5, tx_type=TransactionType.REGISTER_ARBITER, payload=payload, fee=fee)
+    state_test_group(
+        "transactions/arbitration/register_arbiter.json",
+        "register_arbiter_exact_balance",
+        state,
+        tx,
+    )
+
+
+def test_register_arbiter_insufficient_balance_after_fee(state_test_group) -> None:
+    """Boundary: can pay fee, but cannot pay stake_amount + fee."""
+    state = ChainState(network_chain_id=CHAIN_ID_DEVNET)
+    fee = 100_000
+    stake = MIN_ARBITER_STAKE
+    state.accounts[ALICE] = AccountState(address=ALICE, balance=stake + fee - 1, nonce=5)
+    payload = {
+        "name": "ExactBalanceMinusOne",
+        "expertise": [1],
+        "stake_amount": stake,
+        "min_escrow_value": COIN_VALUE,
+        "max_escrow_value": 10 * COIN_VALUE,
+        "fee_basis_points": 100,
+    }
+    tx = _mk_arb_tx(ALICE, nonce=5, tx_type=TransactionType.REGISTER_ARBITER, payload=payload, fee=fee)
+    state_test_group(
+        "transactions/arbitration/register_arbiter.json",
+        "register_arbiter_insufficient_balance_after_fee",
+        state,
+        tx,
+    )
+
+
 # --- update_arbiter specs ---
 
 
@@ -2707,6 +2753,48 @@ def test_update_arbiter_add_stake_success(state_test_group) -> None:
     state_test_group(
         "transactions/arbitration/update_arbiter.json",
         "update_arbiter_add_stake_success",
+        state,
+        tx,
+    )
+
+
+def test_update_arbiter_add_stake_exact_balance(state_test_group) -> None:
+    """Boundary: sender balance exactly equals add_stake + fee (should succeed)."""
+    fee = 100_000
+    add_stake = COIN_VALUE
+    state = ChainState(network_chain_id=CHAIN_ID_DEVNET)
+    state.global_state.timestamp = _NOW
+    state.accounts[ALICE] = AccountState(address=ALICE, balance=add_stake + fee, nonce=5)
+    state.arbiters[ALICE] = _active_arbiter(ALICE)
+    payload = {
+        "add_stake": add_stake,
+        "deactivate": False,
+    }
+    tx = _mk_arb_tx(ALICE, nonce=5, tx_type=TransactionType.UPDATE_ARBITER, payload=payload, fee=fee)
+    state_test_group(
+        "transactions/arbitration/update_arbiter.json",
+        "update_arbiter_add_stake_exact_balance",
+        state,
+        tx,
+    )
+
+
+def test_update_arbiter_add_stake_insufficient_balance_after_fee(state_test_group) -> None:
+    """Boundary: can pay fee, but cannot pay add_stake + fee."""
+    fee = 100_000
+    add_stake = COIN_VALUE
+    state = ChainState(network_chain_id=CHAIN_ID_DEVNET)
+    state.global_state.timestamp = _NOW
+    state.accounts[ALICE] = AccountState(address=ALICE, balance=add_stake + fee - 1, nonce=5)
+    state.arbiters[ALICE] = _active_arbiter(ALICE)
+    payload = {
+        "add_stake": add_stake,
+        "deactivate": False,
+    }
+    tx = _mk_arb_tx(ALICE, nonce=5, tx_type=TransactionType.UPDATE_ARBITER, payload=payload, fee=fee)
+    state_test_group(
+        "transactions/arbitration/update_arbiter.json",
+        "update_arbiter_add_stake_insufficient_balance_after_fee",
         state,
         tx,
     )

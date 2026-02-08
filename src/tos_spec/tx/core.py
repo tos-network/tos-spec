@@ -23,6 +23,11 @@ def verify(state: ChainState, tx: Transaction) -> None:
         # Rust: fee.checked_add(amount) -> Err → InvalidFormat (wire deserialization)
         if tx.fee + amount > U64_MAX:
             raise SpecError(ErrorCode.INVALID_FORMAT, "burn amount plus fee overflow")
+
+        # Sender must have enough for burn amount + fee (fee is deducted on success).
+        sender = state.accounts.get(tx.source)
+        if sender is not None and sender.balance < amount + tx.fee:
+            raise SpecError(ErrorCode.INSUFFICIENT_BALANCE, "insufficient balance for burn")
         return
 
     if tx.tx_type != TransactionType.TRANSFERS:

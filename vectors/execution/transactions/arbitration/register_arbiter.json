@@ -852,6 +852,181 @@
       }
     },
     {
+      "name": "register_arbiter_exact_balance",
+      "description": "",
+      "pre_state": {
+        "network_chain_id": 3,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "balance": 100000100000,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
+      },
+      "input": {
+        "kind": "tx",
+        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249210c457861637442616c616e6365000101000000174876e8000000000005f5e100000000003b9aca00006400000000000186a000000000000000000500000000000000000000000000000000000000000000000000000000000000000000000000000000008931b4127ac0c5faed618caceb4766fb8d991688fcd75a826e2881c458308b0a6575d36acfecde9c4bfe046d9678e96da21e3c90d26034abe580406712e5fa09",
+        "tx": {
+          "version": 1,
+          "chain_id": 3,
+          "source": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+          "tx_type": "register_arbiter",
+          "payload": {
+            "name": "ExactBalance",
+            "expertise": [
+              1
+            ],
+            "stake_amount": 100000000000,
+            "min_escrow_value": 100000000,
+            "max_escrow_value": 1000000000,
+            "fee_basis_points": 100
+          },
+          "fee": 100000,
+          "fee_type": 0,
+          "nonce": 5,
+          "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+          "reference_topoheight": 0,
+          "signature": "8931b4127ac0c5faed618caceb4766fb8d991688fcd75a826e2881c458308b0a6575d36acfecde9c4bfe046d9678e96da21e3c90d26034abe580406712e5fa09",
+          "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249210c457861637442616c616e6365000101000000174876e8000000000005f5e100000000003b9aca00006400000000000186a000000000000000000500000000000000000000000000000000000000000000000000000000000000000000000000000000008931b4127ac0c5faed618caceb4766fb8d991688fcd75a826e2881c458308b0a6575d36acfecde9c4bfe046d9678e96da21e3c90d26034abe580406712e5fa09"
+        }
+      },
+      "expected": {
+        "success": true,
+        "error_code": 0,
+        "state_digest": "fc43c346d2d0a96853a793fbd0a19fb139f7d3d1ad66917ee8e515b07502f8ec",
+        "post_state": {
+          "network_chain_id": 3,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+              "balance": 0,
+              "nonce": 6,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ],
+          "arbiters": [
+            {
+              "public_key": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+              "name": "ExactBalance",
+              "status": "active",
+              "expertise": [
+                1
+              ],
+              "stake_amount": 100000000000,
+              "fee_basis_points": 100,
+              "min_escrow_value": 100000000,
+              "max_escrow_value": 1000000000,
+              "reputation_score": 0,
+              "total_cases": 0,
+              "active_cases": 0,
+              "registered_at": 0,
+              "total_slashed": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "register_arbiter_insufficient_balance_after_fee",
+      "description": "",
+      "pre_state": {
+        "network_chain_id": 3,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "balance": 100000099999,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
+      },
+      "input": {
+        "kind": "tx",
+        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b2492114457861637442616c616e63654d696e75734f6e65000101000000174876e8000000000005f5e100000000003b9aca00006400000000000186a000000000000000000500000000000000000000000000000000000000000000000000000000000000000000000000000000005657f16a19f2f2dda15730208a1ca76f2ddd718a78270cb38def882a104ea706b0b8e975c632c1eae3dfada7c38b16ee7cfc704cf746ac86d0251f5595187308",
+        "tx": {
+          "version": 1,
+          "chain_id": 3,
+          "source": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+          "tx_type": "register_arbiter",
+          "payload": {
+            "name": "ExactBalanceMinusOne",
+            "expertise": [
+              1
+            ],
+            "stake_amount": 100000000000,
+            "min_escrow_value": 100000000,
+            "max_escrow_value": 1000000000,
+            "fee_basis_points": 100
+          },
+          "fee": 100000,
+          "fee_type": 0,
+          "nonce": 5,
+          "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+          "reference_topoheight": 0,
+          "signature": "5657f16a19f2f2dda15730208a1ca76f2ddd718a78270cb38def882a104ea706b0b8e975c632c1eae3dfada7c38b16ee7cfc704cf746ac86d0251f5595187308",
+          "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b2492114457861637442616c616e63654d696e75734f6e65000101000000174876e8000000000005f5e100000000003b9aca00006400000000000186a000000000000000000500000000000000000000000000000000000000000000000000000000000000000000000000000000005657f16a19f2f2dda15730208a1ca76f2ddd718a78270cb38def882a104ea706b0b8e975c632c1eae3dfada7c38b16ee7cfc704cf746ac86d0251f5595187308"
+        }
+      },
+      "expected": {
+        "success": false,
+        "error_code": 768,
+        "state_digest": "a975a57c1fb257ee72133d185a1f26610a317d2463937b834f1fe4b0d1552121",
+        "post_state": {
+          "network_chain_id": 3,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+              "balance": 100000099999,
+              "nonce": 5,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ]
+        }
+      }
+    },
+    {
       "name": "register_arbiter_stake_below_minimum",
       "description": "",
       "pre_state": {

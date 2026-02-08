@@ -374,6 +374,38 @@ def test_shield_transfer_insufficient_balance(state_test_group) -> None:
     )
 
 
+def test_shield_transfer_exact_balance(state_test_group) -> None:
+    """Boundary: sender balance exactly equals shield amount + fee (should succeed)."""
+    fee = 100_000
+    amount = MIN_SHIELD_TOS_AMOUNT
+    state = ChainState(network_chain_id=CHAIN_ID_DEVNET)
+    state.accounts[ALICE] = AccountState(address=ALICE, balance=amount + fee, nonce=5)
+    state.accounts[BOB] = AccountState(address=BOB, balance=0, nonce=0)
+    tx = _mk_shield_transfer(ALICE, nonce=5, destination=BOB, amount=amount, fee=fee)
+    state_test_group(
+        "transactions/privacy/shield_transfers.json",
+        "shield_transfer_exact_balance",
+        state,
+        tx,
+    )
+
+
+def test_shield_transfer_insufficient_balance_after_fee(state_test_group) -> None:
+    """Boundary: can pay fee, but cannot pay shield amount + fee."""
+    fee = 100_000
+    amount = MIN_SHIELD_TOS_AMOUNT
+    state = ChainState(network_chain_id=CHAIN_ID_DEVNET)
+    state.accounts[ALICE] = AccountState(address=ALICE, balance=amount + fee - 1, nonce=5)
+    state.accounts[BOB] = AccountState(address=BOB, balance=0, nonce=0)
+    tx = _mk_shield_transfer(ALICE, nonce=5, destination=BOB, amount=amount, fee=fee)
+    state_test_group(
+        "transactions/privacy/shield_transfers.json",
+        "shield_transfer_insufficient_balance_after_fee",
+        state,
+        tx,
+    )
+
+
 # --- boundary value tests ---
 
 

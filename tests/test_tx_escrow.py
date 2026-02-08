@@ -626,6 +626,78 @@ def test_challenge_escrow_insufficient_balance_for_deposit(state_test_group) -> 
     )
 
 
+def test_challenge_escrow_exact_balance_for_deposit(state_test_group) -> None:
+    """Boundary: payer balance exactly equals deposit + fee (should succeed)."""
+    state = _base_state()
+    escrow_id = _hash(60)
+    escrow = _funded_escrow(escrow_id, ALICE, BOB, 10 * COIN_VALUE)
+    escrow.status = EscrowStatus.PENDING_RELEASE
+    escrow.optimistic_release = True
+    escrow.arbitration_config = ArbitrationConfig(
+        mode="single",
+        arbiters=[CAROL],
+        threshold=1,
+        fee_amount=COIN_VALUE,
+        allow_appeal=False,
+    )
+    escrow.release_requested_at = 1
+    escrow.pending_release_amount = 5 * COIN_VALUE
+    state.escrows[escrow_id] = escrow
+
+    fee = 100_000
+    deposit = COIN_VALUE
+    state.accounts[ALICE].balance = deposit + fee
+
+    payload = {
+        "escrow_id": escrow_id,
+        "reason": "deliverable does not match specs",
+        "deposit": deposit,
+    }
+    tx = _mk_escrow_tx(ALICE, nonce=5, tx_type=TransactionType.CHALLENGE_ESCROW, payload=payload, fee=fee)
+    state_test_group(
+        "transactions/escrow/challenge_escrow.json",
+        "challenge_escrow_exact_balance_for_deposit",
+        state,
+        tx,
+    )
+
+
+def test_challenge_escrow_insufficient_balance_after_fee_for_deposit(state_test_group) -> None:
+    """Boundary: can pay fee, but cannot pay deposit + fee."""
+    state = _base_state()
+    escrow_id = _hash(60)
+    escrow = _funded_escrow(escrow_id, ALICE, BOB, 10 * COIN_VALUE)
+    escrow.status = EscrowStatus.PENDING_RELEASE
+    escrow.optimistic_release = True
+    escrow.arbitration_config = ArbitrationConfig(
+        mode="single",
+        arbiters=[CAROL],
+        threshold=1,
+        fee_amount=COIN_VALUE,
+        allow_appeal=False,
+    )
+    escrow.release_requested_at = 1
+    escrow.pending_release_amount = 5 * COIN_VALUE
+    state.escrows[escrow_id] = escrow
+
+    fee = 100_000
+    deposit = COIN_VALUE
+    state.accounts[ALICE].balance = deposit + fee - 1
+
+    payload = {
+        "escrow_id": escrow_id,
+        "reason": "deliverable does not match specs",
+        "deposit": deposit,
+    }
+    tx = _mk_escrow_tx(ALICE, nonce=5, tx_type=TransactionType.CHALLENGE_ESCROW, payload=payload, fee=fee)
+    state_test_group(
+        "transactions/escrow/challenge_escrow.json",
+        "challenge_escrow_insufficient_balance_after_fee_for_deposit",
+        state,
+        tx,
+    )
+
+
 # --- dispute_escrow specs ---
 
 
@@ -934,6 +1006,92 @@ def test_appeal_escrow_insufficient_balance_for_deposit(state_test_group) -> Non
     state_test_group(
         "transactions/escrow/appeal_escrow.json",
         "appeal_escrow_insufficient_balance_for_deposit",
+        state,
+        tx,
+    )
+
+
+def test_appeal_escrow_exact_balance_for_deposit(state_test_group) -> None:
+    """Boundary: appellant balance exactly equals appeal_deposit + fee (should succeed)."""
+    state = _base_state()
+    escrow_id = _hash(60)
+    escrow = _funded_escrow(escrow_id, ALICE, BOB, 10 * COIN_VALUE)
+    escrow.status = EscrowStatus.RESOLVED
+    escrow.timeout_at = 99999
+    escrow.arbitration_config = ArbitrationConfig(
+        mode="single",
+        arbiters=[CAROL],
+        threshold=1,
+        fee_amount=COIN_VALUE,
+        allow_appeal=True,
+    )
+    escrow.dispute = DisputeInfo(
+        initiator=ALICE,
+        reason="provider did not deliver",
+        disputed_at=1,
+        deadline=1000,
+    )
+    escrow.dispute_id = _hash(61)
+    escrow.dispute_round = 1
+    state.escrows[escrow_id] = escrow
+
+    fee = 100_000
+    appeal_deposit = 2 * COIN_VALUE
+    state.accounts[ALICE].balance = appeal_deposit + fee
+
+    payload = {
+        "escrow_id": escrow_id,
+        "reason": "verdict was unfair",
+        "appeal_deposit": appeal_deposit,
+        "appeal_mode": 1,
+    }
+    tx = _mk_escrow_tx(ALICE, nonce=5, tx_type=TransactionType.APPEAL_ESCROW, payload=payload, fee=fee)
+    state_test_group(
+        "transactions/escrow/appeal_escrow.json",
+        "appeal_escrow_exact_balance_for_deposit",
+        state,
+        tx,
+    )
+
+
+def test_appeal_escrow_insufficient_balance_after_fee_for_deposit(state_test_group) -> None:
+    """Boundary: can pay fee, but cannot pay appeal_deposit + fee."""
+    state = _base_state()
+    escrow_id = _hash(60)
+    escrow = _funded_escrow(escrow_id, ALICE, BOB, 10 * COIN_VALUE)
+    escrow.status = EscrowStatus.RESOLVED
+    escrow.timeout_at = 99999
+    escrow.arbitration_config = ArbitrationConfig(
+        mode="single",
+        arbiters=[CAROL],
+        threshold=1,
+        fee_amount=COIN_VALUE,
+        allow_appeal=True,
+    )
+    escrow.dispute = DisputeInfo(
+        initiator=ALICE,
+        reason="provider did not deliver",
+        disputed_at=1,
+        deadline=1000,
+    )
+    escrow.dispute_id = _hash(61)
+    escrow.dispute_round = 1
+    state.escrows[escrow_id] = escrow
+
+    fee = 100_000
+    appeal_deposit = 2 * COIN_VALUE
+    state.accounts[ALICE].balance = appeal_deposit + fee - 1
+
+    payload = {
+        "escrow_id": escrow_id,
+        "reason": "verdict was unfair",
+        "appeal_deposit": appeal_deposit,
+        "appeal_mode": 1,
+    }
+    tx = _mk_escrow_tx(ALICE, nonce=5, tx_type=TransactionType.APPEAL_ESCROW, payload=payload, fee=fee)
+    state_test_group(
+        "transactions/escrow/appeal_escrow.json",
+        "appeal_escrow_insufficient_balance_after_fee_for_deposit",
         state,
         tx,
     )
@@ -1248,6 +1406,56 @@ def test_create_escrow_insufficient_balance(state_test_group) -> None:
     )
 
 
+def test_create_escrow_exact_balance(state_test_group) -> None:
+    """Boundary: sender balance exactly equals amount + fee (should succeed)."""
+    state = _base_state()
+    fee = 100_000
+    amount = 5 * COIN_VALUE
+    state.accounts[ALICE].balance = amount + fee
+    payload = {
+        "task_id": "task_exact_balance",
+        "provider": BOB,
+        "amount": amount,
+        "asset": _hash(0),
+        "timeout_blocks": MIN_TIMEOUT_BLOCKS * 10,
+        "challenge_window": 100,
+        "challenge_deposit_bps": 500,
+        "optimistic_release": False,
+    }
+    tx = _mk_escrow_tx(ALICE, nonce=5, tx_type=TransactionType.CREATE_ESCROW, payload=payload, fee=fee)
+    state_test_group(
+        "transactions/escrow/create_escrow.json",
+        "create_escrow_exact_balance",
+        state,
+        tx,
+    )
+
+
+def test_create_escrow_insufficient_balance_after_fee(state_test_group) -> None:
+    """Boundary: can pay fee, but cannot pay amount + fee."""
+    state = _base_state()
+    fee = 100_000
+    amount = 5 * COIN_VALUE
+    state.accounts[ALICE].balance = amount + fee - 1
+    payload = {
+        "task_id": "task_exact_minus_one",
+        "provider": BOB,
+        "amount": amount,
+        "asset": _hash(0),
+        "timeout_blocks": MIN_TIMEOUT_BLOCKS * 10,
+        "challenge_window": 100,
+        "challenge_deposit_bps": 500,
+        "optimistic_release": False,
+    }
+    tx = _mk_escrow_tx(ALICE, nonce=5, tx_type=TransactionType.CREATE_ESCROW, payload=payload, fee=fee)
+    state_test_group(
+        "transactions/escrow/create_escrow.json",
+        "create_escrow_insufficient_balance_after_fee",
+        state,
+        tx,
+    )
+
+
 def test_create_escrow_timeout_too_low(state_test_group) -> None:
     """Timeout below MIN_TIMEOUT_BLOCKS."""
     state = _base_state()
@@ -1378,6 +1586,48 @@ def test_deposit_escrow_insufficient_balance(state_test_group) -> None:
     state_test_group(
         "transactions/escrow/deposit_escrow.json",
         "deposit_escrow_insufficient_balance",
+        state,
+        tx,
+    )
+
+
+def test_deposit_escrow_exact_balance(state_test_group) -> None:
+    """Boundary: sender balance exactly equals deposit amount + fee (should succeed)."""
+    state = _base_state()
+    escrow_id = _hash(60)
+    state.escrows[escrow_id] = _funded_escrow(escrow_id, ALICE, BOB, 10 * COIN_VALUE)
+    state.escrows[escrow_id].status = EscrowStatus.CREATED
+
+    fee = 100_000
+    amount = 5 * COIN_VALUE
+    state.accounts[ALICE].balance = amount + fee
+
+    payload = {"escrow_id": escrow_id, "amount": amount}
+    tx = _mk_escrow_tx(ALICE, nonce=5, tx_type=TransactionType.DEPOSIT_ESCROW, payload=payload, fee=fee)
+    state_test_group(
+        "transactions/escrow/deposit_escrow.json",
+        "deposit_escrow_exact_balance",
+        state,
+        tx,
+    )
+
+
+def test_deposit_escrow_insufficient_balance_after_fee(state_test_group) -> None:
+    """Boundary: can pay fee, but cannot pay deposit amount + fee."""
+    state = _base_state()
+    escrow_id = _hash(60)
+    state.escrows[escrow_id] = _funded_escrow(escrow_id, ALICE, BOB, 10 * COIN_VALUE)
+    state.escrows[escrow_id].status = EscrowStatus.CREATED
+
+    fee = 100_000
+    amount = 5 * COIN_VALUE
+    state.accounts[ALICE].balance = amount + fee - 1
+
+    payload = {"escrow_id": escrow_id, "amount": amount}
+    tx = _mk_escrow_tx(ALICE, nonce=5, tx_type=TransactionType.DEPOSIT_ESCROW, payload=payload, fee=fee)
+    state_test_group(
+        "transactions/escrow/deposit_escrow.json",
+        "deposit_escrow_insufficient_balance_after_fee",
         state,
         tx,
     )
