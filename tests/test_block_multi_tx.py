@@ -14,6 +14,7 @@ from tos_spec.types import (
     TxVersion,
 )
 from tos_spec.config import EXTRA_DATA_LIMIT_SIZE
+from tos_spec.config import MAX_TRANSFER_COUNT
 
 
 def _hash(byte: int) -> bytes:
@@ -403,6 +404,78 @@ def test_block_reject_atomic_on_second_tx_burn_energy_fee(block_test_group) -> N
     block_test_group(
         "transactions/block/multi_tx.json",
         "block_reject_atomic_on_second_tx_burn_energy_fee",
+        state,
+        [tx1, tx2],
+    )
+
+
+def test_block_reject_atomic_on_second_tx_chain_id_mismatch(block_test_group) -> None:
+    """Second tx has wrong chain_id; entire block is rejected and tx1 is rolled back."""
+    state = _base_state()
+    tx1 = _mk_transfer(ALICE, BOB, nonce=5, amount=10_000)
+    tx2 = _mk_transfer(ALICE, BOB, nonce=6, amount=1)
+    tx2.chain_id = 1  # mismatch: devnet is 3
+    block_test_group(
+        "transactions/block/multi_tx.json",
+        "block_reject_atomic_on_second_tx_chain_id_mismatch",
+        state,
+        [tx1, tx2],
+    )
+
+
+def test_block_reject_atomic_on_third_tx_nonce_too_high(block_test_group) -> None:
+    """Failure on 3rd tx (nonce too high) must roll back earlier successful txs."""
+    state = _base_state()
+    tx1 = _mk_transfer(ALICE, BOB, nonce=5, amount=10_000)
+    tx2 = _mk_transfer(ALICE, BOB, nonce=6, amount=10_000)
+    tx3 = _mk_transfer(ALICE, BOB, nonce=8, amount=1)  # strict expects 7
+    block_test_group(
+        "transactions/block/multi_tx.json",
+        "block_reject_atomic_on_third_tx_nonce_too_high",
+        state,
+        [tx1, tx2, tx3],
+    )
+
+
+def test_block_reject_atomic_on_second_tx_burn_uno_fee(block_test_group) -> None:
+    """UNO fee is invalid for burn; entire block is rejected and tx1 is rolled back."""
+    state = _base_state()
+    tx1 = _mk_transfer(ALICE, BOB, nonce=5, amount=10_000)
+    tx2 = _mk_burn(ALICE, nonce=6, amount=1, fee=0)
+    tx2.fee_type = FeeType.UNO
+    block_test_group(
+        "transactions/block/multi_tx.json",
+        "block_reject_atomic_on_second_tx_burn_uno_fee",
+        state,
+        [tx1, tx2],
+    )
+
+
+def test_block_reject_atomic_on_second_tx_insufficient_balance_after_burn(block_test_group) -> None:
+    """Burn in tx1 reduces balance; tx2 becomes unaffordable and the entire block is rejected."""
+    state = _base_state()
+    state.accounts[ALICE].balance = 400_000
+
+    burn = _mk_burn(ALICE, nonce=5, amount=150_000, fee=FEE_MIN)  # costs 250_000 total
+    xfer = _mk_transfer(ALICE, BOB, nonce=6, amount=60_000, fee=FEE_MIN)  # needs 160_000
+    block_test_group(
+        "transactions/block/multi_tx.json",
+        "block_reject_atomic_on_second_tx_insufficient_balance_after_burn",
+        state,
+        [burn, xfer],
+    )
+
+
+def test_block_reject_atomic_on_second_tx_sender_not_found_rolls_back_first(block_test_group) -> None:
+    """Second tx sender missing; entire block is rejected and tx1 is rolled back."""
+    state = _base_state()
+    tx1 = _mk_transfer(ALICE, BOB, nonce=5, amount=10_000)
+    # Sender exists in tx, but is absent from pre_state.
+    dave = _hash(9)  # deterministic but not in base_state
+    tx2 = _mk_transfer(dave, BOB, nonce=0, amount=1)
+    block_test_group(
+        "transactions/block/multi_tx.json",
+        "block_reject_atomic_on_second_tx_sender_not_found_rolls_back_first",
         state,
         [tx1, tx2],
     )
