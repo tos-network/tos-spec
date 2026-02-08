@@ -6,9 +6,9 @@ coverage gaps and prioritization targets.
 
 ## Current Published Status (2026-02-08)
 
-- `vectors/` contains **640** runnable execution vectors in the `test_vectors` schema.
+- `vectors/` contains **642** runnable execution vectors in the `test_vectors` schema.
 - The published suite has **no** `runnable: false` vectors.
-- Composition: **625** L1 state-transition vectors (`input.tx` present) + **15** L0 negative wire-decoding vectors.
+- Composition: **627** L1 state-transition vectors (`input.tx` present) + **15** L0 negative wire-decoding vectors.
 - Covered transaction types: **42** distinct `tx_type` values in published vectors.
 - Spec-only fixtures under `fixtures/{security,models,syscalls,api,consensus}/` are intentionally not published to `vectors/` yet.
 - Codec corpus: `fixtures/wire_format.json` contains 45 golden wire-encoding vectors but is not published to `vectors/` yet. The same corpus is mirrored into `~/tos/common/tests/wire_format.json` (with `wire_format_negative.json`) and validated by Rust internal tests: `cargo test -p tos_common --test spec_wire_format_vectors`.
@@ -66,7 +66,7 @@ Legend:  +++  strong coverage
 | Account model      | n/a        | +          | -          | -          | n/a        | n/a        |
 
 **Reading this matrix:** The published conformance suite is currently L1-heavy:
-625/640 vectors are L1 state transitions. L0 wire-format coverage in published
+627/642 vectors are L1 state transitions. L0 wire-format coverage in published
 vectors is currently negative-only (15 malformed `wire_hex` vectors). The
 priority gaps are:
 - L2: no executable block processing tests yet
@@ -85,7 +85,7 @@ lists the published `vectors/execution/transactions/**` groups and vector counts
 | arbitration | `execution/transactions/arbitration/` | 97 | L1 state transitions |
 | tns | `execution/transactions/tns/` | 61 | L1 state transitions |
 | energy | `execution/transactions/energy/` | 46 | L1 state transitions |
-| account | `execution/transactions/account/` | 41 | L1 state transitions |
+| account | `execution/transactions/account/` | 43 | L1 state transitions |
 | contracts | `execution/transactions/contracts/` | 24 | L1 state transitions |
 | privacy | `execution/transactions/privacy/` | 34 | L1 state transitions |
 | referral | `execution/transactions/referral/` | 20 | L1 state transitions |
@@ -130,8 +130,8 @@ Param testing (not yet applicable).
 Per-type coverage is tracked from the published conformance suite under `vectors/`.
 As of 2026-02-08:
 
-- Total published vectors: **640**
-- L1 state-transition vectors: **625** (`input.tx` present)
+- Total published vectors: **642**
+- L1 state-transition vectors: **627** (`input.tx` present)
 - L0 negative wire-decoding vectors: **15** (`wire_format_negative`)
 - Distinct `tx_type` values covered in published vectors: **42**
 
@@ -226,7 +226,7 @@ Fee types: `TOS=0`, `ENERGY=1`, `UNO=2`.
 
 | Module      | Types Covered / Total | Vectors | Negative | Fee Types Seen | Notes |
 |-------------|------------------------|--------:|---------:|----------------|-------|
-| account     | 2 / 2                  | 42      | 28       | 0, 1           | multisig + agent_account |
+| account     | 2 / 2                  | 44      | 28       | 0, 1           | multisig + agent_account |
 | arbitration | 10 / 10                | 92      | 69       | 0              | commit_* and arbiter ops |
 | contracts   | 2 / 2                  | 25      | 15       | 0, 1           | deploy + invoke |
 | core        | 2 / 2                  | 47      | 34       | 0, 1, 2        | transfers + burn |
@@ -237,7 +237,7 @@ Fee types: `TOS=0`, `ENERGY=1`, `UNO=2`.
 | referral    | 2 / 2                  | 20      | 15       | 0              | bind + batch reward |
 | tns         | 2 / 2                  | 62      | 41       | 0, 1           | names + ephemeral messages |
 
-This table covers the **625** published L1 vectors. The **15** L0 negative wire-decoding
+This table covers the **627** published L1 vectors. The **15** L0 negative wire-decoding
 vectors (`wire_format_negative`) are not included in handler-module stats.
 
 ## Summary: Coverage Heat Map
