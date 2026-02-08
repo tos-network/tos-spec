@@ -212,9 +212,9 @@ layer in the testing pyramid.
 
 As of **2026-02-08**:
 
-- Published conformance suite: `vectors/` contains **642 runnable** execution vectors in the `test_vectors` schema.
+- Published conformance suite: `vectors/` contains **644 runnable** execution vectors in the `test_vectors` schema.
 - Runner status: `python3 ~/labu/tools/local_execution_runner.py --vectors ~/tos-spec/vectors` reports `all ok` against the `tos` conformance server.
-- Composition: **627** L1 state-transition vectors (`input.tx` present) + **15** L0 negative wire-decoding vectors (malformed `wire_hex` rejected by decode).
+- Composition: **627** L1 state-transition vectors (`input.tx` present) + **15** L0 negative wire-decoding vectors (malformed `wire_hex` rejected by decode) + **2** L2 block vectors (`input.kind="block"`).
 - Covered transaction types: **42** distinct `tx_type` values in published vectors.
 - Note: `uno_transfers` vectors are currently **tx-json-only** (`input.wire_hex=""`) until wire/proof generation and encrypted pre-state are represented in the exported conformance surface.
 - Spec-only: fixtures under `fixtures/{security,models,syscalls,api,consensus}/` are not published to `vectors/` yet.
@@ -229,6 +229,7 @@ Counts below are for the published conformance suite under `vectors/execution/tr
 | escrow | 137 |
 | kyc | 107 |
 | arbitration | 97 |
+| block | 2 |
 | (root) | 64 |
 | tns | 61 |
 | energy | 46 |
@@ -245,7 +246,7 @@ Counts below are for the published conformance suite under `vectors/execution/tr
 |-------|-----------------|--------|----------|
 | L0    | 15 (wire negative) | ~50 | Partial  |
 | L1    | 627 (tx state transition) | ~200 | Good |
-| L2    | 0 | ~50 | None |
+| L2    | 2 | ~50 | Minimal |
 | L3    | 0 | ~80 | None |
 | L4    | 0 | ~30 | None |
 | L5    | 0 | ~10 | None |
@@ -271,7 +272,7 @@ Counts below are for the published conformance suite under `vectors/execution/tr
 ### Layer 1 — Single Transaction State Transition
 
 **Current (published)**: 627 L1 state-transition vectors (`input.tx` present) covering 42 distinct `tx_type` values.
-All published vectors pass in the Rust daemon conformance runner (overall 642/642 including L0 negatives).
+All published vectors pass in the Rust daemon conformance runner (overall 644/644 including L0 negatives and L2 blocks).
 
 **Gaps**:
 - Multiple tests per transaction type (currently ~1 per type on average)
@@ -284,7 +285,7 @@ All published vectors pass in the Rust daemon conformance runner (overall 642/64
 
 ### Layer 2 — Block Processing
 
-**Current (published)**: no block-processing vectors yet.
+**Current (published)**: 2 minimal block-processing vectors (multi-tx execution + atomic rejection).
 
 **Current (fixtures only)**: consensus/model fixtures exist under `fixtures/consensus/` but are not published to `vectors/` yet.
 

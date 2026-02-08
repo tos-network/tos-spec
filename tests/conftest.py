@@ -8,7 +8,7 @@ from typing import Any, Callable
 
 import pytest
 
-from tos_spec.state_transition import apply_tx
+from tos_spec.state_transition import apply_block, apply_tx
 from tos_spec.test_accounts import SEED_MAP, sign_transaction
 from tos_spec.types import ChainState, Transaction
 from tools.fixtures_io import state_to_json, tx_to_json
@@ -106,6 +106,38 @@ def state_test_group() -> Callable[[str, str, ChainState, Transaction], None]:
         )
 
     return _state_test_group
+
+
+@pytest.fixture
+def block_test_group() -> Callable[[str, str, ChainState, list[Transaction]], None]:
+    """Collect a block-level (multi-tx) case under a specific fixture path."""
+
+    def _block_test_group(
+        rel_path: str, name: str, pre_state: ChainState, txs: list[Transaction]
+    ) -> None:
+        for tx in txs:
+            _auto_sign(tx)
+        post_state, result = apply_block(pre_state, txs)
+        txs_json = []
+        for tx in txs:
+            tx_json = tx_to_json(tx)
+            tx_json["wire_hex"] = _try_wire_hex(tx)
+            txs_json.append(tx_json)
+
+        _STATE_CASES.setdefault(rel_path, []).append(
+            {
+                "name": name,
+                "pre_state": state_to_json(pre_state),
+                "block": {"txs": txs_json},
+                "expected": {
+                    "ok": result.ok,
+                    "error": result.error.code.name if result.error else None,
+                    "post_state": state_to_json(post_state),
+                },
+            }
+        )
+
+    return _block_test_group
 
 
 @pytest.fixture

@@ -303,12 +303,18 @@ def apply_tx(state: ChainState, tx: Transaction) -> tuple[ChainState, Transition
 
 
 def apply_block(state: ChainState, txs: list[Transaction]) -> tuple[ChainState, TransitionResult]:
-    """Apply a block worth of transactions in order."""
+    """Apply a block worth of transactions in order (block-atomic semantics).
+
+    If any transaction fails, the entire block is rejected and the state is
+    unchanged. This matches block acceptance rules (an invalid TX makes the
+    whole block invalid).
+    """
     working = state
     for tx in txs:
         working, result = apply_tx(working, tx)
         if not result.ok:
-            return working, result
+            return state, result
+
     working = replace(
         working,
         global_state=replace(

@@ -199,6 +199,7 @@ def main() -> None:
                 state_digest = compute_state_digest(post_state) if post_state else None
                 error_code = _map_error_code(expected.get("error"))
                 wire_hex = None
+                block_txs = None
                 if "tx" in case:
                     tx_type = case.get("tx", {}).get("tx_type")
                     # Some vectors are intentionally tx-json-only: do not synthesize wire_hex.
@@ -210,6 +211,29 @@ def main() -> None:
                         # cannot be consumed by the daemon conformance endpoint. Drop it.
                         if not wire_hex:
                             continue
+                elif "block" in case:
+                    block = case.get("block") or {}
+                    txs = block.get("txs") or []
+                    if not isinstance(txs, list) or not txs:
+                        continue
+                    out = []
+                    ok = True
+                    for tx in txs:
+                        if not isinstance(tx, dict):
+                            ok = False
+                            break
+                        tx_type = tx.get("tx_type")
+                        if tx_type in TX_JSON_ONLY:
+                            wh = tx.get("wire_hex") or ""
+                        else:
+                            wh = tx.get("wire_hex") or _encode_tx_if_possible(tx)
+                            if not wh:
+                                ok = False
+                                break
+                        out.append({"wire_hex": wh or "", "tx": tx})
+                    if not ok:
+                        continue
+                    block_txs = out
                 vec_entry: dict = {
                         "name": case.get("name", ""),
                         "description": case.get("description", ""),
@@ -221,12 +245,24 @@ def main() -> None:
                         or ((not wire_hex) and ("tx" in case) and (tx_type not in TX_JSON_ONLY))
                         or case_name in DAEMON_MISMATCH_SKIP):
                     vec_entry["runnable"] = False
-                vec_entry.update({
-                        "input": {
-                            "kind": "tx" if "tx" in case else "block",
-                            "wire_hex": wire_hex or "",
-                            "tx": case.get("tx"),
-                        },
+                inp: dict[str, Any]
+                if "tx" in case:
+                    inp = {
+                        "kind": "tx",
+                        "wire_hex": wire_hex or "",
+                        "tx": case.get("tx"),
+                    }
+                elif block_txs is not None:
+                    inp = {
+                        "kind": "block",
+                        "txs": block_txs,
+                    }
+                else:
+                    continue
+
+                vec_entry.update(
+                    {
+                        "input": inp,
                         "expected": {
                             "success": bool(expected.get("ok", False)),
                             "error_code": int(error_code),

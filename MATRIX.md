@@ -6,9 +6,9 @@ coverage gaps and prioritization targets.
 
 ## Current Published Status (2026-02-08)
 
-- `vectors/` contains **642** runnable execution vectors in the `test_vectors` schema.
+- `vectors/` contains **644** runnable execution vectors in the `test_vectors` schema.
 - The published suite has **no** `runnable: false` vectors.
-- Composition: **627** L1 state-transition vectors (`input.tx` present) + **15** L0 negative wire-decoding vectors.
+- Composition: **627** L1 state-transition vectors (`input.tx` present) + **15** L0 negative wire-decoding vectors + **2** L2 block vectors (`input.kind="block"`).
 - Covered transaction types: **42** distinct `tx_type` values in published vectors.
 - Spec-only fixtures under `fixtures/{security,models,syscalls,api,consensus}/` are intentionally not published to `vectors/` yet.
 - Codec corpus: `fixtures/wire_format.json` contains 45 golden wire-encoding vectors but is not published to `vectors/` yet. The same corpus is mirrored into `~/tos/common/tests/wire_format.json` (with `wire_format_negative.json`) and validated by Rust internal tests: `cargo test -p tos_common --test spec_wire_format_vectors`.
@@ -39,7 +39,7 @@ Legend:  +++  strong coverage
 
 | Domain             | L0 Codec   | L1 State   | L2 Block   | L3 API     | L4 P2P     | L5 Interop |
 |--------------------|------------|------------|------------|------------|------------|------------|
-| Core (transfer)    | ++         | +++        | -          | -          | -          | -          |
+| Core (transfer)    | ++         | +++        | +          | -          | -          | -          |
 | Burn               | +          | ++         | -          | -          | n/a        | -          |
 | Multisig           | +          | +++        | -          | -          | n/a        | -          |
 | Energy / Freeze    | ++         | +++        | -          | -          | n/a        | -          |
@@ -66,10 +66,10 @@ Legend:  +++  strong coverage
 | Account model      | n/a        | +          | -          | -          | n/a        | n/a        |
 
 **Reading this matrix:** The published conformance suite is currently L1-heavy:
-627/642 vectors are L1 state transitions. L0 wire-format coverage in published
+627/644 vectors are L1 state transitions. L0 wire-format coverage in published
 vectors is currently negative-only (15 malformed `wire_hex` vectors). The
 priority gaps are:
-- L2: no executable block processing tests yet
+- L2: minimal executable block processing tests (2 vectors)
 - L3-L5: not published yet (API/P2P/interop vectors remain spec-only)
 Note: positive wire-format vectors exist as a spec codec corpus (45 entries) but are currently consumed via Rust internal tests rather than the published conformance runner.
 
@@ -83,6 +83,7 @@ lists the published `vectors/execution/transactions/**` groups and vector counts
 | escrow | `execution/transactions/escrow/` | 137 | L1 state transitions |
 | kyc | `execution/transactions/kyc/` | 107 | L1 state transitions |
 | arbitration | `execution/transactions/arbitration/` | 97 | L1 state transitions |
+| block | `execution/transactions/block/` | 2 | L2 block processing (multi-tx, atomic rejection) |
 | tns | `execution/transactions/tns/` | 61 | L1 state transitions |
 | energy | `execution/transactions/energy/` | 46 | L1 state transitions |
 | account | `execution/transactions/account/` | 43 | L1 state transitions |
@@ -130,9 +131,10 @@ Param testing (not yet applicable).
 Per-type coverage is tracked from the published conformance suite under `vectors/`.
 As of 2026-02-08:
 
-- Total published vectors: **642**
+- Total published vectors: **644**
 - L1 state-transition vectors: **627** (`input.tx` present)
 - L0 negative wire-decoding vectors: **15** (`wire_format_negative`)
+- L2 block vectors: **2** (`input.kind="block"`)
 - Distinct `tx_type` values covered in published vectors: **42**
 
 To list covered `tx_type` values from `vectors/`:
@@ -245,7 +247,7 @@ vectors (`wire_format_negative`) are not included in handler-module stats.
 ```
                      L0     L1     L2     L3     L4     L5
                    +------+------+------+------+------+------+
-   Core tx         | OK   | GOOD | NONE | NONE | NONE | NONE |
+   Core tx         | OK   | GOOD | LOW  | NONE | NONE | NONE |
                    +------+------+------+------+------+------+
    Energy          | OK   | GOOD | NONE | NONE | NONE | NONE |
                    +------+------+------+------+------+------+
