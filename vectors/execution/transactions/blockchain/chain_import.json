@@ -1,0 +1,358 @@
+{
+  "test_vectors": [
+    {
+      "name": "chain_reward_empty_block",
+      "description": "Import one empty block; miner gets block_reward minus dev fee (10% at height 1).",
+      "pre_state": {
+        "network_chain_id": 3,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "8c9240b456a9e6dc65c377a1048d745f94a08cdb7f44cbcd7b46f34048871134",
+            "balance": 0,
+            "nonce": 0,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
+      },
+      "input": {
+        "kind": "chain",
+        "blocks": [
+          {
+            "id": "b1",
+            "parents": [
+              "genesis"
+            ],
+            "txs": []
+          }
+        ]
+      },
+      "expected": {
+        "success": true,
+        "error_code": 0,
+        "state_digest": "ba5a96f9244f6577a698e3eae5f557e40fd3204409213f5815da4f3dd80a63d2",
+        "post_state": {
+          "network_chain_id": 3,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 1,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "8c9240b456a9e6dc65c377a1048d745f94a08cdb7f44cbcd7b46f34048871134",
+              "balance": 87738037,
+              "nonce": 0,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "chain_invalid_tips_count_zero",
+      "description": "Reject a non-genesis block with zero parents/tips.",
+      "pre_state": {
+        "network_chain_id": 3,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "8c9240b456a9e6dc65c377a1048d745f94a08cdb7f44cbcd7b46f34048871134",
+            "balance": 0,
+            "nonce": 0,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
+      },
+      "input": {
+        "kind": "chain",
+        "blocks": [
+          {
+            "id": "bad",
+            "parents": [],
+            "height": 1,
+            "txs": []
+          }
+        ]
+      },
+      "expected": {
+        "success": false,
+        "error_code": 1543,
+        "state_digest": "c970e6d54b49594da6db9347a45dbb03d8bab8a8ccd692835e0cbffbb5b5ae08",
+        "post_state": {
+          "network_chain_id": 3,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "8c9240b456a9e6dc65c377a1048d745f94a08cdb7f44cbcd7b46f34048871134",
+              "balance": 0,
+              "nonce": 0,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "chain_invalid_tip_not_found",
+      "description": "Reject a block referencing a missing parent hash.",
+      "pre_state": {
+        "network_chain_id": 3,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "8c9240b456a9e6dc65c377a1048d745f94a08cdb7f44cbcd7b46f34048871134",
+            "balance": 0,
+            "nonce": 0,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
+      },
+      "input": {
+        "kind": "chain",
+        "blocks": [
+          {
+            "id": "bad",
+            "parents": [
+              "1111111111111111111111111111111111111111111111111111111111111111"
+            ],
+            "height": 1,
+            "txs": []
+          }
+        ]
+      },
+      "expected": {
+        "success": false,
+        "error_code": 1544,
+        "state_digest": "c970e6d54b49594da6db9347a45dbb03d8bab8a8ccd692835e0cbffbb5b5ae08",
+        "post_state": {
+          "network_chain_id": 3,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "8c9240b456a9e6dc65c377a1048d745f94a08cdb7f44cbcd7b46f34048871134",
+              "balance": 0,
+              "nonce": 0,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "chain_non_tip_parent_allowed",
+      "description": "Import a block that references a non-tip parent (fork from an earlier block).",
+      "pre_state": {
+        "network_chain_id": 3,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "8c9240b456a9e6dc65c377a1048d745f94a08cdb7f44cbcd7b46f34048871134",
+            "balance": 0,
+            "nonce": 0,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
+      },
+      "input": {
+        "kind": "chain",
+        "blocks": [
+          {
+            "id": "b1",
+            "parents": [
+              "genesis"
+            ],
+            "txs": []
+          },
+          {
+            "id": "b2",
+            "parents": [
+              "b1"
+            ],
+            "txs": []
+          },
+          {
+            "id": "bad",
+            "parents": [
+              "b1"
+            ],
+            "txs": []
+          }
+        ]
+      },
+      "expected": {
+        "success": true,
+        "error_code": 0,
+        "state_digest": "",
+        "post_state": null
+      }
+    },
+    {
+      "name": "chain_invalid_block_height",
+      "description": "Reject a block whose declared height does not match its parents.",
+      "pre_state": {
+        "network_chain_id": 3,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "8c9240b456a9e6dc65c377a1048d745f94a08cdb7f44cbcd7b46f34048871134",
+            "balance": 0,
+            "nonce": 0,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
+      },
+      "input": {
+        "kind": "chain",
+        "blocks": [
+          {
+            "id": "bad",
+            "parents": [
+              "genesis"
+            ],
+            "height": 2,
+            "txs": []
+          }
+        ]
+      },
+      "expected": {
+        "success": false,
+        "error_code": 1550,
+        "state_digest": "",
+        "post_state": null
+      }
+    },
+    {
+      "name": "chain_invalid_tips_count_over_limit",
+      "description": "Reject a block with >3 tips (parents).",
+      "pre_state": {
+        "network_chain_id": 3,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": []
+      },
+      "input": {
+        "kind": "chain",
+        "blocks": [
+          {
+            "id": "b1",
+            "parents": [
+              "genesis"
+            ],
+            "txs": []
+          },
+          {
+            "id": "b2",
+            "parents": [
+              "b1"
+            ],
+            "txs": []
+          },
+          {
+            "id": "b3",
+            "parents": [
+              "b2"
+            ],
+            "txs": []
+          },
+          {
+            "id": "b4",
+            "parents": [
+              "b3"
+            ],
+            "txs": []
+          },
+          {
+            "id": "bad",
+            "parents": [
+              "b1",
+              "b2",
+              "b3",
+              "b4"
+            ],
+            "txs": []
+          }
+        ]
+      },
+      "expected": {
+        "success": false,
+        "error_code": 1543,
+        "state_digest": "",
+        "post_state": null
+      }
+    }
+  ]
+}
