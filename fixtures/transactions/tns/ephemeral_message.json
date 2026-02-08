@@ -433,6 +433,114 @@
       }
     },
     {
+      "name": "ephemeral_message_exact_balance_for_fee",
+      "pre_state": {
+        "network_chain_id": 3,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "balance": 100000,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          },
+          {
+            "address": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824",
+            "balance": 100000000,
+            "nonce": 0,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ],
+        "tns_names": [
+          {
+            "name": "alice",
+            "owner": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249"
+          },
+          {
+            "name": "bob.wallet",
+            "owner": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824"
+          }
+        ]
+      },
+      "tx": {
+        "version": 1,
+        "chain_id": 3,
+        "source": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+        "tx_type": "ephemeral_message",
+        "payload": {
+          "sender_name_hash": "71b278f3dc434447fc620500e47b6a80b0cb0df76a1051119fe19ed4953242df",
+          "recipient_name_hash": "ec7a3ac4e33002e8327b7daae1c5c70ba01f2ad4db0b6d7d5c424db97d5154eb",
+          "message_nonce": 5,
+          "ttl_blocks": 100,
+          "encrypted_content": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "receiver_handle": "e2f2ae0a6abc4e71a884a961c500515f58e30b6aa582dd8db6a65945e08d2d76"
+        },
+        "fee": 100000,
+        "fee_type": 0,
+        "nonce": 5,
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "9255a2cd14bb6e4ba1cbf92533275ffc37bfa7fd7e97653a5f7fbee7faca0b03bfd7ff395620d4190faddb90ec61fc31cbbc03341dac440cf868b20e28488e08",
+        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b2491671b278f3dc434447fc620500e47b6a80b0cb0df76a1051119fe19ed4953242dfec7a3ac4e33002e8327b7daae1c5c70ba01f2ad4db0b6d7d5c424db97d5154eb0000000000000005000000640032aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaae2f2ae0a6abc4e71a884a961c500515f58e30b6aa582dd8db6a65945e08d2d7600000000000186a000000000000000000500000000000000000000000000000000000000000000000000000000000000000000000000000000009255a2cd14bb6e4ba1cbf92533275ffc37bfa7fd7e97653a5f7fbee7faca0b03bfd7ff395620d4190faddb90ec61fc31cbbc03341dac440cf868b20e28488e08"
+      },
+      "expected": {
+        "ok": true,
+        "error": null,
+        "post_state": {
+          "network_chain_id": 3,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+              "balance": 0,
+              "nonce": 6,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            },
+            {
+              "address": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824",
+              "balance": 100000000,
+              "nonce": 0,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ],
+          "tns_names": [
+            {
+              "name": "alice",
+              "owner": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249"
+            },
+            {
+              "name": "bob.wallet",
+              "owner": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824"
+            }
+          ]
+        }
+      }
+    },
+    {
       "name": "ephemeral_message_ttl_too_low",
       "pre_state": {
         "network_chain_id": 3,

@@ -250,6 +250,28 @@ def test_ephemeral_message_insufficient_fee(state_test_group) -> None:
     )
 
 
+def test_ephemeral_message_exact_balance_for_fee(state_test_group) -> None:
+    """Sender balance equals the tx fee (boundary: exact fee coverage)."""
+    state = _msg_state()
+    # Use 100_000 (matches other runnable vectors); some daemon builds enforce a higher
+    # minimum message fee than BASE_MESSAGE_FEE even though the spec constant is 5000.
+    state.accounts[ALICE].balance = 100_000
+    tx = _mk_ephemeral_message(
+        ALICE, nonce=5,
+        sender_name_hash=_SENDER_NAME_HASH,
+        recipient_name_hash=_RECIPIENT_NAME_HASH,
+        ttl_blocks=MIN_TTL,
+        encrypted_content=bytes([0xAA]) * 50,
+        fee=100_000,
+    )
+    state_test_group(
+        "transactions/tns/ephemeral_message.json",
+        "ephemeral_message_exact_balance_for_fee",
+        state,
+        tx,
+    )
+
+
 def test_ephemeral_message_ttl_too_low(state_test_group) -> None:
     """TTL below minimum."""
     state = _msg_state()
@@ -723,6 +745,32 @@ def test_register_name_exact_fee(state_test_group) -> None:
     state_test_group(
         "transactions/tns/register_name.json",
         "register_name_exact_fee",
+        state,
+        tx,
+    )
+
+
+def test_register_name_exact_balance_for_fee(state_test_group) -> None:
+    """Sender balance exactly equals the registration fee."""
+    state = _base_state()
+    state.accounts[ALICE].balance = REGISTRATION_FEE
+    tx = _mk_register_name(ALICE, nonce=5, name="alice", fee=REGISTRATION_FEE)
+    state_test_group(
+        "transactions/tns/register_name.json",
+        "register_name_exact_balance_for_fee",
+        state,
+        tx,
+    )
+
+
+def test_register_name_insufficient_balance_for_fee(state_test_group) -> None:
+    """Sender fee meets REGISTRATION_FEE, but sender cannot pay it."""
+    state = _base_state()
+    state.accounts[ALICE].balance = REGISTRATION_FEE - 1
+    tx = _mk_register_name(ALICE, nonce=5, name="alice", fee=REGISTRATION_FEE)
+    state_test_group(
+        "transactions/tns/register_name.json",
+        "register_name_insufficient_balance_for_fee",
         state,
         tx,
     )

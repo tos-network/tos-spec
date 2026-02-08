@@ -23710,6 +23710,135 @@
       }
     },
     {
+      "name": "freeze_delegate_exact_balance",
+      "description": "",
+      "pre_state": {
+        "network_chain_id": 3,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "balance": 200000000,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          },
+          {
+            "address": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824",
+            "balance": 0,
+            "nonce": 0,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          },
+          {
+            "address": "7ea555bf91bfb985561a91afcd669a79c0cc115ce03baf687cb8dd7e1e996e7b",
+            "balance": 0,
+            "nonce": 0,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
+      },
+      "input": {
+        "kind": "tx",
+        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b24905010000000000000002c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e378240000000005f5e1007ea555bf91bfb985561a91afcd669a79c0cc115ce03baf687cb8dd7e1e996e7b0000000005f5e1000000000700000000000000000000000000000000050000000000000000000000000000000000000000000000000000000000000000000000000000000000f6fdee147ba205350a3e8ab4d62bb553ed33d36925582482e06599764d0ebd0eeb554aa5cb1e36da69bea309a2f0dcef999459ce222c757fd25d50e4e6916003",
+        "tx": {
+          "version": 1,
+          "chain_id": 3,
+          "source": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+          "tx_type": "energy",
+          "payload": {
+            "variant": "freeze_tos_delegate",
+            "amount": null,
+            "duration_days": 7,
+            "delegatees": [
+              {
+                "delegatee": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824",
+                "amount": 100000000
+              },
+              {
+                "delegatee": "7ea555bf91bfb985561a91afcd669a79c0cc115ce03baf687cb8dd7e1e996e7b",
+                "amount": 100000000
+              }
+            ],
+            "from_delegation": null,
+            "record_index": null,
+            "delegatee_address": null
+          },
+          "fee": 0,
+          "fee_type": 0,
+          "nonce": 5,
+          "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+          "reference_topoheight": 0,
+          "signature": "f6fdee147ba205350a3e8ab4d62bb553ed33d36925582482e06599764d0ebd0eeb554aa5cb1e36da69bea309a2f0dcef999459ce222c757fd25d50e4e6916003",
+          "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b24905010000000000000002c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e378240000000005f5e1007ea555bf91bfb985561a91afcd669a79c0cc115ce03baf687cb8dd7e1e996e7b0000000005f5e1000000000700000000000000000000000000000000050000000000000000000000000000000000000000000000000000000000000000000000000000000000f6fdee147ba205350a3e8ab4d62bb553ed33d36925582482e06599764d0ebd0eeb554aa5cb1e36da69bea309a2f0dcef999459ce222c757fd25d50e4e6916003"
+        }
+      },
+      "expected": {
+        "success": true,
+        "error_code": 0,
+        "state_digest": "15635101ab0963dc024c61dae3662b82ebf6532dbc78317ac9e7ad669690eeb2",
+        "post_state": {
+          "network_chain_id": 3,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 28,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+              "balance": 0,
+              "nonce": 6,
+              "frozen": 200000000,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            },
+            {
+              "address": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824",
+              "balance": 0,
+              "nonce": 0,
+              "frozen": 0,
+              "energy": 14,
+              "flags": 0,
+              "data": ""
+            },
+            {
+              "address": "7ea555bf91bfb985561a91afcd669a79c0cc115ce03baf687cb8dd7e1e996e7b",
+              "balance": 0,
+              "nonce": 0,
+              "frozen": 0,
+              "energy": 14,
+              "flags": 0,
+              "data": ""
+            }
+          ],
+          "energy_resources": [
+            {
+              "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+              "energy": 0,
+              "frozen_tos": 200000000
+            }
+          ]
+        }
+      }
+    },
+    {
       "name": "freeze_delegate_duration_too_short",
       "description": "",
       "pre_state": {

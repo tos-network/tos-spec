@@ -180,6 +180,21 @@ def test_freeze_tos_insufficient_balance(state_test_group) -> None:
     )
 
 
+def test_freeze_tos_exact_balance(state_test_group) -> None:
+    """Sender balance exactly equals freeze amount (fee is always 0)."""
+    state = _base_state()
+    sender = ALICE
+    amount = 5 * COIN_VALUE
+    state.accounts[sender].balance = amount
+    tx = _mk_freeze_tos(sender, nonce=5, amount=amount, days=7, fee=0)
+    state_test_group(
+        "transactions/energy/freeze_tos.json",
+        "freeze_tos_exact_balance",
+        state,
+        tx,
+    )
+
+
 def test_freeze_tos_zero_amount(state_test_group) -> None:
     state = _base_state()
     sender = ALICE
@@ -788,6 +803,28 @@ def test_freeze_delegate_insufficient_balance(state_test_group) -> None:
     state_test_group(
         "transactions/energy/freeze_delegate.json",
         "freeze_delegate_insufficient_balance",
+        state,
+        tx,
+    )
+
+
+def test_freeze_delegate_exact_balance(state_test_group) -> None:
+    """Sender balance exactly equals total delegated amount (fee is always 0)."""
+    state = ChainState(network_chain_id=CHAIN_ID_DEVNET)
+    sender = ALICE
+    state.accounts[sender] = AccountState(
+        address=sender, balance=2 * COIN_VALUE, nonce=5
+    )
+    state.accounts[BOB] = AccountState(address=BOB, balance=0, nonce=0)
+    state.accounts[CAROL] = AccountState(address=CAROL, balance=0, nonce=0)
+    entries = [
+        DelegationEntry(delegatee=BOB, amount=COIN_VALUE),
+        DelegationEntry(delegatee=CAROL, amount=COIN_VALUE),
+    ]
+    tx = _mk_freeze_delegate(sender, nonce=5, delegatees=entries, days=7, fee=0)
+    state_test_group(
+        "transactions/energy/freeze_delegate.json",
+        "freeze_delegate_exact_balance",
         state,
         tx,
     )

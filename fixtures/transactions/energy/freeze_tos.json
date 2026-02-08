@@ -411,6 +411,113 @@
       }
     },
     {
+      "name": "freeze_tos_exact_balance",
+      "pre_state": {
+        "network_chain_id": 3,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "balance": 500000000,
+            "nonce": 5,
+            "frozen": 1000000000,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ],
+        "energy_resources": [
+          {
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "energy": 0,
+            "frozen_tos": 1000000000,
+            "freeze_records": [
+              {
+                "amount": 1000000000,
+                "energy_gained": 0,
+                "freeze_height": 0,
+                "unlock_height": 99999
+              }
+            ]
+          }
+        ]
+      },
+      "tx": {
+        "version": 1,
+        "chain_id": 3,
+        "source": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+        "tx_type": "energy",
+        "payload": {
+          "variant": "freeze_tos",
+          "amount": 500000000,
+          "duration_days": 7,
+          "delegatees": [],
+          "from_delegation": null,
+          "record_index": null,
+          "delegatee_address": null
+        },
+        "fee": 0,
+        "fee_type": 0,
+        "nonce": 5,
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "aa7be37de1fd86149dc7fd0e426ec5fd5ea9ecbe319aa19440f8c7e8e01206006a07cccb1a0f8c55fd752dac7371461b8fdd7d33049eacdf37d8e7c1c2757d0f",
+        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b2490500000000001dcd65000000000700000000000000000000000000000000050000000000000000000000000000000000000000000000000000000000000000000000000000000000aa7be37de1fd86149dc7fd0e426ec5fd5ea9ecbe319aa19440f8c7e8e01206006a07cccb1a0f8c55fd752dac7371461b8fdd7d33049eacdf37d8e7c1c2757d0f"
+      },
+      "expected": {
+        "ok": true,
+        "error": null,
+        "post_state": {
+          "network_chain_id": 3,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 70,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+              "balance": 0,
+              "nonce": 6,
+              "frozen": 1500000000,
+              "energy": 70,
+              "flags": 0,
+              "data": ""
+            }
+          ],
+          "energy_resources": [
+            {
+              "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+              "energy": 70,
+              "frozen_tos": 1500000000,
+              "freeze_records": [
+                {
+                  "amount": 1000000000,
+                  "energy_gained": 0,
+                  "freeze_height": 0,
+                  "unlock_height": 99999
+                },
+                {
+                  "amount": 500000000,
+                  "energy_gained": 70,
+                  "freeze_height": 0,
+                  "unlock_height": 70
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
       "name": "freeze_tos_zero_amount",
       "pre_state": {
         "network_chain_id": 3,

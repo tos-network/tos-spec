@@ -2232,6 +2232,154 @@
       }
     },
     {
+      "name": "register_name_exact_balance_for_fee",
+      "description": "",
+      "pre_state": {
+        "network_chain_id": 3,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "balance": 10000000,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
+      },
+      "input": {
+        "kind": "tx",
+        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b2491505616c696365000000000098968000000000000000000500000000000000000000000000000000000000000000000000000000000000000000000000000000003ed392c1047f2dc530c1f22b9c8ca954e6e090c4f9d30661c43d35e4a019c704caaa7f4b4168b446300e640e4442b649f37a0f15522241bfddfb2981b375160a",
+        "tx": {
+          "version": 1,
+          "chain_id": 3,
+          "source": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+          "tx_type": "register_name",
+          "payload": {
+            "name": "alice"
+          },
+          "fee": 10000000,
+          "fee_type": 0,
+          "nonce": 5,
+          "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+          "reference_topoheight": 0,
+          "signature": "3ed392c1047f2dc530c1f22b9c8ca954e6e090c4f9d30661c43d35e4a019c704caaa7f4b4168b446300e640e4442b649f37a0f15522241bfddfb2981b375160a",
+          "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b2491505616c696365000000000098968000000000000000000500000000000000000000000000000000000000000000000000000000000000000000000000000000003ed392c1047f2dc530c1f22b9c8ca954e6e090c4f9d30661c43d35e4a019c704caaa7f4b4168b446300e640e4442b649f37a0f15522241bfddfb2981b375160a"
+        }
+      },
+      "expected": {
+        "success": true,
+        "error_code": 0,
+        "state_digest": "fc43c346d2d0a96853a793fbd0a19fb139f7d3d1ad66917ee8e515b07502f8ec",
+        "post_state": {
+          "network_chain_id": 3,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+              "balance": 0,
+              "nonce": 6,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ],
+          "tns_names": [
+            {
+              "name": "alice",
+              "owner": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "register_name_insufficient_balance_for_fee",
+      "description": "",
+      "pre_state": {
+        "network_chain_id": 3,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "balance": 9999999,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
+      },
+      "input": {
+        "kind": "tx",
+        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b2491505616c696365000000000098968000000000000000000500000000000000000000000000000000000000000000000000000000000000000000000000000000003ed392c1047f2dc530c1f22b9c8ca954e6e090c4f9d30661c43d35e4a019c704caaa7f4b4168b446300e640e4442b649f37a0f15522241bfddfb2981b375160a",
+        "tx": {
+          "version": 1,
+          "chain_id": 3,
+          "source": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+          "tx_type": "register_name",
+          "payload": {
+            "name": "alice"
+          },
+          "fee": 10000000,
+          "fee_type": 0,
+          "nonce": 5,
+          "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+          "reference_topoheight": 0,
+          "signature": "3ed392c1047f2dc530c1f22b9c8ca954e6e090c4f9d30661c43d35e4a019c704caaa7f4b4168b446300e640e4442b649f37a0f15522241bfddfb2981b375160a",
+          "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b2491505616c696365000000000098968000000000000000000500000000000000000000000000000000000000000000000000000000000000000000000000000000003ed392c1047f2dc530c1f22b9c8ca954e6e090c4f9d30661c43d35e4a019c704caaa7f4b4168b446300e640e4442b649f37a0f15522241bfddfb2981b375160a"
+        }
+      },
+      "expected": {
+        "success": false,
+        "error_code": 769,
+        "state_digest": "1e48b648a639b93381a088ef2c3ae0bac9b6745c0820dbe3680e7b1e2ec38aab",
+        "post_state": {
+          "network_chain_id": 3,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+              "balance": 9999999,
+              "nonce": 5,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ]
+        }
+      }
+    },
+    {
       "name": "register_name_duplicate",
       "description": "",
       "pre_state": {
