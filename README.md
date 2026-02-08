@@ -96,7 +96,7 @@ Step 1 — build and start the conformance server:
 
 ```bash
 cd ~/tos
-cargo build -p tos_daemon --bin conformance --no-default-features --features rocksdb,rpc
+cargo build -p tos_daemon --bin conformance
 
 LABU_STATE_DIR=/tmp/labu-state \
 LABU_NETWORK=devnet \

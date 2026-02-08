@@ -18,7 +18,6 @@ Reproduce (local):
 ```bash
 # terminal A
 cd ~/tos
- cargo build --release -p tos_daemon --bin conformance --no-default-features --features rocksdb,rpc
 rm -rf /tmp/conformance_state
 LABU_STATE_DIR=/tmp/conformance_state ./target/release/conformance
 
