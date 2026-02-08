@@ -137,6 +137,48 @@ def test_register_arbiter_success(state_test_group) -> None:
     )
 
 
+def test_register_arbiter_nonce_too_low(state_test_group) -> None:
+    """Register arbiter with nonce below sender.nonce must fail."""
+    state = _base_state()
+    sender = ALICE
+    payload = {
+        "name": "ArbiterNonceLow",
+        "expertise": [1, 2, 3],
+        "stake_amount": MIN_ARBITER_STAKE,
+        "min_escrow_value": COIN_VALUE,
+        "max_escrow_value": 1000 * COIN_VALUE,
+        "fee_basis_points": 250,
+    }
+    tx = _mk_arb_tx(sender, nonce=4, tx_type=TransactionType.REGISTER_ARBITER, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/arbitration/register_arbiter.json",
+        "register_arbiter_nonce_too_low",
+        state,
+        tx,
+    )
+
+
+def test_register_arbiter_nonce_too_high_strict(state_test_group) -> None:
+    """Register arbiter with nonce above sender.nonce must fail (strict nonce)."""
+    state = _base_state()
+    sender = ALICE
+    payload = {
+        "name": "ArbiterNonceHigh",
+        "expertise": [1, 2, 3],
+        "stake_amount": MIN_ARBITER_STAKE,
+        "min_escrow_value": COIN_VALUE,
+        "max_escrow_value": 1000 * COIN_VALUE,
+        "fee_basis_points": 250,
+    }
+    tx = _mk_arb_tx(sender, nonce=6, tx_type=TransactionType.REGISTER_ARBITER, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/arbitration/register_arbiter.json",
+        "register_arbiter_nonce_too_high_strict",
+        state,
+        tx,
+    )
+
+
 def test_register_arbiter_low_stake(state_test_group) -> None:
     state = _base_state()
     sender = ALICE

@@ -110,6 +110,52 @@ def test_create_escrow_success(state_test_group) -> None:
     )
 
 
+def test_create_escrow_nonce_too_low(state_test_group) -> None:
+    """Create escrow with nonce below sender.nonce must fail."""
+    state = _base_state()
+    sender = ALICE
+    payload = {
+        "task_id": "task_nonce_low",
+        "provider": BOB,
+        "amount": 10 * COIN_VALUE,
+        "asset": _hash(0),
+        "timeout_blocks": MIN_TIMEOUT_BLOCKS * 10,
+        "challenge_window": 100,
+        "challenge_deposit_bps": 500,
+        "optimistic_release": False,
+    }
+    tx = _mk_escrow_tx(sender, nonce=4, tx_type=TransactionType.CREATE_ESCROW, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/escrow/create_escrow.json",
+        "create_escrow_nonce_too_low",
+        state,
+        tx,
+    )
+
+
+def test_create_escrow_nonce_too_high_strict(state_test_group) -> None:
+    """Create escrow with nonce above sender.nonce must fail (strict nonce)."""
+    state = _base_state()
+    sender = ALICE
+    payload = {
+        "task_id": "task_nonce_high",
+        "provider": BOB,
+        "amount": 10 * COIN_VALUE,
+        "asset": _hash(0),
+        "timeout_blocks": MIN_TIMEOUT_BLOCKS * 10,
+        "challenge_window": 100,
+        "challenge_deposit_bps": 500,
+        "optimistic_release": False,
+    }
+    tx = _mk_escrow_tx(sender, nonce=6, tx_type=TransactionType.CREATE_ESCROW, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/escrow/create_escrow.json",
+        "create_escrow_nonce_too_high_strict",
+        state,
+        tx,
+    )
+
+
 def test_create_escrow_zero_amount(state_test_group) -> None:
     state = _base_state()
     sender = ALICE

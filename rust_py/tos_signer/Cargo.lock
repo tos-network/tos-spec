@@ -574,6 +574,7 @@ dependencies = [
  "lazy_static",
  "pyo3",
  "rand",
+ "rand_chacha",
  "sha3",
  "tos-crypto",
 ]

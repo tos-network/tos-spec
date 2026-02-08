@@ -145,6 +145,29 @@ def test_freeze_tos_success(state_test_group) -> None:
     state_test_group("transactions/energy/freeze_tos.json", "freeze_tos_success", state, tx)
 
 
+def test_freeze_tos_nonce_too_low(state_test_group) -> None:
+    """Freeze with nonce below sender.nonce must fail."""
+    state = _base_state()
+    sender = ALICE
+    tx = _mk_freeze_tos(sender, nonce=4, amount=MIN_FREEZE_TOS_AMOUNT, days=7, fee=0)
+    state_test_group(
+        "transactions/energy/freeze_tos.json", "freeze_tos_nonce_too_low", state, tx
+    )
+
+
+def test_freeze_tos_nonce_too_high_strict(state_test_group) -> None:
+    """Freeze with nonce above sender.nonce must fail (strict nonce)."""
+    state = _base_state()
+    sender = ALICE
+    tx = _mk_freeze_tos(sender, nonce=6, amount=MIN_FREEZE_TOS_AMOUNT, days=7, fee=0)
+    state_test_group(
+        "transactions/energy/freeze_tos.json",
+        "freeze_tos_nonce_too_high_strict",
+        state,
+        tx,
+    )
+
+
 def test_freeze_tos_insufficient_balance(state_test_group) -> None:
     state = _base_state()
     sender = ALICE

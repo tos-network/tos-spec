@@ -2,6 +2,8 @@ use lazy_static::lazy_static;
 use pyo3::exceptions::PyValueError;
 use pyo3::prelude::*;
 use pyo3::types::{PyList, PyModule, PyTuple};
+use rand::SeedableRng;
+use rand_chacha::ChaCha20Rng;
 use sha3::{Digest, Sha3_512};
 use tos_crypto::bulletproofs::PedersenGens;
 use tos_crypto::curve25519_dalek::{RistrettoPoint, Scalar};
@@ -101,7 +103,18 @@ fn hash_and_point_to_scalar(
 }
 
 fn sign(private_key: &Scalar, compressed_pub: &[u8; 32], message: &[u8]) -> [u8; 64] {
-    let k = Scalar::random(&mut rand::rngs::OsRng);
+    // Deterministic nonce for stable test vectors. This is NOT intended as a
+    // production signing implementation.
+    let mut hasher = Sha3_512::new();
+    hasher.update(b"tos-signer/deterministic-nonce/v1");
+    hasher.update(private_key.as_bytes());
+    hasher.update(compressed_pub);
+    hasher.update(message);
+    let hash = hasher.finalize();
+    let mut k = Scalar::from_bytes_mod_order_wide(&hash.into());
+    if k == Scalar::from(0u64) {
+        k = Scalar::from(1u64);
+    }
     let r = k * (*H);
     let e = hash_and_point_to_scalar(compressed_pub, message, &r);
     let s = private_key.invert() * e + k;
@@ -109,6 +122,18 @@ fn sign(private_key: &Scalar, compressed_pub: &[u8; 32], message: &[u8]) -> [u8;
     sig[..32].copy_from_slice(s.as_bytes());
     sig[32..].copy_from_slice(e.as_bytes());
     sig
+}
+
+fn chacha_seed(label: &[u8], a: u8, b: u64) -> [u8; 32] {
+    let mut hasher = Sha3_512::new();
+    hasher.update(b"tos-signer/chacha-seed/v1");
+    hasher.update(label);
+    hasher.update([a]);
+    hasher.update(b.to_be_bytes());
+    let hash = hasher.finalize();
+    let mut seed = [0u8; 32];
+    seed.copy_from_slice(&hash[..32]);
+    seed
 }
 
 // ---------------------------------------------------------------------------
@@ -126,9 +151,9 @@ fn encode_transfer_payload_inner(transfers: &Bound<'_, PyList>) -> PyResult<Vec<
 
     for i in 0..count {
         let item = transfers.get_item(i)?;
-        let tuple = item.downcast::<PyTuple>().map_err(|_| {
-            PyValueError::new_err(format!("transfers[{i}]: expected a tuple"))
-        })?;
+        let tuple = item
+            .downcast::<PyTuple>()
+            .map_err(|_| PyValueError::new_err(format!("transfers[{i}]: expected a tuple")))?;
 
         let tuple_len = tuple.len();
         if tuple_len < 3 || tuple_len > 4 {
@@ -209,9 +234,9 @@ fn get_public_key_from_private(private_key: &[u8]) -> PyResult<Vec<u8>> {
             private_key.len()
         )));
     }
-    let key: &[u8; 32] = private_key.try_into().map_err(|_| {
-        PyValueError::new_err("private_key must be 32 bytes")
-    })?;
+    let key: &[u8; 32] = private_key
+        .try_into()
+        .map_err(|_| PyValueError::new_err("private_key must be 32 bytes"))?;
     let (_, public) = keypair_from_private_key_bytes(key);
     Ok(public.compress().as_bytes().to_vec())
 }
@@ -224,9 +249,9 @@ fn sign_with_key(data: &[u8], private_key: &[u8]) -> PyResult<Vec<u8>> {
             private_key.len()
         )));
     }
-    let key: &[u8; 32] = private_key.try_into().map_err(|_| {
-        PyValueError::new_err("private_key must be 32 bytes")
-    })?;
+    let key: &[u8; 32] = private_key
+        .try_into()
+        .map_err(|_| PyValueError::new_err("private_key must be 32 bytes"))?;
     let (private, public) = keypair_from_private_key_bytes(key);
     let compressed = public.compress();
     let sig = sign(&private, compressed.as_bytes(), data);
@@ -373,8 +398,11 @@ fn sign_transfer(
 fn make_shield_crypto(dest_seed: u8, amount: u64) -> PyResult<(Vec<u8>, Vec<u8>, Vec<u8>)> {
     let (_, dest_pub) = keypair_from_byte(dest_seed);
 
-    // Pedersen opening (random scalar r)
-    let r = Scalar::random(&mut rand::rngs::OsRng);
+    let seed = chacha_seed(b"shield-crypto", dest_seed, amount);
+    let mut rng = ChaCha20Rng::from_seed(seed);
+
+    // Pedersen opening (deterministic scalar r)
+    let r = Scalar::random(&mut rng);
 
     // Commitment C = amount*G + r*H
     let x = Scalar::from(amount);
@@ -388,8 +416,8 @@ fn make_shield_crypto(dest_seed: u8, amount: u64) -> PyResult<(Vec<u8>, Vec<u8>,
     // Domain separator (matches ProtocolTranscript::shield_commitment_proof_domain_separator)
     transcript.append_message(b"dom-sep", b"shield-commitment-proof");
 
-    // Random nonce k
-    let k = Scalar::random(&mut rand::rngs::OsRng);
+    // Deterministic nonce k
+    let k = Scalar::random(&mut rng);
     let y_h = (&k * &*H).compress();
     let y_p = (&k * &dest_pub).compress();
 
@@ -434,7 +462,10 @@ fn make_shield_crypto(dest_seed: u8, amount: u64) -> PyResult<(Vec<u8>, Vec<u8>,
 /// but don't need to pass proof verification.
 #[pyfunction]
 fn random_valid_point() -> PyResult<Vec<u8>> {
-    let point = RistrettoPoint::random(&mut rand::rngs::OsRng);
+    // Fixed deterministic point to keep fixtures stable across regenerations.
+    let seed = chacha_seed(b"random-valid-point", 0, 0);
+    let mut rng = ChaCha20Rng::from_seed(seed);
+    let point = RistrettoPoint::random(&mut rng);
     Ok(point.compress().as_bytes().to_vec())
 }
 
@@ -444,12 +475,16 @@ fn random_valid_point() -> PyResult<Vec<u8>> {
 /// pass wire deserialization. Does NOT pass proof verification.
 #[pyfunction]
 fn make_dummy_ct_validity_proof() -> PyResult<Vec<u8>> {
-    // Y_0, Y_1, Y_2 (for T1), z_r, z_x — all random valid values
-    let y0 = RistrettoPoint::random(&mut rand::rngs::OsRng).compress();
-    let y1 = RistrettoPoint::random(&mut rand::rngs::OsRng).compress();
-    let y2 = RistrettoPoint::random(&mut rand::rngs::OsRng).compress();
-    let z_r = Scalar::random(&mut rand::rngs::OsRng);
-    let z_x = Scalar::random(&mut rand::rngs::OsRng);
+    // Deterministic, valid-looking values for wire deserialization stability.
+    let seed = chacha_seed(b"dummy-ct-validity-proof", 0, 0);
+    let mut rng = ChaCha20Rng::from_seed(seed);
+
+    // Y_0, Y_1, Y_2 (for T1), z_r, z_x
+    let y0 = RistrettoPoint::random(&mut rng).compress();
+    let y1 = RistrettoPoint::random(&mut rng).compress();
+    let y2 = RistrettoPoint::random(&mut rng).compress();
+    let z_r = Scalar::random(&mut rng);
+    let z_x = Scalar::random(&mut rng);
 
     let mut out = Vec::with_capacity(160);
     out.extend_from_slice(y0.as_bytes());

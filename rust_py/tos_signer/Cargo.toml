@@ -12,6 +12,7 @@ pyo3 = { version = "0.22", features = ["extension-module"] }
 tos-crypto = { git = "https://github.com/tos-network/tos-crypto", rev = "abb56b0", features = ["uno"] }
 sha3 = "0.10"
 rand = "0.8"
+rand_chacha = "0.3"
 lazy_static = "1.4"
 
 [patch.crates-io]

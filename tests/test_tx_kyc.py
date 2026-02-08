@@ -445,6 +445,74 @@ def test_set_kyc_success(state_test_group) -> None:
     )
 
 
+def test_set_kyc_nonce_too_low(state_test_group) -> None:
+    """Set KYC with nonce below sender.nonce must fail."""
+    state = _base_state()
+    sender = ALICE
+    target = EVE
+    state.accounts[target] = AccountState(address=target, balance=0, nonce=0)
+    state.committees[_hash(50)] = _global_committee()
+
+    level = VALID_KYC_LEVELS[1]
+    verified_at = _CURRENT_TIME
+    committee_id = _hash(50)
+    data_hash = _hash(40)
+    ts = _CURRENT_TIME
+
+    msg = _build_set_kyc_msg(committee_id, target, level, data_hash, verified_at, ts)
+    approvals = [
+        _sign_approval(CAROL, msg, ts),
+        _sign_approval(DAVE, msg, ts),
+    ]
+
+    payload = {
+        "account": target,
+        "level": level,
+        "verified_at": verified_at,
+        "data_hash": data_hash,
+        "committee_id": committee_id,
+        "approvals": approvals,
+    }
+    tx = _mk_kyc_tx(sender, nonce=4, tx_type=TransactionType.SET_KYC, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/kyc/set_kyc.json", "set_kyc_nonce_too_low", state, tx
+    )
+
+
+def test_set_kyc_nonce_too_high_strict(state_test_group) -> None:
+    """Set KYC with nonce above sender.nonce must fail (strict nonce)."""
+    state = _base_state()
+    sender = ALICE
+    target = EVE
+    state.accounts[target] = AccountState(address=target, balance=0, nonce=0)
+    state.committees[_hash(50)] = _global_committee()
+
+    level = VALID_KYC_LEVELS[1]
+    verified_at = _CURRENT_TIME
+    committee_id = _hash(50)
+    data_hash = _hash(40)
+    ts = _CURRENT_TIME
+
+    msg = _build_set_kyc_msg(committee_id, target, level, data_hash, verified_at, ts)
+    approvals = [
+        _sign_approval(CAROL, msg, ts),
+        _sign_approval(DAVE, msg, ts),
+    ]
+
+    payload = {
+        "account": target,
+        "level": level,
+        "verified_at": verified_at,
+        "data_hash": data_hash,
+        "committee_id": committee_id,
+        "approvals": approvals,
+    }
+    tx = _mk_kyc_tx(sender, nonce=6, tx_type=TransactionType.SET_KYC, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/kyc/set_kyc.json", "set_kyc_nonce_too_high_strict", state, tx
+    )
+
+
 def test_set_kyc_invalid_level(state_test_group) -> None:
     state = _base_state()
     sender = ALICE
@@ -3058,4 +3126,3 @@ def test_set_kyc_max_level(state_test_group) -> None:
     state_test_group(
         "transactions/kyc/set_kyc.json", "set_kyc_max_level", state, tx
     )
-
