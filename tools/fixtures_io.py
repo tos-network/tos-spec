@@ -114,27 +114,42 @@ def _escrow_to_json(e: EscrowAccount) -> dict[str, Any]:
 
 
 def state_to_json(state: ChainState) -> dict[str, Any]:
+    # Conformance daemon derives exported account `frozen/energy` from EnergyResource when present,
+    # and computes `global_state.total_energy` as the sum of account energy. Normalize here so
+    # fixtures line up with daemon export/digest behavior.
+    er_by_addr = state.energy_resources
+    accounts_out: list[dict[str, Any]] = []
+    total_energy = 0
+    for a in state.accounts.values():
+        frozen = a.frozen
+        energy = a.energy
+        er = er_by_addr.get(a.address)
+        if er is not None:
+            frozen = er.frozen_tos
+            energy = er.energy
+        total_energy += int(energy)
+        accounts_out.append(
+            {
+                "address": _bytes_to_hex(a.address),
+                "balance": a.balance,
+                "nonce": a.nonce,
+                "frozen": frozen,
+                "energy": energy,
+                "flags": a.flags,
+                "data": _bytes_to_hex(a.data),
+            }
+        )
+
     result: dict[str, Any] = {
         "network_chain_id": state.network_chain_id,
         "global_state": {
             "total_supply": state.global_state.total_supply,
             "total_burned": state.global_state.total_burned,
-            "total_energy": state.global_state.total_energy,
+            "total_energy": total_energy,
             "block_height": state.global_state.block_height,
             "timestamp": state.global_state.timestamp,
         },
-        "accounts": [
-            {
-                "address": _bytes_to_hex(a.address),
-                "balance": a.balance,
-                "nonce": a.nonce,
-                "frozen": a.frozen,
-                "energy": a.energy,
-                "flags": a.flags,
-                "data": _bytes_to_hex(a.data),
-            }
-            for a in state.accounts.values()
-        ],
+        "accounts": accounts_out,
     }
 
     if state.escrows:

@@ -1707,7 +1707,8 @@ def test_bootstrap_committee_max_members(state_test_group) -> None:
     payload = {
         "name": "MaxMembersCommittee",
         "members": members,
-        "threshold": 2,
+        # Governance threshold must be >= ceil(2/3 * approvers). With 21 approvers, min is 14.
+        "threshold": 14,
         "kyc_threshold": 2,
         "max_kyc_level": VALID_KYC_LEVELS[4],
     }
@@ -3057,5 +3058,4 @@ def test_set_kyc_max_level(state_test_group) -> None:
     state_test_group(
         "transactions/kyc/set_kyc.json", "set_kyc_max_level", state, tx
     )
-
 

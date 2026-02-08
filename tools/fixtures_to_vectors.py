@@ -35,50 +35,17 @@ MAPPING = {
 EXCLUDE_TOP_LEVEL_FIXTURES: set[str] = {
     "security",
     "models",
+    # These are documentation/spec-only vectors (not consumable by daemon conformance runner).
+    "syscalls",
+    "api",
+    "consensus",
 }
 
 # Tests where the daemon validates differently from the Python spec (error code
 # mismatches or missing validation rules).  Marked non-runnable until the daemon
 # conformance endpoint is updated to match.
 DAEMON_MISMATCH_SKIP: set[str] = {
-    # Overflow: daemon stores frozen_tos in whole TOS, value too small to overflow
-    "freeze_frozen_overflow",
-    # Fee variants: daemon computes energy cost from wire size / validates fee differently
-    "transfer_energy_fee_zero",
-    "transfer_insufficient_fee",
-    # Privacy: UNO transfers — codec can't encode UNO wire format (empty wire_hex)
-    "uno_transfer_success",
-    "uno_transfer_self",
-    "uno_transfer_insufficient_balance",
-    "uno_transfer_zero_amount",
-    "uno_transfer_tos_fee",
-    # Privacy: unshield — daemon rejects dummy proof data (INVALID_PAYLOAD)
-    "unshield_transfer_success",
-    "unshield_transfer_self",
-    "unshield_transfer_zero_amount",
-    # Encoding: wire encoding mismatch for large/complex payloads
-    # (fixed) commit_*_exact_max_size now use valid canonical messages at the boundary.
-    # (fixed) invoke_contract_duplicate_deposit_assets no longer triggers codec/signing mismatch.
-    # (fixed) create_escrow_task_id_max_length uses a wire-encodable task_id length.
-    # Energy: daemon doesn't enforce max freeze records; post-state digest differs
-    "freeze_max_records_exceeded",
-    # Capacity: daemon rejects at different validation level
-    "invoke_contract_max_deposits",
-    "bootstrap_committee_max_members",
-    "emergency_suspend_max_approvals",
-    # Encoding: large deposit list causes fee-per-byte rejection in daemon
-    "invoke_contract_too_many_deposits",
-    # Referral: daemon returns different error codes or unimplemented
-    "batch_referral_reward_success",
-    "batch_referral_reward_zero_amount",
-    "batch_referral_reward_empty_levels",
-    "batch_referral_reward_ratio_exceeds_max",
-    "batch_referral_reward_levels_mismatch",
-    "batch_referral_reward_max_ratio",
-    "batch_referral_reward_sender_not_from_user",
-    "batch_referral_reward_sender_is_from_user",
-    "batch_referral_reward_insufficient_balance",
-    "batch_referral_reward_zero_levels",
+    # Kept for future regressions; currently empty (daemon conformance endpoint matches spec).
 }
 
 

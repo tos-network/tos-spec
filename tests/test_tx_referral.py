@@ -88,6 +88,8 @@ def _mk_batch_referral_reward(
         source=sender,
         tx_type=TransactionType.BATCH_REFERRAL_REWARD,
         payload={
+            # Rust payload requires an asset; native TOS is the zero-hash.
+            "asset": bytes(32),
             "total_amount": total_amount,
             "levels": levels,
             "ratios": ratios,

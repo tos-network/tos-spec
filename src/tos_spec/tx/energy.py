@@ -32,6 +32,20 @@ BLOCKS_PER_DAY = 86400
 BLOCKS_PER_DAY_DEVNET = 10
 
 
+def _whole_from_atomic(amount: int) -> int:
+    # Rust energy resource tracks frozen in whole TOS units. When loading atomic values we
+    # follow the daemon's behavior: floor-divide by COIN_VALUE (discard fractional part).
+    if amount <= 0:
+        return 0
+    return int(amount) // COIN_VALUE
+
+
+def _atomic_from_whole(whole: int) -> int:
+    # Daemon export uses saturating_mul when converting whole -> atomic.
+    atomic = int(whole) * COIN_VALUE
+    return atomic if atomic <= U64_MAX else U64_MAX
+
+
 def _blocks_per_day(chain_id: int) -> int:
     if chain_id == 3:
         return BLOCKS_PER_DAY_DEVNET
@@ -107,9 +121,12 @@ def _apply_freeze_tos(state: ChainState, tx: Transaction, p: EnergyPayload) -> C
     sender = ns.accounts[tx.source]
     sender.balance -= amount
 
-    if sender.frozen + amount > U64_MAX:
+    current_whole = _whole_from_atomic(sender.frozen)
+    delta_whole = _whole_from_atomic(amount)
+    new_whole = current_whole + delta_whole
+    if new_whole > U64_MAX:
         raise SpecError(ErrorCode.OVERFLOW, "frozen balance overflow")
-    sender.frozen += amount
+    sender.frozen = _atomic_from_whole(new_whole)
 
     whole_tos = amount // COIN_VALUE
     energy_gained = whole_tos * (days * 2)
@@ -130,9 +147,11 @@ def _apply_freeze_tos(state: ChainState, tx: Transaction, p: EnergyPayload) -> C
         unlock_height=height + days * bpd,
     ))
 
-    if er.frozen_tos + amount > U64_MAX:
+    er_current_whole = _whole_from_atomic(er.frozen_tos)
+    er_new_whole = er_current_whole + delta_whole
+    if er_new_whole > U64_MAX:
         raise SpecError(ErrorCode.OVERFLOW, "energy resource frozen_tos overflow")
-    er.frozen_tos += amount
+    er.frozen_tos = _atomic_from_whole(er_new_whole)
 
     if er.energy + energy_gained > U64_MAX:
         raise SpecError(ErrorCode.OVERFLOW, "energy resource energy overflow")
@@ -206,6 +225,7 @@ def _apply_freeze_delegate(state: ChainState, tx: Transaction, p: EnergyPayload)
 
     total_amount = 0
     total_energy = 0
+    total_whole = 0
 
     for entry in delegatees:
         amount = entry.amount
@@ -213,11 +233,11 @@ def _apply_freeze_delegate(state: ChainState, tx: Transaction, p: EnergyPayload)
         energy_gained = whole_tos * (days * 2)
 
         sender.balance -= amount
-        sender.frozen += amount
 
         if total_amount + amount > U64_MAX:
             raise SpecError(ErrorCode.OVERFLOW, "delegation total amount overflow")
         total_amount += amount
+        total_whole += whole_tos
 
         if total_energy + energy_gained > U64_MAX:
             raise SpecError(ErrorCode.OVERFLOW, "delegation total energy overflow")
@@ -237,9 +257,17 @@ def _apply_freeze_delegate(state: ChainState, tx: Transaction, p: EnergyPayload)
                 raise SpecError(ErrorCode.OVERFLOW, "delegatee energy overflow")
             delegatee_acct.energy += energy_gained
 
-    if er.frozen_tos + total_amount > U64_MAX:
+    sender_current_whole = _whole_from_atomic(sender.frozen)
+    sender_new_whole = sender_current_whole + total_whole
+    if sender_new_whole > U64_MAX:
+        raise SpecError(ErrorCode.OVERFLOW, "frozen balance overflow")
+    sender.frozen = _atomic_from_whole(sender_new_whole)
+
+    er_current_whole = _whole_from_atomic(er.frozen_tos)
+    er_new_whole = er_current_whole + total_whole
+    if er_new_whole > U64_MAX:
         raise SpecError(ErrorCode.OVERFLOW, "energy resource frozen_tos overflow")
-    er.frozen_tos += total_amount
+    er.frozen_tos = _atomic_from_whole(er_new_whole)
 
     if ns.global_state.total_energy + total_energy > U64_MAX:
         raise SpecError(ErrorCode.OVERFLOW, "total energy overflow")
@@ -284,14 +312,21 @@ def _apply_unfreeze_tos(state: ChainState, tx: Transaction, p: EnergyPayload) ->
     cooldown = 14 * bpd
 
     sender = ns.accounts[tx.source]
-    sender.frozen -= amount
+    current_whole = _whole_from_atomic(sender.frozen)
+    delta_whole = _whole_from_atomic(amount)
+    if current_whole < delta_whole:
+        raise SpecError(ErrorCode.INSUFFICIENT_FROZEN, "insufficient frozen balance")
+    sender.frozen = _atomic_from_whole(current_whole - delta_whole)
 
     er = ns.energy_resources.get(tx.source)
     if er is None:
         er = EnergyResource()
         ns.energy_resources[tx.source] = er
 
-    er.frozen_tos -= amount
+    er_current_whole = _whole_from_atomic(er.frozen_tos)
+    if er_current_whole < delta_whole:
+        raise SpecError(ErrorCode.INSUFFICIENT_FROZEN, "insufficient frozen balance")
+    er.frozen_tos = _atomic_from_whole(er_current_whole - delta_whole)
     er.pending_unfreezes.append(PendingUnfreeze(
         amount=amount,
         from_delegation=from_delegation,

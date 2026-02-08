@@ -215,7 +215,6 @@ def test_wire_extra_trailing_bytes(vector_test_group) -> None:
         "Trailing bytes after a complete transaction are rejected",
         wire,
     )
-    v["runnable"] = False
     vector_test_group(FIXTURE_PATH, v)
 
 

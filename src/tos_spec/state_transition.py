@@ -202,8 +202,36 @@ def _check_fee_availability(state: ChainState, tx: Transaction) -> None:
     (overflow, payload errors) take precedence over fee insufficiency.
     """
     sender = state.accounts.get(tx.source)
-    if sender is not None and sender.balance < tx.fee:
-        raise SpecError(ErrorCode.INSUFFICIENT_FEE, "insufficient fee")
+    if sender is None:
+        return
+
+    # TOS fee
+    if tx.fee_type == FeeType.TOS:
+        if sender.balance < tx.fee:
+            raise SpecError(ErrorCode.INSUFFICIENT_FEE, "insufficient fee")
+        return
+
+    # UNO fee is always zero (validation above enforces that).
+    if tx.fee_type == FeeType.UNO:
+        return
+
+    # Energy fee: 1 energy per transfer-type transaction with at least 1 output.
+    if tx.fee_type == FeeType.ENERGY:
+        output_count = 0
+        if tx.tx_type == TransactionType.TRANSFERS and isinstance(tx.payload, list):
+            output_count = len(tx.payload)
+        elif tx.tx_type in _PRIVACY_TYPES and isinstance(tx.payload, dict):
+            output_count = len(tx.payload.get("transfers", []) or [])
+        energy_cost = 1 if output_count > 0 else 0
+        # Energy is modeled both on AccountState and (optionally) EnergyResource.
+        # When an EnergyResource exists, treat it as authoritative (matches daemon export).
+        er = state.energy_resources.get(tx.source)
+        energy_available = er.energy if er is not None else sender.energy
+        if energy_available < energy_cost:
+            raise SpecError(ErrorCode.INSUFFICIENT_ENERGY, "insufficient energy for fee")
+        return
+
+    raise SpecError(ErrorCode.INVALID_FORMAT, "unknown fee type")
 
 
 def verify_tx(state: ChainState, tx: Transaction) -> TransitionResult:
@@ -255,6 +283,22 @@ def apply_tx(state: ChainState, tx: Transaction) -> tuple[ChainState, Transition
     sender = working.accounts[tx.source]
     sender.balance -= tx.fee
     sender.nonce += 1
+
+    # Energy fee is consumed on success.
+    if tx.fee_type == FeeType.ENERGY:
+        output_count = 0
+        if tx.tx_type == TransactionType.TRANSFERS and isinstance(tx.payload, list):
+            output_count = len(tx.payload)
+        elif tx.tx_type in _PRIVACY_TYPES and isinstance(tx.payload, dict):
+            output_count = len(tx.payload.get("transfers", []) or [])
+        energy_cost = 1 if output_count > 0 else 0
+        if energy_cost:
+            er = working.energy_resources.get(tx.source)
+            if er is not None:
+                er.energy -= energy_cost
+                sender.energy = er.energy
+            else:
+                sender.energy -= energy_cost
     return working, TransitionResult.success()
 
 
