@@ -92,6 +92,97 @@
       }
     },
     {
+      "name": "commit_selection_commitment_insufficient_fee",
+      "description": "",
+      "pre_state": {
+        "network_chain_id": 3,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 1700000000
+        },
+        "accounts": [
+          {
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "balance": 99999,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ],
+        "arbitration_commit_opens": [
+          {
+            "escrow_id": "3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c",
+            "dispute_id": "3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d",
+            "round": 1,
+            "request_id": "3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e",
+            "arbitration_open_hash": "3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f"
+          }
+        ]
+      },
+      "input": {
+        "kind": "tx",
+        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249253e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e6529f10fd5bb51794d6a3ac2032db071297cfff928e793e585a54b4716fc2a190000002173656c656374696f6e2d636f6d6d69746d656e742d746573742d646174612d763100000000000186a0000000000000000005000000000000000000000000000000000000000000000000000000000000000000000000000000000080635525c34ee871a81900364d4abbaf4fb0f0e2d714f44e5b6b5ad0856b8b0c4986e935cbf64598b6948905c0879232042150baca631c1752f68833ef25aa04",
+        "tx": {
+          "version": 1,
+          "chain_id": 3,
+          "source": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+          "tx_type": "commit_selection_commitment",
+          "payload": {
+            "request_id": "3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e",
+            "selection_commitment_id": "6529f10fd5bb51794d6a3ac2032db071297cfff928e793e585a54b4716fc2a19",
+            "selection_commitment_payload": "73656c656374696f6e2d636f6d6d69746d656e742d746573742d646174612d7631"
+          },
+          "fee": 100000,
+          "fee_type": 0,
+          "nonce": 5,
+          "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+          "reference_topoheight": 0,
+          "signature": "80635525c34ee871a81900364d4abbaf4fb0f0e2d714f44e5b6b5ad0856b8b0c4986e935cbf64598b6948905c0879232042150baca631c1752f68833ef25aa04",
+          "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249253e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e6529f10fd5bb51794d6a3ac2032db071297cfff928e793e585a54b4716fc2a190000002173656c656374696f6e2d636f6d6d69746d656e742d746573742d646174612d763100000000000186a0000000000000000005000000000000000000000000000000000000000000000000000000000000000000000000000000000080635525c34ee871a81900364d4abbaf4fb0f0e2d714f44e5b6b5ad0856b8b0c4986e935cbf64598b6948905c0879232042150baca631c1752f68833ef25aa04"
+        }
+      },
+      "expected": {
+        "success": false,
+        "error_code": 769,
+        "state_digest": "4349358573a83225b2833656cca10bf0a8721db9cf2c82cca7ede9130121ecdf",
+        "post_state": {
+          "network_chain_id": 3,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 1700000000
+          },
+          "accounts": [
+            {
+              "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+              "balance": 99999,
+              "nonce": 5,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ],
+          "arbitration_commit_opens": [
+            {
+              "escrow_id": "3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c",
+              "dispute_id": "3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d3d",
+              "round": 1,
+              "request_id": "3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e3e",
+              "arbitration_open_hash": "3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f3f"
+            }
+          ]
+        }
+      }
+    },
+    {
       "name": "commit_selection_commitment_nonce_too_low",
       "description": "",
       "pre_state": {

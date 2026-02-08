@@ -230,6 +230,26 @@ def test_ephemeral_message_nonce_too_high_strict(state_test_group) -> None:
     )
 
 
+def test_ephemeral_message_insufficient_fee(state_test_group) -> None:
+    """Fee pre-check: sender balance below fee must fail (INSUFFICIENT_FEE)."""
+    state = _msg_state()
+    state.accounts[ALICE].balance = 99_999
+    tx = _mk_ephemeral_message(
+        ALICE, nonce=5,
+        sender_name_hash=_SENDER_NAME_HASH,
+        recipient_name_hash=_RECIPIENT_NAME_HASH,
+        ttl_blocks=MIN_TTL,
+        encrypted_content=bytes([0xAA]) * 50,
+        fee=100_000,
+    )
+    state_test_group(
+        "transactions/tns/ephemeral_message.json",
+        "ephemeral_message_insufficient_fee",
+        state,
+        tx,
+    )
+
+
 def test_ephemeral_message_ttl_too_low(state_test_group) -> None:
     """TTL below minimum."""
     state = _msg_state()

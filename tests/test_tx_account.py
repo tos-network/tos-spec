@@ -73,6 +73,20 @@ def test_multisig_setup(state_test_group) -> None:
     )
 
 
+def test_multisig_insufficient_fee(state_test_group) -> None:
+    """multisig with balance below fee must fail: INSUFFICIENT_FEE (pre-check)."""
+    state = _base_state()
+    state.accounts[ALICE].balance = 99_999
+    participants = [BOB, bytes([3]) * 32, bytes([4]) * 32]
+    tx = _mk_multisig(ALICE, nonce=5, threshold=2, participants=participants, fee=100_000)
+    state_test_group(
+        "transactions/account/multisig.json",
+        "multisig_insufficient_fee",
+        state,
+        tx,
+    )
+
+
 def test_multisig_threshold_zero(state_test_group) -> None:
     state = _base_state()
     tx = _mk_multisig(ALICE, nonce=5, threshold=0, participants=[], fee=100_000)
@@ -130,6 +144,24 @@ def test_agent_account_register(state_test_group) -> None:
     state_test_group(
         "transactions/account/agent_account.json",
         "agent_account_register",
+        state,
+        tx,
+    )
+
+
+def test_agent_account_register_insufficient_fee(state_test_group) -> None:
+    """agent_account.register with balance below fee must fail: INSUFFICIENT_FEE (pre-check)."""
+    state = _base_state()
+    state.accounts[ALICE].balance = 99_999
+    payload = {
+        "variant": "register",
+        "controller": BOB,
+        "policy_hash": _hash(3),
+    }
+    tx = _mk_agent_account(ALICE, nonce=5, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/account/agent_account.json",
+        "agent_account_register_insufficient_fee",
         state,
         tx,
     )

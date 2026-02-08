@@ -265,6 +265,28 @@ def test_release_escrow_success(state_test_group) -> None:
     )
 
 
+def test_release_escrow_insufficient_fee(state_test_group) -> None:
+    """Fee pre-check: sender balance below fee must fail (INSUFFICIENT_FEE)."""
+    state = _base_state()
+    sender = BOB
+    state.accounts[BOB] = AccountState(address=BOB, balance=99_999, nonce=0)
+    escrow_id = _hash(60)
+    escrow = _funded_escrow(escrow_id, ALICE, BOB, 10 * COIN_VALUE)
+    escrow.optimistic_release = True
+    state.escrows[escrow_id] = escrow
+    payload = {
+        "escrow_id": escrow_id,
+        "amount": 5 * COIN_VALUE,
+    }
+    tx = _mk_escrow_tx(sender, nonce=0, tx_type=TransactionType.RELEASE_ESCROW, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/escrow/release_escrow.json",
+        "release_escrow_insufficient_fee",
+        state,
+        tx,
+    )
+
+
 def test_release_escrow_nonce_too_low(state_test_group) -> None:
     state = _base_state()
     sender = BOB
@@ -327,6 +349,27 @@ def test_refund_escrow_success(state_test_group) -> None:
     state_test_group(
         "transactions/escrow/refund_escrow.json",
         "refund_escrow_success",
+        state,
+        tx,
+    )
+
+
+def test_refund_escrow_insufficient_fee(state_test_group) -> None:
+    """Fee pre-check: sender balance below fee must fail (INSUFFICIENT_FEE)."""
+    state = _base_state()
+    sender = BOB
+    state.accounts[BOB] = AccountState(address=BOB, balance=99_999, nonce=0)
+    escrow_id = _hash(60)
+    state.escrows[escrow_id] = _funded_escrow(escrow_id, ALICE, BOB, 10 * COIN_VALUE)
+    payload = {
+        "escrow_id": escrow_id,
+        "amount": 5 * COIN_VALUE,
+        "reason": "work not delivered",
+    }
+    tx = _mk_escrow_tx(sender, nonce=0, tx_type=TransactionType.REFUND_ESCROW, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/escrow/refund_escrow.json",
+        "refund_escrow_insufficient_fee",
         state,
         tx,
     )
@@ -530,6 +573,35 @@ def test_dispute_escrow_success(state_test_group) -> None:
     state_test_group(
         "transactions/escrow/dispute_escrow.json",
         "dispute_escrow_success",
+        state,
+        tx,
+    )
+
+
+def test_dispute_escrow_insufficient_fee(state_test_group) -> None:
+    """dispute_escrow with balance below fee must fail: INSUFFICIENT_FEE (pre-check)."""
+    state = _base_state()
+    sender = ALICE
+    state.accounts[sender].balance = 99_999
+    escrow_id = _hash(60)
+    escrow = _funded_escrow(escrow_id, ALICE, BOB, 10 * COIN_VALUE)
+    escrow.status = EscrowStatus.CHALLENGED
+    escrow.arbitration_config = ArbitrationConfig(
+        mode="single",
+        arbiters=[CAROL],
+        threshold=1,
+        fee_amount=COIN_VALUE,
+        allow_appeal=False,
+    )
+    state.escrows[escrow_id] = escrow
+    payload = {
+        "escrow_id": escrow_id,
+        "reason": "provider did not deliver",
+    }
+    tx = _mk_escrow_tx(sender, nonce=5, tx_type=TransactionType.DISPUTE_ESCROW, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/escrow/dispute_escrow.json",
+        "dispute_escrow_insufficient_fee",
         state,
         tx,
     )
@@ -828,6 +900,65 @@ def test_submit_verdict_success(state_test_group) -> None:
     state_test_group(
         "transactions/escrow/submit_verdict.json",
         "submit_verdict_success",
+        state,
+        tx,
+    )
+
+
+def test_submit_verdict_insufficient_fee(state_test_group) -> None:
+    """submit_verdict with balance below fee must fail: INSUFFICIENT_FEE (pre-check)."""
+    state = _base_state()
+    sender = ALICE
+    state.accounts[sender].balance = 99_999
+    escrow_id = _hash(60)
+    payer_amount = 3 * COIN_VALUE
+    payee_amount = 7 * COIN_VALUE
+    escrow = _funded_escrow(escrow_id, ALICE, BOB, payer_amount + payee_amount)
+    escrow.status = EscrowStatus.CHALLENGED
+    escrow.arbitration_config = ArbitrationConfig(
+        mode="single",
+        arbiters=[CAROL],
+        threshold=1,
+        fee_amount=COIN_VALUE,
+        allow_appeal=False,
+    )
+    escrow.dispute = DisputeInfo(
+        initiator=ALICE,
+        reason="provider did not deliver",
+        disputed_at=1,
+        deadline=1000,
+    )
+    state.escrows[escrow_id] = escrow
+    state.accounts[CAROL] = AccountState(address=CAROL, balance=0, nonce=0)
+    state.arbiters[CAROL] = ArbiterAccount(
+        public_key=CAROL,
+        name="ArbiterCarol",
+        status=ArbiterStatus.ACTIVE,
+        stake_amount=1000 * COIN_VALUE,
+    )
+    dispute_id = _hash(61)
+    verdict_msg = _build_verdict_message(
+        CHAIN_ID_DEVNET, escrow_id, dispute_id, 0, 2, payer_amount, payee_amount,
+    )
+    carol_sig = bytes(tos_signer.sign_data(verdict_msg, 4))
+    payload = {
+        "escrow_id": escrow_id,
+        "dispute_id": dispute_id,
+        "round": 0,
+        "payer_amount": payer_amount,
+        "payee_amount": payee_amount,
+        "signatures": [
+            {
+                "arbiter_pubkey": CAROL,
+                "signature": carol_sig,
+                "timestamp": _NOW,
+            }
+        ],
+    }
+    tx = _mk_escrow_tx(sender, nonce=5, tx_type=TransactionType.SUBMIT_VERDICT, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/escrow/submit_verdict.json",
+        "submit_verdict_insufficient_fee",
         state,
         tx,
     )

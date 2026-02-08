@@ -96,6 +96,95 @@
       }
     },
     {
+      "name": "bind_referrer_insufficient_fee",
+      "description": "",
+      "pre_state": {
+        "network_chain_id": 3,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "balance": 99999,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          },
+          {
+            "address": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824",
+            "balance": 0,
+            "nonce": 0,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
+      },
+      "input": {
+        "kind": "tx",
+        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b24907c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e378240000000000000186a000000000000000000500000000000000000000000000000000000000000000000000000000000000000000000000000000003976da214232ecba6c771fda98ed89258dea9d2697c68d30916606316767b10de7d9e6557ba4f0b939e6e27ef509ce0bc30ecad99a9d8521937b823b6494460c",
+        "tx": {
+          "version": 1,
+          "chain_id": 3,
+          "source": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+          "tx_type": "bind_referrer",
+          "payload": {
+            "referrer": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824"
+          },
+          "fee": 100000,
+          "fee_type": 0,
+          "nonce": 5,
+          "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+          "reference_topoheight": 0,
+          "signature": "3976da214232ecba6c771fda98ed89258dea9d2697c68d30916606316767b10de7d9e6557ba4f0b939e6e27ef509ce0bc30ecad99a9d8521937b823b6494460c",
+          "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b24907c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e378240000000000000186a000000000000000000500000000000000000000000000000000000000000000000000000000000000000000000000000000003976da214232ecba6c771fda98ed89258dea9d2697c68d30916606316767b10de7d9e6557ba4f0b939e6e27ef509ce0bc30ecad99a9d8521937b823b6494460c"
+        }
+      },
+      "expected": {
+        "success": false,
+        "error_code": 769,
+        "state_digest": "8f04e0ee329dad09e44a266f6dadf0535af1ee5aa00bf9daece124557c370dbe",
+        "post_state": {
+          "network_chain_id": 3,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+              "balance": 99999,
+              "nonce": 5,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            },
+            {
+              "address": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824",
+              "balance": 0,
+              "nonce": 0,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ]
+        }
+      }
+    },
+    {
       "name": "bind_referrer_nonce_too_low",
       "description": "",
       "pre_state": {

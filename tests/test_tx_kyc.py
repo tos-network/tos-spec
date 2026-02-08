@@ -312,6 +312,31 @@ def test_bootstrap_committee_success(state_test_group) -> None:
     )
 
 
+def test_bootstrap_committee_insufficient_fee(state_test_group) -> None:
+    """bootstrap_committee with balance below fee must fail: INSUFFICIENT_FEE (pre-check)."""
+    state = ChainState(network_chain_id=CHAIN_ID_DEVNET)
+    sender = MINER  # Devnet bootstrap address holder (seed 1)
+    state.accounts[sender] = AccountState(address=sender, balance=99_999, nonce=5)
+    members = [
+        {"public_key": _addr(10 + i), "name": f"member_{i}", "role": 0}
+        for i in range(MIN_COMMITTEE_MEMBERS)
+    ]
+    payload = {
+        "name": "GlobalCommittee",
+        "members": members,
+        "threshold": 2,
+        "kyc_threshold": 2,
+        "max_kyc_level": VALID_KYC_LEVELS[4],
+    }
+    tx = _mk_kyc_tx(sender, nonce=5, tx_type=TransactionType.BOOTSTRAP_COMMITTEE, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/kyc/bootstrap_committee.json",
+        "bootstrap_committee_insufficient_fee",
+        state,
+        tx,
+    )
+
+
 def test_bootstrap_committee_nonce_too_low(state_test_group) -> None:
     state = ChainState(network_chain_id=CHAIN_ID_DEVNET)
     sender = MINER  # Devnet bootstrap address holder (seed 1)
@@ -408,6 +433,58 @@ def test_register_committee_success(state_test_group) -> None:
     state_test_group(
         "transactions/kyc/register_committee.json",
         "register_committee_success",
+        state,
+        tx,
+    )
+
+
+def test_register_committee_insufficient_fee(state_test_group) -> None:
+    """register_committee with balance below fee must fail: INSUFFICIENT_FEE (pre-check)."""
+    state = _base_state()
+    sender = ALICE
+    state.accounts[sender].balance = 99_999
+    state.committees[_hash(50)] = _global_committee()
+
+    new_members = [
+        (GRACE, "rmember_0", 0),
+        (HEIDI, "rmember_1", 0),
+        (IVAN, "rmember_2", 0),
+    ]
+    new_threshold = 2
+    new_kyc_threshold = 2
+    new_max_level = VALID_KYC_LEVELS[3]
+
+    config_hash = _compute_register_config_hash(
+        new_members, new_threshold, new_kyc_threshold, new_max_level,
+    )
+
+    ts = _CURRENT_TIME
+    msg = _build_register_committee_msg(
+        _hash(50), "RegionalCommittee", 1, config_hash, ts,
+    )
+    approvals = [
+        _sign_approval(CAROL, msg, ts),
+        _sign_approval(DAVE, msg, ts),
+    ]
+
+    members_payload = [
+        {"public_key": pk, "name": name, "role": role}
+        for pk, name, role in new_members
+    ]
+    payload = {
+        "name": "RegionalCommittee",
+        "region": 1,
+        "members": members_payload,
+        "threshold": new_threshold,
+        "kyc_threshold": new_kyc_threshold,
+        "max_kyc_level": new_max_level,
+        "parent_id": _hash(50),
+        "approvals": approvals,
+    }
+    tx = _mk_kyc_tx(sender, nonce=5, tx_type=TransactionType.REGISTER_COMMITTEE, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/kyc/register_committee.json",
+        "register_committee_insufficient_fee",
         state,
         tx,
     )
@@ -558,6 +635,48 @@ def test_update_committee_add_member(state_test_group) -> None:
     )
 
 
+def test_update_committee_insufficient_fee(state_test_group) -> None:
+    """update_committee with balance below fee must fail: INSUFFICIENT_FEE (pre-check)."""
+    state = _base_state()
+    sender = ALICE
+    state.accounts[sender].balance = 99_999
+    state.committees[_hash(50)] = _global_committee()
+
+    new_member_pubkey = BOB
+    new_member_name = "new_member"
+    new_member_role = 3  # Observer
+
+    update_data_hash = _compute_add_member_data_hash(
+        new_member_pubkey, new_member_name, new_member_role,
+    )
+
+    ts = _CURRENT_TIME
+    update_type = 0  # AddMember
+    msg = _build_update_committee_msg(_hash(50), update_type, update_data_hash, ts)
+    approvals = [
+        _sign_approval(CAROL, msg, ts),
+        _sign_approval(DAVE, msg, ts),
+    ]
+
+    payload = {
+        "committee_id": _hash(50),
+        "update": {
+            "type": "add_member",
+            "public_key": new_member_pubkey,
+            "name": new_member_name,
+            "role": new_member_role,
+        },
+        "approvals": approvals,
+    }
+    tx = _mk_kyc_tx(sender, nonce=5, tx_type=TransactionType.UPDATE_COMMITTEE, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/kyc/update_committee.json",
+        "update_committee_insufficient_fee",
+        state,
+        tx,
+    )
+
+
 def test_update_committee_nonce_too_low(state_test_group) -> None:
     state = _base_state()
     sender = ALICE
@@ -671,6 +790,46 @@ def test_set_kyc_success(state_test_group) -> None:
     tx = _mk_kyc_tx(sender, nonce=5, tx_type=TransactionType.SET_KYC, payload=payload, fee=100_000)
     state_test_group(
         "transactions/kyc/set_kyc.json", "set_kyc_success", state, tx
+    )
+
+
+def test_set_kyc_insufficient_fee(state_test_group) -> None:
+    """set_kyc with balance below fee must fail: INSUFFICIENT_FEE (pre-check)."""
+    state = _base_state()
+    sender = ALICE
+    state.accounts[sender].balance = 99_999
+    target = EVE
+    state.accounts[target] = AccountState(address=target, balance=0, nonce=0)
+    state.committees[_hash(50)] = _global_committee()
+    payload = {
+        "account": target,
+        "level": VALID_KYC_LEVELS[1],
+        "verified_at": _CURRENT_TIME,
+        "data_hash": _hash(40),
+        "committee_id": _hash(50),
+        "approvals": [
+            _sign_approval(
+                CAROL,
+                _build_set_kyc_msg(
+                    _hash(50), target, VALID_KYC_LEVELS[1], _hash(40), _CURRENT_TIME, _CURRENT_TIME,
+                ),
+                _CURRENT_TIME,
+            ),
+            _sign_approval(
+                DAVE,
+                _build_set_kyc_msg(
+                    _hash(50), target, VALID_KYC_LEVELS[1], _hash(40), _CURRENT_TIME, _CURRENT_TIME,
+                ),
+                _CURRENT_TIME,
+            ),
+        ],
+    }
+    tx = _mk_kyc_tx(sender, nonce=5, tx_type=TransactionType.SET_KYC, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/kyc/set_kyc.json",
+        "set_kyc_insufficient_fee",
+        state,
+        tx,
     )
 
 
@@ -804,6 +963,47 @@ def test_revoke_kyc_success(state_test_group) -> None:
     tx = _mk_kyc_tx(sender, nonce=5, tx_type=TransactionType.REVOKE_KYC, payload=payload, fee=100_000)
     state_test_group(
         "transactions/kyc/revoke_kyc.json", "revoke_kyc_success", state, tx
+    )
+
+
+def test_revoke_kyc_insufficient_fee(state_test_group) -> None:
+    """revoke_kyc with balance below fee must fail: INSUFFICIENT_FEE (pre-check)."""
+    state = _base_state()
+    sender = ALICE
+    state.accounts[sender].balance = 99_999
+    target = EVE
+    state.accounts[target] = AccountState(address=target, balance=0, nonce=0)
+    state.committees[_hash(50)] = _global_committee()
+    state.kyc_data[target] = KycData(
+        level=VALID_KYC_LEVELS[1],
+        status=KycStatus.ACTIVE,
+        verified_at=_CURRENT_TIME - 1000,
+        data_hash=_hash(40),
+        committee_id=_hash(50),
+    )
+
+    committee_id = _hash(50)
+    reason_hash = _hash(41)
+    ts = _CURRENT_TIME
+
+    msg = _build_revoke_kyc_msg(committee_id, target, reason_hash, ts)
+    approvals = [
+        _sign_approval(CAROL, msg, ts),
+        _sign_approval(DAVE, msg, ts),
+    ]
+
+    payload = {
+        "account": target,
+        "reason_hash": reason_hash,
+        "committee_id": committee_id,
+        "approvals": approvals,
+    }
+    tx = _mk_kyc_tx(sender, nonce=5, tx_type=TransactionType.REVOKE_KYC, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/kyc/revoke_kyc.json",
+        "revoke_kyc_insufficient_fee",
+        state,
+        tx,
     )
 
 
@@ -941,6 +1141,67 @@ def test_transfer_kyc_success(state_test_group) -> None:
     tx = _mk_kyc_tx(sender, nonce=5, tx_type=TransactionType.TRANSFER_KYC, payload=payload, fee=100_000)
     state_test_group(
         "transactions/kyc/transfer_kyc.json", "transfer_kyc_success", state, tx
+    )
+
+
+def test_transfer_kyc_insufficient_fee(state_test_group) -> None:
+    """transfer_kyc with balance below fee must fail: INSUFFICIENT_FEE (pre-check)."""
+    state = _base_state()
+    sender = ALICE
+    state.accounts[sender].balance = 99_999
+    target = EVE
+    state.accounts[target] = AccountState(address=target, balance=0, nonce=0)
+    state.committees[_hash(50)] = _global_committee()
+    state.committees[_hash(51)] = _regional_committee()
+
+    current_level = VALID_KYC_LEVELS[1]
+    state.kyc_data[target] = KycData(
+        level=current_level,
+        status=KycStatus.ACTIVE,
+        verified_at=_CURRENT_TIME - 1000,
+        data_hash=_hash(40),
+        committee_id=_hash(50),
+    )
+
+    source_committee = _hash(50)
+    dest_committee = _hash(51)
+    new_data_hash = _hash(42)
+    transferred_at = _CURRENT_TIME
+    ts = _CURRENT_TIME
+
+    src_msg = _build_transfer_src_msg(
+        source_committee, dest_committee, target, current_level,
+        new_data_hash, transferred_at, ts,
+    )
+    source_approvals = [
+        _sign_approval(CAROL, src_msg, ts),
+        _sign_approval(DAVE, src_msg, ts),
+    ]
+
+    dst_msg = _build_transfer_dst_msg(
+        source_committee, dest_committee, target, current_level,
+        new_data_hash, transferred_at, ts,
+    )
+    dest_approvals = [
+        _sign_approval(GRACE, dst_msg, ts),
+        _sign_approval(HEIDI, dst_msg, ts),
+    ]
+
+    payload = {
+        "account": target,
+        "source_committee_id": source_committee,
+        "source_approvals": source_approvals,
+        "dest_committee_id": dest_committee,
+        "dest_approvals": dest_approvals,
+        "new_data_hash": new_data_hash,
+        "transferred_at": transferred_at,
+    }
+    tx = _mk_kyc_tx(sender, nonce=5, tx_type=TransactionType.TRANSFER_KYC, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/kyc/transfer_kyc.json",
+        "transfer_kyc_insufficient_fee",
+        state,
+        tx,
     )
 
 
@@ -1095,6 +1356,37 @@ def test_appeal_kyc_success(state_test_group) -> None:
     )
 
 
+def test_appeal_kyc_insufficient_fee(state_test_group) -> None:
+    """appeal_kyc with balance below fee must fail: INSUFFICIENT_FEE (pre-check)."""
+    state = _base_state()
+    target = EVE
+    state.accounts[target] = AccountState(address=target, balance=99_999, nonce=5)
+    state.committees[_hash(50)] = _global_committee()
+    state.committees[_hash(51)] = _regional_committee()
+    state.kyc_data[target] = KycData(
+        level=VALID_KYC_LEVELS[1],
+        status=KycStatus.REVOKED,
+        verified_at=_CURRENT_TIME - 1000,
+        data_hash=_hash(40),
+        committee_id=_hash(51),
+    )
+    payload = {
+        "account": target,
+        "original_committee_id": _hash(51),
+        "parent_committee_id": _hash(50),
+        "reason_hash": _hash(43),
+        "documents_hash": _hash(44),
+        "submitted_at": _CURRENT_TIME,
+    }
+    tx = _mk_kyc_tx(target, nonce=5, tx_type=TransactionType.APPEAL_KYC, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/kyc/appeal_kyc.json",
+        "appeal_kyc_insufficient_fee",
+        state,
+        tx,
+    )
+
+
 def test_appeal_kyc_nonce_too_low(state_test_group) -> None:
     state = _base_state()
     target = EVE
@@ -1196,6 +1488,51 @@ def test_emergency_suspend_success(state_test_group) -> None:
     state_test_group(
         "transactions/kyc/emergency_suspend.json",
         "emergency_suspend_success",
+        state,
+        tx,
+    )
+
+
+def test_emergency_suspend_insufficient_fee(state_test_group) -> None:
+    """emergency_suspend with balance below fee must fail: INSUFFICIENT_FEE (pre-check)."""
+    state = _base_state()
+    sender = ALICE
+    state.accounts[sender].balance = 99_999
+    target = EVE
+    state.accounts[target] = AccountState(address=target, balance=0, nonce=0)
+    state.committees[_hash(50)] = _global_committee()
+    state.kyc_data[target] = KycData(
+        level=VALID_KYC_LEVELS[1],
+        status=KycStatus.ACTIVE,
+        verified_at=_CURRENT_TIME - 1000,
+        data_hash=_hash(40),
+        committee_id=_hash(50),
+    )
+
+    committee_id = _hash(50)
+    reason_hash = _hash(45)
+    expires_at = _CURRENT_TIME + EMERGENCY_SUSPEND_TIMEOUT
+    ts = _CURRENT_TIME
+
+    msg = _build_emergency_suspend_msg(
+        committee_id, target, reason_hash, expires_at, ts,
+    )
+    approvals = [
+        _sign_approval(CAROL, msg, ts),
+        _sign_approval(DAVE, msg, ts),
+    ]
+
+    payload = {
+        "account": target,
+        "reason_hash": reason_hash,
+        "committee_id": committee_id,
+        "approvals": approvals,
+        "expires_at": expires_at,
+    }
+    tx = _mk_kyc_tx(sender, nonce=5, tx_type=TransactionType.EMERGENCY_SUSPEND, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/kyc/emergency_suspend.json",
+        "emergency_suspend_insufficient_fee",
         state,
         tx,
     )
@@ -1340,6 +1677,49 @@ def test_renew_kyc_success(state_test_group) -> None:
     tx = _mk_kyc_tx(sender, nonce=5, tx_type=TransactionType.RENEW_KYC, payload=payload, fee=100_000)
     state_test_group(
         "transactions/kyc/renew_kyc.json", "renew_kyc_success", state, tx
+    )
+
+
+def test_renew_kyc_insufficient_fee(state_test_group) -> None:
+    """renew_kyc with balance below fee must fail: INSUFFICIENT_FEE (pre-check)."""
+    state = _base_state()
+    sender = ALICE
+    state.accounts[sender].balance = 99_999
+    target = EVE
+    state.accounts[target] = AccountState(address=target, balance=0, nonce=0)
+    state.committees[_hash(50)] = _global_committee()
+    state.kyc_data[target] = KycData(
+        level=VALID_KYC_LEVELS[1],
+        status=KycStatus.ACTIVE,
+        verified_at=_CURRENT_TIME - 10000,
+        data_hash=_hash(40),
+        committee_id=_hash(50),
+    )
+
+    committee_id = _hash(50)
+    new_data_hash = _hash(41)
+    verified_at = _CURRENT_TIME
+    ts = _CURRENT_TIME
+
+    msg = _build_renew_kyc_msg(committee_id, target, new_data_hash, verified_at, ts)
+    approvals = [
+        _sign_approval(CAROL, msg, ts),
+        _sign_approval(DAVE, msg, ts),
+    ]
+
+    payload = {
+        "account": target,
+        "data_hash": new_data_hash,
+        "verified_at": verified_at,
+        "committee_id": committee_id,
+        "approvals": approvals,
+    }
+    tx = _mk_kyc_tx(sender, nonce=5, tx_type=TransactionType.RENEW_KYC, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/kyc/renew_kyc.json",
+        "renew_kyc_insufficient_fee",
+        state,
+        tx,
     )
 
 

@@ -83,6 +83,79 @@
       }
     },
     {
+      "name": "agent_account_register_insufficient_fee",
+      "description": "",
+      "pre_state": {
+        "network_chain_id": 3,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "balance": 99999,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
+      },
+      "input": {
+        "kind": "tx",
+        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b2491700c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e378240303030303030303030303030303030303030303030303030303030303030303000000000000000186a000000000000000000500000000000000000000000000000000000000000000000000000000000000000000000000000000000622a74229b8521ad85280ba505e801b99e7b1554a9b7f8c2d56fecd2450a104a2ebd3d3688f3679436e2839e0cb8c9ad978ca473665296bbc8482e65efd8003",
+        "tx": {
+          "version": 1,
+          "chain_id": 3,
+          "source": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+          "tx_type": "agent_account",
+          "payload": {
+            "variant": "register",
+            "controller": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824",
+            "policy_hash": "0303030303030303030303030303030303030303030303030303030303030303"
+          },
+          "fee": 100000,
+          "fee_type": 0,
+          "nonce": 5,
+          "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+          "reference_topoheight": 0,
+          "signature": "0622a74229b8521ad85280ba505e801b99e7b1554a9b7f8c2d56fecd2450a104a2ebd3d3688f3679436e2839e0cb8c9ad978ca473665296bbc8482e65efd8003",
+          "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b2491700c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e378240303030303030303030303030303030303030303030303030303030303030303000000000000000186a000000000000000000500000000000000000000000000000000000000000000000000000000000000000000000000000000000622a74229b8521ad85280ba505e801b99e7b1554a9b7f8c2d56fecd2450a104a2ebd3d3688f3679436e2839e0cb8c9ad978ca473665296bbc8482e65efd8003"
+        }
+      },
+      "expected": {
+        "success": false,
+        "error_code": 769,
+        "state_digest": "38fa1dabfa69a56c9840667c340d79c98a2283500f76b7885e37692dc0056cc6",
+        "post_state": {
+          "network_chain_id": 3,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+              "balance": 99999,
+              "nonce": 5,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ]
+        }
+      }
+    },
+    {
       "name": "agent_account_register_nonce_too_low",
       "description": "",
       "pre_state": {

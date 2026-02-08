@@ -52,6 +52,19 @@ def test_bind_referrer_success(state_test_group) -> None:
     )
 
 
+def test_bind_referrer_insufficient_fee(state_test_group) -> None:
+    """bind_referrer with balance below fee must fail: INSUFFICIENT_FEE (pre-check)."""
+    state = _base_state()
+    state.accounts[ALICE].balance = 99_999
+    tx = _mk_bind_referrer(ALICE, nonce=5, referrer=BOB, fee=100_000)
+    state_test_group(
+        "transactions/referral/bind_referrer.json",
+        "bind_referrer_insufficient_fee",
+        state,
+        tx,
+    )
+
+
 def test_bind_referrer_nonce_too_low(state_test_group) -> None:
     """Strict nonce: tx.nonce < sender.nonce."""
     state = _base_state()

@@ -506,6 +506,47 @@ def test_uno_transfer_max_count_exceeded(state_test_group) -> None:
     )
 
 
+def test_uno_transfer_max_count_exact(state_test_group) -> None:
+    """UNO transfers at MAX_TRANSFER_COUNT boundary (500)."""
+    state = _base_state()
+    state.accounts[BOB] = AccountState(address=BOB, balance=0, nonce=0)
+    commitment = _valid_point()
+    sender_handle = _valid_point()
+    receiver_handle = _valid_point()
+    ct_proof = _valid_ct_proof()
+    transfers = [
+        {
+            "asset": _hash(0),
+            "destination": BOB,
+            "commitment": commitment,
+            "sender_handle": sender_handle,
+            "receiver_handle": receiver_handle,
+            "ct_validity_proof": ct_proof,
+        }
+        for _ in range(MAX_TRANSFER_COUNT)
+    ]
+    tx = Transaction(
+        version=TxVersion.T1,
+        chain_id=CHAIN_ID_DEVNET,
+        source=ALICE,
+        tx_type=TransactionType.UNO_TRANSFERS,
+        payload={"transfers": transfers},
+        fee=0,
+        fee_type=FeeType.UNO,
+        nonce=5,
+        source_commitments=[],
+        reference_hash=_hash(0),
+        reference_topoheight=0,
+        signature=bytes(64),
+    )
+    state_test_group(
+        "transactions/privacy/uno_transfers.json",
+        "uno_transfer_max_count_exact",
+        state,
+        tx,
+    )
+
+
 # ===================================================================
 # Shield transfer boundary tests
 # ===================================================================
@@ -575,6 +616,67 @@ def test_shield_transfer_max_count_exceeded(state_test_group) -> None:
     state_test_group(
         "transactions/privacy/shield_transfers.json",
         "shield_transfer_max_count_exceeded",
+        state,
+        tx,
+    )
+
+
+def test_shield_transfer_max_count_exact(state_test_group) -> None:
+    """Shield transfers at MAX_TRANSFER_COUNT boundary (500)."""
+    state = _base_state()
+    state.accounts[BOB] = AccountState(address=BOB, balance=0, nonce=0)
+    # Must be able to cover total_amount in verification (fee is checked separately).
+    state.accounts[ALICE].balance = MAX_TRANSFER_COUNT * MIN_SHIELD_TOS_AMOUNT + 1000 * COIN_VALUE
+    commitment, receiver_handle, proof = [
+        bytes(x) for x in tos_signer.make_shield_crypto(_SEED_BOB, MIN_SHIELD_TOS_AMOUNT)
+    ]
+    transfers = [
+        {
+            "asset": _hash(0),
+            "destination": BOB,
+            "amount": MIN_SHIELD_TOS_AMOUNT,
+            "commitment": commitment,
+            "receiver_handle": receiver_handle,
+            "proof": proof,
+        }
+        for _ in range(MAX_TRANSFER_COUNT)
+    ]
+    tx = Transaction(
+        version=TxVersion.T1,
+        chain_id=CHAIN_ID_DEVNET,
+        source=ALICE,
+        tx_type=TransactionType.SHIELD_TRANSFERS,
+        payload={"transfers": transfers},
+        # Daemon enforces a minimum fee based on serialized tx size. For this boundary case
+        # (MAX_TRANSFER_COUNT transfers) the tx is large enough that the base fee (100_000)
+        # is insufficient. Keep fee comfortably above the minimum so the test targets the
+        # transfer-count boundary rather than fee policy.
+        fee=1_500_000,
+        fee_type=FeeType.TOS,
+        nonce=5,
+        reference_hash=_hash(0),
+        reference_topoheight=0,
+        signature=bytes(64),
+    )
+    state_test_group(
+        "transactions/privacy/shield_transfers.json",
+        "shield_transfer_max_count_exact",
+        state,
+        tx,
+    )
+
+
+def test_shield_transfer_insufficient_fee(state_test_group) -> None:
+    """Shield transfer with balance below fee must fail: INSUFFICIENT_FEE (pre-check)."""
+    state = _base_state()
+    state.accounts[ALICE].balance = 99_999
+    state.accounts[BOB] = AccountState(address=BOB, balance=0, nonce=0)
+    tx = _mk_shield_transfer(
+        ALICE, nonce=5, destination=BOB, amount=MIN_SHIELD_TOS_AMOUNT, fee=100_000
+    )
+    state_test_group(
+        "transactions/privacy/shield_transfers.json",
+        "shield_transfer_insufficient_fee",
         state,
         tx,
     )
@@ -693,6 +795,62 @@ def test_unshield_transfer_max_count_exceeded(state_test_group) -> None:
     state_test_group(
         "transactions/privacy/unshield_transfers.json",
         "unshield_transfer_max_count_exceeded",
+        state,
+        tx,
+    )
+
+
+def test_unshield_transfer_max_count_exact(state_test_group) -> None:
+    """Unshield transfers at MAX_TRANSFER_COUNT boundary (500)."""
+    state = _base_state()
+    state.accounts[BOB] = AccountState(address=BOB, balance=0, nonce=0)
+    commitment = _valid_point()
+    sender_handle = _valid_point()
+    ct_proof = _valid_ct_proof()
+    transfers = [
+        {
+            "asset": _hash(0),
+            "destination": BOB,
+            "amount": 5 * COIN_VALUE,
+            "commitment": commitment,
+            "sender_handle": sender_handle,
+            "ct_validity_proof": ct_proof,
+        }
+        for _ in range(MAX_TRANSFER_COUNT)
+    ]
+    tx = Transaction(
+        version=TxVersion.T1,
+        chain_id=CHAIN_ID_DEVNET,
+        source=ALICE,
+        tx_type=TransactionType.UNSHIELD_TRANSFERS,
+        payload={"transfers": transfers},
+        fee=100_000,
+        fee_type=FeeType.TOS,
+        nonce=5,
+        source_commitments=[],
+        reference_hash=_hash(0),
+        reference_topoheight=0,
+        signature=bytes(64),
+    )
+    state_test_group(
+        "transactions/privacy/unshield_transfers.json",
+        "unshield_transfer_max_count_exact",
+        state,
+        tx,
+    )
+
+
+def test_unshield_transfer_insufficient_fee(state_test_group) -> None:
+    """Unshield transfer with balance below fee must fail: INSUFFICIENT_FEE (pre-check)."""
+    state = _base_state()
+    state.accounts[ALICE].balance = 99_999
+    state.accounts[BOB] = AccountState(address=BOB, balance=0, nonce=0)
+    tx = _mk_unshield_transfer(
+        ALICE, nonce=5, destination=BOB, amount=5 * COIN_VALUE, fee=100_000
+    )
+    state_test_group(
+        "transactions/privacy/unshield_transfers.json",
+        "unshield_transfer_insufficient_fee",
         state,
         tx,
     )
