@@ -13,6 +13,7 @@ from tos_spec.types import (
     TransferPayload,
     TxVersion,
 )
+from tos_spec.config import EXTRA_DATA_LIMIT_SIZE
 
 
 def _hash(byte: int) -> bytes:
@@ -305,6 +306,103 @@ def test_block_reject_atomic_on_energy_fee_nonzero(block_test_group) -> None:
     block_test_group(
         "transactions/block/multi_tx.json",
         "block_reject_atomic_on_energy_fee_nonzero",
+        state,
+        [tx1, tx2],
+    )
+
+
+def test_block_reject_atomic_on_second_tx_self_transfer(block_test_group) -> None:
+    """Second tx is self-transfer; entire block is rejected and tx1 is rolled back."""
+    state = _base_state()
+    tx1 = _mk_transfer(ALICE, BOB, nonce=5, amount=10_000)
+    tx2 = _mk_transfer(ALICE, ALICE, nonce=6, amount=1)
+    block_test_group(
+        "transactions/block/multi_tx.json",
+        "block_reject_atomic_on_second_tx_self_transfer",
+        state,
+        [tx1, tx2],
+    )
+
+
+def test_block_reject_atomic_on_second_tx_invalid_transfer_extra_data(block_test_group) -> None:
+    """Second tx has extra_data larger than the per-transfer limit; entire block is rejected."""
+    state = _base_state()
+    tx1 = _mk_transfer(ALICE, BOB, nonce=5, amount=10_000)
+    tx2 = Transaction(
+        version=TxVersion.T1,
+        chain_id=CHAIN_ID_DEVNET,
+        source=ALICE,
+        tx_type=TransactionType.TRANSFERS,
+        payload=[
+            TransferPayload(
+                asset=_hash(0),
+                destination=BOB,
+                amount=1,
+                extra_data=b"x" * (EXTRA_DATA_LIMIT_SIZE + 1),
+            )
+        ],
+        fee=FEE_MIN,
+        fee_type=FeeType.TOS,
+        nonce=6,
+        reference_hash=_hash(0),
+        reference_topoheight=0,
+        signature=bytes(64),
+    )
+    block_test_group(
+        "transactions/block/multi_tx.json",
+        "block_reject_atomic_on_second_tx_invalid_transfer_extra_data",
+        state,
+        [tx1, tx2],
+    )
+
+
+def test_block_reject_atomic_on_second_tx_receiver_balance_overflow(block_test_group) -> None:
+    """Second tx overflows receiver balance (apply-time error); entire block is rejected."""
+    U64_MAX = (1 << 64) - 1
+    state = _base_state()
+    # Make BOB overflow on receiving.
+    state.accounts[BOB].balance = U64_MAX - 5
+    # Ensure ALICE can cover amount+fee.
+    state.accounts[ALICE].balance = 1_000_000
+
+    tx1 = _mk_transfer(ALICE, CAROL, nonce=5, amount=10_000)
+    tx2 = _mk_transfer(ALICE, BOB, nonce=6, amount=10, fee=FEE_MIN)
+    block_test_group(
+        "transactions/block/multi_tx.json",
+        "block_reject_atomic_on_second_tx_receiver_balance_overflow",
+        state,
+        [tx1, tx2],
+    )
+
+
+def test_block_reject_atomic_on_second_tx_total_burned_overflow(block_test_group) -> None:
+    """Second tx overflows total_burned (apply-time error); entire block is rejected."""
+    U64_MAX = (1 << 64) - 1
+    state = _base_state()
+    state.global_state.total_burned = U64_MAX - 1
+    state.accounts[ALICE].balance = 1_000_000
+
+    tx1 = _mk_transfer(ALICE, BOB, nonce=5, amount=10_000)
+    tx2 = _mk_burn(ALICE, nonce=6, amount=2, fee=FEE_MIN)
+    block_test_group(
+        "transactions/block/multi_tx.json",
+        "block_reject_atomic_on_second_tx_total_burned_overflow",
+        state,
+        [tx1, tx2],
+    )
+
+
+def test_block_reject_atomic_on_second_tx_burn_energy_fee(block_test_group) -> None:
+    """Energy fee is invalid for burn; entire block is rejected and tx1 is rolled back."""
+    state = _base_state()
+    state.accounts[ALICE].balance = 1_000_000
+
+    tx1 = _mk_transfer(ALICE, BOB, nonce=5, amount=10_000)
+    tx2 = _mk_burn(ALICE, nonce=6, amount=1, fee=0)
+    tx2.fee_type = FeeType.ENERGY
+    block_test_group(
+        "transactions/block/multi_tx.json",
+        "block_reject_atomic_on_second_tx_burn_energy_fee",
         state,
         [tx1, tx2],
     )
