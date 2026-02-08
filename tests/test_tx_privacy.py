@@ -209,6 +209,34 @@ def test_shield_transfer_success(state_test_group) -> None:
     )
 
 
+def test_shield_transfer_nonce_too_low(state_test_group) -> None:
+    state = _base_state()
+    state.accounts[BOB] = AccountState(address=BOB, balance=0, nonce=0)
+    tx = _mk_shield_transfer(
+        ALICE, nonce=4, destination=BOB, amount=MIN_SHIELD_TOS_AMOUNT, fee=100_000
+    )
+    state_test_group(
+        "transactions/privacy/shield_transfers.json",
+        "shield_transfer_nonce_too_low",
+        state,
+        tx,
+    )
+
+
+def test_shield_transfer_nonce_too_high_strict(state_test_group) -> None:
+    state = _base_state()
+    state.accounts[BOB] = AccountState(address=BOB, balance=0, nonce=0)
+    tx = _mk_shield_transfer(
+        ALICE, nonce=6, destination=BOB, amount=MIN_SHIELD_TOS_AMOUNT, fee=100_000
+    )
+    state_test_group(
+        "transactions/privacy/shield_transfers.json",
+        "shield_transfer_nonce_too_high_strict",
+        state,
+        tx,
+    )
+
+
 def test_shield_transfer_below_minimum(state_test_group) -> None:
     state = _base_state()
     state.accounts[BOB] = AccountState(address=BOB, balance=0, nonce=0)
@@ -235,6 +263,34 @@ def test_unshield_transfer_success(state_test_group) -> None:
     state_test_group(
         "transactions/privacy/unshield_transfers.json",
         "unshield_transfer_success",
+        state,
+        tx,
+    )
+
+
+def test_unshield_transfer_nonce_too_low(state_test_group) -> None:
+    state = _base_state()
+    state.accounts[BOB] = AccountState(address=BOB, balance=0, nonce=0)
+    tx = _mk_unshield_transfer(
+        ALICE, nonce=4, destination=BOB, amount=5 * COIN_VALUE, fee=100_000
+    )
+    state_test_group(
+        "transactions/privacy/unshield_transfers.json",
+        "unshield_transfer_nonce_too_low",
+        state,
+        tx,
+    )
+
+
+def test_unshield_transfer_nonce_too_high_strict(state_test_group) -> None:
+    state = _base_state()
+    state.accounts[BOB] = AccountState(address=BOB, balance=0, nonce=0)
+    tx = _mk_unshield_transfer(
+        ALICE, nonce=6, destination=BOB, amount=5 * COIN_VALUE, fee=100_000
+    )
+    state_test_group(
+        "transactions/privacy/unshield_transfers.json",
+        "unshield_transfer_nonce_too_high_strict",
         state,
         tx,
     )

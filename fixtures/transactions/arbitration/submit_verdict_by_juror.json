@@ -260,6 +260,524 @@
       }
     },
     {
+      "name": "submit_verdict_by_juror_nonce_too_low",
+      "pre_state": {
+        "network_chain_id": 3,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 1500,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "balance": 1000000000000,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          },
+          {
+            "address": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824",
+            "balance": 0,
+            "nonce": 0,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          },
+          {
+            "address": "7ea555bf91bfb985561a91afcd669a79c0cc115ce03baf687cb8dd7e1e996e7b",
+            "balance": 1000000000000,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ],
+        "escrows": [
+          {
+            "id": "3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c",
+            "task_id": "test-task",
+            "payer": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "payee": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824",
+            "amount": 1000000000,
+            "total_amount": 1000000000,
+            "released_amount": 0,
+            "refunded_amount": 0,
+            "challenge_deposit": 0,
+            "asset": "0000000000000000000000000000000000000000000000000000000000000000",
+            "state": "challenged",
+            "timeout_blocks": 1000,
+            "challenge_window": 100,
+            "challenge_deposit_bps": 0,
+            "optimistic_release": false,
+            "created_at": 0,
+            "updated_at": 0,
+            "timeout_at": 0,
+            "arbitration_config": {
+              "mode": "committee",
+              "arbiters": [
+                "7ea555bf91bfb985561a91afcd669a79c0cc115ce03baf687cb8dd7e1e996e7b",
+                "ec9daff86b25275ef43d7dbd7e81f09b44e8d3805c6048b09b3e1034931c6077",
+                "c236d1e09a12adc6dc4b857420e7dbef41e4553cc06168495b941398bee59531"
+              ],
+              "threshold": 2,
+              "fee_amount": 100000000,
+              "allow_appeal": true
+            },
+            "dispute": {
+              "initiator": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+              "reason": "provider did not deliver",
+              "disputed_at": 1,
+              "deadline": 1000
+            }
+          }
+        ],
+        "arbiters": [
+          {
+            "public_key": "7ea555bf91bfb985561a91afcd669a79c0cc115ce03baf687cb8dd7e1e996e7b",
+            "name": "carol-arb",
+            "status": "active",
+            "expertise": [],
+            "stake_amount": 100000000000,
+            "fee_basis_points": 0,
+            "min_escrow_value": 0,
+            "max_escrow_value": 0,
+            "reputation_score": 0,
+            "total_cases": 0,
+            "active_cases": 0,
+            "registered_at": 0,
+            "total_slashed": 0
+          },
+          {
+            "public_key": "ec9daff86b25275ef43d7dbd7e81f09b44e8d3805c6048b09b3e1034931c6077",
+            "name": "dave-arb",
+            "status": "active",
+            "expertise": [],
+            "stake_amount": 100000000000,
+            "fee_basis_points": 0,
+            "min_escrow_value": 0,
+            "max_escrow_value": 0,
+            "reputation_score": 0,
+            "total_cases": 0,
+            "active_cases": 0,
+            "registered_at": 0,
+            "total_slashed": 0
+          }
+        ]
+      },
+      "tx": {
+        "version": 1,
+        "chain_id": 3,
+        "source": "7ea555bf91bfb985561a91afcd669a79c0cc115ce03baf687cb8dd7e1e996e7b",
+        "tx_type": "submit_verdict_by_juror",
+        "payload": {
+          "escrow_id": "3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c",
+          "dispute_id": "3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c",
+          "round": 0,
+          "payer_amount": 600000000,
+          "payee_amount": 400000000,
+          "signatures": [
+            {
+              "member_pubkey": "7ea555bf91bfb985561a91afcd669a79c0cc115ce03baf687cb8dd7e1e996e7b",
+              "signature": "1278a953e816a8683e841d33fd154559dc61dcfa8dc9ae36749cbcc7d906a30f7e539ec47e62185abde0b9bca9a5146140f2c08961f0c3489e1991d2e8f6b704",
+              "timestamp": 1700000000
+            },
+            {
+              "member_pubkey": "ec9daff86b25275ef43d7dbd7e81f09b44e8d3805c6048b09b3e1034931c6077",
+              "signature": "cdb788d6f8c9f76efa683748301148ed33686c5404a955ac776b737cdce24803d727340a19eb62d637a72d7147f22f4bee29f9ca1e500691542a29c270194803",
+              "timestamp": 1700000000
+            }
+          ]
+        },
+        "fee": 100000,
+        "fee_type": 0,
+        "nonce": 4,
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "c68d6903e9c0e365a9ed0579f4ce6bace027eeb3253021db393b95a1aff9c40653269b4cb5b91f057f1b098ed08108e8d2373a968685cd752a9c6596a914f30b",
+        "wire_hex": "01037ea555bf91bfb985561a91afcd669a79c0cc115ce03baf687cb8dd7e1e996e7b203c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c000000000000000023c346000000000017d7840000027ea555bf91bfb985561a91afcd669a79c0cc115ce03baf687cb8dd7e1e996e7b1278a953e816a8683e841d33fd154559dc61dcfa8dc9ae36749cbcc7d906a30f7e539ec47e62185abde0b9bca9a5146140f2c08961f0c3489e1991d2e8f6b704000000006553f100ec9daff86b25275ef43d7dbd7e81f09b44e8d3805c6048b09b3e1034931c6077cdb788d6f8c9f76efa683748301148ed33686c5404a955ac776b737cdce24803d727340a19eb62d637a72d7147f22f4bee29f9ca1e500691542a29c270194803000000006553f10000000000000186a00000000000000000040000000000000000000000000000000000000000000000000000000000000000000000000000000000c68d6903e9c0e365a9ed0579f4ce6bace027eeb3253021db393b95a1aff9c40653269b4cb5b91f057f1b098ed08108e8d2373a968685cd752a9c6596a914f30b"
+      },
+      "expected": {
+        "ok": false,
+        "error": "NONCE_TOO_LOW",
+        "post_state": {
+          "network_chain_id": 3,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 1500,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+              "balance": 1000000000000,
+              "nonce": 5,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            },
+            {
+              "address": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824",
+              "balance": 0,
+              "nonce": 0,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            },
+            {
+              "address": "7ea555bf91bfb985561a91afcd669a79c0cc115ce03baf687cb8dd7e1e996e7b",
+              "balance": 1000000000000,
+              "nonce": 5,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ],
+          "escrows": [
+            {
+              "id": "3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c",
+              "task_id": "test-task",
+              "payer": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+              "payee": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824",
+              "amount": 1000000000,
+              "total_amount": 1000000000,
+              "released_amount": 0,
+              "refunded_amount": 0,
+              "challenge_deposit": 0,
+              "asset": "0000000000000000000000000000000000000000000000000000000000000000",
+              "state": "challenged",
+              "timeout_blocks": 1000,
+              "challenge_window": 100,
+              "challenge_deposit_bps": 0,
+              "optimistic_release": false,
+              "created_at": 0,
+              "updated_at": 0,
+              "timeout_at": 0,
+              "arbitration_config": {
+                "mode": "committee",
+                "arbiters": [
+                  "7ea555bf91bfb985561a91afcd669a79c0cc115ce03baf687cb8dd7e1e996e7b",
+                  "ec9daff86b25275ef43d7dbd7e81f09b44e8d3805c6048b09b3e1034931c6077",
+                  "c236d1e09a12adc6dc4b857420e7dbef41e4553cc06168495b941398bee59531"
+                ],
+                "threshold": 2,
+                "fee_amount": 100000000,
+                "allow_appeal": true
+              },
+              "dispute": {
+                "initiator": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+                "reason": "provider did not deliver",
+                "disputed_at": 1,
+                "deadline": 1000
+              }
+            }
+          ],
+          "arbiters": [
+            {
+              "public_key": "7ea555bf91bfb985561a91afcd669a79c0cc115ce03baf687cb8dd7e1e996e7b",
+              "name": "carol-arb",
+              "status": "active",
+              "expertise": [],
+              "stake_amount": 100000000000,
+              "fee_basis_points": 0,
+              "min_escrow_value": 0,
+              "max_escrow_value": 0,
+              "reputation_score": 0,
+              "total_cases": 0,
+              "active_cases": 0,
+              "registered_at": 0,
+              "total_slashed": 0
+            },
+            {
+              "public_key": "ec9daff86b25275ef43d7dbd7e81f09b44e8d3805c6048b09b3e1034931c6077",
+              "name": "dave-arb",
+              "status": "active",
+              "expertise": [],
+              "stake_amount": 100000000000,
+              "fee_basis_points": 0,
+              "min_escrow_value": 0,
+              "max_escrow_value": 0,
+              "reputation_score": 0,
+              "total_cases": 0,
+              "active_cases": 0,
+              "registered_at": 0,
+              "total_slashed": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "submit_verdict_by_juror_nonce_too_high_strict",
+      "pre_state": {
+        "network_chain_id": 3,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 1500,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "balance": 1000000000000,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          },
+          {
+            "address": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824",
+            "balance": 0,
+            "nonce": 0,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          },
+          {
+            "address": "7ea555bf91bfb985561a91afcd669a79c0cc115ce03baf687cb8dd7e1e996e7b",
+            "balance": 1000000000000,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ],
+        "escrows": [
+          {
+            "id": "3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c",
+            "task_id": "test-task",
+            "payer": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "payee": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824",
+            "amount": 1000000000,
+            "total_amount": 1000000000,
+            "released_amount": 0,
+            "refunded_amount": 0,
+            "challenge_deposit": 0,
+            "asset": "0000000000000000000000000000000000000000000000000000000000000000",
+            "state": "challenged",
+            "timeout_blocks": 1000,
+            "challenge_window": 100,
+            "challenge_deposit_bps": 0,
+            "optimistic_release": false,
+            "created_at": 0,
+            "updated_at": 0,
+            "timeout_at": 0,
+            "arbitration_config": {
+              "mode": "committee",
+              "arbiters": [
+                "7ea555bf91bfb985561a91afcd669a79c0cc115ce03baf687cb8dd7e1e996e7b",
+                "ec9daff86b25275ef43d7dbd7e81f09b44e8d3805c6048b09b3e1034931c6077",
+                "c236d1e09a12adc6dc4b857420e7dbef41e4553cc06168495b941398bee59531"
+              ],
+              "threshold": 2,
+              "fee_amount": 100000000,
+              "allow_appeal": true
+            },
+            "dispute": {
+              "initiator": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+              "reason": "provider did not deliver",
+              "disputed_at": 1,
+              "deadline": 1000
+            }
+          }
+        ],
+        "arbiters": [
+          {
+            "public_key": "7ea555bf91bfb985561a91afcd669a79c0cc115ce03baf687cb8dd7e1e996e7b",
+            "name": "carol-arb",
+            "status": "active",
+            "expertise": [],
+            "stake_amount": 100000000000,
+            "fee_basis_points": 0,
+            "min_escrow_value": 0,
+            "max_escrow_value": 0,
+            "reputation_score": 0,
+            "total_cases": 0,
+            "active_cases": 0,
+            "registered_at": 0,
+            "total_slashed": 0
+          },
+          {
+            "public_key": "ec9daff86b25275ef43d7dbd7e81f09b44e8d3805c6048b09b3e1034931c6077",
+            "name": "dave-arb",
+            "status": "active",
+            "expertise": [],
+            "stake_amount": 100000000000,
+            "fee_basis_points": 0,
+            "min_escrow_value": 0,
+            "max_escrow_value": 0,
+            "reputation_score": 0,
+            "total_cases": 0,
+            "active_cases": 0,
+            "registered_at": 0,
+            "total_slashed": 0
+          }
+        ]
+      },
+      "tx": {
+        "version": 1,
+        "chain_id": 3,
+        "source": "7ea555bf91bfb985561a91afcd669a79c0cc115ce03baf687cb8dd7e1e996e7b",
+        "tx_type": "submit_verdict_by_juror",
+        "payload": {
+          "escrow_id": "3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c",
+          "dispute_id": "3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c",
+          "round": 0,
+          "payer_amount": 600000000,
+          "payee_amount": 400000000,
+          "signatures": [
+            {
+              "member_pubkey": "7ea555bf91bfb985561a91afcd669a79c0cc115ce03baf687cb8dd7e1e996e7b",
+              "signature": "1278a953e816a8683e841d33fd154559dc61dcfa8dc9ae36749cbcc7d906a30f7e539ec47e62185abde0b9bca9a5146140f2c08961f0c3489e1991d2e8f6b704",
+              "timestamp": 1700000000
+            },
+            {
+              "member_pubkey": "ec9daff86b25275ef43d7dbd7e81f09b44e8d3805c6048b09b3e1034931c6077",
+              "signature": "cdb788d6f8c9f76efa683748301148ed33686c5404a955ac776b737cdce24803d727340a19eb62d637a72d7147f22f4bee29f9ca1e500691542a29c270194803",
+              "timestamp": 1700000000
+            }
+          ]
+        },
+        "fee": 100000,
+        "fee_type": 0,
+        "nonce": 6,
+        "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "reference_topoheight": 0,
+        "signature": "8b42e06df7a59ad6eebd306d01cc068ef8eb0c84c70a00161d12a867acb84f00a75c912ac4e659ff34478cb2247ef1b92a09de07c5f7f66d609b5353d07f2a0a",
+        "wire_hex": "01037ea555bf91bfb985561a91afcd669a79c0cc115ce03baf687cb8dd7e1e996e7b203c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c000000000000000023c346000000000017d7840000027ea555bf91bfb985561a91afcd669a79c0cc115ce03baf687cb8dd7e1e996e7b1278a953e816a8683e841d33fd154559dc61dcfa8dc9ae36749cbcc7d906a30f7e539ec47e62185abde0b9bca9a5146140f2c08961f0c3489e1991d2e8f6b704000000006553f100ec9daff86b25275ef43d7dbd7e81f09b44e8d3805c6048b09b3e1034931c6077cdb788d6f8c9f76efa683748301148ed33686c5404a955ac776b737cdce24803d727340a19eb62d637a72d7147f22f4bee29f9ca1e500691542a29c270194803000000006553f10000000000000186a000000000000000000600000000000000000000000000000000000000000000000000000000000000000000000000000000008b42e06df7a59ad6eebd306d01cc068ef8eb0c84c70a00161d12a867acb84f00a75c912ac4e659ff34478cb2247ef1b92a09de07c5f7f66d609b5353d07f2a0a"
+      },
+      "expected": {
+        "ok": false,
+        "error": "NONCE_TOO_HIGH",
+        "post_state": {
+          "network_chain_id": 3,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 1500,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+              "balance": 1000000000000,
+              "nonce": 5,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            },
+            {
+              "address": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824",
+              "balance": 0,
+              "nonce": 0,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            },
+            {
+              "address": "7ea555bf91bfb985561a91afcd669a79c0cc115ce03baf687cb8dd7e1e996e7b",
+              "balance": 1000000000000,
+              "nonce": 5,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ],
+          "escrows": [
+            {
+              "id": "3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c3c",
+              "task_id": "test-task",
+              "payer": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+              "payee": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824",
+              "amount": 1000000000,
+              "total_amount": 1000000000,
+              "released_amount": 0,
+              "refunded_amount": 0,
+              "challenge_deposit": 0,
+              "asset": "0000000000000000000000000000000000000000000000000000000000000000",
+              "state": "challenged",
+              "timeout_blocks": 1000,
+              "challenge_window": 100,
+              "challenge_deposit_bps": 0,
+              "optimistic_release": false,
+              "created_at": 0,
+              "updated_at": 0,
+              "timeout_at": 0,
+              "arbitration_config": {
+                "mode": "committee",
+                "arbiters": [
+                  "7ea555bf91bfb985561a91afcd669a79c0cc115ce03baf687cb8dd7e1e996e7b",
+                  "ec9daff86b25275ef43d7dbd7e81f09b44e8d3805c6048b09b3e1034931c6077",
+                  "c236d1e09a12adc6dc4b857420e7dbef41e4553cc06168495b941398bee59531"
+                ],
+                "threshold": 2,
+                "fee_amount": 100000000,
+                "allow_appeal": true
+              },
+              "dispute": {
+                "initiator": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+                "reason": "provider did not deliver",
+                "disputed_at": 1,
+                "deadline": 1000
+              }
+            }
+          ],
+          "arbiters": [
+            {
+              "public_key": "7ea555bf91bfb985561a91afcd669a79c0cc115ce03baf687cb8dd7e1e996e7b",
+              "name": "carol-arb",
+              "status": "active",
+              "expertise": [],
+              "stake_amount": 100000000000,
+              "fee_basis_points": 0,
+              "min_escrow_value": 0,
+              "max_escrow_value": 0,
+              "reputation_score": 0,
+              "total_cases": 0,
+              "active_cases": 0,
+              "registered_at": 0,
+              "total_slashed": 0
+            },
+            {
+              "public_key": "ec9daff86b25275ef43d7dbd7e81f09b44e8d3805c6048b09b3e1034931c6077",
+              "name": "dave-arb",
+              "status": "active",
+              "expertise": [],
+              "stake_amount": 100000000000,
+              "fee_basis_points": 0,
+              "min_escrow_value": 0,
+              "max_escrow_value": 0,
+              "reputation_score": 0,
+              "total_cases": 0,
+              "active_cases": 0,
+              "registered_at": 0,
+              "total_slashed": 0
+            }
+          ]
+        }
+      }
+    },
+    {
       "name": "submit_verdict_by_juror_no_signatures",
       "pre_state": {
         "network_chain_id": 3,

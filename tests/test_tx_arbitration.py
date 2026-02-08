@@ -484,6 +484,34 @@ def test_request_arbiter_exit(state_test_group) -> None:
     )
 
 
+def test_request_arbiter_exit_nonce_too_low(state_test_group) -> None:
+    state = _base_state()
+    sender = ALICE
+    state.arbiters[ALICE] = _active_arbiter(ALICE)
+    payload = {}
+    tx = _mk_arb_tx(sender, nonce=4, tx_type=TransactionType.REQUEST_ARBITER_EXIT, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/arbitration/request_arbiter_exit.json",
+        "request_arbiter_exit_nonce_too_low",
+        state,
+        tx,
+    )
+
+
+def test_request_arbiter_exit_nonce_too_high_strict(state_test_group) -> None:
+    state = _base_state()
+    sender = ALICE
+    state.arbiters[ALICE] = _active_arbiter(ALICE)
+    payload = {}
+    tx = _mk_arb_tx(sender, nonce=6, tx_type=TransactionType.REQUEST_ARBITER_EXIT, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/arbitration/request_arbiter_exit.json",
+        "request_arbiter_exit_nonce_too_high_strict",
+        state,
+        tx,
+    )
+
+
 def test_request_arbiter_exit_not_registered(state_test_group) -> None:
     """Request exit for unregistered arbiter must fail."""
     state = _base_state()
@@ -548,6 +576,38 @@ def test_withdraw_arbiter_stake_success(state_test_group) -> None:
     )
 
 
+def test_withdraw_arbiter_stake_nonce_too_low(state_test_group) -> None:
+    state = _base_state()
+    sender = ALICE
+    arbiter = _active_arbiter(ALICE)
+    arbiter.status = ArbiterStatus.EXITING
+    state.arbiters[ALICE] = arbiter
+    payload = {"amount": MIN_ARBITER_STAKE}
+    tx = _mk_arb_tx(sender, nonce=4, tx_type=TransactionType.WITHDRAW_ARBITER_STAKE, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/arbitration/withdraw_arbiter_stake.json",
+        "withdraw_arbiter_stake_nonce_too_low",
+        state,
+        tx,
+    )
+
+
+def test_withdraw_arbiter_stake_nonce_too_high_strict(state_test_group) -> None:
+    state = _base_state()
+    sender = ALICE
+    arbiter = _active_arbiter(ALICE)
+    arbiter.status = ArbiterStatus.EXITING
+    state.arbiters[ALICE] = arbiter
+    payload = {"amount": MIN_ARBITER_STAKE}
+    tx = _mk_arb_tx(sender, nonce=6, tx_type=TransactionType.WITHDRAW_ARBITER_STAKE, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/arbitration/withdraw_arbiter_stake.json",
+        "withdraw_arbiter_stake_nonce_too_high_strict",
+        state,
+        tx,
+    )
+
+
 def test_withdraw_arbiter_stake_not_registered(state_test_group) -> None:
     """Withdraw stake for unregistered arbiter must fail."""
     state = _base_state()
@@ -606,6 +666,38 @@ def test_cancel_arbiter_exit(state_test_group) -> None:
     state_test_group(
         "transactions/arbitration/cancel_arbiter_exit.json",
         "cancel_arbiter_exit",
+        state,
+        tx,
+    )
+
+
+def test_cancel_arbiter_exit_nonce_too_low(state_test_group) -> None:
+    state = _base_state()
+    sender = ALICE
+    arbiter = _active_arbiter(ALICE)
+    arbiter.status = ArbiterStatus.EXITING
+    state.arbiters[ALICE] = arbiter
+    payload = {}
+    tx = _mk_arb_tx(sender, nonce=4, tx_type=TransactionType.CANCEL_ARBITER_EXIT, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/arbitration/cancel_arbiter_exit.json",
+        "cancel_arbiter_exit_nonce_too_low",
+        state,
+        tx,
+    )
+
+
+def test_cancel_arbiter_exit_nonce_too_high_strict(state_test_group) -> None:
+    state = _base_state()
+    sender = ALICE
+    arbiter = _active_arbiter(ALICE)
+    arbiter.status = ArbiterStatus.EXITING
+    state.arbiters[ALICE] = arbiter
+    payload = {}
+    tx = _mk_arb_tx(sender, nonce=6, tx_type=TransactionType.CANCEL_ARBITER_EXIT, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/arbitration/cancel_arbiter_exit.json",
+        "cancel_arbiter_exit_nonce_too_high_strict",
         state,
         tx,
     )
@@ -703,6 +795,100 @@ def test_slash_arbiter_success(state_test_group) -> None:
     state_test_group(
         "transactions/arbitration/slash_arbiter.json",
         "slash_arbiter_success",
+        state,
+        tx,
+    )
+
+
+def test_slash_arbiter_nonce_too_low(state_test_group) -> None:
+    state = _base_state()
+    sender = ALICE
+    arbiter_key = BOB
+    state.arbiters[arbiter_key] = ArbiterAccount(
+        public_key=arbiter_key,
+        name="SlashTarget",
+        status=ArbiterStatus.ACTIVE,
+        stake_amount=MIN_ARBITER_STAKE,
+    )
+    state.accounts[arbiter_key] = AccountState(address=arbiter_key, balance=0, nonce=0)
+    committee_id = _hash(50)
+    state.committees[committee_id] = Committee(
+        id=committee_id,
+        name="GlobalCommittee",
+        members=[
+            CommitteeMember(public_key=CAROL, name="member_0", role=0),
+            CommitteeMember(public_key=DAVE, name="member_1", role=0),
+            CommitteeMember(public_key=FRANK, name="member_2", role=0),
+        ],
+        threshold=2,
+        kyc_threshold=2,
+        max_kyc_level=255,
+    )
+    now = _NOW
+    amount = COIN_VALUE * 10
+    reason_hash = _hash(70)
+    msg = _build_slash_arbiter_msg(committee_id, arbiter_key, amount, reason_hash, now)
+    payload = {
+        "committee_id": committee_id,
+        "arbiter_pubkey": arbiter_key,
+        "amount": amount,
+        "reason_hash": reason_hash,
+        "approvals": [
+            _sign_arb_approval(CAROL, msg, now),
+            _sign_arb_approval(DAVE, msg, now),
+        ],
+    }
+    tx = _mk_arb_tx(sender, nonce=4, tx_type=TransactionType.SLASH_ARBITER, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/arbitration/slash_arbiter.json",
+        "slash_arbiter_nonce_too_low",
+        state,
+        tx,
+    )
+
+
+def test_slash_arbiter_nonce_too_high_strict(state_test_group) -> None:
+    state = _base_state()
+    sender = ALICE
+    arbiter_key = BOB
+    state.arbiters[arbiter_key] = ArbiterAccount(
+        public_key=arbiter_key,
+        name="SlashTarget",
+        status=ArbiterStatus.ACTIVE,
+        stake_amount=MIN_ARBITER_STAKE,
+    )
+    state.accounts[arbiter_key] = AccountState(address=arbiter_key, balance=0, nonce=0)
+    committee_id = _hash(50)
+    state.committees[committee_id] = Committee(
+        id=committee_id,
+        name="GlobalCommittee",
+        members=[
+            CommitteeMember(public_key=CAROL, name="member_0", role=0),
+            CommitteeMember(public_key=DAVE, name="member_1", role=0),
+            CommitteeMember(public_key=FRANK, name="member_2", role=0),
+        ],
+        threshold=2,
+        kyc_threshold=2,
+        max_kyc_level=255,
+    )
+    now = _NOW
+    amount = COIN_VALUE * 10
+    reason_hash = _hash(70)
+    msg = _build_slash_arbiter_msg(committee_id, arbiter_key, amount, reason_hash, now)
+    payload = {
+        "committee_id": committee_id,
+        "arbiter_pubkey": arbiter_key,
+        "amount": amount,
+        "reason_hash": reason_hash,
+        "approvals": [
+            _sign_arb_approval(CAROL, msg, now),
+            _sign_arb_approval(DAVE, msg, now),
+        ],
+    }
+    tx = _mk_arb_tx(sender, nonce=6, tx_type=TransactionType.SLASH_ARBITER, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/arbitration/slash_arbiter.json",
+        "slash_arbiter_nonce_too_high_strict",
         state,
         tx,
     )
@@ -861,6 +1047,176 @@ def test_commit_arbitration_open(state_test_group) -> None:
     )
 
 
+def test_commit_arbitration_open_nonce_too_low(state_test_group) -> None:
+    state = _base_state()
+    sender = ALICE
+
+    escrow_id = _hash(60)
+    dispute_id = _hash(61)
+    request_id = _hash(62)
+
+    state.accounts[BOB] = AccountState(address=BOB, balance=0, nonce=0)
+    state.escrows[escrow_id] = EscrowAccount(
+        id=escrow_id,
+        task_id="test-task",
+        payer=ALICE,
+        payee=BOB,
+        amount=10 * COIN_VALUE,
+        total_amount=10 * COIN_VALUE,
+        status=EscrowStatus.CHALLENGED,
+        asset=_hash(0),
+        timeout_blocks=1000,
+        challenge_window=100,
+        arbitration_config=ArbitrationConfig(
+            mode="committee",
+            arbiters=[CAROL, DAVE, FRANK],
+            threshold=2,
+            fee_amount=COIN_VALUE,
+            allow_appeal=True,
+        ),
+        dispute=DisputeInfo(
+            initiator=ALICE,
+            reason="provider did not deliver",
+            disputed_at=1,
+            deadline=1000,
+        ),
+    )
+
+    arb_open = {
+        "type": "ArbitrationOpen",
+        "version": 1,
+        "chainId": CHAIN_ID_DEVNET,
+        "escrowId": escrow_id.hex(),
+        "escrowHash": _hash(70).hex(),
+        "disputeId": dispute_id.hex(),
+        "round": 1,
+        "disputeOpenHeight": 100,
+        "committeeId": _hash(71).hex(),
+        "committeePolicyHash": _hash(72).hex(),
+        "payer": "payer-account",
+        "payee": "payee-account",
+        "evidenceUri": "https://example.com/evidence",
+        "evidenceHash": _hash(73).hex(),
+        "evidenceManifestUri": "https://example.com/manifest",
+        "evidenceManifestHash": _hash(74).hex(),
+        "clientNonce": "test-nonce-123",
+        "issuedAt": 1700000000,
+        "expiresAt": 1700100000,
+        "coordinatorPubkey": list(ALICE),
+        "coordinatorAccount": "coordinator-account",
+        "requestId": request_id.hex(),
+        "openerPubkey": list(BOB),
+        "signature": "00" * 64,
+    }
+
+    arb_open_hash = _canonical_hash_without_sig(arb_open)
+    opener_sig = bytes(tos_signer.sign_data(arb_open_hash, 3))  # BOB = seed 3
+    arb_open["signature"] = opener_sig.hex()
+    arb_open_bytes = json.dumps(arb_open, separators=(",", ":")).encode("utf-8")
+
+    payload = {
+        "escrow_id": escrow_id,
+        "dispute_id": dispute_id,
+        "round": 1,
+        "request_id": request_id,
+        "arbitration_open_hash": arb_open_hash,
+        "opener_signature": opener_sig,
+        "arbitration_open_payload": arb_open_bytes,
+    }
+    tx = _mk_arb_tx(sender, nonce=4, tx_type=TransactionType.COMMIT_ARBITRATION_OPEN, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/arbitration/commit_arbitration_open.json",
+        "commit_arbitration_open_nonce_too_low",
+        state,
+        tx,
+    )
+
+
+def test_commit_arbitration_open_nonce_too_high_strict(state_test_group) -> None:
+    state = _base_state()
+    sender = ALICE
+
+    escrow_id = _hash(60)
+    dispute_id = _hash(61)
+    request_id = _hash(62)
+
+    state.accounts[BOB] = AccountState(address=BOB, balance=0, nonce=0)
+    state.escrows[escrow_id] = EscrowAccount(
+        id=escrow_id,
+        task_id="test-task",
+        payer=ALICE,
+        payee=BOB,
+        amount=10 * COIN_VALUE,
+        total_amount=10 * COIN_VALUE,
+        status=EscrowStatus.CHALLENGED,
+        asset=_hash(0),
+        timeout_blocks=1000,
+        challenge_window=100,
+        arbitration_config=ArbitrationConfig(
+            mode="committee",
+            arbiters=[CAROL, DAVE, FRANK],
+            threshold=2,
+            fee_amount=COIN_VALUE,
+            allow_appeal=True,
+        ),
+        dispute=DisputeInfo(
+            initiator=ALICE,
+            reason="provider did not deliver",
+            disputed_at=1,
+            deadline=1000,
+        ),
+    )
+
+    arb_open = {
+        "type": "ArbitrationOpen",
+        "version": 1,
+        "chainId": CHAIN_ID_DEVNET,
+        "escrowId": escrow_id.hex(),
+        "escrowHash": _hash(70).hex(),
+        "disputeId": dispute_id.hex(),
+        "round": 1,
+        "disputeOpenHeight": 100,
+        "committeeId": _hash(71).hex(),
+        "committeePolicyHash": _hash(72).hex(),
+        "payer": "payer-account",
+        "payee": "payee-account",
+        "evidenceUri": "https://example.com/evidence",
+        "evidenceHash": _hash(73).hex(),
+        "evidenceManifestUri": "https://example.com/manifest",
+        "evidenceManifestHash": _hash(74).hex(),
+        "clientNonce": "test-nonce-123",
+        "issuedAt": 1700000000,
+        "expiresAt": 1700100000,
+        "coordinatorPubkey": list(ALICE),
+        "coordinatorAccount": "coordinator-account",
+        "requestId": request_id.hex(),
+        "openerPubkey": list(BOB),
+        "signature": "00" * 64,
+    }
+
+    arb_open_hash = _canonical_hash_without_sig(arb_open)
+    opener_sig = bytes(tos_signer.sign_data(arb_open_hash, 3))  # BOB = seed 3
+    arb_open["signature"] = opener_sig.hex()
+    arb_open_bytes = json.dumps(arb_open, separators=(",", ":")).encode("utf-8")
+
+    payload = {
+        "escrow_id": escrow_id,
+        "dispute_id": dispute_id,
+        "round": 1,
+        "request_id": request_id,
+        "arbitration_open_hash": arb_open_hash,
+        "opener_signature": opener_sig,
+        "arbitration_open_payload": arb_open_bytes,
+    }
+    tx = _mk_arb_tx(sender, nonce=6, tx_type=TransactionType.COMMIT_ARBITRATION_OPEN, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/arbitration/commit_arbitration_open.json",
+        "commit_arbitration_open_nonce_too_high_strict",
+        state,
+        tx,
+    )
+
+
 def test_commit_arbitration_open_payload_too_large(state_test_group) -> None:
     """Commit arbitration open with payload exceeding size limit must fail."""
     state = _base_state()
@@ -952,6 +1308,128 @@ def test_commit_vote_request(state_test_group) -> None:
     )
 
 
+def test_commit_vote_request_nonce_too_low(state_test_group) -> None:
+    state = _base_state()
+    sender = ALICE
+
+    request_id = _hash(62)
+    state.arbitration_commit_opens.append({
+        "escrow_id": _hash(60).hex(),
+        "dispute_id": _hash(61).hex(),
+        "round": 1,
+        "request_id": request_id.hex(),
+        "arbitration_open_hash": _hash(63).hex(),
+    })
+
+    vote_req = {
+        "type": "VoteRequest",
+        "version": 1,
+        "requestId": request_id.hex(),
+        "chainId": CHAIN_ID_DEVNET,
+        "escrowId": _hash(60).hex(),
+        "escrowHash": _hash(70).hex(),
+        "disputeId": _hash(61).hex(),
+        "round": 1,
+        "disputeOpenHeight": 100,
+        "committeeId": _hash(71).hex(),
+        "committeePolicyHash": _hash(72).hex(),
+        "selectionBlock": 200,
+        "selectionCommitmentId": _hash(75).hex(),
+        "arbitrationOpenHash": _hash(63).hex(),
+        "issuedAt": 1700000000,
+        "voteDeadline": 1700200000,
+        "selectedJurors": ["juror1", "juror2", "juror3"],
+        "selectedJurorsHash": _hash(76).hex(),
+        "evidenceHash": _hash(73).hex(),
+        "evidenceManifestHash": _hash(74).hex(),
+        "evidenceUri": "https://example.com/evidence",
+        "evidenceManifestUri": "https://example.com/manifest",
+        "coordinatorPubkey": list(ALICE),
+        "coordinatorAccount": "coordinator-account",
+        "signature": "00" * 64,
+    }
+
+    vote_req_hash = _canonical_hash_without_sig(vote_req)
+    coord_sig = bytes(tos_signer.sign_data(vote_req_hash, 2))  # ALICE = seed 2
+    vote_req["signature"] = coord_sig.hex()
+    vote_req_bytes = json.dumps(vote_req, separators=(",", ":")).encode("utf-8")
+
+    payload = {
+        "request_id": request_id,
+        "vote_request_hash": vote_req_hash,
+        "coordinator_signature": coord_sig,
+        "vote_request_payload": vote_req_bytes,
+    }
+    tx = _mk_arb_tx(sender, nonce=4, tx_type=TransactionType.COMMIT_VOTE_REQUEST, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/arbitration/commit_vote_request.json",
+        "commit_vote_request_nonce_too_low",
+        state,
+        tx,
+    )
+
+
+def test_commit_vote_request_nonce_too_high_strict(state_test_group) -> None:
+    state = _base_state()
+    sender = ALICE
+
+    request_id = _hash(62)
+    state.arbitration_commit_opens.append({
+        "escrow_id": _hash(60).hex(),
+        "dispute_id": _hash(61).hex(),
+        "round": 1,
+        "request_id": request_id.hex(),
+        "arbitration_open_hash": _hash(63).hex(),
+    })
+
+    vote_req = {
+        "type": "VoteRequest",
+        "version": 1,
+        "requestId": request_id.hex(),
+        "chainId": CHAIN_ID_DEVNET,
+        "escrowId": _hash(60).hex(),
+        "escrowHash": _hash(70).hex(),
+        "disputeId": _hash(61).hex(),
+        "round": 1,
+        "disputeOpenHeight": 100,
+        "committeeId": _hash(71).hex(),
+        "committeePolicyHash": _hash(72).hex(),
+        "selectionBlock": 200,
+        "selectionCommitmentId": _hash(75).hex(),
+        "arbitrationOpenHash": _hash(63).hex(),
+        "issuedAt": 1700000000,
+        "voteDeadline": 1700200000,
+        "selectedJurors": ["juror1", "juror2", "juror3"],
+        "selectedJurorsHash": _hash(76).hex(),
+        "evidenceHash": _hash(73).hex(),
+        "evidenceManifestHash": _hash(74).hex(),
+        "evidenceUri": "https://example.com/evidence",
+        "evidenceManifestUri": "https://example.com/manifest",
+        "coordinatorPubkey": list(ALICE),
+        "coordinatorAccount": "coordinator-account",
+        "signature": "00" * 64,
+    }
+
+    vote_req_hash = _canonical_hash_without_sig(vote_req)
+    coord_sig = bytes(tos_signer.sign_data(vote_req_hash, 2))  # ALICE = seed 2
+    vote_req["signature"] = coord_sig.hex()
+    vote_req_bytes = json.dumps(vote_req, separators=(",", ":")).encode("utf-8")
+
+    payload = {
+        "request_id": request_id,
+        "vote_request_hash": vote_req_hash,
+        "coordinator_signature": coord_sig,
+        "vote_request_payload": vote_req_bytes,
+    }
+    tx = _mk_arb_tx(sender, nonce=6, tx_type=TransactionType.COMMIT_VOTE_REQUEST, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/arbitration/commit_vote_request.json",
+        "commit_vote_request_nonce_too_high_strict",
+        state,
+        tx,
+    )
+
+
 def test_commit_vote_request_payload_too_large(state_test_group) -> None:
     """Commit vote request with payload exceeding size limit must fail."""
     state = _base_state()
@@ -1001,6 +1479,64 @@ def test_commit_selection_commitment(state_test_group) -> None:
     state_test_group(
         "transactions/arbitration/commit_selection_commitment.json",
         "commit_selection_commitment",
+        state,
+        tx,
+    )
+
+
+def test_commit_selection_commitment_nonce_too_low(state_test_group) -> None:
+    state = _base_state()
+    sender = ALICE
+
+    state.arbitration_commit_opens.append({
+        "escrow_id": _hash(60).hex(),
+        "dispute_id": _hash(61).hex(),
+        "round": 1,
+        "request_id": _hash(62).hex(),
+        "arbitration_open_hash": _hash(63).hex(),
+    })
+
+    commitment_payload = b"selection-commitment-test-data-v1"
+    commitment_id = hashlib.sha3_256(commitment_payload).digest()
+
+    payload = {
+        "request_id": _hash(62),
+        "selection_commitment_id": commitment_id,
+        "selection_commitment_payload": commitment_payload,
+    }
+    tx = _mk_arb_tx(sender, nonce=4, tx_type=TransactionType.COMMIT_SELECTION_COMMITMENT, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/arbitration/commit_selection_commitment.json",
+        "commit_selection_commitment_nonce_too_low",
+        state,
+        tx,
+    )
+
+
+def test_commit_selection_commitment_nonce_too_high_strict(state_test_group) -> None:
+    state = _base_state()
+    sender = ALICE
+
+    state.arbitration_commit_opens.append({
+        "escrow_id": _hash(60).hex(),
+        "dispute_id": _hash(61).hex(),
+        "round": 1,
+        "request_id": _hash(62).hex(),
+        "arbitration_open_hash": _hash(63).hex(),
+    })
+
+    commitment_payload = b"selection-commitment-test-data-v1"
+    commitment_id = hashlib.sha3_256(commitment_payload).digest()
+
+    payload = {
+        "request_id": _hash(62),
+        "selection_commitment_id": commitment_id,
+        "selection_commitment_payload": commitment_payload,
+    }
+    tx = _mk_arb_tx(sender, nonce=6, tx_type=TransactionType.COMMIT_SELECTION_COMMITMENT, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/arbitration/commit_selection_commitment.json",
+        "commit_selection_commitment_nonce_too_high_strict",
         state,
         tx,
     )
@@ -1095,6 +1631,142 @@ def test_commit_juror_vote(state_test_group) -> None:
     state_test_group(
         "transactions/arbitration/commit_juror_vote.json",
         "commit_juror_vote",
+        state,
+        tx,
+    )
+
+
+def test_commit_juror_vote_nonce_too_low(state_test_group) -> None:
+    state = _base_state()
+    sender = ALICE
+
+    request_id = _hash(62)
+    state.arbitration_commit_opens.append({
+        "escrow_id": _hash(60).hex(),
+        "dispute_id": _hash(61).hex(),
+        "round": 1,
+        "request_id": request_id.hex(),
+        "arbitration_open_hash": _hash(63).hex(),
+    })
+    state.arbitration_commit_vote_requests.append({
+        "request_id": request_id.hex(),
+        "vote_request_hash": _hash(64).hex(),
+    })
+    state.arbitration_commit_selections.append({
+        "request_id": request_id.hex(),
+        "selection_commitment_id": _hash(75).hex(),
+    })
+
+    juror_vote = {
+        "type": "JurorVote",
+        "version": 1,
+        "requestId": request_id.hex(),
+        "chainId": CHAIN_ID_DEVNET,
+        "escrowId": _hash(60).hex(),
+        "escrowHash": _hash(70).hex(),
+        "disputeId": _hash(61).hex(),
+        "round": 1,
+        "disputeOpenHeight": 100,
+        "committeeId": _hash(71).hex(),
+        "selectionBlock": 200,
+        "selectionCommitmentId": _hash(75).hex(),
+        "arbitrationOpenHash": _hash(63).hex(),
+        "voteRequestHash": _hash(64).hex(),
+        "evidenceHash": _hash(73).hex(),
+        "evidenceManifestHash": _hash(74).hex(),
+        "selectedJurorsHash": _hash(76).hex(),
+        "committeePolicyHash": _hash(72).hex(),
+        "jurorPubkey": list(BOB),
+        "jurorAccount": "juror-account",
+        "vote": "pay",
+        "votedAt": 1700050000,
+        "signature": "00" * 64,
+    }
+
+    vote_hash = _canonical_hash_without_sig(juror_vote)
+    juror_sig = bytes(tos_signer.sign_data(vote_hash, 3))  # BOB = seed 3
+    juror_vote["signature"] = juror_sig.hex()
+    vote_bytes = json.dumps(juror_vote, separators=(",", ":")).encode("utf-8")
+
+    payload = {
+        "request_id": request_id,
+        "juror_pubkey": BOB,
+        "vote_hash": vote_hash,
+        "juror_signature": juror_sig,
+        "vote_payload": vote_bytes,
+    }
+    tx = _mk_arb_tx(sender, nonce=4, tx_type=TransactionType.COMMIT_JUROR_VOTE, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/arbitration/commit_juror_vote.json",
+        "commit_juror_vote_nonce_too_low",
+        state,
+        tx,
+    )
+
+
+def test_commit_juror_vote_nonce_too_high_strict(state_test_group) -> None:
+    state = _base_state()
+    sender = ALICE
+
+    request_id = _hash(62)
+    state.arbitration_commit_opens.append({
+        "escrow_id": _hash(60).hex(),
+        "dispute_id": _hash(61).hex(),
+        "round": 1,
+        "request_id": request_id.hex(),
+        "arbitration_open_hash": _hash(63).hex(),
+    })
+    state.arbitration_commit_vote_requests.append({
+        "request_id": request_id.hex(),
+        "vote_request_hash": _hash(64).hex(),
+    })
+    state.arbitration_commit_selections.append({
+        "request_id": request_id.hex(),
+        "selection_commitment_id": _hash(75).hex(),
+    })
+
+    juror_vote = {
+        "type": "JurorVote",
+        "version": 1,
+        "requestId": request_id.hex(),
+        "chainId": CHAIN_ID_DEVNET,
+        "escrowId": _hash(60).hex(),
+        "escrowHash": _hash(70).hex(),
+        "disputeId": _hash(61).hex(),
+        "round": 1,
+        "disputeOpenHeight": 100,
+        "committeeId": _hash(71).hex(),
+        "selectionBlock": 200,
+        "selectionCommitmentId": _hash(75).hex(),
+        "arbitrationOpenHash": _hash(63).hex(),
+        "voteRequestHash": _hash(64).hex(),
+        "evidenceHash": _hash(73).hex(),
+        "evidenceManifestHash": _hash(74).hex(),
+        "selectedJurorsHash": _hash(76).hex(),
+        "committeePolicyHash": _hash(72).hex(),
+        "jurorPubkey": list(BOB),
+        "jurorAccount": "juror-account",
+        "vote": "pay",
+        "votedAt": 1700050000,
+        "signature": "00" * 64,
+    }
+
+    vote_hash = _canonical_hash_without_sig(juror_vote)
+    juror_sig = bytes(tos_signer.sign_data(vote_hash, 3))  # BOB = seed 3
+    juror_vote["signature"] = juror_sig.hex()
+    vote_bytes = json.dumps(juror_vote, separators=(",", ":")).encode("utf-8")
+
+    payload = {
+        "request_id": request_id,
+        "juror_pubkey": BOB,
+        "vote_hash": vote_hash,
+        "juror_signature": juror_sig,
+        "vote_payload": vote_bytes,
+    }
+    tx = _mk_arb_tx(sender, nonce=6, tx_type=TransactionType.COMMIT_JUROR_VOTE, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/arbitration/commit_juror_vote.json",
+        "commit_juror_vote_nonce_too_high_strict",
         state,
         tx,
     )
@@ -1232,6 +1904,108 @@ def test_submit_verdict_by_juror_success(state_test_group) -> None:
     state_test_group(
         "transactions/arbitration/submit_verdict_by_juror.json",
         "submit_verdict_by_juror_success",
+        state,
+        tx,
+    )
+
+
+def test_submit_verdict_by_juror_nonce_too_low(state_test_group) -> None:
+    """Juror verdict with nonce below sender.nonce must fail."""
+    state, escrow_id = _escrow_with_dispute()
+    sender = CAROL
+    state.accounts[CAROL] = AccountState(
+        address=CAROL, balance=10_000 * COIN_VALUE, nonce=5
+    )
+    state.arbiters[CAROL] = ArbiterAccount(
+        public_key=CAROL, name="carol-arb",
+        status=ArbiterStatus.ACTIVE, stake_amount=MIN_ARBITER_STAKE,
+    )
+    state.arbiters[DAVE] = ArbiterAccount(
+        public_key=DAVE, name="dave-arb",
+        status=ArbiterStatus.ACTIVE, stake_amount=MIN_ARBITER_STAKE,
+    )
+    state.global_state.block_height = 1500
+    dispute_id = escrow_id
+    dispute_round = 0
+
+    payer_amount = 6 * COIN_VALUE
+    payee_amount = 4 * COIN_VALUE
+    now = _NOW
+
+    msg = _build_verdict_msg(escrow_id, dispute_id, dispute_round,
+                             payer_amount, payee_amount)
+    sigs = [
+        _sign_arb_approval(CAROL, msg, now),
+        _sign_arb_approval(DAVE, msg, now),
+    ]
+
+    payload = {
+        "escrow_id": escrow_id,
+        "dispute_id": dispute_id,
+        "round": dispute_round,
+        "payer_amount": payer_amount,
+        "payee_amount": payee_amount,
+        "signatures": sigs,
+    }
+    tx = _mk_arb_tx(
+        sender, nonce=4,
+        tx_type=TransactionType.SUBMIT_VERDICT_BY_JUROR,
+        payload=payload, fee=100_000,
+    )
+    state_test_group(
+        "transactions/arbitration/submit_verdict_by_juror.json",
+        "submit_verdict_by_juror_nonce_too_low",
+        state,
+        tx,
+    )
+
+
+def test_submit_verdict_by_juror_nonce_too_high_strict(state_test_group) -> None:
+    """Juror verdict with nonce above sender.nonce must fail (strict nonce)."""
+    state, escrow_id = _escrow_with_dispute()
+    sender = CAROL
+    state.accounts[CAROL] = AccountState(
+        address=CAROL, balance=10_000 * COIN_VALUE, nonce=5
+    )
+    state.arbiters[CAROL] = ArbiterAccount(
+        public_key=CAROL, name="carol-arb",
+        status=ArbiterStatus.ACTIVE, stake_amount=MIN_ARBITER_STAKE,
+    )
+    state.arbiters[DAVE] = ArbiterAccount(
+        public_key=DAVE, name="dave-arb",
+        status=ArbiterStatus.ACTIVE, stake_amount=MIN_ARBITER_STAKE,
+    )
+    state.global_state.block_height = 1500
+    dispute_id = escrow_id
+    dispute_round = 0
+
+    payer_amount = 6 * COIN_VALUE
+    payee_amount = 4 * COIN_VALUE
+    now = _NOW
+
+    msg = _build_verdict_msg(escrow_id, dispute_id, dispute_round,
+                             payer_amount, payee_amount)
+    sigs = [
+        _sign_arb_approval(CAROL, msg, now),
+        _sign_arb_approval(DAVE, msg, now),
+    ]
+
+    payload = {
+        "escrow_id": escrow_id,
+        "dispute_id": dispute_id,
+        "round": dispute_round,
+        "payer_amount": payer_amount,
+        "payee_amount": payee_amount,
+        "signatures": sigs,
+    }
+    tx = _mk_arb_tx(
+        sender, nonce=6,
+        tx_type=TransactionType.SUBMIT_VERDICT_BY_JUROR,
+        payload=payload, fee=100_000,
+    )
+    state_test_group(
+        "transactions/arbitration/submit_verdict_by_juror.json",
+        "submit_verdict_by_juror_nonce_too_high_strict",
         state,
         tx,
     )
