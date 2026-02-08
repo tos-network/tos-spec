@@ -49,6 +49,22 @@ def _mk_transfer(
     )
 
 
+def _mk_transfer_energy_fee(sender: bytes, receiver: bytes, nonce: int, amount: int) -> Transaction:
+    return Transaction(
+        version=TxVersion.T1,
+        chain_id=CHAIN_ID_DEVNET,
+        source=sender,
+        tx_type=TransactionType.TRANSFERS,
+        payload=[TransferPayload(asset=_hash(0), destination=receiver, amount=amount)],
+        fee=0,
+        fee_type=FeeType.ENERGY,
+        nonce=nonce,
+        reference_hash=_hash(0),
+        reference_topoheight=0,
+        signature=bytes(64),
+    )
+
+
 def test_block_multi_tx_success(block_test_group) -> None:
     state = _base_state()
     tx1 = _mk_transfer(ALICE, BOB, nonce=5, amount=10_000)
@@ -160,4 +176,135 @@ def test_block_reject_sender_not_found(block_test_group) -> None:
         "block_reject_sender_not_found",
         state,
         [tx1],
+    )
+
+
+def test_block_energy_fee_consumed_success(block_test_group) -> None:
+    """ENERGY fee transfers consume 1 energy each on success."""
+    state = _base_state()
+    state.accounts[ALICE].energy = 2
+    # ENERGY fee requires fee=0 and still requires balance for transfer amount.
+    state.accounts[ALICE].balance = 1_000_000
+
+    tx1 = _mk_transfer_energy_fee(ALICE, BOB, nonce=5, amount=10_000)
+    tx2 = _mk_transfer_energy_fee(ALICE, BOB, nonce=6, amount=10_000)
+    block_test_group(
+        "transactions/block/multi_tx.json",
+        "block_energy_fee_consumed_success",
+        state,
+        [tx1, tx2],
+    )
+
+
+def test_block_reject_atomic_on_second_tx_insufficient_energy_fee(block_test_group) -> None:
+    """Second ENERGY-fee tx fails due to insufficient energy; entire block is rejected."""
+    state = _base_state()
+    state.accounts[ALICE].energy = 1
+    state.accounts[ALICE].balance = 1_000_000
+
+    tx1 = _mk_transfer_energy_fee(ALICE, BOB, nonce=5, amount=10_000)
+    tx2 = _mk_transfer_energy_fee(ALICE, BOB, nonce=6, amount=10_000)
+    block_test_group(
+        "transactions/block/multi_tx.json",
+        "block_reject_atomic_on_second_tx_insufficient_energy_fee",
+        state,
+        [tx1, tx2],
+    )
+
+
+def test_block_reject_atomic_rolls_back_recipient_credit(block_test_group) -> None:
+    """Recipient credit from tx1 must be rolled back if tx2 is invalid."""
+    state = _base_state()
+    tx1 = _mk_transfer(ALICE, BOB, nonce=5, amount=200_000)
+    tx2 = _mk_transfer(ALICE, BOB, nonce=7, amount=1)  # nonce too high after tx1
+    block_test_group(
+        "transactions/block/multi_tx.json",
+        "block_reject_atomic_rolls_back_recipient_credit",
+        state,
+        [tx1, tx2],
+    )
+
+
+def test_block_reject_atomic_on_third_tx_sender_nonce_mismatch(block_test_group) -> None:
+    """Failure on the 3rd tx must roll back earlier successful txs."""
+    state = _base_state()
+    state.accounts[BOB].balance = 500_000
+    state.accounts[BOB].nonce = 0
+
+    tx1 = _mk_transfer(ALICE, CAROL, nonce=5, amount=10_000)
+    tx2 = _mk_transfer(BOB, CAROL, nonce=0, amount=20_000)
+    tx3 = _mk_transfer(ALICE, CAROL, nonce=5, amount=30_000)  # repeats nonce, too low
+    block_test_group(
+        "transactions/block/multi_tx.json",
+        "block_reject_atomic_on_third_tx_sender_nonce_mismatch",
+        state,
+        [tx1, tx2, tx3],
+    )
+
+
+def test_block_multi_sender_success_two_senders(block_test_group) -> None:
+    """Two independent senders both succeed in the same block."""
+    state = _base_state()
+    state.accounts[BOB].balance = 1_000_000
+    state.accounts[BOB].nonce = 0
+
+    tx1 = _mk_transfer(ALICE, CAROL, nonce=5, amount=10_000)
+    tx2 = _mk_transfer(BOB, CAROL, nonce=0, amount=20_000)
+    block_test_group(
+        "transactions/block/multi_tx.json",
+        "block_multi_sender_success_two_senders",
+        state,
+        [tx1, tx2],
+    )
+
+
+def test_block_reject_atomic_on_second_sender_nonce_too_high(block_test_group) -> None:
+    """Second tx from a different sender has nonce too high; entire block rejected."""
+    state = _base_state()
+    state.accounts[BOB].balance = 1_000_000
+    state.accounts[BOB].nonce = 0
+
+    tx1 = _mk_transfer(ALICE, CAROL, nonce=5, amount=10_000)
+    tx2 = _mk_transfer(BOB, CAROL, nonce=2, amount=20_000)  # strict nonce expects 0
+    block_test_group(
+        "transactions/block/multi_tx.json",
+        "block_reject_atomic_on_second_sender_nonce_too_high",
+        state,
+        [tx1, tx2],
+    )
+
+
+def test_block_reject_atomic_on_second_sender_insufficient_balance(block_test_group) -> None:
+    """Second tx fails insufficient balance (amount+fee); entire block rejected."""
+    state = _base_state()
+    # Ensure fee is affordable but amount+fee is not.
+    state.accounts[BOB].balance = FEE_MIN
+    state.accounts[BOB].nonce = 0
+
+    tx1 = _mk_transfer(ALICE, CAROL, nonce=5, amount=10_000)
+    tx2 = _mk_transfer(BOB, CAROL, nonce=0, amount=1, fee=FEE_MIN)
+    # BOB cannot afford amount(1) + fee(100k) when balance==fee (checks total spending).
+    block_test_group(
+        "transactions/block/multi_tx.json",
+        "block_reject_atomic_on_second_sender_insufficient_balance",
+        state,
+        [tx1, tx2],
+    )
+
+
+def test_block_reject_atomic_on_energy_fee_nonzero(block_test_group) -> None:
+    """ENERGY fee must be zero; violation rejects block and rolls back tx1."""
+    state = _base_state()
+    # Ensure we hit the fee validation rather than failing earlier on energy.
+    state.accounts[ALICE].energy = 2
+    state.accounts[ALICE].balance = 1_000_000
+
+    tx1 = _mk_transfer(ALICE, BOB, nonce=5, amount=10_000, fee=FEE_MIN)
+    tx2 = _mk_transfer_energy_fee(ALICE, BOB, nonce=6, amount=10_000)
+    tx2.fee = 1  # invalid for ENERGY fee type
+    block_test_group(
+        "transactions/block/multi_tx.json",
+        "block_reject_atomic_on_energy_fee_nonzero",
+        state,
+        [tx1, tx2],
     )

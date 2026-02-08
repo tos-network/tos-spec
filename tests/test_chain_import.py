@@ -34,9 +34,17 @@ def get_dev_fee_percent(height: int) -> int:
 def apply_empty_block_with_rewards(state: ChainState, *, height: int, emitted_supply: int) -> tuple[ChainState, int]:
     """Apply an empty block's reward distribution to the exported state surface."""
     next_state = deepcopy(state)
-    reward = get_block_reward(emitted_supply)
-    dev_fee = (reward * get_dev_fee_percent(height)) // 100
-    miner_reward = reward - dev_fee
+    # Match daemon: apply dev fee to the pre-divide "base_reward" amount, then divide.
+    # This matters across multiple blocks because the right-shift changes base_reward.
+    if emitted_supply >= MAXIMUM_SUPPLY:
+        reward = 0
+        miner_reward = 0
+    else:
+        base_reward = (MAXIMUM_SUPPLY - emitted_supply) >> EMISSION_SPEED_FACTOR
+        reward = (base_reward * BLOCK_TIME_TARGET_MS) // MILLIS_PER_SECOND // 180
+        dev_fee_base = (base_reward * get_dev_fee_percent(height)) // 100
+        miner_base = base_reward - dev_fee_base
+        miner_reward = (miner_base * BLOCK_TIME_TARGET_MS) // MILLIS_PER_SECOND // 180
 
     miner = next_state.accounts.get(MINER)
     if miner is None:
@@ -77,6 +85,42 @@ def test_chain_reward_empty_block(vector_test_group) -> None:
                         "parents": ["genesis"],
                         "txs": [],
                     }
+                ],
+            },
+            "expected": {
+                "success": True,
+                "error_code": int(ErrorCode.SUCCESS),
+                "state_digest": compute_state_digest(post_json),
+                "post_state": post_json,
+            },
+        },
+    )
+
+
+def test_chain_reward_two_empty_blocks(vector_test_group) -> None:
+    """Import 2 empty blocks and validate cumulative miner reward."""
+    pre = _base_state(include_miner=True)
+
+    emitted = 0
+    s1, r1 = apply_empty_block_with_rewards(pre, height=1, emitted_supply=emitted)
+    emitted += r1
+    post, r2 = apply_empty_block_with_rewards(s1, height=2, emitted_supply=emitted)
+    emitted += r2
+    _ = emitted
+
+    pre_json = state_to_json(pre)
+    post_json = state_to_json(post)
+    vector_test_group(
+        "transactions/blockchain/chain_import.json",
+        {
+            "name": "chain_reward_two_empty_blocks",
+            "description": "Import two empty blocks; miner rewards accumulate (dev fee 10% at these heights).",
+            "pre_state": pre_json,
+            "input": {
+                "kind": "chain",
+                "blocks": [
+                    {"id": "b1", "parents": ["genesis"], "txs": []},
+                    {"id": "b2", "parents": ["b1"], "txs": []},
                 ],
             },
             "expected": {

@@ -64,6 +64,76 @@
       }
     },
     {
+      "name": "chain_reward_two_empty_blocks",
+      "description": "Import two empty blocks; miner rewards accumulate (dev fee 10% at these heights).",
+      "pre_state": {
+        "network_chain_id": 3,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "8c9240b456a9e6dc65c377a1048d745f94a08cdb7f44cbcd7b46f34048871134",
+            "balance": 0,
+            "nonce": 0,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
+      },
+      "input": {
+        "kind": "chain",
+        "blocks": [
+          {
+            "id": "b1",
+            "parents": [
+              "genesis"
+            ],
+            "txs": []
+          },
+          {
+            "id": "b2",
+            "parents": [
+              "b1"
+            ],
+            "txs": []
+          }
+        ]
+      },
+      "expected": {
+        "success": true,
+        "error_code": 0,
+        "state_digest": "4abb81c3ebf7a2417a4e17db3e7411af492d0306b98a1a9ed68c079086674069",
+        "post_state": {
+          "network_chain_id": 3,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 2,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "8c9240b456a9e6dc65c377a1048d745f94a08cdb7f44cbcd7b46f34048871134",
+              "balance": 175476073,
+              "nonce": 0,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ]
+        }
+      }
+    },
+    {
       "name": "chain_invalid_tips_count_zero",
       "description": "Reject a non-genesis block with zero parents/tips.",
       "pre_state": {
