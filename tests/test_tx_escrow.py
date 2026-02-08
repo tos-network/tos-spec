@@ -112,6 +112,30 @@ def test_create_escrow_success(state_test_group) -> None:
     )
 
 
+def test_create_escrow_insufficient_fee(state_test_group) -> None:
+    """Fee pre-check: sender balance below fee must fail (INSUFFICIENT_FEE)."""
+    state = _base_state()
+    sender = ALICE
+    state.accounts[ALICE].balance = 99_999
+    payload = {
+        "task_id": "task_insufficient_fee",
+        "provider": BOB,
+        "amount": 1,
+        "asset": _hash(0),
+        "timeout_blocks": MIN_TIMEOUT_BLOCKS * 10,
+        "challenge_window": 100,
+        "challenge_deposit_bps": 500,
+        "optimistic_release": False,
+    }
+    tx = _mk_escrow_tx(sender, nonce=5, tx_type=TransactionType.CREATE_ESCROW, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/escrow/create_escrow.json",
+        "create_escrow_insufficient_fee",
+        state,
+        tx,
+    )
+
+
 def test_create_escrow_nonce_too_low(state_test_group) -> None:
     """Create escrow with nonce below sender.nonce must fail."""
     state = _base_state()
@@ -197,6 +221,27 @@ def test_deposit_escrow_success(state_test_group) -> None:
     state_test_group(
         "transactions/escrow/deposit_escrow.json",
         "deposit_escrow_success",
+        state,
+        tx,
+    )
+
+
+def test_deposit_escrow_insufficient_fee(state_test_group) -> None:
+    """Fee pre-check: sender balance below fee must fail (INSUFFICIENT_FEE)."""
+    state = _base_state()
+    sender = ALICE
+    state.accounts[ALICE].balance = 99_999
+    escrow_id = _hash(60)
+    state.escrows[escrow_id] = _funded_escrow(escrow_id, ALICE, BOB, 10 * COIN_VALUE)
+    state.escrows[escrow_id].status = EscrowStatus.CREATED
+    payload = {
+        "escrow_id": escrow_id,
+        "amount": 1,
+    }
+    tx = _mk_escrow_tx(sender, nonce=5, tx_type=TransactionType.DEPOSIT_ESCROW, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/escrow/deposit_escrow.json",
+        "deposit_escrow_insufficient_fee",
         state,
         tx,
     )
@@ -450,6 +495,39 @@ def test_challenge_escrow_success(state_test_group) -> None:
     )
 
 
+def test_challenge_escrow_insufficient_fee(state_test_group) -> None:
+    """Fee pre-check: sender balance below fee must fail (INSUFFICIENT_FEE)."""
+    state = _base_state()
+    sender = ALICE
+    state.accounts[ALICE].balance = 99_999
+    escrow_id = _hash(60)
+    escrow = _funded_escrow(escrow_id, ALICE, BOB, 10 * COIN_VALUE)
+    escrow.status = EscrowStatus.PENDING_RELEASE
+    escrow.optimistic_release = True
+    escrow.arbitration_config = ArbitrationConfig(
+        mode="single",
+        arbiters=[CAROL],
+        threshold=1,
+        fee_amount=COIN_VALUE,
+        allow_appeal=False,
+    )
+    escrow.release_requested_at = 1
+    escrow.pending_release_amount = 5 * COIN_VALUE
+    state.escrows[escrow_id] = escrow
+    payload = {
+        "escrow_id": escrow_id,
+        "reason": "deliverable does not match specs",
+        "deposit": 1,
+    }
+    tx = _mk_escrow_tx(sender, nonce=5, tx_type=TransactionType.CHALLENGE_ESCROW, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/escrow/challenge_escrow.json",
+        "challenge_escrow_insufficient_fee",
+        state,
+        tx,
+    )
+
+
 def test_challenge_escrow_nonce_too_low(state_test_group) -> None:
     state = _base_state()
     sender = ALICE
@@ -697,6 +775,46 @@ def test_appeal_escrow_success(state_test_group) -> None:
     state_test_group(
         "transactions/escrow/appeal_escrow.json",
         "appeal_escrow_success",
+        state,
+        tx,
+    )
+
+
+def test_appeal_escrow_insufficient_fee(state_test_group) -> None:
+    """Fee pre-check: sender balance below fee must fail (INSUFFICIENT_FEE)."""
+    state = _base_state()
+    sender = ALICE
+    state.accounts[ALICE].balance = 99_999
+    escrow_id = _hash(60)
+    escrow = _funded_escrow(escrow_id, ALICE, BOB, 10 * COIN_VALUE)
+    escrow.status = EscrowStatus.RESOLVED
+    escrow.timeout_at = 99999
+    escrow.arbitration_config = ArbitrationConfig(
+        mode="single",
+        arbiters=[CAROL],
+        threshold=1,
+        fee_amount=COIN_VALUE,
+        allow_appeal=True,
+    )
+    escrow.dispute = DisputeInfo(
+        initiator=ALICE,
+        reason="provider did not deliver",
+        disputed_at=1,
+        deadline=1000,
+    )
+    escrow.dispute_id = _hash(61)
+    escrow.dispute_round = 1
+    state.escrows[escrow_id] = escrow
+    payload = {
+        "escrow_id": escrow_id,
+        "reason": "verdict was unfair",
+        "appeal_deposit": 2 * COIN_VALUE,
+        "appeal_mode": 1,
+    }
+    tx = _mk_escrow_tx(sender, nonce=5, tx_type=TransactionType.APPEAL_ESCROW, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/escrow/appeal_escrow.json",
+        "appeal_escrow_insufficient_fee",
         state,
         tx,
     )

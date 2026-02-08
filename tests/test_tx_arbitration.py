@@ -361,6 +361,26 @@ def test_update_arbiter_success(state_test_group) -> None:
     )
 
 
+def test_update_arbiter_insufficient_fee(state_test_group) -> None:
+    """Fee pre-check: sender balance below fee must fail (INSUFFICIENT_FEE)."""
+    state = _base_state()
+    sender = ALICE
+    state.accounts[ALICE].balance = 99_999
+    state.arbiters[ALICE] = _active_arbiter(ALICE)
+    payload = {
+        "name": "ArbiterAliceUpdated",
+        "fee_basis_points": 300,
+        "deactivate": False,
+    }
+    tx = _mk_arb_tx(sender, nonce=5, tx_type=TransactionType.UPDATE_ARBITER, payload=payload, fee=100_000)
+    state_test_group(
+        "transactions/arbitration/update_arbiter.json",
+        "update_arbiter_insufficient_fee",
+        state,
+        tx,
+    )
+
+
 def test_update_arbiter_nonce_too_low(state_test_group) -> None:
     state = _base_state()
     sender = ALICE

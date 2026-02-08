@@ -119,6 +119,102 @@
       }
     },
     {
+      "name": "create_escrow_insufficient_fee",
+      "description": "",
+      "pre_state": {
+        "network_chain_id": 3,
+        "global_state": {
+          "total_supply": 0,
+          "total_burned": 0,
+          "total_energy": 0,
+          "block_height": 0,
+          "timestamp": 0
+        },
+        "accounts": [
+          {
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "balance": 99999,
+            "nonce": 5,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          },
+          {
+            "address": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824",
+            "balance": 0,
+            "nonce": 0,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ]
+      },
+      "input": {
+        "kind": "tx",
+        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b24918157461736b5f696e73756666696369656e745f666565c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824000000000000000100000000000000000000000000000000000000000000000000000000000000000000000000000064000000000000006401f400000000000000000186a0000000000000000005000000000000000000000000000000000000000000000000000000000000000000000000000000000055df3b1707927859de6172c442c70f36761b9e845705f4a2dc2a455fd84e960e4198a03ea62527bab7181d10241ca0c51e689d4bdd1b4f4401ebdc0c5b2d5a0e",
+        "tx": {
+          "version": 1,
+          "chain_id": 3,
+          "source": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+          "tx_type": "create_escrow",
+          "payload": {
+            "task_id": "task_insufficient_fee",
+            "provider": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824",
+            "amount": 1,
+            "asset": "0000000000000000000000000000000000000000000000000000000000000000",
+            "timeout_blocks": 100,
+            "challenge_window": 100,
+            "challenge_deposit_bps": 500,
+            "optimistic_release": false
+          },
+          "fee": 100000,
+          "fee_type": 0,
+          "nonce": 5,
+          "reference_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+          "reference_topoheight": 0,
+          "signature": "55df3b1707927859de6172c442c70f36761b9e845705f4a2dc2a455fd84e960e4198a03ea62527bab7181d10241ca0c51e689d4bdd1b4f4401ebdc0c5b2d5a0e",
+          "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b24918157461736b5f696e73756666696369656e745f666565c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824000000000000000100000000000000000000000000000000000000000000000000000000000000000000000000000064000000000000006401f400000000000000000186a0000000000000000005000000000000000000000000000000000000000000000000000000000000000000000000000000000055df3b1707927859de6172c442c70f36761b9e845705f4a2dc2a455fd84e960e4198a03ea62527bab7181d10241ca0c51e689d4bdd1b4f4401ebdc0c5b2d5a0e"
+        }
+      },
+      "expected": {
+        "success": false,
+        "error_code": 769,
+        "state_digest": "8f04e0ee329dad09e44a266f6dadf0535af1ee5aa00bf9daece124557c370dbe",
+        "post_state": {
+          "network_chain_id": 3,
+          "global_state": {
+            "total_supply": 0,
+            "total_burned": 0,
+            "total_energy": 0,
+            "block_height": 0,
+            "timestamp": 0
+          },
+          "accounts": [
+            {
+              "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+              "balance": 99999,
+              "nonce": 5,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            },
+            {
+              "address": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824",
+              "balance": 0,
+              "nonce": 0,
+              "frozen": 0,
+              "energy": 0,
+              "flags": 0,
+              "data": ""
+            }
+          ]
+        }
+      }
+    },
+    {
       "name": "create_escrow_nonce_too_low",
       "description": "",
       "pre_state": {
