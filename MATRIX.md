@@ -6,9 +6,9 @@ coverage gaps and prioritization targets.
 
 ## Current Published Status (2026-02-08)
 
-- `vectors/` contains **492** runnable execution vectors in the `test_vectors` schema.
+- `vectors/` contains **505** runnable execution vectors in the `test_vectors` schema.
 - The published suite has **no** `runnable: false` vectors.
-- Composition: **477** L1 state-transition vectors (`input.tx` present) + **15** L0 negative wire-decoding vectors.
+- Composition: **490** L1 state-transition vectors (`input.tx` present) + **15** L0 negative wire-decoding vectors.
 - Covered transaction types: **41** distinct `tx_type` values in published vectors.
 - Spec-only fixtures under `fixtures/{security,models,syscalls,api,consensus}/` are intentionally not published to `vectors/` yet.
 - Codec corpus: `fixtures/wire_format.json` contains 45 golden wire-encoding vectors but is not published to `vectors/` yet.
@@ -66,7 +66,7 @@ Legend:  +++  strong coverage
 | Account model      | n/a        | +          | -          | -          | n/a        | n/a        |
 
 **Reading this matrix:** The published conformance suite is currently L1-heavy:
-477/492 vectors are L1 state transitions. L0 wire-format coverage in published
+490/505 vectors are L1 state transitions. L0 wire-format coverage in published
 vectors is currently negative-only (15 malformed `wire_hex` vectors). The
 priority gaps are:
 - L2: no executable block processing tests yet
@@ -82,14 +82,14 @@ lists the published `vectors/execution/transactions/**` groups and vector counts
 | escrow | `execution/transactions/escrow/` | 107 | L1 state transitions |
 | kyc | `execution/transactions/kyc/` | 82 | L1 state transitions |
 | arbitration | `execution/transactions/arbitration/` | 63 | L1 state transitions |
-| tns | `execution/transactions/tns/` | 53 | L1 state transitions |
+| tns | `execution/transactions/tns/` | 57 | L1 state transitions |
 | energy | `execution/transactions/energy/` | 42 | L1 state transitions |
 | account | `execution/transactions/account/` | 35 | L1 state transitions |
-| contracts | `execution/transactions/contracts/` | 19 | L1 state transitions |
+| contracts | `execution/transactions/contracts/` | 21 | L1 state transitions |
 | privacy | `execution/transactions/privacy/` | 14 | L1 state transitions |
-| referral | `execution/transactions/referral/` | 14 | L1 state transitions |
-| core | `execution/transactions/core/` | 3 | L1 state transitions |
-| root | `execution/transactions/*.json` | 58 | Includes `tx_core` (28), `fee_variants` (15), `wire_format_negative` (15) |
+| referral | `execution/transactions/referral/` | 18 | L1 state transitions |
+| core | `execution/transactions/core/` | 5 | L1 state transitions |
+| root | `execution/transactions/*.json` | 59 | Includes `tx_core` (29), `fee_variants` (15), `wire_format_negative` (15) |
 | template | `execution/transactions/template/` | 2 | Example vectors |
 
 Spec-only fixture categories (`fixtures/{security,models,syscalls,api,consensus}/`) are omitted
@@ -129,8 +129,8 @@ Param testing (not yet applicable).
 Per-type coverage is tracked from the published conformance suite under `vectors/`.
 As of 2026-02-08:
 
-- Total published vectors: **492**
-- L1 state-transition vectors: **477** (`input.tx` present)
+- Total published vectors: **505**
+- L1 state-transition vectors: **490** (`input.tx` present)
 - L0 negative wire-decoding vectors: **15** (`wire_format_negative`)
 - Distinct `tx_type` values covered in published vectors: **41**
 
@@ -227,16 +227,16 @@ Fee types: `TOS=0`, `ENERGY=1`, `UNO=2`.
 |-------------|------------------------|--------:|---------:|----------------|-------|
 | account     | 2 / 2                  | 36      | 22       | 0, 1           | multisig + agent_account |
 | arbitration | 10 / 10                | 61      | 40       | 0              | commit_* and arbiter ops |
-| contracts   | 2 / 2                  | 20      | 11       | 0, 1           | deploy + invoke |
-| core        | 2 / 2                  | 40      | 29       | 0, 1, 2        | transfers + burn |
+| contracts   | 2 / 2                  | 22      | 13       | 0, 1           | deploy + invoke |
+| core        | 2 / 2                  | 43      | 32       | 0, 1, 2        | transfers + burn |
 | energy      | 1 / 1                  | 45      | 36       | 0, 1, 2        | freeze/unfreeze/delegate share `tx_type=energy` |
 | escrow      | 9 / 9                  | 109     | 88       | 0              | includes juror verdict type (tx_type-based) |
 | kyc         | 9 / 9                  | 82      | 67       | 0              | committee + kyc |
 | privacy     | 2 / 3                  | 16      | 10       | 0, 1, 2        | missing `uno_transfers` runnable vectors |
-| referral    | 2 / 2                  | 14      | 10       | 0              | bind + batch reward |
-| tns         | 2 / 2                  | 54      | 35       | 0, 1           | names + ephemeral messages |
+| referral    | 2 / 2                  | 18      | 14       | 0              | bind + batch reward |
+| tns         | 2 / 2                  | 58      | 39       | 0, 1           | names + ephemeral messages |
 
-This table covers the **477** published L1 vectors. The **15** L0 negative wire-decoding
+This table covers the **490** published L1 vectors. The **15** L0 negative wire-decoding
 vectors (`wire_format_negative`) are not included in handler-module stats.
 
 ## Summary: Coverage Heat Map

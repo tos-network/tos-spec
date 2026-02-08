@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import struct
-import time
 
 import blake3
 import tos_signer
@@ -17,7 +16,7 @@ from tos_spec.config import (
     MAX_COMMITTEE_NAME_LEN,
     MIN_COMMITTEE_MEMBERS,
     VALID_KYC_LEVELS,
-)
+	)
 from tos_spec.test_accounts import (
     ALICE,
     BOB,
@@ -44,7 +43,8 @@ from tos_spec.types import (
     TxVersion,
 )
 
-_CURRENT_TIME = int(time.time())
+# Fixed timestamp to keep fixtures deterministic across regenerations.
+_CURRENT_TIME = 1700000000
 
 
 def _addr(byte: int) -> bytes:
@@ -62,6 +62,7 @@ def _sig(byte: int) -> bytes:
 def _base_state() -> ChainState:
     sender = ALICE
     state = ChainState(network_chain_id=CHAIN_ID_DEVNET)
+    state.global_state.timestamp = _CURRENT_TIME
     state.accounts[sender] = AccountState(address=sender, balance=10_000_000, nonce=5)
     return state
 

@@ -10,7 +10,7 @@
           "total_burned": 0,
           "total_energy": 0,
           "block_height": 0,
-          "timestamp": 0
+          "timestamp": 1700000000
         },
         "accounts": [
           {
@@ -101,7 +101,7 @@
       "expected": {
         "success": true,
         "error_code": 0,
-        "state_digest": "bff4ba4ae8e9eb5a9ea66497e531225648bc9a54989f1e5684fa6e4fb9328b78",
+        "state_digest": "b7095b3e9eb71fe4d61aed256e860767827ec477aa418692440328d4867fd097",
         "post_state": {
           "network_chain_id": 3,
           "global_state": {
@@ -109,7 +109,7 @@
             "total_burned": 0,
             "total_energy": 0,
             "block_height": 0,
-            "timestamp": 0
+            "timestamp": 1700000000
           },
           "accounts": [
             {
@@ -183,7 +183,7 @@
           "total_burned": 0,
           "total_energy": 0,
           "block_height": 0,
-          "timestamp": 0
+          "timestamp": 1700000000
         },
         "accounts": [
           {
@@ -226,7 +226,7 @@
       "expected": {
         "success": false,
         "error_code": 263,
-        "state_digest": "f5b498efa281234f2be0277ae4bcac77031f1d99aeb9f3c4d39737cce89c10ce",
+        "state_digest": "55f12e1c35c8bce02c8ad9fb3e7b56ae7c3d3bdd7b7555b722bbafd1a74d7bdc",
         "post_state": {
           "network_chain_id": 3,
           "global_state": {
@@ -234,7 +234,7 @@
             "total_burned": 0,
             "total_energy": 0,
             "block_height": 0,
-            "timestamp": 0
+            "timestamp": 1700000000
           },
           "accounts": [
             {
@@ -260,7 +260,7 @@
           "total_burned": 0,
           "total_energy": 0,
           "block_height": 0,
-          "timestamp": 0
+          "timestamp": 1700000000
         },
         "accounts": [
           {
@@ -351,7 +351,7 @@
       "expected": {
         "success": true,
         "error_code": 0,
-        "state_digest": "8c8aea3542fc3ad1da450a03f42fcc1ff48a0a997270e813b41c5742e015402d",
+        "state_digest": "fcea708eac156e1a02dcba8dfccaac963175a300d216ee2d8d792d2a3d82e609",
         "post_state": {
           "network_chain_id": 3,
           "global_state": {
@@ -359,7 +359,7 @@
             "total_burned": 0,
             "total_energy": 0,
             "block_height": 0,
-            "timestamp": 0
+            "timestamp": 1700000000
           },
           "accounts": [
             {

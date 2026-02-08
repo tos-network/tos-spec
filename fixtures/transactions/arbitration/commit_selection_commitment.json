@@ -9,7 +9,7 @@
           "total_burned": 0,
           "total_energy": 0,
           "block_height": 0,
-          "timestamp": 0
+          "timestamp": 1700000000
         },
         "accounts": [
           {
@@ -60,7 +60,7 @@
             "total_burned": 0,
             "total_energy": 0,
             "block_height": 0,
-            "timestamp": 0
+            "timestamp": 1700000000
           },
           "accounts": [
             {
@@ -94,7 +94,7 @@
           "total_burned": 0,
           "total_energy": 0,
           "block_height": 0,
-          "timestamp": 0
+          "timestamp": 1700000000
         },
         "accounts": [
           {
@@ -136,7 +136,7 @@
             "total_burned": 0,
             "total_energy": 0,
             "block_height": 0,
-            "timestamp": 0
+            "timestamp": 1700000000
           },
           "accounts": [
             {
@@ -161,7 +161,7 @@
           "total_burned": 0,
           "total_energy": 0,
           "block_height": 0,
-          "timestamp": 0
+          "timestamp": 1700000000
         },
         "accounts": [
           {
@@ -212,7 +212,7 @@
             "total_burned": 0,
             "total_energy": 0,
             "block_height": 0,
-            "timestamp": 0
+            "timestamp": 1700000000
           },
           "accounts": [
             {

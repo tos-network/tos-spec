@@ -13,7 +13,7 @@ machine-readable, testable, and capable of producing deterministic fixtures.
 
 ## Current Test Status (2026-02-08)
 
-- Published conformance suite: `vectors/` contains **492 runnable** execution vectors in the `test_vectors` schema.
+- Published conformance suite: `vectors/` contains **505 runnable** execution vectors in the `test_vectors` schema.
 - Runner status: `python3 ~/labu/tools/local_execution_runner.py --vectors ~/tos-spec/vectors` reports `all ok` against the `tos` conformance server.
 - Skips: there are **no** `runnable: false` vectors under `vectors/`.
 - Spec-only fixtures: `fixtures/{security,models,syscalls,api,consensus}/` are kept for documentation/spec checks and are intentionally not published to `vectors/` until a consumer exists.

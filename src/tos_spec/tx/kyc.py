@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import time
 from copy import deepcopy
 
 from blake3 import blake3
@@ -325,7 +324,7 @@ def _verify_appeal_kyc(state: ChainState, tx: Transaction, p: dict) -> None:
 
     # submitted_at must be within 1-hour window of current time
     submitted_at = p.get("submitted_at", 0)
-    now = int(time.time())
+    now = int(state.global_state.timestamp)
     if submitted_at > now + APPROVAL_FUTURE_TOLERANCE_SECONDS:
         raise SpecError(ErrorCode.INVALID_PAYLOAD, "submitted_at too far in the future")
     if submitted_at < now - APPROVAL_FUTURE_TOLERANCE_SECONDS:

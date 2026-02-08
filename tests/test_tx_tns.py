@@ -94,6 +94,27 @@ def test_register_name_success(state_test_group) -> None:
     )
 
 
+def test_register_name_nonce_too_low(state_test_group) -> None:
+    """Strict nonce: tx.nonce < sender.nonce."""
+    state = _base_state()
+    tx = _mk_register_name(ALICE, nonce=4, name="alice", fee=10_000_000)
+    state_test_group(
+        "transactions/tns/register_name.json", "register_name_nonce_too_low", state, tx
+    )
+
+
+def test_register_name_nonce_too_high_strict(state_test_group) -> None:
+    """Strict nonce: tx.nonce > sender.nonce."""
+    state = _base_state()
+    tx = _mk_register_name(ALICE, nonce=6, name="alice", fee=10_000_000)
+    state_test_group(
+        "transactions/tns/register_name.json",
+        "register_name_nonce_too_high_strict",
+        state,
+        tx,
+    )
+
+
 def test_register_name_too_short(state_test_group) -> None:
     state = _base_state()
     sender = ALICE
@@ -166,6 +187,44 @@ def test_ephemeral_message_success(state_test_group) -> None:
     state_test_group(
         "transactions/tns/ephemeral_message.json",
         "ephemeral_message_success",
+        state,
+        tx,
+    )
+
+
+def test_ephemeral_message_nonce_too_low(state_test_group) -> None:
+    """Strict nonce: tx.nonce < sender.nonce."""
+    state = _msg_state()
+    tx = _mk_ephemeral_message(
+        ALICE, nonce=4,
+        sender_name_hash=_SENDER_NAME_HASH,
+        recipient_name_hash=_RECIPIENT_NAME_HASH,
+        ttl_blocks=MIN_TTL,
+        encrypted_content=bytes([0xAA]) * 100,
+        fee=100_000,
+    )
+    state_test_group(
+        "transactions/tns/ephemeral_message.json",
+        "ephemeral_message_nonce_too_low",
+        state,
+        tx,
+    )
+
+
+def test_ephemeral_message_nonce_too_high_strict(state_test_group) -> None:
+    """Strict nonce: tx.nonce > sender.nonce."""
+    state = _msg_state()
+    tx = _mk_ephemeral_message(
+        ALICE, nonce=6,
+        sender_name_hash=_SENDER_NAME_HASH,
+        recipient_name_hash=_RECIPIENT_NAME_HASH,
+        ttl_blocks=MIN_TTL,
+        encrypted_content=bytes([0xAA]) * 100,
+        fee=100_000,
+    )
+    state_test_group(
+        "transactions/tns/ephemeral_message.json",
+        "ephemeral_message_nonce_too_high_strict",
         state,
         tx,
     )

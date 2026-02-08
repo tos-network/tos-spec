@@ -194,6 +194,34 @@ def test_invoke_contract_zero_gas(state_test_group) -> None:
     )
 
 
+def test_invoke_contract_nonce_too_low(state_test_group) -> None:
+    """Strict nonce: tx.nonce < sender.nonce."""
+    state, contract_hash = _base_state_with_contract()
+    tx = _mk_invoke_contract(
+        ALICE, nonce=4, contract=contract_hash, entry_id=0, max_gas=100_000, fee=100_000
+    )
+    state_test_group(
+        "transactions/contracts/invoke_contract.json",
+        "invoke_contract_nonce_too_low",
+        state,
+        tx,
+    )
+
+
+def test_invoke_contract_nonce_too_high_strict(state_test_group) -> None:
+    """Strict nonce: tx.nonce > sender.nonce."""
+    state, contract_hash = _base_state_with_contract()
+    tx = _mk_invoke_contract(
+        ALICE, nonce=6, contract=contract_hash, entry_id=0, max_gas=100_000, fee=100_000
+    )
+    state_test_group(
+        "transactions/contracts/invoke_contract.json",
+        "invoke_contract_nonce_too_high_strict",
+        state,
+        tx,
+    )
+
+
 def test_deploy_contract_empty_code(state_test_group) -> None:
     """Deploy with empty bytecode."""
     state = _base_state()

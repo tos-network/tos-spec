@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-import time
-
 from tos_spec.config import (
     CHAIN_ID_DEVNET,
     COIN_VALUE,
@@ -25,6 +23,9 @@ from tos_spec.types import (
     TransferPayload,
     TxVersion,
 )
+
+# Fixed timestamp to keep fixtures deterministic across regenerations.
+_NOW = 1700000000
 
 
 def _hash(byte: int) -> bytes:
@@ -697,7 +698,7 @@ def test_update_arbiter_wire_vector(wire_vector) -> None:
 
 
 def test_slash_arbiter_wire_vector(wire_vector) -> None:
-    now = int(time.time())
+    now = _NOW
     payload = {
         "committee_id": _hash(0x10),
         "arbiter_pubkey": BOB,
@@ -829,7 +830,7 @@ def test_commit_juror_vote_wire_vector(wire_vector) -> None:
 
 
 def test_set_kyc_wire_vector(wire_vector) -> None:
-    now = int(time.time())
+    now = _NOW
     payload = {
         "account": BOB,
         "level": 7,
@@ -863,7 +864,7 @@ def test_set_kyc_wire_vector(wire_vector) -> None:
 
 
 def test_revoke_kyc_wire_vector(wire_vector) -> None:
-    now = int(time.time())
+    now = _NOW
     payload = {
         "account": BOB,
         "reason_hash": _hash(0x02),
@@ -893,7 +894,7 @@ def test_revoke_kyc_wire_vector(wire_vector) -> None:
 
 
 def test_renew_kyc_wire_vector(wire_vector) -> None:
-    now = int(time.time())
+    now = _NOW
     payload = {
         "account": BOB,
         "verified_at": now,
@@ -925,7 +926,7 @@ def test_renew_kyc_wire_vector(wire_vector) -> None:
 
 
 def test_transfer_kyc_wire_vector(wire_vector) -> None:
-    now = int(time.time())
+    now = _NOW
     payload = {
         "account": BOB,
         "source_committee_id": _hash(0x10),
@@ -973,7 +974,7 @@ def test_transfer_kyc_wire_vector(wire_vector) -> None:
 
 
 def test_appeal_kyc_wire_vector(wire_vector) -> None:
-    now = int(time.time())
+    now = _NOW
     payload = {
         "account": BOB,
         "original_committee_id": _hash(0x10),
@@ -995,7 +996,7 @@ def test_appeal_kyc_wire_vector(wire_vector) -> None:
 
 
 def test_bootstrap_committee_wire_vector(wire_vector) -> None:
-    now = int(time.time())
+    now = _NOW
     payload = {
         "name": "root-committee",
         "members": [
@@ -1023,7 +1024,7 @@ def test_bootstrap_committee_wire_vector(wire_vector) -> None:
 
 
 def test_register_committee_wire_vector(wire_vector) -> None:
-    now = int(time.time())
+    now = _NOW
     payload = {
         "name": "sub-committee",
         "region": 1,
@@ -1069,7 +1070,7 @@ def test_register_committee_wire_vector(wire_vector) -> None:
 
 
 def test_update_committee_wire_vector(wire_vector) -> None:
-    now = int(time.time())
+    now = _NOW
     payload = {
         "committee_id": _hash(0x10),
         "update": {
@@ -1107,7 +1108,7 @@ def test_update_committee_wire_vector(wire_vector) -> None:
 
 
 def test_emergency_suspend_wire_vector(wire_vector) -> None:
-    now = int(time.time())
+    now = _NOW
     expires_at = now + EMERGENCY_SUSPEND_TIMEOUT
     payload = {
         "account": BOB,

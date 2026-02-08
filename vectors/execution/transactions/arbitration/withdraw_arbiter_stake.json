@@ -10,7 +10,7 @@
           "total_burned": 0,
           "total_energy": 0,
           "block_height": 0,
-          "timestamp": 0
+          "timestamp": 1700000000
         },
         "accounts": [
           {
@@ -68,7 +68,7 @@
       "expected": {
         "success": true,
         "error_code": 0,
-        "state_digest": "0b4b0af56fc1a35ed6b26b98427c542cf063389014c74b174dad9182b3312505",
+        "state_digest": "7111a119a6e435b2fda80c72e4a883afd9f62e989b2c98ed4cc18db2444aae88",
         "post_state": {
           "network_chain_id": 3,
           "global_state": {
@@ -76,7 +76,7 @@
             "total_burned": 0,
             "total_energy": 0,
             "block_height": 0,
-            "timestamp": 0
+            "timestamp": 1700000000
           },
           "accounts": [
             {
@@ -123,7 +123,7 @@
           "total_burned": 0,
           "total_energy": 0,
           "block_height": 0,
-          "timestamp": 0
+          "timestamp": 1700000000
         },
         "accounts": [
           {
@@ -160,7 +160,7 @@
       "expected": {
         "success": false,
         "error_code": 1024,
-        "state_digest": "f5b498efa281234f2be0277ae4bcac77031f1d99aeb9f3c4d39737cce89c10ce",
+        "state_digest": "55f12e1c35c8bce02c8ad9fb3e7b56ae7c3d3bdd7b7555b722bbafd1a74d7bdc",
         "post_state": {
           "network_chain_id": 3,
           "global_state": {
@@ -168,7 +168,7 @@
             "total_burned": 0,
             "total_energy": 0,
             "block_height": 0,
-            "timestamp": 0
+            "timestamp": 1700000000
           },
           "accounts": [
             {
@@ -194,7 +194,7 @@
           "total_burned": 0,
           "total_energy": 0,
           "block_height": 0,
-          "timestamp": 0
+          "timestamp": 1700000000
         },
         "accounts": [
           {
@@ -252,7 +252,7 @@
       "expected": {
         "success": false,
         "error_code": 263,
-        "state_digest": "f5b498efa281234f2be0277ae4bcac77031f1d99aeb9f3c4d39737cce89c10ce",
+        "state_digest": "55f12e1c35c8bce02c8ad9fb3e7b56ae7c3d3bdd7b7555b722bbafd1a74d7bdc",
         "post_state": {
           "network_chain_id": 3,
           "global_state": {
@@ -260,7 +260,7 @@
             "total_burned": 0,
             "total_energy": 0,
             "block_height": 0,
-            "timestamp": 0
+            "timestamp": 1700000000
           },
           "accounts": [
             {
@@ -307,7 +307,7 @@
           "total_burned": 0,
           "total_energy": 0,
           "block_height": 0,
-          "timestamp": 0
+          "timestamp": 1700000000
         },
         "accounts": [
           {
@@ -365,7 +365,7 @@
       "expected": {
         "success": false,
         "error_code": 772,
-        "state_digest": "f5b498efa281234f2be0277ae4bcac77031f1d99aeb9f3c4d39737cce89c10ce",
+        "state_digest": "55f12e1c35c8bce02c8ad9fb3e7b56ae7c3d3bdd7b7555b722bbafd1a74d7bdc",
         "post_state": {
           "network_chain_id": 3,
           "global_state": {
@@ -373,7 +373,7 @@
             "total_burned": 0,
             "total_energy": 0,
             "block_height": 0,
-            "timestamp": 0
+            "timestamp": 1700000000
           },
           "accounts": [
             {
@@ -420,7 +420,7 @@
           "total_burned": 0,
           "total_energy": 0,
           "block_height": 0,
-          "timestamp": 0
+          "timestamp": 1700000000
         },
         "accounts": [
           {
@@ -478,7 +478,7 @@
       "expected": {
         "success": false,
         "error_code": 772,
-        "state_digest": "f6df5a0e35e29881401af0b9c34e177cc68cb9806530323c85726244c626c514",
+        "state_digest": "37e923cec8afe501db0cdef9f155182017862f22e2e7e4363e912441b1778d4b",
         "post_state": {
           "network_chain_id": 3,
           "global_state": {
@@ -486,7 +486,7 @@
             "total_burned": 0,
             "total_energy": 0,
             "block_height": 0,
-            "timestamp": 0
+            "timestamp": 1700000000
           },
           "accounts": [
             {
@@ -533,7 +533,7 @@
           "total_burned": 0,
           "total_energy": 0,
           "block_height": 0,
-          "timestamp": 0
+          "timestamp": 1700000000
         },
         "accounts": [
           {
@@ -591,7 +591,7 @@
       "expected": {
         "success": false,
         "error_code": 772,
-        "state_digest": "f5b498efa281234f2be0277ae4bcac77031f1d99aeb9f3c4d39737cce89c10ce",
+        "state_digest": "55f12e1c35c8bce02c8ad9fb3e7b56ae7c3d3bdd7b7555b722bbafd1a74d7bdc",
         "post_state": {
           "network_chain_id": 3,
           "global_state": {
@@ -599,7 +599,7 @@
             "total_burned": 0,
             "total_energy": 0,
             "block_height": 0,
-            "timestamp": 0
+            "timestamp": 1700000000
           },
           "accounts": [
             {
@@ -646,7 +646,7 @@
           "total_burned": 0,
           "total_energy": 0,
           "block_height": 0,
-          "timestamp": 0
+          "timestamp": 1700000000
         },
         "accounts": [
           {
@@ -704,7 +704,7 @@
       "expected": {
         "success": false,
         "error_code": 772,
-        "state_digest": "f5b498efa281234f2be0277ae4bcac77031f1d99aeb9f3c4d39737cce89c10ce",
+        "state_digest": "55f12e1c35c8bce02c8ad9fb3e7b56ae7c3d3bdd7b7555b722bbafd1a74d7bdc",
         "post_state": {
           "network_chain_id": 3,
           "global_state": {
@@ -712,7 +712,7 @@
             "total_burned": 0,
             "total_energy": 0,
             "block_height": 0,
-            "timestamp": 0
+            "timestamp": 1700000000
           },
           "accounts": [
             {

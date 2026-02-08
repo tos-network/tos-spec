@@ -212,9 +212,9 @@ layer in the testing pyramid.
 
 As of **2026-02-08**:
 
-- Published conformance suite: `vectors/` contains **492 runnable** execution vectors in the `test_vectors` schema.
+- Published conformance suite: `vectors/` contains **505 runnable** execution vectors in the `test_vectors` schema.
 - Runner status: `python3 ~/labu/tools/local_execution_runner.py --vectors ~/tos-spec/vectors` reports `all ok` against the `tos` conformance server.
-- Composition: **477** L1 state-transition vectors (`input.tx` present) + **15** L0 negative wire-decoding vectors (malformed `wire_hex` rejected by decode).
+- Composition: **490** L1 state-transition vectors (`input.tx` present) + **15** L0 negative wire-decoding vectors (malformed `wire_hex` rejected by decode).
 - Covered transaction types: **41** distinct `tx_type` values in published vectors.
 - Spec-only: fixtures under `fixtures/{security,models,syscalls,api,consensus}/` are not published to `vectors/` yet.
 - Codec corpus: `fixtures/wire_format.json` contains golden wire hex vectors (45 entries) but is not published to `vectors/` yet.
@@ -228,14 +228,14 @@ Counts below are for the published conformance suite under `vectors/execution/tr
 | escrow | 107 |
 | kyc | 82 |
 | arbitration | 63 |
-| (root) | 58 |
-| tns | 53 |
+| (root) | 59 |
+| tns | 57 |
 | energy | 42 |
 | account | 35 |
-| contracts | 19 |
+| contracts | 21 |
 | privacy | 14 |
-| referral | 14 |
-| core | 3 |
+| referral | 18 |
+| core | 5 |
 | template | 2 |
 
 ### By Layer (Published)
@@ -243,7 +243,7 @@ Counts below are for the published conformance suite under `vectors/execution/tr
 | Layer | Current Vectors | Target | Coverage |
 |-------|-----------------|--------|----------|
 | L0    | 15 (wire negative) | ~50 | Partial  |
-| L1    | 477 (tx state transition) | ~200 | Good |
+| L1    | 490 (tx state transition) | ~200 | Good |
 | L2    | 0 | ~50 | None |
 | L3    | 0 | ~80 | None |
 | L4    | 0 | ~30 | None |

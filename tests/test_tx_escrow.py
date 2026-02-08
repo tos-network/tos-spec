@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import struct
-import time
 
 import tos_signer
 
@@ -31,6 +30,9 @@ from tos_spec.types import (
     TransactionType,
     TxVersion,
 )
+
+# Fixed timestamp to keep fixtures deterministic across regenerations.
+_NOW = 1700000000
 
 
 def _hash(byte: int) -> bytes:
@@ -504,7 +506,7 @@ def test_submit_verdict_success(state_test_group) -> None:
             {
                 "arbiter_pubkey": CAROL,
                 "signature": carol_sig,
-                "timestamp": int(time.time()),
+                "timestamp": _NOW,
             }
         ],
     }
@@ -1326,7 +1328,7 @@ def test_submit_verdict_wrong_state(state_test_group) -> None:
         "round": 0,
         "payer_amount": 5 * COIN_VALUE,
         "payee_amount": 5 * COIN_VALUE,
-        "signatures": [{"arbiter_pubkey": CAROL, "signature": carol_sig, "timestamp": int(time.time())}],
+        "signatures": [{"arbiter_pubkey": CAROL, "signature": carol_sig, "timestamp": _NOW}],
     }
     tx = _mk_escrow_tx(ALICE, nonce=5, tx_type=TransactionType.SUBMIT_VERDICT, payload=payload, fee=100_000)
     state_test_group(
@@ -1364,7 +1366,7 @@ def test_submit_verdict_amounts_mismatch(state_test_group) -> None:
         "round": 0,
         "payer_amount": payer_amount,
         "payee_amount": payee_amount,
-        "signatures": [{"arbiter_pubkey": CAROL, "signature": carol_sig, "timestamp": int(time.time())}],
+        "signatures": [{"arbiter_pubkey": CAROL, "signature": carol_sig, "timestamp": _NOW}],
     }
     tx = _mk_escrow_tx(ALICE, nonce=5, tx_type=TransactionType.SUBMIT_VERDICT, payload=payload, fee=100_000)
     state_test_group(
@@ -1399,7 +1401,7 @@ def test_submit_verdict_no_dispute(state_test_group) -> None:
         "round": 0,
         "payer_amount": 5 * COIN_VALUE,
         "payee_amount": 5 * COIN_VALUE,
-        "signatures": [{"arbiter_pubkey": CAROL, "signature": carol_sig, "timestamp": int(time.time())}],
+        "signatures": [{"arbiter_pubkey": CAROL, "signature": carol_sig, "timestamp": _NOW}],
     }
     tx = _mk_escrow_tx(ALICE, nonce=5, tx_type=TransactionType.SUBMIT_VERDICT, payload=payload, fee=100_000)
     state_test_group(
@@ -1426,7 +1428,7 @@ def test_submit_verdict_not_found(state_test_group) -> None:
         "round": 0,
         "payer_amount": 5 * COIN_VALUE,
         "payee_amount": 5 * COIN_VALUE,
-        "signatures": [{"arbiter_pubkey": CAROL, "signature": carol_sig, "timestamp": int(time.time())}],
+        "signatures": [{"arbiter_pubkey": CAROL, "signature": carol_sig, "timestamp": _NOW}],
     }
     tx = _mk_escrow_tx(ALICE, nonce=5, tx_type=TransactionType.SUBMIT_VERDICT, payload=payload, fee=100_000)
     state_test_group(
@@ -2426,7 +2428,7 @@ def test_submit_verdict_no_arbitration_config(state_test_group) -> None:
         "round": 0,
         "payer_amount": 5 * COIN_VALUE,
         "payee_amount": 5 * COIN_VALUE,
-        "signatures": [{"arbiter_pubkey": CAROL, "signature": carol_sig, "timestamp": int(time.time())}],
+        "signatures": [{"arbiter_pubkey": CAROL, "signature": carol_sig, "timestamp": _NOW}],
     }
     tx = _mk_escrow_tx(ALICE, nonce=5, tx_type=TransactionType.SUBMIT_VERDICT, payload=payload, fee=100_000)
     state_test_group(
@@ -2464,7 +2466,7 @@ def test_submit_verdict_dispute_id_mismatch(state_test_group) -> None:
         "round": 0,
         "payer_amount": 5 * COIN_VALUE,
         "payee_amount": 5 * COIN_VALUE,
-        "signatures": [{"arbiter_pubkey": CAROL, "signature": carol_sig, "timestamp": int(time.time())}],
+        "signatures": [{"arbiter_pubkey": CAROL, "signature": carol_sig, "timestamp": _NOW}],
     }
     tx = _mk_escrow_tx(ALICE, nonce=5, tx_type=TransactionType.SUBMIT_VERDICT, payload=payload, fee=100_000)
     state_test_group(
@@ -2500,7 +2502,7 @@ def test_submit_verdict_first_round_nonzero(state_test_group) -> None:
         "round": 1,  # Wrong: should be 0
         "payer_amount": 5 * COIN_VALUE,
         "payee_amount": 5 * COIN_VALUE,
-        "signatures": [{"arbiter_pubkey": CAROL, "signature": carol_sig, "timestamp": int(time.time())}],
+        "signatures": [{"arbiter_pubkey": CAROL, "signature": carol_sig, "timestamp": _NOW}],
     }
     tx = _mk_escrow_tx(ALICE, nonce=5, tx_type=TransactionType.SUBMIT_VERDICT, payload=payload, fee=100_000)
     state_test_group(
@@ -2536,7 +2538,7 @@ def test_submit_verdict_round_not_incrementing(state_test_group) -> None:
         "round": 2,  # Wrong: must be > 2
         "payer_amount": 5 * COIN_VALUE,
         "payee_amount": 5 * COIN_VALUE,
-        "signatures": [{"arbiter_pubkey": CAROL, "signature": carol_sig, "timestamp": int(time.time())}],
+        "signatures": [{"arbiter_pubkey": CAROL, "signature": carol_sig, "timestamp": _NOW}],
     }
     tx = _mk_escrow_tx(ALICE, nonce=5, tx_type=TransactionType.SUBMIT_VERDICT, payload=payload, fee=100_000)
     state_test_group(

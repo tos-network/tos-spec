@@ -6,8 +6,6 @@ scalar multiplication. No external file dependency at import time.
 
 from __future__ import annotations
 
-import time
-
 import tos_signer
 
 from .encoding import encode_signing_bytes
@@ -34,5 +32,6 @@ SEED_MAP: dict[bytes, int] = {
 def sign_transaction(tx: Transaction) -> bytes:
     """Sign a transaction using the test account's seed byte."""
     seed = SEED_MAP[tx.source]
-    signing_bytes = encode_signing_bytes(tx, current_time=int(time.time()))
+    # Fixed time to keep signatures and wire hex deterministic across regenerations.
+    signing_bytes = encode_signing_bytes(tx, current_time=1700000000)
     return bytes(tos_signer.sign_data(signing_bytes, seed))

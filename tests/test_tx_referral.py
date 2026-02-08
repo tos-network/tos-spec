@@ -52,6 +52,30 @@ def test_bind_referrer_success(state_test_group) -> None:
     )
 
 
+def test_bind_referrer_nonce_too_low(state_test_group) -> None:
+    """Strict nonce: tx.nonce < sender.nonce."""
+    state = _base_state()
+    tx = _mk_bind_referrer(ALICE, nonce=4, referrer=BOB, fee=100_000)
+    state_test_group(
+        "transactions/referral/bind_referrer.json",
+        "bind_referrer_nonce_too_low",
+        state,
+        tx,
+    )
+
+
+def test_bind_referrer_nonce_too_high_strict(state_test_group) -> None:
+    """Strict nonce: tx.nonce > sender.nonce."""
+    state = _base_state()
+    tx = _mk_bind_referrer(ALICE, nonce=6, referrer=BOB, fee=100_000)
+    state_test_group(
+        "transactions/referral/bind_referrer.json",
+        "bind_referrer_nonce_too_high_strict",
+        state,
+        tx,
+    )
+
+
 def test_bind_referrer_self(state_test_group) -> None:
     state = _base_state()
     tx = _mk_bind_referrer(ALICE, nonce=5, referrer=ALICE, fee=100_000)
@@ -117,6 +141,46 @@ def test_batch_referral_reward_success(state_test_group) -> None:
     state_test_group(
         "transactions/referral/batch_referral_reward.json",
         "batch_referral_reward_success",
+        state,
+        tx,
+    )
+
+
+def test_batch_referral_reward_nonce_too_low(state_test_group) -> None:
+    """Strict nonce: tx.nonce < sender.nonce."""
+    state = _base_state()
+    # Daemon requires sender == from_user for batch rewards.
+    state.accounts[BOB].balance = 1_000_000
+    state.accounts[BOB].nonce = 5
+    state.accounts[CAROL] = AccountState(address=CAROL, balance=0, nonce=0)
+    state.referrals[BOB] = CAROL
+    tx = _mk_batch_referral_reward(
+        BOB, nonce=4, total_amount=100_000, levels=1,
+        ratios=[5000], from_user=BOB, fee=100_000,
+    )
+    state_test_group(
+        "transactions/referral/batch_referral_reward.json",
+        "batch_referral_reward_nonce_too_low",
+        state,
+        tx,
+    )
+
+
+def test_batch_referral_reward_nonce_too_high_strict(state_test_group) -> None:
+    """Strict nonce: tx.nonce > sender.nonce."""
+    state = _base_state()
+    # Daemon requires sender == from_user for batch rewards.
+    state.accounts[BOB].balance = 1_000_000
+    state.accounts[BOB].nonce = 5
+    state.accounts[CAROL] = AccountState(address=CAROL, balance=0, nonce=0)
+    state.referrals[BOB] = CAROL
+    tx = _mk_batch_referral_reward(
+        BOB, nonce=6, total_amount=100_000, levels=1,
+        ratios=[5000], from_user=BOB, fee=100_000,
+    )
+    state_test_group(
+        "transactions/referral/batch_referral_reward.json",
+        "batch_referral_reward_nonce_too_high_strict",
         state,
         tx,
     )

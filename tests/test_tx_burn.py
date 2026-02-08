@@ -46,6 +46,22 @@ def test_burn_success(state_test_group) -> None:
     state_test_group("transactions/core/burn.json", "burn_success", state, tx)
 
 
+def test_burn_nonce_too_low(state_test_group) -> None:
+    """Strict nonce: tx.nonce < sender.nonce."""
+    state = _base_state()
+    tx = _mk_burn(ALICE, nonce=4, amount=100_000, fee=100_000)
+    state_test_group("transactions/core/burn.json", "burn_nonce_too_low", state, tx)
+
+
+def test_burn_nonce_too_high_strict(state_test_group) -> None:
+    """Strict nonce: tx.nonce > sender.nonce."""
+    state = _base_state()
+    tx = _mk_burn(ALICE, nonce=6, amount=100_000, fee=100_000)
+    state_test_group(
+        "transactions/core/burn.json", "burn_nonce_too_high_strict", state, tx
+    )
+
+
 def test_burn_insufficient_balance(state_test_group) -> None:
     state = _base_state()
     tx = _mk_burn(ALICE, nonce=5, amount=2_000_000, fee=100_000)

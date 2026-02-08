@@ -163,6 +163,13 @@ def test_nonce_gap_exceeded(state_test) -> None:
     state_test("nonce_gap_exceeded", state, tx)
 
 
+def test_nonce_too_high_strict(state_test) -> None:
+    """Strict nonce: tx.nonce > sender.nonce (apply_tx enforces strict equality)."""
+    state = _base_state()
+    tx = _mk_tx(ALICE, BOB, nonce=6, amount=100_000, fee=100_000)
+    state_test("nonce_too_high_strict", state, tx)
+
+
 # ===================================================================
 # Overflow / boundary tests
 # ===================================================================

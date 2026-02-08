@@ -5,7 +5,6 @@ from __future__ import annotations
 import hashlib
 import json
 import struct
-import time
 
 import tos_signer
 
@@ -37,6 +36,9 @@ from tos_spec.types import (
     TransactionType,
     TxVersion,
 )
+
+# Fixed timestamp to keep fixtures deterministic across regenerations.
+_NOW = 1700000000
 
 
 def _addr(byte: int) -> bytes:
@@ -90,6 +92,7 @@ def _pad_json_bytes_to_exact_len(obj: dict, *, pad_field: str, target_len: int) 
 
 def _base_state() -> ChainState:
     state = ChainState(network_chain_id=CHAIN_ID_DEVNET)
+    state.global_state.timestamp = _NOW
     state.accounts[ALICE] = AccountState(
         address=ALICE, balance=10_000 * COIN_VALUE, nonce=5
     )
@@ -646,7 +649,7 @@ def test_slash_arbiter_success(state_test_group) -> None:
         kyc_threshold=2,
         max_kyc_level=255,
     )
-    now = int(time.time())
+    now = _NOW
     amount = COIN_VALUE * 10
     reason_hash = _hash(70)
     msg = _build_slash_arbiter_msg(committee_id, arbiter_key, amount, reason_hash, now)
@@ -1168,7 +1171,7 @@ def test_submit_verdict_by_juror_success(state_test_group) -> None:
 
     payer_amount = 6 * COIN_VALUE
     payee_amount = 4 * COIN_VALUE
-    now = int(time.time())
+    now = _NOW
 
     msg = _build_verdict_msg(escrow_id, dispute_id, dispute_round,
                              payer_amount, payee_amount)
@@ -1309,7 +1312,7 @@ def test_slash_arbiter_amount_exceeds_stake(state_test_group) -> None:
         kyc_threshold=2,
         max_kyc_level=255,
     )
-    now = int(time.time())
+    now = _NOW
     # Slash amount exceeds the arbiter's total stake
     amount = MIN_ARBITER_STAKE * 2
     reason_hash = _hash(70)
