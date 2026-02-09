@@ -6,11 +6,12 @@ coverage gaps and prioritization targets.
 
 ## Current Published Status (2026-02-09)
 
-- `vectors/` contains **293** runnable execution vectors in the `test_vectors` schema.
+- `vectors/` contains **377** runnable vectors in the `test_vectors` schema (execution + RPC suites).
 - The published suite does not currently use the `runnable` field (all published vectors are treated as runnable by default).
-- Composition: **241** tx execution vectors (`input.kind="tx"`) + **14** tx wire roundtrip vectors (`input.kind="tx_roundtrip"`) + **25** block vectors (`input.kind="block"`) + **13** chain-import vectors (`input.kind="chain"`).
+- Composition (execution): **241** tx execution vectors (`input.kind="tx"`) + **14** tx wire roundtrip vectors (`input.kind="tx_roundtrip"`) + **25** block vectors (`input.kind="block"`) + **13** chain-import vectors (`input.kind="chain"`).
+- Composition (RPC): **84** RPC vectors (`input.rpc` present) consumed by the `tos/rpc` simulator.
 - Covered transaction types: **11** distinct `tx_type` values in published vectors.
-- Spec-only fixtures under `fixtures/{security,models,syscalls,api,consensus}/` are intentionally not published to `vectors/` yet.
+- Spec-only fixtures under `fixtures/{security,models,syscalls,consensus}/` are intentionally not published to `vectors/` yet.
 - Codec corpus: `fixtures/wire_format.json` contains **14** golden wire-encoding vectors; these are published as tx wire roundtrip vectors under `wire_format_roundtrip`.
 
 Reproduce (local):
@@ -66,13 +67,17 @@ vectors includes 14 tx wire roundtrip vectors (`wire_format_roundtrip`)
 and 15 negative decode vectors (`wire_format_negative`). The
 priority gaps are:
 - L2: basic executable block processing tests (38 vectors: 25 `block` + 13 `chain`)
-- L3-L5: not published yet (API/P2P/interop vectors remain spec-only)
+- L3: published via the RPC suite (84 vectors under `vectors/rpc/`)
+- L4-L5: not published yet (P2P/interop vectors remain spec-only)
 Note: L0 wire-format roundtrip is currently published for a small corpus; full tx-type codec coverage is not yet published.
 
 ## Matrix 2: Domain x Fixture Type
 
-Published conformance vectors are currently execution-only (`input.kind` in `{tx, tx_roundtrip, block, chain}`). The table below
-lists the published `vectors/execution/transactions/**` groups and vector counts.
+Published vectors include:
+- Execution vectors (`input.kind` in `{tx, tx_roundtrip, block, chain}`).
+- RPC vectors (`input.rpc` present), consumed by the `tos/rpc` simulator.
+
+The table below lists the published `vectors/**` groups and vector counts.
 
 | Group | Path Prefix | Vectors | Notes |
 |------:|------------|--------:|-------|
@@ -86,6 +91,7 @@ lists the published `vectors/execution/transactions/**` groups and vector counts
 | core | `execution/transactions/core/` | 8 | L1 state transitions |
 | root | `execution/transactions/*.json` | 78 | Includes `tx_core`, `fee_variants`, `wire_format_negative`, `wire_format_roundtrip` |
 | template | `execution/transactions/template/` | 2 | Example vectors |
+| rpc | `rpc/` | 84 | L3 JSON-RPC request/response conformance (`/json_rpc`) |
 
 Spec-only fixture categories (`fixtures/{security,models,syscalls,api,consensus}/`) are omitted
 from `vectors/` until a consumer exists for them.
@@ -119,7 +125,7 @@ Param testing (not yet applicable).
 Per-type coverage is tracked from the published conformance suite under `vectors/`.
 As of 2026-02-09:
 
-- Total published vectors: **293**
+- Total published vectors (execution suite): **293**
 - Tx execution vectors: **241** (`input.kind="tx"`)
 - L0 tx wire roundtrip vectors: **14** (`wire_format_roundtrip`)
 - L0 negative wire-decoding vectors: **15** (`wire_format_negative`)

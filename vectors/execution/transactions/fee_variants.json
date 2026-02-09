@@ -544,25 +544,25 @@
         }
       },
       "expected": {
-        "success": false,
-        "error_code": 256,
-        "state_digest": "24333c28b746c9c1b64573fda3314b10c64b0845ca452ea15a58237a07912eb5",
+        "success": true,
+        "error_code": 0,
+        "state_digest": "bd2f436b3a6cbc0d855361faf2c2d0e6c84e43a155d36730ff0f2054c616a81c",
         "post_state": {
           "network_chain_id": 3,
           "global_state": {
             "total_supply": 0,
             "total_burned": 0,
-            "total_energy": 10,
+            "total_energy": 9,
             "block_height": 0,
             "timestamp": 0
           },
           "accounts": [
             {
               "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
-              "balance": 100000000000,
-              "nonce": 5,
+              "balance": 90000000000,
+              "nonce": 6,
               "frozen": 10000000000,
-              "energy": 10,
+              "energy": 9,
               "flags": 0,
               "data": ""
             },
@@ -579,7 +579,7 @@
           "energy_resources": [
             {
               "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
-              "energy": 10,
+              "energy": 9,
               "frozen_tos": 10000000000,
               "freeze_records": [
                 {
@@ -672,15 +672,15 @@
         }
       },
       "expected": {
-        "success": false,
-        "error_code": 256,
-        "state_digest": "24333c28b746c9c1b64573fda3314b10c64b0845ca452ea15a58237a07912eb5",
+        "success": true,
+        "error_code": 0,
+        "state_digest": "1e72a398f68cbce83fc4eadc51bc1b16a2103b6814a741b9f3f22acf0bed0433",
         "post_state": {
           "network_chain_id": 3,
           "global_state": {
             "total_supply": 0,
             "total_burned": 0,
-            "total_energy": 10,
+            "total_energy": 9,
             "block_height": 0,
             "timestamp": 0
           },
@@ -688,15 +688,15 @@
             {
               "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
               "balance": 100000000000,
-              "nonce": 5,
+              "nonce": 6,
               "frozen": 10000000000,
-              "energy": 10,
+              "energy": 9,
               "flags": 0,
               "data": ""
             },
             {
               "address": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824",
-              "balance": 0,
+              "balance": 500000000,
               "nonce": 0,
               "frozen": 0,
               "energy": 0,
@@ -707,7 +707,7 @@
           "energy_resources": [
             {
               "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
-              "energy": 10,
+              "energy": 9,
               "frozen_tos": 10000000000,
               "freeze_records": [
                 {
@@ -800,15 +800,15 @@
         }
       },
       "expected": {
-        "success": false,
-        "error_code": 256,
-        "state_digest": "4c0f0a003f6bf5228eb40e1c7fe6c722a71e434b1bc5e69f323474fb061e208d",
+        "success": true,
+        "error_code": 0,
+        "state_digest": "81ce903cd7567e6e4b7016b37421061f8e6311b79a21f3621f01bb0f814b47c6",
         "post_state": {
           "network_chain_id": 3,
           "global_state": {
             "total_supply": 0,
             "total_burned": 0,
-            "total_energy": 10,
+            "total_energy": 9,
             "block_height": 0,
             "timestamp": 0
           },
@@ -816,9 +816,9 @@
             {
               "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
               "balance": 1000000000,
-              "nonce": 5,
+              "nonce": 6,
               "frozen": 10000000000,
-              "energy": 10,
+              "energy": 9,
               "flags": 0,
               "data": ""
             },
@@ -835,7 +835,7 @@
           "energy_resources": [
             {
               "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
-              "energy": 10,
+              "energy": 9,
               "frozen_tos": 10000000000,
               "freeze_records": [
                 {

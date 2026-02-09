@@ -100,14 +100,24 @@ def _verify_common(state: ChainState, tx: Transaction) -> None:
     if tx.fee < 0:
         raise SpecError(ErrorCode.INVALID_AMOUNT, "fee negative")
 
-    # Minimum fee surface: for non-energy transactions that pay TOS fees, a zero fee is rejected.
-    # This is a coarse rule (not a full size-based fee model) but matches daemon behavior for
-    # fee=0 boundary vectors.
-    if tx.fee_type == FeeType.TOS and tx.tx_type != TransactionType.ENERGY and tx.fee == 0:
+    # Matches `~/tos`: a subset of TOS-fee transactions reject `fee=0` (minimum fee surface).
+    # Note: this is intentionally a narrow rule derived from current daemon behavior and vectors.
+    _TOS_MIN_FEE_REQUIRED = {
+        TransactionType.BURN,
+        TransactionType.MULTISIG,
+        TransactionType.DEPLOY_CONTRACT,
+        TransactionType.AGENT_ACCOUNT,
+    }
+    if tx.fee_type == FeeType.TOS and tx.tx_type in _TOS_MIN_FEE_REQUIRED and tx.fee == 0:
         raise SpecError(ErrorCode.INSUFFICIENT_FEE, "fee too low")
 
-    # Matches `~/tos`: Energy fee type is only valid for Transfers.
-    _ENERGY_FEE_ALLOWED = {TransactionType.TRANSFERS}
+    # Matches `~/tos`: Energy fee type is valid for transfer-type transactions (including privacy transfers).
+    _ENERGY_FEE_ALLOWED = {
+        TransactionType.TRANSFERS,
+        TransactionType.UNO_TRANSFERS,
+        TransactionType.SHIELD_TRANSFERS,
+        TransactionType.UNSHIELD_TRANSFERS,
+    }
     if tx.fee_type == FeeType.ENERGY and tx.tx_type not in _ENERGY_FEE_ALLOWED:
         raise SpecError(ErrorCode.INVALID_FORMAT, "energy fee only for transfer-type transactions")
 

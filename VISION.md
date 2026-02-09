@@ -211,11 +211,11 @@ layer in the testing pyramid.
 
 As of **2026-02-09**:
 
-- Published conformance suite: `vectors/` contains **293** published vectors in the `test_vectors` schema.
-- Composition: **226** L1 state-transition vectors (`input.tx` present) + **29** L0 wire-format vectors (14 `tx_roundtrip` + 15 malformed decode negatives) + **25** L2 block vectors (`input.kind="block"`) + **13** L2 chain-import vectors (`input.kind="chain"`).
+- Published conformance suite: `vectors/` contains **377** published vectors in the `test_vectors` schema (execution + RPC suites).
+- Composition: **226** L1 state-transition vectors (`input.tx` present) + **29** L0 wire-format vectors (14 `tx_roundtrip` + 15 malformed decode negatives) + **25** L2 block vectors (`input.kind="block"`) + **13** L2 chain-import vectors (`input.kind="chain"`) + **84** L3 RPC vectors (`input.rpc` present).
 - Covered transaction types: **11** distinct `tx_type` values in published vectors.
 - Note: `uno_transfers` vectors are currently **tx-json-only** (`input.wire_hex=""`) in the published suite.
-- Spec-only: fixtures under `fixtures/{security,models,syscalls,api,consensus}/` are not published to `vectors/` yet.
+- Spec-only: fixtures under `fixtures/{security,models,syscalls,consensus}/` are not published to `vectors/` yet.
 - Wire-format corpus: `fixtures/wire_format.json` contains a small positive encode corpus; tx wire roundtrip vectors are published under `vectors/execution/transactions/wire_format_roundtrip.json`, and negative decode vectors under `vectors/execution/transactions/wire_format_negative.json`.
 
 ### Published Vector Groups
@@ -242,7 +242,7 @@ Counts below are for the published conformance suite under `vectors/execution/tr
 | L0    | 29 (wire decode) | ~50 | Partial  |
 | L1    | 226 (tx state transition) | ~200 | Good |
 | L2    | 38 (25 `block` + 13 `chain`) | ~50 | Partial |
-| L3    | 0 | ~80 | None |
+| L3    | 84 (RPC) | ~80 | Good |
 | L4    | 0 | ~30 | None |
 | L5    | 0 | ~10 | None |
 
@@ -294,13 +294,12 @@ Counts below are for the published conformance suite under `vectors/execution/tr
 
 ### Layer 3 — API Boundary
 
-**Current (published)**: no API vectors yet.
+**Current (published)**: 84 JSON-RPC vectors under `vectors/rpc/rpc.json` targeting the conformance server `/json_rpc` endpoint.
 
-**Current (fixtures only)**: API/syscall fixtures exist under `fixtures/api/` and `fixtures/syscalls/` but are not published to `vectors/` yet.
+**Current (fixtures only)**: syscall fixtures exist under `fixtures/syscalls/` but are not published to `vectors/` yet.
 
 **Gaps**:
-- Executable RPC conformance tests (currently spec-only, not runnable)
-- Golden request/response transcripts per RPC method
+- More RPC methods and parameter variants (beyond the current query subset)
 - Error response format conformance
 - Query methods (balance, transaction, block)
 - Domain query methods (energy, names)

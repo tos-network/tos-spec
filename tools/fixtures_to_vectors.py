@@ -37,7 +37,6 @@ EXCLUDE_TOP_LEVEL_FIXTURES: set[str] = {
     "models",
     # These are documentation/spec-only vectors (not consumable by daemon conformance runner).
     "syscalls",
-    "api",
     "consensus",
 }
 
