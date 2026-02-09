@@ -11,15 +11,15 @@ machine-readable, testable, and capable of producing deterministic fixtures.
 - **Layered coverage**: wire format, transaction validation, and state transitions are all verified.
 - **Scenario/expected comparison**: fixtures define scenarios and expected results; vectors are the runnable form consumed by Labu.
 
-## Current Test Status (2026-02-08)
+## Current Test Status (2026-02-09)
 
-- Published conformance suite: `vectors/` contains **710 runnable** execution vectors in the `test_vectors` schema.
-- Composition: **657** L1 state-transition vectors (`input.tx` present) + **15** L0 negative wire-decoding vectors + **25** L2 block vectors (`input.kind="block"`) + **13** L2 chain-import vectors (`input.kind="chain"`).
+- Published conformance suite: `vectors/` contains **289** runnable execution vectors in the `test_vectors` schema.
+- Composition: **241** tx execution vectors (`input.kind="tx"`) + **10** tx wire roundtrip vectors (`input.kind="tx_roundtrip"`) + **25** block vectors (`input.kind="block"`) + **13** chain-import vectors (`input.kind="chain"`).
 - Runner status: `python3 ~/labu/tools/local_execution_runner.py --vectors ~/tos-spec/vectors` reports `all ok` against the `tos` conformance server.
-- Skips: there are **no** `runnable: false` vectors under `vectors/`.
+- Skips: the published suite does not currently use the `runnable` field.
 - Note: `uno_transfers` vectors are currently **tx-json-only** (`input.wire_hex=""`) until wire/proof generation is represented in the exported pre-state surface.
 - Spec-only fixtures: `fixtures/{security,models,syscalls,api,consensus}/` are kept for documentation/spec checks and are intentionally not published to `vectors/` until a consumer exists.
-- Codec corpus: `fixtures/wire_format.json` (golden wire hex) is spec-owned and is not published to `vectors/` yet.
+- Codec corpus: `fixtures/wire_format.json` (golden wire hex) is spec-owned; tx wire roundtrip vectors are published under `vectors/execution/transactions/wire_format_roundtrip.json`.
 
 ## Scenario/Expected Comparison Model
 
@@ -178,14 +178,14 @@ we use a fixed set of deterministic test accounts stored in `vectors/accounts.js
 ├── src/tos_spec/          # Executable spec (Python)
 │   ├── config.py          # Constants and limits
 │   ├── errors.py          # Error codes and exceptions
-│   ├── types.py           # Core data models (accounts, escrows, energy, etc.)
+│   ├── types.py           # Core data models (accounts, energy, contracts, etc.)
 │   ├── account_model.py   # Account state model
 │   ├── state_transition.py# verify/apply logic
 │   ├── state_digest.py    # Deterministic state digest (BLAKE3)
 │   ├── encoding.py        # Wire-format encoding
 │   ├── codec_adapter.py   # Bridge to tos_codec Rust extension
 │   ├── test_accounts.py   # Deterministic test identities
-│   ├── tx/                # Per-transaction specs (core, energy, escrow, kyc, etc.)
+│   ├── tx/                # Per-transaction specs (core, energy, contracts, privacy, tns, account)
 │   ├── consensus/         # Block structure, DAG ordering, mining
 │   └── crypto/            # Hash algorithms, HMAC vectors
 ├── rust_py/               # Optional Rust PyO3 extensions
@@ -237,18 +237,10 @@ we use a fixed set of deterministic test accounts stored in `vectors/accounts.js
     "accounts": [
       { "address": "hex", "balance": 0, "nonce": 0, "frozen": 0, "energy": 0, "flags": 0, "data": "" }
     ],
-    "escrows": [],
-    "arbiters": [],
-    "kyc_data": [],
-    "committees": [],
     "agent_accounts": [],
     "tns_names": [],
-    "referrals": [],
     "energy_resources": [],
-    "contracts": [],
-    "arbitration_commit_opens": [],
-    "arbitration_commit_vote_requests": [],
-    "arbitration_commit_selections": []
+    "contracts": []
   },
   "input": {
     "kind": "tx | block | rpc",
@@ -268,10 +260,9 @@ we use a fixed set of deterministic test accounts stored in `vectors/accounts.js
 }
 ```
 
-All `pre_state` domain fields (escrows, arbiters, etc.) are optional and default
-to empty lists when omitted. They provide the initial domain-specific state that
-certain transaction types require (e.g., escrow operations need an existing escrow
-in `escrows`, contract invocations need a deployed contract in `contracts`).
+All `pre_state` domain fields beyond `accounts`/`global_state` are optional and default
+to empty lists when omitted. They provide domain-specific pre-state when needed
+(e.g., contract invocations need a deployed contract in `contracts`).
 
 ## Simulator Behavior
 - **Single-client mode**:

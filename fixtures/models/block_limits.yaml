@@ -234,51 +234,6 @@ constants:
 
 ---
 spec:
-  name: referral_limits
-  version: "1.0"
-  category: models
-  subcategory: limits
-  description: "Referral system limits"
-  priority: P1
-
-constants:
-  MAX_UPLINE_LEVELS: 20
-
-rule: "Referral chain traversal stops at MAX_UPLINE_LEVELS"
-
----
-spec:
-  name: arbitration_limits
-  version: "1.0"
-  category: models
-  subcategory: limits
-  description: "Arbitration payload size limits"
-  priority: P1
-
-constants:
-  MIN_ARBITER_STAKE: 100000000000  # 1000 TOS
-  JUROR_SUBMIT_WINDOW: 86400  # blocks
-  MAX_ARBITRATION_OPEN_BYTES: 65536  # 64 KB
-  MAX_VOTE_REQUEST_BYTES: 65536  # 64 KB
-  MAX_SELECTION_COMMITMENT_BYTES: 65536  # 64 KB
-  MAX_JUROR_VOTE_BYTES: 8192  # 8 KB
-  MAX_VERDICT_BUNDLE_BYTES: 131072  # 128 KB
-
----
-spec:
-  name: kyc_timing_limits
-  version: "1.0"
-  category: models
-  subcategory: limits
-  description: "KYC approval timing constraints"
-  priority: P1
-
-constants:
-  APPROVAL_EXPIRY_SECONDS: 86400  # 24 hours
-  APPROVAL_FUTURE_TOLERANCE_SECONDS: 3600  # 1 hour
-
----
-spec:
   name: privacy_limits
   version: "1.0"
   category: models

@@ -212,24 +212,8 @@ path = "gen_ed25519_point_vectors.rs"
 
 # Transaction payload test vectors (TOS Rust wire format)
 [[bin]]
-name = "gen_arbitration_vectors"
-path = "gen_arbitration_vectors.rs"
-
-[[bin]]
-name = "gen_escrow_vectors"
-path = "gen_escrow_vectors.rs"
-
-[[bin]]
 name = "gen_basic_vectors"
 path = "gen_basic_vectors.rs"
-
-[[bin]]
-name = "gen_kyc_vectors"
-path = "gen_kyc_vectors.rs"
-
-[[bin]]
-name = "gen_referral_vectors"
-path = "gen_referral_vectors.rs"
 
 [[bin]]
 name = "gen_tns_vectors"

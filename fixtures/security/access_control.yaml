@@ -3,9 +3,7 @@
 #
 # TOS uses multiple access control mechanisms:
 # 1. Transaction-level: nonce, signature verification
-# 2. KYC system: KYC levels for regulated operations
-# 3. Committee system: hierarchical approval for certain operations
-# 4. Contract-level: get_caller() for authorization
+# 2. Contract-level: get_caller() for authorization
 
 ---
 spec:
@@ -52,87 +50,6 @@ expected:
   status: error
   error: "InvalidTransactionSignature"
   error_message: "Invalid transaction signature"
-
----
-spec:
-  name: security_access_kyc_required
-  version: "1.0"
-  category: security
-  subcategory: access_control
-  description: "KYC-gated operations require sufficient KYC level"
-  priority: P0
-
-preconditions:
-  - account:
-      address: "tos1alice..."
-      kyc_level: 1
-  - operation_requires_kyc_level: 2
-
-action:
-  type: transaction
-  tx_type: "KycGatedOperation"
-  from: "tos1alice..."
-
-expected:
-  status: error
-  error: "InsufficientKycLevel"
-  error_message: "Insufficient KYC level"
-  required: 2
-  actual: 1
-
----
-spec:
-  name: security_access_kyc_expired
-  version: "1.0"
-  category: security
-  subcategory: access_control
-  description: "Expired KYC is rejected"
-  priority: P0
-
-preconditions:
-  - account:
-      address: "tos1alice..."
-      kyc_level: 3
-      kyc_expiry: "2020-01-01"  # Expired
-
-action:
-  type: transaction
-  tx_type: "KycGatedOperation"
-  from: "tos1alice..."
-
-expected:
-  status: error
-  error: "KycExpired"
-  error_message: "KYC has expired"
-
----
-spec:
-  name: security_access_committee_approval
-  version: "1.0"
-  category: security
-  subcategory: access_control
-  description: "Committee-gated operations require threshold approvals"
-  priority: P1
-
-preconditions:
-  - committee:
-      id: "committee_1"
-      threshold: 2
-      members: ["member_a", "member_b", "member_c"]
-  - pending_operation:
-      approvals: 1  # Only 1 approval
-
-action:
-  type: execute_committee_operation
-  committee: "committee_1"
-  operation_id: 1
-
-expected:
-  status: error
-  error: "InsufficientApprovals"
-  error_message: "Insufficient approvals"
-  required: 2
-  actual: 1
 
 ---
 spec:

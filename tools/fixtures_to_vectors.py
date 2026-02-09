@@ -127,11 +127,7 @@ def _encode_tx_if_possible(tx: dict[str, Any]) -> str | None:
         from fixtures_io import tx_from_json
 
         tx_obj = tx_from_json(tx)
-        # KYC types need current_time; use payload timestamp if available
-        ct = None
-        if isinstance(tx_obj.payload, dict):
-            ct = tx_obj.payload.get("transferred_at") or tx_obj.payload.get("timestamp")
-        return encode_transaction(tx_obj, current_time=ct).hex()
+        return encode_transaction(tx_obj).hex()
     except Exception:
         return None
 
@@ -165,9 +161,39 @@ def main() -> None:
             continue
         rel = path.relative_to(fixtures)
         # `fixtures/wire_format.json` is a spec-owned codec corpus (golden hex) emitted by
-        # pytest. It is not in the conformance `test_vectors` schema and is not currently
-        # consumable by the daemon conformance runner. Keep it in fixtures/ only.
+        # pytest. Publish these as L0 "roundtrip" vectors: strict decode must succeed, and
+        # re-encoding the decoded transaction must produce identical bytes.
         if rel == Path("wire_format.json"):
+            data = json.loads(path.read_text())
+            vectors_out: list[dict[str, Any]] = []
+            for item in data.get("vectors", []) or []:
+                if not isinstance(item, dict):
+                    continue
+                name = item.get("name") or ""
+                tx = item.get("tx") if isinstance(item.get("tx"), dict) else {}
+                tx_type = tx.get("tx_type") or ""
+                expected_hex = item.get("expected_hex") or item.get("wire_hex") or ""
+                if not expected_hex:
+                    continue
+                vectors_out.append(
+                    {
+                        "name": name,
+                        "description": f"Wire roundtrip matches original (tx_type={tx_type})",
+                        "pre_state": None,
+                        "input": {"kind": "tx_roundtrip", "wire_hex": expected_hex},
+                        "expected": {
+                            "success": True,
+                            "error_code": 0x0000,
+                            "state_digest": "",
+                            "post_state": None,
+                        },
+                    }
+                )
+            dest = vectors / "execution/transactions/wire_format_roundtrip.json"
+            dest.parent.mkdir(parents=True, exist_ok=True)
+            dest.write_text(json.dumps({"test_vectors": vectors_out}, indent=2))
+            written.add(dest.resolve())
+            count += 1
             continue
         if rel.parts and rel.parts[0] in EXCLUDE_TOP_LEVEL_FIXTURES:
             # Spec-only fixtures: do not emit vectors for these categories.

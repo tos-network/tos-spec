@@ -65,7 +65,7 @@ expected:
 note: |
   2-of-2 is useful for:
   - Joint accounts
-  - Escrow without arbiter
+  - Two-person approval for high-value operations
   - High security wallets
 
 ---

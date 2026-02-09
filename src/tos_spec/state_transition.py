@@ -10,14 +10,10 @@ from .config import MAX_NONCE_GAP
 from .errors import ErrorCode, SpecError
 from .types import ChainState, FeeType, Transaction, TransactionType
 from .tx import account as tx_account
-from .tx import arbitration as tx_arbitration
 from .tx import contracts as tx_contracts
 from .tx import core as tx_core
 from .tx import energy as tx_energy
-from .tx import escrow as tx_escrow
-from .tx import kyc as tx_kyc
 from .tx import privacy as tx_privacy
-from .tx import referral as tx_referral
 from .tx import tns as tx_tns
 
 _PRIVACY_TYPES = frozenset({
@@ -31,58 +27,14 @@ _ACCOUNT_TYPES = frozenset({
     TransactionType.AGENT_ACCOUNT,
 })
 
-_ARBITRATION_TYPES = frozenset({
-    TransactionType.REGISTER_ARBITER,
-    TransactionType.UPDATE_ARBITER,
-    TransactionType.SLASH_ARBITER,
-    TransactionType.REQUEST_ARBITER_EXIT,
-    TransactionType.WITHDRAW_ARBITER_STAKE,
-    TransactionType.CANCEL_ARBITER_EXIT,
-    TransactionType.COMMIT_ARBITRATION_OPEN,
-    TransactionType.COMMIT_VOTE_REQUEST,
-    TransactionType.COMMIT_SELECTION_COMMITMENT,
-    TransactionType.COMMIT_JUROR_VOTE,
-})
-
-_ESCROW_TYPES = frozenset({
-    TransactionType.CREATE_ESCROW,
-    TransactionType.DEPOSIT_ESCROW,
-    TransactionType.RELEASE_ESCROW,
-    TransactionType.REFUND_ESCROW,
-    TransactionType.CHALLENGE_ESCROW,
-    TransactionType.DISPUTE_ESCROW,
-    TransactionType.APPEAL_ESCROW,
-    TransactionType.SUBMIT_VERDICT,
-    TransactionType.SUBMIT_VERDICT_BY_JUROR,
-})
-
-_REFERRAL_TYPES = frozenset({
-    TransactionType.BIND_REFERRER,
-    TransactionType.BATCH_REFERRAL_REWARD,
-})
-
 _TNS_TYPES = frozenset({
     TransactionType.REGISTER_NAME,
-    TransactionType.EPHEMERAL_MESSAGE,
 })
 
 _CONTRACT_TYPES = frozenset({
     TransactionType.DEPLOY_CONTRACT,
     TransactionType.INVOKE_CONTRACT,
 })
-
-_KYC_TYPES = frozenset({
-    TransactionType.SET_KYC,
-    TransactionType.REVOKE_KYC,
-    TransactionType.RENEW_KYC,
-    TransactionType.TRANSFER_KYC,
-    TransactionType.APPEAL_KYC,
-    TransactionType.BOOTSTRAP_COMMITTEE,
-    TransactionType.REGISTER_COMMITTEE,
-    TransactionType.UPDATE_COMMITTEE,
-    TransactionType.EMERGENCY_SUSPEND,
-})
-
 
 class TransitionResult:
     """Thin wrapper for verify/apply results."""
@@ -110,18 +62,10 @@ def _dispatch_verify(state: ChainState, tx: Transaction) -> None:
         return tx_privacy.verify(state, tx)
     if tt in _ACCOUNT_TYPES:
         return tx_account.verify(state, tx)
-    if tt in _ARBITRATION_TYPES:
-        return tx_arbitration.verify(state, tx)
     if tt in _CONTRACT_TYPES:
         return tx_contracts.verify(state, tx)
-    if tt in _ESCROW_TYPES:
-        return tx_escrow.verify(state, tx)
-    if tt in _REFERRAL_TYPES:
-        return tx_referral.verify(state, tx)
     if tt in _TNS_TYPES:
         return tx_tns.verify(state, tx)
-    if tt in _KYC_TYPES:
-        return tx_kyc.verify(state, tx)
 
     raise SpecError(ErrorCode.NOT_IMPLEMENTED, f"verify not implemented for {tx.tx_type}")
 
@@ -136,18 +80,10 @@ def _dispatch_apply(state: ChainState, tx: Transaction) -> ChainState:
         return tx_privacy.apply(state, tx)
     if tt in _ACCOUNT_TYPES:
         return tx_account.apply(state, tx)
-    if tt in _ARBITRATION_TYPES:
-        return tx_arbitration.apply(state, tx)
     if tt in _CONTRACT_TYPES:
         return tx_contracts.apply(state, tx)
-    if tt in _ESCROW_TYPES:
-        return tx_escrow.apply(state, tx)
-    if tt in _REFERRAL_TYPES:
-        return tx_referral.apply(state, tx)
     if tt in _TNS_TYPES:
         return tx_tns.apply(state, tx)
-    if tt in _KYC_TYPES:
-        return tx_kyc.apply(state, tx)
 
     raise SpecError(ErrorCode.NOT_IMPLEMENTED, f"apply not implemented for {tx.tx_type}")
 
@@ -170,12 +106,8 @@ def _verify_common(state: ChainState, tx: Transaction) -> None:
     if tx.fee_type == FeeType.TOS and tx.tx_type != TransactionType.ENERGY and tx.fee == 0:
         raise SpecError(ErrorCode.INSUFFICIENT_FEE, "fee too low")
 
-    _ENERGY_FEE_ALLOWED = {
-        TransactionType.TRANSFERS,
-        TransactionType.UNO_TRANSFERS,
-        TransactionType.SHIELD_TRANSFERS,
-        TransactionType.UNSHIELD_TRANSFERS,
-    }
+    # Matches `~/tos`: Energy fee type is only valid for Transfers.
+    _ENERGY_FEE_ALLOWED = {TransactionType.TRANSFERS}
     if tx.fee_type == FeeType.ENERGY and tx.tx_type not in _ENERGY_FEE_ALLOWED:
         raise SpecError(ErrorCode.INVALID_FORMAT, "energy fee only for transfer-type transactions")
 

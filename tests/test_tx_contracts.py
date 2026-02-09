@@ -119,6 +119,18 @@ def test_deploy_contract_success(state_test_group) -> None:
     )
 
 
+def test_deploy_contract_fee_zero(state_test_group) -> None:
+    """deploy_contract with fee=0 should fail min-fee validation."""
+    state = _base_state()
+    tx = _mk_deploy_contract(ALICE, nonce=5, module=_HELLO_ELF, fee=0)
+    state_test_group(
+        "transactions/contracts/deploy_contract.json",
+        "deploy_contract_fee_zero",
+        state,
+        tx,
+    )
+
+
 def test_deploy_contract_invalid_module(state_test_group) -> None:
     state = _base_state()
     sender = ALICE
@@ -144,6 +156,20 @@ def test_invoke_contract_success(state_test_group) -> None:
     state_test_group(
         "transactions/contracts/invoke_contract.json",
         "invoke_contract_success",
+        state,
+        tx,
+    )
+
+
+def test_invoke_contract_fee_zero(state_test_group) -> None:
+    """invoke_contract with fee=0 should fail min-fee validation."""
+    state, contract_hash = _base_state_with_contract()
+    tx = _mk_invoke_contract(
+        ALICE, nonce=5, contract=contract_hash, entry_id=0, max_gas=100_000, fee=0
+    )
+    state_test_group(
+        "transactions/contracts/invoke_contract.json",
+        "invoke_contract_fee_zero",
         state,
         tx,
     )

@@ -46,6 +46,13 @@ def test_burn_success(state_test_group) -> None:
     state_test_group("transactions/core/burn.json", "burn_success", state, tx)
 
 
+def test_burn_fee_zero(state_test_group) -> None:
+    """burn with fee=0 should fail min-fee validation."""
+    state = _base_state()
+    tx = _mk_burn(ALICE, nonce=5, amount=100_000, fee=0)
+    state_test_group("transactions/core/burn.json", "burn_fee_zero", state, tx)
+
+
 def test_burn_nonce_too_low(state_test_group) -> None:
     """Strict nonce: tx.nonce < sender.nonce."""
     state = _base_state()

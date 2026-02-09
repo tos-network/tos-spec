@@ -88,8 +88,7 @@ hashing, and cryptographic primitives produce correct outputs.
 The current primary focus. Each test provides a pre-state (account balances, energy
 resources, domain data), a single transaction, and the expected post-state or error code.
 
-- Published execution vectors currently cover 42 distinct tx types across 11 handler modules
-  (more are defined in the spec but are not yet published to `vectors/`).
+- Published execution vectors currently cover the core transaction set (11 distinct `tx_type` values).
 - Covers success paths, error paths, and edge cases
 - Verifies balance changes, nonce advancement, state digest
 
@@ -210,15 +209,14 @@ layer in the testing pyramid.
 
 ## Current Coverage
 
-As of **2026-02-08**:
+As of **2026-02-09**:
 
-- Published conformance suite: `vectors/` contains **710 runnable** execution vectors in the `test_vectors` schema.
-- Runner status: `python3 ~/labu/tools/local_execution_runner.py --vectors ~/tos-spec/vectors` reports `all ok` against the `tos` conformance server.
-- Composition: **657** L1 state-transition vectors (`input.tx` present) + **15** L0 negative wire-decoding vectors (malformed `wire_hex` rejected by decode) + **25** L2 block vectors (`input.kind="block"`) + **13** L2 chain-import vectors (`input.kind="chain"`).
-- Covered transaction types: **42** distinct `tx_type` values in published vectors.
-- Note: `uno_transfers` vectors are currently **tx-json-only** (`input.wire_hex=""`) until wire/proof generation and encrypted pre-state are represented in the exported conformance surface.
+- Published conformance suite: `vectors/` contains **289** published vectors in the `test_vectors` schema.
+- Composition: **226** L1 state-transition vectors (`input.tx` present) + **25** L0 wire-format vectors (10 `tx_roundtrip` + 15 malformed decode negatives) + **25** L2 block vectors (`input.kind="block"`) + **13** L2 chain-import vectors (`input.kind="chain"`).
+- Covered transaction types: **11** distinct `tx_type` values in published vectors.
+- Note: `uno_transfers` vectors are currently **tx-json-only** (`input.wire_hex=""`) in the published suite.
 - Spec-only: fixtures under `fixtures/{security,models,syscalls,api,consensus}/` are not published to `vectors/` yet.
-- Codec corpus: `fixtures/wire_format.json` contains golden wire hex vectors (45 entries) but is not published to `vectors/` yet. The corpus is mirrored into `~/tos/common/tests/wire_format.json` (with `wire_format_negative.json`) and validated by Rust internal tests: `cargo test -p tos_common --test spec_wire_format_vectors`.
+- Wire-format corpus: `fixtures/wire_format.json` contains a small positive encode corpus; tx wire roundtrip vectors are published under `vectors/execution/transactions/wire_format_roundtrip.json`, and negative decode vectors under `vectors/execution/transactions/wire_format_negative.json`.
 
 ### Published Vector Groups
 
@@ -226,27 +224,23 @@ Counts below are for the published conformance suite under `vectors/execution/tr
 
 | Group | Vectors |
 |------:|--------:|
-| escrow | 137 |
-| kyc | 125 |
-| arbitration | 103 |
-| (root) | 64 |
-| tns | 63 |
-| energy | 46 |
+| (root) | 74 |
 | account | 45 |
-| contracts | 24 |
+| energy | 43 |
 | privacy | 34 |
-| referral | 22 |
+| contracts | 25 |
 | block | 25 |
-| core | 7 |
+| tns | 20 |
 | blockchain | 13 |
+| core | 8 |
 | template | 2 |
 
 ### By Layer (Published)
 
 | Layer | Current Vectors | Target | Coverage |
 |-------|-----------------|--------|----------|
-| L0    | 15 (wire negative) | ~50 | Partial  |
-| L1    | 657 (tx state transition) | ~200 | Good |
+| L0    | 25 (wire decode) | ~50 | Partial  |
+| L1    | 226 (tx state transition) | ~200 | Good |
 | L2    | 38 (25 `block` + 13 `chain`) | ~50 | Partial |
 | L3    | 0 | ~80 | None |
 | L4    | 0 | ~30 | None |
@@ -256,10 +250,10 @@ Counts below are for the published conformance suite under `vectors/execution/tr
 
 ### Layer 0 — Pure Computation
 
-**Current (published)**: 15 negative wire-format vectors (malformed `wire_hex` rejected by decode).
+**Current (published)**: 25 wire-format vectors (10 tx wire roundtrip + 15 negative malformed `wire_hex` rejected by decode).
 
-**Current (fixtures only)**: `fixtures/wire_format.json` contains 45 golden wire-encoding vectors
-(`expected_hex`) but is not published to `vectors/` yet. It is currently consumed via Rust internal tests (see `~/tos/common/tests/`).
+**Current (fixtures only)**: `fixtures/wire_format.json` contains 10 golden wire-encoding vectors
+(`expected_hex`). A larger corpus is consumed via Rust internal tests (see `~/tos/common/tests/wire_format.json`).
 
 **Gaps**:
 - CodecTest fixtures: raw encoding/decoding round-trip for all field types
@@ -272,8 +266,7 @@ Counts below are for the published conformance suite under `vectors/execution/tr
 
 ### Layer 1 — Single Transaction State Transition
 
-**Current (published)**: 657 L1 state-transition vectors (`input.tx` present) covering 42 distinct `tx_type` values.
-All published vectors pass in the Rust daemon conformance runner (overall 710/710 including L0 negatives and L2 block/chain vectors).
+**Current (published)**: 226 L1 state-transition vectors (`input.tx` present) covering 11 distinct `tx_type` values.
 
 **Gaps**:
 - Multiple tests per transaction type (currently ~1 per type on average)
@@ -309,8 +302,8 @@ All published vectors pass in the Rust daemon conformance runner (overall 710/71
 - Executable RPC conformance tests (currently spec-only, not runnable)
 - Golden request/response transcripts per RPC method
 - Error response format conformance
-- Query methods (get_balance, get_transaction, get_block)
-- Domain query methods (get_escrow, get_energy, get_name)
+- Query methods (balance, transaction, block)
+- Domain query methods (energy, names)
 - EngineTest fixtures for block production API (submit block, get template)
 - Block production API error codes (invalid block, duplicate submission)
 
@@ -345,14 +338,9 @@ functional area of TOS.
 ### Transactions
 - **Core**: transfers (single, batch), burn, multisig
 - **Energy**: freeze, unfreeze, delegate, undelegate, withdraw
-- **Escrow**: create, deposit, release, refund, challenge, dispute, appeal, verdict
-- **Arbitration**: register/update/slash arbiter, commit open/vote/selection/juror, exit
-- **KYC**: set, revoke, renew, transfer, appeal
-- **Governance**: bootstrap committee, register/update committee, emergency suspend
 - **Contracts**: deploy, invoke (with gas metering)
 - **Privacy**: UNO transfers, shield, unshield
-- **Identity**: register name, agent account, ephemeral message
-- **Referral**: bind referrer, batch reward
+- **Identity**: register name, agent account
 
 ### Consensus
 - Block structure and header validation
@@ -372,7 +360,7 @@ functional area of TOS.
 ### Security
 - Integer overflow and underflow protection
 - Denial-of-service resistance (resource limits, gas metering)
-- Access control enforcement (signer authorization, committee membership)
+- Access control enforcement (signer authorization)
 - Reentrancy protection in contract execution
 
 ### System Models

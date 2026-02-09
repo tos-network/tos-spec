@@ -187,7 +187,7 @@ def test_transfer_energy_fee_consumes_one(state_test_group) -> None:
 
 
 def test_shield_energy_fee_zero(state_test_group) -> None:
-    """SHIELD_TRANSFERS with FeeType.ENERGY and fee=0 should succeed."""
+    """SHIELD_TRANSFERS with FeeType.ENERGY must fail (Energy fee type is Transfers-only)."""
     state = _base_state()
     state.accounts[ALICE].balance = 1000 * COIN_VALUE
     state.accounts[ALICE].frozen = 100 * COIN_VALUE
@@ -232,7 +232,7 @@ def test_shield_energy_fee_zero(state_test_group) -> None:
 
 
 def test_unshield_energy_fee_zero(state_test_group) -> None:
-    """UNSHIELD_TRANSFERS with FeeType.ENERGY and fee=0 should succeed."""
+    """UNSHIELD_TRANSFERS with FeeType.ENERGY must fail (Energy fee type is Transfers-only)."""
     state = _base_state()
     state.accounts[ALICE].balance = 1000 * COIN_VALUE
     state.accounts[ALICE].frozen = 100 * COIN_VALUE
@@ -273,7 +273,7 @@ def test_unshield_energy_fee_zero(state_test_group) -> None:
 
 
 def test_uno_energy_fee_zero(state_test_group) -> None:
-    """UNO_TRANSFERS with FeeType.ENERGY and fee=0 should succeed."""
+    """UNO_TRANSFERS with FeeType.ENERGY must fail (Energy fee type is Transfers-only)."""
     state = _base_state()
     state.accounts[ALICE].frozen = 100 * COIN_VALUE
     state.accounts[ALICE].energy = 10
@@ -411,124 +411,6 @@ def test_freeze_uno_fee(state_test_group) -> None:
     state_test_group(
         "transactions/fee_variants.json",
         "freeze_uno_fee",
-        state,
-        tx,
-    )
-
-
-def test_escrow_energy_fee(state_test_group) -> None:
-    """CREATE_ESCROW with FeeType.ENERGY — should FAIL: INVALID_PAYLOAD."""
-    state = _base_state()
-    tx = Transaction(
-        version=TxVersion.T1,
-        chain_id=CHAIN_ID_DEVNET,
-        source=ALICE,
-        tx_type=TransactionType.CREATE_ESCROW,
-        payload={
-            "task_id": "test-task",
-            "payee": BOB,
-            "amount": COIN_VALUE,
-            "asset": _hash(0),
-            "timeout_blocks": 100,
-        },
-        fee=0,
-        fee_type=FeeType.ENERGY,
-        nonce=5,
-        reference_hash=_hash(0),
-        reference_topoheight=0,
-        signature=bytes(64),
-    )
-    state_test_group(
-        "transactions/fee_variants.json",
-        "escrow_energy_fee",
-        state,
-        tx,
-    )
-
-
-def test_escrow_uno_fee(state_test_group) -> None:
-    """CREATE_ESCROW with FeeType.UNO — should FAIL: INVALID_PAYLOAD."""
-    state = _base_state()
-    tx = Transaction(
-        version=TxVersion.T1,
-        chain_id=CHAIN_ID_DEVNET,
-        source=ALICE,
-        tx_type=TransactionType.CREATE_ESCROW,
-        payload={
-            "task_id": "test-task",
-            "payee": BOB,
-            "amount": COIN_VALUE,
-            "asset": _hash(0),
-            "timeout_blocks": 100,
-        },
-        fee=0,
-        fee_type=FeeType.UNO,
-        nonce=5,
-        reference_hash=_hash(0),
-        reference_topoheight=0,
-        signature=bytes(64),
-    )
-    state_test_group(
-        "transactions/fee_variants.json",
-        "escrow_uno_fee",
-        state,
-        tx,
-    )
-
-
-def test_arbitration_energy_fee(state_test_group) -> None:
-    """REGISTER_ARBITER with FeeType.ENERGY — should FAIL: INVALID_PAYLOAD."""
-    state = _base_state()
-    tx = Transaction(
-        version=TxVersion.T1,
-        chain_id=CHAIN_ID_DEVNET,
-        source=ALICE,
-        tx_type=TransactionType.REGISTER_ARBITER,
-        payload={
-            "name": "arbiter-test",
-            "expertise": [1],
-            "fee_basis_points": 500,
-            "min_escrow_value": COIN_VALUE,
-            "max_escrow_value": 100 * COIN_VALUE,
-        },
-        fee=0,
-        fee_type=FeeType.ENERGY,
-        nonce=5,
-        reference_hash=_hash(0),
-        reference_topoheight=0,
-        signature=bytes(64),
-    )
-    state_test_group(
-        "transactions/fee_variants.json",
-        "arbitration_energy_fee",
-        state,
-        tx,
-    )
-
-
-def test_kyc_energy_fee(state_test_group) -> None:
-    """SET_KYC with FeeType.ENERGY — should FAIL: INVALID_PAYLOAD."""
-    state = _base_state()
-    tx = Transaction(
-        version=TxVersion.T1,
-        chain_id=CHAIN_ID_DEVNET,
-        source=ALICE,
-        tx_type=TransactionType.SET_KYC,
-        payload={
-            "target": BOB,
-            "level": 7,
-            "data_hash": _hash(1),
-        },
-        fee=0,
-        fee_type=FeeType.ENERGY,
-        nonce=5,
-        reference_hash=_hash(0),
-        reference_topoheight=0,
-        signature=bytes(64),
-    )
-    state_test_group(
-        "transactions/fee_variants.json",
-        "kyc_energy_fee",
         state,
         tx,
     )
