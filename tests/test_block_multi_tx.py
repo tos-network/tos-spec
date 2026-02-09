@@ -479,3 +479,104 @@ def test_block_reject_atomic_on_second_tx_sender_not_found_rolls_back_first(bloc
         state,
         [tx1, tx2],
     )
+
+
+def test_block_additional_coverage(block_test_group) -> None:
+    """Extra L2 vectors to reach target coverage for block processing."""
+    path = "transactions/block/multi_tx.json"
+
+    # 1) 3 sequential tx success
+    state = _base_state()
+    txs = [
+        _mk_transfer(ALICE, BOB, nonce=5, amount=1),
+        _mk_transfer(ALICE, BOB, nonce=6, amount=1),
+        _mk_transfer(ALICE, BOB, nonce=7, amount=1),
+    ]
+    block_test_group(path, "block_three_txs_success", state, txs)
+
+    # 2) Reject on 3rd tx nonce too low (repeat)
+    state = _base_state()
+    txs = [
+        _mk_transfer(ALICE, BOB, nonce=5, amount=1),
+        _mk_transfer(ALICE, BOB, nonce=6, amount=1),
+        _mk_transfer(ALICE, BOB, nonce=6, amount=1),
+    ]
+    block_test_group(path, "block_reject_atomic_on_third_tx_nonce_too_low", state, txs)
+
+    # 3) Reject on 3rd tx nonce too high (strict gap)
+    state = _base_state()
+    txs = [
+        _mk_transfer(ALICE, BOB, nonce=5, amount=1),
+        _mk_transfer(ALICE, BOB, nonce=6, amount=1),
+        _mk_transfer(ALICE, BOB, nonce=6 + MAX_TRANSFER_COUNT, amount=1),
+    ]
+    block_test_group(path, "block_reject_atomic_on_third_tx_nonce_too_high", state, txs)
+
+    # 4) Reject on 3rd tx insufficient balance
+    state = _base_state()
+    state.accounts[ALICE].balance = (FEE_MIN + 1) * 2 + FEE_MIN  # can pay 2 txs, fails on 3rd
+    txs = [
+        _mk_transfer(ALICE, BOB, nonce=5, amount=1),
+        _mk_transfer(ALICE, BOB, nonce=6, amount=1),
+        _mk_transfer(ALICE, BOB, nonce=7, amount=1),
+    ]
+    block_test_group(path, "block_reject_atomic_on_third_tx_insufficient_balance", state, txs)
+
+    # 5) Multi-sender success (independent senders)
+    state = _base_state()
+    state.accounts[BOB].balance = 500_000
+    tx1 = _mk_transfer(ALICE, CAROL, nonce=5, amount=10_000)
+    tx2 = _mk_transfer(BOB, CAROL, nonce=0, amount=20_000)
+    block_test_group(path, "block_receive_then_spend_success", state, [tx1, tx2])
+
+    # 6) Second sender insufficient balance (independent of tx1)
+    state = _base_state()
+    state.accounts[BOB].balance = 120_000
+    tx1 = _mk_transfer(ALICE, CAROL, nonce=5, amount=10_000)
+    tx2 = _mk_transfer(BOB, CAROL, nonce=0, amount=50_000)
+    block_test_group(path, "block_receive_then_spend_insufficient_balance", state, [tx1, tx2])
+
+    # 7) Second sender nonce too high
+    state = _base_state()
+    state.accounts[BOB].balance = 500_000
+    tx1 = _mk_transfer(ALICE, CAROL, nonce=5, amount=10_000)
+    tx2 = _mk_transfer(BOB, CAROL, nonce=100, amount=50_000)
+    block_test_group(path, "block_receive_then_spend_nonce_too_high", state, [tx1, tx2])
+
+    # 8) Three independent senders in one block
+    state = _base_state()
+    state.accounts[BOB].balance = 500_000
+    state.accounts[CAROL].balance = 500_000
+    tx1 = _mk_transfer(ALICE, BOB, nonce=5, amount=10_000)
+    tx2 = _mk_transfer(CAROL, ALICE, nonce=0, amount=10_000)
+    tx3 = _mk_transfer(BOB, CAROL, nonce=0, amount=10_000)
+    block_test_group(path, "block_three_senders_chained_success", state, [tx1, tx2, tx3])
+
+    # 9) Chain id mismatch inside a block
+    state = _base_state()
+    tx1 = _mk_transfer(ALICE, BOB, nonce=5, amount=1)
+    tx2 = _mk_transfer(ALICE, BOB, nonce=6, amount=1)
+    tx2.chain_id = 1  # not devnet
+    block_test_group(path, "block_reject_atomic_on_second_tx_chain_id_mismatch", state, [tx1, tx2])
+
+    # 10) Burn fee=0 should fail (minimum fee surface)
+    state = _base_state()
+    tx1 = _mk_transfer(ALICE, BOB, nonce=5, amount=10_000)
+    tx2 = _mk_burn(ALICE, nonce=6, amount=1, fee=0)
+    block_test_group(path, "block_reject_atomic_on_second_tx_burn_fee_zero", state, [tx1, tx2])
+
+    # 11) Invalid transfer extra_data on the first tx
+    state = _base_state()
+    tx1 = _mk_transfer(ALICE, BOB, nonce=5, amount=1)
+    tx1.payload[0].extra_data = b"\x00" * (EXTRA_DATA_LIMIT_SIZE + 1)
+    tx2 = _mk_transfer(ALICE, BOB, nonce=6, amount=1)
+    block_test_group(path, "block_reject_atomic_on_first_tx_invalid_transfer_extra_data", state, [tx1, tx2])
+
+    # 12) Self-transfer on third tx should reject atomically
+    state = _base_state()
+    txs = [
+        _mk_transfer(ALICE, BOB, nonce=5, amount=1),
+        _mk_transfer(ALICE, BOB, nonce=6, amount=1),
+        _mk_transfer(ALICE, ALICE, nonce=7, amount=1),
+    ]
+    block_test_group(path, "block_reject_atomic_on_third_tx_self_transfer", state, txs)

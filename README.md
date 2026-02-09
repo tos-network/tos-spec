@@ -13,8 +13,8 @@ machine-readable, testable, and capable of producing deterministic fixtures.
 
 ## Current Test Status (2026-02-09)
 
-- Published conformance suite: `vectors/` contains **377** runnable vectors in the `test_vectors` schema (execution + RPC suites).
-- Composition (execution): **241** tx execution vectors (`input.kind="tx"`) + **14** tx wire roundtrip vectors (`input.kind="tx_roundtrip"`) + **25** block vectors (`input.kind="block"`) + **13** chain-import vectors (`input.kind="chain"`).
+- Published conformance suite: `vectors/` contains **410** runnable vectors in the `test_vectors` schema (execution + RPC suites).
+- Composition (execution): **262** tx execution vectors (`input.kind="tx"`) + **14** tx wire roundtrip vectors (`input.kind="tx_roundtrip"`) + **37** block vectors (`input.kind="block"`) + **13** chain-import vectors (`input.kind="chain"`).
 - Composition (RPC): **84** JSON-RPC vectors (`input.rpc` present) consumed by the `tos/rpc` simulator (targets `/json_rpc`).
 - Runner status: `python3 ~/labu/tools/local_execution_runner.py --vectors ~/tos-spec/vectors` reports `all ok` against the `tos` conformance server.
 - Skips: the published suite does not currently use the `runnable` field.

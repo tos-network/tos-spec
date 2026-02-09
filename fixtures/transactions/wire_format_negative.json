@@ -224,6 +224,321 @@
         "state_digest": "",
         "post_state": null
       }
+    },
+    {
+      "name": "wire_invalid_hex_non_hex",
+      "description": "Non-hex characters",
+      "pre_state": null,
+      "input": {
+        "kind": "tx",
+        "wire_hex": "zz"
+      },
+      "expected": {
+        "success": false,
+        "error_code": 256,
+        "state_digest": "",
+        "post_state": null
+      }
+    },
+    {
+      "name": "wire_invalid_hex_odd_length",
+      "description": "Odd-length hex string",
+      "pre_state": null,
+      "input": {
+        "kind": "tx",
+        "wire_hex": "0"
+      },
+      "expected": {
+        "success": false,
+        "error_code": 256,
+        "state_digest": "",
+        "post_state": null
+      }
+    },
+    {
+      "name": "wire_invalid_hex_prefix_0x",
+      "description": "0x-prefixed hex is rejected",
+      "pre_state": null,
+      "input": {
+        "kind": "tx",
+        "wire_hex": "0x01"
+      },
+      "expected": {
+        "success": false,
+        "error_code": 256,
+        "state_digest": "",
+        "post_state": null
+      }
+    },
+    {
+      "name": "wire_invalid_hex_prefix_0X",
+      "description": "0X-prefixed hex is rejected",
+      "pre_state": null,
+      "input": {
+        "kind": "tx",
+        "wire_hex": "0X01"
+      },
+      "expected": {
+        "success": false,
+        "error_code": 256,
+        "state_digest": "",
+        "post_state": null
+      }
+    },
+    {
+      "name": "wire_invalid_hex_whitespace",
+      "description": "Whitespace in hex is rejected",
+      "pre_state": null,
+      "input": {
+        "kind": "tx",
+        "wire_hex": "01 02"
+      },
+      "expected": {
+        "success": false,
+        "error_code": 256,
+        "state_digest": "",
+        "post_state": null
+      }
+    },
+    {
+      "name": "wire_burn_truncate_2",
+      "description": "Burn tx truncated to 2 bytes is invalid",
+      "pre_state": null,
+      "input": {
+        "kind": "tx",
+        "wire_hex": "0103"
+      },
+      "expected": {
+        "success": false,
+        "error_code": 256,
+        "state_digest": "",
+        "post_state": null
+      }
+    },
+    {
+      "name": "wire_burn_truncate_3",
+      "description": "Burn tx truncated to 3 bytes is invalid",
+      "pre_state": null,
+      "input": {
+        "kind": "tx",
+        "wire_hex": "0103f0"
+      },
+      "expected": {
+        "success": false,
+        "error_code": 256,
+        "state_digest": "",
+        "post_state": null
+      }
+    },
+    {
+      "name": "wire_burn_truncate_5",
+      "description": "Burn tx truncated to 5 bytes is invalid",
+      "pre_state": null,
+      "input": {
+        "kind": "tx",
+        "wire_hex": "0103f05bc1"
+      },
+      "expected": {
+        "success": false,
+        "error_code": 256,
+        "state_digest": "",
+        "post_state": null
+      }
+    },
+    {
+      "name": "wire_burn_truncate_33",
+      "description": "Burn tx truncated to 33 bytes is invalid",
+      "pre_state": null,
+      "input": {
+        "kind": "tx",
+        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b2"
+      },
+      "expected": {
+        "success": false,
+        "error_code": 256,
+        "state_digest": "",
+        "post_state": null
+      }
+    },
+    {
+      "name": "wire_burn_truncate_34",
+      "description": "Burn tx truncated to 34 bytes is invalid",
+      "pre_state": null,
+      "input": {
+        "kind": "tx",
+        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249"
+      },
+      "expected": {
+        "success": false,
+        "error_code": 256,
+        "state_digest": "",
+        "post_state": null
+      }
+    },
+    {
+      "name": "wire_burn_truncate_35",
+      "description": "Burn tx truncated to 35 bytes is invalid",
+      "pre_state": null,
+      "input": {
+        "kind": "tx",
+        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b24900"
+      },
+      "expected": {
+        "success": false,
+        "error_code": 256,
+        "state_digest": "",
+        "post_state": null
+      }
+    },
+    {
+      "name": "wire_burn_truncate_36",
+      "description": "Burn tx truncated to 36 bytes is invalid",
+      "pre_state": null,
+      "input": {
+        "kind": "tx",
+        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b2490000"
+      },
+      "expected": {
+        "success": false,
+        "error_code": 256,
+        "state_digest": "",
+        "post_state": null
+      }
+    },
+    {
+      "name": "wire_burn_truncate_39",
+      "description": "Burn tx truncated to 39 bytes is invalid",
+      "pre_state": null,
+      "input": {
+        "kind": "tx",
+        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b2490000000000"
+      },
+      "expected": {
+        "success": false,
+        "error_code": 256,
+        "state_digest": "",
+        "post_state": null
+      }
+    },
+    {
+      "name": "wire_burn_truncate_74",
+      "description": "Burn tx truncated to 74 bytes is invalid",
+      "pre_state": null,
+      "input": {
+        "kind": "tx",
+        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b24900000000000000000000000000000000000000000000000000000000000000000000000000000003"
+      },
+      "expected": {
+        "success": false,
+        "error_code": 256,
+        "state_digest": "",
+        "post_state": null
+      }
+    },
+    {
+      "name": "wire_burn_truncate_75",
+      "description": "Burn tx truncated to 75 bytes is invalid",
+      "pre_state": null,
+      "input": {
+        "kind": "tx",
+        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b24900000000000000000000000000000000000000000000000000000000000000000000000000000003e8"
+      },
+      "expected": {
+        "success": false,
+        "error_code": 256,
+        "state_digest": "",
+        "post_state": null
+      }
+    },
+    {
+      "name": "wire_burn_truncate_196",
+      "description": "Burn tx truncated to 196 bytes is invalid",
+      "pre_state": null,
+      "input": {
+        "kind": "tx",
+        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b24900000000000000000000000000000000000000000000000000000000000000000000000000000003e800000000000186a00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000e16f5b69f7d8703121c58fc0fa509a580937c6277ef3b15372915474bcdd5b0c05e6499f96b8cda4cbe6d1bbf976b0e8d09a98a0399ca6ac1de61e9e092e24"
+      },
+      "expected": {
+        "success": false,
+        "error_code": 256,
+        "state_digest": "",
+        "post_state": null
+      }
+    },
+    {
+      "name": "wire_burn_truncate_187",
+      "description": "Burn tx truncated to 187 bytes is invalid",
+      "pre_state": null,
+      "input": {
+        "kind": "tx",
+        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b24900000000000000000000000000000000000000000000000000000000000000000000000000000003e800000000000186a00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000e16f5b69f7d8703121c58fc0fa509a580937c6277ef3b15372915474bcdd5b0c05e6499f96b8cda4cbe6d1bbf976b0e8d09a98a0399c"
+      },
+      "expected": {
+        "success": false,
+        "error_code": 256,
+        "state_digest": "",
+        "post_state": null
+      }
+    },
+    {
+      "name": "wire_extra_trailing_byte",
+      "description": "Valid tx + 1 trailing byte is rejected",
+      "pre_state": null,
+      "input": {
+        "kind": "tx",
+        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b24900000000000000000000000000000000000000000000000000000000000000000000000000000003e800000000000186a00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000e16f5b69f7d8703121c58fc0fa509a580937c6277ef3b15372915474bcdd5b0c05e6499f96b8cda4cbe6d1bbf976b0e8d09a98a0399ca6ac1de61e9e092e240e00"
+      },
+      "expected": {
+        "success": false,
+        "error_code": 256,
+        "state_digest": "",
+        "post_state": null
+      }
+    },
+    {
+      "name": "wire_extra_trailing_32_bytes",
+      "description": "Valid tx + 32 trailing bytes is rejected",
+      "pre_state": null,
+      "input": {
+        "kind": "tx",
+        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b24900000000000000000000000000000000000000000000000000000000000000000000000000000003e800000000000186a00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000e16f5b69f7d8703121c58fc0fa509a580937c6277ef3b15372915474bcdd5b0c05e6499f96b8cda4cbe6d1bbf976b0e8d09a98a0399ca6ac1de61e9e092e240e0101010101010101010101010101010101010101010101010101010101010101"
+      },
+      "expected": {
+        "success": false,
+        "error_code": 256,
+        "state_digest": "",
+        "post_state": null
+      }
+    },
+    {
+      "name": "wire_transfer_count_max_u16",
+      "description": "Transfer count 65535 exceeds MAX_TRANSFER_COUNT and buffer length",
+      "pre_state": null,
+      "input": {
+        "kind": "tx",
+        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b24901ffff0000000000000000000000000000000000000000000000000000000000000000c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e3782400000000000003e80000000000000186a00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000f92e00f0fc5a29e67ec34b308bd573ebee29c19de1dd5ee366c28e066f9e720f0fa55f239f7cd4b4d531e06f9b2138385ee518bf02e70c5132925cdc38e5df09"
+      },
+      "expected": {
+        "success": false,
+        "error_code": 256,
+        "state_digest": "",
+        "post_state": null
+      }
+    },
+    {
+      "name": "wire_transfer_truncated_in_entry",
+      "description": "Transfer entry is truncated before destination is complete",
+      "pre_state": null,
+      "input": {
+        "kind": "tx",
+        "wire_hex": "0103f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b2490100010000000000000000000000000000000000000000000000000000000000000000c29d170ab8a5b42a3520"
+      },
+      "expected": {
+        "success": false,
+        "error_code": 256,
+        "state_digest": "",
+        "post_state": null
+      }
     }
   ]
 }

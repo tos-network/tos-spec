@@ -301,3 +301,95 @@ def test_wire_transfer_count_mismatch(vector_test_group) -> None:
         "Transfer count says 5 but data only contains 1 entry",
         wire,
     ))
+
+
+def test_wire_invalid_hex_variants(vector_test_group) -> None:
+    """Invalid hex strings should be rejected before decode."""
+    cases = [
+        ("wire_invalid_hex_non_hex", "Non-hex characters", "zz"),
+        ("wire_invalid_hex_odd_length", "Odd-length hex string", "0"),
+        ("wire_invalid_hex_prefix_0x", "0x-prefixed hex is rejected", "0x01"),
+        ("wire_invalid_hex_prefix_0X", "0X-prefixed hex is rejected", "0X01"),
+        ("wire_invalid_hex_whitespace", "Whitespace in hex is rejected", "01 02"),
+    ]
+    for name, desc, wire in cases:
+        vector_test_group(FIXTURE_PATH, _vec(name, desc, wire))
+
+
+def test_wire_burn_truncation_sweep(vector_test_group) -> None:
+    """A range of truncation lengths should fail strict deserialization."""
+    valid, total = _valid_burn_hex()
+    # Avoid byte_length=0 (would become empty wire_hex and be treated as missing input).
+    lengths = [
+        2,
+        3,
+        5,
+        33,  # inside source key
+        34,  # missing tx_type byte
+        35,  # has tx_type but missing payload
+        36,  # truncated payload
+        39,  # truncated payload
+        74,  # just before fee field for burn layout
+        75,  # cut exactly at fee start (missing fee bytes)
+        total - 1,
+        total - 10,
+    ]
+    for n in lengths:
+        vector_test_group(
+            FIXTURE_PATH,
+            _vec(
+                f"wire_burn_truncate_{n}",
+                f"Burn tx truncated to {n} bytes is invalid",
+                _truncate(valid, n),
+            ),
+        )
+
+
+def test_wire_additional_trailing_bytes(vector_test_group) -> None:
+    """Trailing bytes are rejected by strict decode (more than one variant)."""
+    valid, _ = _valid_burn_hex()
+    vector_test_group(
+        FIXTURE_PATH,
+        _vec(
+            "wire_extra_trailing_byte",
+            "Valid tx + 1 trailing byte is rejected",
+            _append(valid, b"\x00"),
+        ),
+    )
+    vector_test_group(
+        FIXTURE_PATH,
+        _vec(
+            "wire_extra_trailing_32_bytes",
+            "Valid tx + 32 trailing bytes is rejected",
+            _append(valid, b"\x01" * 32),
+        ),
+    )
+
+
+def test_wire_transfer_count_max_u16(vector_test_group) -> None:
+    """Transfer count=65535 should fail (attempts to read beyond buffer)."""
+    valid, _ = _valid_transfer_hex()
+    wire = _mutate(_mutate(valid, 35, 0xFF), 36, 0xFF)
+    vector_test_group(
+        FIXTURE_PATH,
+        _vec(
+            "wire_transfer_count_max_u16",
+            "Transfer count 65535 exceeds MAX_TRANSFER_COUNT and buffer length",
+            wire,
+        ),
+    )
+
+
+def test_wire_transfer_truncated_in_entry(vector_test_group) -> None:
+    """Transfer payload truncated in the middle of an entry."""
+    valid, _ = _valid_transfer_hex()
+    # Header (35) + count (2) + asset (32) + partial destination (10)
+    wire = _truncate(valid, 35 + 2 + 32 + 10)
+    vector_test_group(
+        FIXTURE_PATH,
+        _vec(
+            "wire_transfer_truncated_in_entry",
+            "Transfer entry is truncated before destination is complete",
+            wire,
+        ),
+    )

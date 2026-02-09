@@ -6,9 +6,9 @@ coverage gaps and prioritization targets.
 
 ## Current Published Status (2026-02-09)
 
-- `vectors/` contains **377** runnable vectors in the `test_vectors` schema (execution + RPC suites).
+- `vectors/` contains **410** runnable vectors in the `test_vectors` schema (execution + RPC suites).
 - The published suite does not currently use the `runnable` field (all published vectors are treated as runnable by default).
-- Composition (execution): **241** tx execution vectors (`input.kind="tx"`) + **14** tx wire roundtrip vectors (`input.kind="tx_roundtrip"`) + **25** block vectors (`input.kind="block"`) + **13** chain-import vectors (`input.kind="chain"`).
+- Composition (execution): **262** tx execution vectors (`input.kind="tx"`) + **14** tx wire roundtrip vectors (`input.kind="tx_roundtrip"`) + **37** block vectors (`input.kind="block"`) + **13** chain-import vectors (`input.kind="chain"`).
 - Composition (RPC): **84** RPC vectors (`input.rpc` present) consumed by the `tos/rpc` simulator.
 - Covered transaction types: **11** distinct `tx_type` values in published vectors.
 - Spec-only fixtures under `fixtures/{security,models,syscalls,consensus}/` are intentionally not published to `vectors/` yet.
@@ -62,11 +62,11 @@ Legend:  +++  strong coverage
 | Account model      | n/a        | +          | -          | -          | n/a        | n/a        |
 
 **Reading this matrix:** The published conformance suite is currently L1-heavy:
-241/293 vectors are `tx` execution vectors. L0 wire-format coverage in published
+262/326 vectors are `tx` execution vectors. L0 wire-format coverage in published
 vectors includes 14 tx wire roundtrip vectors (`wire_format_roundtrip`)
-and 15 negative decode vectors (`wire_format_negative`). The
+and 36 negative decode vectors (`wire_format_negative`). The
 priority gaps are:
-- L2: basic executable block processing tests (38 vectors: 25 `block` + 13 `chain`)
+- L2: basic executable block processing tests (50 vectors: 37 `block` + 13 `chain`)
 - L3: published via the RPC suite (84 vectors under `vectors/rpc/`)
 - L4-L5: not published yet (P2P/interop vectors remain spec-only)
 Note: L0 wire-format roundtrip is currently published for a small corpus; full tx-type codec coverage is not yet published.
@@ -81,7 +81,7 @@ The table below lists the published `vectors/**` groups and vector counts.
 
 | Group | Path Prefix | Vectors | Notes |
 |------:|------------|--------:|-------|
-| block | `execution/transactions/block/` | 25 | L2 block processing (multi-tx, atomic rejection) |
+| block | `execution/transactions/block/` | 37 | L2 block processing (multi-tx, atomic rejection) |
 | blockchain | `execution/transactions/blockchain/` | 13 | L2 chain import (rewards + invalid tips) |
 | tns | `execution/transactions/tns/` | 20 | L1 state transitions |
 | energy | `execution/transactions/energy/` | 43 | L1 state transitions |
@@ -125,11 +125,11 @@ Param testing (not yet applicable).
 Per-type coverage is tracked from the published conformance suite under `vectors/`.
 As of 2026-02-09:
 
-- Total published vectors (execution suite): **293**
-- Tx execution vectors: **241** (`input.kind="tx"`)
+- Total published vectors (execution suite): **326**
+- Tx execution vectors: **262** (`input.kind="tx"`)
 - L0 tx wire roundtrip vectors: **14** (`wire_format_roundtrip`)
-- L0 negative wire-decoding vectors: **15** (`wire_format_negative`)
-- L2 block vectors: **25** (`input.kind="block"`)
+- L0 negative wire-decoding vectors: **36** (`wire_format_negative`)
+- L2 block vectors: **37** (`input.kind="block"`)
 - L2 chain-import vectors: **13** (`input.kind="chain"`)
 - Distinct `tx_type` values covered in published vectors: **11**
 

@@ -211,8 +211,8 @@ layer in the testing pyramid.
 
 As of **2026-02-09**:
 
-- Published conformance suite: `vectors/` contains **377** published vectors in the `test_vectors` schema (execution + RPC suites).
-- Composition: **226** L1 state-transition vectors (`input.tx` present) + **29** L0 wire-format vectors (14 `tx_roundtrip` + 15 malformed decode negatives) + **25** L2 block vectors (`input.kind="block"`) + **13** L2 chain-import vectors (`input.kind="chain"`) + **84** L3 RPC vectors (`input.rpc` present).
+- Published conformance suite: `vectors/` contains **410** published vectors in the `test_vectors` schema (execution + RPC suites).
+- Composition: **226** L1 state-transition vectors (`input.tx` present) + **50** L0 wire-format vectors (14 `tx_roundtrip` + 36 malformed decode negatives) + **37** L2 block vectors (`input.kind="block"`) + **13** L2 chain-import vectors (`input.kind="chain"`) + **84** L3 RPC vectors (`input.rpc` present).
 - Covered transaction types: **11** distinct `tx_type` values in published vectors.
 - Note: `uno_transfers` vectors are currently **tx-json-only** (`input.wire_hex=""`) in the published suite.
 - Spec-only: fixtures under `fixtures/{security,models,syscalls,consensus}/` are not published to `vectors/` yet.
@@ -229,7 +229,7 @@ Counts below are for the published conformance suite under `vectors/execution/tr
 | energy | 43 |
 | privacy | 34 |
 | contracts | 25 |
-| block | 25 |
+| block | 37 |
 | tns | 20 |
 | blockchain | 13 |
 | core | 8 |
@@ -239,9 +239,9 @@ Counts below are for the published conformance suite under `vectors/execution/tr
 
 | Layer | Current Vectors | Target | Coverage |
 |-------|-----------------|--------|----------|
-| L0    | 29 (wire decode) | ~50 | Partial  |
+| L0    | 50 (wire decode) | ~50 | Good  |
 | L1    | 226 (tx state transition) | ~200 | Good |
-| L2    | 38 (25 `block` + 13 `chain`) | ~50 | Partial |
+| L2    | 50 (37 `block` + 13 `chain`) | ~50 | Good |
 | L3    | 84 (RPC) | ~80 | Good |
 | L4    | 0 | ~30 | None |
 | L5    | 0 | ~10 | None |
@@ -250,7 +250,7 @@ Counts below are for the published conformance suite under `vectors/execution/tr
 
 ### Layer 0 — Pure Computation
 
-**Current (published)**: 29 wire-format vectors (14 tx wire roundtrip + 15 negative malformed `wire_hex` rejected by decode).
+**Current (published)**: 50 wire-format vectors (14 tx wire roundtrip + 36 negative malformed `wire_hex` rejected by decode).
 
 **Current (fixtures only)**: `fixtures/wire_format.json` contains 14 golden wire-encoding vectors
 (`expected_hex`). A larger corpus is consumed via Rust internal tests (see `~/tos/common/tests/wire_format.json`).
@@ -279,7 +279,7 @@ Counts below are for the published conformance suite under `vectors/execution/tr
 
 ### Layer 2 — Block Processing
 
-**Current (published)**: 25 block-processing vectors (multi-tx execution + atomic rejection + energy-fee atomicity).
+**Current (published)**: 37 block-processing vectors (multi-tx execution + atomic rejection + energy-fee atomicity).
 
 **Current (fixtures only)**: consensus/model fixtures exist under `fixtures/consensus/` but are not published to `vectors/` yet.
 
