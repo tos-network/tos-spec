@@ -211,8 +211,8 @@ layer in the testing pyramid.
 
 As of **2026-02-09**:
 
-- Published conformance suite: `vectors/` contains **289** published vectors in the `test_vectors` schema.
-- Composition: **226** L1 state-transition vectors (`input.tx` present) + **25** L0 wire-format vectors (10 `tx_roundtrip` + 15 malformed decode negatives) + **25** L2 block vectors (`input.kind="block"`) + **13** L2 chain-import vectors (`input.kind="chain"`).
+- Published conformance suite: `vectors/` contains **293** published vectors in the `test_vectors` schema.
+- Composition: **226** L1 state-transition vectors (`input.tx` present) + **29** L0 wire-format vectors (14 `tx_roundtrip` + 15 malformed decode negatives) + **25** L2 block vectors (`input.kind="block"`) + **13** L2 chain-import vectors (`input.kind="chain"`).
 - Covered transaction types: **11** distinct `tx_type` values in published vectors.
 - Note: `uno_transfers` vectors are currently **tx-json-only** (`input.wire_hex=""`) in the published suite.
 - Spec-only: fixtures under `fixtures/{security,models,syscalls,api,consensus}/` are not published to `vectors/` yet.
@@ -224,7 +224,7 @@ Counts below are for the published conformance suite under `vectors/execution/tr
 
 | Group | Vectors |
 |------:|--------:|
-| (root) | 74 |
+| (root) | 78 |
 | account | 45 |
 | energy | 43 |
 | privacy | 34 |
@@ -239,7 +239,7 @@ Counts below are for the published conformance suite under `vectors/execution/tr
 
 | Layer | Current Vectors | Target | Coverage |
 |-------|-----------------|--------|----------|
-| L0    | 25 (wire decode) | ~50 | Partial  |
+| L0    | 29 (wire decode) | ~50 | Partial  |
 | L1    | 226 (tx state transition) | ~200 | Good |
 | L2    | 38 (25 `block` + 13 `chain`) | ~50 | Partial |
 | L3    | 0 | ~80 | None |
@@ -250,9 +250,9 @@ Counts below are for the published conformance suite under `vectors/execution/tr
 
 ### Layer 0 — Pure Computation
 
-**Current (published)**: 25 wire-format vectors (10 tx wire roundtrip + 15 negative malformed `wire_hex` rejected by decode).
+**Current (published)**: 29 wire-format vectors (14 tx wire roundtrip + 15 negative malformed `wire_hex` rejected by decode).
 
-**Current (fixtures only)**: `fixtures/wire_format.json` contains 10 golden wire-encoding vectors
+**Current (fixtures only)**: `fixtures/wire_format.json` contains 14 golden wire-encoding vectors
 (`expected_hex`). A larger corpus is consumed via Rust internal tests (see `~/tos/common/tests/wire_format.json`).
 
 **Gaps**:
