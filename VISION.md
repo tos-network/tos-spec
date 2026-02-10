@@ -88,7 +88,8 @@ hashing, and cryptographic primitives produce correct outputs.
 The current primary focus. Each test provides a pre-state (account balances, energy
 resources, domain data), a single transaction, and the expected post-state or error code.
 
-- Published execution vectors currently cover the core transaction set (11 distinct `tx_type` values).
+- As of 2026-02-10, the execution suite contains **383** vectors, of which **262**
+  are single-transaction (`input.kind="tx"`). These cover **11** distinct `tx_type` values.
 - Covers success paths, error paths, and edge cases
 - Verifies balance changes, nonce advancement, state digest
 
@@ -102,6 +103,9 @@ Tests at this layer verify behavior that only emerges from multi-transaction exe
 - DAG parent selection and fork choice
 - Finality computation across block sequences
 - Coinbase reward distribution and halving schedule
+ 
+Current published L2 coverage (2026-02-10): **37** block vectors (`input.kind="block"`)
+and **70** chain-import vectors (`input.kind="chain"`).
 
 **Consumption modalities.** The same BlockchainTest fixtures are consumed through
 multiple independent execution paths, each exercising different client codepaths:
@@ -176,13 +180,13 @@ layer in the testing pyramid.
 | Fixture Type      | Layer | Description                              | Status     |
 |-------------------|-------|------------------------------------------|------------|
 | StateTest         | L1    | Single transaction execution             | Active     |
-| BlockchainTest    | L2    | Multi-block chain import with reorgs     | Planned    |
+| BlockchainTest    | L2    | Multi-block chain import with reorgs     | Active     |
 | TransactionTest   | L0    | Wire format validity (no execution)      | Partial    |
 | CodecTest         | L0    | Raw encoding/decoding round-trip         | Planned    |
 | ContractTest      | L0    | Bytecode container validity              | Planned    |
 | ConsensusTest     | L2    | DAG ordering, mining, finality           | Partial    |
 | CryptoTest        | L0    | Hash algorithms, HMAC, signatures        | Partial    |
-| RPCTest           | L3    | RPC query method conformance             | Planned    |
+| RPCTest           | L3    | RPC query method conformance             | Active     |
 | EngineTest        | L3    | Block production API conformance         | Planned    |
 | FuzzCorpusTest    | L0-L1 | Minimized cases from differential fuzzing| Planned    |
 
