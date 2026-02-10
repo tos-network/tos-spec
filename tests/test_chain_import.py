@@ -22,13 +22,15 @@ from tos_spec.encoding import encode_transaction
 from tos_spec.errors import ErrorCode
 from tos_spec.state_digest import compute_state_digest
 from tos_spec.state_transition import apply_block
-from tos_spec.test_accounts import ALICE, BOB, MINER, sign_transaction
+from tos_spec.test_accounts import ALICE, BOB, DAVE, MINER, sign_transaction
 from tos_spec.types import (
     AccountState,
     ChainState,
     DelegationEntry,
     EnergyPayload,
+    EnergyResource,
     FreezeDuration,
+    FreezeRecord,
     FeeType,
     GlobalState,
     MultisigConfig,
@@ -379,6 +381,7 @@ def _mk_energy_unfreeze(sender: bytes, nonce: int, amount: int, fee: int) -> Tra
         payload=EnergyPayload(
             variant="unfreeze_tos",
             amount=amount,
+            from_delegation=False,
             duration=None,
         ),
         fee=fee,
@@ -3507,6 +3510,352 @@ def test_chain_block_with_uno_fee_nonzero_prioritizes_fee_rule(vector_test_group
             "expected": {
                 "success": False,
                 "error_code": int(ErrorCode.INVALID_FORMAT),
+                "state_digest": compute_state_digest(pre_json),
+                "post_state": pre_json,
+            },
+            "runnable": False,
+        },
+    )
+
+
+def test_chain_burn_total_burned_overflow_rejected(vector_test_group) -> None:
+    """Burn should be rejected when total_burned would overflow."""
+    pre = _tx_state()
+    u64_max = (1 << 64) - 1
+    pre.global_state.total_burned = u64_max - 10
+    pre.accounts[ALICE].balance = 1_000_000_000
+    pre_json = state_to_json(pre)
+
+    burn = _mk_burn(ALICE, nonce=0, amount=20, fee=100_000)
+
+    _vector_test_group(vector_test_group)(
+        "transactions/blockchain/chain_import.json",
+        {
+            "name": "chain_burn_total_burned_overflow_rejected",
+            "description": "Reject burn when total_burned would overflow u64.",
+            "pre_state": pre_json,
+            "input": {"kind": "chain", "blocks": [{"id": "bad", "parents": ["genesis"], "txs": [_tx_entry(burn)]}]},
+            "expected": {
+                "success": False,
+                "error_code": int(ErrorCode.OVERFLOW),
+                "state_digest": compute_state_digest(pre_json),
+                "post_state": pre_json,
+            },
+            "runnable": False,
+        },
+    )
+
+
+def test_chain_fee_model_transfer_fee_zero_allowed(vector_test_group) -> None:
+    """Transfers with fee=0 are allowed (no min fee)."""
+    pre = _tx_state()
+    pre_json = state_to_json(pre)
+
+    tx = _mk_transfer(ALICE, BOB, nonce=0, amount=50_000, fee=0)
+
+    emitted = 0
+    post, _ = apply_block_with_rewards(pre, [tx], height=1, emitted_supply=emitted)
+    post_json = state_to_json(post)
+
+    _vector_test_group(vector_test_group)(
+        "transactions/blockchain/chain_import.json",
+        {
+            "name": "chain_fee_model_transfer_fee_zero_allowed",
+            "description": "Import a block with transfer fee=0 (allowed).",
+            "pre_state": pre_json,
+            "input": {"kind": "chain", "blocks": [{"id": "b1", "parents": ["genesis"], "txs": [_tx_entry(tx)]}]},
+            "expected": {
+                "success": True,
+                "error_code": int(ErrorCode.SUCCESS),
+                "state_digest": compute_state_digest(post_json),
+                "post_state": post_json,
+            },
+            "runnable": False,
+        },
+    )
+
+
+def test_chain_energy_fee_consumes_energy(vector_test_group) -> None:
+    """ENERGY fee should consume energy from EnergyResource on success."""
+    pre = _tx_state()
+    pre.accounts[ALICE].energy = 0
+    pre.energy_resources[ALICE] = EnergyResource(
+        frozen_tos=COIN_VALUE,
+        energy=1,
+        freeze_records=[FreezeRecord(amount=COIN_VALUE, energy_gained=1, freeze_height=0, unlock_height=99999)],
+    )
+    pre_json = state_to_json(pre)
+
+    tx = _mk_transfer_energy_fee(ALICE, BOB, nonce=0, amount=10_000, fee=0)
+
+    emitted = 0
+    post, _ = apply_block_with_rewards(pre, [tx], height=1, emitted_supply=emitted)
+    post_json = state_to_json(post)
+
+    _vector_test_group(vector_test_group)(
+        "transactions/blockchain/chain_import.json",
+        {
+            "name": "chain_energy_fee_consumes_energy",
+            "description": "Import a block with ENERGY fee; energy resource is decremented.",
+            "pre_state": pre_json,
+            "input": {"kind": "chain", "blocks": [{"id": "b1", "parents": ["genesis"], "txs": [_tx_entry(tx)]}]},
+            "expected": {
+                "success": True,
+                "error_code": int(ErrorCode.SUCCESS),
+                "state_digest": compute_state_digest(post_json),
+                "post_state": post_json,
+            },
+            "runnable": False,
+        },
+    )
+
+
+def test_chain_account_model_new_account_then_spend(vector_test_group) -> None:
+    """Transfer creates a new account which then spends in a later block."""
+    pre = _tx_state()
+    pre_json = state_to_json(pre)
+
+    to_dave = _mk_transfer(ALICE, DAVE, nonce=0, amount=200_000, fee=100_000)
+    spend = _mk_transfer(DAVE, BOB, nonce=0, amount=50_000, fee=100_000)
+
+    emitted = 0
+    s1, r1 = apply_block_with_rewards(pre, [to_dave], height=1, emitted_supply=emitted)
+    emitted += r1
+    post, _ = apply_block_with_rewards(s1, [spend], height=2, emitted_supply=emitted)
+    post_json = state_to_json(post)
+
+    _vector_test_group(vector_test_group)(
+        "transactions/blockchain/chain_import.json",
+        {
+            "name": "chain_account_model_new_account_then_spend",
+            "description": "Create new account via transfer, then spend from it in next block.",
+            "pre_state": pre_json,
+            "input": {
+                "kind": "chain",
+                "blocks": [
+                    {"id": "b1", "parents": ["genesis"], "txs": [_tx_entry(to_dave)]},
+                    {"id": "b2", "parents": ["b1"], "txs": [_tx_entry(spend)]},
+                ],
+            },
+            "expected": {
+                "success": True,
+                "error_code": int(ErrorCode.SUCCESS),
+                "state_digest": compute_state_digest(post_json),
+                "post_state": post_json,
+            },
+            "runnable": False,
+        },
+    )
+
+
+def test_chain_multisig_clear_success(vector_test_group) -> None:
+    """Clear existing multisig config by submitting threshold=0 + empty participants."""
+    pre = _tx_state()
+    pre.multisig_configs[ALICE] = MultisigConfig(threshold=1, participants=[BOB])
+    pre_json = state_to_json(pre)
+
+    tx = _mk_multisig(ALICE, nonce=0, threshold=0, participants=[], fee=100_000)
+
+    emitted = 0
+    post, _ = apply_block_with_rewards(pre, [tx], height=1, emitted_supply=emitted)
+    post_json = state_to_json(post)
+
+    _vector_test_group(vector_test_group)(
+        "transactions/blockchain/chain_import.json",
+        {
+            "name": "chain_multisig_clear_success",
+            "description": "Import a block clearing multisig config.",
+            "pre_state": pre_json,
+            "input": {"kind": "chain", "blocks": [{"id": "b1", "parents": ["genesis"], "txs": [_tx_entry(tx)]}]},
+            "expected": {
+                "success": True,
+                "error_code": int(ErrorCode.SUCCESS),
+                "state_digest": compute_state_digest(post_json),
+                "post_state": post_json,
+            },
+            "runnable": False,
+        },
+    )
+
+
+def test_chain_energy_freeze_then_unfreeze_success(vector_test_group) -> None:
+    """Freeze then unfreeze should succeed across blocks."""
+    pre = _tx_state()
+    pre.accounts[ALICE].balance = MIN_FREEZE_TOS_AMOUNT * 2
+    pre_json = state_to_json(pre)
+
+    freeze = _mk_energy_freeze(ALICE, nonce=0, amount=MIN_FREEZE_TOS_AMOUNT, days=3, fee=0)
+    unfreeze = _mk_energy_unfreeze(ALICE, nonce=1, amount=MIN_FREEZE_TOS_AMOUNT, fee=0)
+
+    emitted = 0
+    s1, r1 = apply_block_with_rewards(pre, [freeze], height=1, emitted_supply=emitted)
+    emitted += r1
+    post, _ = apply_block_with_rewards(s1, [unfreeze], height=2, emitted_supply=emitted)
+    post_json = state_to_json(post)
+
+    _vector_test_group(vector_test_group)(
+        "transactions/blockchain/chain_import.json",
+        {
+            "name": "chain_energy_freeze_then_unfreeze_success",
+            "description": "Freeze in b1, unfreeze in b2.",
+            "pre_state": pre_json,
+            "input": {
+                "kind": "chain",
+                "blocks": [
+                    {"id": "b1", "parents": ["genesis"], "txs": [_tx_entry(freeze)]},
+                    {"id": "b2", "parents": ["b1"], "txs": [_tx_entry(unfreeze)]},
+                ],
+            },
+            "expected": {
+                "success": True,
+                "error_code": int(ErrorCode.SUCCESS),
+                "state_digest": compute_state_digest(post_json),
+                "post_state": post_json,
+            },
+            "runnable": False,
+        },
+    )
+
+
+def test_chain_contract_deploy_insufficient_balance_rejected(vector_test_group) -> None:
+    """Deploy contract with insufficient balance should be rejected."""
+    pre = _tx_state()
+    pre.accounts[ALICE].balance = BURN_PER_CONTRACT + 100_000 - 1
+    pre_json = state_to_json(pre)
+
+    module = b"\x7fELF" + b"\x00" * 4
+    deploy = _mk_deploy_contract(ALICE, nonce=0, module=module, fee=100_000)
+
+    _vector_test_group(vector_test_group)(
+        "transactions/blockchain/chain_import.json",
+        {
+            "name": "chain_contract_deploy_insufficient_balance_rejected",
+            "description": "Import a block with deploy_contract lacking funds for burn+fee.",
+            "pre_state": pre_json,
+            "input": {"kind": "chain", "blocks": [{"id": "bad", "parents": ["genesis"], "txs": [_tx_entry(deploy)]}]},
+            "expected": {
+                "success": False,
+                "error_code": int(ErrorCode.INSUFFICIENT_BALANCE),
+                "state_digest": compute_state_digest(pre_json),
+                "post_state": pre_json,
+            },
+            "runnable": False,
+        },
+    )
+
+
+def test_chain_privacy_uno_energy_fee_success(vector_test_group) -> None:
+    """UNO transfer with ENERGY fee succeeds when energy available."""
+    pre = _tx_state()
+    pre.accounts[ALICE].energy = 0
+    pre.energy_resources[ALICE] = EnergyResource(
+        frozen_tos=COIN_VALUE,
+        energy=1,
+        freeze_records=[FreezeRecord(amount=COIN_VALUE, energy_gained=1, freeze_height=0, unlock_height=99999)],
+    )
+    pre_json = state_to_json(pre)
+
+    tx = Transaction(
+        version=TxVersion.T1,
+        chain_id=CHAIN_ID_DEVNET,
+        source=ALICE,
+        tx_type=TransactionType.UNO_TRANSFERS,
+        payload={"transfers": [_privacy_uno_transfer(BOB)]},
+        fee=0,
+        fee_type=FeeType.ENERGY,
+        nonce=0,
+        source_commitments=[bytes(32)],
+        range_proof=bytes(64),
+        reference_hash=_hash(0),
+        reference_topoheight=0,
+        signature=bytes(64),
+    )
+
+    emitted = 0
+    post, _ = apply_block_with_rewards(pre, [tx], height=1, emitted_supply=emitted)
+    post_json = state_to_json(post)
+
+    _vector_test_group(vector_test_group)(
+        "transactions/blockchain/chain_import.json",
+        {
+            "name": "chain_privacy_uno_energy_fee_success",
+            "description": "UNO transfer using ENERGY fee consumes energy and succeeds.",
+            "pre_state": pre_json,
+            "input": {"kind": "chain", "blocks": [{"id": "b1", "parents": ["genesis"], "txs": [_tx_entry(tx)]}]},
+            "expected": {
+                "success": True,
+                "error_code": int(ErrorCode.SUCCESS),
+                "state_digest": compute_state_digest(post_json),
+                "post_state": post_json,
+            },
+            "runnable": False,
+        },
+    )
+
+
+def test_chain_tns_register_duplicate_rejected(vector_test_group) -> None:
+    """Second registration of same name should be rejected."""
+    pre = _tx_state()
+    pre.accounts[ALICE].balance = REGISTRATION_FEE + 1_000_000
+    pre_json = state_to_json(pre)
+
+    tx1 = _mk_register_name(ALICE, nonce=0, name="alice", fee=REGISTRATION_FEE)
+    tx2 = _mk_register_name(ALICE, nonce=1, name="alice", fee=REGISTRATION_FEE)
+
+    emitted = 0
+    s1, r1 = apply_block_with_rewards(pre, [tx1], height=1, emitted_supply=emitted)
+    emitted += r1
+    post_json = state_to_json(s1)
+
+    _vector_test_group(vector_test_group)(
+        "transactions/blockchain/chain_import.json",
+        {
+            "name": "chain_tns_register_duplicate_rejected",
+            "description": "Register name then attempt duplicate; second block rejected.",
+            "pre_state": pre_json,
+            "input": {
+                "kind": "chain",
+                "blocks": [
+                    {"id": "b1", "parents": ["genesis"], "txs": [_tx_entry(tx1)]},
+                    {"id": "bad", "parents": ["b1"], "txs": [_tx_entry(tx2)]},
+                ],
+            },
+            "expected": {
+                "success": False,
+                "error_code": int(ErrorCode.DOMAIN_EXISTS),
+                "state_digest": compute_state_digest(post_json),
+                "post_state": post_json,
+            },
+            "runnable": False,
+        },
+    )
+
+
+def test_chain_agent_account_set_status_invalid_rejected(vector_test_group) -> None:
+    """Agent account set_status with invalid status should be rejected."""
+    pre = _tx_state()
+    pre.agent_accounts[ALICE] = AgentAccountMeta(
+        owner=ALICE,
+        controller=BOB,
+        policy_hash=_hash(9),
+        status=0,
+        energy_pool=None,
+        session_key_root=None,
+    )
+    pre_json = state_to_json(pre)
+
+    tx = _mk_agent_account(ALICE, nonce=0, payload={"variant": "set_status", "status": 2}, fee=100_000)
+
+    _vector_test_group(vector_test_group)(
+        "transactions/blockchain/chain_import.json",
+        {
+            "name": "chain_agent_account_set_status_invalid_rejected",
+            "description": "Import a block with invalid agent account status; block should be rejected.",
+            "pre_state": pre_json,
+            "input": {"kind": "chain", "blocks": [{"id": "bad", "parents": ["genesis"], "txs": [_tx_entry_allow_invalid(tx)]}]},
+            "expected": {
+                "success": False,
+                "error_code": int(ErrorCode.ACCOUNT_NOT_FOUND),
                 "state_digest": compute_state_digest(pre_json),
                 "post_state": pre_json,
             },

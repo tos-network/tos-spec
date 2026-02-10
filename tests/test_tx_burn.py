@@ -18,6 +18,9 @@ def _hash(byte: int) -> bytes:
     return bytes([byte]) * 32
 
 
+U64_MAX = (1 << 64) - 1
+
+
 def _base_state() -> ChainState:
     state = ChainState(network_chain_id=CHAIN_ID_DEVNET)
     state.accounts[ALICE] = AccountState(address=ALICE, balance=1_000_000, nonce=5)
@@ -106,3 +109,26 @@ def test_burn_negative_amount(state_test_group) -> None:
     state = _base_state()
     tx = _mk_burn(ALICE, nonce=5, amount=-1, fee=100_000)
     state_test_group("transactions/core/burn.json", "burn_negative_amount", state, tx)
+
+
+def test_burn_amount_overflow(state_test_group) -> None:
+    """Burn amount exceeds u64 max."""
+    state = _base_state()
+    tx = _mk_burn(ALICE, nonce=5, amount=U64_MAX + 1, fee=100_000)
+    state_test_group("transactions/core/burn.json", "burn_amount_overflow", state, tx)
+
+
+def test_burn_amount_plus_fee_overflow(state_test_group) -> None:
+    """Burn amount + fee overflows u64."""
+    state = _base_state()
+    tx = _mk_burn(ALICE, nonce=5, amount=U64_MAX, fee=1)
+    state_test_group("transactions/core/burn.json", "burn_amount_plus_fee_overflow", state, tx)
+
+
+def test_burn_total_burned_overflow(state_test_group) -> None:
+    """Burn should fail when total_burned would overflow."""
+    state = _base_state()
+    state.global_state.total_burned = U64_MAX - 10
+    state.accounts[ALICE].balance = 1_000_000_000
+    tx = _mk_burn(ALICE, nonce=5, amount=20, fee=100_000)
+    state_test_group("transactions/core/burn.json", "burn_total_burned_overflow", state, tx)

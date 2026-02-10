@@ -179,6 +179,21 @@ def test_transfer_creates_new_account(state_test) -> None:
     state_test("transfer_creates_new_account", state, tx)
 
 
+def test_transfer_sender_missing(state_test) -> None:
+    """Sender account missing should fail validation."""
+    state = _base_state()
+    state.accounts.pop(ALICE, None)
+    tx = _mk_tx(ALICE, BOB, nonce=5, amount=100_000, fee=100_000)
+    state_test("transfer_sender_missing", state, tx)
+
+
+def test_transfer_fee_zero_allowed(state_test) -> None:
+    """Transfers allow fee=0 (no min-fee requirement)."""
+    state = _base_state()
+    tx = _mk_tx(ALICE, BOB, nonce=5, amount=100_000, fee=0)
+    state_test("transfer_fee_zero_allowed", state, tx)
+
+
 def test_nonce_too_low(state_test) -> None:
     """Nonce below account nonce."""
     state = _base_state()

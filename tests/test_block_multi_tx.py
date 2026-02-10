@@ -67,6 +67,22 @@ def _mk_transfer_energy_fee(sender: bytes, receiver: bytes, nonce: int, amount: 
     )
 
 
+def _mk_burn(sender: bytes, nonce: int, amount: int) -> Transaction:
+    return Transaction(
+        version=TxVersion.T1,
+        chain_id=CHAIN_ID_DEVNET,
+        source=sender,
+        tx_type=TransactionType.BURN,
+        payload={"asset": _hash(0), "amount": amount},
+        fee=FEE_MIN,
+        fee_type=FeeType.TOS,
+        nonce=nonce,
+        reference_hash=_hash(0),
+        reference_topoheight=0,
+        signature=bytes(64),
+    )
+
+
 def test_block_multi_tx_success(block_test_group) -> None:
     state = _base_state()
     tx1 = _mk_transfer(ALICE, BOB, nonce=5, amount=10_000)
@@ -117,6 +133,47 @@ def test_block_reject_atomic_on_second_tx_insufficient_balance(block_test_group)
     block_test_group(
         "transactions/block/multi_tx.json",
         "block_reject_atomic_on_second_tx_insufficient_balance",
+        state,
+        [tx1, tx2],
+    )
+
+
+def test_block_multi_type_transfer_burn_success(block_test_group) -> None:
+    """Block with transfer + burn succeeds."""
+    state = _base_state()
+    state.accounts[ALICE].balance = 500_000
+    tx1 = _mk_transfer(ALICE, BOB, nonce=5, amount=50_000)
+    tx2 = _mk_burn(ALICE, nonce=6, amount=100_000)
+    block_test_group(
+        "transactions/block/multi_tx.json",
+        "block_multi_type_transfer_burn_success",
+        state,
+        [tx1, tx2],
+    )
+
+
+def test_block_reject_atomic_on_second_tx_burn_invalid(block_test_group) -> None:
+    """Second tx invalid (burn amount=0) should reject entire block."""
+    state = _base_state()
+    tx1 = _mk_transfer(ALICE, BOB, nonce=5, amount=10_000)
+    tx2 = _mk_burn(ALICE, nonce=6, amount=0)
+    block_test_group(
+        "transactions/block/multi_tx.json",
+        "block_reject_atomic_on_second_tx_burn_invalid",
+        state,
+        [tx1, tx2],
+    )
+
+
+def test_block_reject_atomic_on_second_tx_energy_insufficient(block_test_group) -> None:
+    """Second tx uses ENERGY fee without energy; entire block rejected."""
+    state = _base_state()
+    state.accounts[ALICE].energy = 0
+    tx1 = _mk_transfer(ALICE, BOB, nonce=5, amount=10_000)
+    tx2 = _mk_transfer_energy_fee(ALICE, BOB, nonce=6, amount=10_000)
+    block_test_group(
+        "transactions/block/multi_tx.json",
+        "block_reject_atomic_on_second_tx_energy_insufficient",
         state,
         [tx1, tx2],
     )
