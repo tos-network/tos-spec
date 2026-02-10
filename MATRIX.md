@@ -6,9 +6,9 @@ coverage gaps and prioritization targets.
 
 ## Current Published Status (2026-02-10)
 
-- `vectors/` contains **467** vectors in the `test_vectors` schema (execution + RPC suites), all **467** runnable.
+- `vectors/` contains **497** vectors in the `test_vectors` schema (execution + RPC suites), all **497** runnable.
 - The published suite currently has **0** non-runnable vectors.
-- Composition (execution): **262** tx execution vectors (`input.kind="tx"`) + **14** tx wire roundtrip vectors (`input.kind="tx_roundtrip"`) + **37** block vectors (`input.kind="block"`) + **70** chain-import vectors (`input.kind="chain"`).
+- Composition (execution): **262** tx execution vectors (`input.kind="tx"`) + **14** tx wire roundtrip vectors (`input.kind="tx_roundtrip"`) + **37** block vectors (`input.kind="block"`) + **100** chain-import vectors (`input.kind="chain"`).
 - Composition (RPC): **84** RPC vectors (`input.rpc` present) consumed by the `tos/rpc` simulator.
 - Covered transaction types: **11** distinct `tx_type` values in published vectors.
 - Spec-only fixtures under `fixtures/{security,models,syscalls,consensus}/` are intentionally not published to `vectors/` yet.
@@ -41,32 +41,32 @@ Legend:  +++  strong coverage
 | Domain             | L0 Codec   | L1 State   | L2 Block   | L3 API     | L4 P2P     | L5 Interop |
 |--------------------|------------|------------|------------|------------|------------|------------|
 | Core (transfer)    | ++         | +++        | ++         | -          | -          | -          |
-| Burn               | +          | ++         | +          | -          | n/a        | -          |
-| Multisig           | +          | +++        | +          | -          | n/a        | -          |
-| Energy / Freeze    | ++         | +++        | +          | -          | n/a        | -          |
-| Energy / Delegate  | +          | +++        | +          | -          | n/a        | -          |
-| Contracts          | +          | +++        | +          | -          | n/a        | -          |
-| Privacy (UNO)      | +          | +++        | +          | -          | n/a        | -          |
-| Privacy (shield)   | +          | +++        | +          | -          | n/a        | -          |
-| TNS (names)        | +          | +++        | +          | -          | n/a        | -          |
-| Account / Agent    | +          | +++        | +          | -          | n/a        | -          |
+| Burn               | +          | ++         | ++         | -          | n/a        | -          |
+| Multisig           | +          | +++        | ++         | -          | n/a        | -          |
+| Energy / Freeze    | ++         | +++        | ++         | -          | n/a        | -          |
+| Energy / Delegate  | +          | +++        | ++         | -          | n/a        | -          |
+| Contracts          | +          | +++        | ++         | -          | n/a        | -          |
+| Privacy (UNO)      | +          | +++        | ++         | -          | n/a        | -          |
+| Privacy (shield)   | +          | +++        | ++         | -          | n/a        | -          |
+| TNS (names)        | +          | +++        | ++         | -          | n/a        | -          |
+| Account / Agent    | +          | +++        | ++         | -          | n/a        | -          |
 | Block structure    | n/a        | n/a        | ++         | -          | -          | -          |
 | DAG ordering       | n/a        | n/a        | ++         | -          | -          | -          |
 | Finality           | n/a        | n/a        | ++         | -          | -          | -          |
-| Mining / PoW       | n/a        | n/a        | +          | -          | -          | -          |
+| Mining / PoW       | n/a        | n/a        | ++         | -          | -          | -          |
 | Block rewards      | n/a        | n/a        | ++         | -          | -          | -          |
 | BLAKE3 / HMAC      | +          | n/a        | n/a        | n/a        | n/a        | n/a        |
 | Ristretto255       | -          | n/a        | n/a        | n/a        | n/a        | n/a        |
-| Fee model          | n/a        | +          | +          | -          | n/a        | n/a        |
-| Energy model       | n/a        | +          | +          | -          | n/a        | n/a        |
-| Account model      | n/a        | +          | +          | -          | n/a        | n/a        |
+| Fee model          | n/a        | +          | ++         | -          | n/a        | n/a        |
+| Energy model       | n/a        | +          | ++         | -          | n/a        | n/a        |
+| Account model      | n/a        | +          | ++         | -          | n/a        | n/a        |
 
 **Reading this matrix:** The published conformance suite is currently L1-heavy:
 262/383 vectors are `tx` execution vectors. L0 wire-format coverage in published
 vectors includes 14 tx wire roundtrip vectors (`wire_format_roundtrip`)
 and 36 negative decode vectors (`wire_format_negative`). The
 priority gaps are:
-- L2: basic executable block processing tests (107 vectors: 37 `block` + 70 `chain`)
+- L2: basic executable block processing tests (137 vectors: 37 `block` + 100 `chain`)
 - L3: published via the RPC suite (84 vectors under `vectors/rpc/`)
 - L4-L5: not published yet (P2P/interop vectors remain spec-only)
 Note: L0 wire-format roundtrip is currently published for a small corpus; full tx-type codec coverage is not yet published.
@@ -82,7 +82,7 @@ The table below lists the published `vectors/**` groups and vector counts.
 | Group | Path Prefix | Vectors | Notes |
 |------:|------------|--------:|-------|
 | block | `execution/transactions/block/` | 37 | L2 block processing (multi-tx, atomic rejection) |
-| blockchain | `execution/transactions/blockchain/` | 70 | L2 chain import (rewards + invalid tips) |
+| blockchain | `execution/transactions/blockchain/` | 100 | L2 chain import (rewards + invalid tips) |
 | tns | `execution/transactions/tns/` | 20 | L1 state transitions |
 | energy | `execution/transactions/energy/` | 43 | L1 state transitions |
 | account | `execution/transactions/account/` | 45 | L1 state transitions |
@@ -125,12 +125,12 @@ Param testing (not yet applicable).
 Per-type coverage is tracked from the published conformance suite under `vectors/`.
 As of 2026-02-10:
 
-- Total published vectors (execution suite): **383**
+- Total published vectors (execution suite): **413**
 - Tx execution vectors: **262** (`input.kind="tx"`)
 - L0 tx wire roundtrip vectors: **14** (`wire_format_roundtrip`)
 - L0 negative wire-decoding vectors: **36** (`wire_format_negative`)
 - L2 block vectors: **37** (`input.kind="block"`)
-- L2 chain-import vectors: **70** (`input.kind="chain"`)
+- L2 chain-import vectors: **100** (`input.kind="chain"`)
 - Distinct `tx_type` values covered in published vectors: **11**
 
 To list covered `tx_type` values from `vectors/`:
