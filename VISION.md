@@ -88,7 +88,7 @@ hashing, and cryptographic primitives produce correct outputs.
 The current primary focus. Each test provides a pre-state (account balances, energy
 resources, domain data), a single transaction, and the expected post-state or error code.
 
-- As of 2026-02-10, the execution suite contains **413** vectors, of which **262**
+- As of 2026-02-10, the execution suite contains **414** vectors, of which **263**
   are single-transaction (`input.kind="tx"`). These cover **11** distinct `tx_type` values.
 - Covers success paths, error paths, and edge cases
 - Verifies balance changes, nonce advancement, state digest
@@ -215,8 +215,8 @@ layer in the testing pyramid.
 
 As of **2026-02-09**:
 
-- Published conformance suite: `vectors/` contains **497** published vectors in the `test_vectors` schema (execution + RPC suites).
-- Composition: **262** L1 state-transition vectors (`input.tx` present) + **50** L0 wire-format vectors (14 `tx_roundtrip` + 36 malformed decode negatives) + **37** L2 block vectors (`input.kind="block"`) + **100** L2 chain-import vectors (`input.kind="chain"`) + **84** L3 RPC vectors (`input.rpc` present).
+- Published conformance suite: `vectors/` contains **498** published vectors in the `test_vectors` schema (execution + RPC suites).
+- Composition: **263** L1 state-transition vectors (`input.tx` present) + **50** L0 wire-format vectors (14 `tx_roundtrip` + 36 malformed decode negatives) + **37** L2 block vectors (`input.kind="block"`) + **100** L2 chain-import vectors (`input.kind="chain"`) + **84** L3 RPC vectors (`input.rpc` present).
 - Covered transaction types: **11** distinct `tx_type` values in published vectors.
 - Note: `uno_transfers` vectors are currently **tx-json-only** (`input.wire_hex=""`) in the published suite.
 - Spec-only: fixtures under `fixtures/{security,models,syscalls,consensus}/` are not published to `vectors/` yet.
@@ -270,7 +270,7 @@ Counts below are for the published conformance suite under `vectors/execution/tr
 
 ### Layer 1 — Single Transaction State Transition
 
-**Current (published)**: 262 L1 state-transition vectors (`input.tx` present) covering 11 distinct `tx_type` values.
+**Current (published)**: 263 L1 state-transition vectors (`input.tx` present) covering 11 distinct `tx_type` values.
 
 **Gaps**:
 - Multiple tests per transaction type (currently ~1 per type on average)

@@ -6,9 +6,9 @@ coverage gaps and prioritization targets.
 
 ## Current Published Status (2026-02-10)
 
-- `vectors/` contains **497** vectors in the `test_vectors` schema (execution + RPC suites), all **497** runnable.
+- `vectors/` contains **498** vectors in the `test_vectors` schema (execution + RPC suites), all **498** runnable.
 - The published suite currently has **0** non-runnable vectors.
-- Composition (execution): **262** tx execution vectors (`input.kind="tx"`) + **14** tx wire roundtrip vectors (`input.kind="tx_roundtrip"`) + **37** block vectors (`input.kind="block"`) + **100** chain-import vectors (`input.kind="chain"`).
+- Composition (execution): **263** tx execution vectors (`input.kind="tx"`) + **14** tx wire roundtrip vectors (`input.kind="tx_roundtrip"`) + **37** block vectors (`input.kind="block"`) + **100** chain-import vectors (`input.kind="chain"`).
 - Composition (RPC): **84** RPC vectors (`input.rpc` present) consumed by the `tos/rpc` simulator.
 - Covered transaction types: **11** distinct `tx_type` values in published vectors.
 - Spec-only fixtures under `fixtures/{security,models,syscalls,consensus}/` are intentionally not published to `vectors/` yet.
@@ -57,9 +57,9 @@ Legend:  +++  strong coverage
 | Block rewards      | n/a        | n/a        | ++         | -          | -          | -          |
 | BLAKE3 / HMAC      | +          | n/a        | n/a        | n/a        | n/a        | n/a        |
 | Ristretto255       | -          | n/a        | n/a        | n/a        | n/a        | n/a        |
-| Fee model          | n/a        | +          | ++         | -          | n/a        | n/a        |
-| Energy model       | n/a        | +          | ++         | -          | n/a        | n/a        |
-| Account model      | n/a        | +          | ++         | -          | n/a        | n/a        |
+| Fee model          | n/a        | ++         | ++         | -          | n/a        | n/a        |
+| Energy model       | n/a        | ++         | ++         | -          | n/a        | n/a        |
+| Account model      | n/a        | ++         | ++         | -          | n/a        | n/a        |
 
 **Reading this matrix:** The published conformance suite is currently L1-heavy:
 262/383 vectors are `tx` execution vectors. L0 wire-format coverage in published
@@ -125,8 +125,8 @@ Param testing (not yet applicable).
 Per-type coverage is tracked from the published conformance suite under `vectors/`.
 As of 2026-02-10:
 
-- Total published vectors (execution suite): **413**
-- Tx execution vectors: **262** (`input.kind="tx"`)
+- Total published vectors (execution suite): **414**
+- Tx execution vectors: **263** (`input.kind="tx"`)
 - L0 tx wire roundtrip vectors: **14** (`wire_format_roundtrip`)
 - L0 negative wire-decoding vectors: **36** (`wire_format_negative`)
 - L2 block vectors: **37** (`input.kind="block"`)

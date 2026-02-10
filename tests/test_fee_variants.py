@@ -186,6 +186,88 @@ def test_transfer_energy_fee_consumes_one(state_test_group) -> None:
     )
 
 
+def test_transfer_energy_fee_uses_account_energy(state_test_group) -> None:
+    """ENERGY fee uses AccountState.energy when no EnergyResource is present."""
+    state = _base_state()
+    state.accounts[ALICE].energy = 1
+
+    tx = Transaction(
+        version=TxVersion.T1,
+        chain_id=CHAIN_ID_DEVNET,
+        source=ALICE,
+        tx_type=TransactionType.TRANSFERS,
+        payload=[TransferPayload(asset=_hash(0), destination=BOB, amount=100_000)],
+        fee=0,
+        fee_type=FeeType.ENERGY,
+        nonce=5,
+        reference_hash=_hash(0),
+        reference_topoheight=0,
+        signature=bytes(64),
+    )
+    state_test_group(
+        "transactions/fee_variants.json",
+        "transfer_energy_fee_uses_account_energy",
+        state,
+        tx,
+    )
+
+
+def test_transfer_energy_fee_prefers_energy_resource(state_test_group) -> None:
+    """ENERGY fee uses EnergyResource when present (over AccountState.energy)."""
+    state = _base_state()
+    state.accounts[ALICE].energy = 0
+    state.energy_resources[ALICE] = _mk_energy_resource(frozen_tos=100 * COIN_VALUE, energy=1)
+
+    tx = Transaction(
+        version=TxVersion.T1,
+        chain_id=CHAIN_ID_DEVNET,
+        source=ALICE,
+        tx_type=TransactionType.TRANSFERS,
+        payload=[TransferPayload(asset=_hash(0), destination=BOB, amount=100_000)],
+        fee=0,
+        fee_type=FeeType.ENERGY,
+        nonce=5,
+        reference_hash=_hash(0),
+        reference_topoheight=0,
+        signature=bytes(64),
+    )
+    state_test_group(
+        "transactions/fee_variants.json",
+        "transfer_energy_fee_prefers_energy_resource",
+        state,
+        tx,
+    )
+
+
+def test_transfer_energy_fee_multi_output_cost_one(state_test_group) -> None:
+    """ENERGY fee cost is 1 even with multiple outputs."""
+    state = _base_state()
+    state.accounts[ALICE].energy = 1
+
+    tx = Transaction(
+        version=TxVersion.T1,
+        chain_id=CHAIN_ID_DEVNET,
+        source=ALICE,
+        tx_type=TransactionType.TRANSFERS,
+        payload=[
+            TransferPayload(asset=_hash(0), destination=BOB, amount=50_000),
+            TransferPayload(asset=_hash(0), destination=BOB, amount=50_000),
+        ],
+        fee=0,
+        fee_type=FeeType.ENERGY,
+        nonce=5,
+        reference_hash=_hash(0),
+        reference_topoheight=0,
+        signature=bytes(64),
+    )
+    state_test_group(
+        "transactions/fee_variants.json",
+        "transfer_energy_fee_multi_output_cost_one",
+        state,
+        tx,
+    )
+
+
 def test_shield_energy_fee_zero(state_test_group) -> None:
     """SHIELD_TRANSFERS with FeeType.ENERGY must fail (Energy fee type is Transfers-only)."""
     state = _base_state()

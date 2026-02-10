@@ -169,6 +169,16 @@ def test_transfer_multiple_recipients(state_test) -> None:
     state_test("transfer_multiple_recipients", state, tx)
 
 
+def test_transfer_creates_new_account(state_test) -> None:
+    """Transfer creates a new receiver account if it does not exist."""
+    from tos_spec.test_accounts import DAVE
+
+    state = _base_state()
+    # DAVE is not in pre-state.
+    tx = _mk_tx(ALICE, DAVE, nonce=5, amount=100_000, fee=100_000)
+    state_test("transfer_creates_new_account", state, tx)
+
+
 def test_nonce_too_low(state_test) -> None:
     """Nonce below account nonce."""
     state = _base_state()
