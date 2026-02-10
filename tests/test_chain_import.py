@@ -6,7 +6,7 @@ from copy import deepcopy
 import json
 from pathlib import Path
 
-from tos_spec.config import CHAIN_ID_DEVNET
+from tos_spec.config import CHAIN_ID_DEVNET, EXTRA_DATA_LIMIT_SIZE
 from tos_spec.encoding import encode_transaction
 from tos_spec.errors import ErrorCode
 from tos_spec.state_digest import compute_state_digest
@@ -3153,6 +3153,227 @@ def test_chain_block_with_transfer_energy_fee_rejected(vector_test_group) -> Non
             "expected": {
                 "success": False,
                 "error_code": int(ErrorCode.INVALID_PAYLOAD),
+                "state_digest": compute_state_digest(pre_json),
+                "post_state": pre_json,
+            },
+            "runnable": False,
+        },
+    )
+
+
+def test_chain_block_with_energy_fee_nonce_high_prioritizes_fee_error(vector_test_group) -> None:
+    """Energy-fee invalid payload should take precedence over nonce too high."""
+    pre = _tx_state()
+    pre_json = state_to_json(pre)
+
+    tx = _mk_transfer_energy_fee(ALICE, BOB, nonce=10, amount=100_000, fee=1)
+
+    _vector_test_group(vector_test_group)(
+        "transactions/blockchain/chain_import.json",
+        {
+            "name": "chain_block_with_energy_fee_nonce_high_prioritizes_fee_error",
+            "description": "Energy-fee with nonzero fee should fail before nonce-too-high is considered.",
+            "pre_state": pre_json,
+            "input": {"kind": "chain", "blocks": [{"id": "bad", "parents": ["genesis"], "txs": [_tx_entry(tx)]}]},
+            "expected": {
+                "success": False,
+                "error_code": int(ErrorCode.INVALID_PAYLOAD),
+                "state_digest": compute_state_digest(pre_json),
+                "post_state": pre_json,
+            },
+            "runnable": False,
+        },
+    )
+
+
+def test_chain_block_with_multisig_fee_zero_prioritizes_min_fee(vector_test_group) -> None:
+    """Min fee check should trigger before multisig payload validation."""
+    pre = _tx_state()
+    pre_json = state_to_json(pre)
+
+    tx = _mk_multisig(ALICE, nonce=0, threshold=0, participants=[], fee=0)
+
+    _vector_test_group(vector_test_group)(
+        "transactions/blockchain/chain_import.json",
+        {
+            "name": "chain_block_with_multisig_fee_zero_prioritizes_min_fee",
+            "description": "Multisig fee=0 should fail min-fee check before invalid threshold validation.",
+            "pre_state": pre_json,
+            "input": {"kind": "chain", "blocks": [{"id": "bad", "parents": ["genesis"], "txs": [_tx_entry_allow_invalid(tx)]}]},
+            "expected": {
+                "success": False,
+                "error_code": int(ErrorCode.INSUFFICIENT_FEE),
+                "state_digest": compute_state_digest(pre_json),
+                "post_state": pre_json,
+            },
+            "runnable": False,
+        },
+    )
+
+
+def test_chain_block_with_agent_account_fee_zero_prioritizes_min_fee(vector_test_group) -> None:
+    """Min fee check should trigger before agent_account payload validation."""
+    pre = _tx_state()
+    pre_json = state_to_json(pre)
+
+    payload = {"variant": "register", "controller": bytes(32), "policy_hash": _hash(3)}
+    tx = _mk_agent_account(ALICE, nonce=0, payload=payload, fee=0)
+
+    _vector_test_group(vector_test_group)(
+        "transactions/blockchain/chain_import.json",
+        {
+            "name": "chain_block_with_agent_account_fee_zero_prioritizes_min_fee",
+            "description": "Agent_account fee=0 should fail min-fee check before invalid controller payload.",
+            "pre_state": pre_json,
+            "input": {"kind": "chain", "blocks": [{"id": "bad", "parents": ["genesis"], "txs": [_tx_entry_allow_invalid(tx)]}]},
+            "expected": {
+                "success": False,
+                "error_code": int(ErrorCode.INSUFFICIENT_FEE),
+                "state_digest": compute_state_digest(pre_json),
+                "post_state": pre_json,
+            },
+            "runnable": False,
+        },
+    )
+
+
+def test_chain_block_with_transfer_fee_insufficient_prioritizes_fee(vector_test_group) -> None:
+    """Fee insufficiency should trigger before transfer payload validation."""
+    pre = _tx_state()
+    pre.accounts[ALICE].balance = 500_000
+    pre_json = state_to_json(pre)
+
+    tx = Transaction(
+        version=TxVersion.T1,
+        chain_id=CHAIN_ID_DEVNET,
+        source=ALICE,
+        tx_type=TransactionType.TRANSFERS,
+        payload=[
+            TransferPayload(asset=_hash(0), destination=BOB, amount=100_000, extra_data=b"x" * (EXTRA_DATA_LIMIT_SIZE + 1)),
+        ],
+        fee=1_000_000,
+        fee_type=FeeType.TOS,
+        nonce=0,
+        reference_hash=_hash(0),
+        reference_topoheight=0,
+        signature=bytes(64),
+    )
+
+    _vector_test_group(vector_test_group)(
+        "transactions/blockchain/chain_import.json",
+        {
+            "name": "chain_block_with_transfer_fee_insufficient_prioritizes_fee",
+            "description": "Insufficient fee should surface before transfer extra_data validation.",
+            "pre_state": pre_json,
+            "input": {"kind": "chain", "blocks": [{"id": "bad", "parents": ["genesis"], "txs": [_tx_entry_allow_invalid(tx)]}]},
+            "expected": {
+                "success": False,
+                "error_code": int(ErrorCode.INSUFFICIENT_FEE),
+                "state_digest": compute_state_digest(pre_json),
+                "post_state": pre_json,
+            },
+            "runnable": False,
+        },
+    )
+
+
+def test_chain_block_with_burn_fee_insufficient_prioritizes_fee(vector_test_group) -> None:
+    """Fee insufficiency should trigger before burn amount overflow checks."""
+    pre = _tx_state()
+    pre.accounts[ALICE].balance = 500_000
+    pre_json = state_to_json(pre)
+
+    burn = _mk_burn(ALICE, nonce=0, amount=(1 << 64), fee=1_000_000)
+
+    _vector_test_group(vector_test_group)(
+        "transactions/blockchain/chain_import.json",
+        {
+            "name": "chain_block_with_burn_fee_insufficient_prioritizes_fee",
+            "description": "Insufficient fee should surface before burn overflow validation.",
+            "pre_state": pre_json,
+            "input": {"kind": "chain", "blocks": [{"id": "bad", "parents": ["genesis"], "txs": [_tx_entry_allow_invalid(burn)]}]},
+            "expected": {
+                "success": False,
+                "error_code": int(ErrorCode.INSUFFICIENT_FEE),
+                "state_digest": compute_state_digest(pre_json),
+                "post_state": pre_json,
+            },
+            "runnable": False,
+        },
+    )
+
+
+def test_chain_block_with_nonce_low_prioritizes_nonce(vector_test_group) -> None:
+    """Nonce too low should trigger before fee insufficiency."""
+    pre = _tx_state()
+    pre.accounts[ALICE].nonce = 1
+    pre.accounts[ALICE].balance = 500_000
+    pre_json = state_to_json(pre)
+
+    tx = _mk_transfer(ALICE, BOB, nonce=0, amount=100_000, fee=1_000_000)
+
+    _vector_test_group(vector_test_group)(
+        "transactions/blockchain/chain_import.json",
+        {
+            "name": "chain_block_with_nonce_low_prioritizes_nonce",
+            "description": "Nonce-too-low should surface before insufficient fee validation.",
+            "pre_state": pre_json,
+            "input": {"kind": "chain", "blocks": [{"id": "bad", "parents": ["genesis"], "txs": [_tx_entry(tx)]}]},
+            "expected": {
+                "success": False,
+                "error_code": int(ErrorCode.NONCE_TOO_LOW),
+                "state_digest": compute_state_digest(pre_json),
+                "post_state": pre_json,
+            },
+            "runnable": False,
+        },
+    )
+
+
+def test_chain_block_with_chain_id_mismatch_prioritizes_chain_id(vector_test_group) -> None:
+    """Chain-id mismatch should trigger before account-not-found."""
+    pre = _tx_state()
+    pre.accounts.pop(ALICE, None)
+    pre_json = state_to_json(pre)
+
+    tx = _mk_transfer(ALICE, BOB, nonce=0, amount=100_000, fee=100_000)
+    tx.chain_id = 1
+
+    _vector_test_group(vector_test_group)(
+        "transactions/blockchain/chain_import.json",
+        {
+            "name": "chain_block_with_chain_id_mismatch_prioritizes_chain_id",
+            "description": "Chain-id mismatch should surface before sender account lookup.",
+            "pre_state": pre_json,
+            "input": {"kind": "chain", "blocks": [{"id": "bad", "parents": ["genesis"], "txs": [_tx_entry(tx)]}]},
+            "expected": {
+                "success": False,
+                "error_code": int(ErrorCode.INVALID_TYPE),
+                "state_digest": compute_state_digest(pre_json),
+                "post_state": pre_json,
+            },
+            "runnable": False,
+        },
+    )
+
+
+def test_chain_block_with_uno_fee_nonzero_prioritizes_fee_rule(vector_test_group) -> None:
+    """UNO fee rule should trigger before UNO payload validation."""
+    pre = _tx_state()
+    pre_json = state_to_json(pre)
+
+    tx = _mk_uno_empty(ALICE, nonce=0, fee=1)
+
+    _vector_test_group(vector_test_group)(
+        "transactions/blockchain/chain_import.json",
+        {
+            "name": "chain_block_with_uno_fee_nonzero_prioritizes_fee_rule",
+            "description": "UNO nonzero fee should fail before UNO empty transfer validation.",
+            "pre_state": pre_json,
+            "input": {"kind": "chain", "blocks": [{"id": "bad", "parents": ["genesis"], "txs": [_tx_entry_allow_invalid(tx)]}]},
+            "expected": {
+                "success": False,
+                "error_code": int(ErrorCode.INVALID_FORMAT),
                 "state_digest": compute_state_digest(pre_json),
                 "post_state": pre_json,
             },
