@@ -6,15 +6,16 @@ coverage gaps and prioritization targets.
 
 ## Current Published Status (2026-02-11)
 
-- `vectors/` contains **555** vectors in the `test_vectors` schema (execution + RPC + P2P suites).
-- Runnable vectors: **523**. Non-runnable (spec-only): **32** (P2P).
-- Composition (execution): **267** tx execution vectors (`input.kind="tx"`) + **14** tx wire roundtrip vectors (`input.kind="tx_roundtrip"`) + **38** block vectors (`input.kind="block"`) + **110** chain-import vectors (`input.kind="chain"`).
+- `vectors/` contains **587** vectors in the `test_vectors` schema (execution + RPC + P2P + crypto suites).
+- Runnable vectors: **540**. Non-runnable (spec-only): **47** (32 P2P + 15 Ristretto).
+- Composition (execution): **267** tx execution vectors (`input.kind="tx"`) + **31** tx wire roundtrip vectors (`input.kind="tx_roundtrip"`) + **38** block vectors (`input.kind="block"`) + **110** chain-import vectors (`input.kind="chain"`).
 - Composition (RPC): **94** RPC vectors (`input.rpc` present) consumed by the `tos/rpc` simulator.
 - Composition (P2P): **32** P2P vectors (`input.kind="p2p"`), spec-only (runnable=false).
+- Composition (Crypto): **15** Ristretto255 vectors (`input.kind="ristretto255"`), spec-only (runnable=false).
 - Covered transaction types: **11** distinct `tx_type` values in published vectors.
 - Spec-only fixtures under `fixtures/{security,models,syscalls,consensus}/` are intentionally not published to `vectors/` yet.
 - P2P fixtures under `fixtures/p2p/` are published as spec-only vectors under `vectors/p2p/`.
-- Codec corpus: `fixtures/wire_format.json` contains **14** golden wire-encoding vectors; these are published as tx wire roundtrip vectors under `wire_format_roundtrip`.
+- Codec corpus: `fixtures/wire_format.json` contains **31** golden wire-encoding vectors; these are published as tx wire roundtrip vectors under `wire_format_roundtrip`.
 
 Reproduce (local):
 
@@ -46,12 +47,12 @@ Legend:  +++  strong coverage
 | Burn               | +          | +++        | +++        | +++        | n/a        | -          |
 | Multisig           | +          | +++        | +++        | +++        | n/a        | -          |
 | Energy / Freeze    | ++         | +++        | +++        | +++        | n/a        | -          |
-| Energy / Delegate  | +          | +++        | +++        | +++        | n/a        | -          |
-| Contracts          | +          | +++        | +++        | +++        | n/a        | -          |
+| Energy / Delegate  | ++         | +++        | +++        | +++        | n/a        | -          |
+| Contracts          | ++         | +++        | +++        | +++        | n/a        | -          |
 | Privacy (UNO)      | +          | +++        | +++        | +++        | n/a        | -          |
 | Privacy (shield)   | +          | +++        | +++        | +++        | n/a        | -          |
-| TNS (names)        | +          | +++        | +++        | +++        | n/a        | -          |
-| Account / Agent    | +          | +++        | +++        | +++        | n/a        | -          |
+| TNS (names)        | ++         | +++        | +++        | +++        | n/a        | -          |
+| Account / Agent    | ++         | +++        | +++        | +++        | n/a        | -          |
 | Block structure    | n/a        | n/a        | +++        | +++        | -          | -          |
 | DAG ordering       | n/a        | n/a        | +++        | +++        | -          | -          |
 | Finality           | n/a        | n/a        | +++        | +++        | -          | -          |
@@ -59,14 +60,14 @@ Legend:  +++  strong coverage
 | Block rewards      | n/a        | n/a        | +++        | +++        | -          | -          |
 | Network / P2P      | n/a        | n/a        | n/a        | n/a        | +++        | -          |
 | BLAKE3 / HMAC      | +          | n/a        | n/a        | n/a        | n/a        | n/a        |
-| Ristretto255       | -          | n/a        | n/a        | n/a        | n/a        | n/a        |
+| Ristretto255       | +          | n/a        | n/a        | n/a        | n/a        | n/a        |
 | Fee model          | n/a        | +++        | +++        | +++        | n/a        | n/a        |
 | Energy model       | n/a        | +++        | +++        | +++        | n/a        | n/a        |
 | Account model      | n/a        | +++        | +++        | +++        | n/a        | n/a        |
 
 **Reading this matrix:** The published conformance suite is currently L1-heavy:
 267/429 vectors are `tx` execution vectors. L0 wire-format coverage in published
-vectors includes 14 tx wire roundtrip vectors (`wire_format_roundtrip`)
+vectors includes 31 tx wire roundtrip vectors (`wire_format_roundtrip`)
 and 36 negative decode vectors (`wire_format_negative`). The
 priority gaps are:
 - L2: basic executable block processing tests (148 vectors: 38 `block` + 110 `chain`)
@@ -93,10 +94,11 @@ The table below lists the published `vectors/**` groups and vector counts.
 | contracts | `execution/transactions/contracts/` | 25 | L1 state transitions |
 | privacy | `execution/transactions/privacy/` | 34 | L1 state transitions |
 | core | `execution/transactions/core/` | 10 | L1 state transitions |
-| root | `execution/transactions/*.json` | 102 | Includes `tx_core`, `fee_variants`, `wire_format_negative`, `wire_format_roundtrip` |
+| root | `execution/transactions/*.json` | 119 | Includes `tx_core`, `fee_variants`, `wire_format_negative`, `wire_format_roundtrip` |
 | template | `execution/transactions/template/` | 2 | Example vectors |
 | rpc | `rpc/` | 94 | L3 JSON-RPC request/response conformance (`/json_rpc`) |
 | p2p | `p2p/` | 32 | L4 P2P protocol vectors (spec-only, runnable=false) |
+| crypto | `execution/crypto/` | 15 | L0 crypto vectors (Ristretto255), spec-only |
 
 Spec-only fixture categories (`fixtures/{security,models,syscalls,api,consensus}/`) are omitted
 from `vectors/` until a consumer exists for them.
@@ -130,9 +132,9 @@ Param testing (not yet applicable).
 Per-type coverage is tracked from the published conformance suite under `vectors/`.
 As of 2026-02-11:
 
-- Total published vectors (execution suite): **429**
+- Total published vectors (execution suite): **446**
 - Tx execution vectors: **267** (`input.kind="tx"`)
-- L0 tx wire roundtrip vectors: **14** (`wire_format_roundtrip`)
+- L0 tx wire roundtrip vectors: **31** (`wire_format_roundtrip`)
 - L0 negative wire-decoding vectors: **36** (`wire_format_negative`)
 - L2 block vectors: **38** (`input.kind="block"`)
 - L2 chain-import vectors: **110** (`input.kind="chain"`)

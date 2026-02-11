@@ -88,7 +88,7 @@ hashing, and cryptographic primitives produce correct outputs.
 The current primary focus. Each test provides a pre-state (account balances, energy
 resources, domain data), a single transaction, and the expected post-state or error code.
 
-- As of 2026-02-11, the execution suite contains **429** vectors, of which **267**
+- As of 2026-02-11, the execution suite contains **446** vectors, of which **267**
   are single-transaction (`input.kind="tx"`). These cover **11** distinct `tx_type` values.
 - Covers success paths, error paths, and edge cases
 - Verifies balance changes, nonce advancement, state digest
@@ -215,8 +215,8 @@ layer in the testing pyramid.
 
 As of **2026-02-11**:
 
-- Published conformance suite: `vectors/` contains **555** vectors in the `test_vectors` schema (execution + RPC + P2P).
-- Composition: **267** L1 state-transition vectors (`input.tx` present) + **50** L0 wire-format vectors (14 `tx_roundtrip` + 36 malformed decode negatives) + **38** L2 block vectors (`input.kind="block"`) + **110** L2 chain-import vectors (`input.kind="chain"`) + **94** L3 RPC vectors (`input.rpc` present) + **32** L4 P2P vectors (`input.kind=\"p2p\"`, runnable=false).
+- Published conformance suite: `vectors/` contains **587** vectors in the `test_vectors` schema (execution + RPC + P2P + crypto).
+- Composition: **267** L1 state-transition vectors (`input.tx` present) + **67** L0 wire-format vectors (31 `tx_roundtrip` + 36 malformed decode negatives) + **15** L0 Ristretto255 vectors (`input.kind="ristretto255"`, runnable=false) + **38** L2 block vectors (`input.kind="block"`) + **110** L2 chain-import vectors (`input.kind="chain"`) + **94** L3 RPC vectors (`input.rpc` present) + **32** L4 P2P vectors (`input.kind=\"p2p\"`, runnable=false).
 - Covered transaction types: **11** distinct `tx_type` values in published vectors.
 - Note: `uno_transfers` vectors are currently **tx-json-only** (`input.wire_hex=""`) in the published suite.
 - Spec-only: fixtures under `fixtures/{security,models,syscalls,consensus}/` are not published to `vectors/` yet.
@@ -229,7 +229,7 @@ Counts below are for the published conformance suite under `vectors/execution/tr
 
 | Group | Vectors |
 |------:|--------:|
-| (root) | 102 |
+| (root) | 119 |
 | account | 45 |
 | energy | 43 |
 | privacy | 34 |
@@ -247,7 +247,7 @@ Additional published groups:
 
 | Layer | Current Vectors | Target | Coverage |
 |-------|-----------------|--------|----------|
-| L0    | 50 (wire decode) | ~50 | Good  |
+| L0    | 78 (wire + ristretto) | ~50 | Good  |
 | L1    | 267 (tx state transition) | ~200 | Good |
 | L2    | 148 (38 `block` + 110 `chain`) | ~50 | Good |
 | L3    | 94 (RPC) | ~80 | Good |
@@ -258,9 +258,9 @@ Additional published groups:
 
 ### Layer 0 — Pure Computation
 
-**Current (published)**: 50 wire-format vectors (14 tx wire roundtrip + 36 negative malformed `wire_hex` rejected by decode).
+**Current (published)**: 67 wire-format vectors (31 tx wire roundtrip + 36 negative malformed `wire_hex` rejected by decode) plus 15 Ristretto255 vectors (key derivation + signatures + point/proof bytes).
 
-**Current (fixtures only)**: `fixtures/wire_format.json` contains 14 golden wire-encoding vectors
+**Current (fixtures only)**: `fixtures/wire_format.json` contains 31 golden wire-encoding vectors
 (`expected_hex`). A larger corpus is consumed via Rust internal tests (see `~/tos/common/tests/wire_format.json`).
 
 **Gaps**:
@@ -268,8 +268,8 @@ Additional published groups:
 - Positive wire format tests for all tx types (encode and/or decode acceptance)
 - BLAKE3 hash test vectors (cross-implementation)
 - HMAC test vectors
-- Ristretto255 point encoding/decoding vectors
-- Key derivation vectors
+- Expand Ristretto255 vectors (scalar/point operations, verification)
+- Key derivation vectors (beyond current seed-byte coverage)
 - Transaction ID computation vectors
 
 ### Layer 1 — Single Transaction State Transition

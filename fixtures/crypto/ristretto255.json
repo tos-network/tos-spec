@@ -1,0 +1,214 @@
+{
+  "test_vectors": [
+    {
+      "name": "ristretto_public_key_seed_1",
+      "description": "Public key derived from seed byte 1 (compressed Ristretto255).",
+      "runnable": false,
+      "input": {
+        "kind": "ristretto255",
+        "op": "public_key_from_seed",
+        "seed": 1
+      },
+      "expected": {
+        "public_key": "8c9240b456a9e6dc65c377a1048d745f94a08cdb7f44cbcd7b46f34048871134"
+      }
+    },
+    {
+      "name": "ristretto_public_key_seed_2",
+      "description": "Public key derived from seed byte 2 (compressed Ristretto255).",
+      "runnable": false,
+      "input": {
+        "kind": "ristretto255",
+        "op": "public_key_from_seed",
+        "seed": 2
+      },
+      "expected": {
+        "public_key": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249"
+      }
+    },
+    {
+      "name": "ristretto_public_key_seed_255",
+      "description": "Public key derived from seed byte 255 (compressed Ristretto255).",
+      "runnable": false,
+      "input": {
+        "kind": "ristretto255",
+        "op": "public_key_from_seed",
+        "seed": 255
+      },
+      "expected": {
+        "public_key": "9ccc20e27017002f54182ecbd6a97c7447ec76dc83b6ee42c588c1fa8e01a258"
+      }
+    },
+    {
+      "name": "ristretto_public_key_private_1_32",
+      "description": "Public key derived from raw 32-byte private key.",
+      "runnable": false,
+      "input": {
+        "kind": "ristretto255",
+        "op": "public_key_from_private",
+        "private_key": "0102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f20"
+      },
+      "expected": {
+        "public_key": "b644359d9afd69d82b9a82619803f4fd4a6722708c3ce063405bf7d5d38c7e48"
+      }
+    },
+    {
+      "name": "ristretto_public_key_private_zero",
+      "description": "Public key derived from raw 32-byte private key (all zeros).",
+      "runnable": false,
+      "input": {
+        "kind": "ristretto255",
+        "op": "public_key_from_private",
+        "private_key": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "expected": {
+        "public_key": "0000000000000000000000000000000000000000000000000000000000000000"
+      }
+    },
+    {
+      "name": "ristretto_public_key_private_ff",
+      "description": "Public key derived from raw 32-byte private key (all 0xFF).",
+      "runnable": false,
+      "input": {
+        "kind": "ristretto255",
+        "op": "public_key_from_private",
+        "private_key": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+      },
+      "expected": {
+        "public_key": "f6decfbf9efabc8aa59452aa570cb84eed7fcfca7daea58a93b93444400a7a73"
+      }
+    },
+    {
+      "name": "ristretto_sign_seed_1",
+      "description": "Schnorr signature over fixed message (seed byte 1).",
+      "runnable": false,
+      "input": {
+        "kind": "ristretto255",
+        "op": "sign_data",
+        "seed": 255,
+        "message": "746f732d72697374726574746f2d74657374"
+      },
+      "expected": {
+        "public_key": "8c9240b456a9e6dc65c377a1048d745f94a08cdb7f44cbcd7b46f34048871134",
+        "signature": "32adbdcd7d71335f28f98decdcfc9139a830ec4c8c3d22a988a8f9a149753008b69758e655da26388f2acddc3ccbfe8996ac10226d51577456ee870545639e0c"
+      }
+    },
+    {
+      "name": "ristretto_sign_seed_1_long",
+      "description": "Schnorr signature over long message (seed byte 1).",
+      "runnable": false,
+      "input": {
+        "kind": "ristretto255",
+        "op": "sign_data",
+        "seed": 255,
+        "message": "746f732d72697374726574746f2d6c6f6e672d6d6573736167652d746f732d72697374726574746f2d6c6f6e672d6d6573736167652d746f732d72697374726574746f2d6c6f6e672d6d6573736167652d746f732d72697374726574746f2d6c6f6e672d6d6573736167652d746f732d72697374726574746f2d6c6f6e672d6d6573736167652d746f732d72697374726574746f2d6c6f6e672d6d6573736167652d746f732d72697374726574746f2d6c6f6e672d6d6573736167652d746f732d72697374726574746f2d6c6f6e672d6d6573736167652d746f732d72697374726574746f2d6c6f6e672d6d6573736167652d746f732d72697374726574746f2d6c6f6e672d6d6573736167652d746f732d72697374726574746f2d6c6f6e672d6d6573736167652d746f732d72697374726574746f2d6c6f6e672d6d6573736167652d746f732d72697374726574746f2d6c6f6e672d6d6573736167652d746f732d72697374726574746f2d6c6f6e672d6d6573736167652d746f732d72697374726574746f2d6c6f6e672d6d6573736167652d746f732d72697374726574746f2d6c6f6e672d6d6573736167652d"
+      },
+      "expected": {
+        "public_key": "8c9240b456a9e6dc65c377a1048d745f94a08cdb7f44cbcd7b46f34048871134",
+        "signature": "bb2e32f8a7259cc80ee81b43306e58c17ad1159e57cee12e60568f77c5dca6063cab742d7ac70d9d155d41c298c61cc09c307f1ef92d463dbb41c7d76881ba04"
+      }
+    },
+    {
+      "name": "ristretto_sign_seed_1_empty",
+      "description": "Schnorr signature over empty message (seed byte 1).",
+      "runnable": false,
+      "input": {
+        "kind": "ristretto255",
+        "op": "sign_data",
+        "seed": 255,
+        "message": ""
+      },
+      "expected": {
+        "public_key": "8c9240b456a9e6dc65c377a1048d745f94a08cdb7f44cbcd7b46f34048871134",
+        "signature": "2d63975176c34b87a9b3814e078791daa5d92d17060a336ce79784248073610fcad38bd884bb67ec535303c283ed73e14dd11a507c293eaad3ce1e1230dd5f0a"
+      }
+    },
+    {
+      "name": "ristretto_sign_private_1_32",
+      "description": "Schnorr signature over fixed message (raw private key).",
+      "runnable": false,
+      "input": {
+        "kind": "ristretto255",
+        "op": "sign_with_private",
+        "private_key": "0102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f20",
+        "message": "746f732d72697374726574746f2d74657374"
+      },
+      "expected": {
+        "public_key": "b644359d9afd69d82b9a82619803f4fd4a6722708c3ce063405bf7d5d38c7e48",
+        "signature": "5e923087dfdf8821699225acaf2e1b509543899f3cd5de63c68b0e600805ce07e338ecd1670a58af9594e097c3c1386bd9e96e8a73d311c13c32b9941c03680c"
+      }
+    },
+    {
+      "name": "ristretto_sign_private_ff",
+      "description": "Schnorr signature over fixed message (raw private key all 0xFF).",
+      "runnable": false,
+      "input": {
+        "kind": "ristretto255",
+        "op": "sign_with_private",
+        "private_key": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+        "message": "746f732d72697374726574746f2d74657374"
+      },
+      "expected": {
+        "public_key": "f6decfbf9efabc8aa59452aa570cb84eed7fcfca7daea58a93b93444400a7a73",
+        "signature": "160be4d567af689f74f658a6c0d36127379e112f3609d0c9151c788194623708e8ad114e0fbdf19e9a9e2d481b705a50acdd4f3a3a74a52f886f6a103f9b9306"
+      }
+    },
+    {
+      "name": "ristretto_random_valid_point",
+      "description": "Deterministic valid compressed Ristretto255 point (32 bytes).",
+      "runnable": false,
+      "input": {
+        "kind": "ristretto255",
+        "op": "random_valid_point"
+      },
+      "expected": {
+        "point": "3e18947ecdb40f96ae55b8afc9ef2616721cafa2a4059e6cfc164846df21fc6f"
+      }
+    },
+    {
+      "name": "ristretto_dummy_ct_validity_proof",
+      "description": "Deterministic wire-valid ciphertext validity proof bytes.",
+      "runnable": false,
+      "input": {
+        "kind": "ristretto255",
+        "op": "dummy_ct_validity_proof"
+      },
+      "expected": {
+        "proof": "8abb0a2f9acc9e214a29654457fd882da572929a2b17d2538e6741fd3a06255e6e22ccc4ef37302096aa81e2978116d7a74fc4f6d7546bff966834aa8ad3c207fcfccdcc4302c521928c35875180c9db13ac5592041b14a2be4803392c2a1b0c643fc36b3dd53c43d5c62118ff89724e9e239b2b47eb32bee4071740a62c0f03664bf0b6c7160b04cd84aa2601bf581fe901ae09b4c4ae9a225f6ba0b596c005",
+        "length": 160
+      }
+    },
+    {
+      "name": "ristretto_shield_crypto_seed2_amount_100k",
+      "description": "Shield transfer crypto tuple (seed 2, amount 100000).",
+      "runnable": false,
+      "input": {
+        "kind": "ristretto255",
+        "op": "shield_crypto",
+        "seed": 2,
+        "amount": 100000
+      },
+      "expected": {
+        "commitment": "8e29313e0cc2979f17b406ffc9fc4c3d16afaab879a0d79dbc66355d0dd00569",
+        "receiver_handle": "f63276d84e3ae35f15c1ed095aec14753c912b352398263cea0c550b4bec4442",
+        "proof": "1adea033a3aec67a67afa217c4972aea9dd063c9bc24f3e9f49c83ebe5c5565968017738a36754f249176f907bba1e8d568efe23d2107006a33c3c4041e51409e36ddfb9c416f435d6c65a62315cd6f1b3cdcec03fdbf29386a29786abee2601"
+      }
+    },
+    {
+      "name": "ristretto_shield_crypto_seed9_amount_500m",
+      "description": "Shield transfer crypto tuple (seed 9, amount 500000000).",
+      "runnable": false,
+      "input": {
+        "kind": "ristretto255",
+        "op": "shield_crypto",
+        "seed": 9,
+        "amount": 500000000
+      },
+      "expected": {
+        "commitment": "c2113210286ec1644fecbab337b94b0b74234dd7bbb7558a9d59501bb75c5143",
+        "receiver_handle": "c811368a0cd6f3995903114c2e4b3c566e9c09806ccbd78a5c260f1f4a0e684b",
+        "proof": "bab41b75ae5c32029a65703f667bd914f9779417d456ed3efba2c791c2dc42568cb8bbf9fe27f49986710b40f94c553c51a08b3e79432695b1aa6c7fcbe0dc3598156ac5c04deb0f7088508cc64b822fd6b8539aa4d3aa535e7dd494b3d23000"
+      }
+    }
+  ]
+}
