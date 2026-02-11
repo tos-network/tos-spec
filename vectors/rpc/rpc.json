@@ -1,6 +1,127 @@
 {
   "test_vectors": [
     {
+      "name": "rpc_state_export_base",
+      "description": "JSON-RPC state export (base)",
+      "pre_state": {
+        "network_chain_id": 1,
+        "global_state": {
+          "total_supply": 100000000000000,
+          "total_burned": 0,
+          "total_energy": 42,
+          "block_height": 0,
+          "timestamp": 123456789
+        },
+        "accounts": [
+          {
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "balance": 100000000000,
+            "nonce": 7,
+            "frozen": 1000000000,
+            "energy": 42,
+            "flags": 0,
+            "data": ""
+          },
+          {
+            "address": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824",
+            "balance": 2500000000,
+            "nonce": 1,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ],
+        "tns_names": [
+          {
+            "name": "alice",
+            "owner": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249"
+          }
+        ],
+        "energy_resources": [
+          {
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "energy": 42,
+            "frozen_tos": 1000000000,
+            "freeze_records": [
+              {
+                "amount": 500000000,
+                "energy_gained": 70,
+                "freeze_height": 10,
+                "unlock_height": 20
+              }
+            ],
+            "pending_unfreezes": [
+              {
+                "amount": 200000000,
+                "expire_height": 30
+              }
+            ]
+          }
+        ],
+        "contracts": [
+          {
+            "hash": "2222222222222222222222222222222222222222222222222222222222222222",
+            "module": "7f454c460201"
+          }
+        ]
+      },
+      "input": {
+        "rpc_url": "/json_rpc",
+        "rpc": {
+          "jsonrpc": "2.0",
+          "id": 3,
+          "method": "tos_stateExport",
+          "params": {}
+        }
+      },
+      "expected": {
+        "response": {
+          "jsonrpc": "2.0",
+          "id": 3,
+          "result": {
+            "accounts": [
+              {
+                "address": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824",
+                "balance": 2500000000,
+                "nonce": 1,
+                "frozen": 0,
+                "energy": 0,
+                "flags": 0,
+                "data": ""
+              },
+              {
+                "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+                "balance": 100000000000,
+                "nonce": 7,
+                "frozen": 1000000000,
+                "energy": 42,
+                "flags": 0,
+                "data": ""
+              }
+            ],
+            "agent_accounts": [],
+            "contracts": [
+              {
+                "hash": "2222222222222222222222222222222222222222222222222222222222222222",
+                "module": "7f454c460201"
+              }
+            ],
+            "energy_resources": [],
+            "global_state": {
+              "total_supply": 100000000000000,
+              "total_burned": 0,
+              "total_energy": 42,
+              "block_height": 0,
+              "timestamp": 123456789
+            },
+            "network_chain_id": 1,
+            "tns_names": []
+          }
+        }
+      }
+    },
+    {
       "name": "rpc_state_digest_base",
       "description": "JSON-RPC state digest (base)",
       "pre_state": {
@@ -438,6 +559,179 @@
       }
     },
     {
+      "name": "rpc_account_get_missing_params",
+      "description": "JSON-RPC account get (missing params rejected)",
+      "pre_state": {
+        "network_chain_id": 1,
+        "global_state": {
+          "total_supply": 100000000000000,
+          "total_burned": 0,
+          "total_energy": 42,
+          "block_height": 0,
+          "timestamp": 123456789
+        },
+        "accounts": [
+          {
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "balance": 100000000000,
+            "nonce": 7,
+            "frozen": 1000000000,
+            "energy": 42,
+            "flags": 0,
+            "data": ""
+          },
+          {
+            "address": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824",
+            "balance": 2500000000,
+            "nonce": 1,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ],
+        "tns_names": [
+          {
+            "name": "alice",
+            "owner": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249"
+          }
+        ],
+        "energy_resources": [
+          {
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "energy": 42,
+            "frozen_tos": 1000000000,
+            "freeze_records": [
+              {
+                "amount": 500000000,
+                "energy_gained": 70,
+                "freeze_height": 10,
+                "unlock_height": 20
+              }
+            ],
+            "pending_unfreezes": [
+              {
+                "amount": 200000000,
+                "expire_height": 30
+              }
+            ]
+          }
+        ],
+        "contracts": [
+          {
+            "hash": "2222222222222222222222222222222222222222222222222222222222222222",
+            "module": "7f454c460201"
+          }
+        ]
+      },
+      "input": {
+        "rpc_url": "/json_rpc",
+        "rpc": {
+          "jsonrpc": "2.0",
+          "id": 13,
+          "method": "tos_accountGet"
+        }
+      },
+      "expected": {
+        "response": {
+          "jsonrpc": "2.0",
+          "id": 13,
+          "error": {
+            "code": -32602,
+            "message": "Invalid params: address"
+          }
+        }
+      }
+    },
+    {
+      "name": "rpc_account_get_invalid_type",
+      "description": "JSON-RPC account get (address wrong type rejected)",
+      "pre_state": {
+        "network_chain_id": 1,
+        "global_state": {
+          "total_supply": 100000000000000,
+          "total_burned": 0,
+          "total_energy": 42,
+          "block_height": 0,
+          "timestamp": 123456789
+        },
+        "accounts": [
+          {
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "balance": 100000000000,
+            "nonce": 7,
+            "frozen": 1000000000,
+            "energy": 42,
+            "flags": 0,
+            "data": ""
+          },
+          {
+            "address": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824",
+            "balance": 2500000000,
+            "nonce": 1,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ],
+        "tns_names": [
+          {
+            "name": "alice",
+            "owner": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249"
+          }
+        ],
+        "energy_resources": [
+          {
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "energy": 42,
+            "frozen_tos": 1000000000,
+            "freeze_records": [
+              {
+                "amount": 500000000,
+                "energy_gained": 70,
+                "freeze_height": 10,
+                "unlock_height": 20
+              }
+            ],
+            "pending_unfreezes": [
+              {
+                "amount": 200000000,
+                "expire_height": 30
+              }
+            ]
+          }
+        ],
+        "contracts": [
+          {
+            "hash": "2222222222222222222222222222222222222222222222222222222222222222",
+            "module": "7f454c460201"
+          }
+        ]
+      },
+      "input": {
+        "rpc_url": "/json_rpc",
+        "rpc": {
+          "jsonrpc": "2.0",
+          "id": 14,
+          "method": "tos_accountGet",
+          "params": {
+            "address": 1
+          }
+        }
+      },
+      "expected": {
+        "response": {
+          "jsonrpc": "2.0",
+          "id": 14,
+          "error": {
+            "code": -32602,
+            "message": "Invalid params: address"
+          }
+        }
+      }
+    },
+    {
       "name": "rpc_energy_get_alice",
       "description": "JSON-RPC energy get (Alice)",
       "pre_state": {
@@ -543,6 +837,176 @@
       }
     },
     {
+      "name": "rpc_energy_get_unknown",
+      "description": "JSON-RPC energy get (unknown returns null)",
+      "pre_state": {
+        "network_chain_id": 1,
+        "global_state": {
+          "total_supply": 100000000000000,
+          "total_burned": 0,
+          "total_energy": 42,
+          "block_height": 0,
+          "timestamp": 123456789
+        },
+        "accounts": [
+          {
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "balance": 100000000000,
+            "nonce": 7,
+            "frozen": 1000000000,
+            "energy": 42,
+            "flags": 0,
+            "data": ""
+          },
+          {
+            "address": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824",
+            "balance": 2500000000,
+            "nonce": 1,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ],
+        "tns_names": [
+          {
+            "name": "alice",
+            "owner": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249"
+          }
+        ],
+        "energy_resources": [
+          {
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "energy": 42,
+            "frozen_tos": 1000000000,
+            "freeze_records": [
+              {
+                "amount": 500000000,
+                "energy_gained": 70,
+                "freeze_height": 10,
+                "unlock_height": 20
+              }
+            ],
+            "pending_unfreezes": [
+              {
+                "amount": 200000000,
+                "expire_height": 30
+              }
+            ]
+          }
+        ],
+        "contracts": [
+          {
+            "hash": "2222222222222222222222222222222222222222222222222222222222222222",
+            "module": "7f454c460201"
+          }
+        ]
+      },
+      "input": {
+        "rpc_url": "/json_rpc",
+        "rpc": {
+          "jsonrpc": "2.0",
+          "id": 21,
+          "method": "tos_energyGet",
+          "params": {
+            "address": "1111111111111111111111111111111111111111111111111111111111111111"
+          }
+        }
+      },
+      "expected": {
+        "response": {
+          "jsonrpc": "2.0",
+          "id": 21,
+          "result": null
+        }
+      }
+    },
+    {
+      "name": "rpc_energy_get_missing_params",
+      "description": "JSON-RPC energy get (missing params rejected)",
+      "pre_state": {
+        "network_chain_id": 1,
+        "global_state": {
+          "total_supply": 100000000000000,
+          "total_burned": 0,
+          "total_energy": 42,
+          "block_height": 0,
+          "timestamp": 123456789
+        },
+        "accounts": [
+          {
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "balance": 100000000000,
+            "nonce": 7,
+            "frozen": 1000000000,
+            "energy": 42,
+            "flags": 0,
+            "data": ""
+          },
+          {
+            "address": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824",
+            "balance": 2500000000,
+            "nonce": 1,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ],
+        "tns_names": [
+          {
+            "name": "alice",
+            "owner": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249"
+          }
+        ],
+        "energy_resources": [
+          {
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "energy": 42,
+            "frozen_tos": 1000000000,
+            "freeze_records": [
+              {
+                "amount": 500000000,
+                "energy_gained": 70,
+                "freeze_height": 10,
+                "unlock_height": 20
+              }
+            ],
+            "pending_unfreezes": [
+              {
+                "amount": 200000000,
+                "expire_height": 30
+              }
+            ]
+          }
+        ],
+        "contracts": [
+          {
+            "hash": "2222222222222222222222222222222222222222222222222222222222222222",
+            "module": "7f454c460201"
+          }
+        ]
+      },
+      "input": {
+        "rpc_url": "/json_rpc",
+        "rpc": {
+          "jsonrpc": "2.0",
+          "id": 22,
+          "method": "tos_energyGet"
+        }
+      },
+      "expected": {
+        "response": {
+          "jsonrpc": "2.0",
+          "id": 22,
+          "error": {
+            "code": -32602,
+            "message": "Invalid params: address"
+          }
+        }
+      }
+    },
+    {
       "name": "rpc_tns_resolve_alice",
       "description": "JSON-RPC resolve name -> owner (alice)",
       "pre_state": {
@@ -624,6 +1088,91 @@
           "jsonrpc": "2.0",
           "id": 30,
           "result": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249"
+        }
+      }
+    },
+    {
+      "name": "rpc_tns_resolve_unknown",
+      "description": "JSON-RPC resolve name -> null (missing)",
+      "pre_state": {
+        "network_chain_id": 1,
+        "global_state": {
+          "total_supply": 100000000000000,
+          "total_burned": 0,
+          "total_energy": 42,
+          "block_height": 0,
+          "timestamp": 123456789
+        },
+        "accounts": [
+          {
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "balance": 100000000000,
+            "nonce": 7,
+            "frozen": 1000000000,
+            "energy": 42,
+            "flags": 0,
+            "data": ""
+          },
+          {
+            "address": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824",
+            "balance": 2500000000,
+            "nonce": 1,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ],
+        "tns_names": [
+          {
+            "name": "alice",
+            "owner": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249"
+          }
+        ],
+        "energy_resources": [
+          {
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "energy": 42,
+            "frozen_tos": 1000000000,
+            "freeze_records": [
+              {
+                "amount": 500000000,
+                "energy_gained": 70,
+                "freeze_height": 10,
+                "unlock_height": 20
+              }
+            ],
+            "pending_unfreezes": [
+              {
+                "amount": 200000000,
+                "expire_height": 30
+              }
+            ]
+          }
+        ],
+        "contracts": [
+          {
+            "hash": "2222222222222222222222222222222222222222222222222222222222222222",
+            "module": "7f454c460201"
+          }
+        ]
+      },
+      "input": {
+        "rpc_url": "/json_rpc",
+        "rpc": {
+          "jsonrpc": "2.0",
+          "id": 31,
+          "method": "tos_tnsResolve",
+          "params": {
+            "name": "missing"
+          }
+        }
+      },
+      "expected": {
+        "response": {
+          "jsonrpc": "2.0",
+          "id": 31,
+          "result": null
         }
       }
     },
@@ -712,6 +1261,91 @@
             "hash": "2222222222222222222222222222222222222222222222222222222222222222",
             "module": "7f454c460201"
           }
+        }
+      }
+    },
+    {
+      "name": "rpc_contract_get_missing",
+      "description": "JSON-RPC contract get (missing returns null)",
+      "pre_state": {
+        "network_chain_id": 1,
+        "global_state": {
+          "total_supply": 100000000000000,
+          "total_burned": 0,
+          "total_energy": 42,
+          "block_height": 0,
+          "timestamp": 123456789
+        },
+        "accounts": [
+          {
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "balance": 100000000000,
+            "nonce": 7,
+            "frozen": 1000000000,
+            "energy": 42,
+            "flags": 0,
+            "data": ""
+          },
+          {
+            "address": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824",
+            "balance": 2500000000,
+            "nonce": 1,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ],
+        "tns_names": [
+          {
+            "name": "alice",
+            "owner": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249"
+          }
+        ],
+        "energy_resources": [
+          {
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "energy": 42,
+            "frozen_tos": 1000000000,
+            "freeze_records": [
+              {
+                "amount": 500000000,
+                "energy_gained": 70,
+                "freeze_height": 10,
+                "unlock_height": 20
+              }
+            ],
+            "pending_unfreezes": [
+              {
+                "amount": 200000000,
+                "expire_height": 30
+              }
+            ]
+          }
+        ],
+        "contracts": [
+          {
+            "hash": "2222222222222222222222222222222222222222222222222222222222222222",
+            "module": "7f454c460201"
+          }
+        ]
+      },
+      "input": {
+        "rpc_url": "/json_rpc",
+        "rpc": {
+          "jsonrpc": "2.0",
+          "id": 41,
+          "method": "tos_contractGet",
+          "params": {
+            "hash": "1111111111111111111111111111111111111111111111111111111111111111"
+          }
+        }
+      },
+      "expected": {
+        "response": {
+          "jsonrpc": "2.0",
+          "id": 41,
+          "result": null
         }
       }
     },
@@ -893,6 +1527,91 @@
       }
     },
     {
+      "name": "rpc_invalid_request_missing_jsonrpc",
+      "description": "Missing jsonrpc field rejected",
+      "pre_state": {
+        "network_chain_id": 1,
+        "global_state": {
+          "total_supply": 100000000000000,
+          "total_burned": 0,
+          "total_energy": 42,
+          "block_height": 0,
+          "timestamp": 123456789
+        },
+        "accounts": [
+          {
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "balance": 100000000000,
+            "nonce": 7,
+            "frozen": 1000000000,
+            "energy": 42,
+            "flags": 0,
+            "data": ""
+          },
+          {
+            "address": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824",
+            "balance": 2500000000,
+            "nonce": 1,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ],
+        "tns_names": [
+          {
+            "name": "alice",
+            "owner": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249"
+          }
+        ],
+        "energy_resources": [
+          {
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "energy": 42,
+            "frozen_tos": 1000000000,
+            "freeze_records": [
+              {
+                "amount": 500000000,
+                "energy_gained": 70,
+                "freeze_height": 10,
+                "unlock_height": 20
+              }
+            ],
+            "pending_unfreezes": [
+              {
+                "amount": 200000000,
+                "expire_height": 30
+              }
+            ]
+          }
+        ],
+        "contracts": [
+          {
+            "hash": "2222222222222222222222222222222222222222222222222222222222222222",
+            "module": "7f454c460201"
+          }
+        ]
+      },
+      "input": {
+        "rpc_url": "/json_rpc",
+        "rpc": {
+          "id": 61,
+          "method": "tos_stateDigest",
+          "params": {}
+        }
+      },
+      "expected": {
+        "response": {
+          "jsonrpc": "2.0",
+          "id": 61,
+          "error": {
+            "code": -32600,
+            "message": "Invalid Request"
+          }
+        }
+      }
+    },
+    {
       "name": "rpc_method_not_found",
       "description": "Unknown method rejected",
       "pre_state": {
@@ -962,7 +1681,7 @@
         "rpc_url": "/json_rpc",
         "rpc": {
           "jsonrpc": "2.0",
-          "id": 61,
+          "id": 62,
           "method": "tos_noSuchMethod",
           "params": {}
         }
@@ -970,7 +1689,7 @@
       "expected": {
         "response": {
           "jsonrpc": "2.0",
-          "id": 61,
+          "id": 62,
           "error": {
             "code": -32601,
             "message": "Method not found"
@@ -1048,7 +1767,7 @@
         "rpc_url": "/json_rpc",
         "rpc": {
           "jsonrpc": "2.0",
-          "id": 62,
+          "id": 63,
           "method": "tos_accountGet",
           "params": {
             "address": "00"
@@ -1058,7 +1777,7 @@
       "expected": {
         "response": {
           "jsonrpc": "2.0",
-          "id": 62,
+          "id": 63,
           "error": {
             "code": -32602,
             "message": "Invalid params: address"
@@ -1136,7 +1855,7 @@
         "rpc_url": "/json_rpc",
         "rpc": {
           "jsonrpc": "2.0",
-          "id": 63,
+          "id": 64,
           "method": "tos_tnsResolve",
           "params": {
             "name": ""
@@ -1146,7 +1865,7 @@
       "expected": {
         "response": {
           "jsonrpc": "2.0",
-          "id": 63,
+          "id": 64,
           "error": {
             "code": -32602,
             "message": "Invalid params: name"
@@ -1224,7 +1943,7 @@
         "rpc_url": "/json_rpc",
         "rpc": {
           "jsonrpc": "2.0",
-          "id": 64,
+          "id": 65,
           "method": "tos_contractGet",
           "params": {
             "hash": "zz"
@@ -1234,11 +1953,181 @@
       "expected": {
         "response": {
           "jsonrpc": "2.0",
-          "id": 64,
+          "id": 65,
           "error": {
             "code": -32602,
             "message": "Invalid params: hash"
           }
+        }
+      }
+    },
+    {
+      "name": "rpc_contract_get_missing_params",
+      "description": "Missing contract hash rejected",
+      "pre_state": {
+        "network_chain_id": 1,
+        "global_state": {
+          "total_supply": 100000000000000,
+          "total_burned": 0,
+          "total_energy": 42,
+          "block_height": 0,
+          "timestamp": 123456789
+        },
+        "accounts": [
+          {
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "balance": 100000000000,
+            "nonce": 7,
+            "frozen": 1000000000,
+            "energy": 42,
+            "flags": 0,
+            "data": ""
+          },
+          {
+            "address": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824",
+            "balance": 2500000000,
+            "nonce": 1,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ],
+        "tns_names": [
+          {
+            "name": "alice",
+            "owner": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249"
+          }
+        ],
+        "energy_resources": [
+          {
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "energy": 42,
+            "frozen_tos": 1000000000,
+            "freeze_records": [
+              {
+                "amount": 500000000,
+                "energy_gained": 70,
+                "freeze_height": 10,
+                "unlock_height": 20
+              }
+            ],
+            "pending_unfreezes": [
+              {
+                "amount": 200000000,
+                "expire_height": 30
+              }
+            ]
+          }
+        ],
+        "contracts": [
+          {
+            "hash": "2222222222222222222222222222222222222222222222222222222222222222",
+            "module": "7f454c460201"
+          }
+        ]
+      },
+      "input": {
+        "rpc_url": "/json_rpc",
+        "rpc": {
+          "jsonrpc": "2.0",
+          "id": 66,
+          "method": "tos_contractGet"
+        }
+      },
+      "expected": {
+        "response": {
+          "jsonrpc": "2.0",
+          "id": 66,
+          "error": {
+            "code": -32602,
+            "message": "Invalid params: hash"
+          }
+        }
+      }
+    },
+    {
+      "name": "rpc_state_digest_with_params",
+      "description": "stateDigest ignores extra params",
+      "pre_state": {
+        "network_chain_id": 1,
+        "global_state": {
+          "total_supply": 100000000000000,
+          "total_burned": 0,
+          "total_energy": 42,
+          "block_height": 0,
+          "timestamp": 123456789
+        },
+        "accounts": [
+          {
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "balance": 100000000000,
+            "nonce": 7,
+            "frozen": 1000000000,
+            "energy": 42,
+            "flags": 0,
+            "data": ""
+          },
+          {
+            "address": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824",
+            "balance": 2500000000,
+            "nonce": 1,
+            "frozen": 0,
+            "energy": 0,
+            "flags": 0,
+            "data": ""
+          }
+        ],
+        "tns_names": [
+          {
+            "name": "alice",
+            "owner": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249"
+          }
+        ],
+        "energy_resources": [
+          {
+            "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
+            "energy": 42,
+            "frozen_tos": 1000000000,
+            "freeze_records": [
+              {
+                "amount": 500000000,
+                "energy_gained": 70,
+                "freeze_height": 10,
+                "unlock_height": 20
+              }
+            ],
+            "pending_unfreezes": [
+              {
+                "amount": 200000000,
+                "expire_height": 30
+              }
+            ]
+          }
+        ],
+        "contracts": [
+          {
+            "hash": "2222222222222222222222222222222222222222222222222222222222222222",
+            "module": "7f454c460201"
+          }
+        ]
+      },
+      "input": {
+        "rpc_url": "/json_rpc",
+        "rpc": {
+          "jsonrpc": "2.0",
+          "id": 67,
+          "method": "tos_stateDigest",
+          "params": {
+            "foo": 1
+          }
+        }
+      },
+      "expected": {
+        "response": {
+          "jsonrpc": "2.0",
+          "id": 67,
+          "result": "80ee5b699de2c59c5d2b8a7295a2a6d174074f54d61d2a3b529b25fab2f19b80"
         }
       }
     },

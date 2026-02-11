@@ -81,6 +81,24 @@ def _vec(name: str, description: str, pre_state: dict, rpc: dict, response: dict
     }
 
 
+def _export_expected(state_json: dict, *, rpc_id: int) -> dict:
+    """Expected JSON-RPC response for tos_stateExport."""
+    accounts = sorted(state_json.get("accounts", []), key=lambda a: a.get("address", ""))
+    return {
+        "jsonrpc": "2.0",
+        "id": rpc_id,
+        "result": {
+            "accounts": accounts,
+            "agent_accounts": [],
+            "contracts": state_json.get("contracts", []),
+            "energy_resources": [],
+            "global_state": state_json["global_state"],
+            "network_chain_id": state_json["network_chain_id"],
+            "tns_names": [],
+        },
+    }
+
+
 def test_rpc_vectors(vector_test_group) -> None:
     out = "api/rpc.json"
 
@@ -91,6 +109,16 @@ def test_rpc_vectors(vector_test_group) -> None:
     alt_digest = compute_state_digest(alt)
 
     # --- Happy path: state + account queries ---
+    vector_test_group(
+        out,
+        _vec(
+            "rpc_state_export_base",
+            "JSON-RPC state export (base)",
+            base,
+            {"jsonrpc": "2.0", "id": 3, "method": "tos_stateExport", "params": {}},
+            _export_expected(base, rpc_id=3),
+        ),
+    )
     vector_test_group(
         out,
         _vec(
@@ -171,6 +199,26 @@ def test_rpc_vectors(vector_test_group) -> None:
             {"jsonrpc": "2.0", "id": 12, "result": None},
         ),
     )
+    vector_test_group(
+        out,
+        _vec(
+            "rpc_account_get_missing_params",
+            "JSON-RPC account get (missing params rejected)",
+            base,
+            {"jsonrpc": "2.0", "id": 13, "method": "tos_accountGet"},
+            {"jsonrpc": "2.0", "id": 13, "error": {"code": -32602, "message": "Invalid params: address"}},
+        ),
+    )
+    vector_test_group(
+        out,
+        _vec(
+            "rpc_account_get_invalid_type",
+            "JSON-RPC account get (address wrong type rejected)",
+            base,
+            {"jsonrpc": "2.0", "id": 14, "method": "tos_accountGet", "params": {"address": 1}},
+            {"jsonrpc": "2.0", "id": 14, "error": {"code": -32602, "message": "Invalid params: address"}},
+        ),
+    )
 
     # --- Energy / TNS / Contracts ---
     vector_test_group(
@@ -205,11 +253,41 @@ def test_rpc_vectors(vector_test_group) -> None:
     vector_test_group(
         out,
         _vec(
+            "rpc_energy_get_unknown",
+            "JSON-RPC energy get (unknown returns null)",
+            base,
+            {"jsonrpc": "2.0", "id": 21, "method": "tos_energyGet", "params": {"address": unknown_hex}},
+            {"jsonrpc": "2.0", "id": 21, "result": None},
+        ),
+    )
+    vector_test_group(
+        out,
+        _vec(
+            "rpc_energy_get_missing_params",
+            "JSON-RPC energy get (missing params rejected)",
+            base,
+            {"jsonrpc": "2.0", "id": 22, "method": "tos_energyGet"},
+            {"jsonrpc": "2.0", "id": 22, "error": {"code": -32602, "message": "Invalid params: address"}},
+        ),
+    )
+    vector_test_group(
+        out,
+        _vec(
             "rpc_tns_resolve_alice",
             "JSON-RPC resolve name -> owner (alice)",
             base,
             {"jsonrpc": "2.0", "id": 30, "method": "tos_tnsResolve", "params": {"name": "alice"}},
             {"jsonrpc": "2.0", "id": 30, "result": alice_hex},
+        ),
+    )
+    vector_test_group(
+        out,
+        _vec(
+            "rpc_tns_resolve_unknown",
+            "JSON-RPC resolve name -> null (missing)",
+            base,
+            {"jsonrpc": "2.0", "id": 31, "method": "tos_tnsResolve", "params": {"name": "missing"}},
+            {"jsonrpc": "2.0", "id": 31, "result": None},
         ),
     )
     vector_test_group(
@@ -224,6 +302,16 @@ def test_rpc_vectors(vector_test_group) -> None:
                 "id": 40,
                 "result": {"hash": contract_hash_hex, "module": "7f454c460201"},
             },
+        ),
+    )
+    vector_test_group(
+        out,
+        _vec(
+            "rpc_contract_get_missing",
+            "JSON-RPC contract get (missing returns null)",
+            base,
+            {"jsonrpc": "2.0", "id": 41, "method": "tos_contractGet", "params": {"hash": "11" * 32}},
+            {"jsonrpc": "2.0", "id": 41, "result": None},
         ),
     )
 
@@ -265,11 +353,21 @@ def test_rpc_vectors(vector_test_group) -> None:
     vector_test_group(
         out,
         _vec(
+            "rpc_invalid_request_missing_jsonrpc",
+            "Missing jsonrpc field rejected",
+            base,
+            {"id": 61, "method": "tos_stateDigest", "params": {}},
+            {"jsonrpc": "2.0", "id": 61, "error": {"code": -32600, "message": "Invalid Request"}},
+        ),
+    )
+    vector_test_group(
+        out,
+        _vec(
             "rpc_method_not_found",
             "Unknown method rejected",
             base,
-            {"jsonrpc": "2.0", "id": 61, "method": "tos_noSuchMethod", "params": {}},
-            {"jsonrpc": "2.0", "id": 61, "error": {"code": -32601, "message": "Method not found"}},
+            {"jsonrpc": "2.0", "id": 62, "method": "tos_noSuchMethod", "params": {}},
+            {"jsonrpc": "2.0", "id": 62, "error": {"code": -32601, "message": "Method not found"}},
         ),
     )
     vector_test_group(
@@ -278,8 +376,8 @@ def test_rpc_vectors(vector_test_group) -> None:
             "rpc_invalid_params_address",
             "Invalid address rejected",
             base,
-            {"jsonrpc": "2.0", "id": 62, "method": "tos_accountGet", "params": {"address": "00"}},
-            {"jsonrpc": "2.0", "id": 62, "error": {"code": -32602, "message": "Invalid params: address"}},
+            {"jsonrpc": "2.0", "id": 63, "method": "tos_accountGet", "params": {"address": "00"}},
+            {"jsonrpc": "2.0", "id": 63, "error": {"code": -32602, "message": "Invalid params: address"}},
         ),
     )
     vector_test_group(
@@ -288,8 +386,8 @@ def test_rpc_vectors(vector_test_group) -> None:
             "rpc_invalid_params_name",
             "Missing/empty name rejected",
             base,
-            {"jsonrpc": "2.0", "id": 63, "method": "tos_tnsResolve", "params": {"name": ""}},
-            {"jsonrpc": "2.0", "id": 63, "error": {"code": -32602, "message": "Invalid params: name"}},
+            {"jsonrpc": "2.0", "id": 64, "method": "tos_tnsResolve", "params": {"name": ""}},
+            {"jsonrpc": "2.0", "id": 64, "error": {"code": -32602, "message": "Invalid params: name"}},
         ),
     )
     vector_test_group(
@@ -298,8 +396,28 @@ def test_rpc_vectors(vector_test_group) -> None:
             "rpc_invalid_params_hash",
             "Invalid contract hash rejected",
             base,
-            {"jsonrpc": "2.0", "id": 64, "method": "tos_contractGet", "params": {"hash": "zz"}},
-            {"jsonrpc": "2.0", "id": 64, "error": {"code": -32602, "message": "Invalid params: hash"}},
+            {"jsonrpc": "2.0", "id": 65, "method": "tos_contractGet", "params": {"hash": "zz"}},
+            {"jsonrpc": "2.0", "id": 65, "error": {"code": -32602, "message": "Invalid params: hash"}},
+        ),
+    )
+    vector_test_group(
+        out,
+        _vec(
+            "rpc_contract_get_missing_params",
+            "Missing contract hash rejected",
+            base,
+            {"jsonrpc": "2.0", "id": 66, "method": "tos_contractGet"},
+            {"jsonrpc": "2.0", "id": 66, "error": {"code": -32602, "message": "Invalid params: hash"}},
+        ),
+    )
+    vector_test_group(
+        out,
+        _vec(
+            "rpc_state_digest_with_params",
+            "stateDigest ignores extra params",
+            base,
+            {"jsonrpc": "2.0", "id": 67, "method": "tos_stateDigest", "params": {"foo": 1}},
+            {"jsonrpc": "2.0", "id": 67, "result": base_digest},
         ),
     )
 

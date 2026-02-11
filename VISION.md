@@ -215,8 +215,8 @@ layer in the testing pyramid.
 
 As of **2026-02-09**:
 
-- Published conformance suite: `vectors/` contains **513** published vectors in the `test_vectors` schema (execution + RPC suites).
-- Composition: **267** L1 state-transition vectors (`input.tx` present) + **50** L0 wire-format vectors (14 `tx_roundtrip` + 36 malformed decode negatives) + **38** L2 block vectors (`input.kind="block"`) + **110** L2 chain-import vectors (`input.kind="chain"`) + **84** L3 RPC vectors (`input.rpc` present).
+- Published conformance suite: `vectors/` contains **523** published vectors in the `test_vectors` schema (execution + RPC suites).
+- Composition: **267** L1 state-transition vectors (`input.tx` present) + **50** L0 wire-format vectors (14 `tx_roundtrip` + 36 malformed decode negatives) + **38** L2 block vectors (`input.kind="block"`) + **110** L2 chain-import vectors (`input.kind="chain"`) + **94** L3 RPC vectors (`input.rpc` present).
 - Covered transaction types: **11** distinct `tx_type` values in published vectors.
 - Note: `uno_transfers` vectors are currently **tx-json-only** (`input.wire_hex=""`) in the published suite.
 - Spec-only: fixtures under `fixtures/{security,models,syscalls,consensus}/` are not published to `vectors/` yet.
@@ -298,7 +298,7 @@ Counts below are for the published conformance suite under `vectors/execution/tr
 
 ### Layer 3 — API Boundary
 
-**Current (published)**: 84 JSON-RPC vectors under `vectors/rpc/rpc.json` targeting the conformance server `/json_rpc` endpoint.
+**Current (published)**: 94 JSON-RPC vectors under `vectors/rpc/rpc.json` targeting the conformance server `/json_rpc` endpoint.
 
 **Current (fixtures only)**: syscall fixtures exist under `fixtures/syscalls/` but are not published to `vectors/` yet.
 
