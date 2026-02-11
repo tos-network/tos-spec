@@ -213,13 +213,14 @@ layer in the testing pyramid.
 
 ## Current Coverage
 
-As of **2026-02-09**:
+As of **2026-02-11**:
 
 - Published conformance suite: `vectors/` contains **523** published vectors in the `test_vectors` schema (execution + RPC suites).
 - Composition: **267** L1 state-transition vectors (`input.tx` present) + **50** L0 wire-format vectors (14 `tx_roundtrip` + 36 malformed decode negatives) + **38** L2 block vectors (`input.kind="block"`) + **110** L2 chain-import vectors (`input.kind="chain"`) + **94** L3 RPC vectors (`input.rpc` present).
 - Covered transaction types: **11** distinct `tx_type` values in published vectors.
 - Note: `uno_transfers` vectors are currently **tx-json-only** (`input.wire_hex=""`) in the published suite.
 - Spec-only: fixtures under `fixtures/{security,models,syscalls,consensus}/` are not published to `vectors/` yet.
+- Spec-only: `fixtures/p2p/` includes **32** P2P protocol cases (not published to `vectors/` yet).
 - Wire-format corpus: `fixtures/wire_format.json` contains a small positive encode corpus; tx wire roundtrip vectors are published under `vectors/execution/transactions/wire_format_roundtrip.json`, and negative decode vectors under `vectors/execution/transactions/wire_format_negative.json`.
 
 ### Published Vector Groups
@@ -228,15 +229,15 @@ Counts below are for the published conformance suite under `vectors/execution/tr
 
 | Group | Vectors |
 |------:|--------:|
-| (root) | 78 |
+| (root) | 102 |
 | account | 45 |
 | energy | 43 |
 | privacy | 34 |
 | contracts | 25 |
-| block | 37 |
+| block | 38 |
 | tns | 20 |
-| blockchain | 13 |
-| core | 8 |
+| blockchain | 110 |
+| core | 10 |
 | template | 2 |
 
 ### By Layer (Published)
@@ -244,10 +245,10 @@ Counts below are for the published conformance suite under `vectors/execution/tr
 | Layer | Current Vectors | Target | Coverage |
 |-------|-----------------|--------|----------|
 | L0    | 50 (wire decode) | ~50 | Good  |
-| L1    | 226 (tx state transition) | ~200 | Good |
-| L2    | 50 (37 `block` + 13 `chain`) | ~50 | Good |
-| L3    | 84 (RPC) | ~80 | Good |
-| L4    | 0 | ~30 | None |
+| L1    | 267 (tx state transition) | ~200 | Good |
+| L2    | 148 (38 `block` + 110 `chain`) | ~50 | Good |
+| L3    | 94 (RPC) | ~80 | Good |
+| L4    | 0 published (32 fixtures) | ~30 | Draft |
 | L5    | 0 | ~10 | None |
 
 ## Coverage Gap Analysis
@@ -312,16 +313,12 @@ Counts below are for the published conformance suite under `vectors/execution/tr
 
 ### Layer 4 — Network Protocol
 
-**Current**: No vectors.
+**Current (fixtures only)**: 32 P2P protocol cases under `fixtures/p2p/` (handshake, relay, sync, fault injection, scoring/ban rules).
 
 **Gaps**:
-- P2P handshake protocol vectors
-- Block propagation timing and ordering
-- Transaction relay behavior
-- Peer scoring and ban rules
-- Chain sync protocol (header-first, state sync)
-- Fault injection vectors (partition, message corruption, clock skew)
-- Resource exhaustion scenarios (connection flooding, oversized messages)
+- Publish a P2P vector schema and consumer (no `vectors/p2p` yet)
+- Simulator adapter for P2P scenarios (Labu harness integration)
+- Cross-client P2P interoperability runs (L5-style multi-client)
 
 ### Layer 5 — Cross-Client Interoperability
 

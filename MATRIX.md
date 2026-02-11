@@ -12,6 +12,7 @@ coverage gaps and prioritization targets.
 - Composition (RPC): **94** RPC vectors (`input.rpc` present) consumed by the `tos/rpc` simulator.
 - Covered transaction types: **11** distinct `tx_type` values in published vectors.
 - Spec-only fixtures under `fixtures/{security,models,syscalls,consensus}/` are intentionally not published to `vectors/` yet.
+- Spec-only P2P fixtures under `fixtures/p2p/` include **32** cases (not published to `vectors/` yet).
 - Codec corpus: `fixtures/wire_format.json` contains **14** golden wire-encoding vectors; these are published as tx wire roundtrip vectors under `wire_format_roundtrip`.
 
 Reproduce (local):
@@ -55,6 +56,7 @@ Legend:  +++  strong coverage
 | Finality           | n/a        | n/a        | +++        | +++        | -          | -          |
 | Mining / PoW       | n/a        | n/a        | +++        | +++        | -          | -          |
 | Block rewards      | n/a        | n/a        | +++        | +++        | -          | -          |
+| Network / P2P      | n/a        | n/a        | n/a        | n/a        | +++        | -          |
 | BLAKE3 / HMAC      | +          | n/a        | n/a        | n/a        | n/a        | n/a        |
 | Ristretto255       | -          | n/a        | n/a        | n/a        | n/a        | n/a        |
 | Fee model          | n/a        | +++        | +++        | +++        | n/a        | n/a        |
@@ -68,7 +70,8 @@ and 36 negative decode vectors (`wire_format_negative`). The
 priority gaps are:
 - L2: basic executable block processing tests (148 vectors: 38 `block` + 110 `chain`)
 - L3: published via the RPC suite (94 vectors under `vectors/rpc/`)
-- L4-L5: not published yet (P2P/interop vectors remain spec-only)
+- L4: P2P fixtures are present under `fixtures/p2p/` (spec-only; not published to `vectors/` yet)
+- L5: not published yet (interop vectors remain spec-only)
 Note: L0 wire-format roundtrip is currently published for a small corpus; full tx-type codec coverage is not yet published.
 
 ## Matrix 2: Domain x Fixture Type

@@ -1,0 +1,186 @@
+# TOS P2P Fault Injection and Abuse Conformance Specifications
+# Covers message corruption, timeouts, flooding, and scoring/bans.
+
+---
+spec:
+  name: p2p_fault_message_corruption
+  version: "1.0"
+  category: p2p
+  subcategory: fault_injection
+  description: "Disconnects peer on invalid message checksum"
+  priority: P0
+
+preconditions:
+  - peer: "peer1"
+  - message_checksum_valid: false
+
+action:
+  type: p2p_receive
+  peer: "peer1"
+  message: {kind: "block", id: "blk1", checksum_valid: false}
+
+expected:
+  status: error
+  error: "CorruptMessage"
+  peer_disconnected: true
+
+---
+spec:
+  name: p2p_fault_oversized_message
+  version: "1.0"
+  category: p2p
+  subcategory: fault_injection
+  description: "Rejects oversized message payload"
+  priority: P0
+
+preconditions:
+  - max_message_bytes: 1048576
+  - message_size: 2097152
+
+action:
+  type: p2p_receive
+  peer: "peer1"
+  message: {kind: "tx", size: 2097152}
+
+expected:
+  status: error
+  error: "MessageTooLarge"
+
+---
+spec:
+  name: p2p_fault_ping_timeout
+  version: "1.0"
+  category: p2p
+  subcategory: fault_injection
+  description: "Disconnects peer after ping timeout"
+  priority: P1
+
+preconditions:
+  - ping_timeout_seconds: 60
+  - peer: "peer_slow"
+
+action:
+  type: p2p_ping
+  peer: "peer_slow"
+
+expected:
+  status: error
+  error: "PingTimeout"
+  peer_disconnected: true
+
+---
+spec:
+  name: p2p_fault_connection_flood
+  version: "1.0"
+  category: p2p
+  subcategory: abuse
+  description: "Limits inbound connections per IP"
+  priority: P0
+
+preconditions:
+  - max_connections_per_ip: 8
+  - attempted_connections: 100
+  - peer_ip: "10.0.0.1"
+
+action:
+  type: p2p_connect
+  peer_ip: "10.0.0.1"
+  attempts: 100
+
+expected:
+  status: ok
+  accepted_connections: 8
+  rejected_connections: 92
+  reject_reason: "ConnLimit"
+
+---
+spec:
+  name: p2p_fault_bad_headers_ban
+  version: "1.0"
+  category: p2p
+  subcategory: scoring
+  description: "Bans peer after repeated invalid headers"
+  priority: P0
+
+preconditions:
+  - max_bad_headers: 3
+  - peer: "peer_bad"
+
+action:
+  type: p2p_receive
+  peer: "peer_bad"
+  message: {kind: "headers", valid: false, count: 3}
+
+expected:
+  status: error
+  error: "PeerBanned"
+  peer_banned: true
+
+---
+spec:
+  name: p2p_fault_spam_tx_score_drop
+  version: "1.0"
+  category: p2p
+  subcategory: scoring
+  description: "Reduces peer score on spam txs"
+  priority: P1
+
+preconditions:
+  - spam_threshold: 500
+  - peer: "peer_spam"
+  - tx_rate: 1000
+
+action:
+  type: p2p_receive
+  peer: "peer_spam"
+  message: {kind: "tx", rate: 1000}
+
+expected:
+  status: ok
+  peer_score_delta: -10
+
+---
+spec:
+  name: p2p_fault_invalid_signature_ban
+  version: "1.0"
+  category: p2p
+  subcategory: scoring
+  description: "Bans peer for invalid block signature"
+  priority: P0
+
+preconditions:
+  - peer: "peer_bad_sig"
+
+action:
+  type: p2p_receive
+  peer: "peer_bad_sig"
+  message: {kind: "block", signature_valid: false}
+
+expected:
+  status: error
+  error: "InvalidSignature"
+  peer_banned: true
+
+---
+spec:
+  name: p2p_fault_partition_recovery
+  version: "1.0"
+  category: p2p
+  subcategory: fault_injection
+  description: "Recovers after network partition"
+  priority: P2
+
+preconditions:
+  - partition_duration_seconds: 120
+  - local_head_before: 100
+  - remote_head_after: 110
+
+action:
+  type: p2p_partition
+  duration_seconds: 120
+  peer: "peer1"
+
+expected:
+  status: ok
+  reconnected: true
+  resynced_to_height: 110
