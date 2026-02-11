@@ -2622,7 +2622,7 @@
     "success": false
   },
   "chain_energy_unfreeze_insufficient_frozen_rejected": {
-    "error_code": 256,
+    "error_code": 65535,
     "post_state": {
       "accounts": [
         {

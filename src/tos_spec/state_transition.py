@@ -103,6 +103,7 @@ def _verify_common(state: ChainState, tx: Transaction) -> None:
     # Matches `~/tos`: a subset of TOS-fee transactions reject `fee=0` (minimum fee surface).
     # Note: this is intentionally a narrow rule derived from current daemon behavior and vectors.
     _TOS_MIN_FEE_REQUIRED = {
+        TransactionType.TRANSFERS,
         TransactionType.BURN,
         TransactionType.MULTISIG,
         TransactionType.DEPLOY_CONTRACT,

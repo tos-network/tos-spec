@@ -4065,7 +4065,7 @@
       }
     },
     {
-      "name": "transfer_fee_zero_allowed",
+      "name": "transfer_fee_zero_rejected",
       "pre_state": {
         "network_chain_id": 3,
         "global_state": {
@@ -4118,8 +4118,8 @@
         "wire_hex": ""
       },
       "expected": {
-        "ok": true,
-        "error": null,
+        "ok": false,
+        "error": "INSUFFICIENT_FEE",
         "post_state": {
           "network_chain_id": 3,
           "global_state": {
@@ -4132,8 +4132,8 @@
           "accounts": [
             {
               "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
-              "balance": 900000,
-              "nonce": 6,
+              "balance": 1000000,
+              "nonce": 5,
               "frozen": 0,
               "energy": 0,
               "flags": 0,
@@ -4141,7 +4141,7 @@
             },
             {
               "address": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824",
-              "balance": 100000,
+              "balance": 0,
               "nonce": 0,
               "frozen": 0,
               "energy": 0,

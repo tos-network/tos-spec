@@ -88,7 +88,7 @@ hashing, and cryptographic primitives produce correct outputs.
 The current primary focus. Each test provides a pre-state (account balances, energy
 resources, domain data), a single transaction, and the expected post-state or error code.
 
-- As of 2026-02-10, the execution suite contains **429** vectors, of which **267**
+- As of 2026-02-11, the execution suite contains **429** vectors, of which **267**
   are single-transaction (`input.kind="tx"`). These cover **11** distinct `tx_type` values.
 - Covers success paths, error paths, and edge cases
 - Verifies balance changes, nonce advancement, state digest
@@ -104,7 +104,7 @@ Tests at this layer verify behavior that only emerges from multi-transaction exe
 - Finality computation across block sequences
 - Coinbase reward distribution and halving schedule
  
-Current published L2 coverage (2026-02-10): **38** block vectors (`input.kind="block"`)
+Current published L2 coverage (2026-02-11): **38** block vectors (`input.kind="block"`)
 and **110** chain-import vectors (`input.kind="chain"`).
 
 **Consumption modalities.** The same BlockchainTest fixtures are consumed through

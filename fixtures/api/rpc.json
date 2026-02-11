@@ -82,20 +82,20 @@
           "result": {
             "accounts": [
               {
-                "address": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824",
-                "balance": 2500000000,
-                "nonce": 1,
-                "frozen": 0,
-                "energy": 0,
-                "flags": 0,
-                "data": ""
-              },
-              {
                 "address": "f05bc1df2831717c2992d85b57e0cf3d123fd6c254257de5f784be369747b249",
                 "balance": 100000000000,
                 "nonce": 7,
                 "frozen": 1000000000,
                 "energy": 42,
+                "flags": 0,
+                "data": ""
+              },
+              {
+                "address": "c29d170ab8a5b42a3520878501a87a27f9b5653fca8b0c59fc2786cf26e37824",
+                "balance": 2500000000,
+                "nonce": 1,
+                "frozen": 0,
+                "energy": 0,
                 "flags": 0,
                 "data": ""
               }

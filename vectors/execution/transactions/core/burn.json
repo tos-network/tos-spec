@@ -623,7 +623,7 @@
       },
       "expected": {
         "success": false,
-        "error_code": 256,
+        "error_code": 769,
         "state_digest": "fd42f282c2cef9f9423c698bca870f3514b545f6682b0f41cd201cf819aa8b21",
         "post_state": {
           "network_chain_id": 3,

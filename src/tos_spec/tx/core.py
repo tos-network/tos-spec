@@ -20,7 +20,7 @@ def verify(state: ChainState, tx: Transaction) -> None:
             raise SpecError(ErrorCode.INVALID_AMOUNT, "burn amount invalid")
         if amount > U64_MAX:
             raise SpecError(ErrorCode.OVERFLOW, "burn amount exceeds u64 max")
-        # Rust: fee.checked_add(amount) -> Err → InvalidFormat (wire deserialization)
+        # Daemon reports InvalidFormat for amount+fee overflow.
         if tx.fee + amount > U64_MAX:
             raise SpecError(ErrorCode.INVALID_FORMAT, "burn amount plus fee overflow")
 

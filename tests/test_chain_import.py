@@ -1683,8 +1683,8 @@ def test_chain_cross_block_receive_then_spend(vector_test_group) -> None:
     pre = _tx_state()
     pre_json = state_to_json(pre)
 
-    tx1 = _mk_transfer(ALICE, BOB, nonce=0, amount=100_000, fee=100_000)
-    tx2 = _mk_transfer(BOB, ALICE, nonce=0, amount=50_000, fee=0)
+    tx1 = _mk_transfer(ALICE, BOB, nonce=0, amount=200_000, fee=100_000)
+    tx2 = _mk_transfer(BOB, ALICE, nonce=0, amount=50_000, fee=100_000)
 
     emitted = 0
     s1, r1 = apply_block_with_rewards(pre, [tx1], height=1, emitted_supply=emitted)
@@ -1723,8 +1723,8 @@ def test_chain_cross_branch_receive_then_spend_after_merge(vector_test_group) ->
     pre = _tx_state()
     pre_json = state_to_json(pre)
 
-    tx1 = _mk_transfer(ALICE, BOB, nonce=0, amount=100_000, fee=100_000)  # in b2
-    tx2 = _mk_transfer(BOB, ALICE, nonce=0, amount=50_000, fee=0)   # in merge block
+    tx1 = _mk_transfer(ALICE, BOB, nonce=0, amount=200_000, fee=100_000)  # in b2
+    tx2 = _mk_transfer(BOB, ALICE, nonce=0, amount=50_000, fee=100_000)   # in merge block
 
     emitted = 0
     s1, r1 = apply_empty_block_with_rewards(pre, height=1, emitted_supply=emitted)  # b1
@@ -3547,28 +3547,24 @@ def test_chain_burn_total_burned_overflow_rejected(vector_test_group) -> None:
 
 
 def test_chain_fee_model_transfer_fee_zero_allowed(vector_test_group) -> None:
-    """Transfers with fee=0 are allowed (no min fee)."""
+    """Transfers with fee=0 are rejected by min-fee rules."""
     pre = _tx_state()
     pre_json = state_to_json(pre)
 
     tx = _mk_transfer(ALICE, BOB, nonce=0, amount=50_000, fee=0)
 
-    emitted = 0
-    post, _ = apply_block_with_rewards(pre, [tx], height=1, emitted_supply=emitted)
-    post_json = state_to_json(post)
-
     _vector_test_group(vector_test_group)(
         "transactions/blockchain/chain_import.json",
         {
             "name": "chain_fee_model_transfer_fee_zero_allowed",
-            "description": "Import a block with transfer fee=0 (allowed).",
+            "description": "Import a block with transfer fee=0 (rejected).",
             "pre_state": pre_json,
             "input": {"kind": "chain", "blocks": [{"id": "b1", "parents": ["genesis"], "txs": [_tx_entry(tx)]}]},
             "expected": {
-                "success": True,
-                "error_code": int(ErrorCode.SUCCESS),
-                "state_digest": compute_state_digest(post_json),
-                "post_state": post_json,
+                "success": False,
+                "error_code": int(ErrorCode.INSUFFICIENT_FEE),
+                "state_digest": compute_state_digest(pre_json),
+                "post_state": pre_json,
             },
             "runnable": False,
         },

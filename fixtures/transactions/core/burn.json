@@ -702,7 +702,7 @@
       },
       "expected": {
         "ok": false,
-        "error": "INVALID_FORMAT",
+        "error": "INSUFFICIENT_FEE",
         "post_state": {
           "network_chain_id": 3,
           "global_state": {

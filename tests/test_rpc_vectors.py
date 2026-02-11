@@ -83,7 +83,7 @@ def _vec(name: str, description: str, pre_state: dict, rpc: dict, response: dict
 
 def _export_expected(state_json: dict, *, rpc_id: int) -> dict:
     """Expected JSON-RPC response for tos_stateExport."""
-    accounts = sorted(state_json.get("accounts", []), key=lambda a: a.get("address", ""))
+    accounts = list(state_json.get("accounts", []))
     return {
         "jsonrpc": "2.0",
         "id": rpc_id,

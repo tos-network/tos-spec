@@ -187,11 +187,11 @@ def test_transfer_sender_missing(state_test) -> None:
     state_test("transfer_sender_missing", state, tx)
 
 
-def test_transfer_fee_zero_allowed(state_test) -> None:
-    """Transfers allow fee=0 (no min-fee requirement)."""
+def test_transfer_fee_zero_rejected(state_test) -> None:
+    """Transfers with fee=0 should fail min-fee validation."""
     state = _base_state()
     tx = _mk_tx(ALICE, BOB, nonce=5, amount=100_000, fee=0)
-    state_test("transfer_fee_zero_allowed", state, tx)
+    state_test("transfer_fee_zero_rejected", state, tx)
 
 
 def test_nonce_too_low(state_test) -> None:

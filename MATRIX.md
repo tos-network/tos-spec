@@ -4,7 +4,7 @@ This document provides a grid-based view of test coverage across all dimensions
 defined in [VISION.md](VISION.md). Each matrix crosses two dimensions to reveal
 coverage gaps and prioritization targets.
 
-## Current Published Status (2026-02-10)
+## Current Published Status (2026-02-11)
 
 - `vectors/` contains **523** vectors in the `test_vectors` schema (execution + RPC suites), all **523** runnable.
 - The published suite currently has **0** non-runnable vectors.
@@ -62,7 +62,7 @@ Legend:  +++  strong coverage
 | Account model      | n/a        | +++        | +++        | +++        | n/a        | n/a        |
 
 **Reading this matrix:** The published conformance suite is currently L1-heavy:
-262/383 vectors are `tx` execution vectors. L0 wire-format coverage in published
+267/429 vectors are `tx` execution vectors. L0 wire-format coverage in published
 vectors includes 14 tx wire roundtrip vectors (`wire_format_roundtrip`)
 and 36 negative decode vectors (`wire_format_negative`). The
 priority gaps are:
@@ -88,8 +88,8 @@ The table below lists the published `vectors/**` groups and vector counts.
 | account | `execution/transactions/account/` | 45 | L1 state transitions |
 | contracts | `execution/transactions/contracts/` | 25 | L1 state transitions |
 | privacy | `execution/transactions/privacy/` | 34 | L1 state transitions |
-| core | `execution/transactions/core/` | 8 | L1 state transitions |
-| root | `execution/transactions/*.json` | 99 | Includes `tx_core`, `fee_variants`, `wire_format_negative`, `wire_format_roundtrip` |
+| core | `execution/transactions/core/` | 10 | L1 state transitions |
+| root | `execution/transactions/*.json` | 102 | Includes `tx_core`, `fee_variants`, `wire_format_negative`, `wire_format_roundtrip` |
 | template | `execution/transactions/template/` | 2 | Example vectors |
 | rpc | `rpc/` | 94 | L3 JSON-RPC request/response conformance (`/json_rpc`) |
 
@@ -123,7 +123,7 @@ Param testing (not yet applicable).
 ## Matrix 4: Transaction Type Coverage (Published)
 
 Per-type coverage is tracked from the published conformance suite under `vectors/`.
-As of 2026-02-10:
+As of 2026-02-11:
 
 - Total published vectors (execution suite): **429**
 - Tx execution vectors: **267** (`input.kind="tx"`)
