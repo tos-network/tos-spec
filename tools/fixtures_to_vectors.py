@@ -25,6 +25,7 @@ MAPPING = {
     "consensus": "execution/consensus",
     "crypto": "execution/crypto",
     "models": "state/models",
+    "p2p": "p2p",
     "security": "errors/security",
     "syscalls": "execution/syscalls",
     "transactions": "execution/transactions",
@@ -199,6 +200,10 @@ def main() -> None:
             continue
         dest = vectors / map_dest(rel)
         dest.parent.mkdir(parents=True, exist_ok=True)
+
+        if rel.parts and rel.parts[0] == "p2p" and rel.suffix in {".yaml", ".yml"}:
+            # Spec source for P2P vectors is YAML; JSON output is produced via pytest.
+            continue
 
         try:
             data = json.loads(path.read_text())

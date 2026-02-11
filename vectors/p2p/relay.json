@@ -1,0 +1,297 @@
+{
+  "test_vectors": [
+    {
+      "name": "p2p_relay_tx_gossip_basic",
+      "description": "Relays valid transaction to peers",
+      "runnable": false,
+      "input": {
+        "kind": "p2p",
+        "category": "p2p",
+        "subcategory": "relay",
+        "preconditions": [
+          {
+            "tx_id": "tx1"
+          },
+          {
+            "tx_valid": true
+          },
+          {
+            "peer_count": 3
+          }
+        ],
+        "action": {
+          "type": "p2p_relay",
+          "item": {
+            "kind": "tx",
+            "id": "tx1"
+          },
+          "peers": [
+            "peer1",
+            "peer2",
+            "peer3"
+          ]
+        }
+      },
+      "expected": {
+        "status": "ok",
+        "relayed_to": [
+          "peer1",
+          "peer2",
+          "peer3"
+        ]
+      }
+    },
+    {
+      "name": "p2p_relay_tx_invalid_not_relayed",
+      "description": "Does not relay invalid transaction",
+      "runnable": false,
+      "input": {
+        "kind": "p2p",
+        "category": "p2p",
+        "subcategory": "relay",
+        "preconditions": [
+          {
+            "tx_id": "tx_bad"
+          },
+          {
+            "tx_valid": false
+          }
+        ],
+        "action": {
+          "type": "p2p_relay",
+          "item": {
+            "kind": "tx",
+            "id": "tx_bad"
+          },
+          "peers": [
+            "peer1",
+            "peer2"
+          ]
+        }
+      },
+      "expected": {
+        "status": "ok",
+        "relayed_to": [],
+        "rejected_reason": "InvalidTransaction"
+      }
+    },
+    {
+      "name": "p2p_relay_block_basic",
+      "description": "Relays valid block announcement",
+      "runnable": false,
+      "input": {
+        "kind": "p2p",
+        "category": "p2p",
+        "subcategory": "relay",
+        "preconditions": [
+          {
+            "block_id": "blk1"
+          },
+          {
+            "block_valid": true
+          }
+        ],
+        "action": {
+          "type": "p2p_relay",
+          "item": {
+            "kind": "block",
+            "id": "blk1"
+          },
+          "peers": [
+            "peer1",
+            "peer2"
+          ]
+        }
+      },
+      "expected": {
+        "status": "ok",
+        "relayed_to": [
+          "peer1",
+          "peer2"
+        ]
+      }
+    },
+    {
+      "name": "p2p_relay_block_invalid_not_relayed",
+      "description": "Does not relay invalid block",
+      "runnable": false,
+      "input": {
+        "kind": "p2p",
+        "category": "p2p",
+        "subcategory": "relay",
+        "preconditions": [
+          {
+            "block_id": "blk_bad"
+          },
+          {
+            "block_valid": false
+          }
+        ],
+        "action": {
+          "type": "p2p_relay",
+          "item": {
+            "kind": "block",
+            "id": "blk_bad"
+          },
+          "peers": [
+            "peer1"
+          ]
+        }
+      },
+      "expected": {
+        "status": "ok",
+        "relayed_to": [],
+        "rejected_reason": "InvalidBlock"
+      }
+    },
+    {
+      "name": "p2p_relay_dedup_tx",
+      "description": "Duplicate tx is not re-relayed",
+      "runnable": false,
+      "input": {
+        "kind": "p2p",
+        "category": "p2p",
+        "subcategory": "relay",
+        "preconditions": [
+          {
+            "tx_id": "tx_dup"
+          },
+          {
+            "seen_cache": [
+              "tx_dup"
+            ]
+          }
+        ],
+        "action": {
+          "type": "p2p_relay",
+          "item": {
+            "kind": "tx",
+            "id": "tx_dup"
+          },
+          "peers": [
+            "peer1",
+            "peer2"
+          ]
+        }
+      },
+      "expected": {
+        "status": "ok",
+        "relayed_to": [],
+        "rejected_reason": "AlreadySeen"
+      }
+    },
+    {
+      "name": "p2p_relay_dedup_block",
+      "description": "Duplicate block is not re-relayed",
+      "runnable": false,
+      "input": {
+        "kind": "p2p",
+        "category": "p2p",
+        "subcategory": "relay",
+        "preconditions": [
+          {
+            "block_id": "blk_dup"
+          },
+          {
+            "seen_cache": [
+              "blk_dup"
+            ]
+          }
+        ],
+        "action": {
+          "type": "p2p_relay",
+          "item": {
+            "kind": "block",
+            "id": "blk_dup"
+          },
+          "peers": [
+            "peer1"
+          ]
+        }
+      },
+      "expected": {
+        "status": "ok",
+        "relayed_to": [],
+        "rejected_reason": "AlreadySeen"
+      }
+    },
+    {
+      "name": "p2p_relay_partial_peers",
+      "description": "Does not relay to peers without capability",
+      "runnable": false,
+      "input": {
+        "kind": "p2p",
+        "category": "p2p",
+        "subcategory": "relay",
+        "preconditions": [
+          {
+            "peer_caps": {
+              "peer1": [
+                "blocks",
+                "tx"
+              ],
+              "peer2": [
+                "blocks"
+              ],
+              "peer3": []
+            }
+          }
+        ],
+        "action": {
+          "type": "p2p_relay",
+          "item": {
+            "kind": "tx",
+            "id": "tx2"
+          },
+          "peers": [
+            "peer1",
+            "peer2",
+            "peer3"
+          ]
+        }
+      },
+      "expected": {
+        "status": "ok",
+        "relayed_to": [
+          "peer1"
+        ]
+      }
+    },
+    {
+      "name": "p2p_relay_rate_limit",
+      "description": "Applies rate limit to noisy peer",
+      "runnable": false,
+      "input": {
+        "kind": "p2p",
+        "category": "p2p",
+        "subcategory": "relay",
+        "preconditions": [
+          {
+            "rate_limit_per_sec": 100
+          },
+          {
+            "peer": "peer_spam"
+          },
+          {
+            "tx_rate": 500
+          }
+        ],
+        "action": {
+          "type": "p2p_relay",
+          "item": {
+            "kind": "tx",
+            "id": "tx_spam"
+          },
+          "peers": [
+            "peer_spam"
+          ]
+        }
+      },
+      "expected": {
+        "status": "ok",
+        "relayed_to": [],
+        "rejected_reason": "RateLimited"
+      }
+    }
+  ]
+}

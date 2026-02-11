@@ -1,0 +1,231 @@
+{
+  "test_vectors": [
+    {
+      "name": "p2p_sync_headers_then_blocks",
+      "description": "Header-first sync followed by block bodies",
+      "runnable": false,
+      "input": {
+        "kind": "p2p",
+        "category": "p2p",
+        "subcategory": "sync",
+        "preconditions": [
+          {
+            "local_head": 100
+          },
+          {
+            "remote_head": 120
+          }
+        ],
+        "action": {
+          "type": "p2p_sync",
+          "strategy": "header_first",
+          "remote_peer": "peer1"
+        }
+      },
+      "expected": {
+        "status": "ok",
+        "synced_to_height": 120
+      }
+    },
+    {
+      "name": "p2p_sync_checkpoint_required",
+      "description": "Rejects sync without required checkpoint",
+      "runnable": false,
+      "input": {
+        "kind": "p2p",
+        "category": "p2p",
+        "subcategory": "sync",
+        "preconditions": [
+          {
+            "required_checkpoint_height": 200
+          },
+          {
+            "required_checkpoint_hash": "0xabc"
+          },
+          {
+            "remote_checkpoint_hash": "0xdef"
+          }
+        ],
+        "action": {
+          "type": "p2p_sync",
+          "strategy": "header_first",
+          "remote_peer": "peer1"
+        }
+      },
+      "expected": {
+        "status": "error",
+        "error": "CheckpointMismatch"
+      }
+    },
+    {
+      "name": "p2p_sync_fork_choice_longer_chain",
+      "description": "Adopts longer valid chain",
+      "runnable": false,
+      "input": {
+        "kind": "p2p",
+        "category": "p2p",
+        "subcategory": "sync",
+        "preconditions": [
+          {
+            "local_head": 100
+          },
+          {
+            "remote_head": 105
+          },
+          {
+            "remote_chain_valid": true
+          }
+        ],
+        "action": {
+          "type": "p2p_sync",
+          "strategy": "header_first",
+          "remote_peer": "peer1"
+        }
+      },
+      "expected": {
+        "status": "ok",
+        "fork_choice": "remote",
+        "synced_to_height": 105
+      }
+    },
+    {
+      "name": "p2p_sync_invalid_block_rejected",
+      "description": "Rejects invalid block during sync",
+      "runnable": false,
+      "input": {
+        "kind": "p2p",
+        "category": "p2p",
+        "subcategory": "sync",
+        "preconditions": [
+          {
+            "remote_contains_invalid_block": true
+          },
+          {
+            "invalid_block_height": 108
+          }
+        ],
+        "action": {
+          "type": "p2p_sync",
+          "strategy": "header_first",
+          "remote_peer": "peer1"
+        }
+      },
+      "expected": {
+        "status": "error",
+        "error": "InvalidBlock",
+        "rejected_height": 108
+      }
+    },
+    {
+      "name": "p2p_sync_chain_id_mismatch",
+      "description": "Rejects sync from different chain id",
+      "runnable": false,
+      "input": {
+        "kind": "p2p",
+        "category": "p2p",
+        "subcategory": "sync",
+        "preconditions": [
+          {
+            "local_chain_id": 1
+          },
+          {
+            "remote_chain_id": 2
+          }
+        ],
+        "action": {
+          "type": "p2p_sync",
+          "strategy": "header_first",
+          "remote_peer": "peer1"
+        }
+      },
+      "expected": {
+        "status": "error",
+        "error": "ChainIdMismatch"
+      }
+    },
+    {
+      "name": "p2p_sync_header_gap_exceeded",
+      "description": "Rejects peer with header gap exceeding limit",
+      "runnable": false,
+      "input": {
+        "kind": "p2p",
+        "category": "p2p",
+        "subcategory": "sync",
+        "preconditions": [
+          {
+            "max_header_gap": 2048
+          },
+          {
+            "remote_head": 5000
+          },
+          {
+            "local_head": 100
+          }
+        ],
+        "action": {
+          "type": "p2p_sync",
+          "strategy": "header_first",
+          "remote_peer": "peer1"
+        }
+      },
+      "expected": {
+        "status": "error",
+        "error": "HeaderGapTooLarge"
+      }
+    },
+    {
+      "name": "p2p_sync_compact_blocks",
+      "description": "Accepts compact block relay when enabled",
+      "runnable": false,
+      "input": {
+        "kind": "p2p",
+        "category": "p2p",
+        "subcategory": "sync",
+        "preconditions": [
+          {
+            "compact_blocks_enabled": true
+          },
+          {
+            "remote_head": 150
+          }
+        ],
+        "action": {
+          "type": "p2p_sync",
+          "strategy": "compact_block",
+          "remote_peer": "peer1"
+        }
+      },
+      "expected": {
+        "status": "ok",
+        "synced_to_height": 150
+      }
+    },
+    {
+      "name": "p2p_sync_reorg_depth_limit",
+      "description": "Rejects reorg deeper than configured limit",
+      "runnable": false,
+      "input": {
+        "kind": "p2p",
+        "category": "p2p",
+        "subcategory": "sync",
+        "preconditions": [
+          {
+            "max_reorg_depth": 128
+          },
+          {
+            "remote_reorg_depth": 256
+          }
+        ],
+        "action": {
+          "type": "p2p_sync",
+          "strategy": "header_first",
+          "remote_peer": "peer1"
+        }
+      },
+      "expected": {
+        "status": "error",
+        "error": "ReorgTooDeep"
+      }
+    }
+  ]
+}

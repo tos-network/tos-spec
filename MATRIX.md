@@ -6,13 +6,14 @@ coverage gaps and prioritization targets.
 
 ## Current Published Status (2026-02-11)
 
-- `vectors/` contains **523** vectors in the `test_vectors` schema (execution + RPC suites), all **523** runnable.
-- The published suite currently has **0** non-runnable vectors.
+- `vectors/` contains **555** vectors in the `test_vectors` schema (execution + RPC + P2P suites).
+- Runnable vectors: **523**. Non-runnable (spec-only): **32** (P2P).
 - Composition (execution): **267** tx execution vectors (`input.kind="tx"`) + **14** tx wire roundtrip vectors (`input.kind="tx_roundtrip"`) + **38** block vectors (`input.kind="block"`) + **110** chain-import vectors (`input.kind="chain"`).
 - Composition (RPC): **94** RPC vectors (`input.rpc` present) consumed by the `tos/rpc` simulator.
+- Composition (P2P): **32** P2P vectors (`input.kind="p2p"`), spec-only (runnable=false).
 - Covered transaction types: **11** distinct `tx_type` values in published vectors.
 - Spec-only fixtures under `fixtures/{security,models,syscalls,consensus}/` are intentionally not published to `vectors/` yet.
-- Spec-only P2P fixtures under `fixtures/p2p/` include **32** cases (not published to `vectors/` yet).
+- P2P fixtures under `fixtures/p2p/` are published as spec-only vectors under `vectors/p2p/`.
 - Codec corpus: `fixtures/wire_format.json` contains **14** golden wire-encoding vectors; these are published as tx wire roundtrip vectors under `wire_format_roundtrip`.
 
 Reproduce (local):
@@ -70,7 +71,7 @@ and 36 negative decode vectors (`wire_format_negative`). The
 priority gaps are:
 - L2: basic executable block processing tests (148 vectors: 38 `block` + 110 `chain`)
 - L3: published via the RPC suite (94 vectors under `vectors/rpc/`)
-- L4: P2P fixtures are present under `fixtures/p2p/` (spec-only; not published to `vectors/` yet)
+- L4: P2P fixtures are present under `fixtures/p2p/` and published under `vectors/p2p/` (runnable=false)
 - L5: not published yet (interop vectors remain spec-only)
 Note: L0 wire-format roundtrip is currently published for a small corpus; full tx-type codec coverage is not yet published.
 
@@ -95,6 +96,7 @@ The table below lists the published `vectors/**` groups and vector counts.
 | root | `execution/transactions/*.json` | 102 | Includes `tx_core`, `fee_variants`, `wire_format_negative`, `wire_format_roundtrip` |
 | template | `execution/transactions/template/` | 2 | Example vectors |
 | rpc | `rpc/` | 94 | L3 JSON-RPC request/response conformance (`/json_rpc`) |
+| p2p | `p2p/` | 32 | L4 P2P protocol vectors (spec-only, runnable=false) |
 
 Spec-only fixture categories (`fixtures/{security,models,syscalls,api,consensus}/`) are omitted
 from `vectors/` until a consumer exists for them.

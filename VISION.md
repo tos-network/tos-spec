@@ -215,12 +215,12 @@ layer in the testing pyramid.
 
 As of **2026-02-11**:
 
-- Published conformance suite: `vectors/` contains **523** published vectors in the `test_vectors` schema (execution + RPC suites).
-- Composition: **267** L1 state-transition vectors (`input.tx` present) + **50** L0 wire-format vectors (14 `tx_roundtrip` + 36 malformed decode negatives) + **38** L2 block vectors (`input.kind="block"`) + **110** L2 chain-import vectors (`input.kind="chain"`) + **94** L3 RPC vectors (`input.rpc` present).
+- Published conformance suite: `vectors/` contains **555** vectors in the `test_vectors` schema (execution + RPC + P2P).
+- Composition: **267** L1 state-transition vectors (`input.tx` present) + **50** L0 wire-format vectors (14 `tx_roundtrip` + 36 malformed decode negatives) + **38** L2 block vectors (`input.kind="block"`) + **110** L2 chain-import vectors (`input.kind="chain"`) + **94** L3 RPC vectors (`input.rpc` present) + **32** L4 P2P vectors (`input.kind=\"p2p\"`, runnable=false).
 - Covered transaction types: **11** distinct `tx_type` values in published vectors.
 - Note: `uno_transfers` vectors are currently **tx-json-only** (`input.wire_hex=""`) in the published suite.
 - Spec-only: fixtures under `fixtures/{security,models,syscalls,consensus}/` are not published to `vectors/` yet.
-- Spec-only: `fixtures/p2p/` includes **32** P2P protocol cases (not published to `vectors/` yet).
+- Spec-only: `fixtures/p2p/` includes **32** P2P protocol cases, published under `vectors/p2p/` as runnable=false vectors.
 - Wire-format corpus: `fixtures/wire_format.json` contains a small positive encode corpus; tx wire roundtrip vectors are published under `vectors/execution/transactions/wire_format_roundtrip.json`, and negative decode vectors under `vectors/execution/transactions/wire_format_negative.json`.
 
 ### Published Vector Groups
@@ -240,6 +240,9 @@ Counts below are for the published conformance suite under `vectors/execution/tr
 | core | 10 |
 | template | 2 |
 
+Additional published groups:
+- `vectors/p2p/`: **32** spec-only P2P vectors (runnable=false).
+
 ### By Layer (Published)
 
 | Layer | Current Vectors | Target | Coverage |
@@ -248,7 +251,7 @@ Counts below are for the published conformance suite under `vectors/execution/tr
 | L1    | 267 (tx state transition) | ~200 | Good |
 | L2    | 148 (38 `block` + 110 `chain`) | ~50 | Good |
 | L3    | 94 (RPC) | ~80 | Good |
-| L4    | 0 published (32 fixtures) | ~30 | Draft |
+| L4    | 32 (P2P spec-only) | ~30 | Draft |
 | L5    | 0 | ~10 | None |
 
 ## Coverage Gap Analysis
@@ -313,10 +316,10 @@ Counts below are for the published conformance suite under `vectors/execution/tr
 
 ### Layer 4 — Network Protocol
 
-**Current (fixtures only)**: 32 P2P protocol cases under `fixtures/p2p/` (handshake, relay, sync, fault injection, scoring/ban rules).
+**Current (published spec-only)**: 32 P2P protocol vectors under `vectors/p2p/` (handshake, relay, sync, fault injection, scoring/ban rules).
 
 **Gaps**:
-- Publish a P2P vector schema and consumer (no `vectors/p2p` yet)
+- Add a P2P vector consumer (Labu harness integration)
 - Simulator adapter for P2P scenarios (Labu harness integration)
 - Cross-client P2P interoperability runs (L5-style multi-client)
 

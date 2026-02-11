@@ -1,0 +1,364 @@
+{
+  "test_vectors": [
+    {
+      "name": "p2p_handshake_basic_success",
+      "description": "Successful handshake with matching network and version",
+      "runnable": false,
+      "input": {
+        "kind": "p2p",
+        "category": "p2p",
+        "subcategory": "handshake",
+        "preconditions": [
+          {
+            "local_node_id": "nodeA"
+          },
+          {
+            "remote_node_id": "nodeB"
+          },
+          {
+            "local_chain_id": 1
+          },
+          {
+            "remote_chain_id": 1
+          },
+          {
+            "local_version": 3
+          },
+          {
+            "remote_version": 3
+          },
+          {
+            "local_caps": [
+              "blocks",
+              "tx"
+            ]
+          },
+          {
+            "remote_caps": [
+              "blocks",
+              "tx"
+            ]
+          }
+        ],
+        "action": {
+          "type": "p2p_handshake",
+          "local": {
+            "node_id": "nodeA",
+            "chain_id": 1,
+            "version": 3,
+            "caps": [
+              "blocks",
+              "tx"
+            ]
+          },
+          "remote": {
+            "node_id": "nodeB",
+            "chain_id": 1,
+            "version": 3,
+            "caps": [
+              "blocks",
+              "tx"
+            ]
+          }
+        }
+      },
+      "expected": {
+        "status": "ok",
+        "negotiated_version": 3,
+        "negotiated_caps": [
+          "blocks",
+          "tx"
+        ]
+      }
+    },
+    {
+      "name": "p2p_handshake_version_mismatch",
+      "description": "Rejects peer with incompatible protocol version",
+      "runnable": false,
+      "input": {
+        "kind": "p2p",
+        "category": "p2p",
+        "subcategory": "handshake",
+        "preconditions": [
+          {
+            "local_version": 3
+          },
+          {
+            "remote_version": 1
+          }
+        ],
+        "action": {
+          "type": "p2p_handshake",
+          "local": {
+            "node_id": "nodeA",
+            "chain_id": 1,
+            "version": 3,
+            "caps": [
+              "blocks"
+            ]
+          },
+          "remote": {
+            "node_id": "nodeB",
+            "chain_id": 1,
+            "version": 1,
+            "caps": [
+              "blocks"
+            ]
+          }
+        }
+      },
+      "expected": {
+        "status": "error",
+        "error": "IncompatibleVersion"
+      }
+    },
+    {
+      "name": "p2p_handshake_chain_id_mismatch",
+      "description": "Rejects peer on different chain id",
+      "runnable": false,
+      "input": {
+        "kind": "p2p",
+        "category": "p2p",
+        "subcategory": "handshake",
+        "preconditions": [
+          {
+            "local_chain_id": 1
+          },
+          {
+            "remote_chain_id": 2
+          }
+        ],
+        "action": {
+          "type": "p2p_handshake",
+          "local": {
+            "node_id": "nodeA",
+            "chain_id": 1,
+            "version": 3,
+            "caps": [
+              "blocks"
+            ]
+          },
+          "remote": {
+            "node_id": "nodeB",
+            "chain_id": 2,
+            "version": 3,
+            "caps": [
+              "blocks"
+            ]
+          }
+        }
+      },
+      "expected": {
+        "status": "error",
+        "error": "ChainIdMismatch"
+      }
+    },
+    {
+      "name": "p2p_handshake_genesis_mismatch",
+      "description": "Rejects peer with different genesis hash",
+      "runnable": false,
+      "input": {
+        "kind": "p2p",
+        "category": "p2p",
+        "subcategory": "handshake",
+        "preconditions": [
+          {
+            "local_genesis": "0xaaa"
+          },
+          {
+            "remote_genesis": "0xbbb"
+          }
+        ],
+        "action": {
+          "type": "p2p_handshake",
+          "local": {
+            "node_id": "nodeA",
+            "chain_id": 1,
+            "version": 3,
+            "genesis": "0xaaa"
+          },
+          "remote": {
+            "node_id": "nodeB",
+            "chain_id": 1,
+            "version": 3,
+            "genesis": "0xbbb"
+          }
+        }
+      },
+      "expected": {
+        "status": "error",
+        "error": "GenesisMismatch"
+      }
+    },
+    {
+      "name": "p2p_handshake_clock_skew",
+      "description": "Rejects peer with excessive clock skew",
+      "runnable": false,
+      "input": {
+        "kind": "p2p",
+        "category": "p2p",
+        "subcategory": "handshake",
+        "preconditions": [
+          {
+            "max_clock_skew_seconds": 300
+          },
+          {
+            "local_time": 1000000
+          },
+          {
+            "remote_time": 1001000
+          }
+        ],
+        "action": {
+          "type": "p2p_handshake",
+          "local": {
+            "node_id": "nodeA",
+            "chain_id": 1,
+            "version": 3,
+            "time": 1000000
+          },
+          "remote": {
+            "node_id": "nodeB",
+            "chain_id": 1,
+            "version": 3,
+            "time": 1001000
+          }
+        }
+      },
+      "expected": {
+        "status": "error",
+        "error": "ClockSkewTooLarge"
+      }
+    },
+    {
+      "name": "p2p_handshake_duplicate_node_id",
+      "description": "Rejects connection from self (duplicate node id)",
+      "runnable": false,
+      "input": {
+        "kind": "p2p",
+        "category": "p2p",
+        "subcategory": "handshake",
+        "preconditions": [
+          {
+            "local_node_id": "nodeA"
+          },
+          {
+            "remote_node_id": "nodeA"
+          }
+        ],
+        "action": {
+          "type": "p2p_handshake",
+          "local": {
+            "node_id": "nodeA",
+            "chain_id": 1,
+            "version": 3
+          },
+          "remote": {
+            "node_id": "nodeA",
+            "chain_id": 1,
+            "version": 3
+          }
+        }
+      },
+      "expected": {
+        "status": "error",
+        "error": "DuplicateNodeId"
+      }
+    },
+    {
+      "name": "p2p_handshake_capability_subset",
+      "description": "Negotiates shared capability subset",
+      "runnable": false,
+      "input": {
+        "kind": "p2p",
+        "category": "p2p",
+        "subcategory": "handshake",
+        "preconditions": [
+          {
+            "local_caps": [
+              "blocks",
+              "tx",
+              "snap"
+            ]
+          },
+          {
+            "remote_caps": [
+              "blocks",
+              "tx"
+            ]
+          }
+        ],
+        "action": {
+          "type": "p2p_handshake",
+          "local": {
+            "node_id": "nodeA",
+            "chain_id": 1,
+            "version": 3,
+            "caps": [
+              "blocks",
+              "tx",
+              "snap"
+            ]
+          },
+          "remote": {
+            "node_id": "nodeB",
+            "chain_id": 1,
+            "version": 3,
+            "caps": [
+              "blocks",
+              "tx"
+            ]
+          }
+        }
+      },
+      "expected": {
+        "status": "ok",
+        "negotiated_caps": [
+          "blocks",
+          "tx"
+        ]
+      }
+    },
+    {
+      "name": "p2p_handshake_invalid_signature",
+      "description": "Rejects peer with invalid handshake signature",
+      "runnable": false,
+      "input": {
+        "kind": "p2p",
+        "category": "p2p",
+        "subcategory": "handshake",
+        "preconditions": [
+          {
+            "local_public_key": "pkA"
+          },
+          {
+            "remote_public_key": "pkB"
+          },
+          {
+            "remote_signature_valid": false
+          }
+        ],
+        "action": {
+          "type": "p2p_handshake",
+          "local": {
+            "node_id": "nodeA",
+            "chain_id": 1,
+            "version": 3,
+            "pubkey": "pkA"
+          },
+          "remote": {
+            "node_id": "nodeB",
+            "chain_id": 1,
+            "version": 3,
+            "pubkey": "pkB",
+            "signature_valid": false
+          }
+        }
+      },
+      "expected": {
+        "status": "error",
+        "error": "InvalidSignature"
+      }
+    }
+  ]
+}
